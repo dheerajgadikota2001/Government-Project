@@ -1,0 +1,72 @@
+# ============================================================
+# Render.com deployment configuration
+# Deploy from GitHub — Render reads this file automatically
+# Free tier: 1 web service + 1 worker (with limitations)
+# ============================================================
+
+services:
+  # FastAPI Backend
+  - type: web
+    name: applatform-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: applatform-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: applatform-redis
+          type: redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false   # Set manually in Render dashboard
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
+
+  # Celery Worker (scraper jobs)
+  - type: worker
+    name: applatform-worker
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerCommand: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=2
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: applatform-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: applatform-redis
+          type: redis
+          property: connectionString
+
+  # Celery Beat (scheduler)
+  - type: worker
+    name: applatform-beat
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerCommand: celery -A app.tasks.celery_app beat --loglevel=info
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: applatform-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: applatform-redis
+          type: redis
+          property: connectionString
+
+databases:
+  - name: applatform-db
+    plan: free   # 256MB free on Render
+
+  - name: applatform-redis
+    type: redis
+    plan: free

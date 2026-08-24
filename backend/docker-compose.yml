@@ -1,0 +1,103 @@
+version: "3.9"
+
+# ============================================================
+# Local Development Stack
+# Run: docker-compose up -d
+# This gives you: PostgreSQL + Redis + Elasticsearch locally
+# You don't need to install any of these on your machine
+# ============================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: applatform_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: applatform
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: applatform_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    container_name: applatform_elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false   # disabled for local dev only
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  # Celery worker — runs background scraping jobs
+  celery_worker:
+    build: .
+    container_name: applatform_celery_worker
+    restart: unless-stopped
+    command: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=4
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+  # Celery Beat — scheduler (runs scraper jobs every X hours)
+  celery_beat:
+    build: .
+    container_name: applatform_celery_beat
+    restart: unless-stopped
+    command: celery -A app.tasks.celery_app beat --loglevel=info
+    env_file: .env
+    depends_on:
+      - celery_worker
+    volumes:
+      - .:/app
+
+  # Flower — Celery task monitoring dashboard (open http://localhost:5555)
+  flower:
+    build: .
+    container_name: applatform_flower
+    restart: unless-stopped
+    command: celery -A app.tasks.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    env_file: .env
+    depends_on:
+      - celery_worker
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
