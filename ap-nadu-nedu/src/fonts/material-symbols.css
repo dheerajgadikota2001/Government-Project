@@ -6,13 +6,24 @@
  * degrades to its raw ligature name ("expand_more", "search") as visible
  * text, which reads as a broken page. So the font file lives in the repo
  * and needs no npm package and no network.
+ *
+ * What ships is a subset: only the ~50 icons this app draws, cut out of the
+ * full 3.8 MB face by scripts/icon-font.py (which reads the icon names out of
+ * src/ so the list cannot drift). The full font stays in the repo as the source
+ * that script cuts from — it is never referenced here, so it never reaches a
+ * browser. Add a new icon to a page and the build stops until the subset is
+ * regenerated; see scripts/icon-font.mjs.
+ *
+ * wght, GRAD and opsz are baked in at the values used below, so the face is no
+ * longer variable on those axes. FILL is still live: the active bottom-nav item
+ * and the Mitra button set 'FILL' 1.
  */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;
-  font-weight: 100 700;
+  font-weight: 400;
   font-display: block;
-  src: url('./material-symbols-outlined.woff2') format('woff2');
+  src: url('./material-symbols-subset.woff2') format('woff2');
 }
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';

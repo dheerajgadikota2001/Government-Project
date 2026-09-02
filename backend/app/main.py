@@ -52,7 +52,15 @@ async def lifespan(app: FastAPI):
     """
     # Startup
     logger.info(f"Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
-    await init_db()
+    # The database check must never keep the API from coming up: on Cloud Run
+    # a failed startup means the whole service stays down, whereas a running
+    # API with /health reporting "degraded" pages the monitor and recovers on
+    # its own once Postgres (or the Cloud SQL socket) is reachable again.
+    try:
+        await init_db()
+    except Exception as exc:  # noqa: BLE001 — any DB failure is reported, not fatal
+        logger.error(f"Database not reachable at startup ({type(exc).__name__}: {exc}); "
+                     "serving anyway — /health will report degraded until it recovers.")
     logger.info("Application ready.")
 
     yield  # Application runs here

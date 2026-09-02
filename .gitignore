@@ -55,3 +55,8 @@ deploy/backups/*
 _fixture/
 /package-lock.json
 
+
+cloud-sql-proxy.exe
+
+# Firebase CLI deploy cache — a local hash of the last upload, not source.
+.firebase/

@@ -12,6 +12,9 @@
 
 export const API_BASE =
   import.meta.env.VITE_API_URL || 'http://127.0.0.1:8001/api/v1'
+// API_BASE may be RELATIVE in production ("/api/v1": Firebase Hosting forwards
+// /api/** to Cloud Run, so site and API share one origin). `new URL()` needs a
+// base for that case; passing the page's origin is a no-op for absolute bases.
 
 /**
  * Data-version stamp — how a corrected figure reaches every reader at once.
@@ -66,7 +69,7 @@ export class ApiError extends Error {
  * values are dropped so filters compose cleanly.
  */
 export async function apiGet(path, params = {}) {
-  const url = new URL(`${API_BASE}${path}`)
+  const url = new URL(`${API_BASE}${path}`, window.location.origin)
   for (const [key, value] of Object.entries(params)) {
     if (value !== null && value !== undefined && value !== '') {
       url.searchParams.set(key, value)
@@ -121,7 +124,7 @@ export async function apiPost(path, body = {}) {
 
 /** DELETE with query params (used for own-post removal with its secret token). */
 export async function apiDelete(path, params = {}) {
-  const url = new URL(`${API_BASE}${path}`)
+  const url = new URL(`${API_BASE}${path}`, window.location.origin)
   for (const [k, v] of Object.entries(params)) {
     if (v !== null && v !== undefined && v !== '') url.searchParams.set(k, v)
   }

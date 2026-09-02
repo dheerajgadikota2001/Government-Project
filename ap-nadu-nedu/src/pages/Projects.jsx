@@ -568,7 +568,7 @@ export default function Projects() {
 
                       <div className="flex flex-col gap-2 mt-1">
                         <div className="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant">
-                          <span className="material-symbols-outlined text-[18px]">location_on</span>
+                          <span className="material-symbols-outlined text-[18px]">place</span>
                           <span className="line-clamp-1 min-w-0">{project.district || t('projects.statewide')}</span>
                         </div>
                         {project.department && (

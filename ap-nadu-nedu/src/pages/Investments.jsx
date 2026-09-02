@@ -719,7 +719,7 @@ export default function Investments() {
 
                       <div className="grid grid-cols-2 gap-y-3 gap-x-4">
                         <div className="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant">
-                          <span className="material-symbols-outlined text-outline text-lg">location_on</span>
+                          <span className="material-symbols-outlined text-outline text-lg">place</span>
                           <span className="line-clamp-1">{mou.district || '—'}</span>
                         </div>
                         {!fmtSigned(mou.signed_date) && mou.date_status === 'undated' && (

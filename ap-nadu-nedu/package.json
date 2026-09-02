@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "icons": "python scripts/icon-font.py",
+    "prebuild": "node scripts/icon-font.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
