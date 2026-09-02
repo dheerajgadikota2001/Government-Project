@@ -43,6 +43,10 @@ CACHE_RULES: dict[str, int] = {
     # Time-sensitive: shorter timers, because being stale here is visible.
     "/api/v1/tenders": 180,
     "/api/v1/news": 120,
+    # The refresh log is the one page whose whole point is being current: a
+    # reader checking whether this morning's run landed must not be shown a
+    # five-minute-old "no runs yet".
+    "/api/v1/meta/updates": 60,
     "/api/v1/search": 60,
 }
 

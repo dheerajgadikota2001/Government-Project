@@ -10,6 +10,7 @@ from app.models.news import NewsArticle
 from app.models.document import Document
 from app.models.progress_observation import ProgressObservation
 from app.models.community import ForumPost, CorrectionReport, PostStatus, CorrectionStatus
+from app.models.data_update import DataUpdate, RunStatus, RunTrigger
 
 __all__ = [
     "Base",
@@ -27,4 +28,7 @@ __all__ = [
     "NewsArticle",
     "Document",
     "ProgressObservation",
+    "DataUpdate",
+    "RunStatus",
+    "RunTrigger",
 ]

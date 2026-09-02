@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
 
@@ -101,6 +102,13 @@ export default function DataSources() {
           <p className="font-bold">{t('sources.verify.title')}</p>
           <p className="text-on-surface-variant">
             {t('sources.verify.body')}
+          </p>
+          {/* When each of these was last re-checked lives on its own page —
+              this catalogue says what we cite, that log says when we last looked. */}
+          <p>
+            <Link to="/updates" className="text-primary font-medium hover:underline">
+              {t('footer.links.updates')} →
+            </Link>
           </p>
         </div>
       </header>

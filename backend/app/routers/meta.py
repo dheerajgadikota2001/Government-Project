@@ -29,11 +29,16 @@ by matching "/meta/version" in its never-cache list.
 
 import hashlib
 import os
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
+from app.database import get_db
+from app.models.data_update import DataUpdate
 
 router = APIRouter(prefix="/meta", tags=["System"])
 
@@ -85,4 +90,116 @@ async def data_version():
         "version": _CACHED_VERSION,
         "app_version": settings.app_version,
         "environment": settings.app_env,
+    }
+
+
+# ============================================================
+#  What changed, and when — the public refresh log
+# ============================================================
+#
+# A reader who notices a figure move is entitled to ask what changed and where
+# it came from. Until this endpoint existed the answer lived in a log file on
+# whoever ran the scrapers, which in production is a container that no longer
+# exists. `data_updates` holds the record; this serves it.
+#
+# Deliberately public and unauthenticated: an audit trail nobody can read is
+# not an audit trail. The rows carry no personal data, and error text is stored
+# first-line-only precisely so it can be shown.
+
+MANUAL_SOURCES: tuple[dict[str, str], ...] = (
+    {
+        "source": "MoSPI flash report archive",
+        "reason": "Older monthly editions are PDFs behind a browser check; each one is downloaded and imported by hand.",
+    },
+    {
+        "source": "AP Socio-Economic Survey volumes",
+        "reason": "Published as large annexure PDFs once a year; the irrigation register is transcribed from them by hand.",
+    },
+    {
+        "source": "AP Budget volumes (in-year)",
+        "reason": "The budget scraper collects the documents; the figures inside them are read and entered deliberately, not parsed.",
+    },
+)
+
+
+@router.get("/updates")
+async def data_updates(
+    days: int = Query(60, ge=1, le=365, description="How far back to look"),
+    limit: int = Query(40, ge=1, le=200, description="Maximum runs to return"),
+    db: AsyncSession = Depends(get_db),
+):
+    """Recent refresh runs, newest first, grouped into one entry per run.
+
+    Grouping happens here rather than in the client because a run is the unit a
+    reader thinks in ("the site updated this morning"), while the table stores
+    one row per source — six rows for one event.
+    """
+    since = datetime.now(timezone.utc) - timedelta(days=days)
+    rows = (
+        await db.execute(
+            select(DataUpdate)
+            .where(DataUpdate.started_at >= since)
+            .order_by(DataUpdate.started_at.desc(), DataUpdate.id.desc())
+        )
+    ).scalars().all()
+
+    runs: list[dict] = []
+    by_run: dict[str, dict] = {}
+    for row in rows:
+        run = by_run.get(row.run_id)
+        if run is None:
+            run = {
+                "run_id": row.run_id,
+                "started_at": row.started_at,
+                "finished_at": row.finished_at,
+                "trigger": row.trigger.value,
+                "records_new": 0,
+                "sources_ok": 0,
+                "sources_failed": 0,
+                "sources": [],
+            }
+            by_run[row.run_id] = run
+            runs.append(run)
+
+        run["sources"].append(
+            {
+                "source": row.source,
+                "status": row.status.value,
+                "records_new": row.records_new,
+                "records_updated": row.records_updated,
+                "duration_seconds": row.duration_seconds,
+                "samples": row.samples or [],
+                "error": row.error,
+            }
+        )
+        run["records_new"] += row.records_new
+        if row.status.value == "failed":
+            run["sources_failed"] += 1
+        elif row.status.value == "ok":
+            run["sources_ok"] += 1
+        # A run's window is the earliest start to the latest finish across its
+        # sources, which run one after another.
+        if row.started_at and row.started_at < run["started_at"]:
+            run["started_at"] = row.started_at
+        if row.finished_at and (run["finished_at"] is None or row.finished_at > run["finished_at"]):
+            run["finished_at"] = row.finished_at
+
+    # Per-source health: when did each source last succeed, and is it failing
+    # now? This is the part that catches a portal that has quietly gone dark.
+    health: dict[str, dict] = {}
+    for row in sorted(rows, key=lambda r: (r.started_at or since)):
+        entry = health.setdefault(
+            row.source, {"source": row.source, "last_run": None, "last_success": None, "status": None}
+        )
+        entry["last_run"] = row.finished_at or row.started_at
+        entry["status"] = row.status.value
+        if row.status.value == "ok":
+            entry["last_success"] = row.finished_at or row.started_at
+
+    return {
+        "runs": runs[:limit],
+        "sources": sorted(health.values(), key=lambda e: e["source"]),
+        "manual_sources": list(MANUAL_SOURCES),
+        "window_days": days,
+        "generated_at": datetime.now(timezone.utc),
     }

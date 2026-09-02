@@ -29,6 +29,7 @@ const InvestmentTenureDive = lazy(() => import('./pages/InvestmentTenureDive'))
 const Community = lazy(() => import('./pages/Community'))
 const StateFacts = lazy(() => import('./pages/StateFacts'))
 const Contacts = lazy(() => import('./pages/Contacts'))
+const Updates = lazy(() => import('./pages/Updates'))
 
 // Route fallback: a quiet page-shaped placeholder instead of a blank screen.
 function PageSkeleton() {
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="/school-education" element={<SchoolEducation />} />
             <Route path="/states" element={<AllStates />} />
             <Route path="/sources" element={<DataSources />} />
+            <Route path="/updates" element={<Updates />} />
             <Route path="/search" element={<Search />} />
             <Route path="/about" element={<About />} />
             <Route path="/disclaimer" element={<Disclaimer />} />

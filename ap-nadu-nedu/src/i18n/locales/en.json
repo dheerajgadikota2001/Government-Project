@@ -213,7 +213,8 @@
       "sources": "Data Sources",
       "disclaimer": "Disclaimer",
       "correction": "Report a Correction",
-      "rti": "RTI Portal ↗"
+      "rti": "RTI Portal ↗",
+      "updates": "What's new"
     }
   },
   "mitra": {
@@ -2431,5 +2432,50 @@
     "value": "Estimated value: {value}",
     "noValue": "Value not published on the portal's listing",
     "pageN": "Page {page}"
+  },
+  "updates": {
+    "title": "What's new",
+    "titleTe": "కొత్తగా ఏమి వచ్చింది",
+    "intro": "Every figure on this platform comes from a government document. This page is the record of when we last went and looked — which sources answered, what they gave us, and what failed. Failures are listed too: a portal that has gone quiet is something you should be able to see.",
+    "loading": "Loading the refresh log…",
+    "empty": "No refresh has been recorded yet. The log starts from the first scheduled run.",
+    "error": "Can't reach the data server ({message}).",
+    "lastRun": "Last refreshed {date} at {time} IST",
+    "noChange": "nothing new",
+    "showDetail": "Show details",
+    "hideDetail": "Hide details",
+    "nNew": {
+      "one": "{count} new record",
+      "other": "{count} new records"
+    },
+    "summaryOk": {
+      "one": "{count} source checked",
+      "other": "{count} sources checked"
+    },
+    "summaryFailed": {
+      "one": "{count} source failed",
+      "other": "{count} sources failed"
+    },
+    "status": {
+      "ok": "OK",
+      "failed": "Failed",
+      "skipped": "Skipped"
+    },
+    "trigger": {
+      "scheduled": "automatic",
+      "manual": "run by hand"
+    },
+    "health": {
+      "title": "Source health",
+      "body": "When each source last gave us data. A source that has been failing for days is usually a portal that moved a page, not a portal that has nothing to say.",
+      "lastSuccess": "last succeeded {date}",
+      "neverSucceeded": "no successful run recorded",
+      "failingNow": "failing"
+    },
+    "manual": {
+      "title": "Still done by hand",
+      "body": "Not everything can be collected automatically. These sources publish in ways a machine cannot read reliably, so a person fetches and enters them — which means they update less often, and we would rather say so than let you assume otherwise."
+    },
+    "seeSources": "Every document behind these figures is catalogued in"
   }
 }

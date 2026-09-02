@@ -23,6 +23,7 @@ export default function Footer() {
           <nav className="flex flex-wrap gap-x-4 gap-y-2 text-label-sm font-label-sm md:justify-end">
             <Link to="/about" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.about')}</Link>
             <Link to="/sources" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.sources')}</Link>
+            <Link to="/updates" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.updates')}</Link>
             <Link to="/disclaimer" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.disclaimer')}</Link>
             <Link to="/community?correct=1" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.correction')}</Link>
             <a
