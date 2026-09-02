@@ -1,0 +1,1641 @@
+{
+  "state": "AP",
+  "_readme": "What Andhra Pradesh spent on school education, what it built, and what reached the schools, government by government since 2014. Spending is the Demands for Grants series, which is the state's voted budget and the measure the CAG audits. School and enrolment counts are UDISE+, the Ministry of Education's national census. Components are read from the state's own Government Orders. Per-student figures are OUR division of two published government figures and are labelled as such everywhere they appear. Government Order rupee amounts are NEVER summed as spending - see reconciliation.",
+  "tenures": [
+    {
+      "key": "pre",
+      "party": null,
+      "chief_minister": null,
+      "label": "Before the first post-bifurcation government",
+      "from": "2014-06-01",
+      "to": "2014-06-07",
+      "note": "Andhra Pradesh was bifurcated on 2 June 2014 and the first government of the residuary state took office on 8 June. Orders on or before 7 June belong to no elected government of the present state."
+    },
+    {
+      "key": "tdp1",
+      "party": "TDP",
+      "chief_minister": "N. Chandrababu Naidu",
+      "label": "TDP 2014-19",
+      "from": "2014-06-08",
+      "to": "2019-05-29",
+      "note": null
+    },
+    {
+      "key": "ysrcp",
+      "party": "YSRCP",
+      "chief_minister": "Y.S. Jagan Mohan Reddy",
+      "label": "YSRCP 2019-24",
+      "from": "2019-05-30",
+      "to": "2024-06-11",
+      "note": null
+    },
+    {
+      "key": "tdp2",
+      "party": "TDP",
+      "chief_minister": "N. Chandrababu Naidu",
+      "label": "TDP 2024-",
+      "from": "2024-06-12",
+      "to": null,
+      "note": null
+    }
+  ],
+  "spending": {
+    "what_it_is": "Demand XII, School Education, as voted and as audited. BE is the budget estimate, RE the revised estimate, Actual the audited outturn. Totals include salaries and running costs as well as construction, which is what 'spending on school education' normally means.",
+    "source": {
+      "publisher": "AP Finance Department",
+      "name": "Demands for Grants, Demand XII",
+      "tier": "state budget books, audited actuals cross-checked against CAG"
+    },
+    "coverage_warning": "BE exists for all 13 years. Actual exists only for 2016-17 to 2024-25, so a comparison built on Actuals alone would leave TDP's first two years and TDP's current last two years blank. Read BE for completeness and Actual for accuracy, and never mix the two in one total.",
+    "rows": [
+      {
+        "year": "2014-15",
+        "tenure": "tdp1",
+        "BE": {
+          "total_crore": 12594.64,
+          "capital_crore": null,
+          "revenue_crore": null,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2014-15/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2014-15, Demand XII row",
+          "note": "Plan/Non-Plan era: the demand row splits Non-Plan 10,888.07 cr + Plan 1,706.57 cr = 12,594.64 cr gross = net. Revenue vs Capital split is NOT on this row — it must be read from Volume III of 2014-15, which was not fetched. Do not publish a capital-outlay figure for this year yet."
+        },
+        "RE": null,
+        "Actual": null
+      },
+      {
+        "year": "2015-16",
+        "tenure": "tdp1",
+        "BE": {
+          "total_crore": 14962.22,
+          "capital_crore": null,
+          "revenue_crore": null,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2015-16/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2015-16, Demand XII row",
+          "note": "Non-Plan 12,664.50 cr + Plan 2,297.72 cr. Revenue/Capital split not available from this row."
+        },
+        "RE": null,
+        "Actual": null
+      },
+      {
+        "year": "2016-17",
+        "tenure": "tdp1",
+        "BE": {
+          "total_crore": 17502.64,
+          "capital_crore": null,
+          "revenue_crore": null,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2016-17/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2016-17, Demand XII row",
+          "note": "Non-Plan 14,883.37 cr + Plan 2,619.27 cr. Revenue/Capital split not available from this row."
+        },
+        "RE": null,
+        "Actual": {
+          "total_crore": 14995.37,
+          "capital_crore": 65.41,
+          "revenue_crore": 14929.96,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2018-19/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2016-17'",
+          "note": "Printed 14929,96.22 / 65,40.92 / 14995,37.14. Net Demand XII. Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2017-18",
+        "tenure": "tdp1",
+        "BE": {
+          "total_crore": 19152.44,
+          "capital_crore": 201.76,
+          "revenue_crore": 18950.69,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2017-18/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2017-18, Demand XII row",
+          "note": "Printed 18950,68.55 / 201,75.66 / 19152,44.21. First year with Revenue/Capital presentation."
+        },
+        "RE": null,
+        "Actual": {
+          "total_crore": 16939.61,
+          "capital_crore": 73.01,
+          "revenue_crore": 16866.59,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2019-20/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2017-18'",
+          "note": "Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2018-19",
+        "tenure": "tdp1",
+        "BE": {
+          "total_crore": 21612.3,
+          "capital_crore": 176.03,
+          "revenue_crore": 21436.27,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2018-19/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2018-19, Demand XII row",
+          "note": "Arithmetic checks out."
+        },
+        "RE": {
+          "total_crore": 17196.59,
+          "capital_crore": 64.13,
+          "revenue_crore": 17132.46,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2019-20/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2018-19'",
+          "note": "CAUTION: this RE is almost identical to the Actual above (17,132.46 vs 17,132.56). Two different documents, two different column labels, near-identical values — one of the two column labels may have been misread. Flag before publishing both as distinct stages."
+        },
+        "Actual": {
+          "total_crore": 17543.38,
+          "capital_crore": 64.13,
+          "revenue_crore": 17132.56,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2020-21/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2018-19'",
+          "note": "CAUTION: 17,132.56 + 64.13 = 17,196.69, not the printed total 17,543.38. The ~347 cr gap is probably a Loans and Advances line in the same abstract that was not transcribed. Publish revenue and capital, treat the total as needing a re-read."
+        }
+      },
+      {
+        "year": "2019-20",
+        "tenure": "ysrcp",
+        "BE": {
+          "total_crore": 29772.79,
+          "capital_crore": 1684.26,
+          "revenue_crore": 28088.53,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2019-20/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2019-20, Demand XII, Gross = Net",
+          "note": "HIGH CONFIDENCE — independently confirmed by the 2020-21 Volume III/7 abstract 'BE 2019-20' column, identical to the paisa."
+        },
+        "RE": {
+          "total_crore": 18477.76,
+          "capital_crore": 157.9,
+          "revenue_crore": 17813.33,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2020-21/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2019-20'",
+          "note": "CAUTION: 17,813.33 + 157.90 = 17,971.23, not the printed 18,477.76. Same probable Loans line. Note the huge BE-to-RE cut in capital, 1,684 cr down to 158 cr."
+        },
+        "Actual": {
+          "total_crore": 24819.73,
+          "capital_crore": 150.94,
+          "revenue_crore": 24668.79,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2021-22/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2019-20'",
+          "note": "GROSS figures. Net after recoveries of 506.52 cr: Revenue 24,162.27, Total 24,313.21. Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2020-21",
+        "tenure": "ysrcp",
+        "BE": {
+          "total_crore": 22604.01,
+          "capital_crore": 3248.7,
+          "revenue_crore": 19355.32,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2021-22/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Budget Estimate 2020-21'",
+          "note": "HIGH CONFIDENCE — the same values appear in the 2020-21 Volume III/7 'BE 2020-21' column. Do NOT use the 2020-21 Volume I/2 for this year, it transcribed with dropped leading digits twice."
+        },
+        "RE": {
+          "total_crore": 22236.91,
+          "capital_crore": 3468.24,
+          "revenue_crore": 18768.67,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2021-22/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2020-21'",
+          "note": "Gross. Net 22,132.02 after 104.89 cr recoveries. Arithmetic checks out."
+        },
+        "Actual": {
+          "total_crore": 22095.89,
+          "capital_crore": 3320.28,
+          "revenue_crore": 18775.61,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2022-23/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2020-21'",
+          "note": "Gross (printed 18775,60.99 / 3320,27.83 / 22095,88.82). Net revenue 18,600.95. Arithmetic checks out. This is the first year with a large realised school capital outlay — the Nadu-Nedu school infrastructure programme."
+        }
+      },
+      {
+        "year": "2021-22",
+        "tenure": "ysrcp",
+        "BE": {
+          "total_crore": 24624.22,
+          "capital_crore": 3810.28,
+          "revenue_crore": 20813.94,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2022-23/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Budget Estimate 2021-22'",
+          "note": "HIGH CONFIDENCE — matches the 2021-22 Volume I/2 demand row and the 2021-22 Volume III/7 BE column."
+        },
+        "RE": {
+          "total_crore": 23272.06,
+          "capital_crore": 2902.82,
+          "revenue_crore": 20369.24,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2022-23/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2021-22'",
+          "note": "Gross. Arithmetic checks out."
+        },
+        "Actual": {
+          "total_crore": 23513.75,
+          "capital_crore": 2897.19,
+          "revenue_crore": 20616.55,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2023-24/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2021-22'",
+          "note": "Gross. Net total 23,353.66. Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2022-23",
+        "tenure": "ysrcp",
+        "BE": {
+          "total_crore": 27706.66,
+          "capital_crore": 3910.43,
+          "revenue_crore": 23796.22,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2022-23/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2022-23, Demand XII row (printed 23796,22.33 / 3910,43.40 / 27706,65.73)",
+          "note": "HIGH CONFIDENCE — independently confirmed by both the 2022-23 and 2023-24 Volume III/7 abstracts."
+        },
+        "RE": {
+          "total_crore": 25926.91,
+          "capital_crore": 2480.83,
+          "revenue_crore": 23446.08,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2023-24/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2022-23'",
+          "note": "Gross. Net 25,741.51. Arithmetic checks out."
+        },
+        "Actual": {
+          "total_crore": 23772.57,
+          "capital_crore": 478.92,
+          "revenue_crore": 23293.65,
+          "source_url": "https://apfinance.gov.in/...Bud@et24-25/documents/Volume-III-7.pdf",
+          "page": "Demand XII summary, column 'Accounts 2022-23' (printed 478,92.15 lakh gross capital)",
+          "note": "Gross, consistent with every other year in this series. Eye-checked against the printed page on 27 August 2026 from a reader-supplied copy of the volume. The same column deducts recoveries of Rs 501.58 crore against capital — more than the year's entire gross capital outlay — making NET capital MINUS Rs 22.66 crore. Both figures are printed on the page; the volume does not say what was recovered or why, and we do not guess. Earlier attempts to transcribe this cell produced the gross and the net as two 'contradictory' readings; they are both real."
+        }
+      },
+      {
+        "year": "2023-24",
+        "tenure": "ysrcp",
+        "BE": {
+          "total_crore": 29690.71,
+          "capital_crore": 4079.05,
+          "revenue_crore": 25611.67,
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2023-24/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2023-24, Demand XII row",
+          "note": "HIGH CONFIDENCE — confirmed by the 2023-24 Volume III/7 'BE 2023-24' column. Highest school-education capital outlay BE in the whole series."
+        },
+        "RE": {
+          "total_crore": 28382.48,
+          "capital_crore": 4533.48,
+          "revenue_crore": 23848.99,
+          "source_url": "https://apfinance.gov.in/...Bud@et24-25/documents/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2023-24'",
+          "note": "Capital was revised UP, 4,079 cr to 4,533 cr. Arithmetic checks out."
+        },
+        "Actual": {
+          "total_crore": 28385.27,
+          "capital_crore": 4533.48,
+          "revenue_crore": 23851.79,
+          "source_url": "https://apfinance.gov.in/...Bud@et25-26/documents/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2023-24'",
+          "note": "Very close to the RE above but not identical (23,851.79 vs 23,848.99), which is consistent with these being two genuinely different columns in two different documents. Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2024-25",
+        "tenure": "tdp2",
+        "BE": {
+          "total_crore": 29909.31,
+          "capital_crore": 2036.24,
+          "revenue_crore": 27873.07,
+          "source_url": "https://apfinance.gov.in/...Bud@et24-25/documents/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2024-25, Demand XII row",
+          "note": "HIGH CONFIDENCE — confirmed by the 2024-25 Volume III/7 'BE 2024-25' column, same to the paisa. The 2025-26 Volume III/7 rendered this as 28,873.07/30,909.31 — that is a leading-digit misread; use 27,873.07. This is the full budget presented Nov 2024, not the Feb-2024 vote on account."
+        },
+        "RE": {
+          "total_crore": 23152.1,
+          "capital_crore": 1383.85,
+          "revenue_crore": 21768.25,
+          "source_url": "https://apfinance.gov.in/...Bud@et25-26/documents/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2024-25'",
+          "note": "A very large downward revision — capital cut from 2,036 cr BE to 1,384 cr RE. Arithmetic checks out."
+        },
+        "Actual": {
+          "total_crore": 26612.63,
+          "capital_crore": 968.1,
+          "revenue_crore": 25644.53,
+          "source_url": "https://apfinance.gov.in/...Bud@et26-27/documents/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Accounts 2024-25' (printed 25,644,53.01 / 968,10.24 / 26,612,63.25)",
+          "note": "GROSS. Latest available Actual. School capital outlay actually realised was 968 cr against a 2,036 cr BE — under half. Arithmetic checks out."
+        }
+      },
+      {
+        "year": "2025-26",
+        "tenure": "tdp2",
+        "BE": {
+          "total_crore": 31805.66,
+          "capital_crore": 2376.87,
+          "revenue_crore": 29428.79,
+          "source_url": "https://apfinance.gov.in/...Bud@et25-26/documents/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2025-26, Demand XII row",
+          "note": "HIGH CONFIDENCE — confirmed by the 2026-27 Volume III/7 'BE 2025-26' column (29,428,79.14 / 2,376,86.80 / 31,805,65.94)."
+        },
+        "RE": {
+          "total_crore": 30175.14,
+          "capital_crore": 1760.94,
+          "revenue_crore": 28414.19,
+          "source_url": "https://apfinance.gov.in/...Bud@et26-27/documents/Volume-III-7.pdf",
+          "page": "Demand XII abstract, column 'Revised Estimate 2025-26' (printed 28,414,19.34 / 1,760,94.43 / 30,175,13.77)",
+          "note": "Arithmetic checks out."
+        },
+        "Actual": null
+      },
+      {
+        "year": "2026-27",
+        "tenure": "tdp2",
+        "BE": {
+          "total_crore": 32308.32,
+          "capital_crore": 2344.81,
+          "revenue_crore": 29963.51,
+          "source_url": "https://apfinance.gov.in/...Bud@et26-27/documents/Volume-I-2.pdf",
+          "page": "Statement of Demands for Grants 2026-27, Demand XII row (printed 29963,50.62 / 2344,80.92 / 32308,31.54)",
+          "note": "HIGH CONFIDENCE — confirmed by the 2026-27 Volume III/7 abstract 'BE 2026-27' column. Latest budget."
+        },
+        "RE": null,
+        "Actual": null
+      }
+    ],
+    "caveats": [
+      {
+        "key": "cag_misclassification",
+        "severity": "high",
+        "applies_to": [
+          "XII"
+        ],
+        "years": [
+          "2020-21",
+          "2021-22"
+        ],
+        "title": "The auditor says part of the school capital spike was not capital at all",
+        "body": "The Comptroller and Auditor General examined Mana Badi Nadu Nedu Phase I and found that spending on repairs, painting, desks and fans, which is running cost rather than asset creation, was booked as capital expenditure. That inflates the capital outlay column in exactly the years the programme ran. The jump is real and large, but a reader should know that some of it is an accounting choice the auditor objected to.",
+        "quote": "MBNN Phase I involved repairs, painting, procurement of Desks, fans... the entire expenditure was booked under Capital Expenditure instead of Revenue Expenditure.",
+        "source_url": "https://cag.gov.in/uploads/download_audit_report/2025/PCA-Report-No.5-of-2025_English-069aaf17d2b0187.40331878.pdf",
+        "source_publisher": "Comptroller and Auditor General of India, Report No. 5 of 2025, Chapter III"
+      },
+      {
+        "key": "plan_nonplan",
+        "severity": "medium",
+        "applies_to": [
+          "XII",
+          "XVI"
+        ],
+        "years": [
+          "2014-15",
+          "2015-16",
+          "2016-17"
+        ],
+        "title": "The first three years cannot be split into revenue and capital",
+        "body": "Until 2017-18 the budget was presented as Plan against Non-Plan rather than revenue against capital. The demand totals for those years are on record and shown, but no capital outlay figure exists to extract from them. That is a change in how the state kept its books, not a gap in ours.",
+        "quote": null,
+        "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/budget-volumes/2016-17/Volume-I-2.pdf",
+        "source_publisher": "AP Finance Department, Statement of Demands for Grants"
+      },
+      {
+        "key": "school_2022_23_actual",
+        "severity": "medium",
+        "applies_to": [
+          "XII"
+        ],
+        "years": [
+          "2022-23"
+        ],
+        "title": "The 2022-23 cell that was blank, now filled — and the strange recovery behind it",
+        "body": "The audited actual for School Education capital in 2022-23 is Rs 478.92 crore gross. We first left this cell blank because two reads of the same page produced two different figures, one negative. On 27 August 2026 we eye-checked the printed page of the 2024-25 volume: both figures are real. The page shows gross capital of Rs 478.92 crore, then deducts recoveries of Rs 501.58 crore — more than the entire year's outlay — leaving NET capital of MINUS Rs 22.66 crore. The volume does not say what was recovered or why. We show the gross figure in the series, because every other year in the series is gross, and we state the recovery here rather than hide it. For scale: the year before, capital actuals were Rs 2,897 crore; the year after, Rs 4,533 crore.",
+        "quote": null,
+        "source_url": "https://apfinance.gov.in/...Bud@et24-25/documents/Volume-III-7.pdf",
+        "source_publisher": "AP Finance Department, Demands for Grants 2024-25, Volume III/7"
+      },
+      {
+        "key": "gross_vs_net",
+        "severity": "low",
+        "applies_to": [
+          "XII",
+          "XVI"
+        ],
+        "years": [],
+        "title": "A few totals do not add up, and that is the document's doing",
+        "body": "In a handful of rows the printed total is a little larger than revenue plus capital. That is almost certainly a loans and advances line that sits in the demand but not in either column. We print what the document prints rather than silently correcting it.",
+        "quote": null,
+        "source_url": null,
+        "source_publisher": null
+      }
+    ]
+  },
+  "schools": {
+    "what_it_is": "Total schools, enrolment and teachers in Andhra Pradesh as counted by UDISE+, the Ministry of Education's annual school census.",
+    "source": {
+      "publisher": "Ministry of Education, Government of India",
+      "name": "UDISE+ / DISE",
+      "tier": "central census"
+    },
+    "coverage_warning": "UDISE+ begins at 2018-19. For 2014-15 to 2017-18 the series was DISE, published by NIEPA, and no government-hosted copy could be found - the old udise.in host is no longer a government site. Those four years are shown as not found, never estimated. Enrolment is missing for 2018-19 to 2020-21 because those booklets place it in a chapter our reader could not reach.",
+    "counting_note": "This is a NET count. Schools were built and upgraded in these years, and schools were also merged and closed under school rationalisation. A fall in the total does not mean nothing was built, and a rise does not mean nothing was closed. Read it beside the construction orders, not instead of them.",
+    "rows": [
+      {
+        "year": "2018-19",
+        "tenure": "tdp1",
+        "schools": 63621,
+        "enrolment": null,
+        "teachers": 314770,
+        "source_url": "https://dsel.education.gov.in/sites/default/files/statistics/report_in_PDF/udise_plus_1819_rpt.pdf",
+        "table": "Table 1.1 p8; Table 2.1 p14"
+      },
+      {
+        "year": "2019-20",
+        "tenure": "ysrcp",
+        "schools": 63824,
+        "enrolment": null,
+        "teachers": 317430,
+        "source_url": "https://dashboard.udiseplus.gov.in/udiseplus-archive/assets/images/pdf/UDISE+2019_20_Booklet.pdf",
+        "table": "Table 1.1 p24; Table 2.1 p30"
+      },
+      {
+        "year": "2020-21",
+        "tenure": "ysrcp",
+        "schools": 63343,
+        "enrolment": null,
+        "teachers": 322187,
+        "source_url": "https://dashboard.udiseplus.gov.in/udiseplus-archive/assets/images/pdf/UDISE+2020_21_Booklet.pdf",
+        "table": "Table 1.1 p25; Table 2.1 p36"
+      },
+      {
+        "year": "2021-22",
+        "tenure": "ysrcp",
+        "schools": 61948,
+        "enrolment": 8244647,
+        "teachers": 320724,
+        "source_url": "https://dashboard.udiseplus.gov.in/udiseplus-archive/assets/images/pdf/UDISE+2021_22_Booklet.pdf",
+        "table": "Table 2 State-wise highlights p27",
+        "per_student_rupees_our_calculation": 29867
+      },
+      {
+        "year": "2022-23",
+        "tenure": "ysrcp",
+        "schools": 61680,
+        "enrolment": 8622192,
+        "teachers": 323221,
+        "source_url": "https://dashboard.udiseplus.gov.in/report2026/static/media/UDISE+2022_23_Booklet_existing.d209e7c7516d77939da9.pdf",
+        "table": "Table 2.1 p29; Table 2.2 p30",
+        "per_student_rupees_our_calculation": 32134
+      },
+      {
+        "year": "2023-24",
+        "tenure": "ysrcp",
+        "schools": 61373,
+        "enrolment": 8741885,
+        "teachers": 338293,
+        "source_url": "https://dashboard.udiseplus.gov.in/report2026/static/media/UDISE+2023_24_Booklet_nep.f2ab818294eb169c0adc.pdf",
+        "table": "Table 2.1 p29",
+        "per_student_rupees_our_calculation": 33964
+      },
+      {
+        "year": "2024-25",
+        "tenure": "tdp2",
+        "schools": 61317,
+        "enrolment": 8454817,
+        "teachers": 342721,
+        "source_url": "https://dashboard.udiseplus.gov.in/report-new-v.6-demo2025/static/media/UDISE+2024_25_Booklet_existing.118ba29d4773e6372f72.pdf",
+        "table": "Table 2.1 p32",
+        "per_student_rupees_our_calculation": 35375
+      },
+      {
+        "year": "2025-26",
+        "tenure": "tdp2",
+        "schools": 60843,
+        "enrolment": 8437049,
+        "teachers": 353745,
+        "source_url": "https://dashboard.udiseplus.gov.in/report2026/static/media/UDISE+2025_26_Booklet_nep.94ceae1e8c2210549d21.pdf",
+        "table": "Table 2.1 p31 (Distribution of Schools, Enrolments and Teachers by School Category, 2025-26; reference year 2025-26, cutoff 31 March 2026; report released July 2026)",
+        "per_student_rupees_our_calculation": 37698
+      }
+    ]
+  },
+  "components": {
+    "what_it_is": "What physically reached schools, read from the subject line of every School Education Government Order 2014-2026. Counts are ORDERS mentioning the component, not units delivered - one order can cover thousands of schools, and several orders can cover the same work.",
+    "source": {
+      "publisher": "Government of Andhra Pradesh",
+      "name": "Government Orders Issue Register",
+      "tier": "state orders"
+    },
+    "items": [
+      {
+        "component": "Classrooms and school buildings",
+        "orders_total": 20,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 10,
+          "ysrcp": 7,
+          "tdp2": 3
+        },
+        "first_order": {
+          "date": "13/06/2014",
+          "tenure": "tdp1",
+          "go": "RT-190",
+          "quote": "SE Dept.- B.E.2014-15-Non-Plan- Budget Release Order for an amount of Rs.2,82,60,000/-( Rupees Two Crores Eighty two Lakhs and Sixty Thousand only) towards meeting the expenditure for the months of June, July and August 2014 under the Protection of High School Buildings Scheme",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=320655&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "25/03/2025",
+            "tenure": "tdp2",
+            "go": "RT-97",
+            "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for Rs.69,19,000/-, towards construction of 7 class rooms, Dormitory block with 5 rooms and compound wall 900 Mtrs at APR School, Vomaravalli, Srikakulam District and to avoid further legal complications in the CC",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=547449&fileType=E"
+          },
+          {
+            "date": "08/08/2025",
+            "tenure": "tdp2",
+            "go": "RT-264",
+            "quote": "School Education Department – Chief Minister Assurances = Assurances given by the Hon’ble Chief Minister during visit to Alluri Sitarama Raju district on 02-11-2024 – Administration sanction for an amount of Rs.4502.05 lakhs for taking up the construction of Additional Class Room",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=557197&fileType=E"
+          },
+          {
+            "date": "23/06/2026",
+            "tenure": "tdp2",
+            "go": "RT-88",
+            "quote": "School Education Department – Mana Badi Mana Bhavishyathu (MBMB) Programme – Uravakonda Assembly Constituency, Ananthapur District – Construction of Additional Class Rooms in Government Schools – Administrative Sanction for 40 works at an estimated cost of Rs.12.61 Crores within ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=578781&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Digital classrooms and projectors",
+        "orders_total": 16,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 10,
+          "ysrcp": 6,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "08/10/2014",
+          "tenure": "tdp1",
+          "go": "MS-31",
+          "quote": "School Education Department – ICT@ 2000 Schools Computer Education Programme – BE 2014-15 - Budget Release Order for Rs.18,34,24,000/-   to the Commissioner & Director of School Education, A.P., Hyderabad –Administrative Sanction - Accorded – Orders - Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=326083&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "21/02/2023",
+            "tenure": "ysrcp",
+            "go": "RT-22",
+            "quote": "School Education – Constitution of a High Level Committee to finalize and procure the e-content to be used in the Smart TVs and Interactive Flat Panels (IFPs), – Orders – Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=489300&fileType=E"
+          },
+          {
+            "date": "07/08/2023",
+            "tenure": "ysrcp",
+            "go": "MS-68",
+            "quote": "SE - Mana Badi Nadu Nedu - Revised administrative approval for providing 10,038 Smart TVs for classes I to V and 30,213 Interactive Flat Panels (IFPs) for classes VI to X to 15,694 schools covered under Mana Badi Nadu Nedu Phase I for an amount of Rs. 454.94 crores - Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=487232&fileType=E"
+          },
+          {
+            "date": "18/08/2023",
+            "tenure": "ysrcp",
+            "go": "MS-74",
+            "quote": "SE - Administrative approval for procurement of 31,884 Interactive Flat Panels (IFPs) and 28,014 Smart TVs for installation in 16,886 unique schools covered under MBNN Phase II in the State, with a financial outlay of Rs.594.88 Crores, for the Academic Year 2023-24, duly authoriz",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=487356&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Libraries",
+        "orders_total": 140,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 61,
+          "ysrcp": 65,
+          "tdp2": 14
+        },
+        "first_order": {
+          "date": "01/07/2014",
+          "tenure": "tdp1",
+          "go": "RT-196",
+          "quote": "Budget Estimates 2014-15 – Budget Release Order issued for an amount of   Rs.3,16,000/- Plan to the Director of Public Libraries, A.P., Hyderabad, for the months of June, July and August,2014   – Administrative Sanction – Accorded- Orders- issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=321177&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "30/03/2026",
+            "tenure": "tdp2",
+            "go": "RT-37",
+            "quote": "School Education – Sri A. Krishna Mohan, Addl. Director, B.C. Welfare Department, presently working as Director of Public Libraries – Extension of the deputation for a further period of two years under Foreign Service Terms and Conditions – Orders – Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=572384&fileType=E"
+          },
+          {
+            "date": "06/04/2026",
+            "tenure": "tdp2",
+            "go": "RT-40",
+            "quote": "Public Services - School Education Department – Allegations of malpractice in the written test conducted for the recruitment of Grade.III Librarians under Zilla Grandhalaya Samstha, Srikakulam - Disciplinary Proceedings initiated against Smt. G. Tirumala Kumari, the then Secretar",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=572767&fileType=E"
+          },
+          {
+            "date": "25/08/2026",
+            "tenure": "tdp2",
+            "go": "RT-139",
+            "quote": "School Education Dept. - Sanction of State Matching Share for an amount of Rs.21.75 lakhs for Upgradation and modernization of Sri Gowthami Regional Library, Rajamahendravaram under National Mission on Libraries (NML), Ministry of Culture, Government of India – Administrative San",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=584058&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Midday meals",
+        "orders_total": 107,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 36,
+          "ysrcp": 62,
+          "tdp2": 9
+        },
+        "first_order": {
+          "date": "05/12/2014",
+          "tenure": "tdp1",
+          "go": "RT-289",
+          "quote": "School Education – Mid Day Meal Scheme –Enhancement of cooking cost to Primary and Upper Primary  and High Schools for implementation of Mid Day Meal Programme – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=330231&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "04/03/2026",
+            "tenure": "tdp2",
+            "go": "RT-25",
+            "quote": "School Education - Intermediate Education – Administrative sanction for an amount of Rs.2283.39 Lakhs for implementation of Dokka Seethamma Madhyanam Bhojana Padhakam (Mid-Day Meal Scheme) to the Students studying Intermediate Education in 475 Govt. Junior Colleges in the state f",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=570751&fileType=E"
+          },
+          {
+            "date": "04/03/2026",
+            "tenure": "tdp2",
+            "go": "RT-24",
+            "quote": "School Education – Budget Estimates 2025-26 – Budget Release Order for Rs.1,33,03,48,000/-, towards 3rd instalment under PM-POSHAN (Mid Day Meal) for I-VIII classes for the year 2025-26 - Administrative Sanction - Accorded - Orders – Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=570705&fileType=E"
+          },
+          {
+            "date": "06/04/2026",
+            "tenure": "tdp2",
+            "go": "RT-41",
+            "quote": "School Education – Budget Estimates 2025-26 – Budget Release Order for Rs.36,27,000/-, towards meeting the expenses for providing mid day meal to intermediate students in the drought affected mandals during summer holidays of 2025-26 to avoid further legal complications in W.P.(P",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=572801&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Toilets and sanitation",
+        "orders_total": 25,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 6,
+          "ysrcp": 17,
+          "tdp2": 2
+        },
+        "first_order": {
+          "date": "23/09/2014",
+          "tenure": "tdp1",
+          "go": "RT-226",
+          "quote": "School Education Department – Sarva Siksha Abhiyan, A.P., Hyderabad – Approval of Maintenance Grant for an amount of Rs.23,16,00,000/- (Rupees Twenty three crores sixteen lakhs only) towards maintenance of Drinking Water and Toilets in the Government / Z.P.P / M.P.P schools in 13",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=325339&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "03/05/2024",
+            "tenure": "ysrcp",
+            "go": "RT-155",
+            "quote": "School Education -  Medical Attendance - Dr. Nidhi Meena, I.A.S., Director , Mid-day Meal & School Sanitation - Reimbursement  of Medical expenses of Rs. 49,650/- incurred  for herself  treatment  for \" Pregnancy Checkup\"  Sanctioned- Orders - Issued",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=525714&fileType=E"
+          },
+          {
+            "date": "30/06/2024",
+            "tenure": "tdp2",
+            "go": "RT-257",
+            "quote": "School Education – Dr. B.R. Ambedkar, IAS, Director, Mid-Day Meals & Schools Sanitation - Transferred - Sri B. Srinivasa Rao, IAS, State Project Director, Samagra Shiksha - Placed in Full Additional Charge to the post of Director, Mid-Day Meals & Schools Sanitation – Orders – Iss",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=523604&fileType=E"
+          },
+          {
+            "date": "02/09/2024",
+            "tenure": "tdp2",
+            "go": "RT-413",
+            "quote": "School Education – Budget Estimates 2024-25 [Vote on Account]– Budget Release Order for Rs.87,90,43,000/-, towards payment of honorarium to aayahs & night watchman and cleaning material (i.e. Rs.6438.40 Lakhs towards honorarium and Rs.2352.03 Lakhs cleaning material) for smooth i",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=478517&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Uniforms, shoes and kits",
+        "orders_total": 32,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 6,
+          "ysrcp": 16,
+          "tdp2": 10
+        },
+        "first_order": {
+          "date": "20/01/2015",
+          "tenure": "tdp1",
+          "go": "RT-9",
+          "quote": "School Education Department – A.P. Open School Society, Hyderabad – Indent for Printing and Supply of Text Books for SSC & Intermediate (APOSS) 2014-15 for 13 Districts of Andhra Pradesh - Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=333286&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "19/01/2026",
+            "tenure": "tdp2",
+            "go": "MS-1",
+            "quote": "School Education – Administrative approval for an amount of Rs.944.53 crores (Central share of Rs.291.88 crores + State share of Rs.652.65 crores) for procurement and supply of Student Kits to students studying classes I to X in all Government Management Schools for the academic ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=567698&fileType=E"
+          },
+          {
+            "date": "18/03/2026",
+            "tenure": "tdp2",
+            "go": "MS-5",
+            "quote": "School Education – Revised Administrative Sanction for Rs.867.56 crore for procurement and supply of student KITs comprising of Notebooks, Belt, Shoes, Bag, Pictorial Dictionary, Oxford Dictionary, Textbooks, Workbooks and three pairs of uniform cloth, to all students studying in",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=571749&fileType=E"
+          },
+          {
+            "date": "18/05/2026",
+            "tenure": "tdp2",
+            "go": "MS-9",
+            "quote": "School Education – Administrative Sanction for an amount of Rs.37,26,61,134/- with Revised Rates of Note Books towards procurement and supply of Text Books, Vocational Text Books, Competitive Examination Material, Practical Manuals, Note Books, Practical Records, transportation c",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=575933&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Tablets and laptops",
+        "orders_total": 12,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 3,
+          "ysrcp": 9,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "19/02/2018",
+          "tenure": "tdp1",
+          "go": "RT-30",
+          "quote": "School Education – Budget Estimates 2017-18 - Administrative approval for an amount of Rs.60.00 crores for procurement of Tablets to Headmasters and palm devices to schools for implementation of Aadhar Enabled Biometric Attendance System (AEBAS) in schools in the State – Orders- ",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=404720&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "08/02/2023",
+            "tenure": "ysrcp",
+            "go": "RT-15",
+            "quote": "School Education - Allotment of subject matter \"School Health\", \"e-content in smart TVs and Interactive Flat Panels (IFPs) and \"e-content in Tabs\" - Orders - Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=529328&fileType=E"
+          },
+          {
+            "date": "16/03/2023",
+            "tenure": "ysrcp",
+            "go": "MS-29",
+            "quote": "School Education – Maintenance of Tabs issued to VIII Class students and teachers handling class VIII for the year 2022-23 - Orders - Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=508577&fileType=E"
+          },
+          {
+            "date": "23/11/2023",
+            "tenure": "ysrcp",
+            "go": "RT-297",
+            "quote": "SE – Budget Estimates 2023-24 – Releasing an amount of Rs.20,14,43,551/- towards clearing of outstanding to M/s Analogics Tech India Ltd., for supply and installation of 36,220 Nos. Samsung Iris Tablets for Bio-metric Attendance (Non contract IRIS based Project) – Recommendation ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=482239&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Painting and repairs",
+        "orders_total": 21,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 13,
+          "ysrcp": 5,
+          "tdp2": 3
+        },
+        "first_order": {
+          "date": "15/09/2014",
+          "tenure": "tdp1",
+          "go": "RT-219",
+          "quote": "Loans and Advances – School Education Department- HBA Repairs to Smt V.Nagamani, Deputy Secretary to Government – repairs/extension of her house at D.No.24-40, Situated at Gandipet, Chilakaluripet, Guntur District. – Sanction an amount of Rs. 2.00 Lakhs – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=324784&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "27/01/2025",
+            "tenure": "tdp2",
+            "go": "RT-25",
+            "quote": "Medical Attendance – Sanction of medical reimbursement for an amount of Rs.80,000/- to Sri Gajula Hanumantha Rayudu, SGT, MPUPS, Gudipalli, Somandepalli (M), Sri Satya Sai District towards his son treatment of “Right Knee Medical Meniscal Tear Right Knee Arthoscopic Medical Menis",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=539052&fileType=E"
+          },
+          {
+            "date": "08/08/2025",
+            "tenure": "tdp2",
+            "go": "RT-264",
+            "quote": "School Education Department – Chief Minister Assurances = Assurances given by the Hon’ble Chief Minister during visit to Alluri Sitarama Raju district on 02-11-2024 – Administration sanction for an amount of Rs.4502.05 lakhs for taking up the construction of Additional Class Room",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=557197&fileType=E"
+          },
+          {
+            "date": "12/02/2026",
+            "tenure": "tdp2",
+            "go": "RT-18",
+            "quote": "School Education – Administrative sanction for an amount of Rs.489.00 lakhs towards repairs to the existing buildings at APR School & Jr. College, Nimmakuru, Krishna District, for the welfare and safety of the students residing and studying in the APR School & Jr. College at Nimm",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=569467&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Ramps and accessibility",
+        "orders_total": 7,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 1,
+          "ysrcp": 5,
+          "tdp2": 1
+        },
+        "first_order": {
+          "date": "31/01/2019",
+          "tenure": "tdp1",
+          "go": "MS-14",
+          "quote": "SCHOOL EDUCATION DEPARTMENT - RMSA – Providing certain exemptions and concessions to the Children with Special Needs (CwSN) in SSC examinations and other examinations of classes VI to X –Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=428926&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "04/03/2022",
+            "tenure": "ysrcp",
+            "go": "MS-12",
+            "quote": "S.E -Intermediate Education - Providing certain exemptions & concessions to the Children with Special Needs (CwSN) or Divyang as per Section 17 of the R.P.wD Act and NEP - 2020 for the candidates appearing for 1st Year and 2nd Year Intermediate Public Examinations, from the Acade",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=527253&fileType=E"
+          },
+          {
+            "date": "25/08/2023",
+            "tenure": "ysrcp",
+            "go": "MS-76",
+            "quote": "School Education APOSS Intermediate (APOSS) Public Examinations Adoption of GO.Ms.No.12 S.E (IE-A2) Dept, dt.04.03.2022 providing certain exemptions & concessions to the CwSN as per Section-17 of the RPwD Act and NEP-2020 for the candidates appearing for Intermediate (APOSS) Publ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=540608&fileType=E"
+          },
+          {
+            "date": "12/12/2025",
+            "tenure": "tdp2",
+            "go": "MS-38",
+            "quote": "School Education – Intermediate Education - Providing certain exemptions & concessions to the Children with Special Needs (CwSN) or Divyang, as per Section 17 of the RPwD Act and NEP 2020 for appearing for 1st Year and 2nd Year Intermediate Public Examinations – Amendment - Order",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=565505&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Compound walls",
+        "orders_total": 13,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 9,
+          "ysrcp": 3,
+          "tdp2": 1
+        },
+        "first_order": {
+          "date": "16/10/2014",
+          "tenure": "tdp1",
+          "go": "RT-242",
+          "quote": "School Education Department – Sarva Siksha Abhiyan, A.P., Hyderabad – Sanction of additional funds for an amount of Rs.17,20,00,000/- (Rupees Seventeen Crores Twenty Lakhs only) towards clear the pending bills for construction of Compound Walls to KGBV Schools in the 13 districts",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=326609&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "18/03/2024",
+            "tenure": "ysrcp",
+            "go": "RT-122",
+            "quote": "SE - Budget Estimates 2023-24 - Budget Release Order for an amount Rs.1,69,000/- (Rupees one lakh sixty nine thousand only) towards construction of Compound wall to the Government Boys High School (Urdu) in Guntur Municipal Corporation, as per orders of the Hon'ble Court in W.P. ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=524137&fileType=E"
+          },
+          {
+            "date": "11/06/2024",
+            "tenure": "ysrcp",
+            "go": "RT-232",
+            "quote": "SE - Budget Estimates 2024-25 (Vote on Account) - Budget Release order for an amount Rs.1,69,000/- (Rupees one lakh sixty nine thousand only) as additional funds towards Construction of Compound wall to the Government Boys High School (Urdu) in Guntur Municipal Corporation, as pe",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=495610&fileType=E"
+          },
+          {
+            "date": "25/03/2025",
+            "tenure": "tdp2",
+            "go": "RT-97",
+            "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for Rs.69,19,000/-, towards construction of 7 class rooms, Dormitory block with 5 rooms and compound wall 900 Mtrs at APR School, Vomaravalli, Srikakulam District and to avoid further legal complications in the CC",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=547449&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Furniture (desks and benches)",
+        "orders_total": 5,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 2,
+          "ysrcp": 2,
+          "tdp2": 1
+        },
+        "first_order": {
+          "date": "22/12/2015",
+          "tenure": "tdp1",
+          "go": "RT-245",
+          "quote": "School Education Department – BE 2015-16 - Budget Release Order for  Rs.72,62,75,000/- (Rupees Seventy Two Crores, Sixty Two Lakhs, Seventy Five Thousands only) towards setting up of Model Schools at Block Level as Bench Mark of Excellence as Central Share  - Administrative Sanct",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=357110&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "24/12/2019",
+            "tenure": "ysrcp",
+            "go": "RT-343",
+            "quote": "School Education – Mana Badi: Naadu-Nedu – Constitution of High Level Committee to prepare Tender documents, Evaluate Tenders and Approve the Tenders for procurement of Furniture, Fans, Toilet accessories and Green Chalk Boards under Mana Badi: Naadu Nedu Programme - Orders – Iss",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=447043&fileType=E"
+          },
+          {
+            "date": "27/02/2020",
+            "tenure": "ysrcp",
+            "go": "RT-42",
+            "quote": "School Education – Mana Badi – Naadu Nedu - Procurement of Furniture /Green Chalk Boards / Ceiling fans / Water Supply & Sanitary items / Painting works / white boards to Government Schools - Permission to call for National Competitive Tenders / bidding centrally for procurement ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=451705&fileType=E"
+          },
+          {
+            "date": "15/04/2025",
+            "tenure": "tdp2",
+            "go": "MS-12",
+            "quote": "School Education – Recruitment of teachers through District Selection Committee - Adopting the list of Central Government teaching posts identified as suitable for the Persons with Benchmark Disabilities particularly in respect of PwBDs under Category-(d) - Autism, Intellectual D",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=548597&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Electricity and fans",
+        "orders_total": 2,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 0,
+          "ysrcp": 2,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "24/12/2019",
+          "tenure": "ysrcp",
+          "go": "RT-343",
+          "quote": "School Education – Mana Badi: Naadu-Nedu – Constitution of High Level Committee to prepare Tender documents, Evaluate Tenders and Approve the Tenders for procurement of Furniture, Fans, Toilet accessories and Green Chalk Boards under Mana Badi: Naadu Nedu Programme - Orders – Iss",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=447043&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "24/12/2019",
+            "tenure": "ysrcp",
+            "go": "RT-343",
+            "quote": "School Education – Mana Badi: Naadu-Nedu – Constitution of High Level Committee to prepare Tender documents, Evaluate Tenders and Approve the Tenders for procurement of Furniture, Fans, Toilet accessories and Green Chalk Boards under Mana Badi: Naadu Nedu Programme - Orders – Iss",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=447043&fileType=E"
+          },
+          {
+            "date": "27/02/2020",
+            "tenure": "ysrcp",
+            "go": "RT-42",
+            "quote": "School Education – Mana Badi – Naadu Nedu - Procurement of Furniture /Green Chalk Boards / Ceiling fans / Water Supply & Sanitary items / Painting works / white boards to Government Schools - Permission to call for National Competitive Tenders / bidding centrally for procurement ",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=451705&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Drinking water",
+        "orders_total": 1,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 1,
+          "ysrcp": 0,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "23/09/2014",
+          "tenure": "tdp1",
+          "go": "RT-226",
+          "quote": "School Education Department – Sarva Siksha Abhiyan, A.P., Hyderabad – Approval of Maintenance Grant for an amount of Rs.23,16,00,000/- (Rupees Twenty three crores sixteen lakhs only) towards maintenance of Drinking Water and Toilets in the Government / Z.P.P / M.P.P schools in 13",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=325339&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "23/09/2014",
+            "tenure": "tdp1",
+            "go": "RT-226",
+            "quote": "School Education Department – Sarva Siksha Abhiyan, A.P., Hyderabad – Approval of Maintenance Grant for an amount of Rs.23,16,00,000/- (Rupees Twenty three crores sixteen lakhs only) towards maintenance of Drinking Water and Toilets in the Government / Z.P.P / M.P.P schools in 13",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=325339&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Kitchen sheds",
+        "orders_total": 2,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 2,
+          "ysrcp": 0,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "12/02/2016",
+          "tenure": "tdp1",
+          "go": "RT-14",
+          "quote": "School Education Department – BE 2015-16 - Budget Release Order for Rs.134,18,00,000/- (Rupees One Hundred and Thirty Four Crores Eighteen Lakhs only) towards construction of Kitchen-cum-Store Rooms - Administrative Sanction - Accorded – Orders - Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=360315&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "12/02/2016",
+            "tenure": "tdp1",
+            "go": "RT-14",
+            "quote": "School Education Department – BE 2015-16 - Budget Release Order for Rs.134,18,00,000/- (Rupees One Hundred and Thirty Four Crores Eighteen Lakhs only) towards construction of Kitchen-cum-Store Rooms - Administrative Sanction - Accorded – Orders - Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=360315&fileType=E"
+          },
+          {
+            "date": "06/06/2016",
+            "tenure": "tdp1",
+            "go": "RT-112",
+            "quote": "School Education Department – APREI Society, Hyderabad – Sanction of from the B.E.2016-17 for Rs.31.00 lakhs towards  construction of Kitchen shed and repairs to dining hall Administrative sanction – Accorded - Orders – Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=367906&fileType=E"
+          }
+        ]
+      },
+      {
+        "component": "Playgrounds and sports",
+        "orders_total": 2,
+        "by_tenure": {
+          "pre": 0,
+          "tdp1": 2,
+          "ysrcp": 0,
+          "tdp2": 0
+        },
+        "first_order": {
+          "date": "26/03/2016",
+          "tenure": "tdp1",
+          "go": "MS-19",
+          "quote": "School Education Department – Constitution of State Advisory Committee to suggest the ways to reduce the academic burden on students, to give priority for sports & games and co-curricular activities – Orders Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=363254&fileType=E"
+        },
+        "examples": [
+          {
+            "date": "26/03/2016",
+            "tenure": "tdp1",
+            "go": "MS-19",
+            "quote": "School Education Department – Constitution of State Advisory Committee to suggest the ways to reduce the academic burden on students, to give priority for sports & games and co-curricular activities – Orders Issued.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=363254&fileType=E"
+          },
+          {
+            "date": "27/11/2018",
+            "tenure": "tdp1",
+            "go": "RT-368",
+            "quote": "School Edn Dept – Budget Estimates 2018-19 – Conducting sports for 3 tier events at School Level, Mandal Level and District Level Tournament and final competitions at State level for school children and for granting CM Cup to Winners – Administrative sanction for an amount of Rs.",
+            "document": "https://goir.ap.gov.in/dgo.ashx?gid=424486&fileType=E"
+          }
+        ]
+      }
+    ]
+  },
+  "programmes": {
+    "what_it_is": "When each named programme first appears in the order record, and which governments it spans. This is a factual first-appearance date, not a judgement about whether a programme was good or original. Where a government introduced nothing new, that is shown as NA rather than filled in.",
+    "items": [
+      {
+        "programme": "Mana Badi Nadu Nedu",
+        "orders": 13,
+        "first_appearance": {
+          "date": "13/08/2020",
+          "tenure": "ysrcp",
+          "go": "RT-164",
+          "quote": "School Education Department – Administrative sanction accorded for an amount of Rs.1,00,00,000/- ( Rupees One Crore only) as additional funds during the C.F.Y 2020-21 towards Functions & Events in connection with launching of Mana Badi : Nadu Nedu Programme - Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=459727&fileType=E"
+        },
+        "last_order_date": "29/02/2024",
+        "spans_tenures": [
+          "ysrcp"
+        ]
+      },
+      {
+        "programme": "Mana Badi Mana Bhavishyathu",
+        "orders": 8,
+        "first_appearance": {
+          "date": "06/11/2024",
+          "tenure": "tdp2",
+          "go": "RT-462",
+          "quote": "School Education –  Repatriation of the services of Sri M. Caleb, Program Director, Mana Badi - Mana Bhavishyathu, to his parent Social Welfare Department, w.e.f 30.11.2024 – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=481609&fileType=E"
+        },
+        "last_order_date": "10/07/2026",
+        "spans_tenures": [
+          "tdp2"
+        ]
+      },
+      {
+        "programme": "Samagra Shiksha",
+        "orders": 204,
+        "first_appearance": {
+          "date": "28/09/2018",
+          "tenure": "tdp1",
+          "go": "MS-65",
+          "quote": "School Education Department - The Andhra Pradesh Samagra Shiksha Abhiyan (SMSA), Inclusive Education for the Disabled at Secondary Stage (IEDSS) Subordinate Service Rules - Consists of School Assistant (Special Education) in Government Schools in Andhra Pradesh – Adhoc Rules – Orders - Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=420628&fileType=E"
+        },
+        "last_order_date": "20/08/2026",
+        "spans_tenures": [
+          "tdp1",
+          "ysrcp",
+          "tdp2"
+        ]
+      },
+      {
+        "programme": "Sarva Shiksha Abhiyan / RVM",
+        "orders": 94,
+        "first_appearance": {
+          "date": "01/06/2014",
+          "tenure": "pre",
+          "go": "RT-182",
+          "quote": "School Education Department – RVM(SSA) – Smt.B.Padmavathi, Project Officer, RVM (SSA) Krishna District on deputation basis - Repatriation to his parent department i.e Revenue  Department – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=320355&fileType=E"
+        },
+        "last_order_date": "27/03/2024",
+        "spans_tenures": [
+          "pre",
+          "tdp1",
+          "ysrcp"
+        ]
+      },
+      {
+        "programme": "Amma Vodi",
+        "orders": 8,
+        "first_appearance": {
+          "date": "04/11/2019",
+          "tenure": "ysrcp",
+          "go": "MS-79",
+          "quote": "School Education Department – NAVARATNALU – JAGANANNA AMMA VODI PROGRAMME  - Financial assistance of Rs.15,000/- per annum to each mother or recognized guardian who is below poverty line household and sending their children to schools /colleges i.e., from Classes I to XII (Intermediate Education)– I",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=444208&fileType=E"
+        },
+        "last_order_date": "16/06/2023",
+        "spans_tenures": [
+          "ysrcp"
+        ]
+      },
+      {
+        "programme": "Jagananna Vidya Kanuka",
+        "orders": 15,
+        "first_appearance": {
+          "date": "06/03/2020",
+          "tenure": "ysrcp",
+          "go": "RT-58",
+          "quote": "SE – JAGANANNA VIDYA KANUKA – Procurement and Supply of Students Kit to all students studying from Class I to X in all Government Management Schools from the academic year 2020-2021  – Constitution of Committee – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=452408&fileType=E"
+        },
+        "last_order_date": "10/01/2024",
+        "spans_tenures": [
+          "ysrcp"
+        ]
+      },
+      {
+        "programme": "Jagananna Gorumudda",
+        "orders": 3,
+        "first_appearance": {
+          "date": "28/10/2020",
+          "tenure": "ysrcp",
+          "go": "RT-215",
+          "quote": "School Education Department – BE 2020-2021 – Administrative Sanction for an amount of Rs.1,83,48,000/- towards meeting  the expenditure of transportation charges  & Material and  Supplies for classes IX-X under Jagananna Gorumudda Scheme - Orders – Issued",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=463550&fileType=E"
+        },
+        "last_order_date": "10/03/2023",
+        "spans_tenures": [
+          "ysrcp"
+        ]
+      },
+      {
+        "programme": "Dokka Seethamma Midday Meal",
+        "orders": 4,
+        "first_appearance": {
+          "date": "17/10/2023",
+          "tenure": "ysrcp",
+          "go": "RT-261",
+          "quote": "School Education - Providing appointment under compassionate grounds in respect of Smt S.K.Indira, W/o Late S.K.Balakrishna, School Asst.(Tel), Dokka Seethamma Municipal High School, Nidadhavolu Municipality, West Godavari District, who expired on 19.05.2021, while in service, in relaxation of upper",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=488545&fileType=E"
+        },
+        "last_order_date": "04/03/2026",
+        "spans_tenures": [
+          "ysrcp",
+          "tdp2"
+        ]
+      },
+      {
+        "programme": "RMSA (secondary education)",
+        "orders": 55,
+        "first_appearance": {
+          "date": "05/08/2014",
+          "tenure": "tdp1",
+          "go": "RT-209",
+          "quote": "S.E.Dept. – RMSA - Permission to Smt. V.Usha Rani, IAS,  State Project Director, APSSA & C&DSE, A.P., Hyderabad (FAC), to attend wrap-up meeting of the 4th Joint Review Mission (JRM) of Rashtiya Madhamik Shiksha Abhiyan (RMSA) on 12th August 2014 at New Delhi  – Accorded – Orders – Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=322680&fileType=E"
+        },
+        "last_order_date": "31/07/2026",
+        "spans_tenures": [
+          "tdp1",
+          "ysrcp",
+          "tdp2"
+        ]
+      },
+      {
+        "programme": "Model / Adarsha schools",
+        "orders": 72,
+        "first_appearance": {
+          "date": "13/10/2014",
+          "tenure": "tdp1",
+          "go": "RT-234",
+          "quote": "BE - 2014-15  - Plan Scheme– Model Schools - Budget Release Order for Rs.26,67,00.000/-   - Issued - - Administrative Sanction to the Commissioner & Director of School Education, A.P., Hyderabad to  utilise the funds towards  implementation of the Scheme  - Accorded – Orders - Issued.",
+          "document": "https://goir.ap.gov.in/dgo.ashx?gid=326275&fileType=E"
+        },
+        "last_order_date": "06/08/2026",
+        "spans_tenures": [
+          "tdp1",
+          "ysrcp",
+          "tdp2"
+        ]
+      }
+    ]
+  },
+  "reconciliation": {
+    "why": "Every figure here was checked against a second government source before publication. This section exists because an earlier version of this page was published without such a check and was wrong.",
+    "checks": [
+      {
+        "check": "Teachers, UDISE+ booklets against a Lok Sabha answer",
+        "result": "PASS - 2020-21, 2021-22, 2022-23 and 2023-24 match exactly in both documents",
+        "second_source": "https://www.education.gov.in/sites/upload_files/mhrd/files/parliament_annexure_en/lsuq_210_en.pdf"
+      },
+      {
+        "check": "Enrolment 2023-24, UDISE+ NEP booklet against UDISE+ Existing-structure booklet",
+        "result": "PASS - identical state totals in both; the two structures differ only in the category split",
+        "second_source": "both UDISE+ 2023-24 booklets"
+      },
+      {
+        "check": "Government Order rupee sums against Demand XII",
+        "result": "EXPECTED SHORTFALL, and the reason GO amounts are never published as spending. Construction-section sanction orders come to roughly 22 per cent of Demand XII for TDP 2014-19, 19 per cent for YSRCP 2019-24 and 13 per cent for TDP 2024-. Only orders that happen to state a figure can be counted at all, so the sum is a floor of one kind of order, not departmental spending.",
+        "second_source": "Demands for Grants, Demand XII"
+      },
+      {
+        "check": "CAG on the capital outlay spike in 2020-21 and 2021-22",
+        "result": "FLAGGED - the auditor found repairs, painting, desks and fans booked as capital expenditure under Mana Badi Nadu Nedu Phase I. The rise is real but partly an accounting choice the CAG objected to. Carried as a high-severity caveat on the chart.",
+        "second_source": "CAG Report 5 of 2025"
+      }
+    ],
+    "extraction_defects_found_and_fixed": [
+      "Rupee amounts written 'Rs.944.53 crores' were invisible to the first extraction, which only read 'Rs.9,37,63,92,000/-'. That dropped Rs 28,019 crore of YSRCP orders against Rs 955 crore of TDP 2014-19 orders. Both notations are now read.",
+      "The component pattern for digital classrooms matched 'ICT' inside the word DISTRICT, inflating it from 10 orders to 1,004. Fixed with word boundaries."
+    ]
+  },
+  "management_series": {
+    "what_it_is": "Schools, enrolment and teachers in Andhra Pradesh, split by who runs them, for ten years. This is the series that answers the question the earlier version of this page could not: whether government schools were built or closed, as opposed to a total that mixed government and private schools together and so could not tell the two apart.",
+    "source": {
+      "publisher": "Commissionerate of School Education, Government of Andhra Pradesh",
+      "name": "Educational Statistics 2022-23, Tables 92, 93 and 94, printed pages 196 to 198",
+      "tier": "state department publication",
+      "underlying": "The volume names its own source as UDISE Plus data 2022-23.",
+      "why_this_table": "Each annual volume also prints a management-wise table for its own year, but the definitions move between volumes: the 2019-20 and 2020-21 books add a higher-secondary-only column that the others do not. This single ten-year table is the state restating every year on one consistent basis, so it is the one used here. The seven individual volumes were extracted separately as a cross-check and agree with it."
+    },
+    "government_definition": "Government means Central Government plus State Government plus Local Bodies, added here from the table's own columns. Private Aided is shown separately because an aided school is privately run on public money, and folding it into either side would mislead.",
+    "caveats": [
+      {
+        "title": "The state changed what it counted twice, and says so",
+        "body": "The volume's own notes record that from 2022-23 Private Unaided includes unrecognised schools and madarasas, and NCLP schools were moved into State Government. Both changes are small but they land in the last year of the series, so a reader comparing 2022-23 with 2013-14 is not comparing identical definitions."
+      },
+      {
+        "title": "Enrolment before 2016-17 is not comparable with what follows",
+        "body": "The volume states that from 2016-17 enrolment counts classes I to X only. The first three years therefore sit on a wider definition and should not be read as part of the same trend line."
+      },
+      {
+        "title": "A drop of 1,752 local-body schools between 2014-15 and 2015-16 is unexplained",
+        "body": "Local Bodies fall from 42,418 to 40,703 in a single year. The volume gives no reason. A change that large in one year is more likely to be a reorganisation or a change in what was counted than 1,752 school closures, and this platform does not attribute it to any government's action without a document that says so."
+      },
+      {
+        "title": "This is a different count from UDISE+ figures shown elsewhere",
+        "body": "Other pages may cite UDISE+ totals directly. Those run higher because they include schools of departments outside School Education. The two series are kept apart and never plotted as one line."
+      }
+    ],
+    "schools": [
+      {
+        "year": "2013-14",
+        "tenure": "pre",
+        "central_government": 62,
+        "state_government": 3493,
+        "local_bodies": 42108,
+        "government_total": 45663,
+        "private_aided": 2347,
+        "private_unaided": 12050,
+        "total": 60060
+      },
+      {
+        "year": "2014-15",
+        "tenure": "tdp1",
+        "central_government": 63,
+        "state_government": 3656,
+        "local_bodies": 42418,
+        "government_total": 46137,
+        "private_aided": 2302,
+        "private_unaided": 13513,
+        "total": 61952
+      },
+      {
+        "year": "2015-16",
+        "tenure": "tdp1",
+        "central_government": 61,
+        "state_government": 3621,
+        "local_bodies": 40703,
+        "government_total": 44385,
+        "private_aided": 2272,
+        "private_unaided": 13805,
+        "total": 60462
+      },
+      {
+        "year": "2016-17",
+        "tenure": "tdp1",
+        "central_government": 63,
+        "state_government": 3753,
+        "local_bodies": 40838,
+        "government_total": 44654,
+        "private_aided": 2269,
+        "private_unaided": 14605,
+        "total": 61528
+      },
+      {
+        "year": "2017-18",
+        "tenure": "tdp1",
+        "central_government": 64,
+        "state_government": 3748,
+        "local_bodies": 40605,
+        "government_total": 44417,
+        "private_aided": 2245,
+        "private_unaided": 15039,
+        "total": 61701
+      },
+      {
+        "year": "2018-19",
+        "tenure": "tdp1",
+        "central_government": 59,
+        "state_government": 3720,
+        "local_bodies": 40699,
+        "government_total": 44478,
+        "private_aided": 2203,
+        "private_unaided": 15003,
+        "total": 61684
+      },
+      {
+        "year": "2019-20",
+        "tenure": "ysrcp",
+        "central_government": 61,
+        "state_government": 3771,
+        "local_bodies": 40707,
+        "government_total": 44539,
+        "private_aided": 2084,
+        "private_unaided": 14891,
+        "total": 61514
+      },
+      {
+        "year": "2020-21",
+        "tenure": "ysrcp",
+        "central_government": 60,
+        "state_government": 3773,
+        "local_bodies": 40738,
+        "government_total": 44571,
+        "private_aided": 1972,
+        "private_unaided": 14274,
+        "total": 60817
+      },
+      {
+        "year": "2021-22",
+        "tenure": "ysrcp",
+        "central_government": 59,
+        "state_government": 3767,
+        "local_bodies": 40732,
+        "government_total": 44558,
+        "private_aided": 1413,
+        "private_unaided": 13381,
+        "total": 59352
+      },
+      {
+        "year": "2022-23",
+        "tenure": "ysrcp",
+        "central_government": 58,
+        "state_government": 3854,
+        "local_bodies": 40705,
+        "government_total": 44617,
+        "private_aided": 1084,
+        "private_unaided": 13249,
+        "total": 58950
+      }
+    ],
+    "enrolment": [
+      {
+        "year": "2013-14",
+        "tenure": "pre",
+        "central_government": 32859,
+        "state_government": 507560,
+        "local_bodies": 3761910,
+        "government_total": 4302329,
+        "private_aided": 304493,
+        "private_unaided": 2730445,
+        "total": 7337267
+      },
+      {
+        "year": "2014-15",
+        "tenure": "tdp1",
+        "central_government": 33293,
+        "state_government": 531233,
+        "local_bodies": 3618915,
+        "government_total": 4183441,
+        "private_aided": 274086,
+        "private_unaided": 2877654,
+        "total": 7335181
+      },
+      {
+        "year": "2015-16",
+        "tenure": "tdp1",
+        "central_government": 28507,
+        "state_government": 520334,
+        "local_bodies": 3375237,
+        "government_total": 3924078,
+        "private_aided": 240744,
+        "private_unaided": 2742182,
+        "total": 6907004
+      },
+      {
+        "year": "2016-17",
+        "tenure": "tdp1",
+        "central_government": 26070,
+        "state_government": 495923,
+        "local_bodies": 3235481,
+        "government_total": 3757474,
+        "private_aided": 219510,
+        "private_unaided": 2870313,
+        "total": 6847297
+      },
+      {
+        "year": "2017-18",
+        "tenure": "tdp1",
+        "central_government": 27541,
+        "state_government": 510364,
+        "local_bodies": 3191194,
+        "government_total": 3729099,
+        "private_aided": 219875,
+        "private_unaided": 3026552,
+        "total": 6975526
+      },
+      {
+        "year": "2018-19",
+        "tenure": "tdp1",
+        "central_government": 30237,
+        "state_government": 529098,
+        "local_bodies": 3161653,
+        "government_total": 3720988,
+        "private_aided": 208031,
+        "private_unaided": 3114052,
+        "total": 7043071
+      },
+      {
+        "year": "2019-20",
+        "tenure": "ysrcp",
+        "central_government": 33752,
+        "state_government": 550006,
+        "local_bodies": 3233602,
+        "government_total": 3817360,
+        "private_aided": 196750,
+        "private_unaided": 3229159,
+        "total": 7243269
+      },
+      {
+        "year": "2020-21",
+        "tenure": "ysrcp",
+        "central_government": 35950,
+        "state_government": 566723,
+        "local_bodies": 3739126,
+        "government_total": 4341799,
+        "private_aided": 196408,
+        "private_unaided": 2774645,
+        "total": 7312852
+      },
+      {
+        "year": "2021-22",
+        "tenure": "ysrcp",
+        "central_government": 38594,
+        "state_government": 571054,
+        "local_bodies": 3818447,
+        "government_total": 4428095,
+        "private_aided": 160335,
+        "private_unaided": 2646647,
+        "total": 7235077
+      },
+      {
+        "year": "2022-23",
+        "tenure": "ysrcp",
+        "central_government": 36261,
+        "state_government": 599833,
+        "local_bodies": 3378840,
+        "government_total": 4014934,
+        "private_aided": 126659,
+        "private_unaided": 3079040,
+        "total": 7220633
+      }
+    ],
+    "teachers": [
+      {
+        "year": "2013-14",
+        "tenure": "pre",
+        "central_government": 1227,
+        "state_government": 14979,
+        "local_bodies": 164152,
+        "government_total": 180358,
+        "private_aided": 8464,
+        "private_unaided": 98153,
+        "total": 286975
+      },
+      {
+        "year": "2014-15",
+        "tenure": "tdp1",
+        "central_government": 1189,
+        "state_government": 16101,
+        "local_bodies": 163527,
+        "government_total": 180817,
+        "private_aided": 8139,
+        "private_unaided": 106826,
+        "total": 295782
+      },
+      {
+        "year": "2015-16",
+        "tenure": "tdp1",
+        "central_government": 789,
+        "state_government": 16117,
+        "local_bodies": 161229,
+        "government_total": 178135,
+        "private_aided": 7810,
+        "private_unaided": 86897,
+        "total": 272842
+      },
+      {
+        "year": "2016-17",
+        "tenure": "tdp1",
+        "central_government": 826,
+        "state_government": 17030,
+        "local_bodies": 168489,
+        "government_total": 186345,
+        "private_aided": 7705,
+        "private_unaided": 94015,
+        "total": 288065
+      },
+      {
+        "year": "2017-18",
+        "tenure": "tdp1",
+        "central_government": 823,
+        "state_government": 16594,
+        "local_bodies": 165130,
+        "government_total": 182547,
+        "private_aided": 7298,
+        "private_unaided": 96598,
+        "total": 286443
+      },
+      {
+        "year": "2018-19",
+        "tenure": "tdp1",
+        "central_government": 831,
+        "state_government": 18830,
+        "local_bodies": 161929,
+        "government_total": 181590,
+        "private_aided": 7550,
+        "private_unaided": 108902,
+        "total": 298042
+      },
+      {
+        "year": "2019-20",
+        "tenure": "ysrcp",
+        "central_government": 904,
+        "state_government": 19349,
+        "local_bodies": 158496,
+        "government_total": 178749,
+        "private_aided": 6480,
+        "private_unaided": 111492,
+        "total": 296721
+      },
+      {
+        "year": "2020-21",
+        "tenure": "ysrcp",
+        "central_government": 971,
+        "state_government": 19844,
+        "local_bodies": 157355,
+        "government_total": 178170,
+        "private_aided": 6059,
+        "private_unaided": 109552,
+        "total": 293781
+      },
+      {
+        "year": "2021-22",
+        "tenure": "ysrcp",
+        "central_government": 1041,
+        "state_government": 24139,
+        "local_bodies": 159035,
+        "government_total": 184215,
+        "private_aided": 4816,
+        "private_unaided": 105473,
+        "total": 294504
+      },
+      {
+        "year": "2022-23",
+        "tenure": "ysrcp",
+        "central_government": 1183,
+        "state_government": 26137,
+        "local_bodies": 157703,
+        "government_total": 185023,
+        "private_aided": 4222,
+        "private_unaided": 107029,
+        "total": 296274
+      }
+    ]
+  }
+}

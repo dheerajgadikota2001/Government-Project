@@ -1,0 +1,6 @@
+# Public data site — everything may be indexed. The API is not a page.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://apfactcheck.dhethi.com/sitemap.xml

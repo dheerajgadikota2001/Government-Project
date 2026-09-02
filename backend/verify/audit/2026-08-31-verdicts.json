@@ -1,0 +1,413 @@
+{
+ "draw_id": "e6c14b02e587116b",
+ "verdicts": {
+  "2": {
+   "verdict": "ok",
+   "doc": "prints 3787,18.18 (Rs lakh) on p.13 of the 2023-24 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "3": {
+   "verdict": "ok",
+   "doc": "prints 31805,65.94 (Rs lakh) on p.16 of the 2025-26 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "4": {
+   "verdict": "ok",
+   "doc": "prints 2091,07.30 (Rs lakh) on p.15 of the 2024-25 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "5": {
+   "verdict": "ok",
+   "doc": "prints 1062,19.81 (Rs lakh) on p.15 of the 2023-24 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "6": {
+   "verdict": "ok",
+   "doc": "prints 205,30.00 (Rs lakh) on p.15 of the 2018-19 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "7": {
+   "verdict": "ok",
+   "doc": "prints 2464,62.56 (Rs lakh) on p.15 of the 2021-22 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "8": {
+   "verdict": "ok",
+   "doc": "prints 7740,80.00 (Rs lakh) on p.15 of the 2018-19 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "9": {
+   "verdict": "ok",
+   "doc": "prints 519,16,99 (Rs thousand) on p.19 of the 2014-15 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "10": {
+   "verdict": "ok",
+   "doc": "prints 785,80.30 (Rs lakh) on p.19 of the 2023-24 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "12": {
+   "verdict": "ok",
+   "doc": "prints 34350,20.58 (Rs lakh) on p.21 of the 2026-27 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "13": {
+   "verdict": "ok",
+   "doc": "prints 26891,18.42 (Rs lakh) on p.20 of the 2020-21 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "14": {
+   "verdict": "ok",
+   "doc": "prints 9,11.94 (Rs lakh) on p.23 of the 2024-25 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "15": {
+   "verdict": "ok",
+   "doc": "prints 378,81.29 (Rs lakh) on p.21 of the 2015-16 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "16": {
+   "verdict": "ok",
+   "doc": "prints 9,16.84 (Rs lakh) on p.21 of the 2016-17 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "17": {
+   "verdict": "ok",
+   "doc": "prints 4284,94.27 (Rs lakh) on p.24 of the 2025-26 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "20": {
+   "verdict": "ok",
+   "doc": "prints 397,87.44 (Rs lakh) on p.19 of the 2018-19 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "21": {
+   "verdict": "ok",
+   "doc": "prints 1282,10.91 (Rs lakh) on p.21 of the 2017-18 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "22": {
+   "verdict": "ok",
+   "doc": "prints 294,01.00 (Rs lakh) on p.21 of the 2021-22 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "23": {
+   "verdict": "ok",
+   "doc": "prints 26,43.43 (Rs lakh) on p.26 of the 2025-26 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "25": {
+   "verdict": "ok",
+   "doc": "prints 11217,51.51 (Rs lakh) on p.27 of the 2026-27 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "26": {
+   "verdict": "ok",
+   "doc": "prints 5685,37.03 (Rs lakh) on p.26 of the 2020-21 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "27": {
+   "verdict": "ok",
+   "doc": "prints 593,93.99 (Rs lakh) on p.27 of the 2016-17 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "29": {
+   "verdict": "ok",
+   "doc": "prints 12998,74.31 (Rs lakh) on p.32 of the 2025-26 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "30": {
+   "verdict": "ok",
+   "doc": "prints 1823,20.18 (Rs lakh) on p.30 of the 2022-23 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "31": {
+   "verdict": "ok",
+   "doc": "prints 536,27.93 (Rs lakh) on p.33 of the 2026-27 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "32": {
+   "verdict": "ok",
+   "doc": "prints 1,66.90 (Rs lakh) on p.34 of the 2022-23 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "33": {
+   "verdict": "ok",
+   "doc": "prints 15,50.04 (Rs lakh) on p.5 of the 2026-27 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "34": {
+   "verdict": "ok",
+   "doc": "prints 139,66.43 (Rs lakh) on p.9 of the 2021-22 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "35": {
+   "verdict": "ok",
+   "doc": "prints 646,68.20 (Rs lakh) on p.11 of the 2015-16 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "38": {
+   "verdict": "ok",
+   "doc": "prints 9164,94.68 (Rs lakh) on p.11 of the 2026-27 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "39": {
+   "verdict": "ok",
+   "doc": "prints 5988,71.55 (Rs lakh) on p.12 of the 2020-21 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "40": {
+   "verdict": "ok",
+   "doc": "prints 7039,17.54 (Rs lakh) on p.11 of the 2021-22 Volume I/2 mirror \u2014 equals the seed value"
+  },
+  "1": {
+   "verdict": "ok",
+   "doc": "demand 1 p.7: charged 2,66.01 + voted 108,38.76 (Rs lakh) = 111,04.77 lakh = 111.05 Cr; eye-checked"
+  },
+  "11": {
+   "verdict": "ok",
+   "doc": "demand II p.8 (2020-21): Capital column '..' (nil) both rows \u2014 capital 0.0 confirmed by eye"
+  },
+  "18": {
+   "verdict": "ok",
+   "doc": "demand XXVI p.23 (2014-15, Rs thousand): Plan column '..' \u2014 Plan 0.0 confirmed by eye"
+  },
+  "19": {
+   "verdict": "ok",
+   "doc": "demand XXVI p.23 (2019-20): Capital column '..' \u2014 capital 0.0 confirmed by eye"
+  },
+  "24": {
+   "verdict": "ok",
+   "doc": "demand 3 p.8 (2025-26): charged 135,12.15 + voted 1072,03.13 revenue = 1207,15.28 lakh = 1,207.15 Cr; eye-checked"
+  },
+  "28": {
+   "verdict": "ok",
+   "doc": "demand XXXIV p.25 (2017-18): capital charged 66.00 + voted 789,86.03 = 790,52.03 lakh = 790.52 Cr; eye-checked"
+  },
+  "36": {
+   "verdict": "ok",
+   "doc": "demand IX p.11 (2019-20): revenue charged 16452,33.93 + voted 19667,50.51 = 36119,84.44 lakh = 36,119.84 Cr; eye-checked"
+  },
+  "37": {
+   "verdict": "ok",
+   "doc": "demand 9 p.11 (2023-24): revenue charged 31217,69.16 + voted 34803,37.22 = 66021,06.38 lakh = 66,021.06 Cr; eye-checked"
+  },
+  "41": {
+   "verdict": "ok",
+   "doc": "FRBM Mar 2017 Form F-1: 'Tax Revenue 39921.74' (2015-16 Accounts); revenue receipts 88,647.80 and interest 9,848.49 also match"
+  },
+  "42": {
+   "verdict": "ok",
+   "doc": "FRBM Nov 2024 Form F-1: 'Tax Revenue 78089.02' (2022-23 Accounts); revenue receipts 1,57,768.04 and interest 25,492.27 also match"
+  },
+  "43": {
+   "verdict": "ok",
+   "doc": "AA 2014-15 summary, Grant XXXI Panchayat Raj Rev Voted: actual '64,45,97,67' thousand = 6,445.9767 Cr"
+  },
+  "44": {
+   "verdict": "ok",
+   "doc": "AA 2014-15 summary, Public Debt Charged: total '73,44,91,22', actual '1,08,43,70,74' thousand -> excess 3,498.7952 Cr"
+  },
+  "45": {
+   "verdict": "ok",
+   "doc": "AA 2014-15, Grant VIII Transport Capital Voted: '4,47,05' total / '4,51,95' actual thousand = 4.47 / 4.52 Cr"
+  },
+  "46": {
+   "verdict": "ok",
+   "doc": "AA 2014-15, Grant IV Gen Admin Rev Voted: '5,86,52,22' / '5,75,55,31' thousand = 586.52 / 575.55 Cr"
+  },
+  "47": {
+   "verdict": "ok",
+   "doc": "AA 2015-16, Grant XXXIII M&M Irrigation Cap Voted: '79,34,17,19' total = 7,934.17 Cr (actual 77,57,18,35 = 7,757.18)"
+  },
+  "48": {
+   "verdict": "ok",
+   "doc": "AA 2015-16, Grant XIV Technical Education Cap Voted: '86,50,00' total = 86.50 Cr (actual 31,64,45 = 31.64)"
+  },
+  "49": {
+   "verdict": "ok",
+   "doc": "AA 2015-16, Grant XXV Women/Child Rev Voted: actual '13,16,69,60' thousand = 1,316.70 Cr (total 15,60,08,91 = 1,560.09)"
+  },
+  "50": {
+   "verdict": "ok",
+   "doc": "AA 2017-18 (APPR-ACNTS.pdf), Grant XVII MA&UD Cap Voted: total '21,20,17,50' = 2,120.18 Cr (actual 5,35,43,95 = 535.44)"
+  },
+  "51": {
+   "verdict": "ok",
+   "doc": "AA 2017-18, Grant XXXIV Minor Irrigation Rev Voted: actual '94,22,38' thousand = 94.22 Cr (total 1,12,03,82 = 112.04)"
+  },
+  "52": {
+   "verdict": "ok",
+   "doc": "AA 2019-20, Grant XIV Technical Education Rev Voted: total '4,54,28,74' = 454.29 Cr (actual 3,99,63,36 = 399.63)"
+  },
+  "53": {
+   "verdict": "ok",
+   "doc": "AA 2022-23, Grant XXII Tribal Welfare Rev Voted: total '34,85,55,58' = 3,485.56 Cr (actual 21,16,79,35 = 2,116.79)"
+  },
+  "54": {
+   "verdict": "ok",
+   "doc": "AA 2019-20 summary, Capital Voted total: '3,32,50,82,96' thousand = 33,250.83 Cr \u2014 matches seed as_printed exactly"
+  },
+  "55": {
+   "verdict": "ok",
+   "doc": "AA 2022-23 summary, Revenue Charged: total '2,18,39,49,99' = 21,839.50 Cr (actual 2,57,00,88,07 = 25,700.88)"
+  },
+  "56": {
+   "verdict": "ok",
+   "doc": "FRBM 2025-26 (Mar 2025) Form F-1: Fiscal Deficit 2023-24 Accounts = 62,719.59 Cr verbatim"
+  },
+  "57": {
+   "verdict": "ok",
+   "doc": "recomputed from the register's own export (goir_merged, 4,896 rows): 2014 reading B = 16,984,095,250 exactly"
+  },
+  "58": {
+   "verdict": "ok",
+   "doc": "recomputed: 2025 reading A (register GO Amount column sum) = 46,213,620,052 exactly"
+  },
+  "59": {
+   "verdict": "ok",
+   "doc": "register row RT-141 15/04/2024: column 5259189000; subject text 'Rs. 5,25,91,89,000/-' agrees; quote verbatim in export"
+  },
+  "60": {
+   "verdict": "ok",
+   "doc": "register row RT-182 21/10/2022: column 6960472000; subject text 'Rs.696,04,72,000/-' agrees; quote verbatim in export"
+  },
+  "61": {
+   "verdict": "ok",
+   "doc": "recomputed reading C for 'Samagra Shiksha' (word-boundary match, 204 orders) = 164,074,676,408 exactly"
+  },
+  "62": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 174 (Capital Outlay, Rs crore): AP row '11,405 14,172 15,181' \u2014 2015-16 = 14,172"
+  },
+  "63": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 19: Maharashtra 2021-22 = 2,19,620"
+  },
+  "64": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 19: Nagaland 2021-22 = 1,27,225"
+  },
+  "65": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 19: Rajasthan 2015-16 = 83,426"
+  },
+  "66": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 19: Chhattisgarh 2020-21 = 1,06,117"
+  },
+  "67": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 19: Delhi 2012-13 = 2,05,568"
+  },
+  "68": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21 (Rs lakh): Haryana 2016-17 = 5,61,42,417 lakh = 5,61,424.17 Cr"
+  },
+  "69": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: Jharkhand 2024-25 = 5,16,25,536 lakh = 5,16,255.36 Cr"
+  },
+  "70": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: Maharashtra 2013-14 = 16,49,64,663 lakh = 16,49,646.63 Cr"
+  },
+  "71": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: Bihar 2021-22 = 6,47,39,435 lakh = 6,47,394.35 Cr"
+  },
+  "72": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: Delhi 2014-15 = 4,94,80,302 lakh = 4,94,803.02 Cr"
+  },
+  "73": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: Delhi 2019-20 = 7,92,91,127 lakh = 7,92,911.27 Cr"
+  },
+  "74": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20 (%GSDP): Nagaland 2010 = 52.2"
+  },
+  "75": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20: Rajasthan 2022 = 38.8"
+  },
+  "76": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20: West Bengal 2015 = 34.6"
+  },
+  "77": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20: Jammu and Kashmir 2023 = 33.9"
+  },
+  "78": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20: Chhattisgarh 2026 (BE) = 29.8"
+  },
+  "79": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 20: Himachal Pradesh 2021 = 45.4"
+  },
+  "80": {
+   "verdict": "ok",
+   "doc": "labelled press claim verified against its citation: Hans India 06-09-2022 SIPB approval (Rs 19,600 cr / 4,230 jobs); PIB PRID 2122826 confirms project but prints '$4.2 billion', no jobs figure \u2014 see report finding on tier"
+  },
+  "81": {
+   "verdict": "ok",
+   "doc": "PIB PRID 2292165 (01-08-2026): 'Greenfield Airport developed at cost of Rs 5,640 crore' \u2014 Bhogapuram/Alluri Sitarama Raju Intl"
+  },
+  "82": {
+   "verdict": "ok",
+   "doc": "CSE Educational Statistics 2021-22 mirror, management-wise schools series: 2019-2020 row '61 3771 40707 2084 14891 61514' \u2014 local bodies 40,707"
+  },
+  "83": {
+   "verdict": "ok",
+   "doc": "CSE Educational Statistics 2021-22, management-wise teachers series: 2013-2014 row '1227 14979 164152 8464 98153 286975' \u2014 government total = 1227+14979+164152 = 180,358"
+  },
+  "84": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 172 (Capital Receipts, Rs crore): AP 2014-15 = 2,79,456 verbatim (source note: RBI SF study)"
+  },
+  "85": {
+   "verdict": "ok",
+   "doc": "RBI SF Statement 17: AP 2025-26 BE Gross = 1,11,550.7 Cr"
+  },
+  "86": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 164 (GFD, Rs crore): AP 2014-15 = 31,747"
+  },
+  "87": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 164: AP 2018-19 = 35,441"
+  },
+  "88": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 21: AP 2024-25 = 15,93,06,198 lakh verbatim"
+  },
+  "89": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 165 (Revenue Deficit): AP 2005-06 = 64"
+  },
+  "90": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 30 (GSVA Agriculture, constant, Rs lakh): AP 2017-18 = 74,11,840"
+  },
+  "91": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 13 (Domestic Tourist Visits, million): AP 2023 = 254.71"
+  },
+  "92": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 105 (Relief on Natural Calamities, Rs lakh): AP 2014-15 = 1,07,096"
+  },
+  "93": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 143 (Grid-Interactive Renewables, MW): AP 2024 = 9,419"
+  },
+  "94": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 146 (Length of Roads, km): AP 2016 = 1,74,367"
+  },
+  "95": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 157 (SCB Credit to Agriculture, Rs crore): AP 2016 = 82,073"
+  },
+  "96": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 89 (Fertiliser N,P&K, thousand tonnes): AP 2014-15 = 1,738.8"
+  },
+  "97": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 62 (Total Foodgrains, thousand tonnes): AP 2014-15 = 10,494.1"
+  },
+  "98": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 42 (GSVA Industry, constant, Rs lakh): AP 2017-18 = 1,47,32,826"
+  },
+  "99": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 162 (RRB Credit-Deposit Ratio, %): AP 2019 = 100.1"
+  },
+  "100": {
+   "verdict": "ok",
+   "doc": "RBI HB Table 108 (CPI Average Inflation, %): AP 2024-25 = 4.4"
+  }
+ },
+ "summary": {
+  "ok": 100,
+  "wrong": 0,
+  "untraceable": 0,
+  "blocked": 0
+ },
+ "verified_on": "2026-09-01",
+ "method": "device mirrors (pdftotext + rendered-page eye-checks) for budget volumes, GOIR export recompute, CSE mirror; live reads of rbi.org.in tables, CAG Appropriation Accounts, FRBM PDFs, PIB releases from the cloud session"
+}

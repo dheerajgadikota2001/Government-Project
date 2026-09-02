@@ -1,0 +1,994 @@
+{
+ "state": "AP",
+ "_readme": "Curated, citation-backed seed data for the mous (investments) table. Every figure verified against the cited sources on 2026-08-25. Review before loading; edit or delete entries you cannot stand behind. Load with: python scripts/load_seed_data.py Extended 2026-08-25 with 8 researched 2018-2023 entries (incl. one cancelled project, shown honestly). Extended again 2026-08-25 with 10 researched 2013-2017 era entries (incl. wound-down and stalled projects, shown honestly) covering from bifurcation onward.",
+ "mous": [
+  {
+   "company_name": "Kia Motors India",
+   "company_origin": "South Korea",
+   "is_foreign_investment": true,
+   "title": "Kia's first Indian car plant at Erramanchi, Penukonda",
+   "sector": "manufacturing",
+   "district": "Sri Sathya Sai",
+   "status": "operational",
+   "investment_crore": 12900,
+   "expected_employment": 11000,
+   "signed_date": "2017-04",
+   "summit_name": null,
+   "description": "Kia signed an MoU with the AP government in April 2017 for a USD 1.1 billion greenfield plant, with cumulative investment reported at over Rs 12,900 crore. The plant near Penukonda (now Sri Sathya Sai district) began commercial production in 2019, with initial capacity of 300,000 vehicles a year and about 11,000 projected jobs.",
+   "source_portal": "Zee Business / Business Standard",
+   "source_url": "https://www.zeebiz.com/companies/news-andhra-pradesh-kia-motors-rs-12900-crore-anantpur-plant-to-generate-11000-jobs-make-over-3-lakh-vehicles-annually-82756",
+   "citations": [
+    {
+     "claim": "Rs 12,900 crore, 11,000 jobs, 3 lakh vehicle capacity",
+     "url": "https://www.zeebiz.com/companies/news-andhra-pradesh-kia-motors-rs-12900-crore-anantpur-plant-to-generate-11000-jobs-make-over-3-lakh-vehicles-annually-82756",
+     "publisher": "Zee Business",
+     "date": "2019-01-29"
+    },
+    {
+     "claim": "USD 1.1 billion MoU signed April 2017",
+     "url": "https://autotechinsight.spglobal.com/news/5239805/kia-confirms-usd11-billion-investment-in-india-signs-mou-with-government",
+     "publisher": "S&P Global",
+     "date": "2017-04-27"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "ArcelorMittal Nippon Steel India",
+   "company_origin": "Luxembourg/Japan",
+   "is_foreign_investment": true,
+   "title": "17.8 MTPA integrated steel plant with captive port at Nakkapalli",
+   "sector": "manufacturing",
+   "district": "Anakapalli",
+   "status": "investment_started",
+   "investment_crore": 147162,
+   "expected_employment": 100000,
+   "signed_date": null,
+   "summit_name": null,
+   "description": "AM/NS India is building an integrated steel plant at Nakkapalli mandal, Anakapalli district, with Rs 1.36 trillion planned across phases plus Rs 11,198 crore for a captive port — a combined Rs 1,47,162 crore over two phases per state ministers. Phase 1 of 8.2 MTPA targets early 2029, scaling to 17.8 MTPA; foundation stone laid 23 March 2026, with up to 100,000 direct and indirect jobs expected.",
+   "source_portal": "Business Standard",
+   "source_url": "https://www.business-standard.com/companies/news/amns-india-begins-work-on-rs-1-36-trillion-andhra-steel-plant-126032301007_1.html",
+   "citations": [
+    {
+     "claim": "Rs 1.36 trillion plant + Rs 11,198 crore port; foundation 23 Mar 2026; jobs figure",
+     "url": "https://www.business-standard.com/companies/news/amns-india-begins-work-on-rs-1-36-trillion-andhra-steel-plant-126032301007_1.html",
+     "publisher": "Business Standard",
+     "date": "2026-03-23"
+    },
+    {
+     "claim": "Rs 1,47,162 crore two-phase figure (minister)",
+     "url": "https://www.deccanchronicle.com/southern-states/andhra-pradesh/mittal-nippon-to-invest-147162-crore-into-two-phases-for-steel-plant-in-ap-says-minister-1865335",
+     "publisher": "Deccan Chronicle",
+     "date": "2026-03"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it.",
+   "date_status": "undated",
+   "date_caveat": "No signing date has been found in any source we can check, so this entry cannot be attributed to a particular government's term."
+  },
+  {
+   "company_name": "Reliance Industries Ltd",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "MoU for 500 compressed biogas (CBG) plants across AP",
+   "sector": "renewable_energy",
+   "district": null,
+   "status": "signed",
+   "investment_crore": 65000,
+   "expected_employment": 250000,
+   "signed_date": "2024-11",
+   "summit_name": null,
+   "description": "Reliance signed an MoU with the AP government on 12 November 2024 in Amaravati to invest Rs 65,000 crore in 500 compressed biogas plants over three years, with around 2.5 lakh jobs expected. The state projects Rs 57,000 crore in revenue over 25 years from associated streams.",
+   "source_portal": "Business Standard",
+   "source_url": "https://www.business-standard.com/companies/news/reliance-industries-to-invest-rs-65-000-crore-in-andhra-for-biogas-plants-124111201319_1.html",
+   "citations": [
+    {
+     "claim": "Rs 65,000 crore, 500 CBG plants, 2.5 lakh jobs, MoU 12 Nov 2024",
+     "url": "https://www.business-standard.com/companies/news/reliance-industries-to-invest-rs-65-000-crore-in-andhra-for-biogas-plants-124111201319_1.html",
+     "publisher": "Business Standard",
+     "date": "2024-11-12"
+    },
+    {
+     "claim": "Corroborating announcement coverage",
+     "url": "https://www.businesstoday.in/bt-tv/market-today/video/reliance-industries-to-invest-rs65000-crore-in-andhra-pradesh-to-set-up-compressed-biogas-projects-453664-2024-11-13",
+     "publisher": "Business Today",
+     "date": "2024-11-13"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Adani Group",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Rs 1 lakh crore 10-year investment plan: data centres, energy, ports, cement",
+   "sector": "infrastructure",
+   "district": null,
+   "status": "signed",
+   "investment_crore": 100000,
+   "expected_employment": null,
+   "signed_date": "2025-11",
+   "summit_name": "CII Partnership Summit 2025, Visakhapatnam",
+   "description": "At the CII Partnership Summit in Visakhapatnam on 14 November 2025, the Adani Group announced Rs 1 lakh crore of investment in AP over ten years, on top of Rs 40,000 crore already invested, spanning ports, cement, data centres, energy and advanced manufacturing — anchored by the USD 15 billion Vizag Tech Park data centre ecosystem with Google. In May 2026 an Adani arm was approved for the 2,250 MW Gandikota-2 pumped storage project in YSR Kadapa.",
+   "source_portal": "The Federal / PTI",
+   "source_url": "https://thefederal.com/category/business/adani-group-invest-rs-1-lakh-crore-andhra-next-10-years-216073",
+   "citations": [
+    {
+     "claim": "Rs 1 lakh crore over 10 years, announced 14 Nov 2025",
+     "url": "https://thefederal.com/category/business/adani-group-invest-rs-1-lakh-crore-andhra-next-10-years-216073",
+     "publisher": "The Federal / PTI",
+     "date": "2025-11-14"
+    },
+    {
+     "claim": "Gandikota-2 pumped storage 2,250 MW approval, May 2026",
+     "url": "https://www.business-standard.com/industry/news/adani-green-to-develop-2-250-mw-gandikota-2-pumped-storage-project-in-ap-126052000325_1.html",
+     "publisher": "Business Standard",
+     "date": "2026-05-20"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Tata Consultancy Services",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "IT campus at IT Hill No. 3, Visakhapatnam (21.16 acres)",
+   "sector": "it_tech",
+   "district": "Visakhapatnam",
+   "status": "investment_started",
+   "investment_crore": 1370,
+   "expected_employment": 12000,
+   "signed_date": "2025-04",
+   "summit_name": null,
+   "description": "The AP Cabinet approved on 17 April 2025 the allocation of 21.16 acres at Visakhapatnam IT Hill No. 3 to TCS on a nominal 99-paise lease for a Rs 1,370 crore campus expected to create about 12,000 jobs. TCS began interim operations from a temporary Visakhapatnam facility while the campus is developed.",
+   "source_portal": "APAC News Network / Deccan Herald",
+   "source_url": "https://apacnewsnetwork.com/2025/04/andhra-pradesh-cabinet-clears-rs-1370-cr-tcs-campus-in-vizag-targets-12000-jobs/",
+   "citations": [
+    {
+     "claim": "Rs 1,370 crore, 12,000 jobs, 21.16 acres, cabinet approval 17 Apr 2025",
+     "url": "https://apacnewsnetwork.com/2025/04/andhra-pradesh-cabinet-clears-rs-1370-cr-tcs-campus-in-vizag-targets-12000-jobs/",
+     "publisher": "APAC News Network",
+     "date": "2025-04-17"
+    },
+    {
+     "claim": "Initial announcement, up to 10,000 jobs",
+     "url": "https://www.deccanherald.com/india/andhra-pradesh/tcs-to-setup-it-facility-in-andhra-pradeshs-vizag-to-generate-up-to-10000-jobs-3226282",
+     "publisher": "Deccan Herald",
+     "date": "2024-11"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Google (Alphabet Inc.)",
+   "company_origin": "United States",
+   "is_foreign_investment": true,
+   "title": "USD 15 billion, 1 GW AI hub and hyperscale data centres, Visakhapatnam",
+   "sector": "it_tech",
+   "district": "Visakhapatnam",
+   "status": "investment_started",
+   "investment_crore": 135000,
+   "expected_employment": 188000,
+   "signed_date": "2025-10",
+   "summit_name": "Bharat AI Shakti, New Delhi (announcement)",
+   "description": "Google announced on 14 October 2025 a USD 15 billion (~Rs 1.35 lakh crore) investment — its largest outside the US — to build its first India AI hub in Visakhapatnam: about 1 GW of data centre capacity across ~600 acres at Tarluvada, Adivivaram and Rambilli, plus a subsea cable gateway and clean energy infrastructure, partnering AdaniConneX and Airtel. Ground was broken 28 April 2026 with completion targeted around September 2028. The ~1.88 lakh direct jobs figure is a state government projection.",
+   "source_portal": "Google Cloud Press Corner / Data Center Dynamics",
+   "source_url": "https://www.googlecloudpresscorner.com/2026-04-28-Google-Breaks-Ground-on-India-AI-Hub,-Launching-a-National-Industrial-Ecosystem-Alongside-Indias-Digital-Infrastructure-Milestone",
+   "citations": [
+    {
+     "claim": "USD 15 billion confirmed; partners; announced 14 Oct 2025",
+     "url": "https://www.datacenterdynamics.com/en/news/google-confirms-15bn-data-center-project-in-andhra-pradesh-india/",
+     "publisher": "Data Center Dynamics",
+     "date": "2025-10"
+    },
+    {
+     "claim": "Groundbreaking 28 April 2026 (official)",
+     "url": "https://www.googlecloudpresscorner.com/2026-04-28-Google-Breaks-Ground-on-India-AI-Hub,-Launching-a-National-Industrial-Ecosystem-Alongside-Indias-Digital-Infrastructure-Milestone",
+     "publisher": "Google Cloud Press Corner",
+     "date": "2026-04-28"
+    },
+    {
+     "claim": "~188,000 direct jobs projection; 600 acres; Sept 2028 target",
+     "url": "https://www.etvbharat.com/en/technology/andhra-cm-n-chandrababu-naidu-lays-foundation-for-usd-15-billon-google-data-centre-near-visakhapatnam-enn26042801453",
+     "publisher": "ETV Bharat",
+     "date": "2026-04-28"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "NTPC Green Energy Ltd",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Green Hydrogen Hub at Pudimadaka — India's first under the National Green Hydrogen Mission",
+   "sector": "renewable_energy",
+   "district": "Anakapalli",
+   "status": "investment_started",
+   "investment_crore": 185000,
+   "expected_employment": null,
+   "signed_date": "2023-03",
+   "summit_name": "AP Global Investors Summit 2023",
+   "description": "NTPC signed the MoU at the AP Global Investors Summit in March 2023 for a green hydrogen hub at Pudimadaka near Visakhapatnam (Anakapalli district); the land lease with APIIC was signed in February 2024 and the Prime Minister laid the foundation stone on 8 January 2025. The ~Rs 1,85,000 crore project spans 1,600 acres targeting 20 GW of renewables, 1,500 TPD of green hydrogen and 7,500 TPD of derivatives — the first hub sanctioned under the National Green Hydrogen Mission.",
+   "source_portal": "NTPC Limited (official)",
+   "source_url": "https://ntpc.co.in/media/press-releases/pm-lay-foundation-stone-ntpc-green-energy-limited-green-hydrogen-hub-project",
+   "citations": [
+    {
+     "claim": "~Rs 1,85,000 crore, 20 GW RE, 1,500 TPD hydrogen, foundation 8 Jan 2025",
+     "url": "https://ntpc.co.in/media/press-releases/pm-lay-foundation-stone-ntpc-green-energy-limited-green-hydrogen-hub-project",
+     "publisher": "NTPC (official press release)",
+     "date": "2025-01"
+    },
+    {
+     "claim": "Part of Rs 2 lakh crore project launches at Visakhapatnam",
+     "url": "https://www.tribuneindia.com/news/india/pm-holds-roadshow-unveils-projects-worth-2l-crore-in-vizag",
+     "publisher": "The Tribune",
+     "date": "2025-01"
+    },
+    {
+     "claim": "MoU signed at Global Investors Summit, first week of March 2023; phased investment reported ~Rs 1.1 lakh crore at signing",
+     "url": "https://www.deccanchronicle.com/nation/current-affairs/010423/ntpc-aims-to-complete-phase-i-of-green-hydrogen-project-by-2026.html",
+     "publisher": "Deccan Chronicle",
+     "date": "2023-04-01"
+    },
+    {
+     "claim": "Land lease with APIIC signed 20 Feb 2024 for 1,200 acres at Pudimadaka",
+     "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2007793",
+     "publisher": "PIB",
+     "date": "2024-02-21"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "LG Electronics India",
+   "company_origin": "South Korea",
+   "is_foreign_investment": true,
+   "title": "Third Indian manufacturing plant (home appliances) at Sri City",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "investment_started",
+   "investment_crore": 5001,
+   "expected_employment": 1495,
+   "signed_date": null,
+   "summit_name": null,
+   "description": "LG Electronics broke ground on 8 May 2025 for its third Indian plant at Sri City, Tirupati district, investing USD 600 million (Rs 5,001 crore) over four years on 247 acres to make refrigerators, washing machines, ACs and compressors. Production is targeted from end-2026, with about 1,495 direct jobs.",
+   "source_portal": "LG Electronics (official)",
+   "source_url": "https://www.lg.com/global/newsroom/news/corporate/lg-electronics-india-limited-begins-construction-of-its-third-manufacturing-plant-in-india/",
+   "citations": [
+    {
+     "claim": "USD 600M / Rs 5,001 crore; groundbreaking 8 May 2025; 1,495 jobs; end-2026 production",
+     "url": "https://www.lg.com/global/newsroom/news/corporate/lg-electronics-india-limited-begins-construction-of-its-third-manufacturing-plant-in-india/",
+     "publisher": "LG Electronics (official newsroom)",
+     "date": "2025-05-08"
+    },
+    {
+     "claim": "Rs 5,001 crore Sri City approval",
+     "url": "https://www.deccanchronicle.com/southern-states/andhra-pradesh/lg-plant-to-come-up-at-sri-city-with-5001-crore-investment-1874444",
+     "publisher": "Deccan Chronicle",
+     "date": "2025"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed.",
+   "date_status": "undated",
+   "date_caveat": "No signing date has been found in any source we can check, so this entry cannot be attributed to a particular government's term."
+  },
+  {
+   "company_name": "Cognizant Technology Solutions",
+   "company_origin": "United States",
+   "is_foreign_investment": true,
+   "title": "IT campus at Kapuluppada IT Hills, Visakhapatnam (22 acres)",
+   "sector": "it_tech",
+   "district": "Visakhapatnam",
+   "status": "investment_started",
+   "investment_crore": 1583,
+   "expected_employment": 8000,
+   "signed_date": "2025-06",
+   "summit_name": null,
+   "description": "Cognizant announced on 25 June 2025 a Rs 1,583 crore investment in a new campus on 22 acres at Kapuluppada IT Hills, Visakhapatnam, built in three phases with the first completing by early 2029 and over 8,000 jobs expected. Operations begin from a temporary facility; land was allotted on a nominal 99-paise lease.",
+   "source_portal": "Cognizant (official)",
+   "source_url": "https://news.cognizant.com/2025-06-25-Cognizant-announces-major-expansion-in-India-with-new-campus-in-Visakhapatnam",
+   "citations": [
+    {
+     "claim": "Rs 1,583 crore, 8,000+ jobs, 22 acres, announced 25 June 2025",
+     "url": "https://news.cognizant.com/2025-06-25-Cognizant-announces-major-expansion-in-India-with-new-campus-in-Visakhapatnam",
+     "publisher": "Cognizant (official press release)",
+     "date": "2025-06-25"
+    },
+    {
+     "claim": "99-paise per acre lease",
+     "url": "https://www.deccanherald.com/business/after-tcs-now-cognizant-gets-land-for-just-99-paisa-per-acre-in-visakhapatnam-3595471",
+     "publisher": "Deccan Herald",
+     "date": "2025-06"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "Brookfield Asset Management",
+   "company_origin": "Canada",
+   "is_foreign_investment": true,
+   "title": "USD 12 billion pact: clean-energy-powered 3 GW data centre and renewables",
+   "sector": "renewable_energy",
+   "district": null,
+   "status": "signed",
+   "investment_crore": 100000,
+   "expected_employment": null,
+   "signed_date": "2025-11",
+   "summit_name": "CII Partnership Summit 2025, Visakhapatnam",
+   "description": "Brookfield signed an agreement with the AP government on 15 November 2025 at the CII Partnership Summit in Visakhapatnam to invest up to USD 12 billion (~Rs 1 lakh crore) in a clean-energy-powered 3 GW data centre and renewable energy initiatives, with possible extensions into manufacturing, green molecules, GCCs and logistics. The pact was reviewed at Davos in January 2026.",
+   "source_portal": "Business Standard",
+   "source_url": "https://www.business-standard.com/economy/news/andhra-seals-12-bn-brookfield-investment-deal-for-green-energy-projects-125111500010_1.html",
+   "citations": [
+    {
+     "claim": "USD 12 billion deal signed 15 Nov 2025; 3 GW clean-energy data centre",
+     "url": "https://www.business-standard.com/economy/news/andhra-seals-12-bn-brookfield-investment-deal-for-green-energy-projects-125111500010_1.html",
+     "publisher": "Business Standard",
+     "date": "2025-11-15"
+    },
+    {
+     "claim": "Pact reviewed at Davos, Jan 2026",
+     "url": "https://www.business-standard.com/india-news/brookfield-andhra-pradesh-govt-review-12-billion-pact-at-davos-meeting-126012100607_1.html",
+     "publisher": "Business Standard",
+     "date": "2026-01-21"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "AdaniConneX (Adani Group)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "200 MW data centre park, business park and skill university at Madhurawada, Visakhapatnam",
+   "sector": "it_tech",
+   "district": "Visakhapatnam",
+   "status": "investment_started",
+   "investment_crore": 14634,
+   "expected_employment": 24990,
+   "signed_date": "2021-11",
+   "summit_name": null,
+   "description": "Adani first signed a data-centre MoU with AP in January 2019; in November 2021 the state cabinet allotted 130 acres at Madhurawada for a Rs 14,634-crore complex (200 MW data centre park, business park, skill university), with 24,990 jobs projected. AdaniConneX broke ground on 3 May 2023. In October 2025 the plan was folded into the ~USD 15 billion Adani-Google Visakhapatnam AI campus.",
+   "source_portal": "Deccan Herald / Data Center Dynamics",
+   "source_url": "https://www.deccanherald.com/amp/story/india%2Fandhra-pradesh-cabinet-allots-130-acres-to-adani-for-data-centre-park-in-vizag-1045114.html",
+   "citations": [
+    {
+     "claim": "Cabinet allotted 130 acres; Rs 14,634 crore; 24,990 jobs",
+     "url": "https://www.deccanherald.com/amp/story/india%2Fandhra-pradesh-cabinet-allots-130-acres-to-adani-for-data-centre-park-in-vizag-1045114.html",
+     "publisher": "Deccan Herald",
+     "date": "2021-11"
+    },
+    {
+     "claim": "Groundbreaking of 200MW+ Madhurawada campus, 3 May 2023",
+     "url": "https://www.datacenterdynamics.com/en/news/adaniconnex-to-build-200mw-data-center-campus-in-andhra-pradesh-india/",
+     "publisher": "Data Center Dynamics",
+     "date": "2023-05-05"
+    },
+    {
+     "claim": "Initial 2019 MoU for data centre parks around Visakhapatnam",
+     "url": "https://www.business-standard.com/article/news-cm/adani-group-signs-mou-with-govt-of-andhra-pradesh-to-build-data-center-parks-up-to-5-gw-in-and-around-visakhapatnam-119011000194_1.html",
+     "publisher": "Business Standard",
+     "date": "2019-01-10"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Greenko Group",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Pinnapuram Integrated Renewable Energy Storage Project — 1,680 MW pumped storage + solar + wind",
+   "sector": "renewable_energy",
+   "district": "Kurnool",
+   "status": "operational",
+   "investment_crore": 19600,
+   "expected_employment": 4230,
+   "signed_date": "2022-09",
+   "summit_name": null,
+   "description": "The world's first gigawatt-scale integrated renewable energy storage project, at Orvakal mandal near Kurnool: 1,680 MW off-river pumped storage with co-located solar and wind. SIPB approved the Rs 19,600-crore investment (~4,230 jobs) in September 2022; Unit 1 achieved wet commissioning in October 2024 and the facility was operating by April 2025.",
+   "source_portal": "The Hans India / PIB",
+   "source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2122826&reg=3&lang=2",
+   "citations": [
+    {
+     "claim": "SIPB approved Rs 19,600 crore, 4,230 jobs, 5 Sep 2022",
+     "url": "https://www.thehansindia.com/andhra-pradesh/sipb-approves-rs-81000-cr-investment-in-green-energy-760556",
+     "publisher": "The Hans India",
+     "date": "2022-09-06"
+    },
+    {
+     "claim": "Unit 1 wet commissioning, Oct 2024",
+     "url": "https://www.waterpowermagazine.com/news/greenko-achieves-successful-wet-commissioning-of-unit-1-in-pump-mode-at-pinnapuram/",
+     "publisher": "Water Power Magazine",
+     "date": "2024-10-29"
+    },
+    {
+     "claim": "Union Minister visited operational project, Apr 2025",
+     "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2122826&reg=3&lang=2",
+     "publisher": "PIB",
+     "date": "2025-04-18"
+    }
+   ],
+   "source_tier": "government",
+   "source_label": "Government source"
+  },
+  {
+   "company_name": "Indosol Solar (Shirdi Sai Electricals)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Integrated solar PV manufacturing complex (polysilicon to modules) near Ramayapatnam",
+   "sector": "renewable_energy",
+   "district": "Sri Potti Sriramulu Nellore",
+   "status": "investment_started",
+   "investment_crore": 43143,
+   "expected_employment": 11500,
+   "signed_date": "2022-09",
+   "summit_name": null,
+   "description": "SIPB approved on 5 September 2022 a Rs 43,143-crore integrated solar manufacturing complex on 5,147 acres near Ramayapatnam (Nellore district) — metallurgical silicon, polysilicon, float glass, wafers, cells and modules — with 11,500 direct jobs projected, under the central PLI scheme. Phase-1A module production began 31 March 2024; the wider complex remains under phased construction toward ~2028.",
+   "source_portal": "The Hans India / Business Standard",
+   "source_url": "https://www.business-standard.com/companies/news/indosol-solar-aims-to-complete-rs-15-000-crore-ingot-to-module-unit-by-2025-124040301105_1.html",
+   "citations": [
+    {
+     "claim": "SIPB approval: Rs 43,143 crore, 5,147 acres, 11,500 direct jobs",
+     "url": "https://www.thehansindia.com/andhra-pradesh/sipb-approves-rs-81000-cr-investment-in-green-energy-760556",
+     "publisher": "The Hans India",
+     "date": "2022-09-06"
+    },
+    {
+     "claim": "Module production began 31 Mar 2024; phase-1 Rs 15,000 crore",
+     "url": "https://www.business-standard.com/companies/news/indosol-solar-aims-to-complete-rs-15-000-crore-ingot-to-module-unit-by-2025-124040301105_1.html",
+     "publisher": "Business Standard",
+     "date": "2024-04-03"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "JSW Steel (2022 commitment)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Kadapa integrated steel plant — original Rs 8,800-crore commitment, later restructured",
+   "sector": "manufacturing",
+   "district": "YSR Kadapa",
+   "status": "investment_started",
+   "investment_crore": 8800,
+   "expected_employment": null,
+   "signed_date": "2022-12",
+   "summit_name": null,
+   "description": "SIPB approved JSW Steel's Rs 8,800-crore Kadapa steel plant proposal in December 2022 (Rs 3,300 crore phase 1); foundation stone laid 15 February 2023 at Sunnapurallapalle. Progress stayed limited to roads and utilities until the project was restructured and relaunched in July 2026 as the enlarged Rs 16,350-crore, 2 MTPA plant (tracked separately in Projects), targeting production by March 2028.",
+   "source_portal": "Deccan Herald",
+   "source_url": "https://www.deccanherald.com/india/andhra-cm-lays-foundation-stone-for-rs-8800-cr-jsw-steel-plant-1191504.html",
+   "citations": [
+    {
+     "claim": "Foundation stone 15 Feb 2023; Rs 8,800 crore; Rs 3,300 crore phase 1",
+     "url": "https://www.deccanherald.com/india/andhra-cm-lays-foundation-stone-for-rs-8800-cr-jsw-steel-plant-1191504.html",
+     "publisher": "Deccan Herald",
+     "date": "2023-02-15"
+    },
+    {
+     "claim": "Limited progress 2023-24; SIPB approval Dec 2022",
+     "url": "https://www.gem.wiki/JSW_Kadapa_steel_plant",
+     "publisher": "Global Energy Monitor",
+     "date": "2024"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Daikin Industries",
+   "company_origin": "Japan",
+   "is_foreign_investment": true,
+   "title": "Third India AC manufacturing plant at Sri City (white-goods PLI)",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "operational",
+   "investment_crore": 1000,
+   "expected_employment": null,
+   "signed_date": "2021-09",
+   "summit_name": null,
+   "description": "Daikin signed the Sri City land lease on 24 September 2021 for its third Indian plant (~Rs 1,000 crore first phase, ~75.5 acres), the first Japanese AC maker under the white-goods PLI scheme. The plant opened 1 December 2023 making residential ACs and compressors for domestic and export markets, and is operational as of 2026.",
+   "source_portal": "Daikin (official)",
+   "source_url": "https://www.daikin.com/press/2023/20231201",
+   "citations": [
+    {
+     "claim": "Land lease signed 24 Sep 2021; ~Rs 1,000 crore",
+     "url": "https://daikinindia.com/news/dakin-set-third-manufacturing-plant-ap%e2%80%99s-sri-city",
+     "publisher": "Daikin India",
+     "date": "2021-09-24"
+    },
+    {
+     "claim": "Grand opening 1 Dec 2023",
+     "url": "https://www.daikin.com/press/2023/20231201",
+     "publisher": "Daikin Industries (global)",
+     "date": "2023-12-01"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "Aurobindo Pharma (Lyfius Pharma)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Penicillin-G fermentation plant at Kakinada (API PLI scheme)",
+   "sector": "pharma",
+   "district": "Kakinada",
+   "status": "operational",
+   "investment_crore": 2500,
+   "expected_employment": null,
+   "signed_date": "2022-09",
+   "summit_name": null,
+   "description": "Lyfius Pharma (Aurobindo subsidiary) built a Rs 2,500-crore Penicillin-G plant at Kakinada with 15,000 MT annual capacity under the PLI scheme; SIPB cleared the Aurobindo group projects on 5 September 2022. Commissioned April 2024, virtually inaugurated by the PM in October 2024; production paused after a 2025 fire and resumed 29 June 2025 with APPCB clearance. Operational as of 2026.",
+   "source_portal": "Pharmabiz / UNI",
+   "source_url": "https://www.pharmabiz.com/NewsDetails.aspx?aid=173297&sid=2",
+   "citations": [
+    {
+     "claim": "Rs 2,500 crore; 15,000 MT/yr; PM inauguration Oct 2024",
+     "url": "https://www.pharmabiz.com/NewsDetails.aspx?aid=173297&sid=2",
+     "publisher": "Pharmabiz",
+     "date": "2024-10-30"
+    },
+    {
+     "claim": "Production resumed 29 June 2025 after fire incident",
+     "url": "https://www.uniindia.com/andhra-aurobindo-pharma-resumes-its-penicillin-g-production-at-kakinada/south/news/3503520.html",
+     "publisher": "UNI",
+     "date": "2025-06-30"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Lulu Group International",
+   "company_origin": "UAE",
+   "is_foreign_investment": true,
+   "title": "Beachfront mall, convention centre and 5-star hotel, Visakhapatnam — CANCELLED 2019",
+   "sector": "real_estate",
+   "district": "Visakhapatnam",
+   "status": "cancelled",
+   "investment_crore": 2200,
+   "expected_employment": 10000,
+   "signed_date": "2017-10",
+   "summit_name": null,
+   "description": "LuLu committed Dh1.7 billion to AP in October 2017 during the CM's UAE tour, anchored by a Rs 2,200-crore beachfront complex at Harbour Park, Visakhapatnam — a 7,000-seat convention centre, 220-room hotel and mall with 10,000 jobs promised; foundation stone laid February 2018. The next government cancelled the 13.83-acre allotment in October 2019 and nothing was built. A separate fresh proposal was taken up with the state in 2024-25; the original project stands cancelled.",
+   "source_portal": "The News Minute",
+   "source_url": "https://www.thenewsminute.com/andhra-pradesh/andhra-cm-jagan-cancels-land-allotment-lulu-groups-shopping-mall-vizag-111477",
+   "citations": [
+    {
+     "claim": "Cabinet cancelled allotment Oct 2019; Rs 2,200 crore; foundation Feb 2018; 10,000+ jobs promised",
+     "url": "https://www.thenewsminute.com/andhra-pradesh/andhra-cm-jagan-cancels-land-allotment-lulu-groups-shopping-mall-vizag-111477",
+     "publisher": "The News Minute",
+     "date": "2019-10-31"
+    },
+    {
+     "claim": "Fresh revival proposal submitted January 2025",
+     "url": "https://www.gulte.com/political-news/345947/lulu-mall-returns-to-vizag-rejected-by-jagan-revived-by-babu",
+     "publisher": "Gulte",
+     "date": "2025-03-27"
+    },
+    {
+     "claim": "Dh1.7 billion commitment announced Oct 2017 during UAE visit",
+     "url": "https://gulfnews.com/business/property/lulu-group-to-invest-dh17b-in-andhra-pradesh-1.2111555",
+     "publisher": "Gulf News",
+     "date": "2017-10-23"
+    },
+    {
+     "claim": "Land unused, project unrevived as of Aug 2024",
+     "url": "https://www.bizzbuzz.news/national/will-ap-cm-take-up-stalled-lulu-project-in-vizag-1333662",
+     "publisher": "Bizz Buzz",
+     "date": "2024-08-14"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Yokohama Rubber (ATC Tires AP)",
+   "company_origin": "Japan",
+   "is_foreign_investment": true,
+   "title": "Greenfield off-highway tyre plant at Atchutapuram Industrial Park",
+   "sector": "manufacturing",
+   "district": "Anakapalli",
+   "status": "operational",
+   "investment_crore": null,
+   "expected_employment": null,
+   "signed_date": "2020-09",
+   "summit_name": null,
+   "description": "Yokohama Rubber announced a USD 165 million greenfield off-highway tyre plant at Atchutapuram Industrial Park (Anakapalli district) in September 2020, adding USD 171 million in 2021 to roughly double capacity to 257 tonnes/day. The plant opened ahead of schedule on 16 August 2022 and is operational as of 2026. Rupee figure not stated by the company, so none is shown.",
+   "source_portal": "Yokohama Rubber (official)",
+   "source_url": "https://www.y-yokohama.com/release/?id=3856&lang=en",
+   "citations": [
+    {
+     "claim": "USD 165M plant announced Sep 2020, Atchutapuram",
+     "url": "https://www.y-yokohama.com/release/?id=3448&lang=en",
+     "publisher": "Yokohama Rubber",
+     "date": "2020-09-11"
+    },
+    {
+     "claim": "Opening ceremony 16 Aug 2022, ahead of schedule",
+     "url": "https://www.y-yokohama.com/release/?id=3856&lang=en",
+     "publisher": "Yokohama Rubber",
+     "date": "2022-08-18"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "Foxconn (Rising Stars / Bharat FIH)",
+   "company_origin": "Taiwan",
+   "is_foreign_investment": true,
+   "title": "Mobile handset plant at Sri City (Xiaomi and others) — wound down 2024",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "stalled",
+   "investment_crore": null,
+   "expected_employment": null,
+   "signed_date": "2015-08",
+   "summit_name": null,
+   "description": "Foxconn began phone assembly at Sri City in mid-2015, reaching 1 million handsets a month and a peak of over 25,000 workers (~90% women). Over-dependent on Xiaomi orders, Bharat FIH ceased mobile finishing operations at Sri City on 30 June 2024, relocating work to Tamil Nadu — the marquee 2015 win had effectively wound down.",
+   "source_portal": "Business Standard / Communications Today",
+   "source_url": "https://www.communicationstoday.co.in/foxconns-bharat-fih-to-wind-up-operations-in-andhra-pradeshs-sri-city/",
+   "citations": [
+    {
+     "claim": "1M handsets/month, 10,000+ jobs by Sep 2016",
+     "url": "https://www.business-standard.com/article/companies/foxconn-s-sri-city-facility-touches-1-million-handset-capacity-provides-more-than-10-000-jobs-116090600821_1.html",
+     "publisher": "Business Standard",
+     "date": "2016-09-06"
+    },
+    {
+     "claim": "Ceased Sri City mobile operations 30 June 2024",
+     "url": "https://www.communicationstoday.co.in/foxconns-bharat-fih-to-wind-up-operations-in-andhra-pradeshs-sri-city/",
+     "publisher": "Communications Today",
+     "date": "2024-07-05"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Isuzu Motors",
+   "company_origin": "Japan",
+   "is_foreign_investment": true,
+   "title": "Pick-up truck and SUV plant at Sri City (50,000/yr, scalable to 120,000)",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "operational",
+   "investment_crore": 3000,
+   "expected_employment": null,
+   "signed_date": "2013-03",
+   "summit_name": null,
+   "description": "MoU signed March 2013 with the then-united AP; the Rs 3,000-crore, 107-acre Sri City plant was inaugurated on 27 April 2016 as the state's first car plant (D-Max, V-Cross). By FY2024-25 Isuzu was India's top commercial-vehicle exporter, shipping 20,312 units from Sri City — one of the era's clear successes.",
+   "source_portal": "Sri City (official)",
+   "source_url": "https://sricity.in/en/news_events/ap-chief-minister-inaugurates-isuzu-motors-rs-3000-crore-production-plant-in-sri-city/",
+   "citations": [
+    {
+     "claim": "Rs 3,000 crore plant inaugurated 27 Apr 2016",
+     "url": "https://sricity.in/en/news_events/ap-chief-minister-inaugurates-isuzu-motors-rs-3000-crore-production-plant-in-sri-city/",
+     "publisher": "Sri City",
+     "date": "2016-04-27"
+    },
+    {
+     "claim": "Top CV exporter FY2024-25, 20,312 units",
+     "url": "https://www.91trucks.com/news/isuzu-motors-india-emerges-as-the-top-exporter-of-cvs-in-fy2024-25",
+     "publisher": "91Trucks",
+     "date": "2025-04-17"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "Hero MotoCorp",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Two-wheeler plant at Sri City (announced Rs 2,200 Cr, ~Rs 1,600 Cr invested)",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "operational",
+   "investment_crore": 1600,
+   "expected_employment": 7000,
+   "signed_date": "2014-09",
+   "summit_name": null,
+   "description": "Approved by AP's first e-cabinet in September 2014 — won from Karnataka with steep concessions. Progress was slow: foundation stone only in March 2018, commercial production from 19 March 2020, with a documented land-acquisition conflict at the site. Hero's eighth plant globally, operational as of 2026.",
+   "source_portal": "Autocar Professional",
+   "source_url": "https://www.autocarpro.in/news-national/hero-motocorps-chittoor-plant-begins-production-55925",
+   "citations": [
+    {
+     "claim": "e-cabinet approval Sep 2014; Rs 2,200 crore announced",
+     "url": "https://www.autocarpro.in/news-national/hero-motocorp-set-rs-200-crore-plant-ap-karnataka-loses-battle-6302",
+     "publisher": "Autocar Professional",
+     "date": "2014-09-16"
+    },
+    {
+     "claim": "Production began 19 Mar 2020; ~Rs 1,600 crore",
+     "url": "https://www.autocarpro.in/news-national/hero-motocorps-chittoor-plant-begins-production-55925",
+     "publisher": "Autocar Professional",
+     "date": "2020-03-19"
+    },
+    {
+     "claim": "Documented land conflict at the site",
+     "url": "https://www.landconflictwatch.org/conflicts/hero-motocorp",
+     "publisher": "Land Conflict Watch",
+     "date": "2020"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Mondelez International (Cadbury)",
+   "company_origin": "United States",
+   "is_foreign_investment": true,
+   "title": "USD 190M chocolate plant at Sri City — largest Mondelez plant in Asia-Pacific",
+   "sector": "food_processing",
+   "district": "Tirupati",
+   "status": "operational",
+   "investment_crore": 1265,
+   "expected_employment": 1600,
+   "signed_date": "2013-12",
+   "summit_name": null,
+   "description": "Announced December 2013 under united AP; the 134-acre Sri City plant was inaugurated on 25 April 2016 as Mondelez's largest in Asia-Pacific, starting near 60,000 tonnes of chocolate a year with 1,600+ jobs targeted at full build-out. Operational as of 2026.",
+   "source_portal": "Mondelez (investor relations)",
+   "source_url": "https://ir.mondelezinternational.com/news-releases/news-release-details/mondelez-international-invest-190-million-largest-plant-asia",
+   "citations": [
+    {
+     "claim": "$190M investment announced Dec 2013",
+     "url": "https://ir.mondelezinternational.com/news-releases/news-release-details/mondelez-international-invest-190-million-largest-plant-asia",
+     "publisher": "Mondelez IR",
+     "date": "2013-12-02"
+    },
+    {
+     "claim": "Inaugurated 25 Apr 2016; 1,600+ jobs targeted",
+     "url": "https://www.business-standard.com/article/pti-stories/mondelez-opens-its-largest-plant-in-apac-at-andhra-s-sri-city-116042500728_1.html",
+     "publisher": "Business Standard (PTI)",
+     "date": "2016-04-25"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  },
+  {
+   "company_name": "Asian Paints",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Largest Asian Paints plant (initial 3,00,000 KL/yr) at Pudi near Visakhapatnam",
+   "sector": "manufacturing",
+   "district": "Anakapalli",
+   "status": "operational",
+   "investment_crore": 1750,
+   "expected_employment": null,
+   "signed_date": "2015-03",
+   "summit_name": null,
+   "description": "Committed March 2015: Rs 1,750 crore for the company's biggest plant at Pudi village near Atchutapuram on 110 acres, with 12-year tax reimbursement incentives. Commissioned January 2019 at 3,00,000 KL/year, scalable to 5,00,000 KL. Operational as of 2026.",
+   "source_portal": "Business Standard",
+   "source_url": "https://www.business-standard.com/article/companies/asian-paints-to-set-up-its-biggest-mfg-plant-in-andhra-pradesh-115031001201_1.html",
+   "citations": [
+    {
+     "claim": "Rs 1,750 crore commitment, Mar 2015",
+     "url": "https://www.business-standard.com/article/companies/asian-paints-to-set-up-its-biggest-mfg-plant-in-andhra-pradesh-115031001201_1.html",
+     "publisher": "Business Standard",
+     "date": "2015-03-10"
+    },
+    {
+     "claim": "Commissioned Jan 2019 at 3,00,000 KL/yr",
+     "url": "https://www.ap7am.com/pn/3991/asian-paints-embraces-the-vision-of-digital-india-through-its-state-of-the-art-paint-manufacturing-plants-at-visakhapatnam-and-mysuru",
+     "publisher": "AP7AM / PNI",
+     "date": "2021-01-27"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Patanjali Ayurved",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Mega food & herbal park, Vizianagaram — stalled for a decade, revived smaller in 2025",
+   "sector": "food_processing",
+   "district": "Vizianagaram",
+   "status": "stalled",
+   "investment_crore": 500,
+   "expected_employment": 33400,
+   "signed_date": "2017-09",
+   "summit_name": null,
+   "description": "AP allotted 172 acres at Chinnaraopalli in 2017 at a nominal rate for a Rs 500-crore food park (a Dec 2018 MoU said Rs 634 crore, 33,400 jobs). The allotment was cancelled in 2019, Patanjali withdrew in 2020, and nothing was built for a decade. Revived June 2025 at a reduced Rs 272 crore with completion still years away — stalled as of 2026.",
+   "source_portal": "The News Minute / ETV Bharat",
+   "source_url": "https://www.thenewsminute.com/article/patanjali-set-mega-food-park-andhra-employ-over-33000-people-92942",
+   "citations": [
+    {
+     "claim": "172 acres allotted 2017; Rs 500 crore park",
+     "url": "https://www.franchiseindia.com/insights/en/article/ap-government-allots-172-acres-of-land-for-patanjali-s-food-park.50137",
+     "publisher": "Franchise India",
+     "date": "2017-09-29"
+    },
+    {
+     "claim": "Dec 2018 MoU: Rs 634 crore, 33,400 jobs",
+     "url": "https://www.thenewsminute.com/article/patanjali-set-mega-food-park-andhra-employ-over-33000-people-92942",
+     "publisher": "The News Minute",
+     "date": "2018-12-07"
+    },
+    {
+     "claim": "Cancelled 2019, withdrawn 2020, revived Jun 2025 at Rs 272.15 crore",
+     "url": "https://www.etvbharat.com/en/!state/patanjali-setting-up-mega-food-and-ayurvedic-products-park-in-andhra-pradesh-enn25062803858",
+     "publisher": "ETV Bharat",
+     "date": "2025-06-28"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Celkon Mobiles",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Handset unit at Renigunta, Tirupati electronics cluster — brand later faded",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "stalled",
+   "investment_crore": 150,
+   "expected_employment": null,
+   "signed_date": "2015-09",
+   "summit_name": null,
+   "description": "Celkon signed a September 2015 MoU (alongside Micromax and Karbonn, ~Rs 750 crore combined) for the Tirupati mobile cluster; its Rs 150-crore, 22-acre unit was inaugurated in June 2017. The Indian budget-phone brands behind the cluster were subsequently wiped out by competition and Celkon faded from the market — the promised electronics boom from these tenants largely did not materialise.",
+   "source_portal": "Business Standard",
+   "source_url": "https://www.business-standard.com/article/pti-stories/ap-cm-inaugurates-celkon-mobile-manufacturing-facility-117062201003_1.html",
+   "citations": [
+    {
+     "claim": "Sep 2015 MoUs: Celkon, Micromax, Karbonn, ~Rs 750 crore",
+     "url": "https://www.business-standard.com/article/companies/three-mobile-companies-to-set-up-plants-in-andhra-115091601131_1.html",
+     "publisher": "Business Standard",
+     "date": "2015-09-16"
+    },
+    {
+     "claim": "Rs 150 crore unit inaugurated 22 Jun 2017",
+     "url": "https://www.business-standard.com/article/pti-stories/ap-cm-inaugurates-celkon-mobile-manufacturing-facility-117062201003_1.html",
+     "publisher": "Business Standard (PTI)",
+     "date": "2017-06-22"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "NTPC (NP Kunta Solar)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Ananthapuramu (NP Kunta) Ultra Mega Solar Park — Stage I 250 MW",
+   "sector": "renewable_energy",
+   "district": "Sri Sathya Sai",
+   "status": "operational",
+   "investment_crore": null,
+   "expected_employment": null,
+   "signed_date": null,
+   "summit_name": null,
+   "description": "Flagship of AP's post-bifurcation solar push via AP Solar Power Corporation: NTPC commissioned 200 MW of Stage I in May 2016 and 50 MW more in August 2016; with later phases the park reached ~978.5 MW by April 2021. Operational as of 2026 — an early renewable commitment that was actually delivered. No single company investment figure published for the NTPC stage, so none is shown.",
+   "source_portal": "APSPCL (official) / Business Standard",
+   "source_url": "https://www.apspcl.ap.gov.in/content/npkuntasite",
+   "citations": [
+    {
+     "claim": "200 MW commissioned May 2016",
+     "url": "https://www.business-standard.com/article/news-cm/ntpc-gains-after-commencing-power-generation-at-kunta-ultra-mega-solar-project-116051100180_1.html",
+     "publisher": "Business Standard",
+     "date": "2016-05-11"
+    },
+    {
+     "claim": "APSPCL project page for the 1,500 MW park",
+     "url": "https://www.apspcl.ap.gov.in/content/npkuntasite",
+     "publisher": "APSPCL",
+     "date": "2024"
+    }
+   ],
+   "source_tier": "government",
+   "source_label": "Government source",
+   "date_status": "undated",
+   "date_caveat": "No signing date has been found in any source we can check, so this entry cannot be attributed to a particular government's term."
+  },
+  {
+   "company_name": "Greenko Group (Kurnool Solar)",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "500 MW anchor block, Kurnool Ultra Mega Solar Park",
+   "sector": "renewable_energy",
+   "district": "Nandyal",
+   "status": "operational",
+   "investment_crore": null,
+   "expected_employment": null,
+   "signed_date": "2015-11",
+   "summit_name": null,
+   "description": "The 1,000 MW Kurnool Ultra Mega Solar Park at Panyam mandal (~Rs 7,000 crore total, APSPCL-developed) was fully commissioned by July 2017, briefly the world's largest solar park. Greenko's 500 MW anchor block, won in the November 2015 auction, was commissioned April 2017. Operational as of 2026. Company-level investment figure not separately published.",
+   "source_portal": "Mercom India",
+   "source_url": "https://www.mercomindia.com/worlds-largest-solar-park-kurnool-cusp-completion",
+   "citations": [
+    {
+     "claim": "500 MW commissioned Apr 2017; auction Nov 2015",
+     "url": "https://www.mercomindia.com/worlds-largest-solar-park-kurnool-cusp-completion",
+     "publisher": "Mercom India",
+     "date": "2017-06-13"
+    },
+    {
+     "claim": "World's largest solar park upon completion",
+     "url": "https://www.nrdc.org/bio/anjali-jaiswal/worlds-largest-solar-park-kurnool-india",
+     "publisher": "NRDC",
+     "date": "2018"
+    }
+   ],
+   "source_tier": "press",
+   "source_label": "Press report — not government-confirmed",
+   "source_caveat": "This figure comes from a newspaper or news agency report, not from a government document. We have not found it in any state or central government publication. Treat it as a reported claim until a government source confirms it."
+  },
+  {
+   "company_name": "Apollo Tyres",
+   "company_origin": "India",
+   "is_foreign_investment": false,
+   "title": "Greenfield tyre plant at Chinnapanduru near Sri City",
+   "sector": "manufacturing",
+   "district": "Tirupati",
+   "status": "operational",
+   "investment_crore": 3800,
+   "expected_employment": 850,
+   "signed_date": "2017-12",
+   "summit_name": null,
+   "description": "Announced December 2017; construction from January 2018 on 256 acres at Chinnapanduru near Sri City. The ~Rs 3,800-crore Phase I plant rolled out its first tyre on 25 June 2020 with ~850 employees at launch, ramping to 15,000 passenger and 3,000 truck-bus tyres a day. Operational as of 2026.",
+   "source_portal": "Apollo Tyres (corporate)",
+   "source_url": "https://corporate.apollotyres.com/press-and-media/news/corporate/ap-plant/",
+   "citations": [
+    {
+     "claim": "Plant decision announced Dec 2017",
+     "url": "https://autotechinsight.spglobal.com/news/5243318/apollo-tyre-plans-to-start-building-new-indian-plant-early-next-year",
+     "publisher": "S&P Global",
+     "date": "2017-12-28"
+    },
+    {
+     "claim": "First tyre 25 Jun 2020; ~Rs 3,800 crore Phase I",
+     "url": "https://corporate.apollotyres.com/press-and-media/news/corporate/ap-plant/",
+     "publisher": "Apollo Tyres",
+     "date": "2020-06-25"
+    }
+   ],
+   "source_tier": "company",
+   "source_label": "Company's own announcement — not confirmed by the state",
+   "source_caveat": "This figure comes from the company's own press release. It is the investor's stated commitment, not a figure the Government of Andhra Pradesh has published or confirmed."
+  }
+ ],
+ "_sourcing_readme": "Every MoU carries source_tier: 'government' (a state or central government publication), 'company' (the investor's own announcement) or 'press' (a newspaper or agency report). Only 'government' entries are the state's own record. The others are shown because the commitments are publicly claimed and readers deserve to see them, but they are labelled as claims and their figures must never be presented as government-confirmed. Entries with date_status 'undated' cannot be assigned to a government's term at all.",
+ "_sourcing_counts": {
+  "press": 17,
+  "company": 9,
+  "government": 2
+ }
+}

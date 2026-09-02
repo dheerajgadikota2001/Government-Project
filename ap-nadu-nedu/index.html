@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AP Nadu Nedu — ఏపీ నాడు నేడు</title>
+    <meta
+      name="description"
+      content="AP Fact Check — an independent, no-login transparency platform for Andhra Pradesh. Every project, budget and commitment figure is taken from a government document and cited, in six languages."
+    />
+    <!--
+      Public address of the site. Firebase also serves it at ap-nadu-nedu.web.app;
+      the canonical tag tells search engines the dhethi.com name is the real one so
+      the two copies are never indexed as duplicates. Keep this in step with
+      SITE_ORIGIN in public/sitemap.xml and the ALLOWED_ORIGINS on Cloud Run.
+    -->
+    <link rel="canonical" href="https://apfactcheck.dhethi.com/" />
+    <meta name="theme-color" content="#001e40" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AP Nadu Nedu" />
+    <meta property="og:title" content="AP Nadu Nedu — Andhra Pradesh fact check" />
+    <meta
+      property="og:description"
+      content="Projects, finances and government commitments of Andhra Pradesh, every figure sourced from official documents. No login, six languages."
+    />
+    <meta property="og:url" content="https://apfactcheck.dhethi.com/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="AP Nadu Nedu — Andhra Pradesh fact check" />
+    <meta
+      name="twitter:description"
+      content="Projects, finances and government commitments of Andhra Pradesh, every figure sourced from official documents."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+      One Noto family per script the site is published in. Each is loaded at the
+      same weights as the Latin face so headings stay bold in every language.
+      Nastaliq is a separate, much taller face: Urdu is set in it because Naskh
+      renders Urdu in a shape Urdu readers experience as Arabic, not Urdu.
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,567 @@
+{
+ "generated_at": "2026-08-31T06:13:39+00:00",
+ "repo": "/sessions/rcw-01bm6hvnreca6psozotbryda/mnt/Politics Platform/politics-platform",
+ "seeds": [
+  "contacts_seed.json",
+  "departments_seed.json",
+  "document_library_seed.json",
+  "finances_seed.json",
+  "goir_school_education_seed.json",
+  "governments_seed.json",
+  "mous_seed.json",
+  "projects_seed.json",
+  "school_education_seed.json",
+  "state_facts_seed.json",
+  "summits_seed.json"
+ ],
+ "checks": [
+  {
+   "key": "schema.required",
+   "title": "Each seed carries the fields its page reads",
+   "ms": 120,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "schema.state",
+   "title": "Every seed says which state it describes",
+   "ms": 6,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "schema.units",
+   "title": "Every figure says what it is measured in",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "schema.coverage",
+   "title": "How much of the record we actually hold",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 3
+  },
+  {
+   "key": "sources.resolve",
+   "title": "Every named source resolves to a document",
+   "ms": 12,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 4
+  },
+  {
+   "key": "sources.url",
+   "title": "Every document has somewhere a reader can go",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 10
+  },
+  {
+   "key": "sources.section",
+   "title": "Every section's source chips resolve",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "sources.https",
+   "title": "Links are https and not obviously dead",
+   "ms": 15,
+   "FAIL": 0,
+   "WARN": 2,
+   "INFO": 0
+  },
+  {
+   "key": "stages.mixed",
+   "title": "A series never mixes stages without saying so",
+   "ms": 1,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "stages.partyear",
+   "title": "No part-year figure stands in a full-year series",
+   "ms": 16,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "stages.undivided",
+   "title": "A pre-2014 figure never enters a per-government change",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "stages.nulls",
+   "title": "No missing year is drawn as a zero",
+   "ms": 12,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "arith.interest",
+   "title": "Interest share equals interest divided by revenue",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "arith.spent",
+   "title": "Percent spent equals spent divided by voted",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "arith.grants",
+   "title": "Grant rows add up to the block they belong to",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 1,
+   "INFO": 0
+  },
+  {
+   "key": "arith.tenure",
+   "title": "A per-government change equals its own two endpoints",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "reconcile.agree",
+   "title": "Independent sources agree where both are audited",
+   "ms": 6,
+   "FAIL": 0,
+   "WARN": 1,
+   "INFO": 2
+  },
+  {
+   "key": "reconcile.open",
+   "title": "Unexplained disagreements are still being chased",
+   "ms": 3,
+   "FAIL": 0,
+   "WARN": 1,
+   "INFO": 0
+  },
+  {
+   "key": "reconcile.diverge",
+   "title": "A documented disagreement has not been flattened",
+   "ms": 3,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 3
+  },
+  {
+   "key": "i18n.parity",
+   "title": "All six languages carry exactly the same keys",
+   "ms": 111,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 1
+  },
+  {
+   "key": "i18n.used",
+   "title": "Every key the code asks for exists",
+   "ms": 486,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 1
+  },
+  {
+   "key": "i18n.placeholders",
+   "title": "A translation never loses a placeholder",
+   "ms": 60,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "i18n.digits",
+   "title": "Numbers stay in Latin digits in every language",
+   "ms": 427,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 0
+  },
+  {
+   "key": "links.alive",
+   "title": "Every cited document still resolves",
+   "ms": 0,
+   "FAIL": 0,
+   "WARN": 0,
+   "INFO": 1
+  }
+ ],
+ "totals": {
+  "fail": 0,
+  "warn": 5,
+  "info": 25
+ },
+ "passed": true,
+ "findings": [
+  {
+   "severity": "WARN",
+   "check": "arith.grants",
+   "file": "finances_seed.json",
+   "where": "promised_vs_spent.grants.2014-15.capital_voted",
+   "what": "spent: rows sum to 11,598.70 against 11,600.74 — 0.018% apart, consistent with rounding",
+   "fix": "Probably the volume's own rounding. Worth recording, not worth blocking.",
+   "detail": {}
+  },
+  {
+   "severity": "WARN",
+   "check": "reconcile.agree",
+   "file": "state_facts_seed.json",
+   "where": "capital-outlay · 2014-15",
+   "what": "known unexplained disagreement: 11,405.00 against 12,615.49 (9.60% apart) — open since 2026-08-30",
+   "fix": "Not a blocker, but not resolved either. The undivided-Andhra-Pradesh volume covering 1 April to 1 June 2014. It is the only route to an audited combined figure and the only way to test whether 11,405 has any audited basis at all. Also the Reserve Bank Handbook's own source notes for Table 172, which are outside cag.gov.in.",
+   "detail": {
+    "what_we_know": "Partly resolved 31 August 2026. The Finance Accounts for 2014-15 cover only 2 June 2014 to 31 March 2015 — the residuary state's audited record begins on the day of division — and print capital outlay of 6,520 crore, identically in four CAG publications. Loans and advances that year were 745 crore, and 6,520 + 745 = 7,265, which identifies Andhra Pradesh's own 7,265.33 as capital outlay PLUS loans and advances: a capital-disbursements basis, not capital outlay. The Reserve Bank's 11,405 still matches nothing — not 6,520, not 7,265.33, not the combined 12,615.49, not the 7,070 budget estimate.",
+    "left": {
+     "value": 11405,
+     "stage": null,
+     "label": "2014-15"
+    },
+    "right": {
+     "value": 12615.49,
+     "stage": "A",
+     "label": "2014-15"
+    },
+    "drift_pct": 9.595
+   }
+  },
+  {
+   "severity": "WARN",
+   "check": "reconcile.open",
+   "file": "reconciliations.json",
+   "where": "capital-outlay",
+   "what": "open since 2026-08-30, years [2015]: Partly resolved 31 August 2026. The Finance Accounts for 2014-15 cover only 2 June 2014 to 31 March 2015 — the residuary state's audited record begins on the day of division — and print capital outlay of 6,520 crore, identically in four CAG publications. Loans and advances that year were 745 crore, and 6,520 + 745 = 7,265, which identifies Andhra Pradesh's own 7,265.33 as capital outlay PLUS loans and advances: a capital-disbursements basis, not capital outlay. The Reserve Bank's 11,405 still matches nothing — not 6,520, not 7,265.33, not the combined 12,615.49, not the 7,070 budget estimate.",
+   "fix": "The undivided-Andhra-Pradesh volume covering 1 April to 1 June 2014. It is the only route to an audited combined figure and the only way to test whether 11,405 has any audited basis at all. Also the Reserve Bank Handbook's own source notes for Table 172, which are outside cag.gov.in.",
+   "detail": {}
+  },
+  {
+   "severity": "WARN",
+   "check": "sources.https",
+   "file": "contacts_seed.json",
+   "where": "escalations[8].steps[0].source_url",
+   "what": "is a plain http link",
+   "fix": "Use https. Several government hosts redirect, and a mixed-content link is blocked outright in some browsers.",
+   "detail": {
+    "url": "http://vijayawadapolice.ap.gov.in/?page_id=10340"
+   }
+  },
+  {
+   "severity": "WARN",
+   "check": "sources.https",
+   "file": "contacts_seed.json",
+   "where": "helplines[25].url",
+   "what": "is a plain http link",
+   "fix": "Use https. Several government hosts redirect, and a mixed-content link is blocked outright in some browsers.",
+   "detail": {
+    "url": "http://hmfw.ap.gov.in/108-call-center.aspx"
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "i18n.parity",
+   "file": "locales",
+   "where": "-",
+   "what": "6 languages, 1623 keys each",
+   "fix": "No action.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "i18n.used",
+   "file": "locales/en.json",
+   "where": "keys",
+   "what": "all 1207 keys used in the code exist",
+   "fix": "No action.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "links.alive",
+   "file": "-",
+   "where": "-",
+   "what": "skipped (set VERIFY_LINKS=1 to run it)",
+   "fix": "Run it on a schedule, not on every edit — it is the only check that needs the network.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "reconcile.agree",
+   "file": "state_facts_seed.json",
+   "where": "capital-outlay",
+   "what": "9 audited year(s) agree within 0.5%; 2 estimate year(s) correctly not compared",
+   "fix": "No action.",
+   "detail": {
+    "why": "The Reserve Bank's Handbook reprints the state's own capital outlay. Where both sources are showing audited accounts for the same year, they are the same number arriving by two routes."
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "reconcile.agree",
+   "file": "state_facts_seed.json",
+   "where": "revenue-expenditure",
+   "what": "9 audited year(s) agree within 0.5%; 2 estimate year(s) correctly not compared",
+   "fix": "No action.",
+   "detail": {
+    "why": "Same quantity, same two routes: RBI Handbook Table 166 against Form F-1 of Andhra Pradesh's own Statement of Fiscal Policy."
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "reconcile.diverge",
+   "file": "finances_seed.json",
+   "where": "debt-apbudget-vs-rbi",
+   "what": "still differ by up to 21.3% across 12 shared years, as expected",
+   "fix": "No action.",
+   "detail": {
+    "why": "Andhra Pradesh's own budget books and the Reserve Bank differ on the same year's debt, again on definitions. Shown side by side deliberately."
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "reconcile.diverge",
+   "file": "finances_seed.json",
+   "where": "debt-cag-vs-rbi",
+   "what": "still differ by up to 20.8% across 8 shared years, as expected",
+   "fix": "No action.",
+   "detail": {
+    "why": "The national auditor and the Reserve Bank both publish outstanding debt for the same 31 March and do not agree, because they group components differently — most visibly the public-account liabilities the state holds and owes back. Neither is wrong. The gap is the content of the 'Whose number is right?' section, and flattening it would destroy the point of the page."
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "reconcile.diverge",
+   "file": "state_facts_seed.json",
+   "where": "own-tax-rbi-vs-state",
+   "what": "still differ by up to 22.8% across 11 shared years, as expected",
+   "fix": "No action.",
+   "detail": {
+    "why": "Settled on 31 August 2026 by the audited Finance Accounts of Andhra Pradesh, which are the authority both other sources are ultimately reporting. For 2017-18 they print 49,486.41 crore: the state's own Form F-1 is 0.66% away, the Reserve Bank's Handbook 5.92% away. For 2018-19 they print 58,030.98: Form F-1 0.13% away, RBI 1.11% away. RBI runs high in both years and in the same direction. Its figures for those years are therefore NOT the audited accounts. What they are we do not know — they do not equal the published revised estimate either. Shown as a divergence rather than silently corrected, because both remain official publications."
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "schema.coverage",
+   "file": "contacts_seed.json",
+   "where": "unavailable",
+   "what": "21 gaps recorded, every one with instructions for filling it",
+   "fix": "No action.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "schema.coverage",
+   "file": "state_facts_seed.json",
+   "where": "indicators",
+   "what": "83 indicators, 1046 figures, 34 containing at least one estimate",
+   "fix": "No action.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "schema.coverage",
+   "file": "state_facts_seed.json",
+   "where": "unavailable",
+   "what": "14 gaps recorded, every one with instructions for filling it",
+   "fix": "No action.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.resolve",
+   "file": "departments_seed.json",
+   "where": "sources",
+   "what": "7 source entries are never cited by any record",
+   "fix": "Harmless, but if one of these was meant to back a figure, that figure is uncited.",
+   "detail": {
+    "unused": [
+     "Andhra Pradesh Government Orders Issue Register",
+     "CAG Report No. 5 of 2025",
+     "Demands for Grants (recent years)",
+     "Demands for Grants, Volume I/2 — Statement of Demands for Grants",
+     "Demands for Grants, Volume III/7 — Education",
+     "Demands for Grants, Volume III/8 — Health, Medical and Family Welfare",
+     "Statement of Demands for Grants, Volume I/2"
+    ]
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.resolve",
+   "file": "finances_seed.json",
+   "where": "sources",
+   "what": "11 source entries are never cited by any record",
+   "fix": "Harmless, but if one of these was meant to back a figure, that figure is uncited.",
+   "detail": {
+    "unused": [
+     "AP-BiB-2223",
+     "AP-BiB-2324",
+     "AP-FINANCE-ACCOUNTS",
+     "APPROP-FY17",
+     "APPROP-FY21",
+     "APPROP-FY22",
+     "CAG-FY23-C1",
+     "CAG-FY23-ES",
+     "DC-Council-2026",
+     "RBI-SF-2526-G",
+     "RBI-SF-2526-R"
+    ]
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.resolve",
+   "file": "governments_seed.json",
+   "where": "sources",
+   "what": "51 source entries are never cited by any record",
+   "fix": "Harmless, but if one of these was meant to back a figure, that figure is uncited.",
+   "detail": {
+    "unused": [
+     "CAG-AP-FY21-C1",
+     "CAG-AP-FY21-C2",
+     "CAG-AP-FY22",
+     "CAG-FY20",
+     "CAG-FY22",
+     "FC15-AP-EVAL",
+     "NDA-2024-BS",
+     "NDA-2024-DH",
+     "NDA-2024-IA",
+     "NDA-2024-PDF",
+     "NITI-AP-2025",
+     "PIB-AP-2016",
+     "PIB-AP-2019MHA",
+     "PIB-AP-TRANSFERS-2019",
+     "PIB-BORROW-2020",
+     "PIB-BORROW-2021",
+     "PIB-CORRIDORS-2024",
+     "PIB-GST-BTB-2021",
+     "PIB-GST-FINAL-2021",
+     "PIB-LOCKDOWN-2020"
+    ]
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.resolve",
+   "file": "state_facts_seed.json",
+   "where": "sources",
+   "what": "1 source entries are never cited by any record",
+   "fix": "Harmless, but if one of these was meant to back a figure, that figure is uncited.",
+   "detail": {
+    "unused": [
+     "AP-FINANCE-ACCOUNTS"
+    ]
+   }
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Andhra Pradesh Government Orders Issue Register",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.CAG Report No. 5 of 2025",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Demands for Grants (recent years)",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Demands for Grants, Volume I/2 — Statement of Demands for Grants",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Demands for Grants, Volume III/7 — Education",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Demands for Grants, Volume III/8 — Health, Medical and Family Welfare",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "departments_seed.json",
+   "where": "sources.Statement of Demands for Grants, Volume I/2",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "governments_seed.json",
+   "where": "sources.rbi_hb_t19",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "governments_seed.json",
+   "where": "sources.rbi_hb_t21",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  },
+  {
+   "severity": "INFO",
+   "check": "sources.url",
+   "file": "governments_seed.json",
+   "where": "sources.rbi_sf_s20",
+   "what": "has no publisher",
+   "fix": "Name the body that published it. 'The Reserve Bank reprinting a health ministry figure' is a real distinction this platform makes elsewhere.",
+   "detail": {}
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+# ---- Secrets — never commit these ----
+.env
+*.env
+!.env.example
+*service-account*.json
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+.vite/
+*.local
+
+# ---- Python / backend ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# ---- Scraper / script outputs (regenerable) ----
+backend/SOURCES_STATUS.md
+backend/sources_status.json
+backend/*.html
+backend/app_sync.tgz
+
+# ---- OS / editor noise ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Archives / scratch ----
+*.zip
+_to_delete/
+
+# ---- Reader-downloaded source PDFs (huge; mirrors live in cloud storage, not git) ----
+sources/*
+!sources/README.md
+
+# ---- Mirrored/fetched documents & runtime output ----
+backend/fetched/
+backend/logs/
+backend/neva_probe.txt
+*.tgz
+
+# ---- Local scratch ----
+*.log
+deploy/.env.prod
+deploy/backups/*
+!deploy/backups/.gitkeep
+
+# scratch
+*.bak*
+_fixture/
+/package-lock.json
+
+
+cloud-sql-proxy.exe
+
+# Firebase CLI deploy cache — a local hash of the last upload, not source.
+.firebase/

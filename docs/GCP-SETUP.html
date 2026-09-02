@@ -1,0 +1,554 @@
+<title>Nadu Nedu on Google Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#F5F7F4; --surface:#FFFFFF; --surface-2:#EDF1EC; --line:#D4DBD3; --line-strong:#B9C3B8;
+    --ink:#182220; --ink-2:#465450; --ink-3:#6E7B77;
+    --accent:#1D6B58; --accent-ink:#FFFFFF; --accent-soft:#DDEEE7;
+    --warn:#9A6A12; --warn-soft:#F7ECD3; --warn-line:#E3C98A;
+    --claude:#4A4F8F; --claude-soft:#E6E7F5;
+    --code-bg:#1B2624; --code-ink:#E4EBE7; --code-cmt:#8FA39B; --code-hl:#F0C36A;
+    --shadow:0 1px 2px rgba(24,34,32,.06),0 8px 24px -16px rgba(24,34,32,.25);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111816; --surface:#171F1D; --surface-2:#1E2826; --line:#2C3835; --line-strong:#3D4B47;
+      --ink:#E7ECE8; --ink-2:#B4BFBA; --ink-3:#86938E;
+      --accent:#5FC4A4; --accent-ink:#0E1A16; --accent-soft:#1B3A31;
+      --warn:#E5B35A; --warn-soft:#332912; --warn-line:#5C4816;
+      --claude:#A9ADEB; --claude-soft:#25284A;
+      --code-bg:#0C1210; --code-ink:#DCE5E0; --code-cmt:#7F918A; --code-hl:#F0C36A;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111816; --surface:#171F1D; --surface-2:#1E2826; --line:#2C3835; --line-strong:#3D4B47;
+    --ink:#E7ECE8; --ink-2:#B4BFBA; --ink-3:#86938E;
+    --accent:#5FC4A4; --accent-ink:#0E1A16; --accent-soft:#1B3A31;
+    --warn:#E5B35A; --warn-soft:#332912; --warn-line:#5C4816;
+    --claude:#A9ADEB; --claude-soft:#25284A;
+    --code-bg:#0C1210; --code-ink:#DCE5E0; --code-cmt:#7F918A; --code-hl:#F0C36A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  h1,h2,h3{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0;line-height:1.15}
+  h1{font-size:clamp(2rem,4.2vw,3rem);font-weight:700;letter-spacing:-.01em}
+  h2{font-size:1.55rem;font-weight:600}
+  h3{font-size:1.05rem;font-weight:600;color:var(--ink-2)}
+  p{margin:0}
+  code{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em}
+  p code,li code,td code{background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:.05em .35em;white-space:nowrap}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+  header.hero{padding:clamp(36px,6vw,72px) 0 28px;border-bottom:1px solid var(--line)}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+  .hero p.lede{max-width:62ch;font-size:1.08rem;color:var(--ink-2);margin-top:14px}
+  .facts{display:grid;grid-template-columns:repeat(3,auto);gap:10px 28px;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+  .facts div{display:flex;flex-direction:column;gap:2px}
+  .facts b{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:1.35rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .facts span{font-size:.78rem;color:var(--ink-3)}
+  .layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;padding:36px 0 96px}
+  nav.toc{position:sticky;top:20px;align-self:start;font-size:.88rem}
+  nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+  nav.toc a{display:grid;grid-template-columns:26px 1fr;gap:6px;padding:6px 8px;border-radius:6px;color:var(--ink-2);text-decoration:none;line-height:1.3}
+  nav.toc a:hover{background:var(--surface-2);color:var(--ink)}
+  nav.toc a .n{font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--ink-3);padding-top:2px}
+  nav.toc .grp{margin:14px 8px 4px;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  main{max-width:74ch}
+  .assume{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:16px 20px;margin-bottom:36px;display:flex;flex-direction:column;gap:8px}
+  .assume ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;color:var(--ink-2)}
+  section.step{padding:32px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+  section.step:first-of-type{border-top:0;padding-top:0}
+  .step-head{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;align-items:start}
+  .num{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:2rem;font-weight:700;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;padding-top:2px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .chip{font-family:"IBM Plex Mono",monospace;font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid var(--line-strong);color:var(--ink-2);background:var(--surface);white-space:nowrap}
+  .chip.cost{border-color:var(--warn-line);background:var(--warn-soft);color:var(--warn)}
+  .chip.free{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .chip.who{border-color:var(--claude);background:var(--claude-soft);color:var(--claude)}
+  .body{display:flex;flex-direction:column;gap:14px;color:var(--ink);grid-column:2}
+  .body p{max-width:68ch}
+  pre{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:14px 16px;overflow-x:auto;font-family:"IBM Plex Mono",monospace;font-size:.84rem;line-height:1.55;tab-size:2}
+  pre .c{color:var(--code-cmt)}
+  pre .h{color:var(--code-hl)}
+  .pre-wrap{position:relative}
+  .pre-wrap .lbl{position:absolute;top:8px;right:10px;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--code-cmt)}
+  .check{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--accent-soft);border-radius:8px;padding:12px 14px;font-size:.93rem}
+  .check .k{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:4px;white-space:nowrap}
+  .note{background:var(--warn-soft);border:1px solid var(--warn-line);border-radius:8px;padding:12px 14px;font-size:.93rem;color:var(--ink)}
+  .note b{color:var(--warn)}
+  .claude-box{background:var(--claude-soft);border-radius:8px;padding:12px 14px;font-size:.93rem}
+  .claude-box b{color:var(--claude)}
+  .body ul,.body ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  .tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2)}
+  tr:last-child td{border-bottom:0}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+  footer{border-top:1px solid var(--line);padding:24px 0 48px;font-size:.85rem;color:var(--ink-3)}
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;gap:24px}
+    nav.toc{position:static;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--surface)}
+    .hero-grid{grid-template-columns:1fr}
+    .facts{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (max-width:560px){
+    .step-head{grid-template-columns:40px 1fr}
+    .num{font-size:1.6rem}
+    .body{grid-column:1 / -1}
+    .facts{grid-template-columns:1fr 1fr}
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero">
+      <div class="eyebrow">AP Nadu Nedu · deployment runbook · 27 Aug 2026</div>
+      <h1 style="margin-top:10px">Nadu Nedu on Google Cloud</h1>
+      <p class="lede">Every step to put the backend, database and frontend on Google Cloud in Mumbai, in the order that cannot break anything you already have. Commands are for Windows PowerShell. Steps marked <span class="chip who">Claude</span> are code changes I make in the project once you say go; everything else you run yourself.</p>
+    </div>
+    <div class="facts" aria-label="Summary">
+      <div><b>~2 hrs</b><span>hands-on time</span></div>
+      <div><b>₹0</b><span>for 90 days (trial credit)</span></div>
+      <div><b>~₹850/mo</b><span>after trial, Cloud SQL only</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="Steps">
+    <div class="grp">Before Google</div>
+    <ol>
+      <li><a href="#s0"><span class="n">00</span>Commit and push the repo</a></li>
+    </ol>
+    <div class="grp">Account</div>
+    <ol>
+      <li><a href="#s1"><span class="n">01</span>Start the free trial</a></li>
+      <li><a href="#s2"><span class="n">02</span>Create the project</a></li>
+      <li><a href="#s3"><span class="n">03</span>Set the budget alarm</a></li>
+      <li><a href="#s4"><span class="n">04</span>Install gcloud, enable services</a></li>
+    </ol>
+    <div class="grp">Data</div>
+    <ol>
+      <li><a href="#s5"><span class="n">05</span>Create the Postgres instance</a></li>
+      <li><a href="#s6"><span class="n">06</span>Store the secrets</a></li>
+    </ol>
+    <div class="grp">Backend</div>
+    <ol>
+      <li><a href="#s7"><span class="n">07</span>Backend prep (Claude)</a></li>
+      <li><a href="#s8"><span class="n">08</span>Deploy to Cloud Run</a></li>
+      <li><a href="#s9"><span class="n">09</span>Migrate and seed from your PC</a></li>
+    </ol>
+    <div class="grp">Frontend</div>
+    <ol>
+      <li><a href="#s10"><span class="n">10</span>Firebase Hosting + /api rewrite</a></li>
+      <li><a href="#s11"><span class="n">11</span>Uptime check</a></li>
+    </ol>
+    <div class="grp">Later</div>
+    <ol>
+      <li><a href="#s12"><span class="n">12</span>Scrapers write to the cloud DB</a></li>
+      <li><a href="#s13"><span class="n">13</span>Domain and Cloudflare</a></li>
+      <li><a href="#s14"><span class="n">14</span>Auto-deploy from GitHub</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="assume">
+      <div class="eyebrow">Assumptions this runbook makes</div>
+      <ul>
+        <li>Project ID <code>ap-nadu-nedu</code>. If Google says it is taken, pick another and replace it everywhere below.</li>
+        <li>Region <code>asia-south1</code> (Mumbai) for everything.</li>
+        <li>Scraping and the fact pipeline stay on your PC, as you decided. Only the approved results live in the cloud.</li>
+        <li>Frontend and backend share one domain: the site serves the React app, and <code>/api/**</code> is forwarded to Cloud Run. No CORS, one URL to remember.</li>
+        <li>Cloudflare is added only when you own a domain (step 13). Until then the free <code>*.web.app</code> address works.</li>
+        <li>Nothing here touches your local setup (uvicorn :8005, Vite :5174, Postgres :5434). Local keeps working exactly as today.</li>
+      </ul>
+    </div>
+
+    <!-- 00 -->
+    <section class="step" id="s0">
+      <div class="step-head">
+        <div class="num">00</div>
+        <div>
+          <h2>Commit and push the repo</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">10 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Your repository has one commit from 24 Aug. The frontend, seeds, routers, scrapers and translations exist only on your disk. Cloud Run builds from a folder, not from GitHub, so this is not a technical prerequisite, but it is the one step that protects three days of work. Do it first.</p>
+          <p>Two housekeeping lines go into <code>.gitignore</code> first, because the log file and the scratch archive should never be committed.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>cd "C:\Users\gadik\Documents\Claude\Projects\Politics Platform\politics-platform"
+
+<span class="c"># stale lock left by an interrupted git command</span>
+Remove-Item .git\index.lock -ErrorAction SilentlyContinue
+
+<span class="c"># keep logs, fetched pages and scratch archives out of the repo</span>
+Add-Content .gitignore "`nbackend/logs/`nbackend/fetched/`n*.tgz"
+
+git add -A
+git status --short | Measure-Object -Line   <span class="c"># expect ~45 lines, no .env among them</span>
+git commit -m "AP Nadu Nedu: frontend, seeds, routers, scrapers, i18n (6 languages)"
+git push origin main</pre></div>
+          <div class="check"><span class="k">Check</span><span>GitHub shows the commit, and <code>git status</code> reports a clean tree. If <code>git status</code> lists <code>backend/.env</code> or <code>ap-nadu-nedu/.env</code>, stop and tell me; they must never be pushed.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 -->
+    <section class="step" id="s1">
+      <div class="step-head">
+        <div class="num">01</div>
+        <div>
+          <h2>Start the free trial</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">10 min</span><span class="chip free">$300 credit · 90 days</span></div>
+        </div>
+        <div class="body">
+          <p>Open <a href="https://console.cloud.google.com/freetrial">console.cloud.google.com/freetrial</a> signed in with your existing Google account (the one with Google One is fine; the two products are unrelated). Fill in your country, agree to the terms, and add a card. Google uses the card to verify identity and states you are not charged unless you manually upgrade to a paid account; the trial simply closes when the $300 or the 90 days run out.</p>
+          <div class="note"><b>Do not click "Activate full account"</b> at any point during the trial, even when the console nags. That single button is what turns the card from verification into payment. We decide about upgrading in November, when we know whether the platform has readers.</div>
+          <div class="check"><span class="k">Check</span><span>The console header shows a "Free trial" badge with a credit balance near $300.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="step" id="s2">
+      <div class="step-head">
+        <div class="num">02</div>
+        <div>
+          <h2>Create the project</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">3 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>A project is the container for everything. In the console, open the project picker at the top and choose <strong>New project</strong>. Name: <code>AP Nadu Nedu</code>. Below the name, click <strong>Edit</strong> on the project ID and set it to <code>ap-nadu-nedu</code>. The ID is permanent and must be globally unique; if it is refused, use something like <code>ap-nadu-nedu-2026</code> and use that everywhere below.</p>
+          <p>Make sure the new project is linked to the trial billing account (it will be, by default, when created from the trial). Then select the project in the picker so every following action lands in it.</p>
+          <div class="check"><span class="k">Check</span><span>The project picker shows <code>AP Nadu Nedu</code>, and Billing → Account management lists it under the trial account.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="step" id="s3">
+      <div class="step-head">
+        <div class="num">03</div>
+        <div>
+          <h2>Set the budget alarm</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">5 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Billing → <strong>Budgets &amp; alerts</strong> → Create budget. Name <code>apnn-guard</code>, scope: this project, all services. Amount: specified amount, <strong>$10 per month</strong>. Thresholds: 50%, 90%, 100% of actual spend. Keep "email billing admins" on.</p>
+          <p>Be clear about what this does: it emails you, it does not stop anything. The real caps come from the services themselves, which is why Cloud Run in step 08 gets a hard <code>--max-instances 5</code>. Between the two you cannot wake up to a surprise bill.</p>
+          <div class="check"><span class="k">Check</span><span>The budget appears in the list with three threshold rows.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="step" id="s4">
+      <div class="step-head">
+        <div class="num">04</div>
+        <div>
+          <h2>Install gcloud, enable the services</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">15 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Download the Google Cloud CLI installer for Windows from <a href="https://cloud.google.com/sdk/docs/install">cloud.google.com/sdk/docs/install</a> and run it with defaults (it bundles its own Python; it will not touch yours). When the installer offers to run <code>gcloud init</code>, accept: it opens a browser, you sign in, and you pick the project.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>gcloud config set project ap-nadu-nedu
+gcloud config set run/region asia-south1
+gcloud config set compute/region asia-south1
+
+<span class="c"># the five services this runbook uses; each enable takes ~30 s</span>
+gcloud services enable run.googleapis.com sqladmin.googleapis.com `
+  artifactregistry.googleapis.com cloudbuild.googleapis.com secretmanager.googleapis.com
+
+<span class="c"># this login lets local tools (proxy in step 09) use your identity</span>
+gcloud auth application-default login</pre></div>
+          <div class="check"><span class="k">Check</span><span><code>gcloud config list</code> prints the project and region, and <code>gcloud services list --enabled</code> includes the five above.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="step" id="s5">
+      <div class="step-head">
+        <div class="num">05</div>
+        <div>
+          <h2>Create the Postgres instance</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">15 min, mostly waiting</span><span class="chip cost">~₹850/mo, from credit for 90 days</span></div>
+        </div>
+        <div class="body">
+          <p>This is the one recurring cost in the whole plan. The smallest tier (<code>db-f1-micro</code>, shared core, 10 GB SSD) holds years of our facts: all seeds, projects, MoUs, finance rows and the proposed-facts queue together are well under 1 GB. Backups run nightly and seven are kept, and point-in-time recovery is on: since the community board went in this database holds writing by members of the public, not only our seeds, so being able to rewind to any minute of the past week matters in a way it did not before. Choose a long password now and keep it in your password manager; you will paste it in step 06 and step 09.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>gcloud sql instances create apnn-db `
+  --database-version=POSTGRES_16 `
+  --tier=db-f1-micro `
+  --region=asia-south1 `
+  --storage-type=SSD --storage-size=10GB --storage-auto-increase `
+  --availability-type=ZONAL `
+  --backup-start-time=21:00 --retained-backups-count=7 `
+  --enable-point-in-time-recovery
+
+<span class="c"># ~5 to 10 minutes. When it returns:</span>
+gcloud sql databases create applatform --instance=apnn-db
+gcloud sql users create apnn --instance=apnn-db --password="<span class="h">PASTE-YOUR-LONG-PASSWORD</span>"</pre></div>
+          <div class="note"><b>Do not add "authorized networks" or open the instance to 0.0.0.0/0.</b> Cloud Run reaches it through a private socket and your PC reaches it through the Auth Proxy (step 09). Neither needs the database exposed to the internet.</div>
+          <div class="check"><span class="k">Check</span><span><code>gcloud sql instances describe apnn-db --format="value(state)"</code> prints <code>RUNNABLE</code>.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="step" id="s6">
+      <div class="step-head">
+        <div class="num">06</div>
+        <div>
+          <h2>Store the secrets</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">10 min</span><span class="chip free">free at this volume</span></div>
+        </div>
+        <div class="body">
+          <p>Cloud Run must never see passwords in plain environment variables or in the repo. Secret Manager holds them; Cloud Run reads them at start. The database URL uses the Cloud SQL socket path, which is how Cloud Run connects without a public IP.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre><span class="c"># 1. database URL (socket form; note the @/ with no host)</span>
+$db = "postgresql+asyncpg://apnn:<span class="h">PASTE-YOUR-LONG-PASSWORD</span>@/applatform?host=/cloudsql/ap-nadu-nedu:asia-south1:apnn-db"
+[IO.File]::WriteAllText("$env:TEMP\db.txt", $db)
+gcloud secrets create DATABASE_URL --data-file="$env:TEMP\db.txt"
+Remove-Item "$env:TEMP\db.txt"
+
+<span class="c"># 2. app secret key (random 48 chars)</span>
+$key = -join ((48..57 + 65..90 + 97..122) | Get-Random -Count 48 | ForEach-Object {[char]$_})
+[IO.File]::WriteAllText("$env:TEMP\key.txt", $key)
+gcloud secrets create SECRET_KEY --data-file="$env:TEMP\key.txt"
+Remove-Item "$env:TEMP\key.txt"
+
+<span class="c"># 3. moderation key for the community board (sent as the X-Admin-Key header)</span>
+$adm = -join ((48..57 + 65..90 + 97..122) | Get-Random -Count 40 | ForEach-Object {[char]$_})
+[IO.File]::WriteAllText("$env:TEMP\adm.txt", $adm)
+gcloud secrets create ADMIN_KEY --data-file="$env:TEMP\adm.txt"
+Write-Host "SAVE THIS IN YOUR PASSWORD MANAGER: $adm"
+Remove-Item "$env:TEMP\adm.txt"
+
+<span class="c"># 4. let Cloud Run's default service account read them</span>
+$pn = gcloud projects describe ap-nadu-nedu --format="value(projectNumber)"
+foreach ($s in "DATABASE_URL","SECRET_KEY","ADMIN_KEY") {
+  gcloud secrets add-iam-policy-binding $s `
+    --member="serviceAccount:$pn-compute@developer.gserviceaccount.com" `
+    --role="roles/secretmanager.secretAccessor"
+}</pre></div>
+          <p>The Anthropic key for the fact pipeline is not needed here: that pipeline runs on your PC, so the key lives in your local <code>backend\.env</code> only.</p>
+          <div class="check"><span class="k">Check</span><span><code>gcloud secrets list</code> shows all three names. Never print their values into a terminal you might screenshot.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="step" id="s7">
+      <div class="step-head">
+        <div class="num">07</div>
+        <div>
+          <h2>Backend prep</h2>
+          <div class="meta"><span class="chip who">Claude, after your go</span><span class="chip">1 session</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <div class="claude-box"><b>What I change, and why each is needed before step 08.</b> These are small, contained edits to the backend; nothing in the frontend or seeds moves. I ship them the usual way and you review before running the deploy.</div>
+          <ul>
+            <li><strong>Redis becomes optional.</strong> The cache service currently assumes a Redis at localhost. There is no Redis on Cloud Run at this stage, so the app must fall back to an in-process cache and keep serving rather than fail at startup.</li>
+            <li><strong>Cache headers on every read endpoint.</strong> Public GET responses get <code>Cache-Control: public, max-age=300, stale-while-revalidate=3600</code>. Firebase Hosting's CDN honours this, which is what lets a lakh of readers hit the edge instead of your database.</li>
+            <li><strong>One uvicorn worker.</strong> Cloud Run gives the container one CPU and scales by adding containers; two workers per container only doubles memory. The Dockerfile command changes to <code>--workers 1</code>.</li>
+            <li><strong>Production CORS list from an env var</strong> so the <code>web.app</code> origin (and later your domain) is allowed without a code change. With the <code>/api</code> rewrite in step 10 the browser never needs CORS anyway, but the API stays usable directly.</li>
+            <li><strong>Health endpoint reports database reachability</strong> so the uptime check in step 11 fails when the DB is down, not only when the container is.</li>
+            <li><strong>Celery import guarded</strong> so the API starts with no broker configured. The scheduling code stays in the repo, unused, until we decide whether to retire it.</li>
+          </ul>
+          <div class="check"><span class="k">Check</span><span>I verify locally in my sandbox with the same Dockerfile: container starts with no Redis, <code>/health</code> returns 200 with <code>db: ok</code>, and every read endpoint carries the cache header.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section class="step" id="s8">
+      <div class="step-head">
+        <div class="num">08</div>
+        <div>
+          <h2>Deploy the backend to Cloud Run</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">10 min, first build is slow</span><span class="chip free">free tier: 2M requests/mo</span></div>
+        </div>
+        <div class="body">
+          <p>One command builds the Docker image from your <code>backend</code> folder (Cloud Build does it, you do not need Docker installed), pushes it, and starts the service. The flags are the guard rails: scale to zero when idle, never more than five containers, secrets mounted from Secret Manager, the Cloud SQL socket attached.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>cd "C:\Users\gadik\Documents\Claude\Projects\Politics Platform\politics-platform\backend"
+
+gcloud run deploy apnn-api --source . `
+  --region asia-south1 --platform managed `
+  --allow-unauthenticated `
+  --port 8000 --cpu 1 --memory 512Mi --concurrency 80 --timeout 60 `
+  --min-instances 0 --max-instances 5 `
+  --add-cloudsql-instances ap-nadu-nedu:asia-south1:apnn-db `
+  --set-secrets "DATABASE_URL=DATABASE_URL:latest,SECRET_KEY=SECRET_KEY:latest,ADMIN_KEY=ADMIN_KEY:latest" `
+  --set-env-vars "^;^APP_ENV=production;ALLOWED_ORIGINS=https://ap-nadu-nedu.web.app,https://apfactcheck.dhethi.com"
+
+<span class="c"># answer Y when asked to create the Artifact Registry repo. 5 to 8 minutes.</span>
+<span class="c"># it ends by printing a Service URL like https://apnn-api-xxxxx-el.a.run.app</span></pre></div>
+          <p>"Allow unauthenticated" means the public can call the API, which is the point of a public platform; it does not expose the database or the console. The empty database is fine for this step; step 09 fills it.</p>
+          <div class="check"><span class="k">Check</span><span>Open <code>&lt;Service URL&gt;/health</code> in a browser: JSON with status ok and <code>db: ok</code>. <code>&lt;Service URL&gt;/api/v1/projects</code> returns an empty list, not an error.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="step" id="s9">
+      <div class="step-head">
+        <div class="num">09</div>
+        <div>
+          <h2>Migrate and seed from your PC</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">15 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>The Cloud SQL Auth Proxy is a small program that opens an encrypted tunnel from your PC to the cloud database using your Google login. Through it, the same Alembic migrations and seed loader you run locally run against the cloud. This is also exactly how the scrapers will write to the cloud later (step 12).</p>
+          <p>Download <code>cloud-sql-proxy.x64.exe</code> from the <a href="https://github.com/GoogleCloudPlatform/cloud-sql-proxy/releases">releases page</a>, rename it to <code>cloud-sql-proxy.exe</code>, and put it in the <code>backend</code> folder. The first command below adds it to <code>.gitignore</code> so the binary never enters the repo.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell · window 1 (leave running)</span><pre>cd "C:\Users\gadik\Documents\Claude\Projects\Politics Platform\politics-platform\backend"
+Add-Content ..\.gitignore "`ncloud-sql-proxy.exe"
+.\cloud-sql-proxy.exe ap-nadu-nedu:asia-south1:apnn-db --port 5435
+<span class="c"># port 5435 because your local Postgres already uses 5434</span></pre></div>
+          <div class="pre-wrap"><span class="lbl">PowerShell · window 2</span><pre>cd "C:\Users\gadik\Documents\Claude\Projects\Politics Platform\politics-platform\backend"
+$env:DATABASE_URL = "postgresql+asyncpg://apnn:<span class="h">PASTE-YOUR-LONG-PASSWORD</span>@127.0.0.1:5435/applatform"
+
+alembic upgrade head            <span class="c"># creates every table in the cloud DB</span>
+python scripts\load_seed_data.py   <span class="c"># loads the 7 curated seeds</span></pre></div>
+          <div class="note"><b>Setting <code>$env:DATABASE_URL</code> affects only that window.</b> Your local <code>.env</code> and local database are untouched. Close the window when done and the variable is gone.</div>
+          <div class="check"><span class="k">Check</span><span><code>&lt;Service URL&gt;/api/v1/projects</code> now returns your projects, and <code>/api/v1/mous/summits</code> returns the five summits. That is the live database answering from Mumbai.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="step" id="s10">
+      <div class="step-head">
+        <div class="num">10</div>
+        <div>
+          <h2>Frontend on Firebase Hosting, with the /api rewrite</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">20 min</span><span class="chip free">free tier</span></div>
+        </div>
+        <div class="body">
+          <p>Firebase Hosting is Google's static CDN. It serves the React build from edge locations and, through one rule in <code>firebase.json</code>, forwards anything under <code>/api/</code> to the Cloud Run service. The site and the API therefore share one address, so the frontend calls <code>/api/v1/...</code> relatively and CORS never enters the picture.</p>
+          <p>The Firebase CLI is a global tool, installed outside the project, so it does not touch <code>node_modules</code> or your dev server.</p>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>npm install -g firebase-tools
+firebase login
+
+cd "C:\Users\gadik\Documents\Claude\Projects\Politics Platform\politics-platform\ap-nadu-nedu"
+firebase init hosting
+<span class="c">#  ? Use an existing project  → ap-nadu-nedu
+#  ? Public directory          → dist
+#  ? Single-page app           → Yes
+#  ? Set up GitHub deploys     → No (step 14, later)
+#  ? Overwrite dist/index.html → No</span></pre></div>
+          <p>Now replace the generated <code>firebase.json</code> with this. The <code>/api/**</code> rule must come before the catch-all, and the long cache on hashed assets is safe because Vite renames files whenever their content changes.</p>
+          <div class="pre-wrap"><span class="lbl">ap-nadu-nedu/firebase.json</span><pre>{
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      { "source": "/api/**", "run": { "serviceId": "apnn-api", "region": "asia-south1" } },
+      { "source": "**", "destination": "/index.html" }
+    ],
+    "headers": [
+      { "source": "**/*.@(js|css|woff2)",
+        "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+      { "source": "/index.html",
+        "headers": [ { "key": "Cache-Control", "value": "no-cache" } ] }
+    ]
+  }
+}</pre></div>
+          <p>Create <code>ap-nadu-nedu\.env.production</code> with one line so the production build uses the relative path (your <code>.env</code> keeps pointing at localhost for dev):</p>
+          <div class="pre-wrap"><span class="lbl">ap-nadu-nedu/.env.production</span><pre>VITE_API_URL=/api/v1</pre></div>
+          <div class="pre-wrap"><span class="lbl">PowerShell</span><pre>npm run build
+firebase deploy --only hosting
+<span class="c"># prints: Hosting URL: https://ap-nadu-nedu.web.app</span></pre></div>
+          <div class="check"><span class="k">Check</span><span>Open the Hosting URL on your phone over mobile data. Home map loads, Projects shows live data, switching to Telugu translates the page, and the browser's Network tab shows <code>/api/v1/...</code> calls returning from the same host. If you see icons as raw text, the vendored font did not build; tell me.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="step" id="s11">
+      <div class="step-head">
+        <div class="num">11</div>
+        <div>
+          <h2>Uptime check and alert</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">5 min</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Console → Monitoring → <strong>Uptime checks</strong> → Create. Protocol HTTPS, resource type URL, hostname = your Cloud Run service host (without https://), path <code>/health</code>, check every 5 minutes from the Asia-Pacific region. On the alert page, add a notification channel with your email. Later this same channel receives the budget alerts and the pipeline digest.</p>
+          <div class="check"><span class="k">Check</span><span>The check shows green within a few minutes, and the email channel shows as verified (Google sends a confirmation link; click it, or alerts never arrive).</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="step" id="s12">
+      <div class="step-head">
+        <div class="num">12</div>
+        <div>
+          <h2>Later: scrapers write to the cloud database</h2>
+          <div class="meta"><span class="chip who">Claude prepares, you register</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Once the site is live, the daily refresh on your PC should feed the cloud database instead of the local one. I will write <code>refresh_cloud.bat</code>: start the Auth Proxy, run every scraper and the seed loader with <code>DATABASE_URL</code> pointed at port 5435, run the source check, stop the proxy, and write one row per run into a <code>pipeline_runs</code> table so the site can show "last checked" per source. You register it once in Task Scheduler at 7:00 AM. This is also where the Approach B proposal queue lands when we build it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="step" id="s13">
+      <div class="step-head">
+        <div class="num">13</div>
+        <div>
+          <h2>Later: your domain and Cloudflare</h2>
+          <div class="meta"><span class="chip">You</span><span class="chip">30 min + DNS wait</span><span class="chip cost">domain ~₹800 to 1,500/yr</span></div>
+        </div>
+        <div class="body">
+          <p>When you own a domain: add the site to Cloudflare (free plan) and point the registrar's nameservers at Cloudflare. In Firebase Hosting → Add custom domain, Google gives you a TXT record and two A records; create them in Cloudflare with the proxy <strong>off</strong> (grey cloud) until Firebase shows the certificate as active, which can take up to a day. Only then switch the proxy on and set Cloudflare SSL mode to <strong>Full (strict)</strong>. Switching the proxy on too early is the classic way this step fails.</p>
+          <p>Then add the new origin to the Cloud Run <code>ALLOWED_ORIGINS</code> variable with one <code>gcloud run services update</code> command, which I will give you at that point.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="step" id="s14">
+      <div class="step-head">
+        <div class="num">14</div>
+        <div>
+          <h2>Later: auto-deploy from GitHub</h2>
+          <div class="meta"><span class="chip who">Claude, after your go</span><span class="chip free">free</span></div>
+        </div>
+        <div class="body">
+          <p>Once you are used to the manual deploy, I replace it with a GitHub Actions workflow: on every push to <code>main</code>, run the backend tests and the i18n parity check, build and deploy the backend to Cloud Run, build and deploy the frontend to Firebase Hosting. Authentication uses Workload Identity Federation, so no service-account key file ever sits in GitHub. From then on, "ship" means "push".</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" id="costs">
+      <div class="step-head">
+        <div class="num" aria-hidden="true">₹</div>
+        <div>
+          <h2>What this costs, honestly</h2>
+        </div>
+        <div class="body">
+          <div class="tbl"><table>
+            <thead><tr><th>Service</th><th>During trial</th><th>After 90 days</th><th>At 1 lakh readers</th></tr></thead>
+            <tbody>
+              <tr><td>Cloud SQL db-f1-micro</td><td class="n">from credit</td><td class="n">~₹850/mo</td><td class="n">upgrade tier, ~₹4,000+/mo</td></tr>
+              <tr><td>Cloud Run</td><td class="n">₹0</td><td class="n">₹0 under 2M requests</td><td class="n">~₹1,500 to 3,000/mo with min-instances 2</td></tr>
+              <tr><td>Firebase Hosting</td><td class="n">₹0</td><td class="n">₹0 under 10 GB/mo transfer</td><td class="n">bandwidth billed unless Cloudflare in front (step 13)</td></tr>
+              <tr><td>Secret Manager, Monitoring, Cloud Build</td><td class="n">₹0</td><td class="n">₹0 at this volume</td><td class="n">₹0 to small</td></tr>
+              <tr><td>Claude API (pipeline, on your PC)</td><td class="n">separate, prepaid</td><td class="n">₹200 to 2,000/mo by document volume</td><td class="n">same, volume-driven not reader-driven</td></tr>
+            </tbody>
+          </table></div>
+          <p>The reader count does not drive the bill until the far right column, because the edge cache absorbs reads. The document count drives the pipeline bill, and government publishes tens of relevant documents a month, not thousands.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer><div class="wrap">AP Nadu Nedu · by dhethi · runbook prepared 27 Aug 2026. Steps 07, 12 and 14 change project files and wait for your go, per our working rule.</div></footer>

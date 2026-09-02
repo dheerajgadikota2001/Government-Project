@@ -1,0 +1,26 @@
+{
+  "_readme": "The states this platform can serve. Andhra Pradesh is the only one with data today, but every seed record carries a state key from the start so that adding a second state is a data-collection job rather than a rewrite. A state is added here first; nothing else in the codebase should ever hardcode one.",
+  "default": "AP",
+  "states": [
+    {
+      "key": "AP",
+      "name": "Andhra Pradesh",
+      "formed": "2014-06-02",
+      "formed_note": "Reorganised on 2 June 2014, when Telangana was separated. Figures before that date are for the undivided state and are never compared with figures after it.",
+      "assembly_seats": 175,
+      "lok_sabha_seats": 25,
+      "districts": 26,
+      "districts_note": "Reorganised from 13 districts into 26 in April 2022.",
+      "tenures": [
+        {"key": "tdp1",  "party": "TDP",         "from": "2014-06-08", "to": "2019-05-29", "fy_end_from": 2015, "fy_end_to": 2019},
+        {"key": "ysrcp", "party": "YSRCP",       "from": "2019-05-30", "to": "2024-06-11", "fy_end_from": 2020, "fy_end_to": 2024},
+        {"key": "tdp2",  "party": "TDP-led NDA", "from": "2024-06-12", "to": null,         "fy_end_from": 2025, "fy_end_to": null}
+      ],
+      "languages": ["en", "te", "hi", "ur", "ta", "or"],
+      "gazette": "https://apegazette.cgg.gov.in",
+      "government_orders": "https://goir.ap.gov.in",
+      "finance_department": "https://apfinance.gov.in",
+      "auditor": "https://cag.gov.in/ag/andhra-pradesh/en"
+    }
+  ]
+}

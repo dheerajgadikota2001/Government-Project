@@ -5,6 +5,9 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from sqlalchemy import or_
+
+from app.constants.news_topics import NEWS_TOPICS, topic_by_key
 from app.database import get_db
 from app.models.news import NewsArticle, NewsCategory, NewsSource
 from app.schemas.common import PaginatedResponse
@@ -14,9 +17,35 @@ from app.services.cache import cache_response
 router = APIRouter(prefix="/news", tags=["News"])
 
 
+def _topic_clause(topic: dict):
+    """
+    A topic matches an article when the article's stored category belongs to
+    the topic, or when one of the topic's words appears as a WHOLE WORD in the
+    article's own headline or summary. Whole-word matching matters: without it
+    "ai" would match "rain" and "said". Grouping only — never a claim about
+    the article.
+    """
+    import re as _re
+
+    conds = []
+    if topic["categories"]:
+        conds.append(NewsArticle.category.in_(topic["categories"]))
+    words = [w.strip() for w in topic["keywords"] if w.strip()]
+    if words:
+        # \m ... \M are Postgres word boundaries; longest first so phrases win.
+        pattern = r"\m(" + "|".join(
+            _re.escape(w).replace(r"\ ", r"\s+")
+            for w in sorted(words, key=len, reverse=True)
+        ) + r")\M"
+        conds.append(NewsArticle.headline.op("~*")(pattern))
+        conds.append(func.coalesce(NewsArticle.summary, "").op("~*")(pattern))
+    return or_(*conds) if conds else None
+
+
 @router.get("/", response_model=PaginatedResponse[NewsListOut])
 @cache_response(ttl=120)  # 2 min cache — news is time-sensitive
 async def list_news(
+    topic: Optional[str] = Query(None, description="Reader-facing topic key from /news/topics"),
     category: Optional[NewsCategory] = Query(None),
     source: Optional[NewsSource] = Query(None),
     district: Optional[str] = Query(None),
@@ -31,6 +60,12 @@ async def list_news(
     """
     stmt = select(NewsArticle)
 
+    if topic:
+        t = topic_by_key(topic)
+        if t is not None:
+            clause = _topic_clause(t)
+            if clause is not None:
+                stmt = stmt.where(clause)
     if category:
         stmt = stmt.where(NewsArticle.category == category)
     if source:
@@ -85,6 +120,40 @@ async def get_latest_news(
                 item.summary = a.summary_telugu
         items.append(item)
     return items
+
+
+@router.get("/topics")
+@cache_response(ttl=300)
+async def get_news_topics(db: AsyncSession = Depends(get_db)):
+    """
+    The reader-facing topics, each with how many collected articles fall in it
+    right now. A topic is our grouping of published articles — by the article's
+    stored category and by words in its own headline or summary. It is a way to
+    browse, not a claim about the article, and every article keeps its outlet
+    and its link.
+    """
+    out = []
+    for t in NEWS_TOPICS:
+        clause = _topic_clause(t)
+        stmt = select(func.count(NewsArticle.id))
+        if clause is not None:
+            stmt = stmt.where(clause)
+        count = (await db.execute(stmt)).scalar_one()
+        out.append({
+            "key": t["key"], "label": t["label"], "label_telugu": t["label_telugu"],
+            "blurb": t["blurb"], "count": count or 0,
+        })
+    total = (await db.execute(select(func.count(NewsArticle.id)))).scalar_one()
+    return {
+        "topics": out,
+        "total_articles": total or 0,
+        "method_note": (
+            "Topics are our grouping of the articles outlets published — by each article's "
+            "recorded category and by words in its own headline or summary. An article can "
+            "appear under more than one topic. Nothing here is a judgement of an article's "
+            "accuracy; the outlet's name and a link to the original travel with every item."
+        ),
+    }
 
 
 @router.get("/{article_id}", response_model=NewsArticleOut)
