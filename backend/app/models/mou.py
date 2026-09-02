@@ -81,6 +81,14 @@ class MOU(Base):
     source_portal: Mapped[str] = mapped_column(String(100), nullable=False)
     source_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)
 
+    # How far this entry is from a government document. Twenty-six of twenty-eight
+    # MoUs here are press or company sourced; without these columns the page cannot
+    # say so, and an unlabelled figure reads as confirmed when it is not.
+    source_tier: Mapped[Optional[str]] = mapped_column(String(20), nullable=True, index=True)
+    source_label: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
+    source_caveat: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    date_status: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+
     # Translation status
     is_translated: Mapped[bool] = mapped_column(default=False)
 

@@ -1,0 +1,4540 @@
+{
+ "state": "AP",
+ "_readme": "Per-government-tenure record for AP since bifurcation. Every figure transcribed from the named source (research pass 26 Aug 2026). Spending series are RBI/CAG official statistics. Scheme spend figures are GOVERNMENT CLAIMS from that government's own budget speeches — always labeled. Manifesto promises are quoted from party/official records with per-item caveats. stage: A=Accounts, RE=Revised Estimate, BE=Budget Estimate.",
+ "sources": {
+  "RBI-HB-T174": {
+   "title": "RBI Handbook of Statistics on Indian States 2024-25, Table 174 — Capital Outlay (source: RBI State Finances studies)",
+   "publisher": "Reserve Bank of India",
+   "date": "2025-12-11",
+   "url": "https://rbi.org.in/scripts/PublicationsView.aspx?id=23623",
+   "short": "RBI T174 — capital outlay"
+  },
+  "RBI-HB-T173": {
+   "title": "RBI Handbook, Table 173 — Capital Expenditure",
+   "publisher": "Reserve Bank of India",
+   "date": "2025-12-11",
+   "url": "https://rbi.org.in/scripts/PublicationsView.aspx?id=23622",
+   "short": "RBI T173 — capital expenditure"
+  },
+  "RBI-HB-T166": {
+   "title": "RBI Handbook, Table 166 — Revenue Expenditure",
+   "publisher": "Reserve Bank of India",
+   "date": "2025-12-11",
+   "url": "https://rbi.org.in/scripts/PublicationsView.aspx?id=23615",
+   "short": "RBI T166 — revenue expenditure"
+  },
+  "RBI-HB-T175": {
+   "title": "RBI Handbook, Table 175 — Social Sector Expenditure",
+   "publisher": "Reserve Bank of India",
+   "date": "2025-12-11",
+   "url": "https://rbi.org.in/scripts/PublicationsView.aspx?id=23624",
+   "short": "RBI T175 — social sector"
+  },
+  "RBI-SF-2526-S4": {
+   "title": "RBI State Finances 2025-26, Statement 4 — Decomposition of Gross Fiscal Deficit (capital outlay FY24-26)",
+   "publisher": "Reserve Bank of India",
+   "date": "2026-01-23",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23713",
+   "short": "RBI St.4"
+  },
+  "RBI-SF-2526-S26": {
+   "title": "RBI State Finances 2025-26, Statement 26 — Expenditure on Education (% of aggregate expenditure)",
+   "publisher": "Reserve Bank of India",
+   "date": "2026-01-23",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23735",
+   "short": "RBI St.26 — education %"
+  },
+  "RBI-SF-2526-S27": {
+   "title": "RBI State Finances 2025-26, Statement 27 — Expenditure on Medical, Public Health and Family Welfare (% of aggregate expenditure)",
+   "publisher": "Reserve Bank of India",
+   "date": "2026-01-23",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23736",
+   "short": "RBI St.27 — health %"
+  },
+  "RBI-SF-2526-S31": {
+   "title": "RBI State Finances 2025-26, Statement 31 — Social Sector Expenditure",
+   "publisher": "Reserve Bank of India",
+   "date": "2026-01-23",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23740",
+   "short": "RBI St.31"
+  },
+  "CAG-FY20": {
+   "title": "CAG State Finances Audit Report FY2020 — Ch.2 (capital outlay Table 2.12, committed expenditure Table 2.17)",
+   "publisher": "CAG of India",
+   "date": "2021-11-26",
+   "url": "https://cag.gov.in/en/audit-report/details/114676",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2021/Chapter-2-061a8a88a6a29e9.09214983.pdf",
+   "short": "CAG audit FY2020"
+  },
+  "CAG-FY22": {
+   "title": "CAG State Finances Audit Report FY2022 — Ch.2 (Tables 2.13, 2.20)",
+   "publisher": "CAG of India",
+   "date": "2023-03-24",
+   "url": "https://cag.gov.in/ag/andhra-pradesh/en/audit-report/details/118464",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2022/CHAPTER-2State-Finance-Audit-2023-0641dbded315689.65108011.pdf",
+   "short": "CAG audit FY2022"
+  },
+  "CAG-FY23": {
+   "title": "CAG State Finances Audit Report FY2023 — Ch.2 (capital outlay Table 2.15: 'decreased by 55.76 per cent'; committed expenditure Table 2.22)",
+   "publisher": "CAG of India",
+   "date": "2024-11-22",
+   "url": "https://cag.gov.in/ag/andhra-pradesh/en/audit-report/details/120878",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2024/Chapter-2-0673fda58ec54f9.39115958.pdf",
+   "short": "CAG audit FY2023"
+  },
+  "SPEECH-2019VOA": {
+   "title": "AP Vote-on-Account Budget Speech 2019-20 (FM Yanamala Ramakrishnudu, 5 Feb 2019) — the TDP government's end-of-tenure claims",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2019-02-05",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/Previous/speech_english.pdf",
+   "short": "Budget speech Feb 2019"
+  },
+  "SPEECH-2018": {
+   "title": "AP Budget Speech 2018-19 (8 Mar 2018)",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2018-03-08",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/Previous/SpeechEnglish%20(4).pdf",
+   "short": "Budget speech 2018"
+  },
+  "SPEECH-2019J": {
+   "title": "AP Budget Speech 2019-20 (12 Jul 2019) — first YSRCP budget, scheme designs",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2019-07-12",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/Previous/SpeechEnglish.pdf",
+   "short": "Budget speech Jul 2019"
+  },
+  "SPEECH-2020": {
+   "title": "AP Budget Speech 2020-21 (16 Jun 2020) — Navasakam scheme designs",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2020-06-16",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/Previous/SpeechEnglish%20(1).pdf",
+   "short": "Budget speech 2020"
+  },
+  "SPEECH-2024VOA": {
+   "title": "AP Vote-on-Account Budget Speech 2024-25 (FM Buggana Rajendranath, 7 Feb 2024) — the YSRCP government's end-of-tenure claims incl. the ₹2.53 lakh crore DBT statement",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2024-02-07",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/SpeechEnglish.pdf",
+   "short": "Budget speech Feb 2024"
+  },
+  "SPEECH-2026": {
+   "title": "AP Budget Speech 2026-27 (FM Payyavula Keshav, 14 Feb 2026) — current government's claims on Super Six schemes",
+   "publisher": "Finance Dept, Govt of AP",
+   "date": "2026-02-14",
+   "url": "https://apfinance.gov.in/budget-speech.html",
+   "short": "Budget speech 2026"
+  },
+  "SES-1718": {
+   "title": "AP Socio-Economic Survey 2017-18",
+   "publisher": "Planning Dept, Govt of AP",
+   "date": "2018-03-01",
+   "url": "https://apfinance.gov.in/socio.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2017-18.pdf",
+   "short": "Socio-Economic Survey 2017-18"
+  },
+  "SES-2425": {
+   "title": "AP Socio-Economic Survey 2024-25",
+   "publisher": "Planning Dept, Govt of AP",
+   "date": "2025-03-01",
+   "url": "https://apfinance.gov.in/socio.html",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf",
+   "short": "Socio-Economic Survey 2024-25"
+  },
+  "YSRCP-NAV": {
+   "title": "YSRCP official website — 'Navaratnalu' (the nine promises), 15 Nov 2018",
+   "publisher": "YSR Congress Party (party document)",
+   "date": "2018-11-15",
+   "url": "https://www.ysrcongress.com/special-news/ysrcp-navaratnalu-37894",
+   "short": "YSRCP Navaratnalu (party page)"
+  },
+  "NDA-2024-MAN": {
+   "title": "NDA (TDP-JSP-BJP) 2024 manifesto release — 'Super Six' (press record of the 30 Apr 2024 release)",
+   "publisher": "India TV (press record)",
+   "date": "2024-05-01",
+   "url": "https://www.indiatvnews.com/news/india/andhra-pradesh-assembly-election-2024-tdp-bjp-jsp-alliance-manifesto-20-lakh-jobs-skill-census-n-chandrababu-naidu-pawan-kalyan-lok-sabha-polls-2024-05-01-928872",
+   "short": "Super Six (press record)"
+  },
+  "TDP-2014-REC": {
+   "title": "TDP 2014 manifesto — press status-check records (no official party PDF found online; promises quoted from contemporaneous reviews)",
+   "publisher": "ThePrint / Telugu360 (press records)",
+   "date": "2018-03-20",
+   "url": "https://theprint.in/politics/four-years-since-bifurcation-status-check-naidu-achieved-andhra/43162/",
+   "short": "TDP 2014 promises (press records)"
+  },
+  "PMO-AMARAVATI": {
+   "title": "PM's address at the foundation ceremony of Amaravati, 22 Oct 2015",
+   "publisher": "PMO India (official)",
+   "date": "2015-10-22",
+   "url": "https://www.pmindia.gov.in/en/news_updates/text-of-pms-address-at-the-foundation-ceremony-of-amaravathi-new-capital-city-of-andhra-pradesh/",
+   "short": "PMO — Amaravati foundation"
+  },
+  "WB-AMARAVATI": {
+   "title": "World Bank statement on the Amaravati project, 21 Jul 2019 ('On July 15 the Government of India withdrew its request… for financing')",
+   "publisher": "World Bank (official)",
+   "date": "2019-07-21",
+   "url": "https://www.worldbank.org/en/news/press-release/2019/07/21/world-bank-andhra-pradesh-amaravati",
+   "short": "World Bank — Amaravati"
+  },
+  "PIB-POLAVARAM-25": {
+   "title": "PIB Year-End Review, Dept of Water Resources — revised Polavaram cost ₹30,436.95 Cr approved 28 Aug 2024",
+   "publisher": "PIB, Govt of India (official)",
+   "date": "2025-01-25",
+   "url": "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2096022&reg=3&lang=2",
+   "short": "PIB — Polavaram approval"
+  },
+  "PIB-AMARAVATI-25": {
+   "title": "PIB — PM lays foundation of ₹58,000+ crore Amaravati capital works, 2 May 2025",
+   "publisher": "PIB, Govt of India (official)",
+   "date": "2025-05-02",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2126248",
+   "short": "PIB — Amaravati restart"
+  },
+  "UNION-BUDGET-24": {
+   "title": "Union Budget Speech 2024-25, paras 33-34 — ₹15,000 crore for AP capital; Polavaram completion commitment",
+   "publisher": "Ministry of Finance, Govt of India (official)",
+   "date": "2024-07-23",
+   "url": "https://www.indiabudget.gov.in/budget2024-25/doc/Budget_Speech.pdf",
+   "short": "Union Budget 2024 (AP paras)"
+  },
+  "GOOGLE-VIZAG": {
+   "title": "Google official announcement — first AI hub in India at Visakhapatnam, $15 bn, 14 Oct 2025",
+   "publisher": "Google (official)",
+   "date": "2025-10-14",
+   "url": "https://www.googlecloudpresscorner.com/2025-10-14-Google-Announces-First-AI-Hub-in-India,-Bringing-Companys-Full-AI-Stack-and-Consumer-Services-to-Country",
+   "short": "Google — Vizag AI hub"
+  },
+  "REORG-ACT": {
+   "title": "AP Reorganisation Act 2014 — G.O. copy (GO 117, appointed day 2 June 2014)",
+   "publisher": "Government of Andhra Pradesh (official)",
+   "date": "2014-06-02",
+   "url": "https://apfinance.gov.in",
+   "pdf": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/State-Reorganisation-Go's/GO117,%20BG1,2014.pdf",
+   "short": "Reorganisation Act G.O."
+  },
+  "KIA-2017": {
+   "title": "Kia Motors corporate press release — MoU for Indian production plant with Govt of AP (Apr 2017)",
+   "publisher": "Kia Motors (official corporate)",
+   "date": "2017-05-03",
+   "url": "https://press.kia.com/content/dam/kiapress/EU/download-files/17-05-03-India-Production-release/Kia-MOU-Indian-production-Final-3-May-2017.doc",
+   "short": "Kia corporate release"
+  },
+  "TRIB-NDA-EXIT": {
+   "title": "TDP exits NDA, moves no-confidence motion (16 Mar 2018)",
+   "publisher": "The Tribune (press record)",
+   "date": "2018-03-16",
+   "url": "https://www.tribuneindia.com/news/archive/nation/tdp-exits-nda-moves-no-confidence-motion-559183",
+   "short": "Tribune — NDA exit"
+  },
+  "LOKNITI-2019": {
+   "title": "Lokniti-CSDS party performance data, 2019 elections (independent academic record)",
+   "publisher": "Lokniti-CSDS (academic, non-partisan)",
+   "date": "2019-05-23",
+   "url": "https://www.lokniti.org/media/PDF-upload/1586442736_53673400_party_performance.pdf",
+   "short": "Lokniti-CSDS 2019 results"
+  },
+  "DH-JAGAN-OATH": {
+   "title": "Jagan Mohan Reddy sworn in as CM (30 May 2019)",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2019-05-30",
+   "url": "https://www.deccanherald.com/india/jagan-takes-oath-as-cm-promises-transparent-govt-737072",
+   "short": "DH — 2019 oath"
+  },
+  "TSF-3CAP": {
+   "title": "Three-capitals timeline — announcement (17 Dec 2019), bills, HC ruling (3 Mar 2022)",
+   "publisher": "The South First (press record)",
+   "date": "2022-12-17",
+   "url": "https://thesouthfirst.com/andhrapradesh/three-years-on-what-is-andhra-cm-jagans-three-capitals-plan-why-is-it-in-limbo/",
+   "short": "South First — 3-capitals timeline"
+  },
+  "DH-3CAP-ASSENT": {
+   "title": "Three-capital bills receive Governor's assent (31 Jul 2020)",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2020-07-31",
+   "url": "https://www.deccanherald.com/india/jaganmohan-reddys-contentious-three-capital-bills-get-andhra-pradesh-governors-nod-867977.html",
+   "short": "DH — assent"
+  },
+  "DH-3CAP-REPEAL": {
+   "title": "Government withdraws three-capital legislation (22 Nov 2021)",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2021-11-22",
+   "url": "https://www.deccanherald.com/national/south/andhra-pradesh-government-withdraws-3-capital-legislation-1053330.html",
+   "short": "DH — repeal"
+  },
+  "DH-DISTRICTS": {
+   "title": "13 new districts come into existence (4 Apr 2022)",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2022-04-04",
+   "url": "https://www.deccanherald.com/india/andhra-gets-13-more-districts-in-line-with-cms-decentralisation-vision-1097671.html",
+   "short": "DH — 26 districts"
+  },
+  "TRIB-ARREST": {
+   "title": "Former CM Naidu arrested in skill-development-corporation case (9 Sep 2023)",
+   "publisher": "The Tribune (press record)",
+   "date": "2023-09-09",
+   "url": "https://www.tribuneindia.com/news/india/andhra-ex-cm-naidu-arrested-in-rs-550-cr-skill-development-fraud-case-542946",
+   "short": "Tribune — arrest"
+  },
+  "DH-2024-RESULT": {
+   "title": "2024 election result — NDA 164/175 (4 Jun 2024)",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2024-06-04",
+   "url": "https://www.deccanherald.com/elections/india/lok-sabha-elections-2024-naidu-routs-jagan-in-mega-comeback-3053746",
+   "short": "DH — 2024 result"
+  },
+  "NOA-OATH-2024": {
+   "title": "Naidu sworn in as CM for the fourth term (12 Jun 2024)",
+   "publisher": "News On Air — Prasar Bharati (government broadcaster)",
+   "date": "2024-06-12",
+   "url": "https://newsonair.gov.in/andhra-pradesh-nara-chandrababu-naidu-to-take-oath-as-cm-for-fourth-term-today",
+   "short": "News On Air — 2024 oath"
+  },
+  "DH-PENSION-24": {
+   "title": "Enhanced ₹4,000 pensions disbursed from July 2024",
+   "publisher": "Deccan Herald (press record)",
+   "date": "2024-07-01",
+   "url": "https://www.deccanherald.com/india/andhra-pradesh/andhra-cm-chandrababu-naidu-disburses-welfare-pensions-to-beneficiaries-3087482",
+   "short": "DH — pensions Jul 2024"
+  },
+  "NITI-FHI-25": {
+   "title": "NITI Aayog Fiscal Health Index 2025 (FY2022-23 data) — AP rank 17 of 18, score 20.9",
+   "publisher": "NITI Aayog (official)",
+   "date": "2025-01-24",
+   "url": "https://niti.gov.in/sites/default/files/2025-01/Fiscal_Health_Index_24012025_Final.pdf",
+   "pdf": "https://niti.gov.in/sites/default/files/2025-01/Fiscal_Health_Index_24012025_Final.pdf",
+   "short": "NITI Fiscal Health 2025"
+  },
+  "NITI-FHI-26": {
+   "title": "NITI Aayog Fiscal Health Index 2026 (FY2023-24 data) — AP rank 17 of 18, score 23.1",
+   "publisher": "NITI Aayog (official)",
+   "date": "2026-03-01",
+   "url": "https://niti.gov.in/sites/default/files/2026-03/Fiscal-Health-Index-2026.pdf",
+   "pdf": "https://niti.gov.in/sites/default/files/2026-03/Fiscal-Health-Index-2026.pdf",
+   "short": "NITI Fiscal Health 2026"
+  },
+  "UN-SDG-2019": {
+   "title": "SDG India Index 2019 release — AP score 67, joint 3rd",
+   "publisher": "UN in India / NITI Aayog",
+   "date": "2019-12-30",
+   "url": "https://india.un.org/en/163175-niti-aayog-releases-sdg-india-index-and-dashboard-2019",
+   "short": "SDG Index 2019"
+  },
+  "PIB-SDG-2324": {
+   "title": "PIB release, SDG India Index 2023-24 (4th edition)",
+   "publisher": "PIB / NITI Aayog (official)",
+   "date": "2024-07-12",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2032857&reg=48&lang=2",
+   "short": "SDG Index 2023-24 (PIB)"
+  },
+  "PIB-BRAP-16": {
+   "title": "BRAP 2016 — AP joint 1st with Telangana (98.78%)",
+   "publisher": "PIB / DPIIT (official)",
+   "date": "2016-10-31",
+   "url": "https://www.pib.gov.in/newsite/printrelease.aspx?relid=153134",
+   "short": "BRAP 2016 (PIB)"
+  },
+  "PIB-BRAP-18": {
+   "title": "BRAP 2017-18 — AP 1st",
+   "publisher": "PIB / DPIIT (official)",
+   "date": "2018-07-10",
+   "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1538275",
+   "short": "BRAP 2017-18 (PIB)"
+  },
+  "PIB-BRAP-19": {
+   "title": "BRAP 2019 — AP 1st",
+   "publisher": "PIB / DPIIT (official)",
+   "date": "2020-09-05",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1651598&reg=3&lang=2",
+   "short": "BRAP 2019 (PIB)"
+  },
+  "PIB-BRAP-20": {
+   "title": "BRAP 2020 — AP among 7 'Top Achievers'",
+   "publisher": "PIB / DPIIT (official)",
+   "date": "2022-06-30",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1838178",
+   "short": "BRAP 2020 (PIB)"
+  },
+  "PIB-BRAP-24": {
+   "title": "BRAP 2024 category tables (Lok Sabha reply) — AP listed in 'Fast Movers' tier",
+   "publisher": "PIB / DPIIT (official)",
+   "date": "2026-02-10",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2225808&reg=3&lang=1",
+   "short": "BRAP 2024 (PIB)"
+  },
+  "PIB-INNOV-20": {
+   "title": "India Innovation Index 2020 — AP 7th among major states",
+   "publisher": "PIB / NITI Aayog (official)",
+   "date": "2021-01-20",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1690487",
+   "short": "Innovation Index 2020 (PIB)"
+  },
+  "PIB-INNOV-21": {
+   "title": "India Innovation Index 2021 (3rd edn) — AP 9th of 17 major states",
+   "publisher": "PIB / NITI Aayog (official)",
+   "date": "2022-07-21",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1843317",
+   "short": "Innovation Index 2021 (PIB)"
+  },
+  "NITI-EPI-20": {
+   "title": "Export Preparedness Index 2020 — AP 20th overall (score 35.58)",
+   "publisher": "NITI Aayog (official report PDF)",
+   "date": "2020-08-26",
+   "url": "https://www.niti.gov.in/sites/default/files/2020-08/Digital_ExportPreparednessIndex2020_0.pdf",
+   "pdf": "https://www.niti.gov.in/sites/default/files/2020-08/Digital_ExportPreparednessIndex2020_0.pdf",
+   "short": "EPI 2020 (NITI PDF)"
+  },
+  "PIB-EPI-22": {
+   "title": "Export Preparedness Index 2022 — AP 8th (score 59.27)",
+   "publisher": "PIB / NITI Aayog (official)",
+   "date": "2023-07-17",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1940295&reg=3&lang=2",
+   "short": "EPI 2022 (PIB)"
+  },
+  "PIB-EPI-24": {
+   "title": "Export Preparedness Index 2024 (4th edn) — AP 5th among Large States",
+   "publisher": "PIB / NITI Aayog (official)",
+   "date": "2026-01-14",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2214514&reg=3&lang=1",
+   "short": "EPI 2024 (PIB)"
+  },
+  "PIB-GGI-21": {
+   "title": "Good Governance Index 2021 — AP in Group A; ranked No.1 in Agriculture & Allied sector",
+   "publisher": "PIB / DARPG (official)",
+   "date": "2021-12-25",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1785140&reg=3&lang=2",
+   "short": "GGI 2021 (PIB)"
+  },
+  "CAG-FY21G": {
+   "title": "CAG State Finances Audit Report FY2021 (pandemic-period year)",
+   "publisher": "CAG of India",
+   "date": "2022-09-21",
+   "url": "https://cag.gov.in/en/audit-report/details/117548",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2022/Chapter%202_Ap%20State%20finance%20English-06331758153e1a2.05377997.pdf",
+   "short": "CAG audit FY2021"
+  },
+  "RBI-HB-T19": {
+   "title": "RBI Handbook of Statistics on Indian States 2024-25, Table 19 — Per Capita NSDP (current prices, 2011-12 base; source NSO)",
+   "publisher": "Reserve Bank of India",
+   "date": "2025-12-11",
+   "url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23468",
+   "short": "RBI T19 — per-capita income"
+  },
+  "RBI-SF-ST2": {
+   "title": "RBI State Finances — Statement 2 (Revenue Receipts), AP row taken from the edition where each year is most final (editions 2016-17 → 2025-26; per-year edition URLs preserved in the seed)",
+   "publisher": "Reserve Bank of India",
+   "date": "2026-01-23",
+   "url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23711",
+   "short": "RBI St.2 — revenue receipts"
+  },
+  "RBI-HB21-T150": {
+   "title": "RBI Handbook of Statistics on Indian States (Nov 2021 edition), Table 150 — State-wise Own Tax Revenue",
+   "publisher": "Reserve Bank of India",
+   "date": "2021-11-24",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=20809",
+   "short": "RBI T150 — own tax revenue"
+  },
+  "rbi_hb_t19": {
+   "title": "RBI, Handbook of Statistics on Indian States — Table 19: Per Capita NSDP (current prices)",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23468",
+   "type": "official_statistics"
+  },
+  "rbi_hb_t21": {
+   "title": "RBI, Handbook of Statistics on Indian States — Table 21: GSDP (current prices)",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23470",
+   "type": "official_statistics"
+  },
+  "rbi_sf_s20": {
+   "title": "RBI, State Finances: A Study of Budgets 2025-26 — Statement 20: Outstanding liabilities as % of GSDP",
+   "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23729",
+   "type": "official_statistics"
+  },
+  "TDP-2014-CEO": {
+   "title": "TDP 2014 Andhra Pradesh election manifesto — copy filed with the Chief Electoral Officer (government record, ceotelangana.nic.in)",
+   "publisher": "Chief Electoral Officer, Telangana",
+   "date": "30 Mar 2014",
+   "short": "CEO record: TDP 2014 manifesto",
+   "url": "https://ceotelangana.nic.in/GE_2014/MANIFESTO%202-2014/TDP/andhra.pdf",
+   "pdf": "https://ceotelangana.nic.in/GE_2014/MANIFESTO%202-2014/TDP/andhra.pdf",
+   "note": "Existence and availability verified 26 Aug 2026 (archive capture returns HTTP 200); the party's own website no longer hosts this document."
+  },
+  "TDP-2014-CEO-WB": {
+   "title": "Wayback Machine capture (24 Jun 2024) of the CEO-filed TDP 2014 manifesto PDF",
+   "publisher": "Internet Archive (Wayback Machine)",
+   "date": "24 Jun 2024",
+   "short": "Archived copy",
+   "url": "https://web.archive.org/web/20240624112153/http://ceotelangana.nic.in/GE_2014/MANIFESTO%202-2014/TDP/andhra.pdf"
+  },
+  "TDP-2014-PRINT": {
+   "title": "Four years since bifurcation: status check of TDP's 2014 manifesto promises",
+   "publisher": "ThePrint",
+   "date": "20 Mar 2018",
+   "short": "ThePrint 2018 status-check",
+   "url": "https://theprint.in/politics/four-years-since-bifurcation-status-check-naidu-achieved-andhra/43162/"
+  },
+  "TDP-2014-DH": {
+   "title": "Contemporaneous report on TDP's 2014 pre-poll promises",
+   "publisher": "Deccan Herald",
+   "date": "27 Mar 2014",
+   "short": "Deccan Herald, Mar 2014",
+   "url": "https://www.deccanherald.com/archives/tdp-chief-apes-jayas-schemes-2184037"
+  },
+  "YSRCP-2019-PDF": {
+   "title": "YSRCP 2019 manifesto — official party PDF (Telugu scan)",
+   "publisher": "YSR Congress Party (ysrcongress.com)",
+   "date": "Apr 2019",
+   "short": "Official manifesto PDF",
+   "url": "https://www.ysrcongress.com/sites/default/files/article_images/2019/04/ysrcp_manifesto-2019.pdf",
+   "pdf": "https://www.ysrcongress.com/sites/default/files/article_images/2019/04/ysrcp_manifesto-2019.pdf"
+  },
+  "YSRCP-2019-WB": {
+   "title": "Wayback Machine capture (12 Feb 2026) of the official YSRCP 2019 manifesto PDF",
+   "publisher": "Internet Archive (Wayback Machine)",
+   "date": "12 Feb 2026",
+   "short": "Archived copy",
+   "url": "https://web.archive.org/web/20260212192147/https://www.ysrcongress.com/sites/default/files/article_images/2019/04/ysrcp_manifesto-2019.pdf"
+  },
+  "YSRCP-2019-HANS": {
+   "title": "Report of the manifesto release at Tadepalle on Ugadi, listing the Navaratnalu",
+   "publisher": "The Hans India",
+   "date": "6 Apr 2019",
+   "short": "Hans India, Apr 2019",
+   "url": "https://www.thehansindia.com/andhra-pradesh/ys-jagan-releases-ysrcp-2019-elections-manifesto-518687"
+  },
+  "YSRCP-2019-DH": {
+   "title": "Side-by-side coverage of the TDP and YSRCP 2019 manifestos",
+   "publisher": "Deccan Herald",
+   "date": "Apr 2019",
+   "short": "Deccan Herald, Apr 2019",
+   "url": "https://www.deccanherald.com/amp/story/india%2Ffreebies-galore-in-tdp-ysrcp-manifestoes-727316.html"
+  },
+  "NDA-2024-PDF": {
+   "title": "TDP 2024 manifesto — official party PDF (released 30 Apr 2024, joint NDA manifesto day; Telugu scan)",
+   "publisher": "Telugu Desam Party (telugudesam.org)",
+   "date": "30 Apr 2024",
+   "short": "Official manifesto PDF",
+   "url": "https://telugudesam.org/wp-content/uploads/2024/05/TDP-Manifesto-30-APR-2024.pdf",
+   "pdf": "https://telugudesam.org/wp-content/uploads/2024/05/TDP-Manifesto-30-APR-2024.pdf"
+  },
+  "NDA-2024-IA": {
+   "title": "Internet Archive copy of the TDP 2024 manifesto (Telugu, with OCR text)",
+   "publisher": "Internet Archive",
+   "date": "4 May 2024",
+   "short": "Archive.org copy",
+   "url": "https://archive.org/details/tdp-manifesto-2024-telugu-desam-party-manifesto-in-telugu"
+  },
+  "NDA-2024-DH": {
+   "title": "Report of the NDA joint manifesto release (TDP Super Six + JSP Shanmukha Vyuham)",
+   "publisher": "Deccan Herald",
+   "date": "30 Apr 2024",
+   "short": "Deccan Herald, Apr 2024",
+   "url": "https://www.deccanherald.com/elections/andhra-pradesh/andhra-assembly-elections-2024-nda-manifestopromises-super-six-3001476"
+  },
+  "NDA-2024-BS": {
+   "title": "Detailed report of the joint manifesto with all Super Six promises",
+   "publisher": "Business Standard",
+   "date": "1 May 2024",
+   "short": "Business Standard, May 2024",
+   "url": "https://www.business-standard.com/amp/elections/lok-sabha-election/ls-polls-andhra-pradesh-nda-partners-release-welfare-heavy-manifesto-124043001465_1.html"
+  },
+  "FC15-AP-EVAL": {
+   "title": "Evaluation of Andhra Pradesh State Finances (study commissioned by the Fifteenth Finance Commission, N. Sreedevi, CESS Hyderabad)",
+   "publisher": "Finance Commission of India",
+   "date": "May 2019",
+   "short": "15th FC — AP finances study",
+   "url": "https://fincomindia.nic.in/asset/doc/commission-reports/15th-FC/reports/studies/evaluation/Evaluation%20of%20Andhra%20Pradesh%20State%20Finances.pdf",
+   "pdf": "https://fincomindia.nic.in/asset/doc/commission-reports/15th-FC/reports/studies/evaluation/Evaluation%20of%20Andhra%20Pradesh%20State%20Finances.pdf"
+  },
+  "PIB-AP-2016": {
+   "title": "Central assistance to Andhra Pradesh after bifurcation — revenue deficit grant, capital city and backward areas package",
+   "publisher": "PIB / Ministry of Finance",
+   "date": "8 Sep 2016",
+   "short": "PIB, Sep 2016",
+   "url": "https://www.pib.gov.in/newsite/printrelease.aspx?relid=149631"
+  },
+  "PIB-AP-2019MHA": {
+   "title": "Releases under Section 94(3) of the AP Reorganisation Act 2014 (Rajya Sabha reply)",
+   "publisher": "PIB / Ministry of Home Affairs",
+   "date": "2 Jan 2019",
+   "short": "PIB/MHA, Jan 2019",
+   "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=187045&reg=3&lang=2"
+  },
+  "PIB-POLAVARAM-2018": {
+   "title": "Polavaram project — approved cost and central assistance released",
+   "publisher": "PIB / Ministry of Water Resources",
+   "date": "8 Feb 2018",
+   "short": "PIB Polavaram, 2018",
+   "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1519926"
+  },
+  "PIB-AP-TRANSFERS-2019": {
+   "title": "Central transfers to Andhra Pradesh, 2016-17 to 2018-19, and Polavaram releases",
+   "publisher": "PIB / Ministry of Finance",
+   "date": "25 Jun 2019",
+   "short": "PIB transfers, Jun 2019",
+   "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1575653&reg=48&lang=2"
+  },
+  "CAG-AP-FY21-C1": {
+   "title": "State Finances Audit Report, Government of Andhra Pradesh, year ended 31 March 2021 — Chapter 1",
+   "publisher": "Comptroller and Auditor General of India",
+   "date": "tabled 21 Sep 2022",
+   "short": "CAG FY2021 Ch.1",
+   "url": "https://cag.gov.in/uploads/download_audit_report/2022/Chapter%201_Ap%20State%20finance%20English-0633175814a0892.36753450.pdf",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2022/Chapter%201_Ap%20State%20finance%20English-0633175814a0892.36753450.pdf"
+  },
+  "CAG-AP-FY21-C2": {
+   "title": "State Finances Audit Report, Government of Andhra Pradesh, year ended 31 March 2021 — Chapter 2 (receipts)",
+   "publisher": "Comptroller and Auditor General of India",
+   "date": "tabled 21 Sep 2022",
+   "short": "CAG FY2021 Ch.2",
+   "url": "https://cag.gov.in/uploads/download_audit_report/2022/Chapter%202_Ap%20State%20finance%20English-06331758153e1a2.05377997.pdf",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2022/Chapter%202_Ap%20State%20finance%20English-06331758153e1a2.05377997.pdf"
+  },
+  "CAG-AP-FY22": {
+   "title": "State Finances Audit Report, Government of Andhra Pradesh, year ended 31 March 2022",
+   "publisher": "Comptroller and Auditor General of India",
+   "date": "2023",
+   "short": "CAG FY2022",
+   "url": "https://cag.gov.in/uploads/download_audit_report/2022/State-Finance-Audit-2023-0641dbf4cbb9056.86610987.pdf",
+   "pdf": "https://cag.gov.in/uploads/download_audit_report/2022/State-Finance-Audit-2023-0641dbf4cbb9056.86610987.pdf"
+  },
+  "PIB-LOCKDOWN-2020": {
+   "title": "Nationwide lockdown extended to 31 May 2020 (MHA order)",
+   "publisher": "PIB / Ministry of Home Affairs",
+   "date": "17 May 2020",
+   "short": "PIB lockdown order",
+   "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1624763&reg=3&lang=2"
+  },
+  "PIB-BORROW-2020": {
+   "title": "Additional borrowing of 2% of GSDP allowed to states for 2020-21, linked to four citizen-centric reforms",
+   "publisher": "PIB / Ministry of Finance, Department of Expenditure",
+   "date": "24 Sep 2020",
+   "short": "PIB borrowing window",
+   "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1658681"
+  },
+  "PIB-BORROW-2021": {
+   "title": "Andhra Pradesh completes all four citizen-centric reforms; additional borrowing permission of ₹9,190 crore",
+   "publisher": "PIB / Ministry of Finance, Department of Expenditure",
+   "date": "4 Feb 2021",
+   "short": "PIB AP reforms",
+   "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1695188"
+  },
+  "PIB-GST-BTB-2021": {
+   "title": "GST compensation back-to-back loan — state-wise releases (annexure)",
+   "publisher": "PIB / Ministry of Finance",
+   "date": "Mar 2021",
+   "short": "PIB GST loan annexure",
+   "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2021/mar/doc20213911.pdf",
+   "pdf": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2021/mar/doc20213911.pdf"
+  },
+  "PIB-GST-FINAL-2021": {
+   "title": "Final ₹44,000 crore tranche completing the ₹1.59 lakh crore back-to-back loan for 2021-22",
+   "publisher": "PIB / Ministry of Finance",
+   "date": "28 Oct 2021",
+   "short": "PIB GST final tranche",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1767194"
+  },
+  "PIB-POLAVARAM-2023": {
+   "title": "Additional ₹10,911.15 crore approved for balance Polavaram work to 41.15 m",
+   "publisher": "PIB / Ministry of Jal Shakti",
+   "date": "24 Jul 2023",
+   "short": "PIB Polavaram, 2023",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1942158"
+  },
+  "NITI-AP-2025": {
+   "title": "Macro and Fiscal Landscape of the State of Andhra Pradesh",
+   "publisher": "NITI Aayog",
+   "date": "Mar 2025",
+   "short": "NITI AP fiscal report",
+   "url": "https://www.niti.gov.in/sites/default/files/2025-03/Macro-and-Fiscal-Landscape-of-the-State-of-Andhra-Pradesh-1.pdf",
+   "pdf": "https://www.niti.gov.in/sites/default/files/2025-03/Macro-and-Fiscal-Landscape-of-the-State-of-Andhra-Pradesh-1.pdf"
+  },
+  "UNION-BUDGET-2425": {
+   "title": "Union Budget 2024-25 speech — paragraphs 33 to 36 on Andhra Pradesh",
+   "publisher": "Ministry of Finance",
+   "date": "23 Jul 2024",
+   "short": "Union Budget 2024-25 speech",
+   "url": "https://www.indiabudget.gov.in/budget2024-25/doc/budget_speech.pdf",
+   "pdf": "https://www.indiabudget.gov.in/budget2024-25/doc/budget_speech.pdf"
+  },
+  "WB-AMARAVATI-2024": {
+   "title": "World Bank support for Amaravati as a growth hub in Andhra Pradesh ($800M World Bank + $788.8M ADB)",
+   "publisher": "World Bank",
+   "date": "20 Dec 2024",
+   "short": "World Bank, Dec 2024",
+   "url": "https://www.worldbank.org/en/country/india/brief/world-bank-support-for-amaravati-as-a-growth-hub-in-andhra-pradesh"
+  },
+  "PIB-CORRIDORS-2024": {
+   "title": "National Industrial Corridor Development Programme — 12 new nodes including Orvakal and Kopparthy",
+   "publisher": "PIB",
+   "date": "Aug 2024",
+   "short": "PIB industrial corridors",
+   "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc2024830383801.pdf",
+   "pdf": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/aug/doc2024830383801.pdf"
+  },
+  "PRS-AP-2526": {
+   "title": "Andhra Pradesh Budget Analysis 2025-26",
+   "publisher": "PRS Legislative Research (non-partisan, compiled from AP budget documents)",
+   "date": "Mar 2025",
+   "short": "PRS AP budget 2025-26",
+   "url": "https://prsindia.org/files/budget/budget_state/andhra-pradesh/2025/AP_Budget_Analysis_2025-26.pdf",
+   "pdf": "https://prsindia.org/files/budget/budget_state/andhra-pradesh/2025/AP_Budget_Analysis_2025-26.pdf"
+  }
+ },
+ "spending": {
+  "capital_outlay": {
+   "label": "Capital outlay — money spent creating assets (schools, hospitals, roads, irrigation)",
+   "unit": "crore",
+   "sources": [
+    "RBI-HB-T174",
+    "RBI-SF-2526-S4",
+    "CAG-FY20",
+    "CAG-FY23"
+   ],
+   "note": "RBI's Capital Outlay series (asset-creating spending only). CAG's audited figures match within rounding. This is deliberately NOT the broader 'capital expenditure' series (which includes loan repayments) — the two must never be mixed.",
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 11405,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2016,
+     "value": 14172,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 15181,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 13491,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 19976,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 12242,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 18975,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 16373,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 7244,
+     "stage": "A",
+     "note": "CAG: capital outlay 'decreased by 55.76 per cent' this year — the lowest since bifurcation."
+    },
+    {
+     "fy_end": 2024,
+     "value": 23330.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2025,
+     "value": 24072.5,
+     "stage": "RE"
+    },
+    {
+     "fy_end": 2026,
+     "value": 40635.7,
+     "stage": "BE"
+    }
+   ]
+  },
+  "social_sector": {
+   "label": "Social sector expenditure — education, health, welfare, rural development together",
+   "unit": "crore",
+   "sources": [
+    "RBI-SF-2526-S31",
+    "RBI-HB-T175"
+   ],
+   "note": "RBI: includes social services, rural development and food storage under revenue expenditure, capital outlay and loans & advances.",
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 54917.8,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2016,
+     "value": 57520.0,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 62799.9,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 72855.8,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 76759.0,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 78797.3,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 86831.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 86746.1,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 102621.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2024,
+     "value": 123830.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2025,
+     "value": 131318.8,
+     "stage": "RE"
+    },
+    {
+     "fy_end": 2026,
+     "value": 159461.5,
+     "stage": "BE"
+    }
+   ]
+  },
+  "education_share": {
+   "label": "Education's share of total government spending (%)",
+   "unit": "percent",
+   "sources": [
+    "RBI-SF-2526-S26"
+   ],
+   "note": "RBI Statement 26 — includes sports, art and culture; revenue expenditure and capital outlay.",
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 12.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2016,
+     "value": 14.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 12.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 13.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 11.9,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 15.3,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 12.9,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 13.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 11.6,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2024,
+     "value": 12.4,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2025,
+     "value": 11.6,
+     "stage": "RE"
+    },
+    {
+     "fy_end": 2026,
+     "value": 10.9,
+     "stage": "BE"
+    }
+   ]
+  },
+  "health_share": {
+   "label": "Health's share of total government spending (%)",
+   "unit": "percent",
+   "sources": [
+    "RBI-SF-2526-S27"
+   ],
+   "note": "RBI Statement 27 — medical, public health and family welfare; revenue expenditure and capital outlay.",
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 4.1,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2016,
+     "value": 4.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 4.7,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 4.3,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 4.5,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 4.3,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 5.1,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 5.9,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 5.1,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2024,
+     "value": 6.0,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2025,
+     "value": 6.3,
+     "stage": "RE"
+    },
+    {
+     "fy_end": 2026,
+     "value": 6.1,
+     "stage": "BE"
+    }
+   ]
+  },
+  "committed_pct": {
+   "label": "Salaries + pensions + interest, as % of the state's revenue receipts (CAG audited)",
+   "unit": "percent",
+   "sources": [
+    "CAG-FY20",
+    "CAG-FY22",
+    "CAG-FY23"
+   ],
+   "note": "CAG calls this 'committed expenditure' — the part of income that is spoken for before anything can be built. FY2020–FY2022 use the revised (higher) salary series printed in the FY2023 report.",
+   "points": [
+    {
+     "fy_end": 2016,
+     "value": 54.78,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 56.27,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 59.87,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 57.45,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 66.18,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 68.76,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 57.45,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 64.62,
+     "stage": "A"
+    }
+   ]
+  }
+ },
+ "tenures": [
+  {
+   "key": "tdp1",
+   "party": "TDP",
+   "cm": "N. Chandrababu Naidu",
+   "from": "2014-06-08",
+   "to": "2019-05-29",
+   "fy_span": [
+    2015,
+    2019
+   ],
+   "capital_outlay_total": 74225,
+   "capital_outlay_note": "Sum of RBI capital-outlay actuals FY2014-15 to FY2018-19. Financial years approximate the tenure (it began June 2014, ended May 2019).",
+   "summary": "The first government of the divided state: chose and founded Amaravati as the capital (PM laid the foundation, Oct 2015), signed the era's marquee industrial deals (Kia, Apollo Tyres, Hero, Isuzu at Sri City), ran welfare mainly through pensions (NTR Bharosa), SHG support (Pasupu Kumkuma) and a farm-loan waiver, and broke with its central ally in 2018 over Special Category Status. Its own final budget speech claims ₹24,618 Cr on pensions and ₹8,604 Cr to 86 lakh SHG women.",
+   "timeline": [
+    {
+     "date": "2014-06-02",
+     "text": "Andhra Pradesh begins as a divided state (AP Reorganisation Act 'appointed day'); Hyderabad becomes shared capital for 10 years.",
+     "source": "REORG-ACT",
+     "source_name": "Reorganisation Act G.O. (official)"
+    },
+    {
+     "date": "2014-06-08",
+     "text": "N. Chandrababu Naidu sworn in as first Chief Minister of the divided state.",
+     "source": "REORG-ACT",
+     "source_name": "Reorganisation Act G.O. (official)"
+    },
+    {
+     "date": "2015-10-22",
+     "text": "Prime Minister lays the foundation stone of the new capital Amaravati at Uddandarayunipalem.",
+     "source": "PMO-AMARAVATI",
+     "source_name": "PMO India (official)"
+    },
+    {
+     "date": "2017-04-27",
+     "text": "Kia Motors signs its MoU for the ~USD 1.1 billion car plant at Anantapur — the tenure's biggest industrial win.",
+     "source": "KIA-2017",
+     "source_name": "Kia corporate release (official)"
+    },
+    {
+     "date": "2018-03-16",
+     "text": "TDP exits the NDA over the Special Category Status dispute and moves a no-confidence motion against the central government.",
+     "source": "TRIB-NDA-EXIT",
+     "source_name": "Tribune (press record)"
+    },
+    {
+     "date": "2019-02-05",
+     "text": "Final (vote-on-account) budget presents the government's own tally of its welfare record — pensions ₹24,618 Cr, Pasupu Kumkuma ₹8,604 Cr, 71 lakh scholarships ₹12,833 Cr.",
+     "source": "SPEECH-2019VOA",
+     "source_name": "Budget speech (official)"
+    },
+    {
+     "date": "2019-05-23",
+     "text": "Election result: YSRCP 151 of 175 seats; TDP 23. The tenure ends.",
+     "source": "LOKNITI-2019",
+     "source_name": "Lokniti-CSDS (academic record)"
+    }
+   ],
+   "schemes_note": "Amounts are this government's OWN claims, from its final budget speech (5 Feb 2019) and Socio-Economic Survey — labeled per item. CAG did not separately audit most scheme totals.",
+   "schemes": [
+    {
+     "name": "NTR Bharosa (pensions)",
+     "gives": "Monthly pension to elderly, widows, disabled and other categories — raised from ₹200 (pre-2014) to ₹2,000, with ₹3,000 announced at tenure end",
+     "spend_claim_crore": 24618,
+     "beneficiaries": "50.51 lakh pensioners (government claim, Feb 2019)",
+     "who": "elderly, widows, disabled persons — men and women",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "Pasupu Kumkuma",
+     "gives": "₹10,000 per woman self-help-group (DWCRA) member",
+     "spend_claim_crore": 8604,
+     "beneficiaries": "86,04,304 SHG members (government claim)",
+     "who": "women only, by design (SHG members)",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "Fee reimbursement / scholarships",
+     "gives": "Tuition-fee reimbursement for students",
+     "spend_claim_crore": 12833,
+     "beneficiaries": "71 lakh scholarships (government claim)",
+     "who": "students of all communities",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "Runa Mafi (farm-loan waiver)",
+     "gives": "Waiver of farmers' crop loans, announced outlay ~₹24,000 Cr",
+     "spend_claim_crore": null,
+     "beneficiaries": "final released total not published in the government's own last speech — shown as not published",
+     "who": "farmers",
+     "source": "SPEECH-2019VOA",
+     "note": "Announced outlay ₹24,000 Cr; the cumulative amount actually released was not stated in the final budget speech."
+    },
+    {
+     "name": "Chandranna Bima",
+     "gives": "Insurance cover ₹30,000–₹5 lakh for unorganised-sector workers",
+     "spend_claim_crore": 2685,
+     "beneficiaries": "claims settled for 1.2 lakh beneficiaries; ~2.6 crore workers covered per year (government claim)",
+     "who": "unorganised-sector workers",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "NTR Housing",
+     "gives": "Housing for the poor",
+     "spend_claim_crore": null,
+     "beneficiaries": "15.78 lakh houses sanctioned at project cost ₹31,793 Cr (sanctioned ≠ spent); consolidated completions not published",
+     "who": "poor households",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "Pelli Kanuka / Dulhan (marriage aid)",
+     "gives": "Marriage assistance for poor families",
+     "spend_claim_crore": 474,
+     "beneficiaries": "68,481 + 38,285 couples (government claim; ₹282.66 Cr + ₹191 Cr)",
+     "who": "poor families; Dulhan specifically for Muslim girls",
+     "source": "SPEECH-2019VOA"
+    },
+    {
+     "name": "Mukhyamantri Yuvanestham",
+     "gives": "Unemployment allowance ₹1,000, later ₹2,000/month",
+     "spend_claim_crore": null,
+     "beneficiaries": "4.3 lakh youth sanctioned (government claim)",
+     "who": "unemployed youth",
+     "source": "SPEECH-2019VOA"
+    }
+   ],
+   "manifesto": {
+    "title": "TDP 2014 manifesto — headline promises",
+    "caveat": "The party's own website no longer hosts the 2014 manifesto — but a copy survives as a government record: the manifesto filed with the Chief Electoral Officer (linked below, with an archived copy). Press records of its promises are linked alongside. Promise wordings here follow those records.",
+    "source": "TDP-2014-REC",
+    "promises": [
+     "Waiver of farmers' crop loans and of DWCRA (women's group) loans",
+     "A job for every household ('Intiko Udyogam') or unemployment allowance of ₹1,000–2,000 per month",
+     "Old-age pensions raised to ₹1,000 per month",
+     "Nine hours of free power supply to farmers",
+     "₹50,000 marriage assistance for poor Muslim girls; Mahalakshmi ₹2 lakh per girl child"
+    ],
+    "sources": [
+     "TDP-2014-CEO",
+     "TDP-2014-CEO-WB",
+     "TDP-2014-PRINT",
+     "TDP-2014-DH",
+     "TDP-2014-REC"
+    ]
+   }
+  },
+  {
+   "key": "ysrcp",
+   "party": "YSRCP",
+   "cm": "Y.S. Jagan Mohan Reddy",
+   "from": "2019-05-30",
+   "to": "2024-06-11",
+   "fy_span": [
+    2020,
+    2024
+   ],
+   "capital_outlay_total": 78164.5,
+   "capital_outlay_note": "Sum of RBI capital-outlay figures FY2019-20 to FY2023-24 (FY2023-24 from RBI St.4 Accounts). Financial years approximate the tenure.",
+   "summary": "A welfare-first government: converted most schemes to Direct Benefit Transfer under 'Navasakam' and, in its own final budget speech, claimed ₹2.53 lakh crore sent by DBT plus ₹1.68 lakh crore non-DBT — ₹4.21 lakh crore in all. It halted Amaravati works (the World Bank project lapsed after the Centre withdrew its financing request), pursued and then withdrew a three-capitals law, created 13 new districts, and saw capital outlay fall to its lowest-ever year (₹7,244 Cr, FY2022-23, per CAG) while social-sector spending rose sharply.",
+   "timeline": [
+    {
+     "date": "2019-05-30",
+     "text": "Y.S. Jagan Mohan Reddy sworn in as Chief Minister after winning 151 of 175 seats.",
+     "source": "DH-JAGAN-OATH",
+     "source_name": "Deccan Herald (press record)"
+    },
+    {
+     "date": "2019-07-21",
+     "text": "World Bank confirms the proposed USD 300M Amaravati project is dropped — 'On July 15 the Government of India withdrew its request… for financing.'",
+     "source": "WB-AMARAVATI",
+     "source_name": "World Bank (official)"
+    },
+    {
+     "date": "2019-12-17",
+     "text": "Three-capitals plan announced in the Assembly (executive Visakhapatnam, legislative Amaravati, judicial Kurnool); Amaravati farmers' protests begin.",
+     "source": "TSF-3CAP",
+     "source_name": "South First (press record)"
+    },
+    {
+     "date": "2020-07-31",
+     "text": "Decentralisation and CRDA-repeal bills receive the Governor's assent.",
+     "source": "DH-3CAP-ASSENT",
+     "source_name": "Deccan Herald (press record)"
+    },
+    {
+     "date": "2021-11-22",
+     "text": "Government withdraws the three-capitals legislation, saying an improved bill would follow.",
+     "source": "DH-3CAP-REPEAL",
+     "source_name": "Deccan Herald (press record)"
+    },
+    {
+     "date": "2022-04-04",
+     "text": "13 new districts created — Andhra Pradesh now has 26 districts.",
+     "source": "DH-DISTRICTS",
+     "source_name": "Deccan Herald (press record)"
+    },
+    {
+     "date": "2023-09-09",
+     "text": "Former CM Chandrababu Naidu arrested by AP CID in the skill-development-corporation case; sent to 14-day judicial custody.",
+     "source": "TRIB-ARREST",
+     "source_name": "Tribune (press record)"
+    },
+    {
+     "date": "2024-02-07",
+     "text": "Final (vote-on-account) budget states the government's own welfare tally: '₹2.53 lakh crore was spent through DBT between 2019-20 to 2023-24… ₹4.21 lakh crore has thus been transferred to the hands of the people.'",
+     "source": "SPEECH-2024VOA",
+     "source_name": "Budget speech (official)"
+    },
+    {
+     "date": "2024-06-04",
+     "text": "Election result: NDA 164 of 175 seats; YSRCP 11. The tenure ends.",
+     "source": "DH-2024-RESULT",
+     "source_name": "Deccan Herald (press record)"
+    }
+   ],
+   "schemes_note": "Amounts are this government's OWN claims from its final budget speech (7 Feb 2024). Rythu Bharosa includes the central PM-Kisan share. Several schemes were women-only by design — that is why beneficiary counts below are mostly women.",
+   "schemes": [
+    {
+     "name": "YSR Pension Kanuka",
+     "gives": "Monthly pension, ₹2,250 (2019) raised stepwise to ₹3,000 (Jan 2024)",
+     "spend_claim_crore": 84731,
+     "beneficiaries": "66.35 lakh pensioners (government claim)",
+     "who": "elderly, widows, disabled — men and women",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "Jagananna Amma Vodi",
+     "gives": "₹15,000 per year to a mother who sends her children to school",
+     "spend_claim_crore": 26067,
+     "beneficiaries": "43.61 lakh mothers, over 83 lakh students (government claim)",
+     "who": "paid to women (mothers) by design",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR Rythu Bharosa – PM Kisan",
+     "gives": "₹13,500 per year investment support per farmer family (includes the central PM-Kisan share)",
+     "spend_claim_crore": 33300,
+     "beneficiaries": "53.53 lakh farmer families (government claim)",
+     "who": "farmers incl. tenant farmers",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR Aasara",
+     "gives": "Reimbursement of women's SHG bank loans outstanding as on 11 Apr 2019, in four instalments",
+     "spend_claim_crore": 25571,
+     "beneficiaries": "78.94 lakh women in 7.98 lakh SHGs (government claim)",
+     "who": "women only, by design",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR Cheyutha",
+     "gives": "₹18,750 per year for 4 years (₹75,000 total) to SC/ST/BC/minority women aged 45–60",
+     "spend_claim_crore": 14129,
+     "beneficiaries": "over 26 lakh women (government claim)",
+     "who": "women only, by design",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "Jagananna Vidya Deevena",
+     "gives": "Full fee reimbursement for higher education",
+     "spend_claim_crore": 11901,
+     "beneficiaries": "about 52 lakh students (government claim)",
+     "who": "students",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR Sunna Vaddi",
+     "gives": "Zero-interest subvention on SHG loans",
+     "spend_claim_crore": 4969,
+     "beneficiaries": "women SHG members (government claim)",
+     "who": "women only (SHG component)",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "Jagananna Vasathi Deevena",
+     "gives": "₹20,000 per year hostel/food support for degree-and-above students",
+     "spend_claim_crore": 4276,
+     "beneficiaries": "about 52 lakh students (government claim)",
+     "who": "students",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR Kapu Nestham",
+     "gives": "₹15,000 per year for 5 years to Kapu/Balija/Telaga/Ontari women",
+     "spend_claim_crore": 2029,
+     "beneficiaries": "3.57 lakh women (government claim)",
+     "who": "women only, by design",
+     "source": "SPEECH-2024VOA"
+    },
+    {
+     "name": "YSR EBC Nestham",
+     "gives": "Support to economically-backward-section women",
+     "spend_claim_crore": 1257,
+     "beneficiaries": "4.39 lakh women (government claim)",
+     "who": "women only, by design",
+     "source": "SPEECH-2024VOA"
+    }
+   ],
+   "manifesto": {
+    "title": "YSRCP 2019 — the nine 'Navaratnalu'",
+    "caveat": "Listed from the party's own website (15 Nov 2018). The party's official manifesto PDF (a Telugu scan) is linked below, with an archived copy.",
+    "source": "YSRCP-NAV",
+    "promises": [
+     "YSR Rythu Bharosa — ₹50,000 support to farmers (₹12,500/yr), zero-interest crop loans, free borewells",
+     "Fee reimbursement — full fees plus ₹20,000/yr boarding-and-food allowance per student",
+     "Arogyasri — cover all medical treatments costing above ₹1,000",
+     "Jalayagnam — complete irrigation projects including Polavaram",
+     "Ban on alcohol — prohibition in three stages",
+     "Amma Vodi — ₹15,000 to mothers who send children to school",
+     "YSR Aasara & Cheyutha — SHG loan waiver + support for SC/ST/BC/minority women 45+",
+     "Pedalandariki Illu — 25 lakh houses for the poor in five years",
+     "Pension hike — eligibility age 65→60; ₹2,000/month (₹3,000 disabled)"
+    ],
+    "sources": [
+     "YSRCP-2019-PDF",
+     "YSRCP-2019-WB",
+     "YSRCP-2019-HANS",
+     "YSRCP-2019-DH",
+     "YSRCP-NAV"
+    ]
+   }
+  },
+  {
+   "key": "tdp2",
+   "party": "TDP-led NDA",
+   "cm": "N. Chandrababu Naidu",
+   "from": "2024-06-12",
+   "to": null,
+   "fy_span": [
+    2025,
+    2026
+   ],
+   "capital_outlay_total": null,
+   "capital_outlay_note": "Only estimates exist so far: ₹24,072.5 Cr (FY2024-25 revised estimate) and ₹40,635.7 Cr budgeted for FY2025-26 — audited actuals for this tenure are not yet published, so no total is shown.",
+   "summary": "The current government: restarted Amaravati (PM laid foundations of ₹58,000+ Cr of capital works, May 2025), secured a Union-budget commitment of ₹15,000 Cr capital support and Polavaram completion (revised cost ₹30,436.95 Cr approved Aug 2024), rolled out the 'Super Six' welfare set (pension raise to ₹4,000, Thalliki Vandanam, Deepam-2, Annadata Sukhibhava, free bus travel for women), and pitched heavily for investment (Google's $15 bn Visakhapatnam AI hub, CII Partnership Summit MoU claims of ₹11+ lakh crore — summit figures are announcements, not ground-broken investment). Budgeted capital outlay for FY2025-26 (₹40,636 Cr) is the highest ever proposed — a budget estimate, not yet spent.",
+   "timeline": [
+    {
+     "date": "2024-06-12",
+     "text": "N. Chandrababu Naidu sworn in as Chief Minister for the fourth time after the NDA won 164 of 175 seats.",
+     "source": "NOA-OATH-2024",
+     "source_name": "News On Air (govt broadcaster)"
+    },
+    {
+     "date": "2024-07-01",
+     "text": "Enhanced pensions (₹4,000/month standard; up to ₹10,000 for severe illness) disbursed from the first month.",
+     "source": "DH-PENSION-24",
+     "source_name": "Deccan Herald (press record)"
+    },
+    {
+     "date": "2024-07-23",
+     "text": "Union Budget commits: '₹15,000 crore will be arranged' for the capital 'with additional amounts in future years', and 'financing and early completion of the Polavaram Irrigation Project'.",
+     "source": "UNION-BUDGET-24",
+     "source_name": "Union Budget speech (official)"
+    },
+    {
+     "date": "2024-08-28",
+     "text": "Union Cabinet approves Polavaram's revised cost of ₹30,436.95 crore, with a balance central grant of ₹12,157.53 crore.",
+     "source": "PIB-POLAVARAM-25",
+     "source_name": "PIB (official)"
+    },
+    {
+     "date": "2024-10-31",
+     "text": "Deepam-2 launched — three free LPG cylinders per year for eligible women.",
+     "source": "SPEECH-2026",
+     "source_name": "Budget speech (official)"
+    },
+    {
+     "date": "2025-05-02",
+     "text": "PM lays foundations/inaugurates ₹58,000+ crore of Amaravati capital works — the capital's restart.",
+     "source": "PIB-AMARAVATI-25",
+     "source_name": "PIB (official)"
+    },
+    {
+     "date": "2025-06-12",
+     "text": "Thalliki Vandanam rolled out: ₹15,000 per school-going child paid to mothers — 67.27 lakh students in year one.",
+     "source": "SPEECH-2026",
+     "source_name": "Budget speech (official)"
+    },
+    {
+     "date": "2025-08-15",
+     "text": "Stree Shakti launched — free APSRTC bus travel for women; nearly 40 crore women's journeys by Jan 2026 (government claim).",
+     "source": "SPEECH-2026",
+     "source_name": "Budget speech (official)"
+    },
+    {
+     "date": "2025-10-14",
+     "text": "Google announces its first AI hub in India at Visakhapatnam with a $15 billion investment.",
+     "source": "GOOGLE-VIZAG",
+     "source_name": "Google (official)"
+    }
+   ],
+   "schemes_note": "Figures are the current government's claims, mostly from its Budget Speech of 14 Feb 2026. This tenure is ongoing — numbers will keep changing, and no audited (CAG) totals exist yet.",
+   "schemes": [
+    {
+     "name": "NTR Bharosa (raised pensions)",
+     "gives": "₹4,000/month standard, ₹6,000 disabled, up to ₹10,000+ for severe illness — from July 2024",
+     "spend_claim_crore": 58000,
+     "beneficiaries": "'more than ₹58,000 crore in 19 months' (government claim, Feb 2026)",
+     "who": "elderly, widows, disabled — men and women",
+     "source": "SPEECH-2026"
+    },
+    {
+     "name": "Thalliki Vandanam",
+     "gives": "₹15,000 per school-going child per year, paid to the mother (every child — no cap per family)",
+     "spend_claim_crore": 10091,
+     "beneficiaries": "67.27 lakh students / 42.69 lakh mothers in year one (government claim)",
+     "who": "paid to women (mothers) by design",
+     "source": "SPEECH-2026",
+     "note": "Year-one figure: ₹8,745 Cr transferred + ₹1,346 Cr school-infrastructure component."
+    },
+    {
+     "name": "Annadata Sukhibhava (+ PM-Kisan)",
+     "gives": "₹20,000 per farmer family per year (₹14,000 state + ₹6,000 central PM-Kisan), incl. tenant farmers",
+     "spend_claim_crore": 6660,
+     "beneficiaries": "46.86 lakh farmer families in 2025-26 (government claim; state share shown)",
+     "who": "farmers incl. tenants",
+     "source": "SPEECH-2026"
+    },
+    {
+     "name": "Deepam-2",
+     "gives": "Three free LPG cylinders per year",
+     "spend_claim_crore": 2897,
+     "beneficiaries": "1.08 crore women (government claim, Feb 2026)",
+     "who": "women (account holders) by design",
+     "source": "SPEECH-2026"
+    },
+    {
+     "name": "Stree Shakti (free bus travel)",
+     "gives": "Free travel for women on five APSRTC service categories, from 15 Aug 2025",
+     "spend_claim_crore": null,
+     "beneficiaries": "nearly 40 crore women's journeys by Jan 2026 (government claim); rupee spend so far not published — cost estimated ~₹1,942 Cr/year",
+     "who": "women and transgender persons, by design",
+     "source": "SPEECH-2026"
+    }
+   ],
+   "manifesto": {
+    "title": "NDA 2024 — the 'Super Six'",
+    "caveat": "From the joint manifesto released 30 Apr 2024 (press record of the release; branding confirmed in the official 2026-27 budget speech). The official TDP manifesto PDF (Telugu scan, dated the joint-release day) is linked below, with an Internet Archive copy carrying OCR text.",
+    "source": "NDA-2024-MAN",
+    "promises": [
+     "₹15,000 per year for every school-going child (became Thalliki Vandanam — rolled out Jun 2025)",
+     "Three free gas cylinders per household per year (became Deepam-2 — launched Oct 2024)",
+     "Free bus travel for women on RTC buses (became Stree Shakti — launched Aug 2025)",
+     "₹20,000 per year to farmers — Annadata Sukhibhava (paying from 2024-25, incl. PM-Kisan share)",
+     "20 lakh jobs in 5 years, or ₹3,000/month unemployment allowance (Yuvagalam) — allowance not yet launched as of Feb 2026 budget speech",
+     "₹1,500 per month to women aged 19–59 (Aada Bidda Nidhi) — not yet launched as of Feb 2026 budget speech"
+    ],
+    "sources": [
+     "NDA-2024-PDF",
+     "NDA-2024-IA",
+     "NDA-2024-DH",
+     "NDA-2024-BS",
+     "NDA-2024-MAN"
+    ]
+   }
+  }
+ ],
+ "glossary": {
+  "capital": "Capital outlay is money that BUILDS something that lasts — school buildings, hospitals, roads, irrigation canals. It is different from running costs (salaries, pensions) and from welfare transfers. If the government were a family, this is the money spent building the house, not running it.",
+  "sector": "This shows how much of every ₹100 the government spends goes to education and to health. A falling share does not always mean less money (the total budget grows) — it means the sector got a smaller slice of the pie.",
+  "committed": "Salaries, pensions and interest must be paid before anything else — CAG calls this 'committed expenditure'. When ₹65 of every ₹100 of income is committed, only ₹35 remains for everything else: schemes, repairs, and building new things.",
+  "schemes": "పథకాలు (schemes) are direct help to people — pensions, cash support, fee reimbursement. The amounts here are each government's OWN claims from its budget speeches. CAG does not separately audit most scheme totals, so treat them as claims, clearly labeled.",
+  "manifesto": "A manifesto is the promise-list a party publishes before an election. We quote the promises as recorded and place them next to what official documents show was done — we do not give verdicts; you compare.",
+  "tenure": "Governments serve five-year terms. Financial years end on 31 March but governments change in May–June, so per-tenure totals use the nearest financial years and say so. A project or payment can also span two governments — the timeline shows dates precisely so you can judge.",
+  "verify": "How do we know money was really spent? Every figure has a stage. 'Budget estimate' = a promise. 'Revised estimate' = a mid-year correction. 'Actuals' = the money that actually moved — checked and certified by the CAG, India's constitutional auditor, and compiled by the RBI. Solid bars on our charts are those audited actuals. We never take spending figures from news articles.",
+  "rankings": "These scores are published by the central government's own institutions (NITI Aayog, DPIIT, DARPG) — not by us and not by any party. Note what each measures: fiscal health and business reforms grade the state government; SDG and innovation indices grade conditions in the state, which many things beyond one government shape.",
+  "economy": "Per-capita income is the state's total income divided by its population — the average per person, at current prices (so part of every rise is inflation). Revenue receipts are the government's own yearly income: its taxes plus its share from the Centre. Neither is one government's 'achievement' alone — but the trend under each tenure is a fact you can see.",
+  "awards_g": "These are recognitions given by CENTRAL ministries — not by us and not by the state. An award to a city (like Visakhapatnam's cleanliness awards) credits that city's municipal body and its workers as much as any state government. Every entry links to the official record.",
+  "leaderboards": "These are the central government's own statistical tables — published by the Reserve Bank of India from National Statistical Office data, the same numbers the Centre itself works with. Every state, every year, in one table. We rank each year's column exactly as published and mark where Andhra Pradesh stands. Nothing is adjusted except one unit change: the GSDP table is printed in ₹ lakh and we show ₹ crore. A dash means the Centre has not published that figure — we never fill a gap ourselves."
+ },
+ "rankings": {
+  "intro": "The central government's own institutions score every state, edition by edition. These are the closest thing to an official 'leaderboard'. Each index says what it measures: some grade the STATE GOVERNMENT's performance, others grade overall conditions in the state (which many factors beyond one government shape).",
+  "indices": [
+   {
+    "name": "Fiscal Health Index",
+    "publisher": "NITI Aayog",
+    "measures": "state government (finances)",
+    "editions": [
+     {
+      "edition": "2025 (FY2022-23 data)",
+      "result": "17th of 18 major states · score 20.9 (top: Odisha 67.8)",
+      "source": "NITI-FHI-25",
+      "all_states": [
+       [
+        1,
+        "Odisha",
+        67.8
+       ],
+       [
+        2,
+        "Chhattisgarh",
+        55.2
+       ],
+       [
+        3,
+        "Goa",
+        53.6
+       ],
+       [
+        4,
+        "Jharkhand",
+        51.6
+       ],
+       [
+        5,
+        "Gujarat",
+        50.5
+       ],
+       [
+        6,
+        "Maharashtra",
+        50.3
+       ],
+       [
+        7,
+        "Uttar Pradesh",
+        45.9
+       ],
+       [
+        8,
+        "Telangana",
+        43.6
+       ],
+       [
+        9,
+        "Madhya Pradesh",
+        42.2
+       ],
+       [
+        10,
+        "Karnataka",
+        40.8
+       ],
+       [
+        11,
+        "Tamil Nadu",
+        29.2
+       ],
+       [
+        12,
+        "Rajasthan",
+        28.6
+       ],
+       [
+        13,
+        "Bihar",
+        27.8
+       ],
+       [
+        14,
+        "Haryana",
+        27.4
+       ],
+       [
+        15,
+        "Kerala",
+        25.4
+       ],
+       [
+        16,
+        "West Bengal",
+        21.8
+       ],
+       [
+        17,
+        "Andhra Pradesh",
+        20.9
+       ],
+       [
+        18,
+        "Punjab",
+        10.7
+       ]
+      ]
+     },
+     {
+      "edition": "2026 (FY2023-24 data)",
+      "result": "17th of 18 · score 23.1 (top: Odisha 73.1)",
+      "source": "NITI-FHI-26",
+      "all_states": [
+       [
+        1,
+        "Odisha",
+        73.1
+       ],
+       [
+        2,
+        "Goa",
+        54.7
+       ],
+       [
+        3,
+        "Jharkhand",
+        50.5
+       ],
+       [
+        4,
+        "Gujarat",
+        49.9
+       ],
+       [
+        5,
+        "Maharashtra",
+        45.0
+       ],
+       [
+        6,
+        "Chhattisgarh",
+        44.3
+       ],
+       [
+        7,
+        "Telangana",
+        44.3
+       ],
+       [
+        8,
+        "Uttar Pradesh",
+        41.9
+       ],
+       [
+        9,
+        "Karnataka",
+        41.7
+       ],
+       [
+        10,
+        "Madhya Pradesh",
+        37.8
+       ],
+       [
+        11,
+        "Haryana",
+        34.5
+       ],
+       [
+        12,
+        "Bihar",
+        30.9
+       ],
+       [
+        13,
+        "Tamil Nadu",
+        29.8
+       ],
+       [
+        14,
+        "Rajasthan",
+        27.6
+       ],
+       [
+        15,
+        "Kerala",
+        24.8
+       ],
+       [
+        16,
+        "West Bengal",
+        23.8
+       ],
+       [
+        17,
+        "Andhra Pradesh",
+        23.1
+       ],
+       [
+        18,
+        "Punjab",
+        12.4
+       ]
+      ],
+      "all_states_note": "Chhattisgarh and Telangana share score 44.3; shown in the order printed."
+     }
+    ]
+   },
+   {
+    "name": "Business Reforms Action Plan (Ease of Doing Business)",
+    "publisher": "DPIIT, Ministry of Commerce",
+    "measures": "state government (reform implementation)",
+    "editions": [
+     {
+      "edition": "2016",
+      "result": "Joint 1st with Telangana (98.78%)",
+      "source": "PIB-BRAP-16"
+     },
+     {
+      "edition": "2017-18",
+      "result": "1st",
+      "source": "PIB-BRAP-18"
+     },
+     {
+      "edition": "2019",
+      "result": "1st",
+      "source": "PIB-BRAP-19"
+     },
+     {
+      "edition": "2020",
+      "result": "Among 7 'Top Achievers' (no numeric ranks that year)",
+      "source": "PIB-BRAP-20"
+     },
+     {
+      "edition": "2024",
+      "result": "'Fast Movers' tier (second tier) per the PIB Lok Sabha-reply tables",
+      "source": "PIB-BRAP-24",
+      "caveat": "Category tables in the reply parse imperfectly — re-verify against the PIB page."
+     }
+    ]
+   },
+   {
+    "name": "SDG India Index",
+    "publisher": "NITI Aayog",
+    "measures": "overall state conditions (development outcomes)",
+    "editions": [
+     {
+      "edition": "2019",
+      "result": "Score 67 · joint 3rd (top: Kerala 70)",
+      "source": "UN-SDG-2019",
+      "all_states": [
+       [
+        1,
+        "Kerala",
+        70
+       ],
+       [
+        2,
+        "Himachal Pradesh",
+        69
+       ],
+       [
+        3,
+        "Andhra Pradesh",
+        67
+       ],
+       [
+        3,
+        "Telangana",
+        67
+       ],
+       [
+        3,
+        "Tamil Nadu",
+        67
+       ]
+      ],
+      "all_states_note": "As printed in the release — top states only; the full table lives in the report PDF/dashboard."
+     },
+     {
+      "edition": "2023-24",
+      "result": "Score 74, 'Front Runner' (rank not stated in the official release)",
+      "source": "PIB-SDG-2324"
+     }
+    ]
+   },
+   {
+    "name": "India Innovation Index",
+    "publisher": "NITI Aayog",
+    "measures": "overall state conditions (innovation ecosystem)",
+    "editions": [
+     {
+      "edition": "2020",
+      "result": "7th among major states",
+      "source": "PIB-INNOV-20"
+     },
+     {
+      "edition": "2021 (latest)",
+      "result": "9th of 17 major states",
+      "source": "PIB-INNOV-21"
+     }
+    ]
+   },
+   {
+    "name": "Export Preparedness Index",
+    "publisher": "NITI Aayog",
+    "measures": "mixed (policy + conditions)",
+    "editions": [
+     {
+      "edition": "2020",
+      "result": "20th overall · score 35.58",
+      "source": "NITI-EPI-20"
+     },
+     {
+      "edition": "2022",
+      "result": "8th overall · score 59.27",
+      "source": "PIB-EPI-22"
+     },
+     {
+      "edition": "2024 (released Jan 2026)",
+      "result": "5th among Large States",
+      "source": "PIB-EPI-24",
+      "all_states": [
+       [
+        1,
+        "Maharashtra",
+        null
+       ],
+       [
+        2,
+        "Tamil Nadu",
+        null
+       ],
+       [
+        3,
+        "Gujarat",
+        null
+       ],
+       [
+        4,
+        "Uttar Pradesh",
+        null
+       ],
+       [
+        5,
+        "Andhra Pradesh",
+        null
+       ]
+      ],
+      "all_states_note": "The PIB release names only the top five Large States and prints no scores; the full table is in the report PDF."
+     }
+    ]
+   },
+   {
+    "name": "Good Governance Index",
+    "publisher": "DARPG, Ministry of Personnel",
+    "measures": "state government (governance delivery)",
+    "editions": [
+     {
+      "edition": "2021",
+      "result": "Group A states; ranked No.1 in the Agriculture & Allied sector",
+      "source": "PIB-GGI-21"
+     },
+     {
+      "edition": "2023 onwards",
+      "result": "Not released nationally (third edition postponed) — nothing newer exists to cite",
+      "source": "PIB-GGI-21"
+     }
+    ]
+   }
+  ]
+ },
+ "year_notes": {
+  "intro": "What the documents say happened in that financial year. Only dated, sourced events — where no official explanation is on record, we say so instead of guessing.",
+  "years": {
+   "2015": {
+    "events": [
+     {
+      "text": "First full financial year of the divided state (bifurcation 2 June 2014).",
+      "source": "REORG-ACT"
+     }
+    ]
+   },
+   "2016": {
+    "events": [
+     {
+      "text": "Amaravati foundation laid by the PM (22 Oct 2015) — capital construction era begins.",
+      "source": "PMO-AMARAVATI"
+     }
+    ]
+   },
+   "2018": {
+    "events": [
+     {
+      "text": "Kia signs its plant MoU (Apr 2017).",
+      "source": "KIA-2017"
+     },
+     {
+      "text": "TDP exits the NDA over Special Category Status (Mar 2018).",
+      "source": "TRIB-NDA-EXIT"
+     }
+    ]
+   },
+   "2019": {
+    "events": [
+     {
+      "text": "Pre-election year; capital outlay peaks at ₹19,976 Cr — the highest of the TDP tenure.",
+      "source": "RBI-HB-T174"
+     }
+    ]
+   },
+   "2020": {
+    "events": [
+     {
+      "text": "Government changed (May 2019). The World Bank's proposed $300M Amaravati financing lapsed after the Centre withdrew its request (Jul 2019).",
+      "source": "WB-AMARAVATI"
+     }
+    ]
+   },
+   "2021": {
+    "events": [
+     {
+      "text": "Pandemic-period year — CAG's audit for this year records the fiscal disruption.",
+      "source": "CAG-FY21G"
+     }
+    ]
+   },
+   "2023": {
+    "events": [
+     {
+      "text": "CAG: capital outlay 'decreased by 55.76 per cent' — ₹7,244 Cr, the lowest since bifurcation.",
+      "source": "CAG-FY23"
+     }
+    ]
+   },
+   "2024": {
+    "events": [
+     {
+      "text": "Final full year of the YSRCP tenure; capital outlay recovered to ₹23,331 Cr (audited).",
+      "source": "RBI-HB-T174"
+     }
+    ]
+   },
+   "2025": {
+    "events": [
+     {
+      "text": "Government changed (Jun 2024). Union Budget committed ₹15,000 Cr capital support for AP and Polavaram completion (Jul 2024); Union Cabinet approved Polavaram's revised cost ₹30,436.95 Cr (Aug 2024).",
+      "source": "UNION-BUDGET-24"
+     },
+     {
+      "text": "Polavaram revised-cost approval and ₹2,348 Cr advance release.",
+      "source": "PIB-POLAVARAM-25"
+     }
+    ]
+   },
+   "2026": {
+    "events": [
+     {
+      "text": "PM laid foundations of ₹58,000+ Cr of Amaravati capital works (May 2025) — the ₹40,636 Cr figure for this year is a budget estimate, not yet audited spending.",
+      "source": "PIB-AMARAVATI-25"
+     }
+    ]
+   }
+  }
+ },
+ "economy": {
+  "intro": "The economy year by year — how much income each person makes on average (per-capita income), and how much money the government itself earns (revenue receipts). All official statistics; stages labeled.",
+  "per_capita_nsdp": {
+   "label": "Per-capita income (Per Capita NSDP, current prices) — ₹ per person per year",
+   "unit": "rupees",
+   "sources": [
+    "RBI-HB-T19"
+   ],
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 93903,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2016,
+     "value": 108002,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2017,
+     "value": 120676,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2018,
+     "value": 138299,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2019,
+     "value": 154031,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2020,
+     "value": 160341,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2021,
+     "value": 168063,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2022,
+     "value": 193703,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2023,
+     "value": 219917,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2024,
+     "value": 237951,
+     "stage": "A"
+    },
+    {
+     "fy_end": 2025,
+     "value": 266240,
+     "stage": "A",
+     "note": "Latest years carry NSO provisional/quick-estimate status by convention."
+    }
+   ],
+   "note": "Current prices (not adjusted for inflation) — part of every rise is price rise. NSO data via RBI Handbook Table 19."
+  },
+  "revenue_receipts": {
+   "label": "The government's own yearly income (revenue receipts) — ₹ crore",
+   "unit": "crore",
+   "sources": [
+    "RBI-SF-ST2"
+   ],
+   "points": [
+    {
+     "fy_end": 2015,
+     "value": 90670,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=17491"
+    },
+    {
+     "fy_end": 2016,
+     "value": 88647.8,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=18330"
+    },
+    {
+     "fy_end": 2017,
+     "value": 107708.9,
+     "stage": "RE",
+     "note": "Accounts figure for this year sits in a CAPTCHA-gated combined PDF — revised estimate shown, labeled.",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=18330"
+    },
+    {
+     "fy_end": 2018,
+     "value": 105062.1,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=19258"
+    },
+    {
+     "fy_end": 2019,
+     "value": 114670.9,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=20170"
+    },
+    {
+     "fy_end": 2020,
+     "value": 111034.0,
+     "stage": "A",
+     "note": "Income actually fell below the previous year — as published.",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=20852"
+    },
+    {
+     "fy_end": 2021,
+     "value": 117136.2,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=21654"
+    },
+    {
+     "fy_end": 2022,
+     "value": 150552.5,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=22267"
+    },
+    {
+     "fy_end": 2023,
+     "value": 157768.0,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=22994"
+    },
+    {
+     "fy_end": 2024,
+     "value": 173767.0,
+     "stage": "A",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23711"
+    },
+    {
+     "fy_end": 2025,
+     "value": 176031.2,
+     "stage": "RE",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23711"
+    },
+    {
+     "fy_end": 2026,
+     "value": 217976.5,
+     "stage": "BE",
+     "src_url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23711"
+    }
+   ],
+   "note": "Each year taken from the RBI edition where it is most final; estimate-stage years are lighter. Note the recurring gap between estimates and actuals (e.g. FY2024-25 was budgeted at ₹2,01,174 Cr but revised to ₹1,76,031 Cr)."
+  },
+  "own_tax_note": "AP's own tax revenue (the part of income the state raises itself): ₹42,618 Cr (2014-15) → ₹58,677 Cr (2018-19, audited); recent-year rupee levels sit in gated RBI annexes and are not shown rather than approximated. Source: RBI Handbook (2021 edition), Table 150."
+ },
+ "awards": {
+  "intro": "Recognitions the central government's ministries have given to Andhra Pradesh, its districts and cities — every entry with its official (PIB/ministry) record. Years with nothing listed mean we found no officially-documented award, not that nothing happened. Some well-known claims (e.g. agriculture awards) are excluded because no official citation could be located.",
+  "items": [
+   {
+    "year": 2016,
+    "date": "2016-10-31",
+    "text": "Ease of Doing Business assessment (DIPP): AP joint 1st with Telangana (98.78% implementation).",
+    "url": "https://www.pib.gov.in/newsite/printrelease.aspx?relid=153134",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2017,
+    "date": "2017-05-04",
+    "text": "Swachh Survekshan 2017 (MoHUA): Visakhapatnam 3rd cleanest of 434 cities; Tirupati 9th; Vijayawada 19th.",
+    "url": "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=161527",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2018,
+    "date": "2018-07-10",
+    "text": "Ease of Doing Business (BRAP 2017-18): AP ranked 1st among all states.",
+    "url": "https://pib.gov.in/PressReleasePage.aspx?PRID=1538275",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2020,
+    "date": "2020-09-05",
+    "text": "Ease of Doing Business (BRAP 2019): AP 1st again.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1651598&reg=3&lang=2",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2021,
+    "date": "2021-11-20",
+    "text": "Swachh Survekshan 2021 (conferred by the President): Vijayawada 3rd cleanest big city; Tirupati Platinum 'Prerak Daaur Samman'; Vijayawada 5-star Garbage Free.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1773458",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2022,
+    "date": "2022-06-30",
+    "text": "Ease of Doing Business (BRAP 2020): AP among the 7 'Top Achievers'.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1838178",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2022,
+    "date": "2022-10-01",
+    "text": "Swachh Survekshan 2022: Tirupati best city in Safai Mitra Suraksha; Visakhapatnam and Tirupati 5-star Garbage Free.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1864209",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2023,
+    "date": "2023-06-15",
+    "text": "4th National Water Awards (Jal Shakti): AP joint 3rd Best State; KGBV School Chagalamarri (Nandyal) 2nd Best School; CCL Products (Tirupati) joint 3rd Best Industry.",
+    "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2023/jun/doc2023615212701.pdf",
+    "publisher": "PIB (awardees PDF)"
+   },
+   {
+    "year": 2024,
+    "date": "2024-10-22",
+    "text": "5th National Water Awards (conferred by the President): Visakhapatnam district — Best District, South Zone.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2067181&reg=3&lang=2",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2025,
+    "date": "2025-07-17",
+    "text": "Swachh Survekshan 2024-25 (conferred by the President): Visakhapatnam (GVMC) — Best SafaiMitra Surakshit Shehar.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2145461&reg=48&lang=2",
+    "publisher": "PIB"
+   },
+   {
+    "year": 2026,
+    "date": "2026-05-15",
+    "text": "National Panchayat Awards 2025 (Panchayati Raj Ministry): 5 awards to AP — incl. Srungavaram GP (Visakhapatnam) 1st for Good Governance (₹1 Cr) and Kuppam Block Panchayat 3rd Best Block.",
+    "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2261368&reg=3&lang=2",
+    "publisher": "PIB"
+   }
+  ]
+ },
+ "state_leaderboards": {
+  "_note": "Transcribed verbatim from RBI tables (research pass 26 Aug 2026; chunked extraction with independent re-fetch verification, 0 mismatches across 251 checked cells). AP rows cross-checked against this platform's already-cited economy and finances series before commit. GSDP converted from printed ₹ lakh to ₹ crore (÷100) — the only transformation applied anywhere in this block.",
+  "intro": "The Centre's own statistical tables list every state, every year. This is where Andhra Pradesh actually stands — not where a speech says it stands. Pick a measure and a year; we rank the table as published and mark AP. A dash means the Centre has not published that figure.",
+  "backseries_note": "For 2011-12 to 2013-14 the income tables carry the reorganised-AP back-series (Telangana shown separately even before the June 2014 split), as the National Statistical Office publishes them. The debt table is the exception — its pre-split AP rows are undivided-AP, flagged on that metric.",
+  "metrics": [
+   {
+    "key": "per_capita",
+    "label": "Per-person income (per-capita NSDP)",
+    "label_telugu": "తలసరి ఆదాయం",
+    "unit": "₹ per person per year",
+    "higher_is": "higher",
+    "explain": "Take everything a state's economy produced in a year (minus wear-and-tear of machines and buildings), divide by its population — that is per-capita NSDP. It is the fairest single number for comparing big and small states, because Uttar Pradesh producing more than Sikkim in total says nothing about how the average person is doing. 'Current prices' means the rupee figures of that year itself, not adjusted for inflation — so compare states within a year freely, but remember that growth across years includes price rises.",
+    "source": {
+     "title": "Table 19: Per Capita Net State Domestic Product (Current Prices)",
+     "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23468",
+     "publication": "RBI, Handbook of Statistics on Indian States (2024-25 edition)",
+     "note": "Source: National Statistical Office, Ministry of Statistics and Programme Implementation, Government of India. Base: 2011-12."
+    },
+    "years": [
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025
+    ],
+    "stage_labels": {},
+    "rows": [
+     {
+      "state": "Andaman & Nicobar Islands",
+      "values": [
+       89100,
+       98777,
+       111087,
+       126344,
+       137064,
+       153904,
+       178709,
+       204254,
+       219653,
+       205368,
+       229570,
+       263984,
+       276000,
+       null
+      ]
+     },
+     {
+      "state": "Andhra Pradesh",
+      "values": [
+       69000,
+       74687,
+       82870,
+       93903,
+       108002,
+       120676,
+       138299,
+       154031,
+       160341,
+       168063,
+       193703,
+       219917,
+       237951,
+       266240
+      ]
+     },
+     {
+      "state": "Arunachal Pradesh",
+      "values": [
+       73540,
+       82626,
+       94135,
+       114789,
+       116985,
+       124129,
+       138836,
+       155103,
+       182171,
+       181537,
+       190851,
+       204469,
+       217325,
+       246813
+      ]
+     },
+     {
+      "state": "Assam",
+      "values": [
+       41142,
+       44599,
+       49734,
+       52895,
+       60817,
+       66330,
+       75151,
+       81034,
+       90123,
+       86947,
+       103371,
+       121573,
+       143852,
+       159185
+      ]
+     },
+     {
+      "state": "Bihar",
+      "values": [
+       21750,
+       24487,
+       26948,
+       28671,
+       30404,
+       34045,
+       36850,
+       40715,
+       44175,
+       42128,
+       47296,
+       54637,
+       62201,
+       69321
+      ]
+     },
+     {
+      "state": "Chandigarh",
+      "values": [
+       158967,
+       180457,
+       203356,
+       212594,
+       230009,
+       252236,
+       280512,
+       307812,
+       330703,
+       290417,
+       337406,
+       408512,
+       453457,
+       null
+      ]
+     },
+     {
+      "state": "Chhattisgarh",
+      "values": [
+       55177,
+       60849,
+       69880,
+       72936,
+       72991,
+       83285,
+       88793,
+       102024,
+       106611,
+       106117,
+       123493,
+       134996,
+       148922,
+       162870
+      ]
+     },
+     {
+      "state": "Delhi",
+      "values": [
+       185001,
+       205568,
+       227900,
+       247209,
+       270261,
+       295558,
+       318323,
+       338730,
+       355798,
+       322311,
+       370824,
+       417217,
+       459408,
+       493024
+      ]
+     },
+     {
+      "state": "Goa",
+      "values": [
+       259444,
+       234354,
+       215776,
+       289185,
+       334576,
+       378953,
+       411740,
+       423716,
+       435949,
+       423047,
+       459094,
+       532854,
+       585953,
+       null
+      ]
+     },
+     {
+      "state": "Gujarat",
+      "values": [
+       87481,
+       102826,
+       113139,
+       127017,
+       139254,
+       156295,
+       176961,
+       197457,
+       212428,
+       207324,
+       241584,
+       272451,
+       null,
+       null
+      ]
+     },
+     {
+      "state": "Haryana",
+      "values": [
+       106085,
+       121269,
+       137770,
+       147382,
+       164963,
+       184982,
+       208437,
+       223022,
+       232530,
+       225137,
+       265163,
+       289213,
+       319363,
+       353182
+      ]
+     },
+     {
+      "state": "Himachal Pradesh",
+      "values": [
+       87721,
+       99730,
+       114095,
+       123299,
+       135512,
+       150290,
+       165497,
+       174804,
+       186559,
+       173565,
+       193016,
+       214952,
+       234721,
+       256137
+      ]
+     },
+     {
+      "state": "Jammu & Kashmir",
+      "values": [
+       51775,
+       57279,
+       61907,
+       62327,
+       74950,
+       78960,
+       87710,
+       98738,
+       101868,
+       101645,
+       112898,
+       123614,
+       140051,
+       154826
+      ]
+     },
+     {
+      "state": "Jharkhand",
+      "values": [
+       41254,
+       47360,
+       50006,
+       57301,
+       52754,
+       60018,
+       67484,
+       75421,
+       75016,
+       69963,
+       88500,
+       95839,
+       106529,
+       116663
+      ]
+     },
+     {
+      "state": "Karnataka",
+      "values": [
+       90263,
+       102319,
+       118829,
+       130024,
+       148108,
+       169898,
+       185840,
+       205245,
+       222141,
+       221683,
+       268963,
+       310325,
+       339813,
+       380906
+      ]
+     },
+     {
+      "state": "Kerala",
+      "values": [
+       97912,
+       110314,
+       123388,
+       135537,
+       148133,
+       166246,
+       183252,
+       205437,
+       208879,
+       194432,
+       230280,
+       257307,
+       281269,
+       308338
+      ]
+     },
+     {
+      "state": "Ladakh",
+      "values": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       186970,
+       242360,
+       null
+      ]
+     },
+     {
+      "state": "Madhya Pradesh",
+      "values": [
+       38497,
+       44773,
+       51849,
+       55678,
+       62080,
+       74324,
+       81966,
+       92337,
+       101909,
+       101958,
+       117402,
+       127947,
+       139713,
+       152615
+      ]
+     },
+     {
+      "state": "Maharashtra",
+      "values": [
+       99597,
+       112092,
+       125261,
+       132836,
+       146815,
+       163726,
+       172663,
+       182865,
+       189843,
+       182454,
+       219620,
+       252289,
+       278681,
+       309340
+      ]
+     },
+     {
+      "state": "Manipur",
+      "values": [
+       39762,
+       41230,
+       47798,
+       52717,
+       55447,
+       59345,
+       71507,
+       73795,
+       78574,
+       75784,
+       98826,
+       107133,
+       119938,
+       null
+      ]
+     },
+     {
+      "state": "Meghalaya",
+      "values": [
+       59794,
+       64477,
+       66281,
+       66485,
+       71594,
+       77585,
+       82457,
+       88954,
+       95422,
+       90751,
+       107971,
+       124673,
+       141195,
+       157141
+      ]
+     },
+     {
+      "state": "Mizoram",
+      "values": [
+       57654,
+       65013,
+       77584,
+       103049,
+       114055,
+       127107,
+       155222,
+       164708,
+       195365,
+       173521,
+       190965,
+       213665,
+       234996,
+       null
+      ]
+     },
+     {
+      "state": "Nagaland",
+      "values": [
+       53010,
+       61225,
+       71510,
+       78367,
+       82466,
+       91347,
+       102003,
+       109198,
+       122759,
+       119781,
+       127225,
+       138889,
+       154828,
+       null
+      ]
+     },
+     {
+      "state": "Odisha",
+      "values": [
+       48387,
+       54762,
+       60687,
+       63345,
+       64835,
+       77507,
+       87055,
+       98005,
+       104633,
+       103211,
+       133768,
+       134612,
+       150414,
+       168966
+      ]
+     },
+     {
+      "state": "Puducherry",
+      "values": [
+       119649,
+       130548,
+       148147,
+       146921,
+       172727,
+       187356,
+       198357,
+       204140,
+       217937,
+       208862,
+       231557,
+       231231,
+       252164,
+       281478
+      ]
+     },
+     {
+      "state": "Punjab",
+      "values": [
+       85577,
+       94318,
+       103831,
+       108970,
+       118858,
+       128780,
+       139835,
+       149974,
+       154385,
+       150620,
+       170276,
+       185802,
+       205374,
+       221197
+      ]
+     },
+     {
+      "state": "Rajasthan",
+      "values": [
+       57192,
+       63658,
+       69480,
+       76429,
+       83426,
+       91924,
+       98698,
+       106604,
+       115534,
+       114925,
+       134143,
+       150020,
+       166647,
+       185053
+      ]
+     },
+     {
+      "state": "Sikkim",
+      "values": [
+       158667,
+       174183,
+       194624,
+       214148,
+       245987,
+       280729,
+       349163,
+       375773,
+       412627,
+       415045,
+       466518,
+       520466,
+       587743,
+       null
+      ]
+     },
+     {
+      "state": "Tamil Nadu",
+      "values": [
+       93112,
+       105340,
+       116960,
+       129494,
+       142028,
+       156595,
+       175276,
+       194373,
+       206165,
+       209628,
+       242339,
+       275272,
+       313329,
+       361619
+      ]
+     },
+     {
+      "state": "Telangana",
+      "values": [
+       91121,
+       101007,
+       112162,
+       124104,
+       140840,
+       159395,
+       179358,
+       209848,
+       231326,
+       225734,
+       269000,
+       312046,
+       347714,
+       387623
+      ]
+     },
+     {
+      "state": "Tripura",
+      "values": [
+       47155,
+       52574,
+       61815,
+       69857,
+       84267,
+       91596,
+       100444,
+       113016,
+       121456,
+       118401,
+       137032,
+       153584,
+       172299,
+       192842
+      ]
+     },
+     {
+      "state": "Uttar Pradesh",
+      "values": [
+       32648,
+       36571,
+       41137,
+       43458,
+       48725,
+       54564,
+       59595,
+       64113,
+       67639,
+       63464,
+       76063,
+       84640,
+       97364,
+       108572
+      ]
+     },
+     {
+      "state": "Uttarakhand",
+      "values": [
+       100314,
+       113654,
+       126356,
+       136099,
+       147936,
+       161752,
+       180857,
+       186207,
+       190558,
+       174526,
+       194670,
+       219850,
+       246178,
+       274064
+      ]
+     },
+     {
+      "state": "West Bengal",
+      "values": [
+       51543,
+       58195,
+       65932,
+       68876,
+       75992,
+       82291,
+       91401,
+       103920,
+       110316,
+       105108,
+       122883,
+       137909,
+       149515,
+       163467
+      ]
+     }
+    ]
+   },
+   {
+    "key": "gsdp",
+    "label": "State GDP (GSDP)",
+    "label_telugu": "రాష్ట్ర స్థూల ఉత్పత్తి",
+    "unit": "₹ crore",
+    "higher_is": "higher",
+    "explain": "GSDP is the value of everything produced inside the state in a year — the state's total economic size. Bigger states naturally have bigger GSDP, so use this to see scale, and use per-person income to see how the average citizen fares. 'Current prices' means no inflation adjustment.",
+    "source": {
+     "title": "TABLE 21: GROSS STATE DOMESTIC PRODUCT (Current Prices)",
+     "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23470",
+     "publication": "RBI, Handbook of Statistics on Indian States (2024-25 edition)",
+     "note": "Source: National Statistical Office, Ministry of Statistics and Programme Implementation, Government of India."
+    },
+    "years": [
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025
+    ],
+    "stage_labels": {},
+    "rows": [
+     {
+      "state": "Andaman & Nicobar Islands",
+      "values": [
+       3978.43,
+       4421.18,
+       5022.63,
+       5477.22,
+       6031.73,
+       6835.87,
+       7890.41,
+       9003.18,
+       9765.0,
+       9310.4,
+       10392.1,
+       11976.68,
+       12499.11,
+       null
+      ]
+     },
+     {
+      "state": "Andhra Pradesh",
+      "values": [
+       379402.03,
+       411403.71,
+       464272.01,
+       524975.64,
+       604228.62,
+       684415.87,
+       786135.42,
+       873721.11,
+       925839.12,
+       978581.46,
+       1131628.95,
+       1309463.97,
+       1422093.9,
+       1593061.98
+      ]
+     },
+     {
+      "state": "Arunachal Pradesh",
+      "values": [
+       11062.69,
+       12546.62,
+       14581.07,
+       17959.41,
+       18509.16,
+       19902.12,
+       22474.75,
+       25334.87,
+       30023.65,
+       30525.35,
+       32705.26,
+       35711.5,
+       38565.32,
+       44228.69
+      ]
+     },
+     {
+      "state": "Assam",
+      "values": [
+       143174.91,
+       156864.24,
+       177745.22,
+       195723.15,
+       227958.82,
+       254382.36,
+       283164.91,
+       309336.32,
+       346850.68,
+       339802.98,
+       410723.56,
+       484984.93,
+       569287.29,
+       643666.69
+      ]
+     },
+     {
+      "state": "Bihar",
+      "values": [
+       247143.96,
+       282367.93,
+       317101.34,
+       342950.94,
+       371601.79,
+       421051.5,
+       468746.31,
+       527975.82,
+       581855.48,
+       567814.02,
+       647394.35,
+       763164.72,
+       877196.56,
+       991997.21
+      ]
+     },
+     {
+      "state": "Chandigarh",
+      "values": [
+       18768.16,
+       21608.56,
+       24821.73,
+       26548.57,
+       29275.08,
+       32426.66,
+       36344.35,
+       40138.87,
+       43421.43,
+       39411.49,
+       46050.0,
+       55962.74,
+       62535.64,
+       null
+      ]
+     },
+     {
+      "state": "Chhattisgarh",
+      "values": [
+       158073.82,
+       177511.33,
+       206833.18,
+       221118.11,
+       225162.99,
+       262801.75,
+       282737.44,
+       327106.66,
+       344672.04,
+       352327.51,
+       411613.35,
+       458891.32,
+       512107.49,
+       567880.43
+      ]
+     },
+     {
+      "state": "Delhi",
+      "values": [
+       343797.5,
+       391387.64,
+       443959.89,
+       494803.02,
+       550803.7,
+       616085.06,
+       677900.04,
+       738389.43,
+       792911.27,
+       744277.25,
+       870627.04,
+       999749.39,
+       1112904.82,
+       1215003.05
+      ]
+     },
+     {
+      "state": "Goa",
+      "values": [
+       42366.66,
+       38120.02,
+       35921.1,
+       47814.18,
+       55053.85,
+       62976.31,
+       69352.05,
+       71853.34,
+       75032.09,
+       74157.92,
+       81226.13,
+       93672.38,
+       106532.57,
+       null
+      ]
+     },
+     {
+      "state": "Gujarat",
+      "values": [
+       615606.07,
+       724495.36,
+       807623.19,
+       921773.15,
+       1029009.74,
+       1167155.58,
+       1329094.77,
+       1492155.71,
+       1617143.27,
+       1616106.36,
+       1920926.58,
+       2203418.97,
+       null,
+       null
+      ]
+     },
+     {
+      "state": "Haryana",
+      "values": [
+       297538.52,
+       347032.01,
+       399268.12,
+       437144.71,
+       495504.11,
+       561424.17,
+       638832.08,
+       698939.76,
+       738052.38,
+       730441.77,
+       877268.91,
+       974732.33,
+       1085510.28,
+       1213951.04
+      ]
+     },
+     {
+      "state": "Himachal Pradesh",
+      "values": [
+       72719.83,
+       82819.79,
+       94764.15,
+       103772.32,
+       114239.41,
+       125633.64,
+       138551.09,
+       148383.29,
+       159164.02,
+       151905.42,
+       170375.95,
+       192026.13,
+       212169.43,
+       231690.31
+      ]
+     },
+     {
+      "state": "Jammu & Kashmir",
+      "values": [
+       78255.55,
+       87137.73,
+       95620.61,
+       98366.75,
+       117167.95,
+       124848.0,
+       139708.86,
+       159859.45,
+       164103.22,
+       167792.69,
+       188561.07,
+       209815.52,
+       236058.85,
+       262458.07
+      ]
+     },
+     {
+      "state": "Jharkhand",
+      "values": [
+       150917.59,
+       174723.69,
+       188566.71,
+       218525.17,
+       206612.8,
+       236249.72,
+       269816.14,
+       305695.2,
+       310305.36,
+       296664.0,
+       376126.69,
+       414307.68,
+       465638.01,
+       516255.36
+      ]
+     },
+     {
+      "state": "Karnataka",
+      "values": [
+       606009.81,
+       695413.02,
+       816666.15,
+       913923.03,
+       1045168.1,
+       1207607.72,
+       1333239.99,
+       1479391.43,
+       1615826.53,
+       1640811.46,
+       1992029.31,
+       2319696.23,
+       2557241.35,
+       2883903.23
+      ]
+     },
+     {
+      "state": "Kerala",
+      "values": [
+       364047.88,
+       412313.0,
+       465041.21,
+       512564.05,
+       561993.61,
+       634886.4,
+       701588.26,
+       788285.58,
+       812934.63,
+       771723.89,
+       924465.42,
+       1038734.06,
+       1135371.56,
+       1248533.01
+      ]
+     },
+     {
+      "state": "Ladakh",
+      "values": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       6564.69,
+       8304.17,
+       null
+      ]
+     },
+     {
+      "state": "Madhya Pradesh",
+      "values": [
+       315561.59,
+       380924.8,
+       439483.44,
+       479939.04,
+       541067.51,
+       649822.81,
+       726283.92,
+       829804.73,
+       927855.0,
+       946217.72,
+       1101168.04,
+       1221812.5,
+       1353808.97,
+       1503395.4
+      ]
+     },
+     {
+      "state": "Maharashtra",
+      "values": [
+       1280369.44,
+       1459628.63,
+       1649646.63,
+       1779137.93,
+       1966224.58,
+       2198185.15,
+       2352781.5,
+       2528854.3,
+       2656806.47,
+       2610651.1,
+       3143821.42,
+       3641542.9,
+       4055847.23,
+       4531518.42
+      ]
+     },
+     {
+      "state": "Manipur",
+      "values": [
+       12914.6,
+       13743.24,
+       16182.04,
+       18129.05,
+       19530.67,
+       21293.89,
+       25789.23,
+       27388.07,
+       29813.03,
+       29776.09,
+       35027.48,
+       38524.31,
+       43413.76,
+       null
+      ]
+     },
+     {
+      "state": "Meghalaya",
+      "values": [
+       19917.75,
+       21872.02,
+       22938.24,
+       23234.53,
+       25117.36,
+       27438.62,
+       29508.3,
+       32175.82,
+       34770.4,
+       33776.16,
+       40222.04,
+       46833.8,
+       53223.33,
+       59625.63
+      ]
+     },
+     {
+      "state": "Mizoram",
+      "values": [
+       7258.69,
+       8361.93,
+       10293.37,
+       13509.4,
+       15138.86,
+       17191.91,
+       19385.33,
+       21912.08,
+       24989.6,
+       23922.94,
+       26695.26,
+       30184.18,
+       33276.73,
+       null
+      ]
+     },
+     {
+      "state": "Nagaland",
+      "values": [
+       12176.76,
+       14121.27,
+       16611.73,
+       18400.67,
+       19523.95,
+       21722.45,
+       24392.96,
+       26527.42,
+       29715.87,
+       29831.64,
+       32265.38,
+       35628.63,
+       39808.65,
+       null
+      ]
+     },
+     {
+      "state": "Odisha",
+      "values": [
+       230987.08,
+       261699.6,
+       296475.38,
+       314249.95,
+       328549.5,
+       392803.67,
+       440395.32,
+       498611.26,
+       537501.71,
+       540185.17,
+       695530.08,
+       715262.45,
+       798969.5,
+       890037.54
+      ]
+     },
+     {
+      "state": "Puducherry",
+      "values": [
+       16818.01,
+       18875.45,
+       21870.12,
+       22573.96,
+       26616.54,
+       29572.66,
+       32128.8,
+       34170.72,
+       36998.74,
+       36179.58,
+       40902.92,
+       42315.29,
+       46944.98,
+       52162.67
+      ]
+     },
+     {
+      "state": "Punjab",
+      "values": [
+       266628.27,
+       297733.82,
+       332146.94,
+       355101.82,
+       390087.44,
+       426988.1,
+       471013.61,
+       512509.69,
+       537031.04,
+       540852.61,
+       627717.39,
+       692519.25,
+       771743.61,
+       838636.61
+      ]
+     },
+     {
+      "state": "Rajasthan",
+      "values": [
+       434836.64,
+       493551.24,
+       551031.02,
+       615641.56,
+       681482.26,
+       760587.27,
+       832529.23,
+       911519.46,
+       1000032.15,
+       1017917.33,
+       1195640.58,
+       1356479.87,
+       1521509.65,
+       1704338.55
+      ]
+     },
+     {
+      "state": "Sikkim",
+      "values": [
+       11165.1,
+       12338.42,
+       13861.9,
+       15406.72,
+       18033.94,
+       20687.19,
+       25970.82,
+       28402.43,
+       31441.0,
+       33017.83,
+       37649.63,
+       42677.45,
+       48936.94,
+       null
+      ]
+     },
+     {
+      "state": "Tamil Nadu",
+      "values": [
+       751485.76,
+       854825.35,
+       968530.45,
+       1072677.97,
+       1176500.03,
+       1302638.58,
+       1465050.91,
+       1630209.15,
+       1743143.96,
+       1788074.37,
+       2072495.79,
+       2372469.27,
+       2688963.32,
+       3118590.3
+      ]
+     },
+     {
+      "state": "Telangana",
+      "values": [
+       359434.11,
+       401593.61,
+       451580.4,
+       505848.79,
+       577902.06,
+       658325.34,
+       750050.28,
+       857427.15,
+       950090.49,
+       943077.99,
+       1124085.64,
+       1310720.67,
+       1461835.94,
+       1640901.43
+      ]
+     },
+     {
+      "state": "Tripura",
+      "values": [
+       19208.41,
+       21663.2,
+       25592.83,
+       29533.46,
+       35937.73,
+       39479.4,
+       43715.8,
+       49823.32,
+       54151.12,
+       53504.12,
+       62302.46,
+       70633.44,
+       79434.06,
+       89681.81
+      ]
+     },
+     {
+      "state": "Uttar Pradesh",
+      "values": [
+       737070.33,
+       837932.39,
+       961412.1,
+       1036935.21,
+       1172230.05,
+       1329863.95,
+       1476374.5,
+       1621726.25,
+       1745131.19,
+       1682942.55,
+       2028030.29,
+       2295763.18,
+       2642877.02,
+       2978223.51
+      ]
+     },
+     {
+      "state": "Uttarakhand",
+      "values": [
+       115327.58,
+       131612.84,
+       149074.38,
+       161438.91,
+       177163.0,
+       195124.86,
+       220222.12,
+       230327.44,
+       239262.9,
+       225616.76,
+       254966.48,
+       292669.94,
+       332997.88,
+       378244.53
+      ]
+     },
+     {
+      "state": "West Bengal",
+      "values": [
+       520485.05,
+       591464.7,
+       676848.74,
+       718081.63,
+       797299.95,
+       872527.23,
+       974700.05,
+       1102053.66,
+       1179127.46,
+       1141797.69,
+       1340030.23,
+       1515564.5,
+       1651373.73,
+       1815009.91
+      ]
+     }
+    ],
+    "conversion_note": "RBI prints this table in ₹ lakh; we show ₹ crore (divided by 100, nothing else changed)."
+   },
+   {
+    "key": "debt_gsdp",
+    "label": "Government debt, as % of state GDP",
+    "label_telugu": "అప్పు / GSDP నిష్పత్తి",
+    "unit": "% of GSDP",
+    "higher_is": "lower",
+    "explain": "A state's outstanding liabilities measured against the size of its economy — like comparing a family's loans to its yearly income. ₹1 lakh crore of debt is heavy for a small economy and light for a huge one, so this ratio is how debt burdens are honestly compared across states. Lower is safer; the 15th Finance Commission's glide path pointed states toward roughly the low 30s or below.",
+    "source": {
+     "title": "Statement 20: Total Outstanding Liabilities - As per cent of GSDP (As at end-March)",
+     "url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23729",
+     "publication": "RBI State Finances: A Study of Budgets 2025-26 (released 23 January 2026)",
+     "note": "RE: Revised Estimates. BE: Budget Estimates. '–': not available/not applicable. The 'All States and UTs' row is as per cent of GDP."
+    },
+    "years": [
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "stage_labels": {
+     "2025": "RE",
+     "2026": "BE"
+    },
+    "rows": [
+     {
+      "state": "Andhra Pradesh",
+      "values": [
+       27.4,
+       25.8,
+       25.9,
+       23.9,
+       39.7,
+       42.4,
+       42.3,
+       23.3,
+       24.5,
+       37.2,
+       29.2,
+       30.3,
+       33.2,
+       36.1,
+       33.6,
+       33.0,
+       34.6,
+       35.5,
+       35.4
+      ]
+     },
+     {
+      "state": "Arunachal Pradesh",
+      "values": [
+       59.0,
+       104.2,
+       42.3,
+       38.9,
+       35.7,
+       34.0,
+       32.3,
+       34.3,
+       30.9,
+       28.5,
+       31.0,
+       33.3,
+       40.4,
+       46.1,
+       48.7,
+       51.5,
+       55.3,
+       55.4,
+       59.8
+      ]
+     },
+     {
+      "state": "Assam",
+      "values": [
+       28.4,
+       28.1,
+       26.7,
+       23.5,
+       19.5,
+       18.9,
+       17.4,
+       18.1,
+       18.4,
+       17.3,
+       17.4,
+       19.3,
+       21.2,
+       26.4,
+       24.9,
+       27.0,
+       26.4,
+       27.7,
+       27.9
+      ]
+     },
+     {
+      "state": "Bihar",
+      "values": [
+       46.5,
+       39.2,
+       36.5,
+       31.2,
+       27.5,
+       27.5,
+       27.9,
+       29.0,
+       31.4,
+       33.0,
+       33.5,
+       32.0,
+       33.3,
+       40.1,
+       39.8,
+       39.4,
+       38.7,
+       38.0,
+       36.8
+      ]
+     },
+     {
+      "state": "Chhattisgarh",
+      "values": [
+       18.3,
+       15.5,
+       16.4,
+       14.3,
+       11.3,
+       12.1,
+       12.6,
+       13.2,
+       17.4,
+       16.5,
+       19.5,
+       21.1,
+       25.0,
+       28.4,
+       25.9,
+       23.8,
+       27.3,
+       29.2,
+       29.8
+      ]
+     },
+     {
+      "state": "Goa",
+      "values": [
+       33.9,
+       28.1,
+       28.9,
+       28.4,
+       23.5,
+       29.5,
+       37.0,
+       29.5,
+       28.4,
+       26.8,
+       26.9,
+       28.5,
+       30.2,
+       35.9,
+       36.0,
+       32.4,
+       30.4,
+       29.1,
+       25.7
+      ]
+     },
+     {
+      "state": "Gujarat",
+      "values": [
+       30.5,
+       29.9,
+       28.6,
+       27.4,
+       24.6,
+       23.4,
+       23.3,
+       22.0,
+       22.5,
+       20.9,
+       20.2,
+       20.0,
+       20.4,
+       22.5,
+       20.2,
+       19.2,
+       18.3,
+       17.8,
+       17.9
+      ]
+     },
+     {
+      "state": "Haryana",
+      "values": [
+       19.7,
+       18.4,
+       18.3,
+       17.8,
+       19.1,
+       19.5,
+       19.9,
+       21.2,
+       25.0,
+       26.6,
+       26.2,
+       26.8,
+       29.7,
+       33.8,
+       31.9,
+       31.7,
+       31.3,
+       30.2,
+       29.9
+      ]
+     },
+     {
+      "state": "Himachal Pradesh",
+      "values": [
+       57.4,
+       52.8,
+       49.3,
+       46.0,
+       38.8,
+       35.5,
+       35.7,
+       36.8,
+       36.1,
+       37.6,
+       36.8,
+       36.6,
+       39.1,
+       45.4,
+       43.1,
+       45.2,
+       44.8,
+       43.6,
+       42.8
+      ]
+     },
+     {
+      "state": "Jharkhand",
+      "values": [
+       25.4,
+       27.4,
+       26.8,
+       22.2,
+       20.8,
+       20.1,
+       20.1,
+       20.0,
+       27.6,
+       28.5,
+       28.8,
+       27.4,
+       30.5,
+       36.8,
+       30.2,
+       28.4,
+       27.2,
+       25.5,
+       25.4
+      ]
+     },
+     {
+      "state": "Karnataka",
+      "values": [
+       22.4,
+       21.0,
+       25.0,
+       22.8,
+       17.5,
+       16.2,
+       17.0,
+       17.4,
+       17.8,
+       17.5,
+       18.4,
+       19.4,
+       21.0,
+       25.7,
+       25.3,
+       24.5,
+       25.3,
+       25.4,
+       26.5
+      ]
+     },
+     {
+      "state": "Kerala",
+      "values": [
+       33.4,
+       33.0,
+       32.5,
+       31.8,
+       26.0,
+       26.7,
+       27.0,
+       28.0,
+       28.9,
+       30.2,
+       30.9,
+       30.9,
+       32.9,
+       40.3,
+       38.9,
+       37.9,
+       36.3,
+       36.2,
+       35.5
+      ]
+     },
+     {
+      "state": "Madhya Pradesh",
+      "values": [
+       34.0,
+       30.6,
+       29.8,
+       28.7,
+       25.7,
+       23.5,
+       21.9,
+       22.7,
+       23.6,
+       24.0,
+       23.8,
+       23.5,
+       22.8,
+       30.7,
+       29.5,
+       29.9,
+       30.1,
+       30.8,
+       31.3
+      ]
+     },
+     {
+      "state": "Maharashtra",
+      "values": [
+       23.7,
+       24.8,
+       23.8,
+       22.0,
+       19.3,
+       19.4,
+       18.8,
+       18.1,
+       17.9,
+       18.0,
+       18.4,
+       17.4,
+       18.1,
+       21.0,
+       19.3,
+       18.1,
+       18.5,
+       18.6,
+       19.0
+      ]
+     },
+     {
+      "state": "Manipur",
+      "values": [
+       66.8,
+       66.0,
+       67.6,
+       68.0,
+       50.4,
+       49.6,
+       43.8,
+       40.8,
+       41.7,
+       41.5,
+       37.1,
+       38.2,
+       38.3,
+       43.9,
+       43.8,
+       42.6,
+       40.4,
+       40.7,
+       39.2
+      ]
+     },
+     {
+      "state": "Meghalaya",
+      "values": [
+       33.1,
+       31.9,
+       31.0,
+       29.8,
+       26.9,
+       24.1,
+       28.7,
+       29.7,
+       30.0,
+       33.7,
+       34.4,
+       35.3,
+       35.4,
+       43.5,
+       42.1,
+       42.9,
+       43.2,
+       39.8,
+       39.1
+      ]
+     },
+     {
+      "state": "Mizoram",
+      "values": [
+       103.5,
+       90.6,
+       71.8,
+       73.0,
+       67.7,
+       66.1,
+       60.4,
+       51.9,
+       46.7,
+       38.9,
+       38.9,
+       34.9,
+       36.0,
+       42.7,
+       41.0,
+       37.2,
+       36.7,
+       35.0,
+       33.2
+      ]
+     },
+     {
+      "state": "Nagaland",
+      "values": [
+       44.3,
+       44.3,
+       52.2,
+       50.2,
+       55.4,
+       52.7,
+       50.3,
+       43.2,
+       45.7,
+       44.0,
+       42.6,
+       43.9,
+       46.6,
+       51.1,
+       49.1,
+       47.6,
+       49.3,
+       49.4,
+       47.0
+      ]
+     },
+     {
+      "state": "Odisha",
+      "values": [
+       33.2,
+       29.6,
+       28.1,
+       23.8,
+       20.7,
+       18.8,
+       17.0,
+       16.2,
+       19.9,
+       18.3,
+       23.4,
+       21.2,
+       26.8,
+       26.1,
+       20.0,
+       19.6,
+       19.7,
+       20.6,
+       20.3
+      ]
+     },
+     {
+      "state": "Punjab",
+      "values": [
+       36.6,
+       35.4,
+       34.3,
+       33.1,
+       31.1,
+       31.0,
+       30.8,
+       31.7,
+       34.4,
+       42.8,
+       41.4,
+       41.4,
+       42.8,
+       47.9,
+       45.4,
+       46.8,
+       46.5,
+       46.9,
+       46.4
+      ]
+     },
+     {
+      "state": "Rajasthan",
+      "values": [
+       39.6,
+       36.5,
+       34.5,
+       29.4,
+       24.5,
+       24.0,
+       23.3,
+       24.1,
+       30.8,
+       33.6,
+       33.8,
+       34.2,
+       35.3,
+       40.4,
+       38.8,
+       37.3,
+       37.4,
+       37.0,
+       35.9
+      ]
+     },
+     {
+      "state": "Sikkim",
+      "values": [
+       68.0,
+       62.5,
+       40.5,
+       33.1,
+       25.0,
+       24.2,
+       24.1,
+       22.7,
+       24.1,
+       22.7,
+       22.8,
+       24.1,
+       25.3,
+       29.2,
+       30.5,
+       31.3,
+       32.5,
+       36.3,
+       38.6
+      ]
+     },
+     {
+      "state": "Tamil Nadu",
+      "values": [
+       21.1,
+       21.5,
+       21.2,
+       19.6,
+       17.4,
+       17.9,
+       18.5,
+       17.3,
+       19.4,
+       21.8,
+       22.3,
+       24.6,
+       26.5,
+       31.8,
+       32.2,
+       31.7,
+       31.0,
+       30.2,
+       29.2
+      ]
+     },
+     {
+      "state": "Telangana",
+      "values": [
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       null,
+       15.7,
+       12.4,
+       21.4,
+       22.2,
+       23.7,
+       28.8,
+       28.0,
+       26.5,
+       27.0,
+       27.3,
+       27.5
+      ]
+     },
+     {
+      "state": "Tripura",
+      "values": [
+       38.5,
+       34.7,
+       35.4,
+       34.1,
+       34.1,
+       35.4,
+       34.1,
+       34.0,
+       28.8,
+       30.0,
+       30.6,
+       30.3,
+       33.6,
+       40.2,
+       36.0,
+       32.0,
+       28.6,
+       29.3,
+       30.5
+      ]
+     },
+     {
+      "state": "Uttar Pradesh",
+      "values": [
+       46.9,
+       43.3,
+       39.4,
+       38.3,
+       33.8,
+       29.7,
+       28.3,
+       31.0,
+       33.9,
+       36.7,
+       35.9,
+       35.9,
+       32.3,
+       36.6,
+       32.6,
+       30.7,
+       30.9,
+       30.0,
+       28.7
+      ]
+     },
+     {
+      "state": "Uttarakhand",
+      "values": [
+       31.9,
+       30.7,
+       27.8,
+       25.4,
+       21.5,
+       20.4,
+       20.3,
+       21.1,
+       22.7,
+       22.8,
+       24.1,
+       25.8,
+       28.2,
+       33.4,
+       31.0,
+       27.6,
+       25.9,
+       25.3,
+       25.3
+      ]
+     },
+     {
+      "state": "West Bengal",
+      "values": [
+       45.6,
+       44.0,
+       44.0,
+       41.9,
+       40.4,
+       39.1,
+       36.7,
+       34.6,
+       39.5,
+       38.7,
+       38.1,
+       36.7,
+       37.8,
+       43.6,
+       40.9,
+       39.5,
+       39.7,
+       40.0,
+       38.9
+      ]
+     },
+     {
+      "state": "Jammu and Kashmir",
+      "values": [
+       59.6,
+       59.3,
+       62.3,
+       55.4,
+       46.9,
+       46.5,
+       46.9,
+       49.0,
+       47.0,
+       49.6,
+       48.6,
+       49.3,
+       54.1,
+       33.2,
+       36.1,
+       33.9,
+       33.4,
+       33.4,
+       33.7
+      ]
+     },
+     {
+      "state": "NCT Delhi",
+      "values": [
+       16.0,
+       13.4,
+       12.2,
+       11.9,
+       8.6,
+       7.5,
+       7.3,
+       6.6,
+       6.0,
+       5.4,
+       0.5,
+       0.5,
+       0.5,
+       1.3,
+       1.8,
+       1.6,
+       1.1,
+       0.9,
+       1.5
+      ]
+     },
+     {
+      "state": "Puducherry",
+      "values": [
+       31.6,
+       33.1,
+       32.0,
+       35.2,
+       32.4,
+       27.4,
+       30.3,
+       31.1,
+       29.3,
+       53.6,
+       22.6,
+       25.2,
+       24.4,
+       29.2,
+       30.3,
+       27.4,
+       25.8,
+       26.0,
+       25.9
+      ]
+     },
+     {
+      "state": "All States and UTs",
+      "values": [
+       26.6,
+       26.1,
+       25.5,
+       23.5,
+       22.8,
+       22.2,
+       22.0,
+       21.7,
+       23.7,
+       25.1,
+       25.1,
+       25.3,
+       26.6,
+       31.0,
+       29.1,
+       28.2,
+       28.1,
+       28.4,
+       29.2
+      ]
+     }
+    ],
+    "anomaly_note": "Shown exactly as RBI prints it. AP's 2012–2014 figures reflect undivided Andhra Pradesh's liabilities, and the 2017 column carries RBI's apportionment artifacts from the AP–Telangana split (AP 37.2% while Telangana shows 12.4%). We do not smooth or correct a published table — we tell you why it looks odd."
+   }
+  ]
+ },
+ "head_to_head": {
+  "intro": "Two full governments and one in progress. On the left of each card is what that government said — its manifesto promises and its own claimed scheme spending. On the right is what the record shows — audited spending, the projects and MoUs on file, and how the economy and the debt moved. We put both side by side and let you judge; we never score a government.",
+  "fair_comparison": [
+   "Tenure lengths differ. TDP 2014–19 and YSRCP 2019–24 each ran five financial years; the present government has two on record so far, and its later years are estimates, not audited actuals. Totals are shown with a per-year figure beside them for that reason.",
+   "The financial year ending March 2021 falls inside the YSRCP tenure and covers the COVID-19 lockdown period — revenue collapsed and spending patterns broke across every Indian state that year. A dip there is not, by itself, a verdict on a government; nor is it an excuse for every later year. We flag the year and leave the reading to you.",
+   "'Claimed' figures are each government's own numbers from its budget speeches and releases. They have not been audited against the CAG's accounts and are never mixed into the audited series.",
+   "An MoU shown as operational had to have time to get there — the oldest commitments have had a decade, the newest a year. Read the operational share with that in mind.",
+   "Projects 'completed in tenure' counts records whose completion date falls inside that tenure, whoever started them. Where a project spans a handover, its own page shows the split and says plainly where the record cannot divide it."
+  ],
+  "covid_years": [
+   2021,
+   2022
+  ],
+  "covid_note": "COVID-19 year — nationwide lockdown from late March 2020; the financial year ending March 2021 is not comparable to a normal year for any state."
+ },
+ "tenure_stories": {
+  "_note": "Narrative sections for each government. Every sentence that carries a figure names the document it came from, and every document is in the sources list. Where an official figure does not exist, the text says so instead of estimating.",
+  "intro": "A tenure is more than a column of numbers. These are the events the official record documents for each government, in plain words, with the document behind every figure. We describe what happened; we do not grade it.",
+  "stories": {
+   "tdp1": {
+    "headline": "A state starting over, and a bill the two sides never agreed on",
+    "paragraphs": [
+     {
+      "text": "Andhra Pradesh began this term without its capital, without Hyderabad's revenues, and in deficit. A study commissioned by the Fifteenth Finance Commission put the state's 2014-15 revenue deficit at ₹13,775.76 crore even after an ad hoc central grant of ₹2,303 crore; without that grant the gap was ₹16,078.76 crore.",
+      "sources": [
+       "FC15-AP-EVAL"
+      ]
+     },
+     {
+      "text": "What the state claimed and what the Centre accepted never met. Against Andhra Pradesh's resource-gap claim, the Centre approved ₹4,117.89 crore on standardised expenditure calculations and released ₹3,979.50 crore, rejecting claims of roughly ₹11,960.87 crore — including the farm loan waiver and DISCOM assistance. That disagreement, not any single scheme, shaped the term's finances.",
+      "sources": [
+       "FC15-AP-EVAL"
+      ]
+     },
+     {
+      "text": "Money did arrive. The Ministry of Finance recorded ₹22,113 crore payable to Andhra Pradesh as a revenue deficit grant over five years, and by September 2016 ₹2,500 crore had been disbursed for the new capital with ₹1,000 crore pending, plus ₹1,050 crore of the backward-areas package. Tax devolution jumped ₹7,787 crore in 2015-16 alone, a rise of 55 per cent.",
+      "sources": [
+       "PIB-AP-2016"
+      ]
+     },
+     {
+      "text": "Under Section 94(3) of the AP Reorganisation Act, the Home Ministry told the Rajya Sabha that ₹1,500 crore had gone to capital city infrastructure and ₹1,000 crore as one-time special assistance for Vijayawada and Guntur.",
+      "sources": [
+       "PIB-AP-2019MHA"
+      ]
+     },
+     {
+      "text": "Polavaram, declared a national project, was approved at ₹16,010.45 crore at 2010-11 prices, with the Centre committed to fund the whole remaining irrigation cost from April 2014. Central assistance released up to 2017-18 came to ₹4,906.99 crore, and releases in the term's later years were ₹2,514.70 crore (2016-17), ₹2,000 crore (2017-18) and ₹1,400 crore (2018-19).",
+      "sources": [
+       "PIB-POLAVARAM-2018",
+       "PIB-AP-TRANSFERS-2019"
+      ]
+     },
+     {
+      "text": "The state's own earning never caught up with the plan. The 14th Finance Commission projected own tax revenue at 7.98 per cent of GSDP for 2015-16; the state reached 6.65 per cent, and the shortfall persisted. This is the thread that runs through all three governments.",
+      "sources": [
+       "FC15-AP-EVAL"
+      ]
+     }
+    ],
+    "not_on_record": "No CAG, PIB or state document we could open states what the term spent in total on building Amaravati, or totals actual releases against the 'special assistance in lieu of special category status' commitment. We leave both blank rather than estimate."
+   },
+   "ysrcp": {
+    "headline": "Two years the pandemic took, and what the record shows about them",
+    "paragraphs": [
+     {
+      "text": "India's lockdown began on 24 March 2020 and the Home Ministry extended it to 31 May 2020 — the opening weeks of the financial year ending March 2021. Every state's books broke that year, and Andhra Pradesh's broke in a way the auditor described precisely.",
+      "sources": [
+       "PIB-LOCKDOWN-2020"
+      ]
+     },
+     {
+      "text": "The state's income collapsed against its own plan. CAG recorded revenue receipts of ₹1,17,136 crore in 2020-21 — just 72.32 per cent of the ₹1,61,958 crore budgeted. Own tax revenue actually fell, from ₹57,601 crore to ₹57,409 crore, and the share of Union taxes dropped 13.39 per cent to ₹24,460 crore. CAG's own words: the pandemic 'resulted in the economic slowdown in the country that led to the decrease in receipts under tax and non-tax revenue'.",
+      "sources": [
+       "CAG-AP-FY21-C2",
+       "CAG-AP-FY21-C1"
+      ]
+     },
+     {
+      "text": "One line went up instead of down: grants-in-aid rose 45.69 per cent to ₹31,872 crore. That is the Centre's hand in the year — and the economy behind the taxes had stalled, with GSDP growth falling to 1.58 per cent from 11.53 per cent.",
+      "sources": [
+       "CAG-AP-FY21-C2",
+       "CAG-AP-FY21-C1"
+      ]
+     },
+     {
+      "text": "The Centre also changed the rules on borrowing. For 2020-21 states were allowed an extra 2 per cent of GSDP, lifting the ceiling from 3 to 5 per cent: half a per cent unconditional, one per cent tied to four reforms, and the last half per cent on completing at least three of them. Andhra Pradesh was among the first five states cleared, taking ₹2,525 crore for One Nation One Ration Card, and became the second state to finish power-sector reform for a further ₹1,515 crore. Having completed all four, it received permission for ₹9,190 crore.",
+      "sources": [
+       "PIB-BORROW-2020",
+       "PIB-BORROW-2021"
+      ]
+     },
+     {
+      "text": "GST compensation came as loans, not grants. Under the special window the state received ₹1,936.53 crore as a back-to-back loan by 3 February 2021, and ₹905.59 crore in the final tranche of the 2021-22 window.",
+      "sources": [
+       "PIB-GST-BTB-2021",
+       "PIB-GST-FINAL-2021"
+      ]
+     },
+     {
+      "text": "The bill for that year was large. The revenue deficit reached ₹35,541 crore (3.60 per cent of GSDP) and the fiscal deficit ₹55,168 crore (5.59 per cent), breaching the state's own 5 per cent FRBM target, while outstanding liabilities hit ₹3,48,246 crore — 35.30 per cent of GSDP, over the 35 per cent ceiling.",
+      "sources": [
+       "CAG-AP-FY21-C1"
+      ]
+     },
+     {
+      "text": "On COVID itself, the audited figure is modest: the state received ₹580.25 crore from central authorities for pandemic relief and spent ₹337.25 crore on COVID measures across the health sector in 2020-21. No official breakdown of vaccination, oxygen or hospital spending beyond that was found.",
+      "sources": [
+       "CAG-AP-FY21-C1"
+      ]
+     },
+     {
+      "text": "The recovery in the next year was real and fast. Revenue receipts rose 28.53 per cent to ₹1,50,552 crore, own tax revenue 23.64 per cent to ₹70,979 crore, and the revenue deficit fell 75.77 per cent to ₹8,611 crore while the fiscal deficit more than halved to ₹25,013 crore. That is the number a fair reading has to hold beside the 2020-21 collapse.",
+      "sources": [
+       "CAG-AP-FY22"
+      ]
+     },
+     {
+      "text": "The recovery came with a caveat the auditor put in writing. Reported liabilities for 2021-22 were ₹3,72,503 crore, or 31.00 per cent of GSDP and inside the target — but adding ₹1,18,394 crore of off-budget borrowing took the real ratio to 40.85 per cent. The headline met the rule; the full picture did not.",
+      "sources": [
+       "CAG-AP-FY22"
+      ]
+     },
+     {
+      "text": "Polavaram continued through the term: in July 2023 the Centre approved a further ₹10,911.15 crore for work to a water level of 41.15 metres, plus ₹2,000 crore for repair of damages.",
+      "sources": [
+       "PIB-POLAVARAM-2023"
+      ]
+     },
+     {
+      "text": "Looking back across the term, NITI Aayog's assessment was that Andhra Pradesh collects less than a median state — 13.4 per cent of GSDP in 2022-23 against 19.9 per cent — and ran a revenue deficit of 2.2 per cent where a median state ran a surplus.",
+      "sources": [
+       "NITI-AP-2025"
+      ]
+     }
+    ],
+    "not_on_record": "The total additional borrowing Andhra Pradesh actually availed under the full 2 per cent relaxation is not stated state-wise in any release we could open, and no AP-specific share of the free-foodgrain programme was published. We show only what is documented."
+   },
+   "tdp2": {
+    "headline": "A young term, with the Centre's commitments written into a budget speech",
+    "paragraphs": [
+     {
+      "text": "The Union Budget of July 2024 addressed the state directly. On the capital: 'Recognizing the state's need for a capital, we will facilitate special financial support through multilateral development agencies. In the current financial year ₹15,000 crore will be arranged, with additional amounts in future years.' On irrigation, the government declared itself 'fully committed to financing and early completion of the Polavaram Irrigation Project, which is the lifeline for Andhra Pradesh and its farmers.'",
+      "sources": [
+       "UNION-BUDGET-2425"
+      ]
+     },
+     {
+      "text": "The same speech promised infrastructure funding for the Kopparthy node on the Visakhapatnam-Chennai Industrial Corridor and the Orvakal node on the Hyderabad-Bengaluru corridor, along with grants for Rayalaseema, Prakasam and North Coastal Andhra as set out in the Reorganisation Act. The Cabinet then approved 12 industrial nodes nationally, Orvakal and Kopparthy among them, though no node-wise investment figure was published.",
+      "sources": [
+       "UNION-BUDGET-2425",
+       "PIB-CORRIDORS-2024"
+      ]
+     },
+     {
+      "text": "The multilateral money arrived as approvals in December 2024: $800 million from the World Bank and $788.8 million from the Asian Development Bank for the Amaravati Integrated Urban Development Program, part of a $1.78 billion first phase covering a 320-km arterial road grid, 1,280 km of neighbourhood roads, and water, wastewater and drainage systems.",
+      "sources": [
+       "WB-AMARAVATI-2024"
+      ]
+     },
+     {
+      "text": "The state's own 2025-26 budget put total expenditure at ₹2,97,929 crore against receipts excluding borrowings of ₹2,18,002 crore, with a revenue deficit of ₹33,186 crore (1.8 per cent of GSDP), a fiscal deficit of ₹79,927 crore (4.4 per cent) and debt at 35 per cent of GSDP. The largest allocations were ₹19,899 crore for NTR Bharosa pensions, ₹20,492 crore for education teaching grants, ₹11,883 crore for agricultural power subsidy, ₹6,705 crore for Polavaram, ₹6,300 crore for Annadata Sukhibhava and ₹6,000 crore for Amaravati.",
+      "sources": [
+       "PRS-AP-2526"
+      ]
+     }
+    ],
+    "not_on_record": "No official figure exists yet for how much of the ₹15,000 crore capital support announced in the Union Budget has actually been disbursed. The speech states it 'will be arranged'; the World Bank and ADB approvals confirm the mechanism, not a rupee total. Most of this term's spending figures are still estimates, not audited actuals."
+   }
+  }
+ }
+}

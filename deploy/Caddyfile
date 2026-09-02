@@ -1,0 +1,30 @@
+# Caddy fronts the API with automatic HTTPS (Let's Encrypt).
+# Cloudflare sits in front of Caddy (orange-cloud / proxied) with SSL mode
+# "Full (strict)" — so the browser talks to Cloudflare, Cloudflare to Caddy,
+# both over TLS, and the droplet's IP is never exposed.
+{
+  email {$ACME_EMAIL}
+}
+
+{$API_HOST} {
+  encode zstd gzip
+
+  # Only the API lives here; the static site is on Cloudflare Pages.
+  reverse_proxy api:8000 {
+    header_up X-Forwarded-Proto {scheme}
+  }
+
+  header {
+    -Server
+    Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options nosniff
+    Referrer-Policy strict-origin-when-cross-origin
+  }
+
+  log {
+    output file /data/access.log {
+      roll_size 20mb
+      roll_keep 5
+    }
+  }
+}

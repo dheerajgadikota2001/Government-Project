@@ -24,6 +24,11 @@ class MOUOut(BaseModel):
     expected_completion: Optional[datetime] = None
     source_portal: str
     source_url: Optional[str] = None
+    # provenance, so the card can say whether a government ever confirmed this
+    source_tier: Optional[str] = None
+    source_label: Optional[str] = None
+    source_caveat: Optional[str] = None
+    date_status: Optional[str] = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -40,5 +45,10 @@ class MOUListOut(BaseModel):
     status: MOUStatus
     signed_date: Optional[datetime] = None
     summit_name: Optional[str] = None
+    # carried in the LIST view too: a reader scanning the table should see which
+    # rows are government-confirmed without opening each one
+    source_tier: Optional[str] = None
+    source_label: Optional[str] = None
+    date_status: Optional[str] = None
 
     model_config = {"from_attributes": True}

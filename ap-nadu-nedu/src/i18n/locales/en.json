@@ -1,0 +1,2435 @@
+{
+  "lang": {
+    "choose": "Choose a language",
+    "note": "Translated by this project, not by the government. Where a government document is quoted, the original wording is one tap away."
+  },
+  "month": {
+    "jan": "January",
+    "feb": "February",
+    "mar": "March",
+    "apr": "April",
+    "may": "May",
+    "jun": "June",
+    "jul": "July",
+    "aug": "August",
+    "sep": "September",
+    "oct": "October",
+    "nov": "November",
+    "dec": "December"
+  },
+  "date": {
+    "full": "{day} {month} {year}",
+    "monthYear": "{month} {year}",
+    "toToday": "to today",
+    "fyPrefix": "FY"
+  },
+  "unit": {
+    "crore": "Cr",
+    "lakhCrore": "lakh Cr",
+    "lakh": "lakh",
+    "percent": "per cent",
+    "jobs": "jobs",
+    "rupeeCrore": "₹ crore"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "tryAgain": "Try again",
+    "close": "Close",
+    "search": "Search…",
+    "clearFilters": "Clear all filters",
+    "notPublished": "not published",
+    "noneOnRecord": "None on record",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "readMore": "Read more",
+    "source": "Source",
+    "sources": "Sources",
+    "dataSources": "Data sources →",
+    "openLarger": "Open larger, with the numbers →",
+    "openChartLarger": "Open this chart larger",
+    "openNamedLarger": "Open {label} larger",
+    "item": "Item",
+    "value": "Value",
+    "share": "Share",
+    "total": "Total",
+    "year": "Year",
+    "of": "of",
+    "and": "and",
+    "page": "Page {page} of {total}",
+    "next": "Next",
+    "previous": "Previous",
+    "showOriginal": "Show the original wording",
+    "hideOriginal": "Hide the original",
+    "translatedLabel": "Translated by this project",
+    "government": "government",
+    "company": "company",
+    "press": "press",
+    "seeCharts": "See this as charts →",
+    "hideCharts": "Hide the charts"
+  },
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "investments": "Investments",
+    "news": "News",
+    "finances": "Finances",
+    "governments": "Governments",
+    "records": "Records",
+    "apTenureRecord": "Andhra Pradesh — tenure record",
+    "allStates": "All States — Central Records",
+    "govDocuments": "Government documents",
+    "dataSources": "Data sources — every document we cite",
+    "toggleMenu": "Toggle menu",
+    "brandSub": "ఏపీ నాడు నేడు",
+    "searchMobilePlaceholder": "Search projects, news…",
+    "community": "Community",
+    "schoolEducation": "School education",
+    "contacts": "Contacts",
+    "stateFacts": "State facts",
+    "tenders": "Tenders"
+  },
+  "home": {
+    "statewide": "Statewide",
+    "unit": {
+      "projects": "projects"
+    },
+    "status": {
+      "completed": "Completed",
+      "ongoing": "Under construction",
+      "announced": "Announced",
+      "delayed": "Delayed"
+    },
+    "hero": {
+      "titleLine1": "Track Andhra Pradesh",
+      "titleLine2": "Government Work",
+      "titleTe": "ఆంధ్రప్రదేశ్ ప్రభుత్వ పనులను ట్రాక్ చేయండి",
+      "lede": "Projects, tenders, investments, budgets and manifestos — mirrored from official government records, with the source document linked on every figure.",
+      "searchPlaceholder": "Search for projects, districts, or departments..."
+    },
+    "apiDown": {
+      "message": "The data server isn't responding, so live totals can't be shown. Nothing on this page is ever a typed-in number — refresh once the backend is running."
+    },
+    "stats": {
+      "seeBreakdown": "See the breakdown",
+      "projects": {
+        "title": "Projects tracked",
+        "sub": "{ongoing} under construction · {completed} completed",
+        "loading": "loading live count"
+      },
+      "tenders": {
+        "title": "Tenders on record",
+        "sub": "{n} closing soon",
+        "comingSoon": "Coming soon",
+        "comingSoonSub": "Government tender boards are being added"
+      },
+      "investment": {
+        "title": "Project investment",
+        "sub": "sum of published estimated costs"
+      },
+      "mous": {
+        "title": "Investment MoUs",
+        "sub": "{amount} announced · {jobs} jobs promised"
+      }
+    },
+    "featured": {
+      "title": "Largest projects on record",
+      "titleTe": "అతిపెద్ద ప్రాజెక్టులు",
+      "viewAll": "View All",
+      "percentBuilt": "{pct}% built"
+    },
+    "news": {
+      "title": "Latest news on record",
+      "all": "All news →"
+    },
+    "drill": {
+      "projects": {
+        "title": "Projects tracked — the breakdown",
+        "sub": "Live counts from the register; every project links its official source.",
+        "body": "{count} projects, {cost} of published estimated cost. Statuses come from the source documents, not from us.",
+        "link": "Open the full register with filters →"
+      },
+      "tenders": {
+        "title": "Tenders on record",
+        "sub": "Mirrored from the government portals we track — today, the AP CRDA (Amaravati) tenders board.",
+        "body": "{count} tenders in the register — from the portals we track, not all of Andhra Pradesh.",
+        "bodyClosing": "{count} tenders in the register, {closing} closing soon — from the portals we track, not all of Andhra Pradesh.",
+        "note": "Thousands of tenders are live across Andhra Pradesh at any moment — the state e-procurement portal alone lists them in the thousands, and it refuses access from outside India. This register shows only the portals we can mirror reliably, names the portal on every tender, and shows a value only when the portal publishes one — CRDA's board publishes none on its listing. A smaller honest number, never a padded one.",
+        "link": "See the live tenders →",
+        "comingSoonBody": "We are adding central government tenders located in Andhra Pradesh from the Central Public Procurement Portal, labelled as central. AP's own e-procurement portal refuses access from outside India — that gap will be stated plainly on this card, not hidden."
+      },
+      "investments": {
+        "title": "Project investment — where the money sits",
+        "sub": "Top projects by published estimated cost.",
+        "note": "These are published estimated costs from official documents — money planned, not audited spending. Audited spending lives in the Finances section.",
+        "link": "All projects, sortable by cost →"
+      },
+      "mous": {
+        "title": "Investment MoUs — what was promised",
+        "sub": "Announced investment by sector; an MoU is a promise, not money spent.",
+        "loading": "Loading the MoU register…",
+        "stats": "{mous} MoUs, {jobs} jobs promised, {foreign} with foreign investors.",
+        "body": "Every MoU card links its source; whether a promise became a factory is exactly what the Investments page tracks.",
+        "empty": "No MoUs with published investment figures in the register yet.",
+        "otherSectors": "Other sectors",
+        "link": "Open the Investments register →"
+      }
+    }
+  },
+  "map": {
+    "title": "Where the work is",
+    "titleTe": "జిల్లాల వారీగా",
+    "intro": "All 26 districts, shaded by how many tracked projects each one holds. Hover a district for its record; click to open its projects.",
+    "svgAlt": "Map of Andhra Pradesh districts, shaded by number of tracked projects",
+    "headquarters": "Headquarters: {hq}",
+    "statewideNote": "{n} projects are recorded as statewide, with no single district, and are counted separately from the map.",
+    "legend": {
+      "fewer": "fewer",
+      "more": "more"
+    },
+    "stats": {
+      "districts": "Districts",
+      "projectsMapped": "Projects mapped"
+    },
+    "readout": {
+      "projectsTracked": "Projects tracked",
+      "publishedCost": "Published cost",
+      "shareOfMapped": "Share of mapped",
+      "openProjects": "Open these projects →"
+    },
+    "empty": {
+      "hint": "Hover any district to read its record.",
+      "coverage": "{n} of 26 districts have projects on record so far. A grey district means no project in our register names it — not that nothing is happening there."
+    }
+  },
+  "footer": {
+    "tagline": "ప్రజల పాలన · People's Governance",
+    "disclaimer": "An independent, citizen-run transparency initiative. We are not affiliated with, endorsed by, or connected to the Government of Andhra Pradesh or any of its departments. All information is mirrored from publicly available official government portals, with a source link and collection date on every item.",
+    "disclaimerTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
+    "copyright": "© 2026 AP Nadu Nedu · Built by citizens, for citizens · Not an official government website",
+    "copyrightAct": "Government documents reproduced under Section 52, Copyright Act 1957",
+    "links": {
+      "about": "About · Why we exist",
+      "sources": "Data Sources",
+      "disclaimer": "Disclaimer",
+      "correction": "Report a Correction",
+      "rti": "RTI Portal ↗"
+    }
+  },
+  "mitra": {
+    "ariaLabel": "Mitra Voice Assistant",
+    "tooltip": "Ask Mitra | మిత్రాను అడగండి",
+    "comingSoon": "Mitra is coming soon!"
+  },
+  "projects": {
+    "title": "Government Projects",
+    "titleSub": "ప్రభుత్వ ప్రాజెక్టులు",
+    "intro": "Projects across all 26 districts of Andhra Pradesh, mirrored from official government sources with a link back on every one.",
+    "advancedView": "Advanced view",
+    "loading": "Loading projects…",
+    "statewide": "Statewide",
+    "error": {
+      "title": "Can't reach the data server",
+      "body": "Projects load live from our database, and the backend API isn't responding right now ({message}). No placeholder projects are shown in its place."
+    },
+    "tenure": {
+      "announced": "announced",
+      "worksBegun": "{count} works begun",
+      "completedInTenure": "{count} completed in tenure",
+      "dive": "Dive into this government's record →",
+      "clearFilter": "clear filter",
+      "filterList": "or just filter the list",
+      "countedNote": "Counted by the dates recorded on each project — announcement, works-start, completion.",
+      "unattributed": "{count} records carry no announcement date and are not attributed to any government — we never guess."
+    },
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Project name, department, agency…",
+      "district": "District",
+      "allDistricts": "All 26 districts",
+      "type": "Project type",
+      "allTypes": "All types",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "department": "Department",
+      "allDepartments": "All departments",
+      "sortBy": "Sort by",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "sortAscending": "Sort ascending",
+      "sortDescending": "Sort descending"
+    },
+    "chips": {
+      "jumpTo": "Jump to:",
+      "clearFilters": {
+        "one": "Clear {count} filter",
+        "other": "Clear {count} filters"
+      }
+    },
+    "results": {
+      "unit": {
+        "one": "project",
+        "other": "projects"
+      },
+      "matching": "matching your filters"
+    },
+    "empty": {
+      "noMatch": "No projects match these filters",
+      "none": "No projects synced yet",
+      "tryWidening": "Try widening the district or removing the status filter.",
+      "noneBody": "Project records appear here as our collectors mirror them from official government sources. We show nothing until there is something real to show."
+    },
+    "card": {
+      "estCost": "Est. Cost",
+      "progress": "Progress",
+      "expected": "Expected {date}",
+      "viewDetails": "View Details"
+    },
+    "pagination": {
+      "page": "Page {page}"
+    },
+    "status": {
+      "announced": "Announced",
+      "approved": "Approved",
+      "tendered": "Tendered",
+      "under_construction": "Under construction",
+      "completed": "Completed",
+      "delayed": "Delayed",
+      "suspended": "Suspended",
+      "cancelled": "Cancelled"
+    },
+    "type": {
+      "infrastructure": "Infrastructure",
+      "roads": "Roads",
+      "irrigation": "Irrigation",
+      "power": "Power",
+      "industrial": "Industrial",
+      "urban_development": "Urban Development",
+      "education": "Education",
+      "health": "Health",
+      "agriculture": "Agriculture",
+      "ports": "Ports",
+      "airports": "Airports",
+      "railways": "Railways",
+      "housing": "Housing",
+      "tourism": "Tourism",
+      "it_tech": "IT/Tech"
+    },
+    "sort": {
+      "updated": "Recently updated",
+      "cost": "Cost",
+      "progress": "Progress",
+      "title": "Title",
+      "announced": "Date announced",
+      "completion": "Expected completion"
+    },
+    "tabs": {
+      "aria": "Which view of projects to show",
+      "overview": "Overview",
+      "all": "All projects"
+    }
+  },
+  "projectDetail": {
+    "allProjects": "← All projects",
+    "notFound": "This project is not in our register.",
+    "unreachable": "Can't reach the data server ({message}).",
+    "loading": "Loading the cited record…",
+    "whatRecordSays": "What the record says",
+    "primarySource": "Primary source:",
+    "correctionNote": "Found a figure that doesn't match its source, or a document we're missing? Tell us and we correct it — that promise is the foundation of this platform.",
+    "tenures": {
+      "pre": "Before bifurcation (undivided AP)",
+      "tdp1": "TDP (Naidu) 2014–19",
+      "ysrcp": "YSRCP (Jagan) 2019–24",
+      "tdp2": "TDP-led NDA (Naidu) 2024–"
+    },
+    "tiles": {
+      "estimatedCost": "Estimated cost",
+      "physicalProgress": "Physical progress",
+      "perLatestSource": "per the latest cited source",
+      "noOfficialFigure": "no official figure on record",
+      "moneySpent": "Money spent so far",
+      "cumulativeAsOf": "cumulative, as of {date}",
+      "actualCost": "Actual cost",
+      "asRecordedOnCompletion": "as recorded on completion",
+      "completed": "Completed",
+      "expectedCompletion": "Expected completion",
+      "recordUpdated": "Record updated",
+      "inOurDatabase": "in our database"
+    },
+    "identity": {
+      "title": "The record's identity"
+    },
+    "facts": {
+      "projectCode": "Project code",
+      "projectCodeHint": "find this code inside the source document — your independent check on us",
+      "implementingAgency": "Implementing agency",
+      "department": "Department / ministry",
+      "mandal": "Mandal",
+      "constituency": "Constituency",
+      "trackedFrom": "Tracked from",
+      "registeredSince": "In our register since"
+    },
+    "datedRecord": {
+      "title": "Dated record",
+      "note": "Only dates and figures from official/cited publications. Progress points name the document they came from; the list grows as new reports are imported. A gap means \"no published figure for that period\" — never zero work, and never our estimate."
+    },
+    "span": {
+      "fromAnnouncement": "Announcement",
+      "fromStart": "Start",
+      "toCompletion": "completion",
+      "toExpected": "expected completion",
+      "years": {
+        "one": "{count} year",
+        "other": "{count} years"
+      },
+      "months": {
+        "one": "{count} month",
+        "other": "{count} months"
+      },
+      "text": "{from} to {to}: about {duration} between the recorded dates."
+    },
+    "milestone": {
+      "announced": "Announced / approved (as recorded)",
+      "started": "Works began (as recorded)",
+      "expectedAsRecorded": "Expected completion (as recorded)",
+      "expectedLatestCited": "Expected completion (latest cited)",
+      "completed": "Completed (as recorded)"
+    },
+    "timeline": {
+      "physicalProgress": "Physical progress {pct}%",
+      "progressObservation": "Progress observation",
+      "cumulativeSpend": "cumulative spend ₹{amount} {unit}"
+    },
+    "band": {
+      "title": "Which government, how much — as far as the record says",
+      "intro": "Progress between two published figures is credited to a government only when both dates fall inside its tenure. Where a stretch crosses a handover, the official reports don't say how much happened under each — so we show it striped and say exactly that, instead of guessing.",
+      "chartLabel": "Progress split by government tenure, where attributable",
+      "worksBegan": "works began",
+      "announced": "announced",
+      "publishedFigure": "published figure",
+      "completed": "completed",
+      "segmentTip": "{pct}% under {tenure} ({from} → {to})",
+      "segmentTipSpanned": "{pct}% across a change of government — record cannot split it",
+      "notReported": "not yet reported as done",
+      "attributed": "under {tenure} — from {fromPct}% ({fromDate}, {fromLabel}) to {toPct}% ({toDate}, {toLabel})",
+      "spanned": "between {from} and {to} — this stretch crosses a change of government ({tenures}); the published record does not split it, so neither do we",
+      "remaining": "The remaining {pct}% has no published completion figure yet.",
+      "sharpens": "This section sharpens as more dated reports are imported — every new official figure adds a split point."
+    },
+    "news": {
+      "title": "News that mentions this project",
+      "count": {
+        "one": "{count} article",
+        "other": "{count} articles"
+      },
+      "matchedOn": "matched automatically on \"{words}\" — not our endorsement of their accuracy",
+      "matchedWords": "matched on \"{words}\"",
+      "note": "Articles are listed because their text contains this project's name — nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
+    }
+  },
+  "gallery": {
+    "title": "Photographs",
+    "photos": {
+      "one": "photo",
+      "other": "photos"
+    },
+    "kind": {
+      "site": "Site",
+      "progress": "Progress",
+      "render": "Official render",
+      "map": "Map",
+      "documentScan": "Document",
+      "event": "Event"
+    },
+    "openLarger": "Open larger view",
+    "sourceLink": "source",
+    "photoN": "Photo {n}",
+    "viewer": "Photo viewer",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "position": "{n} of {total}"
+  },
+  "progressGallery": {
+    "title": "Photographs",
+    "acrossYears": "The same project as it was photographed across {years} years — the record of how it changed.",
+    "everyPhoto": "Every photograph carries its date, credit and licence.",
+    "kind": {
+      "site": "Site",
+      "progress": "Progress",
+      "render": "Official render",
+      "map": "Map",
+      "documentScan": "Document",
+      "event": "Event"
+    },
+    "creditNotRecorded": "credit not recorded",
+    "sourceLink": "source ↗",
+    "photographs": {
+      "one": "{count} photograph",
+      "other": "{count} photographs"
+    },
+    "dateNotRecorded": "Date not recorded",
+    "dateNotRecordedInline": "date not recorded",
+    "undatedNote": "These photographs carry no capture date in their source, so we cannot place them in the sequence — we show them apart rather than guess a year.",
+    "whereFrom": "where this photograph came from ↗",
+    "previous": "← Previous",
+    "next": "Next →"
+  },
+  "investments": {
+    "title": "Investments & MoUs",
+    "titleSub": "పెట్టుబడులు & అవగాహన ఒప్పందాలు",
+    "intro": "Memoranda of Understanding signed with the Government of Andhra Pradesh, as announced through official channels — with where each one stands today.",
+    "advancedView": "Advanced view",
+    "loading": "Loading investment records…",
+    "pageN": "Page {page}",
+    "error": {
+      "title": "Can't reach the data server",
+      "body": "Investment records load live from our database, and the backend API isn't responding right now ({message}). No sample MoUs are shown in its place."
+    },
+    "tenure": {
+      "mousOnRecord": "MoUs on record",
+      "promised": "promised",
+      "jobsAcross": "{jobs} jobs, across the {n} that state a figure",
+      "noJobsFigure": "no jobs figure published",
+      "operationalSoFar": "{n} operational so far",
+      "dive": "Dive into this government's record →",
+      "clearFilter": "clear filter",
+      "filterList": "or just filter the list",
+      "noneInTerm": "No commitment with a signing date in this term is published in the portals we mirror. We leave it empty rather than guess.",
+      "note": "Counted by the signing date on each record; the amounts are the announcements' own figures: promises, not audited money. These totals cover only the commitments we have documented, so read each one as a floor rather than the state's full investment tally.",
+      "unattributed": "{n} records carry no signing date and are not attributed."
+    },
+    "statusExplain": {
+      "signed": "Signed means a memorandum exists — a promise on paper. No land, no construction, no jobs are implied yet.",
+      "investmentStarted": "The record shows work or investment has begun; the promise is being acted on.",
+      "operational": "The record shows the promised facility is running.",
+      "stalled": "The record shows the commitment has stalled — signed, but not moving.",
+      "cancelled": "The record shows this commitment was cancelled after signing."
+    },
+    "detail": {
+      "stepSigned": "MoU signed",
+      "stepStart": "Projected start (as announced)",
+      "stepCompletion": "Expected completion (as announced)",
+      "committedInvestment": "Committed investment",
+      "expectedJobs": "Expected jobs",
+      "sector": "Sector",
+      "district": "District",
+      "notSpecified": "not specified",
+      "whatRecordSays": "What the record says",
+      "schedule": "The announced schedule",
+      "scheduleNote": "Start and completion here are the announcement's own projections — whether they were kept is exactly what the status above tracks, from the record, not from us.",
+      "noDates": "No dates were published with this commitment — we show none rather than estimate.",
+      "recordSource": "Record source:",
+      "inRegisterSince": "in our register since {date}",
+      "loadError": "Can't load this record ({message}).",
+      "loading": "Loading the cited record…",
+      "undated": "This entry has no reliable signing date. The register shows what was published, not a guess."
+    },
+    "stats": {
+      "committedInvestment": "Committed Investment",
+      "totalMous": "Total MoUs",
+      "agreements": "Agreements",
+      "expectedJobs": "Expected Jobs",
+      "projected": "Projected",
+      "foreignInvestors": "Foreign Investors",
+      "nonDomestic": "Non-domestic",
+      "committedAnnounced": "Committed investment, as announced"
+    },
+    "filters": {
+      "searchLabel": "Search MoUs",
+      "searchPlaceholder": "Search company, sector, summit…",
+      "bySector": "Filter by sector",
+      "allSectors": "All sectors",
+      "byStatus": "Filter by status",
+      "allStatuses": "All statuses",
+      "byDistrict": "Filter by district",
+      "allDistricts": "All 26 districts",
+      "byYear": "Filter by year signed",
+      "anyYear": "Any year signed",
+      "noDate": "No date on record ({n})",
+      "sortBy": "Sort by",
+      "sortInvestmentSize": "Investment size",
+      "sortPrefix": "Sort: {label}",
+      "sortAscending": "Sort ascending",
+      "sortDescending": "Sort descending",
+      "matching": {
+        "one": "{count} matching MoU",
+        "other": "{count} matching MoUs"
+      },
+      "clear": {
+        "one": "Clear {count} filter",
+        "other": "Clear {count} filters"
+      }
+    },
+    "empty": {
+      "noMatch": "No MoUs match these filters",
+      "noneYet": "No investment records synced yet",
+      "body": "MoU records appear here as our collectors mirror official investment announcements. We show nothing until there is something real to show."
+    },
+    "card": {
+      "foreign": "Foreign investment",
+      "committed": "Committed",
+      "expectedJobs": "Expected Jobs",
+      "signed": "Signed {date}",
+      "fullRecord": "Full record",
+      "tier": {
+        "government": "Government record",
+        "company": "Company statement",
+        "press": "Press report",
+        "unlabelled": "Source not labelled"
+      },
+      "undated": "No reliable signing date published"
+    },
+    "provenance": {
+      "title": "What that total is made of",
+      "barAria": "Share of the announced investment total by kind of source",
+      "detail": "{n} agreements · {pct}% of the total",
+      "footnote": "Of the {total} crore announced, {gov} crore appears in a government record. The rest is what companies and newspapers have stated. Every agreement below is labelled with which of the three it came from.",
+      "compact": "Who says these numbers: {gov}% from government records · {company}% from company statements · {press}% from press reports.",
+      "seeBreakdown": "See the full breakdown"
+    },
+    "tabs": {
+      "aria": "Which view of investments to show",
+      "overview": "Overview",
+      "mous": "All MoUs",
+      "sources": "Sources & disagreements"
+    },
+    "sources": {
+      "intro": "Every figure on this page names the document it came from. This tab shows who stands behind the headline total, and where the official record disagrees with itself."
+    }
+  },
+  "summits": {
+    "title": "Summits, and what reached the ground",
+    "noDocument": "no document published",
+    "intro": {
+      "lead": "Since Andhra Pradesh was divided, its governments have held five investment summits and announced",
+      "across": "across",
+      "agreements": "{n} agreements",
+      "rest": ". Every figure on this page is the state's own, quoted from a budget speech or a survey you can open. The harder question is the second one, and the state has answered it far less often than it asked to be congratulated on the first."
+    },
+    "columns": {
+      "dateRange": "{from} to {to}",
+      "dateRangeToday": "{from} to today",
+      "announced": "Announced at summits",
+      "mousAcross": {
+        "one": "{mous} MoUs across {count} summit",
+        "other": "{mous} MoUs across {count} summits"
+      },
+      "jobsPromised": "{jobs} jobs promised",
+      "noSummit": "No investment summit held.",
+      "built": "Reported as built",
+      "acrossYears": "across the {published} of {covered} years this government published a figure for",
+      "nothingPublished": "No year of this term has a published figure for investment actually built. What is published is what was approved."
+    },
+    "chart": {
+      "tipMous": "{n} MoUs"
+    },
+    "table": {
+      "summit": "Summit",
+      "mous": "MoUs",
+      "announced": "Announced",
+      "jobs": "Jobs promised",
+      "document": "The document this comes from",
+      "toDate": "to {date}",
+      "documented": {
+        "one": "We hold {count} documented record signed that year.",
+        "other": "We hold {count} documented records signed that year."
+      }
+    },
+    "grounded": {
+      "none": "none",
+      "unchecked": "unchecked",
+      "noFigure": "no figure published",
+      "jobs": "{n} jobs",
+      "partialTag": "not like-for-like",
+      "legendPublished": "figure the state published — bar colour shows the government",
+      "legendPartial": "published on a different basis — not comparable",
+      "legendNone": "the state published no figure",
+      "legendUnchecked": "document we could not open yet"
+    },
+    "disagree": {
+      "summary": "Where the numbers for the same summit disagree",
+      "companies": ", {n} companies",
+      "jobs": ", {jobs} jobs"
+    },
+    "notSummit": {
+      "summary": "Two things widely described as summits that we could not confirm"
+    },
+    "viz": {
+      "ledger": {
+        "title": "What was announced, summit by summit",
+        "sub": "Committed investment as the state itself recorded it, in ₹ crore.",
+        "provenance": "Andhra Pradesh Finance Department budget speeches, 2016-17 through 2026-27. Every row links to the speech it is quoted from."
+      },
+      "grounded": {
+        "title": "What the state said actually got built, year by year",
+        "sub": "Investment reported as grounded or established, in ₹ crore. A dashed outline means the state published no figure for that year.",
+        "provenance": "Andhra Pradesh budget speeches and Socio Economic Surveys. Five of the twelve years since bifurcation have no published figure; those gaps are the state's, not ours."
+      },
+      "bothSides": {
+        "title": "The times a government published both sides of the ledger",
+        "sub": "Announcing is easy to count. Delivering is what governments publish least.",
+        "provenance": "Quoted verbatim from the budget speeches and central reports named on each card."
+      },
+      "crossTenure": {
+        "title": "Projects built across two governments",
+        "sub": "Who gets the credit when the ribbon is cut by whoever happens to be in office that month."
+      }
+    },
+    "crossTenure": {
+      "announcedOpened": "Announced under {a} · Opened under {o}",
+      "readingCount": "{n} dated readings, {g} from government"
+    }
+  },
+  "invDive": {
+    "title": "{party} — investment commitments on record",
+    "today": "today",
+    "lakhShort": "L",
+    "dateRange": "{from} to {to}",
+    "loading": "Loading the record…",
+    "errorServer": "Can't reach the data server ({message}).",
+    "allInvestments": "← All investments",
+    "unknownTenure": "That government isn't one we track.",
+    "emptyTitle": "{party} — no investment commitments on record",
+    "emptyBody": "Our register holds no MoU with a signing date inside {from} to {to}. That means we have not documented one, not that none was signed. Where a government portal has not published a commitment, we leave the space empty rather than fill it.",
+    "docsWeHold": "The documents we do hold →",
+    "readCorrectly": "Read these numbers correctly",
+    "mouCount": {
+      "one": "{count} MoU",
+      "other": "{count} MoUs"
+    },
+    "statusExplain": {
+      "signed": "A memorandum exists. No land, no construction, no jobs are implied yet.",
+      "investmentStarted": "The record shows work or investment has begun.",
+      "operational": "The record shows the promised facility is running.",
+      "stalled": "Signed, but the record shows it is not moving.",
+      "cancelled": "Cancelled after signing."
+    },
+    "countedBy": {
+      "lead": "Every commitment here is counted by",
+      "signingDate": "the signing date on its own record",
+      "rest": ", and every amount is the announcement's own figure. An MoU is a promise on paper: it is not money spent, land allotted or a single job created."
+    },
+    "floor": {
+      "lead": "This is a floor, not a full tally.",
+      "body": {
+        "one": "Our register holds {count} commitment signed in this term, of which {withInvestment} state an investment amount and {withJobs} state a jobs figure. Andhra Pradesh's investment summits announced far more than we have documented, and a published announcement often names no jobs number at all. Where a figure is missing we add nothing.",
+        "other": "Our register holds {count} commitments signed in this term, of which {withInvestment} state an investment amount and {withJobs} state a jobs figure. Andhra Pradesh's investment summits announced far more than we have documented, and a published announcement often names no jobs number at all. Where a figure is missing we add nothing."
+      },
+      "whereFrom": "Where these records come from →"
+    },
+    "tiles": {
+      "mousOnRecord": "MoUs on record",
+      "signedInTerm": "signed in this term",
+      "investmentPromised": "Investment promised",
+      "acrossNamingAmount": "across the {n} that name an amount",
+      "jobsPromised": "Jobs promised",
+      "nonePublished": "none published",
+      "acrossNamingJobs": "across the {n} that name a jobs figure",
+      "recordedOperational": "Recorded operational",
+      "ofSignedInTerm": "of {n} signed in this term"
+    },
+    "year": {
+      "tipSigned": {
+        "one": "{count} MoU signed",
+        "other": "{count} MoUs signed"
+      }
+    },
+    "viz": {
+      "years": {
+        "title": "When the commitments were signed",
+        "sub": "Investment promised in each calendar year of this term. Hover a column for that year's amount and count.",
+        "provenance": "Counted from the signing date on each MoU. Summit years show as spikes; a quiet year means nothing we have documented was signed."
+      },
+      "sectors": {
+        "title": "Which sectors were promised the money",
+        "sub": "Announced investment by sector, for the commitments that name an amount.",
+        "provenance": "Sector as recorded on each MoU. Amounts are the announcements' own figures.",
+        "tipJobs": "{jobs} jobs promised",
+        "tipNoJobs": "no jobs figure published",
+        "tipShare": "{pct}% of this term's promised money",
+        "none": "No commitment in this term publishes an amount."
+      },
+      "status": {
+        "title": "What became of them",
+        "sub": "Where each commitment signed in this term stands today, whichever government is now in office.",
+        "provenance": "Status as recorded in the latest source for each MoU. A commitment signed late in a term has had less time to reach operation than one signed early — read the split with that in mind."
+      },
+      "districts": {
+        "title": "Where the promises were pointed",
+        "sub": "Districts named in the commitments signed in this term.",
+        "provenance": {
+          "one": "{count} commitment in this term names no district. District spellings from the source are folded onto the canonical name.",
+          "other": "{count} commitments in this term name no district. District spellings from the source are folded onto the canonical name."
+        }
+      }
+    },
+    "table": {
+      "title": "Every commitment we hold from this term",
+      "company": "Company",
+      "sector": "Sector",
+      "signed": "Signed",
+      "promised": "Promised",
+      "jobs": "Jobs",
+      "statusToday": "Status today",
+      "note": "\"Not published\" means the announcement itself gave no figure. We never fill that gap with an estimate."
+    },
+    "links": {
+      "openInRegister": "Open these in the register, with filters →",
+      "projectRecord": "What this government built — its project record →"
+    }
+  },
+  "hero": {
+    "stage": {
+      "a": "audited actual",
+      "re": "revised estimate",
+      "be": "budget estimate"
+    },
+    "unit": {
+      "projects": "Projects",
+      "publishedCost": "Published cost",
+      "announced": "Announced",
+      "promised": "Promised",
+      "mous": "MoUs",
+      "owed": "Owed",
+      "spent": "Spent",
+      "borrowed": "Borrowed",
+      "pctOfGsdp": "% of GSDP"
+    },
+    "axis": {
+      "percentOfGsdp": "Per cent of GSDP"
+    },
+    "projects": {
+      "status": {
+        "label": "What state the work is in",
+        "hot": "**{count}** {status} · {cost} of published cost",
+        "readout": "**{built}** of {total} tracked projects are recorded as completed.",
+        "footer": "Hover a band for its count and cost",
+        "note": "Status as recorded in each project's latest source document."
+      },
+      "type": {
+        "label": "Where the money goes, by kind of work",
+        "hot": "**{type}** · {cost} across {count} projects",
+        "readout": "**{type}** carries the largest published cost — {cost}.",
+        "empty": "No published costs yet.",
+        "footer": "Top 5 by published estimated cost",
+        "note": "Estimated costs as printed in the source documents. Plans, not audited spending."
+      },
+      "district": {
+        "label": "Districts with the most projects",
+        "hot": "**{district}** · {count} projects · {cost}",
+        "readout": "**{district}** holds the most tracked projects — {count}.",
+        "empty": "No district-level records yet.",
+        "footer": "{count} projects are recorded as statewide and sit outside this list",
+        "note": "Every district with a project on record. {count} statewide projects name no district and are excluded."
+      },
+      "tenure": {
+        "label": "Announced under which government",
+        "hot": "**{tenure}** · {count} announced · {cost}",
+        "readout": "Counted by each project's own announcement date — the record, not a claim.",
+        "footer": "{count} records carry no announcement date and belong to no tenure",
+        "note": "Counted by each project's own announcement date. A project announced under one government may be completed under the next."
+      },
+      "nProjects": {
+        "one": "{count} project",
+        "other": "{count} projects"
+      }
+    },
+    "investments": {
+      "sector": {
+        "label": "Promised money, by sector",
+        "hot": "**{sector}** · {cost} promised across {count} MoUs",
+        "readout": "**{sector}** was promised the most — {cost}.",
+        "empty": "No MoUs with published amounts yet.",
+        "footer": "Announced figures, not spending",
+        "note": "The announcements' own figures. An MoU is a promise on paper, not money spent."
+      },
+      "status": {
+        "label": "What became of the promises",
+        "hot": "**{count}** {status} · {cost}",
+        "readout": "**{operational}** of {total} signed commitments are recorded as operational.",
+        "footer": "Older MoUs have had longer to get there",
+        "note": "Status as recorded in the latest source for each commitment."
+      },
+      "district": {
+        "label": "Districts promised the most",
+        "hot": "**{district}** · {cost} across {count} MoUs",
+        "readout": "**{district}** was promised the most investment — {cost}.",
+        "empty": "No district-level commitments recorded yet.",
+        "footer": "{count} MoUs name no district",
+        "note": "Districts named in the commitments. {count} name no district at all."
+      },
+      "tenure": {
+        "label": "Signed under which government",
+        "hot": "**{tenure}** · {count} signed · {cost} promised · {operational} operational",
+        "readout": "Counted by each MoU's own signing date — the record, not a claim.",
+        "footer": "{count} records carry no signing date",
+        "note": "Counted by each MoU's signing date. These are the commitments we have documented, not the state's full tally.",
+        "rowShare": "{count} signed · {operational} operational"
+      },
+      "nMous": {
+        "one": "{count} MoU",
+        "other": "{count} MoUs"
+      },
+      "nJobs": "{jobs} jobs"
+    },
+    "finances": {
+      "notPublished": "Not published yet.",
+      "debt": {
+        "label": "What the state owes, against its economy",
+        "hot": "{fy}: **{value}% of GSDP** · {amount} owed · {stage}",
+        "readout": "Debt stands at **{value}% of the state's economy** in {fy}.",
+        "footer": "Hollow dots are estimates; filled dots are audited",
+        "note": "Debt against the size of the economy, year by year. RBI liabilities over NSO GSDP."
+      },
+      "composition": {
+        "label": "What that debt is made of",
+        "hot": "**{item}** · {amount} · {pct}% of all debt",
+        "readout": "**{item}** is the largest single piece — {amount}.",
+        "empty": "Composition not published yet."
+      },
+      "capital": {
+        "label": "Money spent on building, year by year",
+        "hot": "{fy}: **{amount}** · {stage}",
+        "readout": "Latest on record: **{amount}** in {fy} ({stage}).",
+        "footer": "Capital outlay, RBI and CAG series",
+        "note": "Capital outlay by financial year. A = {audited}, RE = {revised}, BE = {budget}."
+      },
+      "offBudget": {
+        "label": "The debt outside the books",
+        "hot": "{fy}: **{amount}** borrowed through corporations · {stage}",
+        "readout": "CAG counted **{amount}** of off-budget borrowing by {fy} — money the headline debt leaves out.",
+        "footer": "CAG audit reports only, never a press figure",
+        "note": "Off-budget borrowing through state corporations, as counted by CAG. Not included in the headline debt."
+      }
+    }
+  },
+  "finances": {
+    "title": "State Finances — the debt record",
+    "intro": "When a family takes a loan, there is one passbook. A state has several: the government's own budget books, the national auditor's (CAG) audited accounts, and the Reserve Bank's records. **They do not always say the same number — so this page shows all of them, side by side, for every year since Andhra Pradesh was divided in June 2014.** Where they disagree, you see the disagreement. Nothing here is our estimate; every figure links back to the document it came from.",
+    "threeGovernments": "Since bifurcation, AP has had three governments: **TDP (Chandrababu Naidu) Jun 2014 – May 2019**, **YSRCP (Jagan Mohan Reddy) May 2019 – Jun 2024**, and **TDP-led NDA (Chandrababu Naidu) since Jun 2024**.",
+    "loading": "Loading the cited record…",
+    "error": "Can't reach the data server ({message}). Nothing cached is shown in its place.",
+    "family": {
+      "rbi": {
+        "label": "RBI",
+        "desc": "Reserve Bank of India's annual study of state budgets"
+      },
+      "apBudget": {
+        "label": "AP's own books",
+        "desc": "The state government's budget documents (FRBM statements)"
+      },
+      "cag": {
+        "label": "CAG audit",
+        "desc": "India's national auditor — audited accounts"
+      },
+      "nso": {
+        "label": "NSO",
+        "desc": "National Statistics Office (via RBI Handbook)"
+      }
+    },
+    "chart": {
+      "groupedAria": "Grouped columns comparing sources by year",
+      "stackedAria": "Stacked columns showing debt composition by year",
+      "fyEndingMarch": "FY ending March {year} — {label}",
+      "axisNote": "FY ending March · lighter columns are estimates, solid are audited/actual figures",
+      "ofTotal": "{value} of {total} total"
+    },
+    "tiles": {
+      "tdp1": "Debt added — TDP (2014–19)",
+      "tdp1Dates": "in office 8 Jun 2014 – 29 May 2019",
+      "ysrcp": "Debt added — YSRCP (2019–24)",
+      "ysrcpDates": "in office 30 May 2019 – 11 Jun 2024",
+      "tdp2": "Debt added — TDP/NDA (2024–now)",
+      "tdp2Dates": "in office since 12 Jun 2024",
+      "awaiting": "awaiting audited figures",
+      "rbiDetail": "RBI figures, Mar {from} → Mar {to} · {dates}",
+      "apDetail": "AP's own books, Mar {from} → Mar {to} · {dates}",
+      "onTop": "On top of all this",
+      "onTopDetail": "off-budget borrowings via corporations — CAG audited, March 2023 (latest published audit) — not in the headline numbers above"
+    },
+    "infoTip": {
+      "aria": "Explain this in simple words",
+      "title": "In simple words"
+    },
+    "sources": {
+      "official": "Official documents:",
+      "directPdf": "Direct PDF — {title}",
+      "allTitle": "Every source on this page",
+      "correction": "Found a figure that doesn't match its source? Tell us and we correct it — that promise is the foundation of this platform."
+    },
+    "debt": {
+      "title": "How much does Andhra Pradesh owe?",
+      "sub": "Outstanding liabilities at the end of each financial year, ₹ crore — three official sources side by side.",
+      "provenance": "RBI: State Finances — A Study of Budgets 2025-26 (Statement 19). AP: FRBM Statements of Fiscal Policy, apfinance.gov.in. CAG: State Finances Audit Reports for AP. Exact documents listed at the bottom of the page.",
+      "body": "Read it simply: the debt roughly **doubled between 2015 and 2019** (about ₹1.2–1.5 to ₹2.6 lakh crore, depending on whose book you read), and **nearly doubled again by 2024** (to about ₹4.9 lakh crore). The three sources usually differ by a few thousand crore; for 2016–17 the RBI series differs sharply from the state's books — both are shown exactly as published. CAG's audited series stops at March 2023 because its next report was not yet public."
+    },
+    "composition": {
+      "title": "What kinds of loans make up the debt?",
+      "sub": "A government doesn't take one loan — it borrows in many ways. Audited composition per year (CAG), ₹ crore.",
+      "provenance": "CAG State Finances Audit Reports FY2016–FY2023 (component-wise debt tables); every year's three parts sum exactly to CAG's audited total.",
+      "internal": "Internal debt",
+      "internalDesc": "mostly market bonds investors buy, plus bank/NABARD loans, NSSF, UDAY bonds",
+      "goi": "Loans from the Centre",
+      "goiDesc": "borrowed from the central government",
+      "publicAccount": "Public account",
+      "publicAccountDesc": "money the state holds and owes back: employees' provident funds, deposits, reserve funds",
+      "ofTotalDebt": "of {total} total debt"
+    },
+    "offBudget": {
+      "title": "The debt outside the books",
+      "sub": "Borrowings taken through state corporations — CAG says these are NOT included in the headline debt above.",
+      "provenance": "CAG State Finances Audit Reports FY2020–FY2023; FY2024 figure attributed to the Principal AG in a Feb 2026 Legislative Council reply (secondary source, labeled).",
+      "body": "In CAG's own words, these borrowings \"do not find mention in the Finance Accounts\" and stayed \"outside legislative control\". They grew from **₹26,097 crore (March 2020)** to **₹1,28,048 crore (March 2023)** — and CAG states that counting them takes the real debt burden to **41.89% of the state's economy** in 2022-23, against ~33% without them. This is why two people quoting \"the debt\" can both point at official numbers and still differ by a lakh crore.",
+      "awaiting": "Awaiting the next audit:"
+    },
+    "guarantees": {
+      "title": "Guarantees — promises to repay someone else's loan",
+      "sub": "If a state corporation cannot repay, the government must. Outstanding guarantees, ₹ crore.",
+      "provenance": "RBI Statement 28 (compiled from state governments and CAG); 2025-26 figures from AP's FRBM books, labeled.",
+      "body": "Guarantees were under ₹11,000 crore in 2015 and crossed **₹1.5 lakh crore by 2024** — a 14-fold rise across both governments. A guarantee is not yet debt, but it becomes debt the day the corporation fails to pay."
+    },
+    "ratio": {
+      "title": "Debt compared to the size of AP's economy",
+      "sub": "Debt as % of GSDP — like comparing a family's loans to its yearly income. Computed from the two cited series (RBI debt ÷ NSO GSDP).",
+      "provenance": "RBI Statement 19 ÷ NSO GSDP (RBI Handbook of Statistics on Indian States 2024-25, Table 21).",
+      "body": "Around **23%** in 2015, around **35%** now — and remember, this line does NOT include the off-budget borrowings above. The commonly cited FRBM guideline for states is far below today's level.",
+      "note": "percent of GSDP"
+    },
+    "deficits": {
+      "title": "Each year's shortfall",
+      "sub": "Fiscal deficit = total spending beyond total income (borrowed). Revenue deficit = even day-to-day running costs exceeded income. ₹ crore, from AP's own accounts.",
+      "provenance": "AP FRBM Statements of Fiscal Policy (Form F-1), Accounts stage; 2025-26 is a revised estimate.",
+      "fiscal": "Fiscal deficit",
+      "revenue": "Revenue deficit",
+      "body": "Darker columns: fiscal deficit (total borrowing need). Lighter columns: revenue deficit. A revenue deficit in every single year since 2014-15 means the state has never once covered even its day-to-day running costs from its income — under every government."
+    },
+    "claims": {
+      "title": "What the governments themselves claimed",
+      "intro": "Twice since bifurcation, an incoming government published a \"white paper\" blaming the previous one. These are political documents — we show their claims *as claims*, next to what the neutral records say, and you judge.",
+      "claimDocument": "claim document",
+      "checkAgainst": "Check against the records:",
+      "sourceRecord": "Source record ↗"
+    },
+    "q": {
+      "perGovernment": "How much did each government add to the debt?",
+      "threeSources": "Whose number is right?",
+      "composition": "What is the debt actually made of?",
+      "hidden": "What does not show up in the debt figure?",
+      "tooBig": "Is the debt big for a state this size?",
+      "deficits": "Does the state earn enough to run itself?",
+      "departments": "Which departments was the money voted for?",
+      "claims": "What have the governments said about each other?"
+    },
+    "a": {
+      "perGovernment": "Debt grew under all three. Each figure below is the increase between the March before a government took office and the March after it left, taken from one source family at a time so the comparison stays like-for-like.",
+      "threeSources": "All three. The Reserve Bank, Andhra Pradesh's own budget books and the national auditor each publish a total for the same 31 March, and they differ because they count different things. Two people can quote official figures and still disagree — that is not a trick, it is how the record is kept.",
+      "composition": "Mostly bonds sold to banks and investors. But a large part is money the government is holding rather than money it went out and borrowed — its own employees' provident fund, deposits and reserve funds, all of which it owes back.",
+      "hidden": "Two things. Loans taken through government corporations, which the state has to repay but which never appear in the main debt number. And guarantees, which are not debt until the borrower fails to pay — and then they are.",
+      "tooBig": "That depends on the economy it sits against. This compares the debt to everything Andhra Pradesh produces in a year, the way a bank compares a loan to an income rather than looking at the loan alone.",
+      "deficits": "No, and it has not in any year since bifurcation. A fiscal deficit means the state spent more than it earned. A revenue deficit is the harder one: it means the state borrowed to cover salaries, pensions and interest, before building anything at all.",
+      "departments": "A state-wide total cannot tell you whether money went into school buildings or anywhere else. The Demands for Grants can, because the budget is voted department by department, every year.",
+      "claims": "Each incoming government has published a white paper about the one before it. These are political documents, not audits. We show what each claimed beside what the audited record says, and leave the comparison to you."
+    },
+    "clock": {
+      "eyebrow": "What Andhra Pradesh owes",
+      "title": "Andhra Pradesh's outstanding debt",
+      "auditedStamp": "Audited accounts for {fy}",
+      "estimateStamp": "The state's own {stage} for {fy}, not yet audited",
+      "perPerson": "{amount} for every person in Andhra Pradesh — our arithmetic, using a Government of India population projection",
+      "ofEconomy": "{pct}% of everything the state produces in a year",
+      "whyTwo": "Both numbers are official. The audited one is older because auditing takes years; the newer one is the government's own reckoning, and no auditor has checked it yet. Anyone quoting a single figure for 'the debt' has picked one of these, and which one they pick usually tells you what they are arguing.",
+      "sparkAria": "Outstanding debt at the end of each financial year since bifurcation, shaded by the government in office",
+      "tickerLead": "Since you opened this page, interest on that debt has added",
+      "tickerRate": "That works out to {rate} a second.",
+      "tickerBasis": "It is arithmetic, not a live reading: the interest provision in the state's own budget for {fy} is ₹{crore} crore, spread evenly across the year. Interest is not really paid at a steady rate.",
+      "offLabel": "Borrowed through corporations",
+      "offFoot": "Repaid by the state, but not counted in the debt above. Audited, {fy}.",
+      "gteeLabel": "Guaranteed for others",
+      "gteeFoot": "Becomes the state's debt only if the borrower fails to pay. {fy}.",
+      "interestLabel": "Interest, per rupee earned",
+      "interestFoot": "{fy}. It was {first}% in {firstFy}.",
+      "popLabel": "People in Andhra Pradesh",
+      "popFoot": "A projection by the National Commission on Population, not a headcount.",
+      "sourcesLead": "Where these come from:",
+      "sourcesBody": "The debt totals are from the Reserve Bank's study of state budgets, Andhra Pradesh's own Statement of Fiscal Policy, and the CAG's State Finances Audit Reports. The population is a Government of India projection. Dividing one by the other is our arithmetic, not a figure any of those documents printed. Every document is linked at the foot of this page."
+    },
+    "committed": {
+      "title": "Where does the money go before anything gets built?",
+      "headline": "Interest on debt already taken is the first claim on what the state earns. It took **{firstPct}%** of revenue in {firstFy}. By {lastFy} it took **{lastPct}%**.",
+      "tab": {
+        "share": "What interest takes",
+        "gap": "Earned, against running costs"
+      },
+      "share": {
+        "sub": "Interest paid, as a percentage of everything the state earned that year. Solid columns are audited; the lighter one is a revised estimate.",
+        "aria": "Interest payments as a percentage of revenue receipts, year by year, shaded by the government in office",
+        "tipTitle": "{fy}",
+        "tipBody": "Interest took {pct}% of revenue{stage} — ₹{interest} crore out of ₹{revenue} crore.",
+        "axisNote": "Form F-1, Statement of Fiscal Policy, Finance Department, Government of Andhra Pradesh",
+        "body": "Between 2014-15 and 2024-25 this share rose from about a ninth of revenue to about a fifth. It fell in only one audited year, 2021-22, when revenue rose faster than interest did. It is the least discussed number in state finance, because it belongs to nobody's announcement — it is the bill for announcements already made."
+      },
+      "gap": {
+        "sub": "What the state earned in a year, against what it spent simply running itself — salaries, pensions, interest, subsidies. Anything built comes on top of this.",
+        "aria": "Revenue receipts against revenue expenditure, year by year",
+        "legendIn": "Earned that year",
+        "legendOut": "Spent on running costs",
+        "tipTitle": "{fy}",
+        "tipBody": "Earned ₹{earned} crore, spent ₹{spent} crore on running costs{stage}. Short by ₹{gap} crore.",
+        "bodyAll": "In every single year since bifurcation, running costs came to more than the state earned. The widest gap was {fy}, short by ₹{gap} crore. A state in that position borrows before it builds — which is why the capital side of the budget is the first thing to be cut.",
+        "body": "The widest gap was {fy}, short by ₹{gap} crore."
+      },
+      "col": {
+        "year": "Year",
+        "earned": "Revenue receipts (₹ cr)",
+        "interest": "Interest paid (₹ cr)",
+        "share": "Interest share",
+        "running": "Revenue expenditure (₹ cr)",
+        "capital": "Capital expenditure (₹ cr)",
+        "source": "From"
+      },
+      "tableToggle": "Show every year, with the book each figure came from",
+      "tableNote": "Figures marked RE are revised estimates; everything else is the audited Accounts reading. Where a year appears in more than one book, we use the Accounts reading and name the book it came from.",
+      "splitYear": "About 2014-15:"
+    },
+    "promised": {
+      "title": "Did the money the Assembly voted actually get spent?",
+      "headline": "In {fyA}, the state spent **{pctA}%** of the capital money the Assembly had voted. In {fyB}, it spent **{pctB}%**. Capital money is the part that builds things.",
+      "headlineFallback": "The Assembly votes a sum for every department. The auditor later publishes what was actually spent against it.",
+      "voted": "Voted",
+      "spent": "Spent",
+      "tip": "Voted ₹{promised} crore · spent ₹{spent} crore · {pct}% of it",
+      "yearCard": "{fy}, audited",
+      "grandTotal": "Everything the Assembly authorised that year: {promised}. Everything spent: {spent}.",
+      "grantTitle": "Grant by grant",
+      "grantSub": "Every demand the Assembly voted, largest first. The bar shows what was spent against what was voted. A red bar means the department spent more than it was given, which the legislature then has to regularise after the fact.",
+      "filter": {
+        "capital": "Capital — building things",
+        "revenue": "Revenue — running things"
+      },
+      "noGrants": "We do not hold grant-level rows for this combination.",
+      "showRest": "Show the remaining {n}",
+      "gapsTitle": "What is missing here, and why",
+      "helpLead": "If you can help:",
+      "checkedLead": "How we checked:",
+      "notScandal": "A shortfall is not by itself wrongdoing. Money goes unspent when a scheme starts late, a central share does not arrive, land is not acquired, or a tender fails. What the figure does show is the distance between what was announced in a budget speech and what actually happened.",
+      "headlineSeries": "The Assembly votes a sum for every department, and the auditor later publishes what was actually spent against it. The state spent **{bestPct}%** of its voted capital money in {bestFy}. Across the {n} audited years since, that figure has ranged from **{lowPct}%** to **{highPct}%**, and it has never returned to where it started.",
+      "seriesAria": "Share of the money the Assembly voted that was actually spent, financial year by financial year since bifurcation, shaded by the government in office",
+      "seriesTip": "{pct}% of it was spent<br>Voted ₹{promised} crore · spent ₹{spent} crore",
+      "seriesAxis": "Appropriation Accounts, Accountant General (A&E), Andhra Pradesh — audited",
+      "seriesSubCapital": "Capital money is the part that builds things — roads, buildings, irrigation. The dashed line is 100%: everything voted, spent.",
+      "seriesSubRevenue": "Revenue money is the part that runs things — salaries, pensions, subsidies, interest. The dashed line is 100%: everything voted, spent.",
+      "seriesBody": "The fall does not begin at a change of government. Voted capital spending drops from 83.5% in 2015-16 to 43.2% in 2017-18 under the same government, and no year since has reached half. Over the same period the amount voted roughly quadrupled, from ₹11,227 crore to ₹45,344 crore. The announcements grew; the delivery did not.",
+      "notHeld": "The Accountant General has published this year, but we could not read it reliably. It is listed below, with what would fix it.",
+      "totalsOnly": "State totals only — the grant rows for this year would not read the same way twice",
+      "legendMissing": "Published, not yet readable",
+      "legendTotalsOnly": "State totals only",
+      "yearTitle": "One year, in detail",
+      "yearSub": "Pick a year to see how each part of the budget fared, and then every department the Assembly voted money to."
+    }
+  },
+  "governments": {
+    "title": "Governments — the tenure record",
+    "loading": "Loading the cited record…",
+    "errorServer": "Can't reach the data server ({message}).",
+    "advancedCharts": "Advanced charts",
+    "intro": "Three governments have run Andhra Pradesh since June 2014. Open any section below — each shows the official numbers (RBI/CAG), each government's own scheme claims (labeled), its manifesto, and a dated timeline. We add no opinions; you compare.",
+    "eachGovernment": "Each government, in detail",
+    "fyLabel": "FY {from}-{to}",
+    "infoTip": {
+      "aria": "Explain this in simple words",
+      "title": "In simple words"
+    },
+    "legend": {
+      "tdp1": "TDP (Naidu) Jun 2014 – May 2019",
+      "ysrcp": "YSRCP (Jagan) May 2019 – Jun 2024",
+      "tdp2": "TDP-led NDA (Naidu) since Jun 2024."
+    },
+    "chart": {
+      "tenureColumnsAria": "Columns per financial year, colored by government tenure",
+      "fyEndingMarch": "FY ending March {year}",
+      "clickForStory": "click for the full story",
+      "axisNote": "FY ending March · gold = TDP tenures, blue = YSRCP tenure · lighter = estimates"
+    },
+    "sources": {
+      "official": "Official documents:",
+      "directPdf": "Direct PDF — {title}",
+      "allTitle": "Every source on this page",
+      "takeaway": "{count} documents — government PDFs, RBI, CAG, party records",
+      "correction": "Found a figure that doesn't match its source? Tell us and we correct it."
+    },
+    "tabs": {
+      "schemes": "పథకాలు / schemes",
+      "timeline": "Timeline",
+      "manifesto": "Manifesto",
+      "record": "Projects & MoUs"
+    },
+    "schemes": {
+      "claimedBy": "{beneficiaries} — as claimed by this government",
+      "th": {
+        "scheme": "Scheme",
+        "gives": "What it gives",
+        "spendClaim": "Spend (own claim)",
+        "received": "Who received"
+      }
+    },
+    "manifesto": {
+      "sourceRecord": "Source record ↗"
+    },
+    "record": {
+      "projectsAnnounced": "Projects announced",
+      "completedInTenure": "Completed in tenure",
+      "mousSigned": "MoUs signed",
+      "ofThoseOperational": "Of those, operational",
+      "estimated": "{amount} estimated",
+      "promised": "{amount} promised",
+      "jobsPromised": "{jobs} jobs promised",
+      "openProjects": "Open this tenure's projects →",
+      "openMous": "Open this tenure's MoUs →",
+      "note": "Counted strictly by the dates on the records — announcement and completion dates for projects, signing dates for MoUs. Records without a published date are not attributed to any government, and MoU amounts are the announcements' own figures, not audited money.",
+      "loading": "Loading the tenure record…"
+    },
+    "index": {
+      "measures": "measures:",
+      "ap": "AP:",
+      "th": {
+        "state": "State",
+        "score": "Score"
+      }
+    },
+    "headToHead": {
+      "title": "Head to head — what each said, and what the record shows",
+      "takeaway": "Promises and own claims on one side; audited spending, projects and MoUs on the other · per-year figures because tenures differ in length",
+      "now": "now",
+      "fyOnRecord": {
+        "one": "{count} financial year on record",
+        "other": "{count} financial years on record"
+      },
+      "covid": "Includes {years} — {note}",
+      "stillRunning": "Tenure still running — most figures here are estimates, not audited actuals.",
+      "saidTitle": "What they said",
+      "saidSub": "— their own words and figures",
+      "didTitle": "What the record shows",
+      "didSub": "— audited or documented",
+      "perYear": "{amount}/yr",
+      "auditedNote": "{audited} of {total} building-spend years here are CAG-audited actuals; the rest are the government's own estimates.",
+      "itsProjects": "Its projects →",
+      "itsMous": "Its MoUs →",
+      "readFairly": "Read this fairly",
+      "sourceDocs": "Every figure's source document →",
+      "rows": {
+        "promises": "Manifesto promises on record",
+        "schemesClaimed": "Schemes with a claimed figure",
+        "schemeSpend": "Claimed scheme spending",
+        "mousSigned": "MoUs signed",
+        "investmentPromised": "Investment promised",
+        "jobsPromised": "Jobs promised",
+        "capital": "Money spent on building",
+        "social": "Spent on people (social sector)",
+        "education": "Education, average share",
+        "health": "Health, average share",
+        "committed": "Locked-up rupee, average",
+        "projAnnounced": "Projects announced in tenure",
+        "projCompleted": "Projects completed in tenure",
+        "mousOperational": "MoUs now operational",
+        "perCapita": "Per-person income"
+      }
+    },
+    "leaderboard": {
+      "pickMeasure": "Pick a measure",
+      "pickYear": "Pick a year (FY ending March)",
+      "rankedLowest": "ranked lowest-first (lower is safer)",
+      "rankedHighest": "ranked highest-first",
+      "apInFy": "Andhra Pradesh in {fy}:",
+      "rankOf": "#{rank} of {total}",
+      "beLong": "budget estimate — a plan, not audited money",
+      "allStatesTogether": "All states together: {value}",
+      "ofGdp": "(of GDP)",
+      "th": {
+        "stateUt": "State / UT"
+      },
+      "missing": {
+        "one": "{count} state has no published figure for this year — shown nowhere rather than guessed.",
+        "other": "{count} states have no published figure for this year — shown nowhere rather than guessed."
+      },
+      "apRankEveryYear": "AP's rank, every year",
+      "clickYear": "(click a year to open it)",
+      "yearRankTitle": "{fy}: #{rank} of {total} · {value}",
+      "officialTable": "Official table:"
+    },
+    "profile": {
+      "stateUt": "State / UT:",
+      "thFyEnding": "FY ending",
+      "rankNote": "Rank is among the states/UTs with a published figure that year. A dash means the Centre published nothing — we never fill it.",
+      "scoredHeading": "What the Centre's institutions scored {state}",
+      "rankWord": "rank",
+      "scoreWord": "score",
+      "noScores": "None of the all-states index tables in our records includes {state} (some reports publish only their top states). We don't summarise a state we can't cite.",
+      "cabinetNote": "A note on \"the cabinet's remarks\": the Union government publishes no per-state report card in words. What it does publish is what you see here — its institutions' index scores (NITI Aayog and ministries) and the RBI/NSO tables above. When a central document assesses a state, it enters this list with its source; nothing here is our commentary."
+    },
+    "yearStory": {
+      "openQuestion": "Open the full story of {fy}?",
+      "yes": "Yes, show me",
+      "notNow": "Not now",
+      "heading": "{fy} — capital outlay {amount}",
+      "onRecord": "On record for this year:",
+      "noExplanation": "No official explanation for this year's movement is on record in our sources yet — we don't guess. The documents to check are this year's FRBM book and CAG report (chips below the chart).",
+      "stage": {
+        "be": "Budget estimate — the promise",
+        "re": "Revised estimate — mid-year correction",
+        "a": "Actuals — audited & certified by CAG"
+      },
+      "explain": {
+        "a": "This figure is at the Actuals stage: money that actually moved, audited and certified by the CAG — not a plan and not a press report.",
+        "re": "This figure is the government's own mid-year revision — the audited actual will replace it when CAG certifies the accounts.",
+        "be": "This figure is a budget estimate — a plan, not money spent. History shows plans and actuals often differ; the audited number will replace it."
+      }
+    },
+    "tenure": {
+      "today": "today",
+      "auditPending": "audited figures pending",
+      "takeaway": "{from} → {to} · capital outlay in tenure: {capital}"
+    },
+    "sections": {
+      "capital": {
+        "title": "Money spent on building — capital outlay",
+        "takeaway": "Lowest ever: ₹7,244 Cr (2022-23, CAG) · highest ever proposed: ₹40,636 Cr (2025-26, budget estimate)",
+        "note": "**Click any bar for that year's full story.** No year before 2024 crossed ₹20,000 crore under either government; 2022-23 fell to ₹7,244 crore (CAG: \"decreased by 55.76 per cent\"). Audited tenure totals: TDP 2014–19 ₹74,225 Cr · YSRCP 2019–24 ₹78,165 Cr."
+      },
+      "social": {
+        "title": "Money spent on people — social sector",
+        "takeaway": "₹54,918 Cr (2014-15) → ₹1.24 lakh Cr (2023-24 audited) → ₹1.59 lakh Cr budgeted"
+      },
+      "eduHealth": {
+        "title": "Education and health — share of every ₹100 spent",
+        "takeaway": "Education 12.6% → 10.9% · Health 4.1% → 6.1% (share of total spending)",
+        "education": "Education",
+        "health": "Health",
+        "note": "A smaller slice of a bigger budget can still be more rupees — the ⓘ explains; the Advanced charts compare the same year of each tenure directly."
+      },
+      "committed": {
+        "title": "The locked-up rupee — salaries, pensions and interest",
+        "takeaway": "₹55–69 of every ₹100 of income was already spoken for, under both parties (CAG audited)",
+        "note": "This is why every government struggles to build: whatever remains after salaries, pensions and interest must cover schemes AND construction."
+      },
+      "rankings": {
+        "title": "How the Centre's institutions rank AP — the official leaderboard",
+        "takeaway": "All-states tables with AP highlighted · pick any edition year · report PDFs linked"
+      },
+      "leaderboards": {
+        "title": "Every state, every year — the Centre's own tables",
+        "takeaway": "GSDP · per-person income · debt ratio — all states ranked, 2011-12 → 2025-26, straight from RBI tables"
+      },
+      "profile": {
+        "title": "Any state's report card — pick a state",
+        "takeaway": "Choose any state or UT: every year of its income, GSDP and debt with its rank, plus the Centre's index scores for it"
+      },
+      "economy": {
+        "title": "The economy, year by year",
+        "takeaway": "Per-capita income ₹93,903 (2014-15) → ₹2,66,240 (2024-25) · government income ₹90,670 Cr → ₹1,73,767 Cr audited"
+      },
+      "awards": {
+        "title": "Central recognitions to AP, year by year",
+        "takeaway": "{count} officially-documented awards 2016–2026 — cleanliness, water, business reforms, panchayats"
+      }
+    },
+    "views": {
+      "aria": "Which view of the governments page to show",
+      "overview": "Overview",
+      "tenures": "Each government",
+      "states": "AP among states",
+      "sources": "Sources"
+    }
+  },
+  "tenureDive": {
+    "title": "{party} — what the project register shows",
+    "today": "today",
+    "dateRange": "{from} to {to}",
+    "loading": "Loading the record…",
+    "errorServer": "Can't reach the data server ({message}).",
+    "unknownTenure": "That government isn't one we track. Try the register instead.",
+    "pctBuilt": "{pct}% built",
+    "correction": "Found a figure that doesn't match its source? Tell us and we correct it.",
+    "counts": {
+      "title": "What this page counts, and why",
+      "body": "Every figure below covers projects whose **recorded announcement date** falls between {from} and {to} — the dates printed in the source documents, not our judgement of who deserves credit. A project announced under one government and finished under the next appears here for the government that announced it, and its own page shows the progress split. Records with no published announcement date are attributed to nobody.",
+      "docsLink": "The documents behind this →"
+    },
+    "story": {
+      "notOnRecord": "What is not on record:"
+    },
+    "tiles": {
+      "announced": "Projects announced",
+      "announcedDetail": "in this term, by the record",
+      "publishedCost": "Published cost",
+      "publishedCostDetail": "estimates, not audited spending",
+      "completed": "Recorded completed",
+      "completedDetail": "{count} still under construction",
+      "avgProgress": "Average published progress",
+      "avgProgressDetail": "across {count} projects that publish a figure"
+    },
+    "year": {
+      "announced": "{count} announced",
+      "publishedCost": "{amount} of published cost"
+    },
+    "years": {
+      "title": "When the announcements came",
+      "sub": "Projects announced in each calendar year of this term — the shape of a government's own pipeline.",
+      "provenance": "Counted from the announcement date on each project record. Hover a column for that year's count and published cost."
+    },
+    "types": {
+      "title": "What the money was for",
+      "sub": "Published estimated cost by kind of work.",
+      "provenance": "Estimated costs as printed in the source documents. These are plans — audited spending lives in the Finances section.",
+      "tipDetail": "{count} projects · {pct}% of this term's published cost",
+      "empty": "No published costs for this term."
+    },
+    "districts": {
+      "title": "Where the projects went",
+      "sub": "Districts with the most projects announced in this term.",
+      "provenance": "{count} projects in this term are recorded as statewide and have no district. District spellings from the source documents are folded onto the canonical district name.",
+      "empty": "No district-level records for this term."
+    },
+    "status": {
+      "title": "What state that work is in today",
+      "sub": "Where those same projects stand now, whichever government is in office.",
+      "provenance": "Status as recorded in the latest source document for each project. A project announced in this term may have been completed under a later government."
+    },
+    "mous": {
+      "title": "Investment promised in the same term",
+      "sub": "MoUs signed while this government was in office — promises on paper, not money spent.",
+      "provenance": "Counted by the signing date on each MoU. Amounts and job figures are the announcements' own numbers.",
+      "signed": "MoUs signed",
+      "promised": "Investment promised",
+      "jobs": "Jobs promised",
+      "operational": "Now operational",
+      "operationalDetail": "of those signed in this term",
+      "openRegister": "Open this term's MoUs in the register →"
+    },
+    "top": {
+      "title": "The biggest of them, by published cost"
+    },
+    "links": {
+      "seeAll": "See all {count} in the register →",
+      "fullRecord": "This government's full tenure record — spending, schemes, manifesto →"
+    }
+  },
+  "states": {
+    "title": "All States — Central Records",
+    "titleSub": "అన్ని రాష్ట్రాలు · కేంద్ర గణాంకాలు",
+    "loading": "Loading the cited record…",
+    "errorServer": "Can't reach the data server ({message}).",
+    "staleBackend": "The data server responded, but without the all-states tables — it is running an older version. Restart the backend so it loads the updated data files, then refresh this page.",
+    "fyLabel": "FY {from}-{to}",
+    "beLong": "budget estimate — a plan, not audited money",
+    "readHonestly": "Read honestly",
+    "currentPricesNote": "Income and GSDP are at current prices (no inflation adjustment); the debt ratio's last two columns are the states' own revised/budget estimates, marked RE/BE wherever they appear.",
+    "infoTip": {
+      "aria": "Explain this in simple words",
+      "title": "In simple words"
+    },
+    "sourceTables": {
+      "label": "Source tables:",
+      "t19": "RBI Handbook T19 (per-capita income) ↗",
+      "t21": "T21 (GSDP) ↗",
+      "t20": "State Finances Statement 20 (debt) ↗",
+      "apRecord": "For AP's own tenure record — spending, schemes, manifestos — see"
+    },
+    "rank": {
+      "title": "Every state, ranked — pick a measure and a year",
+      "subLowest": "Sorted best (lowest debt) first. AP is marked ◀.",
+      "subHighest": "Sorted highest first. AP is marked ◀.",
+      "tipDetail": "rank #{rank} of {total} · {fy}",
+      "stageNote": "This year's column is a {stage}.",
+      "missing": {
+        "one": "{count} state published no figure for this year and is not on the chart — a gap stays a gap.",
+        "other": "{count} states published no figure for this year and are not on the chart — a gap stays a gap."
+      }
+    },
+    "compare": {
+      "title": "States side by side, every year",
+      "sub": "Pick up to six states; each line is one state across the full series.",
+      "provenance": "Where a line skips a year, that state published nothing for it.",
+      "pickOne": "Pick at least one state above.",
+      "maxSix": "Six lines is the readable maximum — unpick one to add another."
+    },
+    "scorecards": {
+      "title": "The Centre's own scorecards, state by state",
+      "sub": "Index tables the Union government's institutions publish for all states — shown exactly as printed.",
+      "provenance": "Only editions whose full all-states table is published are charted here. Top-N-only releases and AP's own results for every index are on the Governments page.",
+      "tipDetail": "rank #{rank} · {measures}",
+      "unitScore": "score"
+    }
+  },
+  "news": {
+    "title": "AP Government News",
+    "titleTe": "ఆంధ్రప్రదేశ్ ప్రభుత్వ వార్తలు",
+    "intro": "Collected articles about Andhra Pradesh government work, grouped by topic. Pick a topic to read only that; open any story for the full record and a link to the original. News is context on this platform — the figures in Projects, Finances and Governments come from government documents, never from articles.",
+    "error": "Can't reach the data server ({message}).",
+    "allTopics": "All topics",
+    "allInTopic": "All {count} in {topic} →",
+    "loading": "Loading articles…",
+    "emptyTopic": "Nothing collected under {topic} yet.",
+    "pageN": "Page {page}",
+    "nArticles": {
+      "one": "**{count}** article",
+      "other": "**{count}** articles"
+    },
+    "empty": {
+      "title": "No articles collected yet",
+      "body": "Articles appear here as our collectors mirror them from named outlets, each with its date and a working link back to the original. Until that is running, this page stays empty rather than carrying placeholder headlines.",
+      "why": "Why we do it this way →"
+    }
+  },
+  "newsArticle": {
+    "notFound": "This article is not in our collection.",
+    "error": "Can't reach the data server ({message}).",
+    "allNews": "← All news",
+    "loading": "Loading the record…",
+    "inShort": "In short",
+    "ownership": "The full story belongs to **{outlet}**. We keep the headline, a short summary and the link — never the article's text.",
+    "readAtOutlet": "Read the full story at {outlet} ↗",
+    "provenance": "Collected into our record on {date}. An article appearing here is not our endorsement of it. Figures on this platform come from government documents — if this story quotes a number, check it against [the source documents](/sources).",
+    "related": "More on this subject"
+  },
+  "documents": {
+    "title": "Document Library",
+    "titleTe": "పత్రాల భాండాగారం",
+    "intro": "Government documents mirrored from official portals — every entry links back to where the government published it, with the date we collected it.",
+    "loading": "Loading documents…",
+    "from": "From",
+    "fetchedOn": "fetched {date}",
+    "originalPdf": "Original PDF",
+    "openSourcePage": "Open the government page this was collected from",
+    "pageN": "Page {page}",
+    "error": {
+      "title": "Can't reach the data server",
+      "body": "The document library loads live from our database, and the backend API isn't responding right now ({message}). No cached or placeholder documents are shown in its place."
+    },
+    "stats": {
+      "total": "Total Documents"
+    },
+    "type": {
+      "budget": "Budget",
+      "assemblyBill": "Assembly Bill",
+      "governmentOrder": "Government Order",
+      "policy": "Policy",
+      "annualReport": "Annual Report",
+      "auditReport": "Audit Report",
+      "whitePaper": "White Paper",
+      "pressRelease": "Press Release",
+      "mouDocument": "MoU Document",
+      "projectReport": "Project Report",
+      "other": "Other"
+    },
+    "shortType": {
+      "governmentOrder": "G.O.",
+      "auditReport": "Audit",
+      "assemblyBill": "Bill",
+      "whitePaper": "Paper",
+      "annualReport": "Annual",
+      "projectReport": "Report",
+      "pressRelease": "Press",
+      "mouDocument": "MoU"
+    },
+    "sort": {
+      "date": "Publish date",
+      "retrieved": "Recently collected",
+      "title": "Title (A–Z)",
+      "year": "Year"
+    },
+    "search": {
+      "label": "Search documents",
+      "placeholder": "Search titles, report numbers…"
+    },
+    "filter": {
+      "allTypes": "All document types",
+      "allDepts": "All departments",
+      "allYears": "All years",
+      "typeAria": "Filter by document type",
+      "deptAria": "Filter by department",
+      "yearAria": "Filter by year",
+      "sortAria": "Sort by",
+      "sortPrefix": "Sort: {label}",
+      "sortAsc": "Sort ascending",
+      "sortDesc": "Sort descending"
+    },
+    "matching": {
+      "one": "{count} matching document",
+      "other": "{count} matching documents"
+    },
+    "clearN": {
+      "one": "Clear {count} filter",
+      "other": "Clear {count} filters"
+    },
+    "heading": {
+      "matching": "Matching Documents",
+      "all": "All Documents"
+    },
+    "empty": {
+      "filtered": "No documents match these filters",
+      "none": "No documents in the library yet",
+      "body": "Documents appear here as our collectors mirror them from official government portals."
+    },
+    "table": {
+      "info": "Document Info",
+      "department": "Department",
+      "published": "Published",
+      "actions": "Actions"
+    },
+    "showing": {
+      "one": "Showing **{from}–{to}** of **{count}** document",
+      "other": "Showing **{from}–{to}** of **{count}** documents"
+    }
+  },
+  "sources": {
+    "title": "Data sources",
+    "titleTe": "సమాచార మూలాలు",
+    "intro": "Every figure on this platform traces to a document on this page — {count} of them, government PDFs, RBI and CAG publications, official statistical tables, PIB releases and party records. Open any of them and check us: that is the point.",
+    "introNoCount": "Every figure on this platform traces to a document on this page — government PDFs, RBI and CAG publications, official statistical tables, PIB releases and party records. Open any of them and check us: that is the point.",
+    "searchPlaceholder": "Search documents — e.g. CAG, manifesto, RBI…",
+    "loading": "Loading the catalogue…",
+    "directPdf": "Direct PDF ↓",
+    "error": "Can't reach the data server ({message}).",
+    "correction": "Missing a document, or found a figure that doesn't match its source? Tell us and we correct it — that promise is the foundation of this platform.",
+    "verify": {
+      "title": "How a money figure gets verified here",
+      "body": "A budget estimate (BE) is a plan → the revised estimate (RE) is the government's own mid-year correction → the audited actual (A) is money that really moved, certified by the CAG and reflected in RBI's tables. Charts mark the stage of every bar; solid means audited. Press articles are never the source of a number — where one appears, it is labeled as context."
+    },
+    "nDocuments": {
+      "one": "{count} document",
+      "other": "{count} documents"
+    },
+    "group": {
+      "finances": {
+        "title": "State finances & debt",
+        "sub": "Budgets, FRBM statements, CAG audit reports, RBI debt tables — behind the Finances page"
+      },
+      "governments": {
+        "title": "Governments, economy & all-states leaderboards",
+        "sub": "RBI/NSO statistical tables, NITI Aayog indices, PIB releases, budget speeches, manifestos — behind Governments and All States"
+      }
+    }
+  },
+  "search": {
+    "placeholder": "Search projects, tenders, districts, departments...",
+    "voice": "Search by voice",
+    "language": "Result language",
+    "submit": "Search",
+    "resultsFor": "**{count}** results for {query}",
+    "sortBy": "Sort by:",
+    "bidDeadline": "Bid Deadline: {date}",
+    "aiSummary": "AI Summary",
+    "showing": "Showing **{from}** to **{to}** of **{count}** results",
+    "tab": {
+      "all": "All",
+      "tenders": "Tenders",
+      "documents": "Documents"
+    },
+    "type": {
+      "project": "Project",
+      "tender": "Tender",
+      "news": "News",
+      "document": "Document",
+      "mou": "MoU",
+      "section": "Section"
+    },
+    "badge": {
+      "completed": "Completed",
+      "openForBids": "Open for Bids"
+    },
+    "cta": {
+      "project": "View Project Details",
+      "tender": "View Tender & Download Docs",
+      "news": "Read Full Article"
+    },
+    "sort": {
+      "relevance": "Relevance",
+      "dateNewest": "Date (Newest)",
+      "dateOldest": "Date (Oldest)",
+      "costHighLow": "Cost (High to Low)"
+    },
+    "heading": "Search",
+    "headingFor": "Results for “{query}”",
+    "scopeNote": "This searches only what this platform holds — its projects, documents, MoUs, news entries and sections. It does not search the web, so finding nothing here means this platform has nothing on it, not that nothing exists.",
+    "error": "Search is unavailable right now. Please try again in a moment.",
+    "emptyTitle": "Nothing on this platform matches “{query}”",
+    "emptyBody": "Try a department, a project name, or a place. These work today:",
+    "openSource": "Open the source document",
+    "showingCount": "Showing {shown} of {total} results"
+  },
+  "chart": {
+    "countOfTotal": "{count} of {total}",
+    "records": {
+      "one": "{count} record",
+      "other": "{count} records"
+    },
+    "donutAria": "Donut chart",
+    "lineAria": "Line comparison"
+  },
+  "about": {
+    "eyebrow": "Why this exists",
+    "hero": {
+      "line1": "The information is public.",
+      "line2": "Finding it shouldn't be a full-time job."
+    },
+    "why": {
+      "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere — a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
+      "p2": "AP Nadu Nedu does one thing: it gathers what the government has already published into a single place and organises it — by project, by district, by department — so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
+      "p3": "We create nothing. We add nothing. We show existing public records, link every one back to where the government published it, and make it accessible to everyone — in English and in Telugu, free, with no login."
+    },
+    "principles": {
+      "title": "How we keep it trustworthy",
+      "linksHome": {
+        "title": "Everything links home",
+        "body": "Every project, tender, MoU, and document on this platform carries a link to the government page it came from and the date we collected it. If you cannot trace a number back to its source in two clicks, we consider that our bug."
+      },
+      "createNothing": {
+        "title": "We create nothing",
+        "body": "We do not write reports, estimate figures, or judge performance. Progress percentages are the government's own announced figures. Documents are the government's own files. Where the government has published nothing, our page shows nothing."
+      },
+      "dated": {
+        "title": "Dated, not \"current\"",
+        "body": "Government data changes, and our copy can lag the original. So nothing here claims to be live — every figure carries the date it was last collected, and the original portal is always one click away for the latest version."
+      },
+      "noSide": {
+        "title": "No side to take",
+        "body": "The platform tracks work, not parties. The same project keeps its page and its history through every change of government. What was promised, what was sanctioned, what was built — the record speaks for itself."
+      }
+    },
+    "sources": {
+      "title": "Where every piece of data comes from",
+      "intro": "These are the only sources this platform draws from. Each item on the site names its source; this is the complete list of what those sources are.",
+      "visit": "Visit portal",
+      "list": {
+        "eProcurement": {
+          "name": "AP e-Procurement Portal",
+          "what": "Tenders — notices, deadlines, awards"
+        },
+        "goir": {
+          "name": "Government Orders Issue Register (GOIR)",
+          "what": "Every G.O. published since June 2008"
+        },
+        "finance": {
+          "name": "AP Finance Department",
+          "what": "Budgets, fund releases, expenditure statements"
+        },
+        "cag": {
+          "name": "CAG — AG (Audit) Andhra Pradesh",
+          "what": "Audit reports and state finance reports"
+        },
+        "openData": {
+          "name": "Open Government Data (ap.data.gov.in)",
+          "what": "Department datasets under the state open-data programme"
+        },
+        "edb": {
+          "name": "AP Economic Development Board",
+          "what": "Investment and MoU announcements"
+        },
+        "pib": {
+          "name": "Press Information Bureau",
+          "what": "Official Government of India press releases"
+        },
+        "press": {
+          "name": "Published news reports",
+          "what": "Sakshi, Eenadu, The Hans India, Deccan Chronicle and others — always linked, never republished"
+        }
+      }
+    },
+    "independence": {
+      "title": "Independent, and accountable for it",
+      "bodyBefore": "AP Nadu Nedu is a citizen-run initiative with no affiliation to the Government of Andhra Pradesh, the Government of India, or any political party. Nobody pays us to show or hide anything. And because mistakes are possible in any mirror of a moving source, we commit to this: if anything displayed here is inaccurate or outdated,",
+      "tellUs": "tell us",
+      "bodyAfter": "and we will review it within 48 hours — correcting, updating, or removing it, and saying so."
+    },
+    "cta": {
+      "disclaimer": "Read the full disclaimer",
+      "explore": "Start exploring the data"
+    }
+  },
+  "disclaimer": {
+    "eyebrow": "Legal",
+    "title": "Disclaimer",
+    "lead": "The short version: we are an independent citizen platform mirroring public government records, with a source link and timestamp on everything — and if something here is wrong, we fix it within 48 hours of being told.",
+    "lastUpdated": "Last updated: {month} {year}",
+    "tocAria": "Sections",
+    "sections": {
+      "whoWeAre": {
+        "title": "Who we are — and who we are not",
+        "p1": "AP Nadu Nedu is an independent, non-governmental transparency platform built and maintained by private citizens. We are NOT affiliated with, endorsed by, or connected to the Government of Andhra Pradesh, the Government of India, any government department, or any political party.",
+        "p2": "This website is not an official government website. Nothing here constitutes an official government communication. For official information, always refer to the government portals we link to."
+      },
+      "dataSources": {
+        "title": "Where our data comes from",
+        "p1": "Every data point on this platform is collected from publicly accessible official sources: the AP e-Procurement portal, the Government Orders Issue Register (GOIR), the AP Finance Department, CAG audit reports, the Open Government Data platform, the AP Economic Development Board, Press Information Bureau releases, and published news reports.",
+        "p2": "We do not create, estimate, or modify any figure. Progress percentages are the government's own announced figures. Documents are the government's own published files. Where no official figure exists, we display none.",
+        "p3": "Every item shows its source with a link to the original government page and the date and time we last collected it. The \"Sources\" list on our About page is the complete register of where this platform draws from."
+      },
+      "accuracy": {
+        "title": "Accuracy and timeliness",
+        "p1": "We display data as published by the original sources at the time of collection. Government portals update, correct, and remove information without notice, so what appears here may lag behind the official source.",
+        "p2": "Always verify against the linked original source before acting on any information found here. This platform is provided for general public awareness only. It is not legal, financial, investment, or professional advice, and it is not an official record.",
+        "p3": "A tender shown as open may have closed; a progress figure may have been superseded; a document may have been revised. The \"last synced\" timestamp on each item tells you exactly how current our copy is."
+      },
+      "copyright": {
+        "title": "Copyright and content",
+        "p1": "Government Orders, Acts, notifications, reports, and similar public records are reproduced in accordance with the exemptions provided under Section 52 of the Copyright Act, 1957, which permits the reproduction of government works of this nature.",
+        "p2": "News content: we display only headlines, source attributions, and short AI-generated summaries clearly labeled as such. Full articles remain on the publishers' websites, and every headline links to the original publisher. We do not host or republish full news articles.",
+        "p3": "Documents in our library link to the original file on the government portal wherever possible. Where we hold a cached copy for reliability, the original source link is always displayed alongside it, together with the date of retrieval."
+      },
+      "ai": {
+        "title": "AI-generated summaries",
+        "p1": "Summaries marked \"AI Summary\" are generated automatically to make long articles and documents easier to scan. They may contain errors and are not a substitute for the original text. The original is always linked — read it before relying on any detail."
+      },
+      "corrections": {
+        "title": "Corrections and takedown requests",
+        "p1": "If you believe any information displayed here is inaccurate, outdated, defamatory, or should not be displayed, write to us with a link to the specific item. We review every request within 48 hours and will correct, update, annotate, or remove content where warranted — and note that we did so.",
+        "p2": "This applies to everyone: citizens, officials, contractors, and companies named in public records alike. We show public records as published; if the record itself is wrong, we will link to any official correction once one is published."
+      },
+      "branding": {
+        "title": "Emblems and official marks",
+        "p1": "This platform deliberately does not use the State Emblem of Andhra Pradesh, the State Emblem of India, or any official government seal, logo, or insignia — their use by private entities is restricted under the State Emblem of India (Prohibition of Improper Use) Act, 2005, and using them would wrongly suggest official status. Our logo and branding are original marks."
+      },
+      "liability": {
+        "title": "Limitation of liability",
+        "p1": "To the maximum extent permitted by law, AP Nadu Nedu and its maintainers accept no liability for any loss or damage arising from the use of, or reliance on, information displayed on this platform. Use of this platform is at your own discretion, and the linked official sources remain the authoritative record in every case."
+      }
+    },
+    "contact": {
+      "title": "Contact us",
+      "lead": "Corrections, takedown requests, questions about a source, or anything else:",
+      "after": "Include a link to the specific item. We respond to every request.",
+      "aboutLink": "Why this platform exists",
+      "formLink": "the correction form"
+    },
+    "summary": {
+      "titleTe": "సంక్షిప్తంగా",
+      "bodyTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి గానీ, ఏ రాజకీయ పార్టీకి గానీ సంబంధించినది కాదు. ఇక్కడి సమాచారం అంతా అధికారిక ప్రభుత్వ పోర్టళ్ల నుండి సేకరించబడింది — ప్రతి అంశానికీ మూలం లింక్ మరియు సేకరించిన తేదీ ఉంటాయి. ఏదైనా తప్పుగా ఉంటే మాకు తెలియజేయండి; 48 గంటల్లో సరిచేస్తాము."
+    }
+  },
+  "sourceDocs": {
+    "title": "Source Documents",
+    "intro": "The government-published documents this page is based on — each one collected from the official portal named below, on the date shown.",
+    "collectedFrom": "Collected from",
+    "onDate": "on {date}",
+    "original": "Original",
+    "inLibrary": "In library",
+    "role": {
+      "sanctionOrder": "Sanction Order",
+      "budgetAllocation": "Budget / Funds Release",
+      "tenderNotice": "Tender Notice",
+      "progressReport": "Progress Report",
+      "auditFinding": "Audit Finding",
+      "agreement": "Agreement",
+      "clearance": "Clearance",
+      "reference": "Reference"
+    },
+    "footer": {
+      "before": "We display these documents as published by the government, unmodified. All documents are also searchable in the",
+      "libraryLink": "Document Library"
+    }
+  },
+  "advProjects": {
+    "dialogAria": "Advanced analysis — Projects portfolio",
+    "title": "Projects portfolio — Advanced view",
+    "tracked": "{count} tracked projects",
+    "loading": "loading",
+    "everyFigureCited": "every figure cited",
+    "error": "Can't reach the data server ({message}). No cached charts are shown in its place.",
+    "coverage": "This register covers **{count} projects, every one cited to an official source** — state megaprojects, the state irrigation programme exactly as printed in AP's own Socio-Economic Surveys (2017-18 to 2024-25 editions), all central-sector projects ≥₹150 Cr tracked by MoSPI, and every approved AMRUT 2.0 urban work. It is still not every government work in AP; coverage grows as registers are added.",
+    "statewide": "Statewide",
+    "filters": {
+      "type": "Type",
+      "allTypes": "All types",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "district": "District",
+      "allDistricts": "All districts",
+      "allShown": "All {count} projects",
+      "someShown": "{shown} of {total} projects"
+    },
+    "empty": {
+      "title": "No projects for this selection",
+      "body": "Among the projects we track, none match these filters. Coverage grows as records are added."
+    },
+    "tiles": {
+      "combinedCost": "Combined est. cost",
+      "stateAFigure": "{n} of {total} state a figure",
+      "projectsShown": "Projects shown",
+      "inSelection": "in current selection",
+      "withProgress": "With published progress %",
+      "noBarNoGuess": "others show no bar, never a guess",
+      "largestSingle": "Largest single"
+    },
+    "viz": {
+      "cost": {
+        "title": "Estimated cost by project",
+        "titleTop": "Estimated cost — {n} largest projects",
+        "sub": "₹ crore, as sanctioned/announced. One hue — darker is larger.",
+        "provenance": "Costs from the cited registers (state records, MoSPI flash report, AMRUT 2.0 status PDF); each entry's source lives with the record.",
+        "rest": "The other {count} projects in this selection state a combined {amount} — every one is in the table below."
+      },
+      "byType": {
+        "title": "Estimated cost by project type",
+        "sub": "Sums of the individual cited figures — nothing added.",
+        "tipDetail": "sum of cited estimated costs"
+      },
+      "status": {
+        "title": "Where each project stands",
+        "sub": "Statuses follow each project's latest cited publication; \"delayed\" is used only when an official extension or missed deadline is on record.",
+        "tipDetail": "status per latest cited publication"
+      }
+    },
+    "table": {
+      "viewAll": "View all {count} as a table",
+      "project": "Project",
+      "estCost": "Est. cost (₹ Cr)",
+      "progress": "Progress",
+      "district": "District",
+      "status": "Status"
+    }
+  },
+  "advInvestments": {
+    "dialogAria": "Advanced analysis — Investments and MoUs",
+    "title": "Investments & MoUs — Advanced view",
+    "tracked": "{count} tracked commitments",
+    "loading": "loading",
+    "everyFigureCited": "every figure cited",
+    "error": "Can't reach the data server ({message}). No cached charts are shown in its place.",
+    "coverage": "This tracks **{count} major commitments with verified citations** — it is not yet a complete register of every MoU signed with Andhra Pradesh. Coverage grows as records are added.",
+    "foreign": "foreign",
+    "domestic": "domestic",
+    "filters": {
+      "yearSigned": "Year signed",
+      "allYears": "All years ({count})",
+      "yearOption": {
+        "one": "{year} — {count} record",
+        "other": "{year} — {count} records"
+      },
+      "noDateOption": "No date on record — {count}",
+      "sector": "Sector",
+      "allSectors": "All sectors",
+      "origin": "Origin",
+      "allOrigins": "All origins",
+      "foreign": "Foreign",
+      "domestic": "Domestic",
+      "allShown": "All {count} commitments",
+      "someShown": "{shown} of {total} commitments"
+    },
+    "empty": {
+      "title": "No records for this selection",
+      "body": "That is itself information: among the commitments we track, none match these filters. As collectors add more records, this can change."
+    },
+    "tiles": {
+      "totalCommitted": "Total committed",
+      "stateAFigure": "{n} of {total} state a figure",
+      "expectedJobs": "Expected jobs",
+      "publishAFigure": "{n} of {total} publish a figure",
+      "foreignInvestors": "Foreign investors",
+      "byCompanyOrigin": "by company origin",
+      "largestSingle": "Largest single"
+    },
+    "viz": {
+      "byCompany": {
+        "title": "Committed investment by company",
+        "sub": "₹ crore, as announced. One hue — darker is larger. Announced ≠ spent: the status strip below tells the difference.",
+        "provenance": "Figures from official releases and credible press — the full citation list lives with each entry.",
+        "noFigure": "No published ₹ figure: {names} — shown as \"not published\", never estimated by us."
+      },
+      "bySector": {
+        "title": "Committed investment by sector",
+        "sub": "Where the money says it's going — sums of the individual cited commitments, nothing added.",
+        "tipDetail": "sum of cited commitments"
+      },
+      "jobs": {
+        "title": "Expected jobs, where a figure was published",
+        "sub": "{n} of {total} publish a jobs number.",
+        "provenance": "No published jobs figure: {names} — listed here, not guessed.",
+        "tipDetail": "expected jobs, as published"
+      },
+      "status": {
+        "title": "Where each commitment stands",
+        "sub": "Status per the latest cited publication — including cancellations, because what didn't happen is part of the record.",
+        "tipDetail": "status per latest cited publication"
+      },
+      "years": {
+        "title": "Announcements by year",
+        "sub": "Every year from first to latest record is shown — an empty year means no tracked commitment was signed then.",
+        "provenance": {
+          "one": "{count} record with no single signing date is excluded from this chart and said so here.",
+          "other": "{count} records with no single signing date are excluded from this chart and said so here."
+        },
+        "tipDetail": "signing/announcement dates on record"
+      }
+    },
+    "table": {
+      "viewAll": "View all {count} as a table",
+      "company": "Company",
+      "crore": "₹ Cr",
+      "jobs": "Jobs",
+      "sector": "Sector",
+      "status": "Status",
+      "signed": "Signed"
+    }
+  },
+  "advGovernments": {
+    "dialogAria": "Advanced charts — Governments",
+    "title": "Governments — advanced charts",
+    "subtitle": "comparisons and compositions · every figure cited on the main page",
+    "now": "now",
+    "actual": "actual",
+    "yearN": "Year {n}",
+    "fyEndingStage": "FY ending {year} · {stage}",
+    "otherSchemes": "Other listed schemes",
+    "tenureClaimedTotal": "{tenure} · claimed total {amount}",
+    "readWithCare": "Read with care: tenure lengths differ (the current one is ongoing), and a share of a claim is still a claim. The main page's tables carry each figure with its source.",
+    "seriesEducation": "{label} — education",
+    "seriesHealth": "{label} — health",
+    "viz": {
+      "capital": {
+        "title": "Capital outlay — the same years of each tenure, one line each",
+        "sub": "Year 1 of one government against Year 1 of the next: who built more, at the same point of their term? ₹ crore, RBI series.",
+        "provenance": "RBI Handbook Table 174 / State Finances St.4. The current tenure has only two points so far — Year 1 is a revised estimate, Year 2 a budget estimate."
+      },
+      "social": {
+        "title": "Social-sector spending — tenure against tenure",
+        "sub": "The same alignment for spending on education, health, welfare and rural development together.",
+        "provenance": "RBI State Finances 2025-26 Statement 31 / Handbook Table 175."
+      },
+      "schemes": {
+        "title": "What each government's scheme money went to",
+        "sub": "Share of each tenure's claimed scheme spending, by scheme. These are the governments' OWN claimed figures — shares of claims, not audited money.",
+        "provenance": "Each government's budget speeches (TDP: 5 Feb 2019; YSRCP: 7 Feb 2024; NDA: 14 Feb 2026)."
+      },
+      "eduHealth": {
+        "title": "Education and health — slice of the budget, start vs end of each tenure",
+        "sub": "Percent of total spending. A falling share of a growing budget can still be more rupees.",
+        "provenance": "RBI State Finances 2025-26, Statements 26–27."
+      }
+    },
+    "table": {
+      "summary": "Every number behind these charts, as a table",
+      "fyEnding": "FY ending",
+      "capitalOutlay": "Capital outlay (₹Cr)",
+      "socialSector": "Social sector (₹Cr)",
+      "educationPct": "Education %",
+      "healthPct": "Health %",
+      "committedPct": "Committed %"
+    }
+  },
+  "depts": {
+    "title": "What the money actually built, department by department",
+    "intro": "A state-wide capital outlay total tells you how much Andhra Pradesh spent on building things. It cannot tell you whether that money went into school buildings, hospital wards or anything else. The budget is voted department by department, so the Demands for Grants volumes can. This is that detail, straight from the volumes, with the page behind every figure.",
+    "chartAria": "Capital outlay by financial year, showing budget estimate, revised estimate and audited actual",
+    "demandTitle": "Demand {no} — {dept}",
+    "demandSub": "Capital outlay is money that leaves a building behind. Revenue expenditure is salaries and running costs.",
+    "provenance": "Andhra Pradesh Finance Department, Demands for Grants, Volumes I/2 and III. Every row links to the volume and column it was read from.",
+    "yearByYear": "Capital outlay, year by year",
+    "perYearNote": "Shown as the average per year, because the three governments have not served the same number of years and a straight total would reward whoever was in office longest.",
+    "missingYears": "{tenure}: audited actuals exist for {have} of {total} years. Missing {years}.",
+    "everyRow": "Every row behind these charts ({count})",
+    "allDemands": "All {count} demands Andhra Pradesh votes on",
+    "tipRevenue": "Revenue expenditure that year: {rev}",
+    "footer": "Two figures for the same year mean different things and are never blended here. **A budget estimate is a plan, a revised estimate is a correction, an audited actual is what the accounts recorded.** Where a year has no audited actual yet, that is the accounts not being closed, not money that was never spent.",
+    "stage": {
+      "actual": "Audited actual",
+      "re": "Revised estimate",
+      "be": "Budget estimate"
+    },
+    "stageWhat": {
+      "actual": "what the accounts recorded",
+      "re": "corrected near the end of the year",
+      "be": "planned before the year began"
+    },
+    "tenure": {
+      "tdp1": "TDP (Naidu) 2014–19",
+      "ysrcp": "YSRCP (Jagan) 2019–24",
+      "tdp2": "TDP-led NDA (Naidu) 2024–",
+      "pre": "Before June 2014"
+    },
+    "col": {
+      "year": "Year",
+      "stage": "Stage",
+      "revenue": "Revenue",
+      "capital": "Capital outlay",
+      "total": "Total",
+      "split": "Split"
+    },
+    "allTitle": "All forty demands, as budgeted",
+    "allSub": "Budget estimates, 2014-15 to 2026-27",
+    "allProvenance": "Statement of Demands for Grants, Volume I/2, AP Finance Department. Every year reconciled to the grand total printed in its own book.",
+    "allIntro": "Andhra Pradesh votes forty demands, one broad department each. These are the amounts the Assembly was asked to authorise. They are plans, not spending.",
+    "pick": "Choose a department",
+    "perGovBudgeted": "Budgeted per year, by government",
+    "yearByYearBudgeted": "Budgeted each year",
+    "capitalLegend": "Solid = capital, faded = total",
+    "splitStartNote": "The capital share is shown from 2017-18 onward. Earlier books split each demand into Plan and Non-Plan instead, which answers a different question.",
+    "noAudit": "No audited outturn has been published for this department yet, so only the budget estimate is shown.",
+    "ordersTitle": "Government orders issued",
+    "ordersNote": "A count of dated decisions taken by the secretariat department, not of money. The amount column in the orders register is blank or zero on most orders and is never totalled here.",
+    "sharedNote": "This secretariat department administers more than one demand, so the same count appears against each. Do not add them together.",
+    "renamed": "Also published as: {names}"
+  },
+  "library": {
+    "title": "The document library",
+    "intro": "Every official series this platform draws on, and the portals where the rest of the record lives — budget volumes, audit reports, surveys, Government Orders, the gazette, tenders, RTI disclosures and open data. Green means we opened that exact document ourselves; grey means the address is official but our tools could not reach it, usually because the portal only answers from India.",
+    "searchPlaceholder": "Search title, publisher, year, sector…",
+    "filterType": "Filter by document type",
+    "filterSector": "Filter by sector",
+    "filterReach": "Filter by whether we opened it",
+    "allTypes": "All document types",
+    "allSectors": "All sectors",
+    "anyReach": "Opened or not",
+    "weOpened": "We read this",
+    "notOpened": "Not opened by us",
+    "weOpenedTip": "We fetched this exact address and read the document ({date})",
+    "notOpenedTip": "Official address, but our environment could not open it — the note on the card says why",
+    "count": "Showing {shown} of {total} entries",
+    "empty": "Nothing matches these filters. Clear them and try a broader search."
+  },
+  "community": {
+    "eyebrow": "Readers' voices",
+    "title": "Community board",
+    "sub": "Say what you see. Question a number, add what you know, talk to other readers. No account needed — pick a name and write. Posts are public under the name their author chose; the data on this site never changes because of an opinion — only because of a document.",
+    "topicsLabel": "Discussion topics",
+    "rules": "House rules: talk about the data and the record, not about each other. No abuse, no personal details, no unverified accusations against named people. Posts breaking these are removed; three reader reports hide a post until review.",
+    "empty": "No posts yet — yours can be the first.",
+    "newer": "Newer",
+    "older": "Older",
+    "topics": {
+      "general": "General discussion",
+      "projects": "Projects",
+      "investments": "Investments",
+      "finances": "State finances",
+      "governments": "Governments",
+      "suggestions": "Suggestions"
+    },
+    "composer": {
+      "name": "Your name (shown publicly)",
+      "body": "Your point — a question, a correction, something you know about this…",
+      "reply": "Your reply…",
+      "send": "Post",
+      "sendReply": "Reply",
+      "cancel": "Cancel"
+    },
+    "post": {
+      "reply": "Replies",
+      "replies": "{n} replies",
+      "writeReply": "Write a reply",
+      "report": "Report",
+      "reported": "Reported — thank you",
+      "deleteOwn": "Delete my post",
+      "removedByAuthor": "Removed by its author."
+    },
+    "time": {
+      "justNow": "just now",
+      "minutes": "{n} min ago",
+      "hours": "{n} hr ago",
+      "days": "{n} days ago"
+    },
+    "err": {
+      "blocked": "That wording isn't allowed here — please rephrase without abuse.",
+      "links": "Too many links — at most two per post.",
+      "spam": "That looks like spam — please write normally.",
+      "rate": "You're posting very fast — please wait a while and try again.",
+      "generic": "Could not send — please try again.",
+      "load": "Could not load the discussion."
+    },
+    "correction": {
+      "title": "Report a correction",
+      "sub": "Found a figure that doesn't match its source, or a document we're missing? This goes privately to the maintainer, not to the public board. Every report is checked against the original document.",
+      "where": "Which page or chart? (e.g. Finances → School Education)",
+      "what": "What's wrong, and what does the source actually say? A link or document name helps.",
+      "contact": "How can we reach you? (optional — email or phone)",
+      "send": "Send report",
+      "thanks": "Received. Every report is checked against the original document — thank you for holding us to the standard.",
+      "privacy": "We store only what you type here. No account, no tracking."
+    },
+    "pageThread": {
+      "title": "Reader discussion",
+      "sub": "Points, questions and local knowledge about the data on this page. The charts above never change because of a comment — only because of a document.",
+      "allBoards": "All discussion boards"
+    }
+  },
+  "schoolEd": {
+    "title": "School education, government by government",
+    "intro": "What Andhra Pradesh spent on school education since 2014, what it built, and what actually reached the schools. Spending is the budget the legislature voted and the CAG audits. School and student counts are the Ministry of Education's national census. **Government Order amounts are never added up as spending** — the reconciliation at the foot of this page explains why.",
+    "openOrder": "Open the order",
+    "tenureStripAria": "Which government held office in each year",
+    "stage": {
+      "BE": "Budget estimate",
+      "RE": "Revised estimate",
+      "Actual": "Audited actual"
+    },
+    "spending": {
+      "title": "What was spent on school education",
+      "sub": "Demand XII, every year since 2014-15. Budget estimate, revised estimate and audited actual, so you can see what was promised against what was spent."
+    },
+    "schools": {
+      "title": "Schools, students and teachers",
+      "sub": "Counted by UDISE+, the Ministry of Education's annual school census.",
+      "seriesSchools": "Schools",
+      "netChange": "Between {from} and {to} the number of schools fell by **{n}**.",
+      "colSchools": "Schools",
+      "colEnrolment": "Students",
+      "colTeachers": "Teachers",
+      "netChangeNeutral": "Between {from} and {to} the published count {dir} by {n}.",
+      "rose": "rose",
+      "fell": "fell"
+    },
+    "perStudent": {
+      "title": "Spending per student",
+      "sub": "Budget for the year divided by students enrolled that year.",
+      "ourCalculation": "**This is our arithmetic, not a figure any government published.** It divides the voted Demand XII budget by UDISE+ enrolment for the same year. Both inputs are government figures and both are linked above. No government publishes a per-student number for school education, so this is the only way to get one — and you should treat it as our working, not as the state's claim.",
+      "gap": "{n} years are missing because enrolment was not published in a form we could read for those years."
+    },
+    "components": {
+      "title": "What reached the schools",
+      "sub": "Classrooms, toilets, meals, uniforms, tablets and the rest, read from the orders themselves.",
+      "colItem": "What was ordered",
+      "colFirst": "First order"
+    },
+    "programmes": {
+      "title": "When each programme first appears",
+      "sub": "A first-appearance date from the order record. Not a ranking, and not a judgement about which government did better.",
+      "firstSeen": "first seen {date}",
+      "orders": "{n} orders"
+    },
+    "orders": {
+      "title": "The order record itself",
+      "sub": "Every School Education Government Order from June 2014 to August 2026.",
+      "linked": "{n} with documents"
+    },
+    "conflicts": {
+      "title": "Where the register contradicts itself",
+      "sub": "Eight orders state one figure in the register's amount column and a different one in their own text. Both are shown; the order's own wording is treated as correct, because it is the document.",
+      "colOrder": "Order",
+      "colRegister": "Amount column",
+      "colText": "Order's own text"
+    },
+    "recon": {
+      "title": "How every figure here was checked",
+      "sub": "Published on the page rather than kept in a file, because a platform that asks you to trust figures over speeches has to let you inspect the checking.",
+      "defectsTitle": "Defects found in our own work, and fixed"
+    },
+    "withdrawn": {
+      "title": "The spending comparison has been withdrawn",
+      "body": "This section carried a comparison of money sanctioned by each government. It has been removed because the extraction behind it was wrong in a way that was **not neutral**: it read amounts written as \"Rs.9,37,63,92,000/-\" but silently skipped amounts written as \"Rs.944.53 crores\". That dropped about **₹28,019 crore of YSRCP orders against ₹955 crore of TDP 2014-19 orders** — so the chart showed one government ahead when the missing money points the other way. Two further problems: sanction orders, budget releases and instalments of the same scheme each state a figure, so adding them counts the same rupee more than once; and the total mixed school construction with pension arrears, exam costs and private-school administration. It will return only when the extraction is rebuilt and checked against the Demands for Grants capital outlay series, not merely against itself. **Order counts below are exact and unaffected.**"
+    },
+    "soon": {
+      "badge": "Coming soon",
+      "body": "This section is being built from the state's own records. It is not published yet because part of the school data is not yet sound enough to put in front of you, and a chart beside a hole that size would teach you something false.",
+      "willInclude": "What this section will show",
+      "item": {
+        "spending": "What Andhra Pradesh spent on school education every year since 2014-15, from the budget the legislature voted and the CAG audits, with the auditor's own objections shown alongside.",
+        "schools": "Schools, students and teachers year by year, government schools counted separately from private ones, with schools built and schools merged or closed shown as two different things.",
+        "perStudent": "Spending per student, clearly marked as our own arithmetic on two published government figures rather than a number any government released.",
+        "components": "What actually reached the schools — classrooms, toilets, drinking water, meals, uniforms, tablets, ramps — read from the state's own orders and linked to each one.",
+        "programmes": "When each programme first appears in the record, government by government, as a date rather than a verdict."
+      },
+      "waitingTitle": "What it is waiting on",
+      "waitingBody": "Two documents. Both are published by the government; neither can be read from where this platform runs.",
+      "waiting": {
+        "stats": "Educational Statistics from the Commissionerate of School Education, which carries schools, enrolment and teachers from 2012-13 onward split by government and private management. Without it, four of the five years of the 2014-19 government have no school figure at all.",
+        "mis": "The school infrastructure works MIS, which records schools actually built and upgraded rather than the net number standing at year end."
+      },
+      "promise": "Every figure in this section will carry the document it came from and a second government source it was checked against. Where a year or a figure does not exist, the page will say so rather than fill the gap."
+    },
+    "limits": {
+      "title": "What this page can and cannot answer",
+      "canTitle": "It can answer",
+      "canBody": "How much was budgeted for school education each year since 2014-15, how much was revised, and what the audited accounts finally recorded — including how much of it was capital outlay. And, from the state’s own ten-year table, how many schools were government-run, aided or private in each year, with the students and teachers in each.",
+      "cannotTitle": "It cannot answer",
+      "cannotBody": "Why a count changed. The state publishes the numbers but not the reasons, so a fall can be a closure, a merger of two schools into one, or a change in what was counted — and this page will not guess between them. The clearest case is 2015-16, when local-body schools drop by 1,752 in a single year with no explanation given. Enrolment before 2016-17 also sits on a wider definition and is not comparable with what follows."
+    },
+    "capital": {
+      "title": "Capital outlay, as audited, per government",
+      "sub": "The average per year, taken from the Actual column of the Demands for Grants. Capital outlay is the part that leaves behind a building or equipment, as against salaries and running costs.",
+      "years": "{have} of {total} years audited",
+      "missing": "No audited figure yet: {years}",
+      "note": "Shown as an average per year because the three governments have served different lengths. Salaries and running costs are the larger number in every year and are much closer between governments; this is construction and equipment only."
+    },
+    "whoRuns": {
+      "title": "Did governments build schools, or close them?",
+      "sub": "Schools, students and teachers by who runs them, 2013-14 to 2022-23",
+      "legend": "Solid = government · mid = private aided · faint = private unaided",
+      "fromTo": "{from} → {to}, across {n} years",
+      "series": {
+        "schools": "Schools",
+        "enrolment": "Students enrolled",
+        "teachers": "Teachers"
+      },
+      "arithmeticNote": "This is the difference between the first and last year of each government’s term. It is arithmetic, not credit — read the notes below before drawing a conclusion.",
+      "col": {
+        "year": "Year",
+        "government": "Government",
+        "aided": "Private aided",
+        "private": "Private unaided",
+        "total": "Total"
+      }
+    }
+  },
+  "contacts": {
+    "title": "Who to call, and where to go",
+    "intro": "Every number and every link on this page was read off a government website, and that page is linked beside it. Where we could not confirm something from a government source, we say so at the foot of the page instead of quietly guessing — because a wrong helpline number is worse than a missing one.",
+    "loading": "Loading the directory…",
+    "error": "Could not load the directory: {message}",
+    "sourceTitle": "The government page this came from: {url}",
+    "emergency": {
+      "title": "If this is an emergency",
+      "sub": "Tap a number to dial it.",
+      "foot": "112 reaches police, fire and ambulance together. If you are not sure which service you need, call 112."
+    },
+    "search": {
+      "label": "Search this directory",
+      "placeholder": "Search — try land, pension, ration, police, electricity, or a district name",
+      "results": "{problems} problems · {helplines} helplines · {departments} departments · {districts} districts",
+      "none": "Nothing here matches that. Try a plainer word — land, pension, school, water."
+    },
+    "problems": {
+      "title": "I have a problem. Where do I start?",
+      "sub": "Each of these is a path, and the rungs go in order. Skipping a step is the most common reason a complaint comes back unanswered — the next office will usually ask what the one below it said.",
+      "timeLimitNote": "Andhra Pradesh has a law that fixes a time limit for notified public services — the Andhra Pradesh Public Services Delivery Guarantee Act, 2017. The Act itself does not print the days; those are fixed by a separate government notification, which we could not find published on any page we could open. So most rungs below say the limit is not published rather than showing a number we invented. If you find that notification, tell us and we will add it."
+    },
+    "ladder": {
+      "bring": "Take with you:",
+      "law": "The law or order behind this:",
+      "rungs": "{n} steps, in order"
+    },
+    "grievance": {
+      "title": "How do I complain to the government?",
+      "sub": "These are the standing systems — the ones that exist whether or not your particular department is listening.",
+      "how": "How to file:",
+      "next": "What happens next:"
+    },
+    "helplines": {
+      "title": "Every helpline we could confirm",
+      "sub": "State numbers first, then the all-India ones. Tap any number to dial it.",
+      "stateGroup": "Andhra Pradesh",
+      "nationalGroup": "All India"
+    },
+    "scope": {
+      "state": "Andhra Pradesh",
+      "national": "All India"
+    },
+    "dept": {
+      "title": "Every department, and its website",
+      "sub": "Most departments do not publish a public phone number or an email address. Where they do, it is shown. Where they do not, the website is the way in.",
+      "portal": "Citizen portal:"
+    },
+    "districts": {
+      "title": "All 26 districts",
+      "sub": "Andhra Pradesh was reorganised from 13 districts into 26 in April 2022. Your collectorate is the top of almost every escalation path on this page."
+    },
+    "unverified": {
+      "title": "What we could not confirm, and what you can do",
+      "body": "There are {n} things on this page we could not verify from a government source, and we would rather list them than pretend the directory is complete. Most are pages that would not open from outside India. If you can open one and check it, that fixes it for everyone.",
+      "toggle": "Show all {n}",
+      "todo": "What would fix it:",
+      "foot": "Checked on {date}. Numbers and offices change. If something here is wrong, tell us and we will correct it and date the correction."
+    }
+  },
+  "facts": {
+    "title": "Andhra Pradesh, by the numbers",
+    "intro": "{n} indicators, {points} figures, from {sources} government publications. Every one is transcribed from the document it was printed in, split by the government that held office, and opens to show you where it came from. Nothing here is modelled or adjusted.",
+    "loading": "Loading the indicators…",
+    "error": "Could not load the indicators: {message}",
+    "searchPlaceholder": "Search — try debt, mortality, power, irrigation, unemployment",
+    "allGroups": "Everything",
+    "none": "No indicator here matches that. Try a plainer word.",
+    "sparkAria": "{label}, year by year, shaded by the government in office",
+    "undividedShort": "undivided AP",
+    "undividedNote": "Some early years in this series are undivided Andhra Pradesh, before the state was split on 2 June 2014. They are marked, drawn in grey, and never counted in a per-government change.",
+    "stage": {
+      "A": "Audited",
+      "RE": "Revised estimate",
+      "BE": "Budget estimate",
+      "PE": "Provisional"
+    },
+    "notEnoughYears": "Not enough years yet",
+    "usesEstimate": "includes an estimate",
+    "showDetail": "What this means, and where it came from",
+    "hideDetail": "Close",
+    "col": {
+      "year": "Year",
+      "value": "Value",
+      "valueCr": "Value (₹ crore)",
+      "stage": "Stage"
+    },
+    "from": "From:",
+    "originated": "Originally published by:",
+    "unitPrinted": "Unit as printed in the source: {unit}",
+    "undatedTitle": "Figures the source printed without a year",
+    "undatedSub": "These are real figures from the same publications, but the table did not name the year they refer to. We show them as the source did rather than assigning a year ourselves.",
+    "sourcesTitle": "Every document behind this page",
+    "missingToggle": "What is missing, and how you can help fill it ({n} items)",
+    "toGetIt": "To get it:"
+  },
+  "register": {
+    "loading": "Loading the register…",
+    "error": "Could not load the register: {message}",
+    "searchPlaceholder": "Search a project, district, department — or a G.O. number",
+    "filter": {
+      "type": "Type",
+      "status": "Status",
+      "workedOn": "Worked on under",
+      "spanning": "Spanning two or more governments"
+    },
+    "showing": "Showing {n} of {total}",
+    "none": "No project here matches that. Try a plainer word, or clear a filter.",
+    "noPublishedCost": "no published cost",
+    "noPublishedDate": "no published date",
+    "due": "due {date}",
+    "nSources": "{n} government documents",
+    "nDocuments": "{n} dated documents",
+    "bandAria": "Governments that appear in the record for {title}",
+    "showTimeline": "What happened, and under whom",
+    "hide": "Close",
+    "whatTheRecordShows": "What the record shows, in order",
+    "openDocument": "Open the document",
+    "datedByPublication": "These dates are when the government published each document, which is usually — but not always — when the thing happened. Where a document records something older than itself, the date here is the document's.",
+    "datedByEvent": "These dates are when each thing happened, read out of the documents by hand rather than taken from when they were published.",
+    "preWindow": "This project's record begins before Andhra Pradesh was divided on 2 June 2014. Those entries are shown in grey for context only. We hold no audited record of that period and never count it into any government's total.",
+    "howToRead": "How to read this",
+    "stats": "{projects} projects · {events} dated documents · {spanning} of them worked on under more than one government · {noCost} with no cost any government document states.",
+    "nSourcesMixed": "{n} documents · {g} government",
+    "bandNote": "Bar widths follow the number of documents in each government's time.",
+    "reportedTitle": "A reported figure we could not trace to the government's own record",
+    "reportedBody": "₹{value} — {claim}. Reported by {publisher} on {date}. We could not find it in a G.O., a CRDA resolution or any other government document, so it is not shown above as this project's cost.",
+    "tier": {
+      "company": "company statement",
+      "press": "press report"
+    },
+    "loadingRecord": "Loading this project's record…",
+    "showMore": "Show {n} more · {left} left",
+    "datedByDocuments": "These dates come from the documents themselves, assembled end to end for this project.",
+    "datedByRecord": "This project is held through the government's own published record rather than a document trail we assembled. The dates below are the ones that record carries — when it was approved, when work began, and each dated progress reading, with the report each came from.",
+    "statsKinds": "{documented} have had their documents assembled by hand; {record} carry the government's published record.",
+    "kind": {
+      "documents": "documents assembled",
+      "record": "government record"
+    }
+  },
+  "tenders": {
+    "title": "Tenders on record",
+    "sub": "Live government tenders, mirrored from official boards — what is being procured, by whom, and until when.",
+    "coverage": "What this register covers today: the AP CRDA (Amaravati) tenders board only. Thousands of tenders are live across Andhra Pradesh at any time — the state e-procurement portal alone lists them in the thousands, and it refuses access from outside India. Every tender below names its portal; counts here count what we track, never the whole state.",
+    "tabActive": "Open now",
+    "tabClosed": "Closed — the history",
+    "count": {
+      "one": "{count} tender",
+      "other": "{count} tenders"
+    },
+    "error": "Can't reach the data server ({message}).",
+    "loading": "Loading the register…",
+    "none": "Nothing here yet.",
+    "daysLeft": {
+      "one": "{count} day left",
+      "other": "{count} days left"
+    },
+    "dates": "Published {from} · bids close {to}",
+    "value": "Estimated value: {value}",
+    "noValue": "Value not published on the portal's listing",
+    "pageN": "Page {page}"
+  }
+}

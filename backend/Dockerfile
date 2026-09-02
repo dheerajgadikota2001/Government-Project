@@ -45,12 +45,15 @@ ENV PYTHONUNBUFFERED=1
 RUN useradd --create-home appuser && chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 8000
+# Cloud Run injects PORT (8080 by default); we honour it, defaulting to 8000 locally.
+ENV PORT=8080
+EXPOSE 8080
 
 # Health check — Render.com and GCP use this
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f "http://localhost:${PORT:-8000}/health" || exit 1
 
-# Start FastAPI with uvicorn
-# Workers: 2 * CPU + 1 — adjust based on instance size
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2", "--loop", "uvloop"]
+# Start FastAPI. Shell form so ${PORT} and ${WEB_CONCURRENCY} expand at runtime.
+# Cloud Run gives 1 vCPU on the small tier and handles concurrency itself, so one
+# worker is the right default there; raise WEB_CONCURRENCY on a bigger machine.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers ${WEB_CONCURRENCY:-1} --loop uvloop

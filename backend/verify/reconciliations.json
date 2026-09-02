@@ -1,0 +1,106 @@
+{
+  "_readme": "Two kinds of relationship between figures published by different bodies. `must_agree` pairs are the same quantity reaching us through independent chains: where both readings are audited they have to match, and if they ever stop matching, one of them was edited wrongly. `known_divergence` pairs are figures that legitimately differ because the bodies count different things — the platform's whole argument is built on these, so the harness guards them in the opposite direction: if they ever start agreeing, someone has flattened a real disagreement.",
+  "must_agree": [
+    {
+      "id": "capital-outlay",
+      "why": "The Reserve Bank's Handbook reprints the state's own capital outlay. Where both sources are showing audited accounts for the same year, they are the same number arriving by two routes.",
+      "left": {
+        "file": "state_facts_seed.json",
+        "indicator": "capital_outlay"
+      },
+      "right": {
+        "file": "finances_seed.json",
+        "path": "committed.years",
+        "field": "capital_expenditure"
+      },
+      "audited_only": true,
+      "tolerance_pct": 0.5
+    },
+    {
+      "id": "revenue-expenditure",
+      "why": "Same quantity, same two routes: RBI Handbook Table 166 against Form F-1 of Andhra Pradesh's own Statement of Fiscal Policy.",
+      "left": {
+        "file": "state_facts_seed.json",
+        "indicator": "revenue_expenditure"
+      },
+      "right": {
+        "file": "finances_seed.json",
+        "path": "committed.years",
+        "field": "revenue_expenditure"
+      },
+      "audited_only": true,
+      "tolerance_pct": 0.5
+    }
+  ],
+  "known_divergence": [
+    {
+      "id": "debt-cag-vs-rbi",
+      "why": "The national auditor and the Reserve Bank both publish outstanding debt for the same 31 March and do not agree, because they group components differently — most visibly the public-account liabilities the state holds and owes back. Neither is wrong. The gap is the content of the 'Whose number is right?' section, and flattening it would destroy the point of the page.",
+      "left": {
+        "file": "finances_seed.json",
+        "path": "series",
+        "match": {
+          "indicator": "outstanding_liabilities",
+          "source_family": "CAG"
+        }
+      },
+      "right": {
+        "file": "finances_seed.json",
+        "path": "series",
+        "match": {
+          "indicator": "outstanding_liabilities",
+          "source_family": "RBI"
+        }
+      },
+      "expect_min_diff_pct": 3.0
+    },
+    {
+      "id": "debt-apbudget-vs-rbi",
+      "why": "Andhra Pradesh's own budget books and the Reserve Bank differ on the same year's debt, again on definitions. Shown side by side deliberately.",
+      "left": {
+        "file": "finances_seed.json",
+        "path": "series",
+        "match": {
+          "indicator": "outstanding_liabilities",
+          "source_family": "AP_BUDGET"
+        }
+      },
+      "right": {
+        "file": "finances_seed.json",
+        "path": "series",
+        "match": {
+          "indicator": "outstanding_liabilities",
+          "source_family": "RBI"
+        }
+      },
+      "expect_min_diff_pct": 1.0
+    },
+    {
+      "id": "own-tax-rbi-vs-state",
+      "why": "Settled on 31 August 2026 by the audited Finance Accounts of Andhra Pradesh, which are the authority both other sources are ultimately reporting. For 2017-18 they print 49,486.41 crore: the state's own Form F-1 is 0.66% away, the Reserve Bank's Handbook 5.92% away. For 2018-19 they print 58,030.98: Form F-1 0.13% away, RBI 1.11% away. RBI runs high in both years and in the same direction. Its figures for those years are therefore NOT the audited accounts. What they are we do not know — they do not equal the published revised estimate either. Shown as a divergence rather than silently corrected, because both remain official publications.",
+      "left": {
+        "file": "state_facts_seed.json",
+        "indicator": "own_tax_revenue"
+      },
+      "right": {
+        "file": "finances_seed.json",
+        "path": "committed.years",
+        "field": "own_tax_revenue"
+      },
+      "expect_min_diff_pct": 0.5,
+      "arbitrated_by": "Finance Accounts of Andhra Pradesh, Statement No. 3, Accountant General (A&E)"
+    }
+  ],
+  "investigating": [
+    {
+      "pair": "capital-outlay",
+      "fy_end": [
+        2015
+      ],
+      "what_we_know": "Partly resolved 31 August 2026. The Finance Accounts for 2014-15 cover only 2 June 2014 to 31 March 2015 — the residuary state's audited record begins on the day of division — and print capital outlay of 6,520 crore, identically in four CAG publications. Loans and advances that year were 745 crore, and 6,520 + 745 = 7,265, which identifies Andhra Pradesh's own 7,265.33 as capital outlay PLUS loans and advances: a capital-disbursements basis, not capital outlay. The Reserve Bank's 11,405 still matches nothing — not 6,520, not 7,265.33, not the combined 12,615.49, not the 7,070 budget estimate.",
+      "what_would_settle_it": "The undivided-Andhra-Pradesh volume covering 1 April to 1 June 2014. It is the only route to an audited combined figure and the only way to test whether 11,405 has any audited basis at all. Also the Reserve Bank Handbook's own source notes for Table 172, which are outside cag.gov.in.",
+      "opened": "2026-08-30"
+    }
+  ],
+  "_investigating_readme": "Pairs that currently disagree on an audited year and that we have not yet explained. They are reported as warnings rather than failures so the build is not permanently red, and they are published on the verification page so the disagreement is visible to readers rather than only to us. An entry leaves this list when it is either fixed or moved to known_divergence with a reason — never by widening a tolerance until it passes."
+}

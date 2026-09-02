@@ -1,0 +1,22 @@
+# Replace the "deploy" job in .github/workflows/deploy.yml with this one.
+# It SSHes into the droplet after tests pass and rebuilds the stack.
+# Repo secrets needed: DROPLET_HOST (IP), DROPLET_USER (deploy), DROPLET_SSH_KEY (private key).
+  deploy:
+    name: Deploy to droplet
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Pull and rebuild on the server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          script: |
+            set -e
+            cd ~/politics-platform
+            git pull --ff-only
+            docker compose -f deploy/docker-compose.prod.yml --env-file deploy/.env.prod up -d --build api
+            docker compose -f deploy/docker-compose.prod.yml --env-file deploy/.env.prod exec -T api alembic upgrade head
+            docker image prune -f

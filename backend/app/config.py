@@ -52,13 +52,16 @@ class Settings(BaseSettings):
     # Rate limiting
     rate_limit_per_minute: int = 100
 
+    # Maintainer key for community moderation endpoints (X-Admin-Key header)
+    admin_key: str = ""
+
     # Scraper
-    scraper_user_agent: str = "APPoliticsPlatform/1.0 (Public Data Aggregator)"
+    scraper_user_agent: str = "APNaduNedu-Bot/1.0 (Public data mirror; independent citizen project; contact: corrections@apnadunedu.in)"
     scraper_request_delay: float = 2.0
     scraper_timeout: int = 30
 
     # CORS
-    allowed_origins: str = "http://localhost:3000"
+    allowed_origins: str = "http://localhost:3000,http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,http://localhost:5175,http://127.0.0.1:5175,http://localhost:4173,http://127.0.0.1:4173"
 
     # Voice assistant
     voice_assistant_name: str = "Mitra"

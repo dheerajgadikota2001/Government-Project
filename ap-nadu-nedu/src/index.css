@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Phone layout fix (2026-09-02). Charts and wide tables sit in `overflow-x-auto`
+   wrappers, but a flex item's min-width defaults to `auto`, so a 640px chart
+   forced every page column to 640px and the header clipped the rest off the
+   right edge on phones. Letting the scroll wrapper shrink restores the
+   intended behaviour: the page fits the screen and only the chart scrolls. */
+@layer components {
+  /* `contain: inline-size` stops a scroll strip's contents (nowrap tab labels,
+     640px charts, wide tables) from counting towards the page column's
+     intrinsic width — the column then fits the phone and only the strip
+     scrolls. Supported in every current browser. */
+  .overflow-x-auto { min-width: 0; max-width: 100%; contain: inline-size; }
+  main > * { min-width: 0; }
+  /* A <select> sizes itself to its longest option (department names run to
+     400px) and widened whole pages on phones; cap it at its container. */
+  select, input, textarea { max-width: 100%; }
+  /* max-width alone cannot stop the select's intrinsic width from sizing its
+     ancestors, so the block that holds it is inline-size-contained instead. */
+  label:has(> select), div:has(> select:only-child) { contain: inline-size; }
+}
+
+
+/* Google Material Symbols */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+  vertical-align: middle;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f0f5; }
+::-webkit-scrollbar-thumb { background: #c3c6d1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #737780; }
+
+/* Breaking news ticker */
+.ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; }
+.ticker { display: inline-block; animation: ticker 25s linear infinite; }
+.ticker:hover { animation-play-state: paused; }
+
+/* Base font */
+body {
+  font-family: 'Public Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Multilingual typography
+   ------------------------------------------------------------
+   Each script gets its own face and its own line-height. Indic
+   scripts stack vowel signs above and below the baseline, so the
+   Latin line-height clips them; Nastaliq slopes across two levels
+   and needs far more room again. Every value below was set by
+   looking at the rendered page in that language, not guessed.
+   ============================================================ */
+
+:root {
+  --font-latin: 'Public Sans', system-ui, sans-serif;
+}
+
+html[lang='en'] body { font-family: var(--font-latin); }
+
+html[lang='te'] body {
+  font-family: 'Noto Sans Telugu', var(--font-latin);
+  line-height: 1.65;
+}
+html[lang='hi'] body {
+  font-family: 'Noto Sans Devanagari', var(--font-latin);
+  line-height: 1.6;
+}
+html[lang='ta'] body {
+  font-family: 'Noto Sans Tamil', var(--font-latin);
+  line-height: 1.7;
+}
+html[lang='or'] body {
+  font-family: 'Noto Sans Oriya', var(--font-latin);
+  line-height: 1.65;
+}
+html[lang='ur'] body {
+  font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', var(--font-latin);
+  line-height: 2.35;
+}
+
+/* Nastaliq's ascenders and descenders overlap adjacent lines. Give the
+   elements that sit in tight boxes their own breathing room. */
+html[lang='ur'] h1,
+html[lang='ur'] h2,
+html[lang='ur'] h3 { line-height: 2.1; padding-block: 0.15em; }
+html[lang='ur'] button,
+html[lang='ur'] summary,
+html[lang='ur'] label,
+html[lang='ur'] option { line-height: 2.0; }
+html[lang='ur'] .material-symbols-outlined { line-height: 1; }
+
+/* Indic scripts have no case, so uppercase + wide tracking on eyebrow
+   labels does nothing but push the text out of its container. */
+html:not([lang='en']) .uppercase {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* ============================================================
+   Right-to-left (Urdu)
+   ============================================================ */
+
+/* Data keeps its reading order. A bar chart mirrored into RTL reads as
+   though the series reversed, and axis numbers come out backwards. */
+[dir='rtl'] svg,
+[dir='rtl'] table,
+[dir='rtl'] .ltr,
+[dir='rtl'] [dir='ltr'] {
+  direction: ltr;
+}
+[dir='rtl'] table th,
+[dir='rtl'] table td { text-align: start; }
+
+/* Numbers, dates, URLs and currency amounts are LTR runs wherever they sit. */
+.tabular-nums,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+  unicode-bidi: isolate;
+}
+[dir='rtl'] .tabular-nums,
+[dir='rtl'] [data-numeric] { direction: ltr; }
+
+/* The ticker slides the other way in RTL. */
+[dir='rtl'] .ticker { animation-direction: reverse; }
+
+/* ============================================================
+   Layout hardening for longer strings
+   ------------------------------------------------------------
+   Telugu and Tamil run 20-40% longer than the same English, Urdu
+   longer still. These rules stop that from clipping or overflowing
+   rather than relying on every call site getting it right.
+   ============================================================ */
+
+/* Nothing may push the page sideways, in any language. */
+html, body { overflow-x: hidden; }
+
+/* Long unbroken tokens (URLs, transliterated names) wrap instead of
+   stretching their container. */
+body { overflow-wrap: break-word; }
+
+/* Flex and grid children default to min-width:auto, which is what makes a
+   long label refuse to shrink and blow out the row. */
+.flex > *, .grid > * { min-width: 0; }
+
+/* A fixed height is a promise about text length that only English keeps.
+   Outside English, let those boxes grow. */
+html:not([lang='en']) [data-flex-h] { height: auto !important; min-height: var(--flex-h, auto); }
+
+/* Truncation hides meaning. Where a label was clipped to fit English, let
+   it wrap in scripts that need more room. */
+html:not([lang='en']) [data-nowrap-en] {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}

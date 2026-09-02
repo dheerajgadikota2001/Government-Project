@@ -15,19 +15,28 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
 from app.config import settings
-from app.database import init_db, close_db
+from app.middleware import CacheControlMiddleware
+from app.database import init_db, close_db, engine
 from app.services.cache import close_redis
 from app.utils.logger import logger
 
 # Import all routers
 from app.routers import (
+    community,
+    contacts,
+    meta,
     projects,
+    project_register,
+    school_education,
+    state_facts,
     tenders,
     news,
     mous,
     documents,
     search,
     voice,
+    finances,
+    governments,
 )
 
 
@@ -76,13 +85,19 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins_list,
     allow_credentials=False,   # No auth cookies (public platform)
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
 # Gzip compression — reduces bandwidth for large JSON responses
 # Especially important for village users on slow mobile connections
 app.add_middleware(GZipMiddleware, minimum_size=500)
+
+# Cache-Control headers.
+# Added last, so it is the OUTERMOST middleware and stamps the response after
+# everything else has finished with it. It denies by default: every response
+# leaves as no-store unless its path is on the allowlist in that module.
+app.add_middleware(CacheControlMiddleware)
 
 # Rate limiter
 app.state.limiter = limiter
@@ -92,6 +107,13 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 API_V1 = "/api/v1"
 
+# The register goes in FIRST, and the order matters. Both routers live under
+# /projects, and projects.router declares GET /projects/{project_id} with an int
+# path parameter. FastAPI matches in registration order, so with projects.router
+# first, a request for /projects/register was matched against {project_id},
+# failed to parse "register" as an int, and returned 422 — the endpoint was
+# unreachable no matter what it contained. Specific paths before wildcards.
+app.include_router(project_register.router, prefix=API_V1)
 app.include_router(projects.router, prefix=API_V1)
 app.include_router(tenders.router, prefix=API_V1)
 app.include_router(news.router, prefix=API_V1)
@@ -99,17 +121,46 @@ app.include_router(mous.router, prefix=API_V1)
 app.include_router(documents.router, prefix=API_V1)
 app.include_router(search.router, prefix=API_V1)
 app.include_router(voice.router, prefix=API_V1)
+app.include_router(finances.router, prefix=API_V1)
+app.include_router(governments.router, prefix=API_V1)
+app.include_router(community.router, prefix=API_V1)
+app.include_router(meta.router, prefix=API_V1)
+app.include_router(school_education.router, prefix=API_V1)
+app.include_router(state_facts.router, prefix=API_V1)
+app.include_router(contacts.router, prefix=API_V1)
 
 # ── Health & Info Endpoints ──────────────────────────────────────────────────
 
 @app.get("/health", tags=["System"])
 async def health_check():
-    """Health check endpoint — used by Render.com, GCP, load balancers."""
-    return {
-        "status": "healthy",
+    """
+    Health check for Cloud Run, uptime monitors and load balancers.
+
+    It reports the DATABASE too, on purpose: a container that is up but cannot
+    reach Postgres serves no data, and an uptime alert that only pings the
+    process would stay green through exactly the outage that matters. Returns
+    503 when the database is unreachable so the monitor fires.
+    """
+    from sqlalchemy import text as _sql_text
+
+    db_ok = True
+    db_error = None
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(_sql_text("SELECT 1"))
+    except Exception as exc:  # noqa: BLE001 — any failure means "not serving"
+        db_ok = False
+        db_error = type(exc).__name__
+
+    body = {
+        "status": "healthy" if db_ok else "degraded",
+        "db": "ok" if db_ok else "unreachable",
         "version": settings.app_version,
         "environment": settings.app_env,
     }
+    if db_error:
+        body["db_error"] = db_error
+    return JSONResponse(status_code=200 if db_ok else 503, content=body)
 
 
 @app.get("/", tags=["System"])
