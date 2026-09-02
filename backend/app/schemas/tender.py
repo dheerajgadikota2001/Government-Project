@@ -43,5 +43,8 @@ class TenderListOut(BaseModel):
     estimated_value: Optional[float] = None
     department: Optional[str] = None
     bid_submission_end: Optional[datetime] = None
+    published_date: Optional[datetime] = None
+    nit_number: Optional[str] = None
+    source_portal: Optional[str] = None
 
     model_config = {"from_attributes": True}

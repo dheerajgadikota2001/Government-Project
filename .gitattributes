@@ -1,0 +1,29 @@
+# Line endings.
+#
+# The repo is edited from Windows, from WSL and from a Linux sandbox, and
+# without this every hop rewrites whole files as CRLF/LF churn — three files
+# showed as "modified" seconds after being committed, with no change in them.
+# Text is normalised to LF in the repository and checked out however the
+# platform prefers; binaries are declared so git never touches them.
+* text=auto
+
+# Shell scripts must stay LF even on Windows: a CRLF shebang is not a shebang,
+# and the Cloud Run image runs these.
+*.sh   text eol=lf
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
+
+# Never normalise these — a "fixed" line ending corrupts the file.
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.pdf   binary
+*.dump  binary
+*.tgz   binary
+*.zip   binary
+*.exe   binary

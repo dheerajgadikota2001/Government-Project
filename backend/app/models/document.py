@@ -1,5 +1,10 @@
 """
 Document model — official government documents (budgets, bills, policy orders, reports).
+
+Provenance is the whole point of this table: every document row must be able
+to answer "which government portal published this, on which page did we find
+it, and when did we last check". Rows that cannot answer that should not be
+shown to the public.
 """
 
 import enum
@@ -7,7 +12,7 @@ from datetime import datetime
 from typing import Optional
 
 from sqlalchemy import BigInteger, DateTime, Enum, Index, Integer, String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
@@ -60,10 +65,20 @@ class Document(Base):
     file_type: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # pdf, docx etc.
     page_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
 
-    # Storage
-    source_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)   # Original govt URL
-    storage_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)  # Our GCS copy URL
-    source_portal: Mapped[str] = mapped_column(String(100), nullable=False)
+    # Storage & provenance
+    source_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)   # Direct URL of the file on the govt portal
+    storage_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)  # Our cached copy (GCS)
+    source_portal: Mapped[str] = mapped_column(String(100), nullable=False)          # e.g. "GOIR", "AP Finance", "CAG"
+
+    # The PAGE the file was found on — distinct from the file URL itself.
+    # This is what lets the UI say "collected from this particular page".
+    source_page_url: Mapped[Optional[str]] = mapped_column(String(1000), nullable=True)
+    source_page_title: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+
+    # Integrity: SHA-256 of the file as retrieved. If the portal later serves
+    # different bytes at the same URL, we can prove what we actually mirrored.
+    sha256: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    retrieved_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
 
     # Translation
     translation_status: Mapped[DocumentTranslationStatus] = mapped_column(
@@ -86,6 +101,14 @@ class Document(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
     )
     last_scraped_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Entities this document substantiates (projects, MoUs, tenders).
+    links = relationship(
+        "DocumentLink",
+        back_populates="document",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
 
     __table_args__ = (
         Index("ix_documents_type_year", "document_type", "year"),

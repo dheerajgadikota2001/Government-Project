@@ -1,0 +1,718 @@
+{
+ "state": "AP",
+ "_readme": "Andhra Pradesh SCHOOL EDUCATION Government Orders from the state's own Government Orders Issue Register, June 2014 to August 2026, covering three governments. Order COUNTS are complete. For money there is no single honest total, so three readings are carried and the platform shows all three rather than choosing: (A) the register's GO Amount column as published; (B) the same, except where an order's own text contradicts the column the order's wording wins; (C) B plus the orders whose column reads 0 although their text states a figure. Which government spent more depends on which reading you take. That is the finding, not a problem to tidy away.",
+ "source": {
+  "publisher": "Government of Andhra Pradesh",
+  "name": "Government Orders Issue Register (GOIR)",
+  "url": "https://goir.ap.gov.in/",
+  "retrieved": "2026-08-28",
+  "method": "Portal Export of a search with Department = SCHOOL EDUCATION; all sections, G.O types and categories; NO keyword; dates 01-06-2014 to 28-08-2026. Searched by department and date rather than by scheme name on purpose: scheme names are party branding and searching one would surface one government's record while hiding the others.",
+  "document_url_pattern": "https://goir.ap.gov.in/dgo.ashx?gid=<id>&fileType=E",
+  "register_own_footer": "Site Last Updated: 25/09/2024",
+  "access_note": "The register refuses connections from outside India. Retrieved in-browser on an India route by the maintainer; document ids harvested from the result pages and joined to the export."
+ },
+ "coverage": {
+  "orders_total": 4896,
+  "orders_linked_to_document": 4878,
+  "orders_without_document": 18,
+  "orders_not_issued": 20,
+  "link_coverage_note": "Every order without a document link has the subject 'Not Issued' — a G.O number reserved but never used, so no document exists. There are no orders whose document we simply failed to find.",
+  "amount_column_filled_above_zero": 686,
+  "amount_column_explicit_zero": 4210,
+  "orders_stating_a_figure_in_text": 1597,
+  "column_zero_but_text_states_figure": 1034,
+  "column_and_text_conflict": 8,
+  "telugu_versions": 2,
+  "telugu_note": "Only 2 of 4,896 orders are published in Telugu. The state issues its school education orders almost entirely in English.",
+  "caveat": "These are sanction and release ORDERS that happen to state a figure. They are a FLOOR, never departmental spending, and must not be merged with the Demands for Grants capital outlay series.",
+  "tenure_bucket_note": "Four buckets, not three: two orders fall before the first post-bifurcation government took office on 8 June 2014 and are held separately so no government is credited with them. Bucket order counts sum exactly to orders_total."
+ },
+ "tenures": [
+  {
+   "key": "pre_tenure",
+   "party": null,
+   "chief_minister": null,
+   "from": "2014-06-01",
+   "to": "2014-06-07",
+   "label": "Before the first post-bifurcation government",
+   "why_separate": "Andhra Pradesh was bifurcated on 2 June 2014 and the first government of the residuary state was sworn in on 8 June 2014. These orders fall on or before 7 June 2014, so they belong to no elected government of the present state. They are kept separate rather than added to the first tenure, which would credit that government with money released before it existed.",
+   "orders": 2,
+   "orders_with_any_figure": 1,
+   "orders_linked": 2,
+   "reading_a_register_column_rupees": 1524596000,
+   "reading_b_text_wins_conflicts_rupees": 1524596000,
+   "reading_c_text_also_fills_gaps_rupees": 1524596000,
+   "orders_detail": [
+    {
+     "date": "2014-06-01",
+     "go": "RT-182",
+     "amount_rupees": 0,
+     "quote": "School Education Department – RVM(SSA) – Smt.B.Padmavathi, Project Officer, RVM (SSA) Krishna District on deputation basis - Repatriation to his parent department i.e Revenue  Department – Orders – Issued.",
+     "document": "https://goir.ap.gov.in/dgo.ashx?gid=320355&fileType=E"
+    },
+    {
+     "date": "2014-06-06",
+     "go": "MS-24",
+     "amount_rupees": 1524596000,
+     "quote": "SE Dept – B.E. 2014-15 –  Non-Plan - Budget Release Order for an amount of        Rs. 152,45,96,000/- (Rupees One Hundred Fifty Two Crores Forty Five Lakhs and Ninety Six Thousands only)  towards meeting the expenditure for the months of June, July and August 2014 – Issued - Administrative Sanction ",
+     "document": "https://goir.ap.gov.in/dgo.ashx?gid=320493&fileType=E"
+    }
+   ]
+  },
+  {
+   "key": "tdp1",
+   "party": "TDP",
+   "chief_minister": "N. Chandrababu Naidu",
+   "from": "2014-06-08",
+   "to": "2019-05-29",
+   "orders": 2004,
+   "orders_with_any_figure": 619,
+   "orders_linked": 1999,
+   "reading_a_register_column_rupees": 228100639163,
+   "reading_b_text_wins_conflicts_rupees": 183423577863,
+   "reading_c_text_also_fills_gaps_rupees": 208914290893
+  },
+  {
+   "key": "ysrcp",
+   "party": "YSRCP",
+   "chief_minister": "Y.S. Jagan Mohan Reddy",
+   "from": "2019-05-30",
+   "to": "2024-06-11",
+   "orders": 2054,
+   "orders_with_any_figure": 683,
+   "orders_linked": 2053,
+   "reading_a_register_column_rupees": 186782806414,
+   "reading_b_text_wins_conflicts_rupees": 181799560414,
+   "reading_c_text_also_fills_gaps_rupees": 184475150499
+  },
+  {
+   "key": "tdp2",
+   "party": "TDP",
+   "chief_minister": "N. Chandrababu Naidu",
+   "from": "2024-06-12",
+   "to": null,
+   "orders": 836,
+   "orders_with_any_figure": 417,
+   "orders_linked": 824,
+   "reading_a_register_column_rupees": 120333151271,
+   "reading_b_text_wins_conflicts_rupees": 120333151271,
+   "reading_c_text_also_fills_gaps_rupees": 127286246696
+  }
+ ],
+ "by_year": [
+  {
+   "year": 2014,
+   "orders": 137,
+   "orders_with_any_figure": 66,
+   "reading_a_rupees": 16984095250,
+   "reading_b_rupees": 16984095250,
+   "reading_c_rupees": 20721577250
+  },
+  {
+   "year": 2015,
+   "orders": 362,
+   "orders_with_any_figure": 110,
+   "reading_a_rupees": 27057394448,
+   "reading_b_rupees": 27056641148,
+   "reading_c_rupees": 31918368851
+  },
+  {
+   "year": 2016,
+   "orders": 425,
+   "orders_with_any_figure": 77,
+   "reading_a_rupees": 56296348944,
+   "reading_b_rupees": 11253328944,
+   "reading_c_rupees": 23716699251
+  },
+  {
+   "year": 2017,
+   "orders": 376,
+   "orders_with_any_figure": 91,
+   "reading_a_rupees": 72636568161,
+   "reading_b_rupees": 73003280161,
+   "reading_c_rupees": 76872577411
+  },
+  {
+   "year": 2018,
+   "orders": 508,
+   "orders_with_any_figure": 186,
+   "reading_a_rupees": 34711411360,
+   "reading_b_rupees": 34711411360,
+   "reading_c_rupees": 35243217909
+  },
+  {
+   "year": 2019,
+   "orders": 437,
+   "orders_with_any_figure": 157,
+   "reading_a_rupees": 32678195000,
+   "reading_b_rupees": 32678195000,
+   "reading_c_rupees": 32897482010
+  },
+  {
+   "year": 2020,
+   "orders": 316,
+   "orders_with_any_figure": 131,
+   "reading_a_rupees": 30567864415,
+   "reading_b_rupees": 28584591415,
+   "reading_c_rupees": 29402075813
+  },
+  {
+   "year": 2021,
+   "orders": 382,
+   "orders_with_any_figure": 134,
+   "reading_a_rupees": 44989534663,
+   "reading_b_rupees": 44989561663,
+   "reading_c_rupees": 45534949683
+  },
+  {
+   "year": 2022,
+   "orders": 420,
+   "orders_with_any_figure": 94,
+   "reading_a_rupees": 53665738816,
+   "reading_b_rupees": 50665738816,
+   "reading_c_rupees": 51078359957
+  },
+  {
+   "year": 2023,
+   "orders": 442,
+   "orders_with_any_figure": 115,
+   "reading_a_rupees": 18263706509,
+   "reading_b_rupees": 18263706509,
+   "reading_c_rupees": 18580046578
+  },
+  {
+   "year": 2024,
+   "orders": 554,
+   "orders_with_any_figure": 343,
+   "reading_a_rupees": 44012658481,
+   "reading_b_rupees": 44012658481,
+   "reading_c_rupees": 44439934745
+  },
+  {
+   "year": 2025,
+   "orders": 376,
+   "orders_with_any_figure": 178,
+   "reading_a_rupees": 46213620052,
+   "reading_b_rupees": 46213620052,
+   "reading_c_rupees": 52974135058
+  },
+  {
+   "year": 2026,
+   "orders": 161,
+   "orders_with_any_figure": 38,
+   "reading_a_rupees": 58664056749,
+   "reading_b_rupees": 58664056749,
+   "reading_c_rupees": 58820859572
+  }
+ ],
+ "scheme_names": [
+  {
+   "name": "Nadu Nedu",
+   "orders": 13,
+   "years": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+   ],
+   "tenures": [
+    "ysrcp"
+   ],
+   "reading_c_rupees": 2510000000,
+   "first": "2020-08-13",
+   "last": "2024-02-29"
+  },
+  {
+   "name": "Mana Badi",
+   "orders": 37,
+   "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+   ],
+   "tenures": [
+    "tdp2",
+    "ysrcp"
+   ],
+   "reading_c_rupees": 16017200000,
+   "first": "2019-11-30",
+   "last": "2026-07-10"
+  },
+  {
+   "name": "Mana Bhavishyathu",
+   "orders": 8,
+   "years": [
+    2024,
+    2025,
+    2026
+   ],
+   "tenures": [
+    "tdp2"
+   ],
+   "reading_c_rupees": 8507200000,
+   "first": "2024-11-06",
+   "last": "2026-07-10"
+  },
+  {
+   "name": "Samagra Shiksha",
+   "orders": 204,
+   "years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+   ],
+   "tenures": [
+    "tdp1",
+    "tdp2",
+    "ysrcp"
+   ],
+   "reading_c_rupees": 164074676408,
+   "first": "2018-09-28",
+   "last": "2026-08-20"
+  },
+  {
+   "name": "Amma Vodi",
+   "orders": 8,
+   "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+   ],
+   "tenures": [
+    "ysrcp"
+   ],
+   "reading_c_rupees": 15000,
+   "first": "2019-11-04",
+   "last": "2023-06-16"
+  },
+  {
+   "name": "Vidya Kanuka",
+   "orders": 15,
+   "years": [
+    2020,
+    2021,
+    2022,
+    2024
+   ],
+   "tenures": [
+    "ysrcp"
+   ],
+   "reading_c_rupees": 9407980866,
+   "first": "2020-03-06",
+   "last": "2024-01-10"
+  },
+  {
+   "name": "Gorumudda",
+   "orders": 3,
+   "years": [
+    2020,
+    2022,
+    2023
+   ],
+   "tenures": [
+    "ysrcp"
+   ],
+   "reading_c_rupees": 4384248000,
+   "first": "2020-10-28",
+   "last": "2023-03-10"
+  }
+ ],
+ "conflicts": [
+  {
+   "date": "2016-12-19",
+   "go": "RT-293",
+   "tenure": "tdp1",
+   "register_column_rupees": 45498000000,
+   "order_text_rupees": 454980000,
+   "ratio_column_over_text": 100.0,
+   "quote": "School Education – ICT Scheme - Digital classrooms in 3620 (2852+768) High Schools with an amount of Rs.45,49,80,000/-(Rupees Forty five Crores Forty Nine Lakhs and Eighty Thousand only) from the B.E. 2016-17 – Administrative approval accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=378880&fileType=E"
+  },
+  {
+   "date": "2022-12-26",
+   "go": "RT-211",
+   "tenure": "ysrcp",
+   "register_column_rupees": 9858713000,
+   "order_text_rupees": 6858713000,
+   "ratio_column_over_text": 1.4374,
+   "quote": "School Education - Budget Estimates 2022-23 - Budget Release Order for an amount of Rs.685,87,13,000/-, towards procurement of about 5 lakhs Tabs and supply to the VIII Class students during the Academic year 2022-23 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=490017&fileType=E"
+  },
+  {
+   "date": "2020-09-24",
+   "go": "RT-196",
+   "tenure": "ysrcp",
+   "register_column_rupees": 2203636333,
+   "order_text_rupees": 220363333,
+   "ratio_column_over_text": 10.0,
+   "quote": "School Education Department – Budget Estimates 2020 - 2021 – Administrative Sanction accorded for an amount of Rs.22,03,63,333/- (Rupees Twenty Two Crores Three Lakhs Sixty Three Thousand Three Hundred Thirty Three only) towards implementation of the Samagra Shiksha (Elementary Education-EE) - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=461775&fileType=E"
+  },
+  {
+   "date": "2017-05-02",
+   "go": "RT-75",
+   "tenure": "tdp1",
+   "register_column_rupees": 44079000,
+   "order_text_rupees": 440790000,
+   "ratio_column_over_text": 0.1,
+   "quote": "School Education Department – Administrative Sanction for an amount of              Rs.44,07,90,000/- (Forty Four Crores, Seven Lakhs, Ninety Thousand only)  from the BE provision 2017-18 towards maintenance of toilets in Government Schools in the State  - Accorded - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=387106&fileType=E"
+  },
+  {
+   "date": "2017-07-04",
+   "go": "RT-114",
+   "tenure": "tdp1",
+   "register_column_rupees": 886623000,
+   "order_text_rupees": 856623000,
+   "ratio_column_over_text": 1.035,
+   "quote": "School Education Department – BE 2017-18 - Administrative Sanction accorded  for an amount of  Rs.85,66,23,000/-  (Rupees Eighty Five Crores Sixty Six Lakhs Twenty Three  Thousands)   towards implementation of Mid Day Meals Scheme for I-VIII Classes - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=390872&fileType=E"
+  },
+  {
+   "date": "2015-06-09",
+   "go": "RT-127",
+   "tenure": "tdp1",
+   "register_column_rupees": 837000,
+   "order_text_rupees": 83700,
+   "ratio_column_over_text": 10.0,
+   "quote": "Medical Attendance - Medical Reimbursement claim in respect of Sri J.Subramanyam Chetty, Retired PET, ZPHS, Sorakayalapalem, R.C.Puram Mandal, Chittoor District  - Sanction for an amount of  Rs. 83,700/- (Rupees eighty three thousand seen hundred only)- in  relaxation of APIMA Rules 1972   Orders -  Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=343796&fileType=E"
+  },
+  {
+   "date": "2021-10-04",
+   "go": "RT-242",
+   "tenure": "ysrcp",
+   "register_column_rupees": 60458000,
+   "order_text_rupees": 60485000,
+   "ratio_column_over_text": 0.9996,
+   "quote": "School Education - Budget Estimates 2021 - 22 - Budget Release Order for Rs.6,04,85,000/-, as additional funds in relaxation of treasury control and quarterly regulation orders during the C.F.Y 2021-22 towards clearance of pending bills under AP CM CUP 2018-19 - Administrative Sanction - Accorded -\nOrders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=520418&fileType=E"
+  },
+  {
+   "date": "2017-03-09",
+   "go": "RT-40",
+   "tenure": "tdp1",
+   "register_column_rupees": 621161,
+   "order_text_rupees": 622161,
+   "ratio_column_over_text": 0.9984,
+   "quote": "School Education Department - Income Tax – Payment of Income Tax by  State Government on behalf of Hon’ble Ministers for School Education Department for the Financial Year 2016-17(Assessment year 2017-18) – Sanction of Expenditure towards Income Tax – Rs.6,22,161/- Orders – Issued",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=383858&fileType=E"
+  }
+ ],
+ "largest_orders": [
+  {
+   "date": "2017-08-07",
+   "go": "MS-63",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 48480000000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Proposal for providing necessary infrastructure in all Govt. Schools in the State on Hybrid Annuity Mode (HAM) – Accorded Administrative approval to take up woks by calling for Request For Proposal/Tender – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=393167&fileType=E"
+  },
+  {
+   "date": "2021-06-02",
+   "go": "RT-134",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 12500000000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2020 – 2021 (Vote on Account) – Administrative Sanction for an amount of Rs.1250,00,00,000/- towards implementation of MANABADI-NAADU NEDU programme during the C.F.Y 2021-22 - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=473949&fileType=E"
+  },
+  {
+   "date": "2026-01-19",
+   "go": "MS-1",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 9445300000,
+   "in_conflict_list": false,
+   "quote": "School Education – Administrative approval for an amount of Rs.944.53 crores (Central share of Rs.291.88 crores + State share of Rs.652.65 crores) for procurement and supply of Student Kits to students studying classes I to X in all Government Management Schools for the academic year 2024-25 and to provide budget provision for an amount of Rs.652.65 crores under the relevant head from the State Budget – Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=567698&fileType=E"
+  },
+  {
+   "date": "2018-12-20",
+   "go": "RT-399",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 9376392000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Budget Estimates 2018-19 - Administrative sanction accorded for an amount of Rs.9,37,63,92,000/- ( Rupees Nine hundred thirty seven crore sixty three lakh ninety two thousand only) towards implementation of interventions related to Elementary Education components and mandatory provisions of the RTE Act, 2009 through Samagra Siksha Abhiyan for the F.Y 2018-19 – Amendment - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=426084&fileType=E"
+  },
+  {
+   "date": "2018-10-09",
+   "go": "RT-308",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 9376392000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Budget Estimates 2018-19 - Administrative sanction accorded for an amount of Rs.9,37,63,92,000/- ( Rupees Nine hundred thirty seven crore sixty three lakh ninety two thousand only) towards implementation of interventions related to Elementary Education components and mandatory provisions of the RTE Act, 2009 through Samagra Siksha Abhiyan for the F.Y 2018-19 - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=421216&fileType=E"
+  },
+  {
+   "date": "2026-03-18",
+   "go": "MS-5",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 8675641048,
+   "in_conflict_list": false,
+   "quote": "School Education – Revised Administrative Sanction for Rs.867.56 crore for procurement and supply of student KITs comprising of Notebooks, Belt, Shoes, Bag, Pictorial Dictionary, Oxford Dictionary, Textbooks, Workbooks and three pairs of uniform cloth, to all students studying in Class I to X in all Government Management Schools under Sarvepalli Radhakrishnan Vidyarthi Mitra (SRKVM-II) for the Academic Year 2026-27– Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=571749&fileType=E"
+  },
+  {
+   "date": "2025-12-12",
+   "go": "MS-41",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 8300405695,
+   "in_conflict_list": false,
+   "quote": "School Education - Administrative approval for an amount of Rs. 830.04 Crores for procurement and supply of students KITs comprising of Notebooks, Belt, Shoes, Bag, Pictorial Dictionary, Oxford Dictionary, Textbooks, Workbooks and three pairs of uniform cloth, to all students studying in Class I to X in all Government Management Schools under Sarvepalli Radhakrishnan Vidyarthi Mitra for the Academic Year 2026-27– Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=565614&fileType=E"
+  },
+  {
+   "date": "2016-12-05",
+   "go": "RT-283",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 7877931000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Budget Estimates 2016-17 - Administrative Sanction for an amount of Rs.787,79,31,000/- (Rupees Seven Hundred Eighty Seven Crores Seventy Nine Lakhs Thirty one Thousand only) in relaxation of Treasury Control and Quarterly Regulation Orders to APSSA -   Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=378166&fileType=E"
+  },
+  {
+   "date": "2026-08-05",
+   "go": "RT-132",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 7179135667,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Release Order for an amount of Rs.717,91,35,667/- from the BE provision 2026-27 for the purpose of towards 1st instalment under Samagra Shiksha for implementation of activities related to Elementary Education, Secondary Education and Teacher Education as per activities approved in PAB, for the F.Y. 2026-27 – Administrative Sanction – Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=582539&fileType=E"
+  },
+  {
+   "date": "2022-10-21",
+   "go": "RT-182",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6960472000,
+   "in_conflict_list": false,
+   "quote": "School Education - Budget Estimates 2022-23 - Budget Release Order for an amount of Rs.696,04,72,000/- as Central Share (60%) of 1st installment for Samagra Shiksha interventions during the f.y 2022-23 towards recurring expenses (General/SAP/SC/ST) of Elementary Education, Secondary Education & Teacher Education Activities - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=491122&fileType=E"
+  },
+  {
+   "date": "2022-12-26",
+   "go": "RT-211",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6858713000,
+   "in_conflict_list": true,
+   "quote": "School Education - Budget Estimates 2022-23 - Budget Release Order for an amount of Rs.685,87,13,000/-, towards procurement of about 5 lakhs Tabs and supply to the VIII Class students during the Academic year 2022-23 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=490017&fileType=E"
+  },
+  {
+   "date": "2023-04-17",
+   "go": "RT-55",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6361854000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2023-24 – Budget Release Order for an amount of Rs.636,18,54,000/- as 2nd installment for implementation of Samagra Shiksha (Elementary Education Activities, Secondary Education Activities & Teacher Education Activities) recurring and non-recurring expenses for Samagra Shiksha interventions during the F.Y. 2022-2023 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=489271&fileType=E"
+  },
+  {
+   "date": "2025-04-29",
+   "go": "RT-149",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6199612000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2025-26 – Budget Release Orders for an amounts of Rs.6,19,96,12,000/- towards meeting the expenditure as 4th installment for the implementation of activities related to Elementary Education, Secondary Education, and Teacher Education under Samagra Shiksha scheme as per the activities approved in PAB, for the F.Y 2024-2025 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=549789&fileType=E"
+  },
+  {
+   "date": "2025-03-31",
+   "go": "RT-101",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6199612000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for an amount of Rs.6,19,96,12,000/- towards meeting the expenditure as 4th   installmen for implementation of activities related to Elementary, Secondary, Teacher Education, under Samagra Shiksha as per the activities approved in PAB, for the F.Y. 2024-2025 - Administrative Sanction - Accorded - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=547869&fileType=E"
+  },
+  {
+   "date": "2026-07-17",
+   "go": "RT-122",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 6055641000,
+   "in_conflict_list": false,
+   "quote": "School Education – Administrative Sanction for an amount of Rs.605,56,41,000/- (Rupees Six hundred five crore fifty six lakh forty one thousand only) from the BE provision 2026-27 for the purpose of towards the Exclusive State Share (as per G.O.Ms.No.5, School Education (PROG.II) Department, dt.18.03.2026) for implementation of the \"Sarvepalli Radhakrishnan Vidyarthi Mitra (SRKVM-II)\" Programme for the Academic Year 2026-27 in relaxation of quarterly regulation towards meeting the expenditure under the scheme – Acc",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=581142&fileType=E"
+  },
+  {
+   "date": "2024-03-07",
+   "go": "RT-92",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5993747000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2023-24 – Budget Release Order for an amount of Rs.5,99,37,47,000/-, towards meeting the expenditure as 3rd installment of Elementary Secondary & Teacher Education Activities recurring expenses for Samagra Shiksha interventions – Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=487557&fileType=E"
+  },
+  {
+   "date": "2025-09-27",
+   "go": "RT-289",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5930290000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2025-26 – Budget Release Order for an amount of Rs.5,93,02,90,000/- from BE provision 2025-26 for the purpose of towards 1st installment including both recurring and non- recurring expenditures to the said SNA account of A.P., Samagra Shiksha society for implementation of activities under Samagra Shiksha approved by PAB for FY 2025-26 – Administrative Sanction – Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=560482&fileType=E"
+  },
+  {
+   "date": "2026-05-27",
+   "go": "RT-55",
+   "tenure": "tdp2",
+   "section": "PROGRAM-IV",
+   "amount_rupees": 5711100000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Mana Badi Mana Bhavishyathu Programme – Strengthening of infrastructure in 5,989 Model Primary Schools (MPS) across the State with 10 components during the year 2026-27 – Administrative Sanction accorded for an amount of Rs.571.11 Crores – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=576906&fileType=E"
+  },
+  {
+   "date": "2021-07-28",
+   "go": "RT-180",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5411836000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2021 – 22 – Budget Release order for Rs.541,18,36,000/- as 2nd installment relating to the FY 2020-21 for implementation of Samagra Shiksha (EE/SE/TE) recurring expenses Interventions – Administrative Sanction - Accorded - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=477009&fileType=E"
+  },
+  {
+   "date": "2025-12-12",
+   "go": "RT-323",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5298569000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2025-26 – Budget Release Order for an amount of Rs.529,85,69,000 /- from the BE provision 2025-26 towards 2nd installment for implementation of activities related to Elementary Education, Secondary Education, Teacher Education, under Samagra Shiksha as per the activities approved in PAB, for the F.Y 2025- 2026 – Administrative Sanction – Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=565562&fileType=E"
+  },
+  {
+   "date": "2022-11-09",
+   "go": "RT-200",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5282700000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2022-23 – Budget Release Order for an amount of Rs.528,27,00,000/- as additional funds towards pending bills payment of exclusive State share of JVK 2022-23 (JVK-3) - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=490347&fileType=E"
+  },
+  {
+   "date": "2025-03-18",
+   "go": "RT-92",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5266745000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for an amount of Rs.52667.45 Lakhs (Rupees Five Hundred Twenty Six Crores Sixty Seven Lakhs and Forty Five Thousand    only) towards meeting the expenditure as 3rd installment of Elementary Education, Secondary Education and Teacher Education activities recurring and non-recurring expenses for Samagra Shiksha interventions for the FY 2024-25 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=546252&fileType=E"
+  },
+  {
+   "date": "2024-04-19",
+   "go": "RT-144",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5259189000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for an amount of Rs.5,25,91,89,000/-,(Rupees Five hundred twenty five crore ninety one lakh eighty nine thousand only) towards meeting the expenditure as 4th installment of Elementary Education, Secondary Education and Teacher Education Activities, of recurring expenses for Samagra Shiksha interventions for the year 2023-24 - Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=487324&fileType=E"
+  },
+  {
+   "date": "2024-04-15",
+   "go": "RT-141",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 5259189000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Estimates 2024-25 – Budget Release Order for an amount of Rs. 5,25,91,89,000/-(Rupees Five hundred twenty five crore ninety one lakh eighty nine thousand only) towards meeting the expenditure, as 4th installment of Elementary Education, Secondary Education and Teacher Education activities, of recurring expenses for Samagra Shiksha interventions F.Y 2023-2024.   – Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=488362&fileType=E"
+  },
+  {
+   "date": "2017-08-01",
+   "go": "RT-147",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4993500000,
+   "in_conflict_list": false,
+   "quote": "School Education Department – Budget Estimates 2017-18 - Administrative sanction accorded for an amount of Rs.49935.00 Lakhs (GOI Share of Rs.29961.00  lakhs + GOAP share  of  Rs.19974.00 Lakhs) in relaxation of quarterly regulation orders towards implement the AWP&B activities during the financial year 2017-18 under SSA - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=392815&fileType=E"
+  },
+  {
+   "date": "2022-03-07",
+   "go": "RT-39",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4946092000,
+   "in_conflict_list": false,
+   "quote": "Budget Estimates 2021 - 2022 – Budget Release Order for an amount of Rs.494,60,92,000/-, towards payment  of the pending bills related to Jaganna Vidya Kanuka for the Academic year 2021-22– Administrative Sanction - Accorded - Orders - Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=491690&fileType=E"
+  },
+  {
+   "date": "2019-02-26",
+   "go": "RT-66",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4875300000,
+   "in_conflict_list": false,
+   "quote": "SE Dept. - APSSA - Civil Works – Maintenance, repairs, paintings and providing additional amenities to Model Primary and Upper Primary Schools with an amount of Rs.48753.00 lakhs – Incurred expenditure of Rs.261.46 crores for the works – Adjustment to that extent towards Government Account under Teacher salary component of SSA - Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=431561&fileType=E"
+  },
+  {
+   "date": "2015-11-21",
+   "go": "RT-226",
+   "tenure": "tdp1",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4706051000,
+   "in_conflict_list": false,
+   "quote": "Budget Estimates 2015-16 - Administrative Sanction for an amount of Rs.470,60,51,000/- Plan from the BE provision 2015-16 towards meeting the expenditure to implement the AWP&B activities under SSA to the State Project Director, Sarva Siksha Abhiyan (RVM),  A.P., Hyderabad -   Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=354988&fileType=E"
+  },
+  {
+   "date": "2026-05-02",
+   "go": "RT-47",
+   "tenure": "tdp2",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4695175000,
+   "in_conflict_list": false,
+   "quote": "School Education – Budget Release Order for an amount of Rs.46,951.75 Lakhs towards releasing 4th installment funds for implementation of Samagra Shiksha interventions under Elementary Education, Secondary Education and Teacher Education as per the Annual Work Plan & Budget (AWP&B) 2025-2026 – Administrative Sanction – Accorded – Orders – Issued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=574630&fileType=E"
+  },
+  {
+   "date": "2022-11-23",
+   "go": "RT-209",
+   "tenure": "ysrcp",
+   "section": "PROGRAM-II",
+   "amount_rupees": 4640315000,
+   "in_conflict_list": false,
+   "quote": "School Education - Budget Estimates 2022-23 - Budget Release Order for an amount of Rs.464,03,15,000/- as State Share (40%) of 1 installment for Samagra Shiksha interventions during the F.Y 2022-23 towards Recurring expenses (General/SAP/SC/ST) of Elementary Education, Secondary Education & Teacher Education Activities - Administrative Sanction - Accorded - Orders -\nIssued.",
+   "document": "https://goir.ap.gov.in/dgo.ashx?gid=490298&fileType=E"
+  }
+ ]
+}

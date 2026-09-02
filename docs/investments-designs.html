@@ -1,0 +1,686 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Investments Page Designs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Noto+Sans+Telugu:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#f9f9fe; --surface:#fff; --sc-low:#f4f3f8; --sc:#eeedf2; --sv:#e2e2e7;
+    --ink:#1a1c1f; --ink-2:#43474f; --outline:#737780; --outline-v:#c3c6d1;
+    --primary:#001e40; --primary-c:#003366; --primary-fixed:#d5e3ff;
+    --secondary:#8f4e00; --secondary-c:#fe9832; --secondary-fixed:#ffdcc2;
+    --tdp1:#c9a13e; --ysrcp:#5b84c4; --tdp2:#8a6d1f;
+    --op:#1f6f5b; --is:#2b4f8a; --si:#6b7280; --stl:#9b1c1c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{margin:0;line-height:1.2;text-wrap:balance}
+  p{margin:0}
+  a{color:var(--primary-c)}
+  button{font:inherit}
+  .num{font-variant-numeric:tabular-nums}
+  svg text{font-family:inherit}
+  .chrome{position:sticky;top:0;z-index:60;background:#111827;color:#e5e7eb;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px}
+  .chrome b{color:#fff}
+  .chrome .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .chrome button{background:#1f2937;color:#e5e7eb;border:1px solid #374151;border-radius:6px;padding:6px 12px;cursor:pointer}
+  .chrome button[aria-selected="true"]{background:#fe9832;color:#1a1c1f;border-color:#fe9832;font-weight:700}
+  .chrome .hint{margin-inline-start:auto;color:#9ca3af}
+  .above{max-width:1180px;margin:0 auto;padding:18px 20px 0;font-size:12px;color:var(--outline);text-transform:uppercase;letter-spacing:.08em}
+  .above b{color:var(--ink-2)}
+  .view{display:none}.view.on{display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink-2)}
+  .legend span::before{content:"";display:inline-block;width:14px;height:10px;margin-inline-end:6px;vertical-align:middle;border-radius:2px}
+  .legend .t1::before{background:var(--tdp1)} .legend .t2::before{background:var(--ysrcp)} .legend .t3::before{background:var(--tdp2)}
+  .legend .none::before{background:transparent;border:1.5px dashed var(--outline)}
+  .legend .unc::before{background:repeating-linear-gradient(45deg,#fff 0 3px,var(--outline-v) 3px 5px);border:1.5px dashed var(--outline)}
+  .doc{display:inline-block;font-size:12px;color:var(--primary-c);background:var(--primary-fixed);border-radius:999px;padding:1px 9px;white-space:nowrap}
+  .src-gov,.src-co{display:inline-block;font-size:11px;border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .src-gov{background:#eef7ee;color:#1f5f2f;border:1px solid #9bbf9b}
+  .src-co{background:#f3eefc;color:#4b2d8a;border:1px solid #c7b7e8}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px;vertical-align:middle}
+  .dot.op{background:var(--op)} .dot.is{background:var(--is)} .dot.si{background:var(--si)} .dot.stl{background:var(--stl)} .dot.cx{background:#000}
+
+  /* ============ D1: Reading column ============ */
+  .d1{max-width:760px;margin:0 auto;padding:36px 20px 100px}
+  .d1 .chap{position:relative;padding:34px 0 40px;border-top:1px solid var(--sv)}
+  .d1 .chap:first-child{border-top:0;padding-top:16px}
+  .d1 .cn{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin-bottom:8px}
+  .d1 .take{font-size:26px;font-weight:800;color:var(--primary);line-height:1.25;margin-bottom:8px}
+  .d1 .take b{color:var(--secondary)}
+  .d1 .lede{font-size:16px;color:var(--ink-2);max-width:62ch;margin-bottom:18px}
+  .d1 .from{font-size:13px;color:var(--outline);margin-top:12px}
+  .d1 .aside{font-size:14px;color:var(--ink-2);border-inline-start:3px solid var(--secondary-c);padding:2px 0 2px 14px;margin:14px 0}
+  .d1 .aside summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none}
+  .d1 .aside summary::-webkit-details-marker{display:none}
+  .d1 .aside summary::after{content:" · read the full note";font-weight:400;color:var(--secondary)}
+  .d1 .aside[open] summary::after{content:" · close"}
+  .d1 .aside p{margin-top:8px}
+  .d1 table{width:100%;border-collapse:collapse;font-size:14px}
+  .d1 th{text-align:start;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--outline);padding:6px 0;border-bottom:1px solid var(--ink)}
+  .d1 td{padding:9px 0;border-bottom:1px solid var(--sv);vertical-align:top}
+  .d1 td.r,.d1 th.r{text-align:end}
+  .d1 .quotes{display:flex;flex-direction:column;gap:22px}
+  .d1 .q{display:grid;grid-template-columns:8px 1fr;gap:14px}
+  .d1 .q .bar{border-radius:2px}
+  .d1 .q .h{font-weight:800;font-size:17px;color:var(--primary)}
+  .d1 .q blockquote{margin:6px 0;font-size:16px;font-style:italic;color:var(--ink);line-height:1.5}
+  .d1 .q .r{font-size:14px;color:var(--ink-2)}
+  .d1 .proj{padding:14px 0;border-bottom:1px solid var(--sv)}
+  .d1 .proj .n{font-weight:800;font-size:17px;color:var(--primary)}
+  .d1 .proj .line{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--ink-2);margin-top:6px}
+  .d1 .proj .line span b{color:var(--ink)}
+  .d1 .tot{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;margin:8px 0 6px}
+  .d1 .tot b{display:block;font-size:24px;color:var(--primary)}
+  .d1 .tot span{font-size:12px;color:var(--outline);text-transform:uppercase;letter-spacing:.06em}
+  .d1 .reg tr:nth-child(even) td{background:var(--sc-low)}
+  .d1 .reg td{padding:9px 6px}
+  .d1 .reg .co{font-weight:700}
+  .d1 .reg .m{font-size:12px;color:var(--outline)}
+  .d1 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .d1 .tools input{flex:1 1 200px;border:0;border-bottom:2px solid var(--ink);background:transparent;padding:8px 2px;font:inherit}
+  .d1 .tools button{border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;color:var(--ink-2)}
+
+  /* ============ D2: Dashboard rail ============ */
+  .d2{max-width:1180px;margin:0 auto;padding:24px 20px 100px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px}
+  .d2>*{min-width:0}
+  .d2 .rail{position:sticky;top:60px;align-self:start;background:var(--primary);color:#fff;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px}
+  .d2 .rail .t{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a7c8ff;padding:6px 10px 8px}
+  .d2 .rail button{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:center;text-align:start;background:transparent;color:#dbe4f3;border:0;border-radius:8px;padding:10px 10px;cursor:pointer;font-size:14px;line-height:1.25}
+  .d2 .rail button .k{font-size:11px;font-weight:700;color:#a7c8ff}
+  .d2 .rail button:hover{background:rgba(255,255,255,.08)}
+  .d2 .rail button[aria-selected="true"]{background:var(--secondary-c);color:#1a1c1f;font-weight:700}
+  .d2 .rail button[aria-selected="true"] .k{color:#1a1c1f}
+  .d2 .part{display:none;flex-direction:column;gap:16px}
+  .d2 .part.on{display:flex}
+  .d2 .kf{background:var(--primary);color:#fff;border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center}
+  .d2 .kf .n{font-size:44px;font-weight:800;line-height:1;white-space:nowrap}
+  .d2 .kf .n small{display:block;font-size:12px;font-weight:600;color:#a7c8ff;letter-spacing:.08em;text-transform:uppercase;margin-top:6px}
+  .d2 .kf .s{font-size:18px;font-weight:600;line-height:1.35}
+  .d2 .kf .s em{font-style:normal;color:var(--secondary-c)}
+  .d2 .pane{background:#fff;border:1px solid var(--sv);border-radius:12px;padding:18px 20px}
+  .d2 .pane h3{font-size:16px;font-weight:800;color:var(--primary);margin-bottom:4px}
+  .d2 .pane .sub{font-size:13px;color:var(--ink-2);margin-bottom:12px}
+  .d2 .note{background:var(--secondary-fixed);border-radius:10px;padding:12px 16px;font-size:14px}
+  .d2 .note summary{cursor:pointer;font-weight:700;list-style:none}
+  .d2 .note summary::-webkit-details-marker{display:none}
+  .d2 .note p{margin-top:8px;color:var(--ink-2)}
+  .d2 table{width:100%;border-collapse:collapse;font-size:14px}
+  .d2 th{position:sticky;top:60px;background:var(--sc);text-align:start;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:8px 10px;border-bottom:1px solid var(--outline-v)}
+  .d2 td{padding:10px;border-bottom:1px solid var(--sv);vertical-align:top}
+  .d2 td.r,.d2 th.r{text-align:end}
+  .d2 .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .d2 .qc{border:1px solid var(--sv);border-radius:10px;padding:14px;border-top-width:4px}
+  .d2 .qc .h{font-weight:800;color:var(--primary)}
+  .d2 .qc blockquote{margin:6px 0;font-size:14px;color:var(--ink);line-height:1.5}
+  .d2 .qc .r{font-size:13px;color:var(--ink-2)}
+  .d2 .tot{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .d2 .tot div{background:var(--sc-low);border-radius:10px;padding:12px;text-align:center}
+  .d2 .tot b{display:block;font-size:22px;color:var(--primary)}
+  .d2 .tot span{font-size:12px;color:var(--outline)}
+  .d2 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+  .d2 .tools input{flex:1 1 220px;border:1px solid var(--outline-v);border-radius:8px;padding:9px 12px;font:inherit}
+  .d2 .tools .sel{border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px;color:var(--ink-2)}
+  .d2 .pager{display:flex;justify-content:space-between;gap:10px}
+  .d2 .pager button{border:1px solid var(--outline-v);background:#fff;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600;color:var(--primary)}
+
+  /* ============ D3: Timeline spine ============ */
+  .d3{max-width:1180px;margin:0 auto;padding:28px 20px 100px}
+  .d3 .intro{max-width:70ch;color:var(--ink-2);margin-bottom:6px}
+  .d3 .head{display:grid;grid-template-columns:110px 26px 1fr 1fr;gap:14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--outline);padding:10px 0 6px;border-bottom:1px solid var(--ink);margin-top:18px}
+  .d3 .yr{display:grid;grid-template-columns:110px 26px 1fr 1fr;gap:14px;align-items:stretch;border-bottom:1px solid var(--sv)}
+  .d3 .yr .y{padding:14px 0;font-weight:800;color:var(--primary)}
+  .d3 .yr .y small{display:block;font-weight:500;font-size:11px;color:var(--outline)}
+  .d3 .yr .band{position:relative}
+  .d3 .yr .band::before{content:"";position:absolute;inset:0;left:10px;width:6px;border-radius:0}
+  .d3 .yr.t1 .band::before{background:var(--tdp1)} .d3 .yr.t2 .band::before{background:var(--ysrcp)} .d3 .yr.t3 .band::before{background:var(--tdp2)}
+  .d3 .yr .band i{position:absolute;left:6px;top:18px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+  .d3 .yr.change .band::after{content:"government changed";position:absolute;left:26px;top:-9px;font-size:10px;font-style:normal;background:#fff;color:var(--ink-2);padding:0 6px;border:1px solid var(--outline-v);border-radius:999px;white-space:nowrap;z-index:1}
+  .d3 .cell{padding:14px 0;display:flex;flex-direction:column;gap:8px}
+  .d3 .ev{border-radius:8px;padding:10px 12px;font-size:14px}
+  .d3 .ev.summit{background:var(--sc-low);border:1px solid var(--sv)}
+  .d3 .ev.summit b{display:block;font-size:20px;color:var(--primary)}
+  .d3 .ev.summit .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--outline)}
+  .d3 .ev.built{border:1px solid var(--sv);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+  .d3 .ev.built .n{font-size:22px;font-weight:800;color:var(--primary);white-space:nowrap}
+  .d3 .ev.built .n small{display:block;font-size:11px;color:var(--outline);font-weight:600}
+  .d3 .ev.built .barw{height:14px;background:var(--sc);border-radius:3px;overflow:hidden}
+  .d3 .ev.built .bar{height:100%;border-radius:3px}
+  .d3 .ev.none{border:1.5px dashed var(--outline-v);color:var(--ink-2);font-size:13px}
+  .d3 .ev.unc{border:1.5px dashed var(--outline-v);background:repeating-linear-gradient(45deg,#fff 0 4px,var(--sc) 4px 7px);color:var(--ink-2);font-size:13px}
+  .d3 .ev.quote{background:var(--secondary-fixed);border-inline-start:4px solid var(--secondary-c);font-size:13px}
+  .d3 .ev.quote .h{font-weight:800;color:var(--primary)}
+  .d3 .ev.quote blockquote{margin:4px 0;font-style:italic}
+  .d3 .ev.quote .r{color:var(--ink-2)}
+  .d3 .ev.mou{font-size:13px;color:var(--ink-2)}
+  .d3 .ev.mou b{color:var(--ink)}
+  .d3 .gantt{margin-top:28px}
+  .d3 .gantt h3{font-size:18px;font-weight:800;color:var(--primary)}
+  .d3 .g{display:grid;grid-template-columns:200px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--sv)}
+  .d3 .g .n{font-weight:700;font-size:14px}
+  .d3 .g .n small{display:block;font-weight:400;font-size:12px;color:var(--ink-2)}
+  .d3 .axis{display:grid;grid-template-columns:200px 1fr;gap:12px;font-size:11px;color:var(--outline)}
+  .d3 .axis .ticks{display:grid;grid-template-columns:repeat(13,1fr)}
+  .d3 .track{position:relative;height:26px;background:linear-gradient(90deg,var(--tdp1) 0 38.5%,var(--ysrcp) 38.5% 77%,var(--tdp2) 77% 100%);opacity:.25;border-radius:4px}
+  .d3 .g .lane{position:relative;height:40px}
+  .d3 .g .lane .track{position:absolute;inset:7px 0}
+  .d3 .g .span{position:absolute;top:7px;height:26px;background:var(--primary);opacity:.85;border-radius:4px}
+  .d3 .g .mk{position:absolute;top:0;width:2px;height:40px;background:var(--ink)}
+  .d3 .g .mk i{position:absolute;top:-16px;left:-50px;width:100px;text-align:center;font-size:10px;font-style:normal;color:var(--ink-2);white-space:nowrap}
+  .d3 .g .mk.dn i{top:auto;bottom:-16px}
+  .d3 .g .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .d3 .tot{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 10px}
+  .d3 .tot div{background:var(--primary);color:#fff;border-radius:10px;padding:14px;text-align:center}
+  .d3 .tot b{display:block;font-size:24px}
+  .d3 .tot span{font-size:11px;color:#a7c8ff;letter-spacing:.06em;text-transform:uppercase}
+  .d3 .reg{margin-top:10px}
+  .d3 .reg .yh{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--outline);padding:14px 0 6px;border-bottom:1px solid var(--ink)}
+  .d3 .reg .row{display:grid;grid-template-columns:1fr 130px 130px;gap:12px;padding:9px 0;border-bottom:1px solid var(--sv);font-size:14px;align-items:center}
+  .d3 .reg .row .m{font-size:12px;color:var(--outline)}
+  .d3 .reg .row .r{text-align:end;font-weight:700;color:var(--primary)}
+  .d3 .note{font-size:13px;color:var(--ink-2);border-inline-start:3px solid var(--secondary-c);padding-inline-start:12px;margin:14px 0}
+  .d3 .note summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none}
+  .d3 .note summary::-webkit-details-marker{display:none}
+  .d3 .note p{margin-top:6px}
+
+  @media (max-width:860px){
+    .sc-row{grid-template-columns:1fr !important;gap:4px !important}
+    .sc-row b{text-align:start !important}
+    .tblwrap{overflow-x:auto}
+    .tblwrap table{min-width:560px}
+    .d3 .yr.change .band::after{display:none}
+    .d3 .g .lane{overflow:hidden}
+    .d3 .g .mk i{width:70px;left:-35px;white-space:normal}
+    .d1 .tools input{flex-basis:100%}
+    .d2{grid-template-columns:1fr}
+    .d2 .rail{position:static;flex-direction:row;flex-wrap:wrap}
+    .d2 .rail .t{width:100%}
+    .d2 .rail button{grid-template-columns:auto 1fr;padding:8px 10px;font-size:13px}
+    .d2 .kf{grid-template-columns:1fr}
+    .d2 .kf .n{font-size:34px;white-space:normal}
+    .d2 .rail button{white-space:normal}
+    .d2 .qgrid,.d2 .tot,.d1 .tot,.d3 .tot{grid-template-columns:1fr 1fr}
+    .d3 .head{display:none}
+    .d3 .yr{grid-template-columns:64px 22px minmax(0,1fr)}
+    .d3 .yr .cell{min-width:0}
+    .d3 .ev{min-width:0;overflow-wrap:anywhere}
+    .d3 .doc{white-space:normal}
+    .d3 .yr .cell.right{grid-column:3}
+    .d3 .g,.d3 .axis{grid-template-columns:1fr}
+    .d3 .reg .row{grid-template-columns:1fr 100px}
+    .d3 .reg .row .r:last-child{grid-column:2}
+  }
+
+  /* ===== site header + unchanged top (replica of the live page) ===== */
+  .site{background:#0b1f3a;color:#fff}
+  .site-in{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:28px}
+  .brand{display:flex;flex-direction:column;line-height:1.1}
+  .brand b{font-size:24px;font-weight:800;white-space:nowrap}
+  .brand span{font-size:12px;color:#c9d3e3}
+  .nav{display:flex;gap:22px;font-weight:600;font-size:16px;color:#dbe4f3;margin-inline-start:auto}
+  .nav a.on{color:#fe9832;border-bottom:2px solid #fe9832;padding-bottom:4px}
+  .site .tools{display:flex;gap:14px;align-items:center;font-size:14px}
+  .site .search{background:rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;color:#c9d3e3;min-width:180px}
+  .site .lang{font-weight:700}
+  .pg{max-width:1180px;margin:0 auto;padding:36px 20px 0}
+  .ttl{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+  .ttl h1{font-size:52px;font-weight:800;color:#0b1f3a;letter-spacing:-.01em}
+  .ttl .te{font-size:26px;color:#2a3a52;margin:4px 0 10px;font-family:"Noto Sans Telugu","Public Sans",sans-serif}
+  .ttl .intro{font-size:18px;color:#4a5568;max-width:70ch}
+  .adv{border:1px solid #0b1f3a;background:#fff;border-radius:8px;padding:12px 18px;font-weight:700;color:#0b1f3a;white-space:nowrap}
+  .hero4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+  .hc{background:#fff;border:1px solid #e2e2e7;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+  .hc .hl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#43474f;display:flex;justify-content:space-between}
+  .hc .x{border:1px solid #c3c6d1;border-radius:4px;padding:0 6px;font-size:12px;color:#003366}
+  .hc .hb{display:flex;flex-direction:column;gap:6px;font-size:13px}
+  .hc .r{display:grid;grid-template-columns:96px 1fr 84px;gap:8px;align-items:center}
+  .hc .t{height:12px;background:#e8e8ed;border-radius:2px}
+  .hc .f{height:100%;background:#2b62b8;border-radius:2px}
+  .hc .v{text-align:end;font-size:12px;color:#43474f}
+  .hc .stk{display:flex;height:40px;border-radius:2px;overflow:hidden}
+  .hc .stk i{display:block}
+  .hc .lg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px}
+  .hc .lg i{display:inline-block;width:10px;height:10px;margin-inline-end:5px;border-radius:2px}
+  .hc .cols{display:flex;gap:12px;align-items:flex-end;justify-content:space-around;height:120px;padding:0 6px}
+  .hc .cols>div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;width:70px}
+  .hc .cols b{font-size:12px}
+  .hc .cols i{display:block;width:100%;border-radius:2px}
+  .hc .ro{font-size:16px;margin-top:6px}
+  .hc .fn{font-size:12px;color:#43474f;font-weight:600}
+  .hc .ol{font-size:13px;font-weight:700;color:#003366;text-decoration:underline;margin-top:auto}
+  .gov3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+  .gc{background:#fff;border:1px solid #e2e2e7;border-inline-start:4px solid;border-radius:10px;padding:16px 20px;display:flex;flex-direction:column;gap:4px}
+  .gc .gt{font-weight:700;font-size:16px}
+  .gc .gm{font-size:17px}
+  .gc .gs{font-size:13px;color:#43474f}
+  .gc .gl{font-weight:700;color:#003366;margin-top:8px}
+  .gc .gf{font-size:13px;color:#43474f;text-decoration:underline}
+  .mnote{font-size:13px;font-weight:600;color:#43474f;margin-top:12px}
+  .mnote a{color:#003366;text-decoration:underline}
+  .sum{margin-top:44px}
+  .sum h2{font-size:24px;font-weight:700;color:#0b1f3a}
+  .sum .si{font-size:18px;color:#4a5568;max-width:64ch;margin:10px 0 20px}
+  .col3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cc{background:#fff;border:1px solid #e2e2e7;border-inline-start:4px solid;border-radius:10px;padding:18px 22px}
+  .cc .ct{font-weight:700;font-size:16px}
+  .cc .cd{font-size:13px;color:#43474f;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #e2e2e7}
+  .cc .cl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#43474f;margin-top:10px}
+  .cc .cv{font-size:24px;font-weight:800;color:#0b1f3a}
+  .cc .cv.np{color:#737780}
+  .cc .cs{font-size:14px;color:#43474f}
+  .redesign-marker{margin:40px 0 8px;text-align:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8f4e00;font-weight:700;display:flex;align-items:center;gap:12px}
+  .redesign-marker::before,.redesign-marker::after{content:"";flex:1;border-top:2px dashed #fe9832}
+  @media (max-width:900px){.hero4,.gov3,.col3{grid-template-columns:1fr 1fr}.nav{display:none}.ttl{flex-direction:column;align-items:flex-start}.ttl h1{font-size:36px}}
+  @media (max-width:600px){.hero4,.gov3,.col3{grid-template-columns:1fr}.site .search{display:none}}
+
+  /* ===== D4: by government ===== */
+  .d4{max-width:1180px;margin:0 auto;padding:16px 20px 100px}
+  .d4 .govtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 20px}
+  .d4 .govtabs button{border:2px solid var(--sv);background:#fff;border-radius:12px;padding:14px 16px;text-align:start;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+  .d4 .govtabs button b{font-size:17px}
+  .d4 .govtabs button span{font-size:13px;color:var(--ink-2)}
+  .d4 .govtabs button[aria-selected="true"]{border-color:var(--gt);background:#fff;box-shadow:inset 0 4px 0 var(--gt), 0 6px 18px -14px rgba(0,0,0,.5)}
+  .d4 .govp{display:none;flex-direction:column;gap:14px}
+  .d4 .govp.on{display:flex}
+  .d4 .row{display:grid;grid-template-columns:230px 1fr;gap:20px;padding:18px 0;border-top:1px solid var(--sv)}
+  .d4 .row .h{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--outline)}
+  .d4 .row .h b{display:block;font-size:26px;font-weight:800;color:var(--primary);letter-spacing:0;text-transform:none;margin-top:4px;line-height:1.1}
+  .d4 .row .h small{display:block;font-size:12px;font-weight:500;color:var(--ink-2);letter-spacing:0;text-transform:none;margin-top:4px}
+  .d4 .row .b{display:flex;flex-direction:column;gap:10px;min-width:0}
+  .d4 .item{background:#fff;border:1px solid var(--sv);border-radius:10px;padding:12px 14px;font-size:14px}
+  .d4 .item b.n{font-size:18px;color:var(--primary)}
+  .d4 .item .m{font-size:12px;color:var(--outline)}
+  .d4 .empty{border:1.5px dashed var(--outline-v);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink-2)}
+  .d4 .yrs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .d4 .yrs>div{border-radius:8px;padding:10px;text-align:center;font-size:13px;border:1px solid var(--sv);background:#fff}
+  .d4 .yrs>div.pub{border-color:var(--gt)}
+  .d4 .yrs>div.none{border-style:dashed;color:var(--ink-2)}
+  .d4 .yrs>div.unc{border-style:dashed;background:repeating-linear-gradient(45deg,#fff 0 4px,var(--sc) 4px 7px);color:var(--ink-2)}
+  .d4 .yrs b{display:block;font-size:16px;color:var(--primary)}
+  .d4 .yrs small{display:block;font-size:11px;color:var(--outline)}
+  .d4 .q{background:var(--secondary-fixed);border-inline-start:4px solid var(--secondary-c);border-radius:8px;padding:10px 12px;font-size:14px}
+  .d4 .q .h2{font-weight:800;color:var(--primary)}
+  .d4 .q blockquote{margin:4px 0;font-style:italic}
+  .d4 .q .r{font-size:13px;color:var(--ink-2)}
+  .d4 .mrow{display:grid;grid-template-columns:1fr 150px 120px;gap:10px;padding:8px 0;border-bottom:1px solid var(--sv);font-size:14px;align-items:center}
+  .d4 .mrow .r{text-align:end;font-weight:700;color:var(--primary)}
+  .d4 .mrow .m{font-size:12px;color:var(--outline)}
+
+  /* ===== D5: matrix ===== */
+  .d5{max-width:1180px;margin:0 auto;padding:16px 20px 100px}
+  .d5 .mx{border:1px solid var(--sv);border-radius:12px;overflow:hidden;background:#fff}
+  .d5 .mh{display:grid;grid-template-columns:minmax(220px,1.4fr) repeat(3,1fr) 120px;background:var(--primary);color:#fff}
+  .d5 .mh>div{padding:12px 14px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .d5 .mh>div small{display:block;font-weight:500;letter-spacing:0;text-transform:none;color:#a7c8ff;font-size:11px}
+  .d5 .mh .t1{box-shadow:inset 0 -4px 0 var(--tdp1)} .d5 .mh .t2{box-shadow:inset 0 -4px 0 var(--ysrcp)} .d5 .mh .t3{box-shadow:inset 0 -4px 0 var(--tdp2)}
+  .d5 .mr{display:grid;grid-template-columns:minmax(220px,1.4fr) repeat(3,1fr) 120px;border-top:1px solid var(--sv);align-items:center}
+  .d5 .mr>div{padding:14px}
+  .d5 .mr .q{font-weight:700;font-size:15px;color:var(--primary)}
+  .d5 .mr .q small{display:block;font-weight:400;font-size:12px;color:var(--ink-2)}
+  .d5 .mr .c b{display:block;font-size:20px;font-weight:800;color:var(--primary);line-height:1.1}
+  .d5 .mr .c b.np{color:var(--outline);font-size:14px;font-weight:600}
+  .d5 .mr .c span{font-size:12px;color:var(--ink-2)}
+  .d5 .mr .c .bar{height:6px;background:var(--sc);border-radius:3px;margin-top:6px;overflow:hidden}
+  .d5 .mr .c .bar i{display:block;height:100%}
+  .d5 .mr .o button{border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--primary);font-weight:600;white-space:nowrap}
+  .d5 .mr .o button[aria-expanded="true"]{background:var(--secondary-c);border-color:var(--secondary-c);color:#1a1c1f}
+  .d5 .md{display:none;border-top:1px dashed var(--outline-v);background:var(--sc-low);padding:18px}
+  .d5 .md.on{display:block}
+  .d5 .md h4{font-size:15px;font-weight:800;color:var(--primary);margin-bottom:8px}
+  .d5 .note{font-size:13px;color:var(--ink-2);margin-top:10px}
+  .d5 .qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .d5 .qc{background:#fff;border:1px solid var(--sv);border-top:4px solid;border-radius:10px;padding:12px 14px;font-size:13px}
+  .d5 .qc .h{font-weight:800;color:var(--primary)}
+  .d5 .qc blockquote{margin:4px 0;font-style:italic;color:var(--ink)}
+  .d5 .qc .r{color:var(--ink-2)}
+  @media (max-width:860px){
+    .d4 .govtabs{grid-template-columns:1fr}
+    .d4 .row{grid-template-columns:1fr}
+    .d4 .yrs{grid-template-columns:repeat(3,1fr)}
+    .d4 .mrow{grid-template-columns:1fr 110px}
+    .d4 .mrow .m2{grid-column:1/-1}
+    .d5 .mxwrap{overflow-x:auto}
+    .d5 .mx{min-width:760px}
+    .d5 .qgrid{grid-template-columns:1fr}
+  }
+
+  .d4 table,.d5 table{width:100%;border-collapse:collapse;font-size:14px}
+  .d4 th,.d5 th{text-align:start;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:8px 10px;border-bottom:1px solid var(--outline-v);background:var(--sc)}
+  .d4 td,.d5 td{padding:9px 10px;border-bottom:1px solid var(--sv);vertical-align:top}
+  .d5 td.r,.d5 th.r{text-align:end}
+  .chrome{z-index:80}
+</style>
+<div class="chrome" role="tablist">
+  <b>Investments page · full page with 4 designs for the part below the columns</b>
+  <div class="tabs">
+    <button role="tab" aria-selected="true" data-view="1">Design 1 · Reading column</button>
+    <button role="tab" aria-selected="false" data-view="3">Design 3 · Timeline</button>
+    <button role="tab" aria-selected="false" data-view="4">Design 4 · By government</button>
+    <button role="tab" aria-selected="false" data-view="5">Design 5 · Question table</button>
+  </div>
+  <span class="hint">Scroll past the unchanged top to see the design. Same data everywhere.</span>
+</div>
+<!-- ===== SITE HEADER (unchanged, replicated from the live page) ===== -->
+<header class="site">
+  <div class="site-in">
+    <div class="brand"><b>AP Nadu Nedu</b><span>by dhethi</span></div>
+    <nav class="nav"><a>Home</a><a>Projects</a><a class="on">Investments</a><a>News</a><a>Finances</a><a>Governments ▾</a><a>Records ▾</a></nav>
+    <div class="tools"><span class="search">🔍 Search…</span><span class="lang">文A English</span></div>
+  </div>
+</header>
+
+<main class="pg">
+  <!-- Title -->
+  <section class="ttl">
+    <div>
+      <h1>Investments &amp; MoUs</h1>
+      <div class="te">పెట్టుబడులు &amp; అవగాహన ఒప్పందాలు</div>
+      <p class="intro">Memoranda of Understanding signed with the Government of Andhra Pradesh, as announced through official channels — with where each one stands today.</p>
+    </div>
+    <button class="adv">📈 Advanced view</button>
+  </section>
+
+  <!-- Hero cards -->
+  <section class="hero4">
+    <div class="hc"><div class="hl">Promised money, by sector <span class="x">⤢</span></div>
+      <div class="hb"><div class="r"><span>Renewable E…</span><div class="t"><div class="f" style="width:100%"></div></div><span class="v">₹4.13 lakh Cr</span></div><div class="r"><span>Manufacturing</span><div class="t"><div class="f" style="width:45%"></div></div><span class="v">₹1.85 lakh Cr</span></div><div class="r"><span>It Tech</span><div class="t"><div class="f" style="width:37%"></div></div><span class="v">₹1.53 lakh Cr</span></div><div class="r"><span>Infrastructure</span><div class="t"><div class="f" style="width:24%"></div></div><span class="v">₹1.00 lakh Cr</span></div><div class="r"><span>Pharma</span><div class="t"><div class="f" style="width:3%"></div></div><span class="v">₹2,500 Cr</span></div></div>
+      <p class="ro"><b>Renewable Energy</b> was promised the most — ₹4.13 lakh Cr.</p><p class="fn">Announced figures, not spending</p><a class="ol">Open larger, with the numbers →</a></div>
+    <div class="hc"><div class="hl">What became of the promises <span class="x">⤢</span></div>
+      <div class="stk"><i style="width:43%;background:#1f7a3a"></i><i style="width:32%;background:#3a6fc4"></i><i style="width:11%;background:#9dbdf0"></i><i style="width:11%;background:#b3261e"></i><i style="width:3%;background:#555"></i></div>
+      <div class="lg"><span><i style="background:#1f7a3a"></i>Operational <b>12</b></span><span><i style="background:#3a6fc4"></i>Investment Started <b>9</b></span><span><i style="background:#9dbdf0"></i>Signed <b>3</b></span><span><i style="background:#b3261e"></i>Stalled <b>3</b></span><span><i style="background:#555"></i>Cancelled <b>1</b></span></div>
+      <p class="ro"><b>12</b> of 28 signed commitments are recorded as operational.</p><p class="fn">Older MoUs have had longer to get there</p><a class="ol">Open larger, with the numbers →</a></div>
+    <div class="hc"><div class="hl">Districts promised the most <span class="x">⤢</span></div>
+      <div class="hb"><div class="r"><span>Anakapalli</span><div class="t"><div class="f" style="width:100%"></div></div><span class="v">₹3.34 lakh Cr</span></div><div class="r"><span>Visakhapatna…</span><div class="t"><div class="f" style="width:46%"></div></div><span class="v">₹1.55 lakh Cr</span></div><div class="r"><span>Sri Potti Srira…</span><div class="t"><div class="f" style="width:13%"></div></div><span class="v">₹43,143 Cr</span></div><div class="r"><span>Kurnool</span><div class="t"><div class="f" style="width:6%"></div></div><span class="v">₹19,600 Cr</span></div><div class="r"><span>Tirupati</span><div class="t"><div class="f" style="width:5%"></div></div><span class="v">₹15,816 Cr</span></div></div>
+      <p class="ro"><b>Anakapalli</b> was promised the most investment — ₹3.34 lakh Cr.</p><p class="fn">3 MoUs name no district</p><a class="ol">Open larger, with the numbers →</a></div>
+    <div class="hc"><div class="hl">Signed under which government <span class="x">⤢</span></div>
+      <div class="cols"><div><b>₹22,900 Cr</b><i style="height:6px;background:#c9a13e"></i><span>TDP</span></div><div><b>₹2.75 lakh Cr</b><i style="height:60px;background:#5b84c4"></i><span>YSRCP</span></div><div><b>₹4.03 lakh Cr</b><i style="height:88px;background:#8a6d1f"></i><span>NDA</span></div></div>
+      <p class="ro">Counted by each MoU's own signing date — the record, not a claim.</p><p class="fn">3 records carry no signing date</p><a class="ol">Open larger, with the numbers →</a></div>
+  </section>
+
+  <!-- By-government cards -->
+  <section class="gov3">
+    <div class="gc" style="border-color:#c9a13e"><div class="gt">TDP (Naidu) 2014–19</div><div class="gm"><b>9</b> MoUs on record · <b>₹22,900 Cr</b> promised</div><div class="gs">62,250 jobs, across the 5 that state a figure · 5 operational so far</div><a class="gl">Dive into this government's record →</a><a class="gf">or just filter the list</a></div>
+    <div class="gc" style="border-color:#5b84c4"><div class="gt">YSRCP (Jagan) 2019–24</div><div class="gm"><b>8</b> MoUs on record · <b>₹2.75 lakh Cr</b> promised</div><div class="gs">40,720 jobs, across the 3 that state a figure · 4 operational so far</div><a class="gl">Dive into this government's record →</a><a class="gf">or just filter the list</a></div>
+    <div class="gc" style="border-color:#8a6d1f"><div class="gt">TDP-led NDA (Naidu) 2024–</div><div class="gm"><b>6</b> MoUs on record · <b>₹4.03 lakh Cr</b> promised</div><div class="gs">4,58,000 jobs, across the 4 that state a figure · 0 operational so far</div><a class="gl">Dive into this government's record →</a><a class="gf">or just filter the list</a></div>
+  </section>
+  <p class="mnote">Counted by the signing date on each record; the amounts are the announcements' own figures: promises, not audited money. These totals cover only the commitments we have documented, so read each one as a floor rather than the state's full investment tally. 3 records carry no signing date and are not attributed. <a>Data sources →</a></p>
+
+  <!-- Summits intro + three columns -->
+  <section class="sum">
+    <h2>Summits, and what reached the ground</h2>
+    <p class="si">Since Andhra Pradesh was divided, its governments have held five investment summits and announced <b>₹45.97 lakh Cr</b> across <b>2,722 agreements</b>. Every figure on this page is the state's own, quoted from a budget speech or a survey you can open. The harder question is the second one, and the state has answered it far less often than it asked to be congratulated on the first.</p>
+    <div class="col3">
+      <div class="cc" style="border-color:#c9a13e"><div class="ct">TDP (Naidu) 2014–19</div><div class="cd">8 June 2014 to 29 May 2019</div><div class="cl">Announced at summits</div><div class="cv">₹19.61 lakh Cr</div><div class="cs">1,726 MoUs across 3 summits · 42.93 lakh jobs promised</div><div class="cl">Reported as built</div><div class="cv">₹29,874 Cr</div><div class="cs">across the 2 of 5 years this government published a figure for</div></div>
+      <div class="cc" style="border-color:#5b84c4"><div class="ct">YSRCP (Jagan) 2019–24</div><div class="cd">30 May 2019 to 11 June 2024</div><div class="cl">Announced at summits</div><div class="cv">₹13.11 lakh Cr</div><div class="cs">386 MoUs across 1 summit · 6.07 lakh jobs promised</div><div class="cl">Reported as built</div><div class="cv">₹37,055 Cr</div><div class="cs">across the 3 of 5 years this government published a figure for</div></div>
+      <div class="cc" style="border-color:#8a6d1f"><div class="ct">TDP-led NDA (Naidu) 2024–</div><div class="cd">12 June 2024 to today</div><div class="cl">Announced at summits</div><div class="cv">₹13.25 lakh Cr</div><div class="cs">610 MoUs across 1 summit · 16.13 lakh jobs promised</div><div class="cl">Reported as built</div><div class="cv np">not published</div><div class="cs">No year of this term has a published figure for investment actually built. What is published is what was approved.</div></div>
+    </div>
+  </section>
+
+  <div class="redesign-marker"><span>▼ Redesign starts here. Everything above is your current page, unchanged.</span></div>
+
+
+<div class="view on" id="v1"><div class="d1">
+
+  <section class="chap">
+    <div class="cn">1 · What each summit announced</div>
+    <div class="take">Five summits. <b>₹45.97 lakh crore</b> announced across 2,722 agreements.</div>
+    <p class="lede">Committed investment as the state itself recorded it, in the budget speech that followed each summit.</p>
+    <div data-block="summitchart"></div>
+    <table style="margin-top:14px"><thead><tr><th>Summit</th><th class="r">MoUs</th><th class="r">Announced</th><th class="r">Jobs promised</th><th>From</th></tr></thead><tbody data-block="summitrows"></tbody></table>
+    <details class="aside"><summary>Where the numbers for the same summit disagree</summary><p>Partnership Summit 2025: the Budget Speech 2026-27 says 610 MoUs, ₹13.25 lakh crore, 16.13 lakh jobs. Akashvani's closing-day report said 400 companies, ₹11 lakh crore, 13 lakh jobs. Both are shown; we do not pick one.</p></details>
+    <details class="aside"><summary>Two things widely described as summits that we could not confirm</summary><p>"Sunrise AP Investment Meet, June 2015" does not appear in any government document; the name attaches to the January 2017 summit. Davos 2025 and 2026: the state published no totals.</p></details>
+  </section>
+
+  <section class="chap">
+    <div class="cn">2 · What the state said actually got built</div>
+    <div class="take">Only <b>5 of 12 years</b> have a published figure. ₹66,929 crore in total.</div>
+    <p class="lede">Investment reported as grounded or established, in ₹ crore. A dashed column means the state published no figure for that year.</p>
+    <details class="aside"><summary>Read the grounded column carefully</summary><p data-block="caveat"></p></details>
+    <div data-block="builtchart"></div>
+    <div class="from">Andhra Pradesh budget speeches and Socio Economic Surveys. Each year links to its document.</div>
+  </section>
+
+  <section class="chap">
+    <div class="cn">3 · The times a government published both sides</div>
+    <div class="take"><b>Five statements</b> in twelve years put promise and delivery in the same breath.</div>
+    <p class="lede">Quoted word for word. Announcing is easy to count; delivering is what governments publish least.</p>
+    <div class="quotes" data-block="quotes1"></div>
+  </section>
+
+  <section class="chap">
+    <div class="cn">4 · Projects built across two governments</div>
+    <div class="take"><b>Four projects</b> started under one government and finished, or stalled, under another.</div>
+    <p class="lede">Who cut the ribbon is not who did the work. Every date names the document it comes from.</p>
+    <div data-block="projects1"></div>
+  </section>
+
+  <section class="chap">
+    <div class="cn">5 · The agreements we hold on record</div>
+    <div class="take"><b>28 agreements.</b> A floor, not the state's full tally.</div>
+    <div class="tot"><div><b class="num">₹8.57 lakh Cr</b><span>committed</span></div><div><b>28</b><span>agreements</span></div><div><b class="num">6,64,065</b><span>jobs, 15 of 28 state one</span></div><div><b>12</b><span>foreign investors</span></div></div>
+    <div class="tools"><input placeholder="Search company, sector, summit…"><button>Sector ▾</button><button>Status ▾</button><button>District ▾</button><button>Year ▾</button></div>
+    <table class="reg"><thead><tr><th>Company</th><th class="r">Committed</th><th>Status</th><th>Signed</th></tr></thead><tbody data-block="regrows"></tbody></table>
+    <div class="from" style="text-align:center">Showing 8 of 28 · <a href="#">Next page →</a></div>
+  </section>
+</div></div>
+
+
+
+<div class="view" id="v3"><div class="d3">
+  <h2 style="font-size:22px;font-weight:800;color:var(--primary)">Twelve years, one timeline</h2>
+  <p class="intro">Every summit, every year the state reported what got built, and every time a government quoted both sides, placed on the same line. The colour band is who was in office.</p>
+  <div class="legend" style="margin-top:8px"><span class="t1">TDP 2014–19</span><span class="t2">YSRCP 2019–24</span><span class="t3">NDA 2024–</span><span class="none">State published no figure</span><span class="unc">We could not open the document</span></div>
+  <details class="note"><summary>Read the "built" column carefully</summary><p data-block="caveat"></p></details>
+  <div class="head"><span>Year</span><span></span><span>Announced at a summit</span><span>Reported as built · and what was said</span></div>
+  <div data-block="timeline"></div>
+  <div class="from" style="font-size:13px;color:var(--outline);margin-top:10px">Andhra Pradesh budget speeches 2016-17 to 2026-27 and Socio Economic Surveys. Every figure links to its document.</div>
+
+  <div class="gantt">
+    <h3>Projects that ran across governments</h3>
+    <p class="intro" style="font-size:14px;margin:4px 0 10px">Same years, same colour band. Dark bars are the project's own life; markers are the dated readings we hold.</p>
+    <div class="axis"><span></span><div class="ticks"><span>2014</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span></div></div>
+    <div data-block="gantt"></div>
+  </div>
+
+  <div class="tot"><div><b class="num">₹8.57 lakh Cr</b><span>committed on paper</span></div><div><b>28</b><span>agreements on record</span></div><div><b class="num">6,64,065</b><span>jobs, 15 of 28 state one</span></div><div><b>12</b><span>operational today</span></div></div>
+  <div class="reg">
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end"><h3 style="font-size:18px;font-weight:800;color:var(--primary)">The 28 agreements, by the year they were signed</h3><span style="font-size:13px;color:var(--ink-2)">Search · Sector · Status · District</span></div>
+    <div data-block="regyears"></div>
+  </div>
+</div></div>
+
+
+<!-- ================= DESIGN 4: by government ================= -->
+<div class="view" id="v4"><div class="d4">
+  <h2 style="font-size:22px;font-weight:800;color:var(--primary)">Pick a government, read its full record</h2>
+  <p style="color:var(--ink-2);max-width:70ch;margin:4px 0 6px">Everything below the columns, sorted by who was in office: the summits that government held, the years it published a built figure, what it said about its own promises, the projects it inherited or handed on, and the agreements signed in its term.</p>
+  <div class="govtabs" role="tablist">
+    <button role="tab" aria-selected="true" data-gov="tdp1" style="--gt:var(--tdp1)"><b>TDP (Naidu) 2014–19</b><span>3 summits · ₹19.61 lakh Cr announced · ₹29,874 Cr reported built</span></button>
+    <button role="tab" aria-selected="false" data-gov="ysrcp" style="--gt:var(--ysrcp)"><b>YSRCP (Jagan) 2019–24</b><span>1 summit · ₹13.11 lakh Cr announced · ₹37,055 Cr reported built</span></button>
+    <button role="tab" aria-selected="false" data-gov="tdp2" style="--gt:var(--tdp2)"><b>TDP-led NDA (Naidu) 2024–</b><span>1 summit · ₹13.25 lakh Cr announced · built figure not published</span></button>
+  </div>
+  <div data-block="gov4"></div>
+  <details class="note" style="font-size:13px;color:var(--ink-2);border-inline-start:3px solid var(--secondary-c);padding-inline-start:12px;margin-top:20px"><summary style="cursor:pointer;font-weight:700;color:var(--ink);list-style:none">Read the "built" figures carefully</summary><p style="margin-top:6px" data-block="caveat"></p></details>
+</div></div>
+
+<!-- ================= DESIGN 5: matrix ================= -->
+<div class="view" id="v5"><div class="d5">
+  <h2 style="font-size:22px;font-weight:800;color:var(--primary)">Six questions, three governments, one table</h2>
+  <p style="color:var(--ink-2);max-width:70ch;margin:4px 0 16px">Each row is a question; each column is a government; each cell is the state's own figure. Open a row for the chart, the quotes or the list behind it. Where the state published nothing, the cell says so.</p>
+  <div class="mxwrap"><div class="mx">
+    <div class="mh"><div>Question</div><div class="t1">TDP (Naidu)<small>8 Jun 2014 to 29 May 2019</small></div><div class="t2">YSRCP (Jagan)<small>30 May 2019 to 11 Jun 2024</small></div><div class="t3">TDP-led NDA (Naidu)<small>12 Jun 2024 to today</small></div><div></div></div>
+
+    <div class="mr"><div class="q">Investment summits held<small>and what each announced</small></div>
+      <div class="c"><b>3</b><span>₹19.61 lakh Cr · 1,726 MoUs</span><div class="bar"><i style="width:100%;background:var(--tdp1)"></i></div></div>
+      <div class="c"><b>1</b><span>₹13.11 lakh Cr · 386 MoUs</span><div class="bar"><i style="width:67%;background:var(--ysrcp)"></i></div></div>
+      <div class="c"><b>1</b><span>₹13.25 lakh Cr · 610 MoUs</span><div class="bar"><i style="width:68%;background:var(--tdp2)"></i></div></div>
+      <div class="o"><button aria-expanded="false" data-md="a">Open</button></div></div>
+    <div class="md" data-md="a"><h4>What was announced, summit by summit (₹ crore)</h4><div data-block="summitchart"></div><table style="margin-top:12px"><thead><tr><th>Summit</th><th class="r">MoUs</th><th class="r">Announced</th><th class="r">Jobs promised</th><th>From</th></tr></thead><tbody data-block="summitrows"></tbody></table><p class="note"><b>Where the numbers disagree:</b> Partnership Summit 2025: the Budget Speech 2026-27 says 610 MoUs, ₹13.25 lakh crore, 16.13 lakh jobs; Akashvani's closing-day report said 400 companies, ₹11 lakh crore, 13 lakh jobs. Both are shown. <b>Not confirmed as summits:</b> "Sunrise AP Investment Meet, June 2015" appears in no government document; Davos 2025 and 2026 have no published totals.</p></div>
+
+    <div class="mr"><div class="q">Years with a published "built" figure<small>out of the years in the term</small></div>
+      <div class="c"><b>2 of 5</b><span>2015-16, 2018-19</span><div class="bar"><i style="width:40%;background:var(--tdp1)"></i></div></div>
+      <div class="c"><b>3 of 5</b><span>2019-20 to 2021-22 · 2 unchecked</span><div class="bar"><i style="width:60%;background:var(--ysrcp)"></i></div></div>
+      <div class="c"><b class="np">0 of 2 · not published</b><span>only approvals were published</span></div>
+      <div class="o"><button aria-expanded="false" data-md="b">Open</button></div></div>
+    <div class="md" data-md="b"><h4>What the state said actually got built, year by year (₹ crore)</h4><div data-block="builtchart"></div><details style="margin-top:10px;font-size:13px;color:var(--ink-2)"><summary style="cursor:pointer;font-weight:700;color:var(--ink)">Read the grounded column carefully</summary><p style="margin-top:6px" data-block="caveat"></p></details></div>
+
+    <div class="mr"><div class="q">Investment reported as built<small>sum of the published years only</small></div>
+      <div class="c"><b>₹29,874 Cr</b><span>1,84,188 jobs</span><div class="bar"><i style="width:81%;background:var(--tdp1)"></i></div></div>
+      <div class="c"><b>₹37,055 Cr</b><span>1,91,085 jobs</span><div class="bar"><i style="width:100%;background:var(--ysrcp)"></i></div></div>
+      <div class="c"><b class="np">not published</b><span>₹9.68 lakh Cr approved since Jun 2024</span></div>
+      <div class="o"><button aria-expanded="false" data-md="b2">Open</button></div></div>
+    <div class="md" data-md="b2"><h4>The same chart, for reference</h4><div data-block="builtchart"></div></div>
+
+    <div class="mr"><div class="q">Times it published both sides<small>promise and delivery in one sentence</small></div>
+      <div class="c"><b>2</b><span>"48% hit rate" · "531 of 1,946"</span></div>
+      <div class="c"><b>1</b><span>"311 large industries since 2019"</span></div>
+      <div class="c"><b>1</b><span>"1.19 lakh proposals approved"</span></div>
+      <div class="o"><button aria-expanded="false" data-md="c">Open</button></div></div>
+    <div class="md" data-md="c"><h4>Quoted word for word</h4><div class="qgrid" data-block="quotes5"></div><p class="note">Plus one central-government series, independent of the state: IEM Part B acknowledgements, 46 units and ₹45,217 crore in 2022; 49 units and ₹10,536 crore in 2023; 49 units and ₹10,888 crore in January to August 2024 (DPIIT / Lok Sabha).</p></div>
+
+    <div class="mr"><div class="q">Big projects active in the term<small>started or finished under another government</small></div>
+      <div class="c"><b>3</b><span>Amaravati · Polavaram · Kia (MoU 2017)</span></div>
+      <div class="c"><b>4</b><span>Bhogapuram · Amaravati (stopped) · Polavaram · Kia (production 2019)</span></div>
+      <div class="c"><b>3</b><span>Bhogapuram (opened 2026) · Amaravati · Polavaram</span></div>
+      <div class="o"><button aria-expanded="false" data-md="d">Open</button></div></div>
+    <div class="md" data-md="d"><h4>What the record says, date by date</h4><div data-block="projects2"></div></div>
+
+    <div class="mr"><div class="q">Agreements on our record<small>signed in the term · operational today</small></div>
+      <div class="c"><b>9</b><span>₹22,900 Cr · 5 operational</span><div class="bar"><i style="width:56%;background:var(--tdp1)"></i></div></div>
+      <div class="c"><b>8</b><span>₹2.75 lakh Cr · 4 operational</span><div class="bar"><i style="width:50%;background:var(--ysrcp)"></i></div></div>
+      <div class="c"><b>6</b><span>₹4.03 lakh Cr · 0 operational</span><div class="bar"><i style="width:0%;background:var(--tdp2)"></i></div></div>
+      <div class="o"><button aria-expanded="false" data-md="e">Open</button></div></div>
+    <div class="md" data-md="e"><h4>The 28 agreements · a floor, not the state's full tally</h4><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><input placeholder="Search company, sector, summit…" style="flex:1 1 220px;border:1px solid var(--outline-v);border-radius:8px;padding:9px 12px;font:inherit"><span class="sel" style="border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px">All sectors ▾</span><span class="sel" style="border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px">All statuses ▾</span><span class="sel" style="border:1px solid var(--outline-v);background:#fff;border-radius:999px;padding:7px 12px;font-size:13px">All 26 districts ▾</span></div><table><thead><tr><th>Company</th><th>Sector · district</th><th class="r">Committed</th><th>Status</th><th>Signed</th><th>Source</th></tr></thead><tbody data-block="regrows2"></tbody></table><p class="note" style="text-align:center">Showing 8 of 28 · Page 1 of 4 · 3 records carry no signing date and sit in no column</p></div>
+  </div></div>
+  <p class="note" style="margin-top:12px">Bars compare the three cells in a row with each other, nothing more. "Not published" is never drawn as zero.</p>
+</div></div>
+
+</main>
+<script>
+(function(){
+  const T={tdp1:'#c9a13e',ysrcp:'#5b84c4',tdp2:'#8a6d1f'};
+  const fmt=n=>n.toLocaleString('en-IN');
+  const caveat="Andhra Pradesh has never published a clean, consistent series of how much announced investment actually got built. Across eleven budget speeches and surveys the state uses at least three different ideas, and calls them all the same thing: 'grounded private investments' (2015-16), 'projects commenced operations with committed investment' (2017-18, where the rupee figure is the money the company promised, not the money it spent), and 'units established with an investment of' (2018-19 onwards). The reporting periods do not line up either: some are financial years, one is June to April, one stops at 31 December. Seven of the twelve years since bifurcation have no published grounded figure at all. We show what exists, mark what is missing, and do not interpolate. Nobody should read this as a like-for-like scoreboard, because the state never published one.";
+  const summits=[['Partnership Summit 2016','Jan 2016, Visakhapatnam',328,467577,'9,58,896','Budget Speech 2017-18','tdp1','2015-16'],['Partnership Summit 2017','Jan 2017',664,1054000,'22.34 lakh','Budget Speech 2017-18','tdp1','2016-17'],['Partnership Summit 2018','Feb 2018',734,439000,'11 lakh','Budget Speech 2018-19','tdp1','2017-18'],['Global Investors Summit 2023','Mar 2023',386,1311000,'6.07 lakh','Budget Speech 2024-25','ysrcp','2022-23'],['Partnership Summit 2025','Nov 2025',610,1325000,'16.13 lakh','Budget Speech 2026-27, para 50','tdp2','2025-26']];
+  function summitChart(){
+    const max=1325000;
+    return `<div style="display:flex;flex-direction:column;gap:8px">${summits.map(s=>`<div class="sc-row" style="display:grid;grid-template-columns:190px 1fr 110px;gap:10px;align-items:center;font-size:14px"><span>${s[0]}<br><span style="font-size:11px;color:var(--outline)">${s[1]} · ${s[2]} MoUs</span></span><div style="height:18px;background:var(--sc);border-radius:3px"><div style="height:100%;width:${s[3]/max*100}%;background:${T[s[6]]};border-radius:3px"></div></div><b class="num" style="text-align:end;color:var(--primary)">₹${fmt(s[3])}</b></div>`).join('')}</div>`;
+  }
+  function summitRows(){return summits.map(s=>`<tr><td>${s[0]}<br><span style="font-size:12px;color:var(--outline)">${s[1]}</span></td><td class="r num">${s[2]}</td><td class="r num">₹${fmt(s[3])} Cr</td><td class="r num">${s[4]}</td><td><span class="doc">${s[5]}</span></td></tr>`).join('');}
+  const built=[['2014-15',null,'none','tdp1'],['2015-16',9505,'pub','tdp1',76818],['2016-17',null,'none','tdp1'],['2017-18',null,'none','tdp1'],['2018-19',20369,'pub','tdp1',107370],['2019-20',26673,'pub','ysrcp',100707],['2020-21',6234.64,'pub','ysrcp',39578],['2021-22',4147,'pub','ysrcp',50800],['2022-23',null,'unc','ysrcp'],['2023-24',null,'unc','ysrcp'],['2024-25',null,'none','tdp2'],['2025-26',null,'none','tdp2']];
+  function builtChart(){
+    const W=900,H=250,pl=60,pr=10,pt=16,pb=46,max=30000,iw=(W-pl-pr)/built.length;
+    let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Investment reported as built, year by year"><defs><pattern id="h2" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><rect width="2" height="6" fill="#c3c6d1"/></pattern></defs>`;
+    [0,10000,20000,30000].forEach(v=>{const y=pt+(H-pt-pb)*(1-v/max);s+=`<line x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}" stroke="#e2e2e7"/><text x="${pl-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#737780">${v?fmt(v):'0'}</text>`;});
+    built.forEach((r,i)=>{const x=pl+i*iw+8,w=iw-16,base=H-pb;
+      if(r[2]==='pub'){const h=(H-pt-pb)*(r[1]/max);s+=`<rect x="${x}" y="${base-h}" width="${w}" height="${h}" fill="${T[r[3]]}" rx="2"/><text x="${x+w/2}" y="${base-h-6}" font-size="11" text-anchor="middle" fill="#1a1c1f" font-weight="700">${fmt(Math.round(r[1]))}</text>`;}
+      else{const h=50;s+=`<rect x="${x}" y="${base-h}" width="${w}" height="${h}" fill="${r[2]==='unc'?'url(#h2)':'none'}" stroke="${T[r[3]]}" stroke-dasharray="4 3" rx="2"/><text x="${x+w/2}" y="${base-h/2+4}" font-size="10" text-anchor="middle" fill="#43474f">${r[2]==='unc'?'unchecked':'no figure'}</text>`;}
+      s+=`<text x="${x+w/2}" y="${H-pb+16}" font-size="11" text-anchor="middle" fill="#43474f">${r[0]}</text>`;
+      if(r[4]) s+=`<text x="${x+w/2}" y="${H-pb+30}" font-size="10" text-anchor="middle" fill="#737780">${fmt(r[4])} jobs</text>`;});
+    s+='</svg>';
+    return `<div style="overflow-x:auto"><div style="min-width:640px">${s}</div></div><div class="legend" style="margin-top:8px"><span class="t1">TDP 2014–19</span><span class="t2">YSRCP 2019–24</span><span class="t3">NDA 2024–</span><span class="none">State published no figure</span><span class="unc">We could not open the document</span></div>`;
+  }
+  const gaps=[
+    ['48 per cent, of something','We have achieved a hit rate of about 48%.','Said of the 328 MoUs signed at the 2016 summit. The speech never defines the denominator, so this cannot be turned into rupees or a count of projects.','Budget Speech 2017-18','tdp1','2016-17'],
+    ['531 of 1,946 projects had started','Andhra Pradesh is currently tracking 1946 large & mega projects across 18 departments with Rs. 13.54 lakh crore committed investment and employment of 31 lakh. Out of these, 531 projects have commenced operations with committed investment of Rs 1.29 lakh crore and committed employment of 2.64 lakh.','The one time a government published both sides in the same sentence: 27% by count, 9.5% by value. Committed, not spent.','Budget Speech 2018-19, para 98','tdp1','2017-18'],
+    ['311 large industries in five years','Since 2019, over 311 large and mega industries are established, providing employment to more than 1.3 lakh people.','A cumulative claim for the whole term, with no rupee figure for the large industries and no year-by-year breakdown.','Budget Speech 2024-25','ysrcp','2023-24'],
+    ['Approvals, not construction','Since June 2024, 1.19 lakh new investment proposals worth Rs. 9.68 lakh crore have been approved, with 5.41 lakh jobs potential.','The present government reports what has been approved. No state-wide figure for what has been built has been published for 2024-25 or 2025-26.','Budget Speech 2026-27','tdp2','2025-26'],
+    ['The central count of units that actually started producing','IEM Part B acknowledgements for Andhra Pradesh: 46 units and Rs 45,217 crore in 2022; 49 units and Rs 10,536 crore in 2023; 49 units and Rs 10,888 crore in January to August 2024.','A central government series, independent of anything the state says. Narrower than the state\'s idea of grounding.','DPIIT / Lok Sabha answer',null,'2024-25']
+  ];
+  const quotes1=()=>gaps.map(g=>`<div class="q"><div class="bar" style="background:${T[g[4]]||'#737780'}"></div><div><div class="h">${g[0]}</div><blockquote>“${g[1]}”</blockquote><div class="r">${g[2]}</div><div style="margin-top:6px"><span class="doc">${g[3]}</span></div></div></div>`).join('');
+  const quotes2=()=>gaps.map(g=>`<div class="qc" style="border-top-color:${T[g[4]]||'#737780'}"><div class="h">${g[0]}</div><blockquote>“${g[1]}”</blockquote><div class="r">${g[2]}</div><div style="margin-top:6px"><span class="doc">${g[3]}</span></div></div>`).join('');
+  const projects=[
+    {n:'Bhogapuram International Airport',rows:[['18.69% complete','31 Mar 2024','co','GMR exchange filing'],['Government changed','12 Jun 2024','gov','Election Commission'],['~42% complete','30 Sep 2024','co','GMR exchange filing'],['79.79% complete','Jun 2025','co','GMR exchange filing'],['Opened as Alluri Sitarama Raju International','1 Aug 2026','gov','PIB · newsonair']],note:'25–30% at the change of government, by the company\'s own filings.',span:[2.6,12.6],marks:[[9.9,'18.69%'],[10.45,'12 Jun 2024'],[10.5,'~42%'],[11.4,'79.79%'],[12.6,'opened']]},
+    {n:'Amaravati capital',rows:[['Works stopped','May 2019','gov','CAG'],['₹35,444.62 Cr contracted, ₹6,059.60 Cr spent; trunk infrastructure 0–59%, LPS infrastructure 0–18%','Sep 2021','gov','CAG audit']],note:'Works stopped May 2019 to late 2021, so the audit is roughly what the first government built.',span:[1.5,12.6],marks:[[5.4,'stopped'],[7.6,'CAG audit']]},
+    {n:'Polavaram',rows:[['Began','2004','gov','Lok Sabha'],['Works 82%, land acquisition 67%, R&R 11% (11,677 of 1,06,006 families)','Mar 2023','gov','CAG Report 4/2025, chart 2.5']],note:'Belongs to no single government.',span:[0,12.6],marks:[[9,'82% works']]},
+    {n:'Kia Motors, Anantapur',rows:[['MoU signed','Apr 2017','co','Kia'],['Production began','Aug 2019','co','Kia']],note:'No progress curve was ever published.',span:[3.3,5.7],marks:[[3.3,'MoU'],[5.7,'production']]}
+  ];
+  const projects1=()=>projects.map(p=>`<div class="proj"><div class="n">${p.n}</div><div class="line">${p.rows.map(r=>`<span><b>${r[1]}</b> · ${r[0]} <span class="src-${r[2]}">${r[2]==='gov'?'Government':'Company'} · ${r[3]}</span></span>`).join('')}<span style="color:var(--outline)">${p.note}</span></div></div>`).join('');
+  const projects2=()=>`<table><thead><tr><th>Project</th><th>What the record says</th><th>Date</th><th>Source</th></tr></thead><tbody>${projects.map(p=>p.rows.map((r,i)=>`<tr>${i===0?`<td rowspan="${p.rows.length}" style="font-weight:800;color:var(--primary)">${p.n}<br><span style="font-size:12px;font-weight:400;color:var(--ink-2)">${p.note}</span></td>`:''}<td>${r[0]}</td><td class="num" style="white-space:nowrap">${r[1]}</td><td><span class="src-${r[2]}">${r[2]==='gov'?'Government':'Company'} · ${r[3]}</span></td></tr>`).join('')).join('')}</tbody></table>`;
+  const mous=[
+    ['NTPC Green Energy Ltd','Renewable energy · Anakapalli','₹1,85,000 Cr','is','Investment started','Mar 2023','AP Global Investors Summit 2023','NTPC Limited (official)','gov'],
+    ['Google (Alphabet Inc.)','IT / Tech · Visakhapatnam','₹1,35,000 Cr','is','Investment started','Oct 2025','Bharat AI Shakti (announcement)','Google Cloud (official)','co'],
+    ['Adani Group','Infrastructure','₹1,00,000 Cr','si','Signed','Nov 2025','CII Partnership Summit 2025','Press report, not government-confirmed','press'],
+    ['Brookfield Asset Management','Renewable energy','₹1,00,000 Cr','si','Signed','Nov 2025','CII Partnership Summit 2025','Press report, not government-confirmed','press'],
+    ['Greenko Group','Renewable energy · Kurnool','₹19,600 Cr','op','Operational','Sep 2022','','PIB','gov'],
+    ['Kia Motors India','Manufacturing · Sri Sathya Sai','₹12,900 Cr','op','Operational','Apr 2017','','Press report, not government-confirmed','press'],
+    ['LG Electronics India','Manufacturing · Tirupati','₹5,001 Cr','is','Investment started','No date on record','','LG Electronics (official)','co'],
+    ['Daikin Industries','Manufacturing · Tirupati','₹1,000 Cr','op','Operational','Sep 2021','','Daikin (official)','co']
+  ];
+  const srcChip=m=>m[8]==='gov'?`<span class="src-gov">Government · ${m[7]}</span>`:m[8]==='co'?`<span class="src-co">Company · ${m[7]}</span>`:`<span class="src-co" style="background:#fff4e5;border-color:#f0c36a;color:#7a4b00">${m[7]}</span>`;
+  const regRows=()=>mous.map(m=>`<tr><td><span class="co">${m[0]}</span><br><span class="m">${m[1]}${m[6]?' · '+m[6]:''}</span></td><td class="r num" style="font-weight:700;color:var(--primary)">${m[2]}</td><td><span class="dot ${m[3]}"></span>${m[4]}</td><td class="num">${m[5]}<br><span class="m">${m[7].startsWith('Press')?'Press report':m[7]}</span></td></tr>`).join('');
+  const regRows2=()=>mous.map(m=>`<tr><td style="font-weight:700">${m[0]}</td><td style="font-size:13px;color:var(--ink-2)">${m[1]}</td><td class="r num" style="font-weight:700;color:var(--primary)">${m[2]}</td><td><span class="dot ${m[3]}"></span>${m[4]}</td><td class="num">${m[5]}</td><td>${srcChip(m)}</td></tr>`).join('');
+  // timeline (design 3)
+  const yrs=[['2014-15','tdp1',false],['2015-16','tdp1',false],['2016-17','tdp1',false],['2017-18','tdp1',false],['2018-19','tdp1',false],['2019-20','ysrcp',true],['2020-21','ysrcp',false],['2021-22','ysrcp',false],['2022-23','ysrcp',false],['2023-24','ysrcp',false],['2024-25','tdp2',true],['2025-26','tdp2',false]];
+  const mouByYear={'2014-15':['Hero MotoCorp ₹1,600 Cr','Asian Paints ₹1,750 Cr'],'2015-16':['Foxconn (stalled)','Celkon ₹150 Cr','Greenko Kurnool Solar'],'2016-17':[],'2017-18':['Kia Motors ₹12,900 Cr','Lulu ₹2,200 Cr (cancelled)','Patanjali ₹500 Cr','Apollo Tyres ₹3,800 Cr'],'2018-19':[],'2019-20':[],'2020-21':['Yokohama Rubber'],'2021-22':['Daikin ₹1,000 Cr','AdaniConneX ₹14,634 Cr'],'2022-23':['Greenko ₹19,600 Cr','Indosol ₹43,143 Cr','Aurobindo ₹2,500 Cr','JSW Steel ₹8,800 Cr','NTPC Green ₹1,85,000 Cr'],'2023-24':[],'2024-25':['Reliance ₹65,000 Cr'],'2025-26':['TCS ₹1,370 Cr','Cognizant ₹1,583 Cr','Google ₹1,35,000 Cr','Adani ₹1,00,000 Cr','Brookfield ₹1,00,000 Cr']};
+  function timeline(){
+    const cls={tdp1:'t1',ysrcp:'t2',tdp2:'t3'};
+    return yrs.map(([y,t,chg])=>{
+      const s=summits.find(x=>x[7]===y); const b=built.find(x=>x[0]===y); const g=gaps.find(x=>x[5]===y); const m=mouByYear[y]||[];
+      const left=s?`<div class="ev summit"><span class="lbl">${s[0]} · ${s[1]}</span><b class="num">₹${fmt(s[3])} Cr</b>${s[2]} MoUs · ${s[4]} jobs promised <span class="doc">${s[5]}</span></div>`:`<div class="ev mou" style="padding:6px 0;color:var(--outline)">No summit</div>`;
+      const mouLine=m.length?`<div class="ev mou"><b>${m.length} MoU${m.length>1?'s':''} on our record:</b> ${m.join(' · ')}</div>`:'';
+      let bl='';
+      if(b[2]==='pub') bl=`<div class="ev built"><div class="n num">₹${fmt(Math.round(b[1]))} Cr<small>${b[4]?fmt(b[4])+' jobs':''}</small></div><div><div class="barw"><div class="bar" style="width:${b[1]/30000*100}%;background:${T[t]}"></div></div><div style="font-size:11px;color:var(--outline);margin-top:4px">reported as built</div></div></div>`;
+      else if(b[2]==='unc') bl=`<div class="ev unc">Built figure: we could not open the Socio Economic Survey for this year (file over 30 MB).</div>`;
+      else bl=`<div class="ev none">Built figure: the state published none for this year.</div>`;
+      const q=g?`<div class="ev quote"><div class="h">${g[0]}</div><blockquote>“${g[1].length>170?g[1].slice(0,170)+'…':g[1]}”</blockquote><div class="r">${g[2]}</div><span class="doc">${g[3]}</span></div>`:'';
+      return `<div class="yr ${cls[t]} ${chg?'change':''}"><div class="y">${y}<small>${t==='tdp1'?'TDP':t==='ysrcp'?'YSRCP':'NDA'}</small></div><div class="band">${s||b[2]==='pub'||g?'<i></i>':''}</div><div class="cell">${left}${mouLine}</div><div class="cell right">${bl}${q}</div></div>`;
+    }).join('');
+  }
+  function gantt(){
+    const pct=v=>v/12.6*100;
+    return projects.map(p=>`<div class="g"><div class="n">${p.n}<small>${p.note}</small><div class="chips">${[...new Set(p.rows.map(r=>r[2]+'|'+r[3]))].map(x=>{const [k,l]=x.split('|');return `<span class="src-${k}">${k==='gov'?'Government':'Company'} · ${l}</span>`}).join('')}</div></div><div class="lane"><div class="track"></div><div class="span" style="left:${pct(p.span[0])}%;width:${pct(p.span[1]-p.span[0])}%"></div>${p.marks.map((m,i)=>`<div class="mk ${i%2?'dn':''}" style="left:${pct(m[0])}%"><i>${m[1]}</i></div>`).join('')}</div></div>`).join('');
+  }
+  function regYears(){
+    const order=['2025-26','2024-25','2022-23','2021-22','2020-21','2017-18','2015-16','2014-15'];
+    const st={'Hero MotoCorp':'op','Asian Paints':'op','Foxconn':'stl','Celkon':'stl','Greenko Kurnool':'op','Kia':'op','Lulu':'cx','Patanjali':'stl','Apollo':'op','Yokohama':'op','Daikin':'op','AdaniConneX':'is','Greenko ₹':'op','Indosol':'is','Aurobindo':'op','JSW':'is','NTPC Green':'is','Reliance':'si','TCS':'is','Cognizant':'is','Google':'is','Adani ₹':'si','Brookfield':'si'};
+    const stOf=n=>{for(const k in st) if(n.startsWith(k)) return st[k]; return 'si'};
+    const lbl={op:'Operational',is:'Investment started',si:'Signed',stl:'Stalled',cx:'Cancelled'};
+    return order.map(y=>{const m=mouByYear[y]; if(!m.length) return ''; const t=yrs.find(x=>x[0]===y)[1];
+      return `<div class="yh"><span class="dot" style="background:${T[t]}"></span>${y} · ${t==='tdp1'?'TDP':t==='ysrcp'?'YSRCP':'NDA'} · ${m.length} agreement${m.length>1?'s':''}</div>${m.map(n=>{const parts=n.split(' ₹');const s=stOf(n);return `<div class="row"><div>${parts[0].replace(/ \((stalled|cancelled)\)/,'')}<div class="m">Full record →</div></div><div><span class="dot ${s}"></span>${lbl[s]}</div><div class="r num">${parts[1]?'₹'+parts[1]:'not published'}</div></div>`}).join('')}`;}).join('')+`<div class="yh" style="border-bottom:0">No signing date on record · 3 · ArcelorMittal Nippon Steel ₹1,47,162 Cr · LG Electronics ₹5,001 Cr · NTPC NP Kunta Solar</div><div class="yh" style="border-bottom:0">Before bifurcation · 2 · Isuzu Motors ₹3,000 Cr (Mar 2013) · Mondelez ₹1,265 Cr (Dec 2013)</div>`;
+  }
+  const blocks={summitchart:summitChart,summitrows:summitRows,builtchart:builtChart,caveat:()=>caveat,quotes1,quotes2,projects1,projects2,regrows:regRows,regrows2:regRows2,timeline,gantt,regyears:regYears};
+  document.querySelectorAll('[data-block]').forEach(el=>{if(blocks[el.dataset.block]) el.innerHTML=blocks[el.dataset.block]();});
+  document.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tblwrap';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+  document.querySelectorAll('.chrome [data-view]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chrome [data-view]').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v'+b.dataset.view));document.querySelector('.redesign-marker').scrollIntoView({block:'start'});}));
+  function goPart(k){document.querySelectorAll('.d2 .rail [data-part]').forEach(x=>x.setAttribute('aria-selected',x.dataset.part===k));document.querySelectorAll('.d2 .part').forEach(p=>p.classList.toggle('on',p.dataset.part===k));}
+  document.querySelectorAll('.d2 .rail [data-part]').forEach(b=>b.addEventListener('click',()=>goPart(b.dataset.part)));
+  document.querySelectorAll('.d2 [data-go]').forEach(b=>b.addEventListener('click',()=>{goPart(b.dataset.go);window.scrollTo({top:0});}));
+  // ===== additions for designs 4 and 5 =====
+  const TN={tdp1:'TDP (Naidu) 2014–19',ysrcp:'YSRCP (Jagan) 2019–24',tdp2:'TDP-led NDA (Naidu) 2024–'};
+  const TY={tdp1:['2014-15','2015-16','2016-17','2017-18','2018-19'],ysrcp:['2019-20','2020-21','2021-22','2022-23','2023-24'],tdp2:['2024-25','2025-26']};
+  const PR={
+    tdp1:[['Kia Motors, Anantapur','MoU signed','Apr 2017','co','Kia'],['Amaravati capital','Works contracted ₹35,444.62 Cr in this term (audited later by CAG)','2014–2019','gov','CAG, Sep 2021'],['Polavaram','Under construction since 2004; no dated progress reading on our record inside this term','','gov','']],
+    ysrcp:[['Bhogapuram International Airport','18.69% complete','31 Mar 2024','co','GMR exchange filing'],['Amaravati capital','Works stopped','May 2019','gov','CAG'],['Amaravati capital','₹6,059.60 Cr spent of ₹35,444.62 Cr contracted; trunk infrastructure 0–59%, LPS 0–18%','Sep 2021','gov','CAG audit'],['Polavaram','Works 82%, land acquisition 67%, R&R 11% (11,677 of 1,06,006 families)','Mar 2023','gov','CAG Report 4/2025, chart 2.5'],['Kia Motors, Anantapur','Production began','Aug 2019','co','Kia']],
+    tdp2:[['Bhogapuram International Airport','Government changed','12 Jun 2024','gov','Election Commission'],['Bhogapuram International Airport','~42% complete','30 Sep 2024','co','GMR exchange filing'],['Bhogapuram International Airport','79.79% complete','Jun 2025','co','GMR exchange filing'],['Bhogapuram International Airport','Opened as Alluri Sitarama Raju International','1 Aug 2026','gov','PIB · newsonair'],['Amaravati capital','No dated progress reading on our record inside this term','','gov',''],['Polavaram','No dated progress reading on our record inside this term','','gov','']]
+  };
+  const ST={'Hero MotoCorp':'op','Asian Paints':'op','Foxconn':'stl','Celkon':'stl','Greenko Kurnool':'op','Kia':'op','Lulu':'cx','Patanjali':'stl','Apollo':'op','Yokohama':'op','Daikin':'op','AdaniConneX':'is','Greenko ₹':'op','Indosol':'is','Aurobindo':'op','JSW':'is','NTPC Green':'is','Reliance':'si','TCS':'is','Cognizant':'is','Google':'is','Adani ₹':'si','Brookfield':'si'};
+  const LBL={op:'Operational',is:'Investment started',si:'Signed',stl:'Stalled',cx:'Cancelled'};
+  const stOf=n=>{for(const k in ST) if(n.startsWith(k)) return ST[k]; return 'si'};
+  function gov4(){
+    const totals={tdp1:['9','₹22,900 Cr','5'],ysrcp:['8','₹2.75 lakh Cr','4'],tdp2:['6','₹4.03 lakh Cr','0']};
+    return Object.keys(TN).map((k,i)=>{
+      const col=T[k];
+      const sm=summits.filter(s=>s[6]===k);
+      const yrsHtml=TY[k].map(y=>{const b=built.find(x=>x[0]===y);return b[2]==='pub'?`<div class="pub" style="--gt:${col}"><small>${y}</small><b class="num">₹${fmt(Math.round(b[1]))} Cr</b><small>${fmt(b[4])} jobs · reported built</small></div>`:b[2]==='unc'?`<div class="unc"><small>${y}</small><b style="font-size:13px">unchecked</b><small>we could not open the file</small></div>`:`<div class="none"><small>${y}</small><b style="font-size:13px">no figure</b><small>state published none</small></div>`;}).join('');
+      const gq=gaps.filter(g=>g[4]===k);
+      const mous=TY[k].flatMap(y=>(mouByYear[y]||[]).map(n=>[y,n]));
+      return `<div class="govp ${i===0?'on':''}" data-gov="${k}" style="--gt:${col}">
+        <div class="row"><div class="h">Summits held<b>${sm.length}</b><small>₹${fmt(sm.reduce((a,s)=>a+s[3],0))} Cr announced · ${sm.reduce((a,s)=>a+s[2],0)} MoUs</small></div><div class="b">${sm.map(s=>`<div class="item"><b class="n">${s[0]}</b> <span class="m">${s[1]}</span><br>₹${fmt(s[3])} Cr · ${s[2]} MoUs · ${s[4]} jobs promised <span class="doc">${s[5]}</span></div>`).join('')}</div></div>
+        <div class="row"><div class="h">Years it published a "built" figure<b>${TY[k].filter(y=>built.find(x=>x[0]===y)[2]==='pub').length} of ${TY[k].length}</b><small>investment reported as grounded or established</small></div><div class="b"><div class="yrs">${yrsHtml}</div>${k==='tdp2'?'<div class="empty">What this government publishes is approvals: ₹9.68 lakh crore of proposals approved since June 2024 (Budget Speech 2026-27). Approvals are not construction.</div>':''}</div></div>
+        <div class="row"><div class="h">What it said about its own promises<b>${gq.length}</b><small>quoted word for word</small></div><div class="b">${gq.map(g=>`<div class="q"><div class="h2">${g[0]}</div><blockquote>“${g[1]}”</blockquote><div class="r">${g[2]}</div><span class="doc">${g[3]}</span></div>`).join('')||'<div class="empty">No statement on record.</div>'}</div></div>
+        <div class="row"><div class="h">Big projects in this term<b>${new Set(PR[k].map(r=>r[0])).size}</b><small>inherited, handed on, or both</small></div><div class="b">${PR[k].map(r=>`<div class="item"><b>${r[0]}</b> · ${r[1]} ${r[2]?`<span class="m">· ${r[2]}</span>`:''} ${r[4]?`<span class="src-${r[3]}">${r[3]==='gov'?'Government':'Company'} · ${r[4]}</span>`:''}</div>`).join('')}</div></div>
+        <div class="row"><div class="h">Agreements signed in this term<b>${totals[k][0]}</b><small>${totals[k][1]} promised · ${totals[k][2]} operational today</small></div><div class="b"><div>${mous.map(([y,n])=>{const p=n.split(' ₹');const s=stOf(n);return `<div class="mrow"><div>${p[0].replace(/ \((stalled|cancelled)\)/,'')}<div class="m">${y} · Full record →</div></div><div class="m2"><span class="dot ${s}"></span>${LBL[s]}</div><div class="r num">${p[1]?'₹'+p[1]:'not published'}</div></div>`}).join('')}</div><div class="empty" style="margin-top:6px">A floor, not the state's full tally: the state's own summit count for this term is ${sm.reduce((a,s)=>a+s[2],0)||'—'} MoUs. Search, sector, status and district filters apply to this list.</div></div></div>
+      </div>`;
+    }).join('');
+  }
+  blocks.gov4=gov4; blocks.quotes5=quotes2;
+  document.querySelectorAll('[data-block="gov4"],[data-block="quotes5"]').forEach(el=>{el.innerHTML=blocks[el.dataset.block]();});
+  document.querySelectorAll('.d4 .govtabs [data-gov]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.d4 .govtabs [data-gov]').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.d4 .govp').forEach(p=>p.classList.toggle('on',p.dataset.gov===b.dataset.gov));}));
+  document.querySelectorAll('.d5 [data-md]').forEach(b=>{ if(b.tagName!=='BUTTON') return; b.addEventListener('click',()=>{const k=b.dataset.md;const open=b.getAttribute('aria-expanded')!=='true';document.querySelectorAll('.d5 button[data-md]').forEach(x=>x.setAttribute('aria-expanded',String(x===b&&open)));document.querySelectorAll('.d5 .md').forEach(p=>p.classList.toggle('on',p.dataset.md===k&&open));b.textContent=open?'Close':'Open';document.querySelectorAll('.d5 button[data-md]').forEach(x=>{if(x!==b)x.textContent='Open';});});});
+  window.__showGov=k=>document.querySelector(`.d4 .govtabs [data-gov="${k}"]`).click();
+  window.__openRow=k=>document.querySelector(`.d5 button[data-md="${k}"]`).click();
+
+  document.querySelectorAll('table').forEach(t=>{if(t.parentNode.classList.contains('tblwrap'))return;const w=document.createElement('div');w.className='tblwrap';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+  window.__showView=v=>document.querySelector(`.chrome [data-view="${v}"]`).click();
+  window.__goPart=goPart;
+})();
+</script>
+</head><body></body></html>

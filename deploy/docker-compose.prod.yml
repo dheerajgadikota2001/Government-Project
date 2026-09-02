@@ -1,0 +1,135 @@
+# ============================================================
+# AP Nadu Nedu — production stack for ONE small VM
+# (Package B: DigitalOcean Bangalore droplet, 2 GB)
+#
+#   caddy      public entry on :80/:443 → api (automatic HTTPS)
+#   api        FastAPI (uvicorn, 2 workers)
+#   db         PostgreSQL 16 (data in a named volume)
+#   redis      cache / rate limits (no persistence needed)
+#   jobs       ofelia scheduler: scrapers + nightly backup, on THIS Indian IP
+#
+# Run from the repo root on the server:
+#   docker compose -f deploy/docker-compose.prod.yml --env-file deploy/.env.prod up -d --build
+# ============================================================
+
+name: apnn
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      API_HOST: ${API_HOST}            # e.g. api.apnadunedu.in
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+
+  api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env.prod
+    environment:
+      PORT: "8000"
+      WEB_CONCURRENCY: "2"
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    volumes:
+      - ../backend/fetched:/app/fetched      # downloaded source PDFs (MoSPI etc.)
+      - api_logs:/app/logs
+    expose:
+      - "8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 40s
+      retries: 3
+    labels:
+      # ---- scheduled jobs (ofelia reads these labels; times are UTC) ----
+      # CRDA tenders board: 03:30 IST daily
+      ofelia.enabled: "true"
+      ofelia.job-exec.tenders.schedule: "0 0 22 * * *"
+      ofelia.job-exec.tenders.command: "python scripts/scrape_tenders.py"
+      # all scrapers + source status: 04:00 IST daily
+      ofelia.job-exec.scrapers.schedule: "0 30 22 * * *"
+      ofelia.job-exec.scrapers.command: "sh -c 'python scripts/run_all_scrapers.py && python scripts/check_sources.py --network'"
+      ofelia.job-exec.scrapers.no-overlap: "true"
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      # nightly dump at 02:30 IST, kept 14 days locally; backup.sh also ships it to R2
+      ofelia.enabled: "true"
+      ofelia.job-exec.pgdump.schedule: "0 0 21 * * *"
+      ofelia.job-exec.pgdump.command: "sh -c 'pg_dump -U ${POSTGRES_USER} -d ${POSTGRES_DB} | gzip > /backups/apnn-$$(date +%F).sql.gz && find /backups -name \"apnn-*.sql.gz\" -mtime +14 -delete'"
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  jobs:
+    image: mcuadros/ofelia:latest
+    restart: unless-stopped
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - api
+      - db
+
+  # Off-site copy of the nightly dump → Cloudflare R2 (free 10 GB). Runs 03:00 IST.
+  # Needs R2_* values in .env.prod; harmless no-op until they are set.
+  offsite:
+    image: rclone/rclone:latest
+    restart: unless-stopped
+    entrypoint: ["sh", "-c", "while true; do sleep 86400; done"]
+    env_file: .env.prod
+    volumes:
+      - ./backups:/backups:ro
+      - ./backup.sh:/backup.sh:ro
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.offsite.schedule: "0 30 21 * * *"
+      ofelia.job-exec.offsite.command: "sh /backup.sh"
+
+volumes:
+  pg_data:
+  caddy_data:
+  caddy_config:
+  api_logs:

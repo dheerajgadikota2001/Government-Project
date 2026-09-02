@@ -1,0 +1,17 @@
+# keep the production image small and secret-free
+.env
+.env.*
+!.env.example
+logs/
+fetched/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+verify/audit/
+_to_delete*
+*.html
+*.tgz
+*.bak*
+neva_*
+sources_status.json
