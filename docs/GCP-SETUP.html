@@ -385,7 +385,7 @@ gcloud run deploy apnn-api --source . `
   --min-instances 0 --max-instances 5 `
   --add-cloudsql-instances ap-nadu-nedu:asia-south1:apnn-db `
   --set-secrets "DATABASE_URL=DATABASE_URL:latest,SECRET_KEY=SECRET_KEY:latest,ADMIN_KEY=ADMIN_KEY:latest" `
-  --set-env-vars "^;^APP_ENV=production;ALLOWED_ORIGINS=https://ap-nadu-nedu.web.app,https://apfactcheck.dhethi.com"
+  --set-env-vars "^;^APP_ENV=production;ALLOWED_ORIGINS=https://ap-nadu-nedu.web.app,https://apfactcheck.dheeco.com"
 
 <span class="c"># answer Y when asked to create the Artifact Registry repo. 5 to 8 minutes.</span>
 <span class="c"># it ends by printing a Service URL like https://apnn-api-xxxxx-el.a.run.app</span></pre></div>

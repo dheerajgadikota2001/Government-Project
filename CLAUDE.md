@@ -1,7 +1,10 @@
 # AP Nadu Nedu — read this first
 
+> Local context only. This file is ignored by git and must never be committed or pushed;
+> Dheeraj keeps it for the assistant's context. Do not add it to a commit.
+
 Independent, no-login citizen transparency platform for Andhra Pradesh, by Dheeraj
-("by dhethi"). React + Vite frontend, FastAPI + PostgreSQL backend, six languages.
+("by dheeco"). React + Vite frontend, FastAPI + PostgreSQL backend, six languages.
 Anyone can check a politician's claim against the government's own published record.
 
 ## Start every session by reading project memory

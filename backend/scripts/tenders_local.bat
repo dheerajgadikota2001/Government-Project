@@ -2,6 +2,11 @@
 REM ============================================================
 REM  AP Fact Check : tenders refresh, run from this laptop.
 REM
+REM  STATUS: FALLBACK. Since 6 Sep 2026 the daily tenders refresh runs
+REM  on GitHub Actions (.github/workflows/tenders-refresh.yml), which
+REM  reaches crda.ap.gov.in where Google Cloud cannot. Keep this file
+REM  for the day GitHub is down or blocked; docs/TENDERS-ON-GITHUB.md.
+REM
 REM  WHY THIS EXISTS
 REM  crda.ap.gov.in drops connections from Google's network. Proven
 REM  6 Sep 2026 with a browser User-Agent from Cloud Run: ReadTimeout
