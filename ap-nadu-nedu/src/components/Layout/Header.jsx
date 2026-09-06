@@ -61,15 +61,46 @@ export default function Header() {
     <header className="bg-primary shadow-md sticky top-0 z-50 w-full">
       <div className="flex justify-between items-center w-full px-4 md:px-8 max-w-[1280px] mx-auto h-16">
         {/* Brand */}
-        <div className="flex items-center gap-4 min-w-0 shrink">
-          <NavLink to="/" className="flex flex-col justify-center leading-tight text-on-primary min-w-0 whitespace-nowrap">
-            <span className="text-headline-md font-headline-md font-bold tracking-tight">AP Nadu Nedu</span>
-            <span className="text-label-sm font-normal opacity-70 -mt-0.5">by dhethi</span>
+        <div className="flex items-center gap-4 min-w-0 shrink me-6">
+          {/* Brand lockup: name, then the byline hanging off its left edge.
+              `items-start` rather than the default stretch is what keeps the
+              byline aligned to the start of the name instead of drifting with
+              the link's box, and it holds when the name swaps between its long
+              and short form at xl. */}
+          {/* `overflow-hidden` with truncating children is the safety net.
+              Without it this block is nowrap AND unclipped, so when the header
+              runs short the name does not shorten — it simply draws over the
+              first nav item. That is how "Andhra Pradesh Fact Check" ended up
+              on top of "Home". Widths here depend on the real Public Sans
+              metrics, which differ from any fallback, so the layout must not
+              rely on a measured fit: it has to degrade safely at any width. */}
+          <NavLink
+            to="/"
+            className="flex flex-col items-start justify-center leading-tight text-on-primary min-w-0 overflow-hidden whitespace-nowrap"
+          >
+            {/* The full name is what a citation or a news story should carry,
+                but it does not fit a 390px header beside the language and menu
+                buttons. The short form is the same brand, not a different one —
+                the way readers already abbreviate the state. */}
+            <span className="text-headline-md font-headline-md font-bold tracking-tight truncate 2xl:hidden">
+              {t('nav.brandNameShort')}
+            </span>
+            <span className="text-title-lg font-title-lg font-bold tracking-tight truncate hidden 2xl:inline">
+              {t('nav.brandName')}
+            </span>
+            <span className="text-label-sm font-normal opacity-70 mt-0.5 tracking-wide truncate">by dhethi</span>
           </NavLink>
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-0.5 h-full min-w-0">
+        {/* `shrink-0`, not `min-w-0`. Every nav item is whitespace-nowrap, so a
+            nav allowed to shrink below its own content does not compress —
+            its last item simply overflows the nav's right edge and lands on
+            top of the search box. Measured at 1280/1440/1920: a constant
+            -7px gap, i.e. a real overlap, not a tight fit. The brand block
+            beside it carries `shrink` and a short-name fallback, so that is
+            what gives way when the header runs out of room. */}
+        <nav className="hidden lg:flex items-center gap-0.5 h-full shrink-0 me-4">
           {navLinks.map(({ to, key }) => (
             <NavLink
               key={to}
@@ -134,8 +165,10 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2 text-on-primary">
+        {/* Actions. `shrink-0` and the leading margin keep the search pill off
+            the last nav item — the two were sitting flush, so the Records
+            dropdown button and the search box read as one collided control. */}
+        <div className="flex items-center gap-2 text-on-primary shrink-0 ms-2">
           {/* Desktop search */}
           <form onSubmit={handleSearch} className="hidden xl:flex items-center gap-2 bg-primary-container/30 rounded-full px-3 py-1.5 border border-outline-variant/20">
             <span className="material-symbols-outlined text-[18px] text-on-primary/60">search</span>

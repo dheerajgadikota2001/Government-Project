@@ -62,7 +62,7 @@ function Expanded({ open, onClose, label, unit, note, rows, chart, children }) {
   }, [open])
   return (
     <dialog ref={ref} onClose={onClose}
-      className="rounded-2xl p-0 w-[min(860px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45">
+      className="rounded-2xl p-0 w-[min(860px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45">
       <div className="sticky top-0 bg-surface z-10 flex justify-between items-start px-6 pt-5 pb-3 border-b border-surface-variant gap-3">
         <div className="min-w-0">
           <h2 className="text-headline-sm font-headline-sm text-on-surface font-bold">{label}</h2>

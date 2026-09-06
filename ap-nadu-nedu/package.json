@@ -8,7 +8,10 @@
     "icons": "python scripts/icon-font.py",
     "prebuild": "node scripts/icon-font.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "postbuild": "node scripts/csp-hash-check.mjs",
+    "preview": "vite preview",
+    "layout-audit": "node scripts/layout-audit.mjs",
+    "test:unit": "node --test scripts/tests/*.test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

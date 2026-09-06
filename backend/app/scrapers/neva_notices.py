@@ -24,6 +24,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -36,6 +37,15 @@ PORTAL_NAME = "NeVA — AP Legislative Assembly"
 class NevaNoticesScraper(BaseScraper):
     PORTAL_NAME = "NeVA_APAssembly"
     BASE_URL = "https://apa.neva.gov.in"
+    SANITY = SanitySpec(
+        min_rows=1,
+        fields={
+            "title": FieldRule(required=True, min_len=8, max_len=500),
+            "url": FieldRule(required=True, min_len=10),
+            "date": FieldRule(min_year=2000, max_year_ahead=1),
+        },
+        key_field="url",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -83,6 +93,7 @@ class NevaNoticesScraper(BaseScraper):
             return None
 
     async def _save(self, entries: list[dict]) -> int:
+        entries = await self.gate(entries)
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:

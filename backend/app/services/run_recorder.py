@@ -25,6 +25,7 @@ from sqlalchemy import select
 
 from app.database import get_db_context
 from app.models.data_update import DataUpdate, RunStatus, RunTrigger
+from app.scrapers.sanity import SanityAbort
 from app.models.document import Document
 from app.models.news import NewsArticle
 from app.models.project import Project
@@ -33,7 +34,7 @@ from app.utils.logger import logger
 
 # Which table each scraper fills, so the recorder knows where to look for the
 # rows it just created. `None` means "this scraper writes somewhere we don't
-# sample from" — the count is still recorded, just without example items.
+# sample from". The count is still recorded, just without example items.
 SAMPLE_TABLES: dict[str, tuple[Type, str, str]] = {
     # scraper class name -> (model, title column, url column)
     "CAGDocumentsScraper": (Document, "title", "source_url"),
@@ -133,6 +134,28 @@ async def record(
         logger.error(f"run recorder: could not save the audit row for {source}: {exc}")
 
 
+async def previous_status(source: str, before_run_id: str) -> Optional[RunStatus]:
+    """The outcome of this source's most recent run before `before_run_id`.
+
+    Alerts are about change, not state. A portal that has been down for a week
+    should not produce a fresh "NEEDS YOU" every two hours; it should produce
+    one when it breaks, one when it recovers, and a line in the weekly heartbeat
+    in between. The previous outcome is what lets the caller tell those apart,
+    and it is already in data_updates, so no new table is needed to remember it.
+
+    Returns None when the source has never run before, which the caller treats
+    the same as "was fine": a first failure is news.
+    """
+    async with get_db_context() as db:
+        row = (await db.execute(
+            select(DataUpdate.status)
+            .where(DataUpdate.source == source, DataUpdate.run_id != before_run_id)
+            .order_by(DataUpdate.started_at.desc())
+            .limit(1)
+        )).scalar_one_or_none()
+    return row
+
+
 @asynccontextmanager
 async def track(run_id: str, source: str, scraper_cls: type, trigger: RunTrigger):
     """
@@ -142,18 +165,41 @@ async def track(run_id: str, source: str, scraper_cls: type, trigger: RunTrigger
             slot["records_new"] = await CAGDocumentsScraper().scrape()
 
     The caller puts its count in `slot`; exceptions are recorded as failures and
-    re-raised is deliberately NOT done — one dead portal must not stop the other
+    re-raised is deliberately NOT done. One dead portal must not stop the other
     five scrapers, which is the same contract run_all_scrapers.py already had.
     """
     started_at = datetime.now(timezone.utc)
     slot: dict[str, Any] = {"records_new": 0, "records_updated": 0}
     try:
         yield slot
-    except Exception as exc:
-        logger.error(f"{source}: FAILED — {exc}")
+    except SanityAbort as abort:
+        # A refusal is not a crash, and recording it as one would destroy the
+        # distinction the sanity layers exist to create. "The parser broke" and
+        # "the parser noticed the page moved and declined to write" produce the
+        # same exit code and read identically in a log, but one of them is the
+        # safety net doing its job, and the person reading the alert needs to
+        # know which they are looking at.
+        #
+        # SKIPPED rather than FAILED: this scraper ran, decided deliberately not
+        # to write, and the site is still serving correct data. That is much
+        # closer to "skipped" than to "failed", and it avoids an enum migration
+        # for a third state whose only consumer is one line of presentation.
+        logger.warning(f"{source}: BLOCKED. {abort}")
         await record(
             run_id=run_id, source=source, scraper=scraper_cls.__name__, started_at=started_at,
-            status=RunStatus.FAILED, trigger=trigger, error=str(exc),
+            status=RunStatus.SKIPPED, trigger=trigger, error=f"sanity refusal: {abort}",
+        )
+        slot["blocked"] = str(abort)
+        return
+    except Exception as exc:
+        # str() of an httpx timeout is the empty string, and an alert that says
+        # "FAILED:" followed by nothing has already cost a real evening of
+        # guessing. The type name is always present; the message when it exists.
+        detail = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+        logger.error(f"{source}: FAILED. {detail}")
+        await record(
+            run_id=run_id, source=source, scraper=scraper_cls.__name__, started_at=started_at,
+            status=RunStatus.FAILED, trigger=trigger, error=detail,
         )
         slot["failed"] = True
         return

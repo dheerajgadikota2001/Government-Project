@@ -12,11 +12,12 @@ import { useSearchParams } from 'react-router-dom'
 import { apiGet, apiPost } from '../lib/api'
 import { useT } from '../i18n'
 import Thread from '../components/community/Thread'
+import { EVENTS, track } from '../lib/analytics'
 
-const TOPICS = ['general', 'projects', 'investments', 'finances', 'governments', 'suggestions']
+const TOPICS = ['general', 'projects', 'investments', 'finances', 'governments']
 const TOPIC_ICONS = {
   general: 'forum', projects: 'construction', investments: 'currency_rupee',
-  finances: 'account_balance', governments: 'gavel', suggestions: 'lightbulb',
+  finances: 'account_balance', governments: 'gavel',
 }
 
 function CorrectionCard({ open, onToggle }) {
@@ -38,6 +39,11 @@ function CorrectionCard({ open, onToggle }) {
         contact: contact.trim() || null, lang,
       })
       setState('sent'); setBody(''); setPageKey(''); setContact('')
+      // That a correction was sent, and which page it was about. Never the
+      // text, and never the contact detail — a reader reporting a wrong figure
+      // about their government is exactly the person whose words must not
+      // travel anywhere except this platform's own database.
+      track(EVENTS.CORRECTION_SUBMITTED, { page_key: pageKey.trim() || 'unspecified' })
     } catch { setState('error') }
   }
 

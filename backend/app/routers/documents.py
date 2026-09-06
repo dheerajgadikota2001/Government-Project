@@ -1,7 +1,7 @@
-"""Documents API — government documents with on-demand Telugu translation.
+"""Documents API: government documents with on-demand Telugu translation.
 
 Filter options and stats come from the database itself, never from
-hardcoded lists — so the frontend's dropdowns can only ever offer values
+hardcoded lists, so the frontend's dropdowns can only ever offer values
 that actually exist in the data.
 """
 
@@ -20,7 +20,6 @@ from app.schemas.document import (
     DocumentFiltersOut,
 )
 from app.services.cache import cache_response
-from app.tasks.translation_tasks import translate_document_task
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
@@ -55,7 +54,7 @@ def _load_library() -> dict:
 async def get_document_library():
     """The full document library: every official series the platform draws on.
 
-    Served verbatim from the seed. Filtering happens client-side — the library
+    Served verbatim from the seed. Filtering happens client-side. The library
     is small enough, and the reader gets instant filters with no round trips.
     """
     return _load_library()
@@ -184,25 +183,23 @@ async def get_document(doc_id: int, db: AsyncSession = Depends(get_db)):
     return DocumentOut.model_validate(doc)
 
 
-@router.post("/{doc_id}/translate")
+@router.post("/{doc_id}/translate", status_code=501)
 async def request_translation(doc_id: int, db: AsyncSession = Depends(get_db)):
     """
-    Request Telugu translation for a document.
-    Translation runs async in the background via Celery.
-    Poll GET /{doc_id} to check translation_status.
+    Request a Telugu translation for a document. Not available yet.
+
+    The original handed the job to Celery. Celery's broker is redis://localhost
+    and nothing like that exists on Cloud Run, so every call was a 500 from a
+    connection error, and the first outside tester to press it would have
+    reported the site as broken. Until a worker actually exists this answers
+    501 with a reason, which a client can show as "not yet" rather than "error".
+    The 404 for an unknown document is kept, so the endpoint's contract does not
+    change shape when translation arrives.
     """
     result = await db.execute(select(Document).where(Document.id == doc_id))
     doc = result.scalar_one_or_none()
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
-
     if doc.translation_status == DocumentTranslationStatus.COMPLETED:
         return {"message": "Already translated", "status": "completed"}
-
-    if doc.translation_status == DocumentTranslationStatus.IN_PROGRESS:
-        return {"message": "Translation in progress", "status": "in_progress"}
-
-    # Kick off async translation job
-    translate_document_task.delay(doc_id)
-
-    return {"message": "Translation queued", "status": "pending", "doc_id": doc_id}
+    raise HTTPException(status_code=501, detail="translation_not_available")

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
+import { EVENTS, track } from '../lib/analytics'
 
 /**
  * Search results.
@@ -51,7 +52,17 @@ export default function Search() {
     let alive = true
     setState('loading')
     apiGet(`/search/?q=${encodeURIComponent(q)}&kind=${kind}&page_size=40`)
-      .then(d => { if (alive) { setData(d); setState('done') } })
+      .then(d => {
+        if (!alive) return
+        setData(d); setState('done')
+        // The COUNT of results and the length of the query — never the query.
+        // On a site about Andhra Pradesh politics, what a reader typed into a
+        // search box is the most sensitive thing they produce here, and it
+        // does not leave this browser. A zero-result search is a content gap:
+        // someone looked for something the register does not hold.
+        track(EVENTS.SEARCH_PERFORMED, { kind, results: d?.total ?? 0, query_length: q.trim().length })
+        if (!d?.total) track(EVENTS.SEARCH_ZERO_RESULTS, { kind, query_length: q.trim().length })
+      })
       .catch(() => { if (alive) setState('error') })
     return () => { alive = false }
   }, [q, kind])

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
+import { EVENTS, track } from '../lib/analytics'
+import useDataGap from '../lib/useDataGap'
 
 /**
  * Tenders on record — the live register, presented with its coverage stated.
@@ -35,6 +37,18 @@ export default function Tenders() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // What the register actually holds, so the tabs can print their own counts
+  // and the coverage line can name its portals instead of implying the state.
+  const [summary, setSummary] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+    apiGet('/tenders/register/summary')
+      .then(s => { if (!cancelled) setSummary(s) })
+      .catch(() => { if (!cancelled) setSummary(null) })  // never block the list
+    return () => { cancelled = true }
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     setLoading(true)
@@ -46,6 +60,15 @@ export default function Tenders() {
   }, [status, page])
 
   const items = data?.items ?? []
+
+  // Placed after `items` on purpose: referencing a const before its
+  // declaration is a temporal-dead-zone ReferenceError, which took the whole
+  // page down when this hook sat with the useState calls above.
+  useDataGap('tenders', {
+    empty: !loading && !error && items.length === 0,
+    loading,
+    extra: { tab: status },
+  })
   const total = data?.total ?? 0
 
   return (
@@ -56,13 +79,26 @@ export default function Tenders() {
         {/* Coverage, stated before any number */}
         <p className="text-label-md text-on-surface-variant bg-surface-container rounded-lg px-4 py-3 max-w-3xl leading-relaxed">
           {t('tenders.coverage')}
+          {summary?.portals?.length > 0 && (
+            <>
+              {' '}
+              <span className="text-on-surface">
+                {t('tenders.portalBreak', {
+                  list: summary.portals
+                    .map(p => `${p.portal} (${p.total}${p.active ? `, ${p.active} open` : ''})`)
+                    .join('; '),
+                })}
+              </span>
+            </>
+          )}
         </p>
       </header>
 
       <div className="flex gap-2">
         {[['active', t('tenders.tabActive')], ['closed', t('tenders.tabClosed')]].map(([k, lbl]) => (
-          <button key={k} type="button" onClick={() => { setStatus(k); setPage(1) }}
+          <button key={k} type="button" onClick={() => { setStatus(k); setPage(1); track(EVENTS.TENDERS_TAB, { tab: k }) }}
             aria-pressed={status === k}
+            data-count={summary?.by_status?.[k]}
             className={[
               'text-label-md px-4 py-2 rounded-full border transition-colors',
               status === k
@@ -70,6 +106,9 @@ export default function Tenders() {
                 : 'bg-surface-container-lowest text-on-surface-variant border-outline-variant hover:bg-surface-container',
             ].join(' ')}>
             {lbl}
+            {summary?.by_status?.[k] != null && (
+              <span className="ms-1.5 tabular-nums opacity-80">{summary.by_status[k]}</span>
+            )}
           </button>
         ))}
         {!loading && !error && (
@@ -91,6 +130,10 @@ export default function Tenders() {
         </p>
       )}
 
+      {status !== 'active' && !error && (
+        <p className="text-label-sm text-on-surface-variant -mt-2">{t('tenders.archiveNote')}</p>
+      )}
+
       {!loading && !error && items.length === 0 && (
         <p className="text-body-md text-on-surface-variant border border-dashed border-outline-variant rounded-xl px-5 py-10 text-center">
           {t('tenders.none')}
@@ -101,6 +144,7 @@ export default function Tenders() {
         <div className="flex flex-col gap-3">
           {items.map(td => {
             const dl = status === 'active' ? daysLeft(td.bid_submission_end) : null
+            const expired = status !== 'active' && td.bid_submission_end
             return (
               <article key={td.id} className="border border-surface-variant rounded-xl bg-surface-container-lowest p-4 flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-3">
@@ -108,6 +152,11 @@ export default function Tenders() {
                   {dl != null && dl >= 0 && (
                     <span className={`text-label-sm px-2.5 py-1 rounded-full border whitespace-nowrap shrink-0 ${dl <= 7 ? 'border-error/50 text-error bg-error/5 font-bold' : 'border-outline-variant text-on-surface-variant'}`}>
                       {tn('tenders.daysLeft', dl)}
+                    </span>
+                  )}
+                  {expired && (
+                    <span className="text-label-sm px-2.5 py-1 rounded-full border border-outline-variant text-on-surface-variant bg-surface-container whitespace-nowrap shrink-0">
+                      {t('tenders.expiredOn', { date: fmtDate(td.bid_submission_end) })}
                     </span>
                   )}
                 </div>

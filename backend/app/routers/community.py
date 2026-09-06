@@ -1,5 +1,5 @@
 """
-Community API — public message board + private correction reports.
+Community API: public message board + private correction reports.
 
 Safety model (no accounts, no captchas, no stored IPs):
 - Rate limits per salted IP hash: 10 posts/hour, 3 correction reports/hour.
@@ -83,8 +83,15 @@ async def _rate_limit(db: AsyncSession, model, iph: str, per_hour: int) -> None:
 
 
 def _require_admin(x_admin_key: Optional[str]) -> None:
+    """Constant-time check, and an unset key means locked, never open.
+
+    `!=` short-circuits on the first differing byte, which leaks how much of a
+    guess was right through timing. compare_digest does not. Post deletion in
+    this same file already used it; the admin gate is the one that guards
+    removal of other people's posts, so it must too.
+    """
     expected = get_settings().admin_key
-    if not expected or x_admin_key != expected:
+    if not expected or not x_admin_key or not secrets.compare_digest(x_admin_key, expected):
         raise HTTPException(status_code=403, detail="admin_key_required")
 
 

@@ -1,5 +1,5 @@
 """
-The data-version stamp — the platform's cache escape hatch.
+The data-version stamp: the platform's cache escape hatch.
 
 THE PROBLEM THIS SOLVES
 Firebase Hosting has no purge button for dynamic content. Once a response is
@@ -8,7 +8,7 @@ is no supported way to revoke it early.
 
 For most sites that is a shrug. For this one it is a real problem: the entire
 promise is that the figure on the page is the government's real figure, and the
-moment we correct one, the old number should stop being served — not in five
+moment we correct one, the old number should stop being served, not in five
 minutes, now.
 
 HOW IT WORKS
@@ -19,7 +19,7 @@ still exist, but nothing asks for them again. That is a global purge in the only
 currency a CDN understands.
 
 The stamp is derived from the seed files themselves, so it changes automatically
-whenever `load_seed_data.py` is run — nobody has to remember to bump anything.
+whenever `load_seed_data.py` is run. Nobody has to remember to bump anything.
 It also folds in the app version, so a deploy that changes how a figure is
 computed busts the cache too.
 
@@ -28,15 +28,19 @@ by matching "/meta/version" in its never-cache list.
 """
 
 import hashlib
+import json
 import os
+import secrets
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request, Response
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
+from app.utils.logger import logger
 from app.database import get_db
 from app.models.data_update import DataUpdate
 
@@ -52,7 +56,7 @@ def compute_data_version() -> str:
     contents: hashing tens of megabytes on every call would be its own problem,
     and size-plus-mtime moves whenever a seed is genuinely rewritten. If the seed
     directory is missing entirely we still return a stable stamp rather than
-    failing — a missing stamp would silently disable cache-busting, which is a
+    failing, a missing stamp would silently disable cache-busting, which is a
     worse failure than a coarse one.
     """
     hasher = hashlib.sha256()
@@ -73,7 +77,7 @@ def compute_data_version() -> str:
 
 
 # Computed once at import. A running container's seed files do not change
-# underneath it — a seed reload is followed by a restart — and recomputing on
+# underneath it, a seed reload is followed by a restart, and recomputing on
 # every request would put a directory stat in the hot path of every page load.
 _CACHED_VERSION = compute_data_version()
 
@@ -94,7 +98,73 @@ async def data_version():
 
 
 # ============================================================
-#  What changed, and when — the public refresh log
+#  Who does the server think you are, and why
+# ============================================================
+#
+# The rate limiter keys on a client address. Behind Firebase Hosting and Cloud
+# Run the real client is somewhere inside X-Forwarded-For, and uvicorn is run
+# with --forwarded-allow-ips="*", which trusts the leftmost entry, the one a
+# client can write itself. Before the limiter's key function is changed, the
+# real layout has to be observed on the live deployment, not guessed. This
+# endpoint is that observation. It is behind the admin key because it echoes
+# request headers, and it should be removed once the key function is fixed.
+
+@router.get("/whoami")
+async def whoami(
+    request: Request,
+    x_admin_key: Optional[str] = Header(None),
+):
+    expected = settings.admin_key
+    if not expected or not x_admin_key or not secrets.compare_digest(x_admin_key, expected):
+        raise HTTPException(status_code=403, detail="admin_key_required")
+    from slowapi.util import get_remote_address
+    return {
+        "limiter_sees": get_remote_address(request),
+        "client_host": request.client.host if request.client else None,
+        "x_forwarded_for": request.headers.get("x-forwarded-for"),
+        "x_real_ip": request.headers.get("x-real-ip"),
+        "forwarded": request.headers.get("forwarded"),
+        "via": request.headers.get("via"),
+        "how_to_read": (
+            "Call this from a phone on mobile data, once plainly and once with a "
+            "header X-Forwarded-For: 1.2.3.4. If limiter_sees becomes 1.2.3.4 the "
+            "limiter is spoofable and the key must move to the rightmost trusted hop."
+        ),
+    }
+
+
+# ============================================================
+#  Content-Security-Policy reports
+# ============================================================
+#
+# firebase.json sends a report-only CSP. Browsers POST a small JSON document
+# here whenever a page would have violated it. Nothing is stored; each report
+# becomes one log line, which is enough to read the policy in against real
+# traffic for a week before it is enforced. Body is capped so this cannot be
+# used as a free log-filling endpoint.
+
+@router.post("/csp-report", status_code=204)
+async def csp_report(request: Request):
+    raw = await request.body()
+    if len(raw) > 4096:
+        return Response(status_code=204)
+    try:
+        doc = json.loads(raw or b"{}")
+        rep = doc.get("csp-report") or doc
+        logger.warning(
+            "[csp] %s blocked %s on %s (directive: %s)",
+            "would-have" if rep.get("disposition", "report") == "report" else "did",
+            str(rep.get("blocked-uri", "?"))[:200],
+            str(rep.get("document-uri", "?"))[:200],
+            str(rep.get("violated-directive") or rep.get("effective-directive") or "?")[:80],
+        )
+    except Exception:                                   # noqa: BLE001
+        logger.warning("[csp] unparseable report (%d bytes)", len(raw))
+    return Response(status_code=204)
+
+
+# ============================================================
+#  What changed, and when: the public refresh log
 # ============================================================
 #
 # A reader who notices a figure move is entitled to ask what changed and where
@@ -132,7 +202,7 @@ async def data_updates(
 
     Grouping happens here rather than in the client because a run is the unit a
     reader thinks in ("the site updated this morning"), while the table stores
-    one row per source — six rows for one event.
+    one row per source, six rows for one event.
     """
     since = datetime.now(timezone.utc) - timedelta(days=days)
     rows = (

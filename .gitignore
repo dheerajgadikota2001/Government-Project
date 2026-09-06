@@ -60,3 +60,6 @@ cloud-sql-proxy.exe
 
 # Firebase CLI deploy cache — a local hash of the last upload, not source.
 .firebase/
+
+# per-machine production credentials for laptop runs (see backend/scripts/tenders_local.bat)
+.env.cloud

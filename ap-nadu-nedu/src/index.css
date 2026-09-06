@@ -158,8 +158,17 @@ html, body { overflow-x: hidden; }
 body { overflow-wrap: break-word; }
 
 /* Flex and grid children default to min-width:auto, which is what makes a
-   long label refuse to shrink and blow out the row. */
-.flex > *, .grid > * { min-width: 0; }
+   long label refuse to shrink and blow out the row.
+
+   :where() is load-bearing. Written plainly as `.flex > *`, this rule carries
+   the same specificity as a Tailwind utility and sits AFTER the utility layer
+   in the compiled sheet — so it silently beat every `min-w-*` on a flex or grid
+   child, site-wide. That is what made the Advanced-view filter labels render one
+   letter per line: `min-w-[9rem]` was compiled, shipped, and then overridden
+   here. :where() drops this to zero specificity, so it still applies by default
+   and any explicit min-width now wins, which is the behaviour that was intended
+   all along. */
+:where(.flex) > *, :where(.grid) > * { min-width: 0; }
 
 /* A fixed height is a promise about text length that only English keeps.
    Outside English, let those boxes grow. */
@@ -172,3 +181,12 @@ html:not([lang='en']) [data-nowrap-en] {
   overflow: visible;
   text-overflow: clip;
 }
+
+/* ------------------------------------------------------------
+   Horizontal tab strips
+   ------------------------------------------------------------
+   Several tab rows carry more tabs than fit across a phone. They scroll
+   sideways, and the scrollbar itself is noise on a touch screen — but hiding
+   it must never disable the scrolling. */
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }

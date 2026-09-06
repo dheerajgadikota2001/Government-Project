@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
 import { TENURE_COLOR, TENURE_HATCHED } from '../lib/tenure'
+import TenurePicture from './TenurePicture'
 
 /**
  * The register: every project, and what happened on it, in order.
@@ -261,7 +262,7 @@ function ProjectCard({ p, q, t, open, onToggle, detail, detailError }) {
 
 /* ================================================================= the tab */
 
-export default function AllProjects() {
+export default function AllProjects({ district = '', onClearDistrict }) {
   const { t } = useT()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -292,20 +293,34 @@ export default function AllProjects() {
   }
 
   const shown = useMemo(() => {
-    if (!data) return []
+    // `!data` was not a strong enough guard. It catches "still loading" and
+    // misses "the response arrived and is not the shape we expected" — an older
+    // deployment, an error body, a proxy returning something else — and the
+    // next line then throws inside a useMemo, which unmounts the whole page.
+    //
+    // A white screen is the one failure this platform cannot afford: it looks
+    // identical to having nothing to say. An empty list is honest and the page
+    // around it still explains what the register is. The district links from
+    // the map all land in this view, so it is now the page readers arrive on.
+    if (!Array.isArray(data?.projects)) return []
     const k = norm(q)
     return data.projects.filter(p =>
+      // The district comes from the URL, not from a control in here. A reader
+      // who arrived from the map with a district and then switched to this tab
+      // must not silently get every project back — that reads as the site
+      // losing their filter rather than as a different view of it.
+      (!district || p.district === district) &&
       (!type || p.project_type === type) &&
       (!status || p.status === status) &&
       (!tenure || p.spans.includes(tenure)) &&
       (!spanning || p.spans_multiple_governments) &&
       (!k || [p.title, p.district, p.department, p.description, p.external_id]
         .some(v => norm(v).includes(k))))
-  }, [data, q, type, status, tenure, spanning])
+  }, [data, q, type, status, tenure, spanning, district])
 
   // Reset the visible window whenever the result set changes, so a new filter
   // does not leave a reader looking at page four of something else.
-  useEffect(() => { setLimit(PAGE) }, [q, type, status, tenure, spanning])
+  useEffect(() => { setLimit(PAGE) }, [q, type, status, tenure, spanning, district])
 
   if (error) {
     return <p className="text-body-md text-on-surface">{t('register.error', { message: error.message })}</p>
@@ -339,6 +354,19 @@ export default function AllProjects() {
 
       {/* ------------------------------------------------------- filters */}
       <div className="flex flex-col gap-2">
+        {district && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-label-sm uppercase tracking-wide text-on-surface-variant me-1">{t('register.filter.district')}</span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary text-on-primary ps-3 pe-2 py-1 text-label-md font-bold">
+              {district}
+              {onClearDistrict && (
+                <button type="button" onClick={onClearDistrict}
+                  aria-label={t('register.filter.clearDistrict', { name: district })}
+                  className="w-5 h-5 rounded-full bg-white/20 hover:bg-white/35 transition-colors leading-none">✕</button>
+              )}
+            </span>
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-label-sm uppercase tracking-wide text-on-surface-variant me-1">{t('register.filter.type')}</span>
           {data.filters.project_type.map(x => (
@@ -370,6 +398,9 @@ export default function AllProjects() {
       <p className="text-label-md text-on-surface-variant" role="status" aria-live="polite">
         {t('register.showing', { n: shown.length, total: data.counts.projects })}
       </p>
+
+      {/* Recomputes from `shown`, so it always describes the list under it. */}
+      <TenurePicture shown={shown} tenure={tenure} setTenure={setTenure} />
 
       {shown.length === 0 ? (
         <p className="text-body-md text-on-surface-variant border border-dashed border-outline-variant rounded-xl px-5 py-8 text-center">
