@@ -1,0 +1,119 @@
+# Refresh the tenders register from GitHub's network, because Google's cannot.
+#
+# WHY THIS RUNS HERE
+# crda.ap.gov.in drops connections from Google Cloud (proven from Cloud Run on
+# 6 Sep 2026, browser User-Agent included) and answers a GitHub runner in a
+# second (probe-crda.yml, run 1, same day, from a Microsoft address in
+# Virginia). So this one source refreshes from a runner while every other
+# source refreshes from the apnn-refresh Cloud Run job. The scraper, the sanity
+# gate, the run record on /updates and the email alerts are the same code on
+# both machines; only the network differs.
+#
+# HOW IT REACHES THE DATABASE WITHOUT A STORED KEY
+# GitHub gives the run a short-lived signed token saying "repository X, branch
+# main". Google is configured to accept that token only for this repository on
+# main, and to let it act as the apnn-github-tenders service account. That
+# account can do two things: open a Cloud SQL connection and read two secrets.
+# The Cloud SQL Auth Proxy then carries the database connection over TLS.
+# Nothing sensitive lives in GitHub. One-time setup: docs/TENDERS-ON-GITHUB.md.
+#
+# READING A RUN
+#   green              tenders refreshed, or nothing new on the board
+#   green with warning the sanity gate held the run back; nothing was written
+#   red                the scrape or the connection failed; an email with
+#                      advice has gone out, and /updates shows the failure
+#
+# Runs at 09:00 IST. GitHub starts scheduled runs late when it is busy,
+# sometimes by an hour; the run record carries the real time.
+
+name: Refresh tenders
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: tenders-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  INSTANCE: ap-nadu-nedu:asia-south1:apnn-db
+  PROXY_PORT: "5433"
+  PROXY_VERSION: v2.14.1
+
+jobs:
+  tenders:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install the backend
+        run: pip install --quiet -r requirements.txt
+
+      - name: Log in to Google Cloud with a short-lived token
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/944887325761/locations/global/workloadIdentityPools/github/providers/github-repo
+          service_account: apnn-github-tenders@ap-nadu-nedu.iam.gserviceaccount.com
+
+      - name: Read the two secrets this run needs
+        id: secrets
+        uses: google-github-actions/get-secretmanager-secrets@v2
+        with:
+          secrets: |-
+            database_url:ap-nadu-nedu/DATABASE_URL
+            resend_api_key:ap-nadu-nedu/RESEND_API_KEY
+
+      - name: Start the Cloud SQL Auth Proxy
+        # The must-be-free check is the lesson from the laptop runner: a proxy
+        # that fails to bind while something else answers the port produces a
+        # run that looks successful and wrote to the wrong database.
+        run: |
+          python scripts/wait_port.py "$PROXY_PORT" --must-be-free
+          curl -fsSL -o cloud-sql-proxy "https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/${PROXY_VERSION}/cloud-sql-proxy.linux.amd64"
+          chmod +x cloud-sql-proxy
+          ./cloud-sql-proxy --address 127.0.0.1 --port "$PROXY_PORT" "$INSTANCE" > proxy.log 2>&1 &
+          python scripts/wait_port.py "$PROXY_PORT" 40 || { echo "proxy did not come up:"; cat proxy.log; exit 1; }
+
+      - name: Point the database address at the proxy
+        # The secret is already masked in logs; the rewritten URL is a new
+        # string, so it is masked again before it is stored for later steps.
+        env:
+          DATABASE_URL_CLOUD: ${{ steps.secrets.outputs.database_url }}
+        run: |
+          url="$(python scripts/db_url_via_proxy.py --port "$PROXY_PORT")"
+          echo "::add-mask::$url"
+          echo "DATABASE_URL=$url" >> "$GITHUB_ENV"
+
+      - name: Refresh tenders
+        env:
+          APP_ENV: production
+          RESEND_API_KEY: ${{ steps.secrets.outputs.resend_api_key }}
+          ALERT_TO: dheerajgadikota@gmail.com
+          TRIGGER: ${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}
+        run: |
+          set -o pipefail
+          python scripts/run_all_scrapers.py --only tenders --trigger "$TRIGGER" 2>&1 | tee run.log
+          if grep -q "BLOCKED" run.log; then
+            echo "::warning title=Sanity gate::The tenders run was held back and nothing was written. The email and /updates say why."
+          fi
+
+      - name: Stop the proxy
+        if: always()
+        run: pkill -f cloud-sql-proxy || true

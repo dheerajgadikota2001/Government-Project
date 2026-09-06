@@ -8,7 +8,9 @@ database, so it is always safe to re-run.
     python scripts/run_all_scrapers.py                     # everything
     python scripts/run_all_scrapers.py --only tenders      # just the fast group
     python scripts/run_all_scrapers.py --only news
-    python scripts/run_all_scrapers.py --trigger scheduled # how the job calls it
+    python scripts/run_all_scrapers.py --trigger scheduled # how a scheduled run calls it
+    python scripts/run_all_scrapers.py --skip tenders --trigger scheduled   # the Cloud Run job
+    python scripts/run_all_scrapers.py --only tenders --trigger scheduled   # the GitHub Actions job
 
 GROUPS
 Sources move at different speeds, and pretending otherwise wastes both our time
@@ -200,7 +202,12 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources) ->
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--only", choices=GROUPS, action="append", help="run only this group (repeatable)")
+    parser.add_argument("--skip", choices=GROUPS, action="append",
+                        help="run everything except this group (repeatable). The Cloud Run job passes "
+                             "--skip tenders because crda.ap.gov.in blocks Google's network; tenders "
+                             "refresh from GitHub Actions instead (.github/workflows/tenders-refresh.yml)")
     parser.add_argument("--trigger", choices=[t.value for t in RunTrigger], default=RunTrigger.MANUAL.value,
-                        help="who started this run; the Cloud Run job passes 'scheduled'")
+                        help="who started this run; scheduled runs pass 'scheduled'")
     args = parser.parse_args()
-    raise SystemExit(asyncio.run(main(args.only or GROUPS, RunTrigger(args.trigger))))
+    groups = [g for g in (args.only or GROUPS) if g not in (args.skip or [])]
+    raise SystemExit(asyncio.run(main(groups, RunTrigger(args.trigger))))

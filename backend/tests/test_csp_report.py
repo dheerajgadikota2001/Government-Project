@@ -7,7 +7,7 @@ from app.main import app
 
 @pytest.mark.asyncio
 async def test_report_is_accepted_and_logged(caplog):
-    body = {"csp-report": {"document-uri": "https://apfactcheck.dhethi.com/projects",
+    body = {"csp-report": {"document-uri": "https://apfactcheck.dheeco.com/projects",
                            "blocked-uri": "https://evil.example/x.js",
                            "violated-directive": "script-src", "disposition": "report"}}
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Static routes only; project/news detail pages are discovered through the list pages. Regenerate when a route is added. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://apfactcheck.dhethi.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/projects</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/investments</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/news</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/documents</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/tenders</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/finances</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/governments</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/school-education</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/states</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/updates</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/sources</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/search</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/about</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/disclaimer</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/community</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/state-facts</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://apfactcheck.dhethi.com/contacts</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/projects</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/investments</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/news</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/documents</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/tenders</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/finances</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/governments</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/school-education</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/states</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/updates</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/sources</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/search</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/about</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/disclaimer</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/privacy</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/community</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/state-facts</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://apfactcheck.dheeco.com/contacts</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
 </urlset>

@@ -63,3 +63,6 @@ cloud-sql-proxy.exe
 
 # per-machine production credentials for laptop runs (see backend/scripts/tenders_local.bat)
 .env.cloud
+
+# Working notes for the AI assistant. Local context only, never committed.
+CLAUDE.md
