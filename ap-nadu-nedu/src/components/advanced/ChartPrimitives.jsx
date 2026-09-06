@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 import { useT } from '../../i18n'
+import { EVENTS, track } from '../../lib/analytics'
 
 /**
  * Chart primitives for the Advanced views — hand-built SVG, no chart library.
@@ -46,8 +47,14 @@ export function useChartTip() {
     <div
       className="fixed z-[100] pointer-events-none bg-on-surface text-surface rounded-lg px-3 py-2 text-label-sm max-w-[260px]"
       style={{
-        left: Math.min(tip.x + 14, window.innerWidth - 270),
-        top: Math.max(8, tip.y - 64),
+        // Sit the tip beside the cursor, and flip it to the other side when it
+        // would run off the right edge. It used to be clamped instead, which
+        // parked it on top of the neighbouring bars — a tooltip that hides the
+        // data it is explaining.
+        left: tip.x + 16 + 280 > window.innerWidth ? tip.x - 296 : tip.x + 16,
+        // Above the cursor normally; below it near the top of the window, so
+        // the tip is never pushed off-screen.
+        top: tip.y - 72 < 8 ? tip.y + 20 : tip.y - 72,
         background: '#0b0b0b',
         color: '#fff',
       }}
@@ -240,16 +247,85 @@ export function StatTiles({ tiles }) {
 
 // ---------------- shared section wrapper ----------------
 
-export function VizSection({ id, title, sub, provenance, info, children }) {
+/**
+ * A titled section that opens on click.
+ *
+ * These pages carry a lot of evidence, and showing all of it at once buries the
+ * thing a reader came for. The heading is now the control: the summary line
+ * (title + one-line `sub`) always shows, so the page reads as a contents list,
+ * and the charts and tables appear when asked for. Nothing is removed — this is
+ * purely disclosure.
+ *
+ * Built on <details>/<summary> rather than a useState toggle, which buys
+ * keyboard access, screen-reader semantics and browser find-in-page for free.
+ *
+ * The one thing this must not break: several of these sections are anchor
+ * targets (#spending, #orders) linked from elsewhere on the site. A collapsed
+ * section that ignored its own deep link would trade a layout problem for a
+ * navigation one, so a matching URL hash forces the section open — on first
+ * render and on later hash changes alike.
+ */
+/**
+ * A panel the reader explicitly asked to see should not arrive collapsed.
+ *
+ * VizSection defaults to closed, which is right for heavy charts sitting in a
+ * long page. It is wrong the moment the reader has already clicked "See this
+ * as charts" — they then get a second, identical-looking heading and read the
+ * result as "I asked for charts and got data". Anything rendered inside a
+ * VizOpen provider opens by default instead.
+ */
+export const VizOpenContext = createContext(false)
+export function VizOpen({ children }) {
+  return <VizOpenContext.Provider value={true}>{children}</VizOpenContext.Provider>
+}
+
+export function VizSection({ id, title, sub, provenance, info, defaultOpen, children }) {
+  const targeted = () =>
+    typeof window !== 'undefined' && id && window.location.hash === `#${id}`
+  const forcedOpen = useContext(VizOpenContext)
+  const [open, setOpen] = useState(
+    (defaultOpen ?? forcedOpen) || targeted()
+  )
+
+  useEffect(() => {
+    if (!id) return
+    const onHash = () => { if (targeted()) setOpen(true) }
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [id])
+
   return (
-    <section id={id} className="bg-surface-container-lowest border border-surface-variant rounded-xl p-5 scroll-mt-20">
-      <h3 className="text-body-lg font-bold text-on-surface inline-flex items-center gap-2">{title}{info}</h3>
-      {sub && <p className="text-label-md text-on-surface-variant mt-0.5 mb-3">{sub}</p>}
-      {children}
-      {provenance && (
-        <p className="text-label-sm text-outline mt-3 pt-2 border-t border-dashed border-surface-variant">{provenance}</p>
-      )}
-    </section>
+    <details
+      id={id}
+      open={open}
+      onToggle={e => {
+        const now = e.currentTarget.open
+        setOpen(now)
+        // Only the opening. A close is the same reader finishing with it and
+        // would double every count for no extra meaning.
+        if (now) track(EVENTS.CHART_EXPANDED, { chart: id || String(title).slice(0, 60) })
+      }}
+      className="group bg-surface-container-lowest border border-surface-variant rounded-xl scroll-mt-20"
+    >
+      <summary className="list-none cursor-pointer p-5 flex items-start gap-3 rounded-xl hover:bg-surface-container transition-colors">
+        <span className="flex flex-col gap-0.5 min-w-0">
+          <span className="text-body-lg font-bold text-on-surface inline-flex items-center gap-2">{title}{info}</span>
+          {sub && <span className="text-label-md text-on-surface-variant">{sub}</span>}
+        </span>
+        <span
+          aria-hidden="true"
+          className="ms-auto shrink-0 mt-1 text-on-surface-variant transition-transform group-open:rotate-180"
+        >
+          ▾
+        </span>
+      </summary>
+      <div className="px-5 pb-5">
+        {children}
+        {provenance && (
+          <p className="text-label-sm text-outline mt-3 pt-2 border-t border-dashed border-surface-variant">{provenance}</p>
+        )}
+      </div>
+    </details>
   )
 }
 

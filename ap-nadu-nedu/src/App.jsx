@@ -1,4 +1,6 @@
 import { lazy, Suspense } from 'react'
+import ChunkReloadBoundary from './components/ChunkReloadBoundary'
+import Analytics from './components/Analytics'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { LanguageProvider } from './i18n'
 import Header from './components/Layout/Header'
@@ -18,6 +20,7 @@ const Tenders = lazy(() => import('./pages/Tenders'))
 const Search = lazy(() => import('./pages/Search'))
 const About = lazy(() => import('./pages/About'))
 const Disclaimer = lazy(() => import('./pages/Disclaimer'))
+const Privacy = lazy(() => import('./pages/Privacy'))
 const Finances = lazy(() => import('./pages/Finances'))
 const Governments = lazy(() => import('./pages/Governments'))
 const SchoolEducation = lazy(() => import('./pages/SchoolEducation'))
@@ -48,9 +51,15 @@ export default function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+      {/* Inside the router: it needs useLocation. Renders nothing. */}
+      <Analytics />
       <div className="bg-background text-on-background min-h-screen flex flex-col font-sans antialiased">
         <Header />
         <main className="flex-grow flex flex-col pb-16 lg:pb-0">
+          {/* A lazily-loaded route whose chunk no longer exists takes the
+              whole tree down with it — see ChunkReloadBoundary for why that
+              happens on every deploy and why a reload is the cure. */}
+          <ChunkReloadBoundary>
           <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -72,11 +81,13 @@ export default function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/about" element={<About />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/community" element={<Community />} />
             <Route path="/state-facts" element={<StateFacts />} />
             <Route path="/contacts" element={<Contacts />} />
           </Routes>
           </Suspense>
+          </ChunkReloadBoundary>
         </main>
         <Footer />
         <BottomNav />

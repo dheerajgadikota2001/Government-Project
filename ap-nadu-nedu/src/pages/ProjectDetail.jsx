@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { apiGet } from '../lib/api'
+import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
+import Deferred from '../components/Deferred'
 import SourceDocuments from '../components/SourceDocuments'
 import PageThread from '../components/community/PageThread'
 import { TENURE_COLOR } from '../lib/tenure'
+import { EVENTS, track } from '../lib/analytics'
 
 /**
- * Project detail — 100% live from the API. Nothing on this page is sample
+ * Project detail: 100% live from the API. Nothing on this page is sample
  * content: every figure comes from the project row (seeded/scraped from
  * cited official sources), photographs and documents render only when they
  * actually exist, and the dated record lists official observations with
  * their source documents. Where a value was never published, the page says
- * "not published" — never a guess.
+ * "not published", never a guess.
  */
 
 /* Status badges. The label for each enum value lives under projects.status.*,
@@ -53,7 +55,7 @@ const makeFmts = t => {
   }
 }
 
-/* Government tenures since bifurcation — used to color the timeline and to
+/* Government tenures since bifurcation: used to color the timeline and to
  * attribute progress honestly. Dates are the swearing-in boundaries. */
 const TENURES = [
   { key: 'pre', labelKey: 'projectDetail.tenures.pre', color: '#9a9890', from: '1900-01-01', to: '2014-06-07' },
@@ -66,7 +68,7 @@ const tenureOf = iso => {
   return TENURES.find(t => d >= new Date(t.from) && d <= new Date(t.to)) || TENURES[0]
 }
 
-/** Vertical timeline — every dot is a published date, colored by which
+/** Vertical timeline: every dot is a published date, colored by which
  * government was in office on that date. */
 function Timeline({ events }) {
   const { t } = useT()
@@ -106,10 +108,10 @@ function Timeline({ events }) {
 }
 
 /**
- * Which government built how much — attributed ONLY where the dated record
+ * Which government built how much: attributed ONLY where the dated record
  * allows it. A progress change between two published figures is credited to
  * a tenure only when both dates fall inside that one tenure; a change that
- * spans a government handover is shown as "cannot be split" — we never
+ * spans a government handover is shown as "cannot be split", we never
  * divide credit ourselves.
  */
 function TenureProgressBand({ project, obs }) {
@@ -118,7 +120,7 @@ function TenureProgressBand({ project, obs }) {
   const points = []
   const startISO = project.start_date || project.announced_date
   if (startISO) points.push({ d: startISO, pct: 0, label: t(project.start_date ? 'projectDetail.band.worksBegan' : 'projectDetail.band.announced') })
-  // o.source_label names a real document — API content, never translated.
+  // o.source_label names a real document, API content, never translated.
   obs.forEach(o => { if (o.completion_percentage != null) points.push({ d: o.observed_date, pct: o.completion_percentage, label: o.source_label || t('projectDetail.band.publishedFigure') }) })
   if (project.status === 'completed' && project.actual_completion) {
     points.push({ d: project.actual_completion, pct: 100, label: t('projectDetail.band.completed') })
@@ -143,19 +145,41 @@ function TenureProgressBand({ project, obs }) {
   if (!segs.length) return null
   const totalPct = dedup[dedup.length - 1].pct
 
+  // Progress that already existed at the first published figure. Where a
+  // project was 71% done before any dated record we hold, that 71% is most of
+  // the story and it used to be drawn nowhere at all, the bar rendered only
+  // the attributable deltas and let a grey flex-1 filler take the rest, so a
+  // 78%-complete project appeared about 10% done. Everything below is now sized
+  // against the same 0-100 scale as the project itself.
+  const baselinePct = Math.max(0, dedup[0].pct)
+  const unreportedPct = Math.max(0, 100 - totalPct)
+
   return (
     <section className="bg-surface-container-lowest border border-surface-variant rounded-xl p-5">
       <h2 className="text-title-md font-bold text-on-surface mb-1">{t('projectDetail.band.title')}</h2>
       <p className="text-label-sm text-on-surface-variant mb-3 max-w-3xl">
         {t('projectDetail.band.intro')}
       </p>
-      <div className="w-full h-6 rounded-full overflow-hidden flex border border-surface-variant" role="img"
+      <div className="w-full h-6 rounded-full overflow-hidden flex gap-[2px] border border-surface-variant" role="img"
         aria-label={t('projectDetail.band.chartLabel')}>
+        {baselinePct > 0 && (
+          <div
+            className="h-full"
+            style={{
+              width: `${baselinePct}%`,
+              // Neither a government's credit nor unbuilt work: this is real
+              // progress whose timing the record does not give. It reads as
+              // "counted, but unattributed".
+              background: 'repeating-linear-gradient(90deg, #cfcdc4 0 2px, #e4e2da 2px 5px)',
+            }}
+            title={t('projectDetail.band.beforeRecordTip', { pct: baselinePct.toFixed(1) })}
+          />
+        )}
         {segs.map((s, i) => (
           <div key={i}
             className="h-full"
             style={{
-              width: `${(s.delta / Math.max(totalPct, 1)) * 100}%`,
+              width: `${s.delta}%`,
               background: s.single
                 ? s.single.color
                 : 'repeating-linear-gradient(45deg, #b9b7ad 0 6px, #d9d7cd 6px 12px)',
@@ -165,9 +189,26 @@ function TenureProgressBand({ project, obs }) {
               : t('projectDetail.band.segmentTipSpanned', { pct: s.delta.toFixed(1) })}
           />
         ))}
-        {totalPct < 100 && <div className="h-full flex-1 bg-surface-container-high" title={t('projectDetail.band.notReported')} />}
+        {unreportedPct > 0 && (
+          <div className="h-full bg-surface-container-high"
+            style={{ width: `${unreportedPct}%` }}
+            title={t('projectDetail.band.notReported')} />
+        )}
       </div>
       <ul className="flex flex-col gap-1.5 mt-3 text-label-md text-on-surface">
+        {baselinePct > 0 && (
+          <li className="flex items-start gap-2">
+            <span className="w-3 h-3 rounded-sm mt-1 shrink-0"
+              style={{ background: 'repeating-linear-gradient(90deg, #cfcdc4 0 2px, #e4e2da 2px 5px)' }} />
+            <span>
+              <strong>{baselinePct.toFixed(1)}%</strong>{' '}
+              {t('projectDetail.band.beforeRecord', {
+                pct: baselinePct.toFixed(1),
+                date: fmtMonth(dedup[0].d),
+              })}
+            </span>
+          </li>
+        )}
         {segs.map((s, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="w-3 h-3 rounded-sm mt-1 shrink-0"
@@ -224,8 +265,27 @@ export default function ProjectDetail() {
   useEffect(() => {
     let cancelled = false
     setProject(null); setExtras(null); setNews(null); setError(null)
+    if (!isRecordId(id)) {
+      // Not a lookup. Same "not found" the server would give, without asking it.
+      setError(Object.assign(new Error('not a record id'), { status: 404 }))
+      return
+    }
     apiGet(`/projects/${id}`)
-      .then(p => { if (!cancelled) setProject(p) })
+      .then(p => {
+        if (cancelled) return
+        setProject(p)
+        // Fired on the loaded project rather than on the click, so it counts a
+        // project a reader actually reached, not a link they clicked before
+        // the request failed. The district and type are what make it useful:
+        // "irrigation projects in Eluru get read" is a scraping priority,
+        // "someone opened a project" is not.
+        track(EVENTS.PROJECT_OPENED, {
+          project_id: String(id),
+          district: p?.district || 'unstated',
+          project_type: p?.project_type || 'unknown',
+          status: p?.status || 'unknown',
+        })
+      })
       .catch(e => { if (!cancelled) setError(e) })
     apiGet(`/projects/${id}/extras`)
       .then(x => { if (!cancelled) setExtras(x) })
@@ -240,7 +300,7 @@ export default function ProjectDetail() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-10 flex flex-col gap-2">
         <p className="text-body-md text-on-surface">
-          {String(error.message).includes('404')
+          {isNotFound(error)
             ? t('projectDetail.notFound')
             : t('projectDetail.unreachable', { message: error.message })}
         </p>
@@ -256,7 +316,7 @@ export default function ProjectDetail() {
   const obs = extras?.observations || []
   const latestObs = obs.length ? obs[obs.length - 1] : null
 
-  // Identity facts — rendered only when the record actually carries them.
+  // Identity facts: rendered only when the record actually carries them.
   const facts = [
     project.external_id && {
       k: 'projectDetail.facts.projectCode', v: project.external_id,
@@ -270,7 +330,7 @@ export default function ProjectDetail() {
     project.created_at && { k: 'projectDetail.facts.registeredSince', v: fmtDate(project.created_at) },
   ].filter(Boolean)
 
-  // Span between recorded dates — plain arithmetic on published dates, labeled as such.
+  // Span between recorded dates: plain arithmetic on published dates, labeled as such.
   const spanFrom = project.announced_date || project.start_date
   const spanTo = project.actual_completion || project.expected_completion
   let spanText = null
@@ -308,11 +368,11 @@ export default function ProjectDetail() {
           ? t('projectDetail.timeline.cumulativeSpend', { amount: fmtIN(Math.round(o.cumulative_expenditure_crore)), unit: t('unit.crore') })
           : null,
         // The source's own printed context (targets, ayacut, pre-closures,
-        // and figures that move backwards between editions) — API content
+        // and figures that move backwards between editions), API content
         // quoted as printed, never translated or reconciled.
         o.status_note || null,
       ].filter(Boolean).join(' · '),
-      // source_label is the document's own title — API content, left as is.
+      // source_label is the document's own title, API content, left as is.
       link: o.source_label ? { label: o.source_label, url: o.source_url } : null,
     })),
   ].sort((a, b) => new Date(a.d) - new Date(b.d)).map(ev => {
@@ -448,7 +508,7 @@ export default function ProjectDetail() {
         {t('projectDetail.correctionNote')}
       </p>
 
-      <PageThread pageKey={`project:${id}`} />
+      <Deferred minHeight={320}><PageThread pageKey={`project:${id}`} /></Deferred>
     </div>
   )
 }

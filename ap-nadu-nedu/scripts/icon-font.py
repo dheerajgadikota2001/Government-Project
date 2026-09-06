@@ -60,6 +60,12 @@ QUOTED = re.compile(r"['\"]([a-z][a-z0-9_]{2,})['\"]")
 BARE = re.compile(r"^[a-z][a-z0-9_]{2,}$")
 PROP = re.compile(r"\bicon\s*[:=]\s*['\"]([a-z][a-z0-9_]{2,})['\"]")
 
+# A name->icon map (`const TOPIC_ICONS = { suggestions: 'lightbulb' }`) reaches
+# the DOM through a variable, so neither the span scan nor the `icon:` scan sees
+# it. Any const whose NAME says ICONS is therefore read whole, and every quoted
+# value inside it is treated as an icon.
+ICON_MAP = re.compile(r"\b\w*ICONS?\w*\s*=\s*\{([\s\S]*?)\n\}", re.I)
+
 
 def collect_icons() -> list[str]:
     icons: set[str] = set()
@@ -79,6 +85,8 @@ def collect_icons() -> list[str]:
             branches = inner.split("?", 1)[1] if "?" in inner else inner
             icons.update(QUOTED.findall(branches))
         icons.update(PROP.findall(text))
+        for block in ICON_MAP.findall(text):
+            icons.update(QUOTED.findall(block))
     return sorted(icons)
 
 

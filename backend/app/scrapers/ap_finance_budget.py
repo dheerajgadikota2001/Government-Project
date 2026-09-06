@@ -26,6 +26,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -39,6 +40,16 @@ PORTAL_NAME = "AP Finance Department"
 class APFinanceBudgetScraper(BaseScraper):
     PORTAL_NAME = "APFinance_Budget"
     BASE_URL = AP_FINANCE_BASE
+    # Budget volume titles are genuinely terse ("Volume I", "Annexures"), so the
+    # length floor is lower here than for document registers.
+    SANITY = SanitySpec(
+        min_rows=1,
+        fields={
+            "title": FieldRule(required=True, min_len=4, max_len=500),
+            "href": FieldRule(required=True, min_len=10),
+        },
+        key_field="href",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -103,6 +114,7 @@ class APFinanceBudgetScraper(BaseScraper):
         return int(m.group(1)) if m else None
 
     async def _save_documents(self, entries: list[dict]) -> int:
+        entries = await self.gate(entries)
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:

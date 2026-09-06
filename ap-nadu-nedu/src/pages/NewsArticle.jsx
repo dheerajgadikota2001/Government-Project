@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { apiGet } from '../lib/api'
+import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { useT } from '../i18n'
 
 /**
- * One article's record. We show what we collected — headline, our summary,
- * outlet, date, districts — and send the reader to the outlet for the full
+ * One article's record. We show what we collected, headline, our summary,
+ * outlet, date, districts, and send the reader to the outlet for the full
  * story. We never reproduce an article's body: the outlet wrote it, and the
  * link is the honest way to read it.
  *
@@ -47,6 +47,10 @@ export default function NewsArticle() {
   useEffect(() => {
     let cancelled = false
     setA(null); setError(null); setRelated([])
+    if (!isRecordId(id)) {
+      setError(Object.assign(new Error('not a record id'), { status: 404 }))
+      return
+    }
     apiGet(`/news/${id}`)
       .then(x => { if (!cancelled) setA(x) })
       .catch(e => { if (!cancelled) setError(e) })
@@ -66,7 +70,7 @@ export default function NewsArticle() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-10 flex flex-col gap-2">
         <p className="text-body-md text-on-surface">
-          {String(error.message).includes('404')
+          {isNotFound(error)
             ? t('newsArticle.notFound')
             : t('newsArticle.error', { message: error.message })}
         </p>

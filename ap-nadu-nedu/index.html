@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AP Nadu Nedu — ఏపీ నాడు నేడు</title>
+    <title>Andhra Pradesh Fact Check — ఏపీ నిజ నిర్ధారణ</title>
     <meta
       name="description"
-      content="AP Fact Check — an independent, no-login transparency platform for Andhra Pradesh. Every project, budget and commitment figure is taken from a government document and cited, in six languages."
+      content="Andhra Pradesh Fact Check — an independent, no-login transparency platform. Every project, budget and commitment figure is taken from a government document and cited, in six languages."
     />
     <!--
       Public address of the site. Firebase also serves it at ap-nadu-nedu.web.app;
@@ -17,15 +17,15 @@
     <link rel="canonical" href="https://apfactcheck.dhethi.com/" />
     <meta name="theme-color" content="#001e40" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="AP Nadu Nedu" />
-    <meta property="og:title" content="AP Nadu Nedu — Andhra Pradesh fact check" />
+    <meta property="og:site_name" content="Andhra Pradesh Fact Check" />
+    <meta property="og:title" content="Andhra Pradesh Fact Check — every figure from a government document" />
     <meta
       property="og:description"
       content="Projects, finances and government commitments of Andhra Pradesh, every figure sourced from official documents. No login, six languages."
     />
     <meta property="og:url" content="https://apfactcheck.dhethi.com/" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="AP Nadu Nedu — Andhra Pradesh fact check" />
+    <meta name="twitter:title" content="Andhra Pradesh Fact Check — every figure from a government document" />
     <meta
       name="twitter:description"
       content="Projects, finances and government commitments of Andhra Pradesh, every figure sourced from official documents."
@@ -37,15 +37,44 @@
       rel="stylesheet"
     />
     <!--
-      One Noto family per script the site is published in. Each is loaded at the
-      same weights as the Latin face so headings stay bold in every language.
-      Nastaliq is a separate, much taller face: Urdu is set in it because Naskh
-      renders Urdu in a shape Urdu readers experience as Arabic, not Urdu.
+      One Noto family per script the site is published in — but only the one the
+      reader is actually using.
+
+      This used to be a single <link> pulling all five families at four weights
+      each. Every visitor downloaded Telugu, Devanagari, Tamil, Oriya AND
+      Nastaliq Urdu, and an English reader used none of them: five blocking
+      requests to a third-party host, on a page most people open once on a
+      phone. It also made the site fragile in exactly the way that matters here
+      — when Google Fonts was unreachable (a VPN extension, or an Indian ISP
+      blocking fonts.gstatic.com, which is why the icon font is already
+      vendored), translated pages rendered as boxes and looked untranslated.
+
+      So the family is chosen here, inline, before first paint, from the same
+      localStorage key the app uses. Latin still loads statically above because
+      every page needs it. Nastaliq is its own face: Urdu is set in it because
+      Naskh renders Urdu in a shape Urdu readers experience as Arabic.
     -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <script>
+      (function () {
+        var FAMILY = {
+          te: 'Noto+Sans+Telugu',
+          hi: 'Noto+Sans+Devanagari',
+          ta: 'Noto+Sans+Tamil',
+          or: 'Noto+Sans+Oriya',
+          ur: 'Noto+Nastaliq+Urdu',
+        }
+        var lang = 'en'
+        try { lang = localStorage.getItem('apnn.lang') || 'en' } catch (e) { /* private mode */ }
+        var family = FAMILY[lang]
+        if (!family) return              // English needs no Indic face
+        var link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.id = 'script-font'
+        link.href = 'https://fonts.googleapis.com/css2?family=' + family +
+                    ':wght@400;500;600;700&display=swap'
+        document.head.appendChild(link)
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

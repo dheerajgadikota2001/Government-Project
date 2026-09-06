@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
 import PageThread from '../components/community/PageThread'
+import Deferred from '../components/Deferred'
 
 /**
  * Who to call, and where to go.
@@ -521,7 +522,7 @@ export default function Contacts() {
         </p>
       </section>
 
-      <PageThread pageKey="contacts" />
+      <Deferred minHeight={320}><PageThread pageKey="contacts" /></Deferred>
     </div>
   )
 }

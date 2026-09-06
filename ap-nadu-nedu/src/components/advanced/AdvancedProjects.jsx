@@ -60,13 +60,26 @@ export default function AdvancedProjects({ open, onClose }) {
     ;(async () => {
       try {
         // Fetch every page so the charts describe the full register, not a sample.
+        //
+        // The remaining pages go out TOGETHER. They used to be awaited one at a
+        // time inside a loop: with 673 projects that is seven round trips to
+        // asia-south1, each waiting for the one before it, and on mobile data
+        // it meant five to ten seconds of blank modal before a single chart
+        // appeared. Nothing about the pages depends on each other, so the wait
+        // was the loop's own doing.
+        //
+        // Page 1 still goes first because its `total` is what says how many
+        // pages there are. After that the cost is one round trip, not seven.
         const first = await apiGet('/projects/', { page: 1, page_size: 100, sort: 'cost', order: 'desc' })
-        let items = first.items
         const totalPages = Math.min(Math.ceil(first.total / 100), 15)
-        for (let p = 2; p <= totalPages; p += 1) {
-          const res = await apiGet('/projects/', { page: p, page_size: 100, sort: 'cost', order: 'desc' })
-          items = items.concat(res.items)
-        }
+        const rest = await Promise.all(
+          Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) =>
+            apiGet('/projects/', { page: i + 2, page_size: 100, sort: 'cost', order: 'desc' })
+          )
+        )
+        // Concatenated in page order, not arrival order — the charts are sorted
+        // by cost and a shuffled input would reorder equal-cost bars run to run.
+        const items = rest.reduce((acc, res) => acc.concat(res.items), first.items)
         if (!cancelled) { setAll(items); setError(null) }
       } catch (err) {
         if (!cancelled) setError(err)
@@ -131,7 +144,7 @@ export default function AdvancedProjects({ open, onClose }) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="rounded-2xl p-0 w-[min(880px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45"
+      className="rounded-2xl p-0 w-[min(880px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45"
       aria-label={t('advProjects.dialogAria')}
     >
       <div className="sticky top-0 bg-surface z-10 flex justify-between items-center px-6 pt-5 pb-3 border-b border-surface-variant">
@@ -162,7 +175,7 @@ export default function AdvancedProjects({ open, onClose }) {
             </p>
 
             <div className="bg-surface-container-lowest border border-surface-variant rounded-xl px-4 py-3 flex flex-wrap gap-4 items-end">
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advProjects.filters.type')}
                 <select
                   value={filters.type} onChange={e => set('type', e.target.value)}
@@ -172,7 +185,7 @@ export default function AdvancedProjects({ open, onClose }) {
                   {typeOptions.map(o => <option key={o} value={o}>{label(o)}</option>)}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advProjects.filters.status')}
                 <select
                   value={filters.status} onChange={e => set('status', e.target.value)}
@@ -182,7 +195,7 @@ export default function AdvancedProjects({ open, onClose }) {
                   {statusOptions.map(s => <option key={s} value={s}>{label(s)}</option>)}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advProjects.filters.district')}
                 <select
                   value={filters.district} onChange={e => set('district', e.target.value)}
@@ -216,6 +229,7 @@ export default function AdvancedProjects({ open, onClose }) {
                 ]} />
 
                 <VizSection
+                  defaultOpen
                   title={restCount > 0 ? t('advProjects.viz.cost.titleTop', { n: TOP_BARS }) : t('advProjects.viz.cost.title')}
                   sub={t('advProjects.viz.cost.sub')}
                   provenance={t('advProjects.viz.cost.provenance')}

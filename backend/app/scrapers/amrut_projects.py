@@ -27,6 +27,7 @@ import pdfplumber
 from sqlalchemy import select
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.utils.logger import logger
@@ -143,6 +144,18 @@ def repair_cell(cell: str, joined: dict, solo: dict) -> str:
 class AmrutProjectsScraper(BaseScraper):
     PORTAL_NAME = "AMRUT_MoHUA"
     BASE_URL = "https://amrut.mohua.gov.in"
+    SANITY = SanitySpec(
+        min_rows=1,
+        fields={
+            "title": FieldRule(required=True, min_len=8, max_len=500),
+            "external_id": FieldRule(required=True, min_len=2, max_len=100),
+            "district": FieldRule(max_len=100),
+            # Crore. A single urban project above five lakh crore is a units
+            # error, not a project.
+            "cost": FieldRule(min_value=0, max_value=500000),
+        },
+        key_field="external_id",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -204,6 +217,7 @@ class AmrutProjectsScraper(BaseScraper):
         return rows
 
     async def _save(self, rows: list[dict]) -> int:
+        rows = await self.gate(rows)
         saved = 0
         async with get_db_context() as db:
             for r in rows:

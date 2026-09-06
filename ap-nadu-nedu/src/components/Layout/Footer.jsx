@@ -5,11 +5,11 @@ export default function Footer() {
   const { t } = useT()
 
   return (
-    <footer className="bg-tertiary text-on-tertiary w-full py-8 px-4 md:px-8 border-t-4 border-secondary-container mt-auto">
+    <footer className="bg-tertiary text-on-tertiary w-full py-8 px-4 md:px-8 border-t-4 border-secondary-container mt-auto pb-40 lg:pb-28">
       <div className="max-w-[1280px] mx-auto flex flex-col gap-6">
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           <div className="flex flex-col gap-2 max-w-xl min-w-0">
-            <h2 className="text-headline-sm font-headline-sm text-on-tertiary font-bold">AP Nadu Nedu</h2>
+            <h2 className="text-headline-sm font-headline-sm text-on-tertiary font-bold">{t('nav.brandName')}</h2>
             <p className="text-label-sm font-label-sm text-on-tertiary-container">
               {t('footer.tagline')}
             </p>
@@ -25,6 +25,7 @@ export default function Footer() {
             <Link to="/sources" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.sources')}</Link>
             <Link to="/updates" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.updates')}</Link>
             <Link to="/disclaimer" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.disclaimer')}</Link>
+            <Link to="/privacy" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.privacy')}</Link>
             <Link to="/community?correct=1" className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all">{t('footer.links.correction')}</Link>
             <a
               href="https://rtionline.ap.gov.in"

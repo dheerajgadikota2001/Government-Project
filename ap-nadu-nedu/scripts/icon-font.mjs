@@ -37,6 +37,12 @@ const SPAN = /class(?:Name)?="[^"]*material-symbols-outlined[^"]*"[^>]*>([\s\S]*
 const QUOTED = /['"]([a-z][a-z0-9_]{2,})['"]/g
 const BARE = /^[a-z][a-z0-9_]{2,}$/
 const PROP = /\bicon\s*[:=]\s*['"]([a-z][a-z0-9_]{2,})['"]/g
+// A name->icon map (`const TOPIC_ICONS = { suggestions: 'lightbulb' }`) reaches
+// the DOM through a variable, so neither the span scan nor the `icon:` scan
+// sees it. That blind spot shipped the Community page with the literal word
+// LIGHTBULB where an icon belonged. Any const whose NAME says ICONS is now read
+// whole and every quoted value inside counted.
+const ICON_MAP = /\b\w*ICONS?\w*\s*=\s*\{([\s\S]*?)\n\}/gi
 
 const used = new Set()
 for (const file of sourceFiles(SRC)) {
@@ -54,6 +60,9 @@ for (const file of sourceFiles(SRC)) {
     for (const m of branches.matchAll(QUOTED)) used.add(m[1])
   }
   for (const m of text.matchAll(PROP)) used.add(m[1])
+  for (const [, block] of text.matchAll(ICON_MAP)) {
+    for (const m of block.matchAll(QUOTED)) used.add(m[1])
+  }
 }
 
 const fail = (msg) => {

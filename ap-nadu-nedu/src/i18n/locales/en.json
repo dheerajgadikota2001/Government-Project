@@ -23,6 +23,69 @@
     "toToday": "to today",
     "fyPrefix": "FY"
   },
+  "privacy": {
+    "eyebrow": "Legal",
+    "title": "Privacy",
+    "lead": "Short version: this site has no accounts and asks you for nothing. It counts which pages get opened, in which language, and which government documents people click through to. That tells us whether the site is reaching people outside the cities. It never records what you search for. It sets no cookies. And you can switch the counting off at the bottom of this page.",
+    "lastUpdated": "Last updated: {month} {year}",
+    "tocAria": "Sections",
+    "sections": {
+      "measure": {
+        "title": "What we measure",
+        "p1": "Which pages get opened, in which of the six languages, and roughly where from. That means your country, and usually your state or city. Also what kind of device you are on and how fast your connection is. There is one reason for all of it: to know how many people this platform reaches, and whether it reaches anyone beyond the big cities.",
+        "p2": "What you open. A district on the map, a project, the tenders tab, a chart. And which government sources you click through to. The promise of this site is that every figure links back to a government document. Counting which documents people actually open is how we decide which portal to add next. Without that we would be guessing.",
+        "p3": "Where the site behaves badly. How fast pages load on your device, whether a section failed, whether a page had nothing to show you. These are our own faults, and we would rather measure them where they happen than guess at them on a developer's laptop. Automated crawlers get filtered out before any of this is counted."
+      },
+      "never": {
+        "title": "What we never measure",
+        "p1": "What you search for. The search box records that a search happened and whether it found anything. It never records the words. On a site about Andhra Pradesh politics, the words a reader types are the most sensitive thing they produce here. They are stripped out of the web address before anything is recorded, and they are never sent anywhere.",
+        "p2": "Anything that identifies you. There is no account, no login, no name, no email address, no phone number, no user ID, no advertising identifier. Nothing you write into a correction or a message to us gets measured.",
+        "p3": "Because nothing is stored on your device to identify you, what reaches us are counts, not people. We could not pick your visit out of the reports. There is nothing measured here that could be used to contact you or to build a picture of you."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "p1": "This site sets no analytics cookies. Google Analytics runs here with storage consent permanently denied, which means it counts without writing a cookie and without keeping a lasting identifier for you. That is also why no cookie banner stands in your way. There is nothing to consent to.",
+        "p2": "Two small things are kept inside your own browser and never sent anywhere. One is the language you chose, so the site opens in it next time. The other is the fact that you asked not to be counted, and that one is only saved if you use the switch below. Clearing your browsing data removes both."
+      },
+      "google": {
+        "title": "Who else sees it",
+        "p1": "The counting is done by Google Analytics 4. Google acts as our processor: it receives the events described above and gives us summary reports. No one else receives those events. We do not sell them, share them or trade them, and there is no advertising on this site.",
+        "p2": "Google uses your IP address briefly, to work out an approximate location and to filter out spam traffic, and then throws it away. Google says it never links raw IP addresses to user identifiers and discards them after use. We never see it, and the site asks Google to shorten it in any case.",
+        "p3": "Google deletes the detailed event records after two months. What survives is aggregate. How many people opened the Projects page in a given month, for example, with nothing underneath it about individuals.",
+        "p4": "Two other Google services are already part of this site, and they are worth naming plainly. The fonts your language needs come from Google Fonts, and a few images are served from Google's image hosting. Loading either one tells Google your IP address and which page asked for it, whether or not you switch the counting off. That is true of every site that uses them. Switching the counting off stops the analytics. It does not stop the fonts."
+      },
+      "children": {
+        "title": "Children",
+        "p1": "This site collects no personal information from anyone, at any age, and it has no accounts. So there is nothing here that would treat a student's visit differently from anyone else's. School and college students are among the readers this platform is most for."
+      },
+      "changes": {
+        "title": "If this changes",
+        "p1": "This page describes what the code actually does. It gets updated in the same change as the code, not afterwards. The date at the top is the date it last changed. If anything here is unclear, or looks wrong to you, tell us. Being wrong about our own data handling would be the most serious mistake this platform could make."
+      }
+    },
+    "choice": {
+      "title": "Your choice",
+      "lead": "You can switch the counting off for this browser. It takes effect the moment you press it, and nothing further gets sent. On your next visit the analytics script is not loaded at all. Fonts and images are a separate matter, described above.",
+      "statusOn": "You are currently being counted.",
+      "statusOff": "You are not being counted.",
+      "optOutBtn": "Stop counting my visits",
+      "optInBtn": "Start counting my visits again",
+      "gpc": "Your browser is sending a Global Privacy Control signal, so counting is already switched off for you. Nothing further is needed, and the analytics script has not been loaded on this visit.",
+      "noStorage": "Counting is off for now. But your browser is blocking site storage, so this choice cannot be remembered. You will need to set it again on your next visit.",
+      "scope": "This is remembered in this browser only. Another browser, another device, or clearing your browsing data will each need the switch set again. That is a direct result of us not keeping an identifier for you, and we think it is the better trade."
+    },
+    "contact": {
+      "title": "Questions",
+      "lead": "If something here is unclear or wrong, the fastest route is the",
+      "formLink": "correction form",
+      "after": "It reaches the same people, and we answer.",
+      "disclaimerLink": "Read the disclaimer"
+    },
+    "summary": {
+      "titleTe": "మీ గోప్యత, క్లుప్తంగా",
+      "bodyTe": "ఈ వెబ్‌సైట్లో ఖాతాలు లేవు, మిమ్మల్ని ఏమీ అడగదు. ఏ పేజీలు, ఏ భాషలో, ఏ ప్రాంతం నుండి చూస్తున్నారో మాత్రమే లెక్కిస్తుంది. మీరు వెతికిన పదాలను ఎప్పుడూ నమోదు చేయదు. కుకీలు పెట్టదు. ఈ లెక్కింపును కూడా పై బటన్‌తో ఆపవచ్చు."
+    }
+  },
   "unit": {
     "crore": "Cr",
     "lakhCrore": "lakh Cr",
@@ -81,7 +144,9 @@
     "govDocuments": "Government documents",
     "dataSources": "Data sources — every document we cite",
     "toggleMenu": "Toggle menu",
-    "brandSub": "ఏపీ నాడు నేడు",
+    "brandName": "Andhra Pradesh Fact Check",
+    "brandNameShort": "AP Fact Check",
+    "brandSub": "ఏపీ నిజ నిర్ధారణ",
     "searchMobilePlaceholder": "Search projects, news…",
     "community": "Community",
     "schoolEducation": "School education",
@@ -180,6 +245,7 @@
     "title": "Where the work is",
     "titleTe": "జిల్లాల వారీగా",
     "intro": "All 26 districts, shaded by how many tracked projects each one holds. Hover a district for its record; click to open its projects.",
+    "loading": "Loading the district records…",
     "svgAlt": "Map of Andhra Pradesh districts, shaded by number of tracked projects",
     "headquarters": "Headquarters: {hq}",
     "statewideNote": "{n} projects are recorded as statewide, with no single district, and are counted separately from the map.",
@@ -200,13 +266,27 @@
     "empty": {
       "hint": "Hover any district to read its record.",
       "coverage": "{n} of 26 districts have projects on record so far. A grey district means no project in our register names it — not that nothing is happening there."
+    },
+    "browseAll": "Browse all 26 districts",
+    "statewideCentral": "{n} central-sector projects are tracked state-wide, with no single district.",
+    "districtUnstated": "{n} more come from a source that prints no district at all.",
+    "a11y": {
+      "district": "{name}, {n} projects"
+    },
+    "drawer": {
+      "aria": "Projects in {name}",
+      "sub": "{hq} · {n} projects · statewide excluded",
+      "loading": "Loading this district's projects…",
+      "none": "No projects on record for this district.",
+      "error": "Couldn't load this district's projects.",
+      "openAll": "Open all {n} projects in {name} →"
     }
   },
   "footer": {
     "tagline": "ప్రజల పాలన · People's Governance",
     "disclaimer": "An independent, citizen-run transparency initiative. We are not affiliated with, endorsed by, or connected to the Government of Andhra Pradesh or any of its departments. All information is mirrored from publicly available official government portals, with a source link and collection date on every item.",
     "disclaimerTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
-    "copyright": "© 2026 AP Nadu Nedu · Built by citizens, for citizens · Not an official government website",
+    "copyright": "© 2026 Andhra Pradesh Fact Check · Built by citizens, for citizens · Not an official government website",
     "copyrightAct": "Government documents reproduced under Section 52, Copyright Act 1957",
     "links": {
       "about": "About · Why we exist",
@@ -214,7 +294,8 @@
       "disclaimer": "Disclaimer",
       "correction": "Report a Correction",
       "rti": "RTI Portal ↗",
-      "updates": "What's new"
+      "updates": "What's new",
+      "privacy": "Privacy"
     }
   },
   "mitra": {
@@ -416,7 +497,9 @@
       "attributed": "under {tenure} — from {fromPct}% ({fromDate}, {fromLabel}) to {toPct}% ({toDate}, {toLabel})",
       "spanned": "between {from} and {to} — this stretch crosses a change of government ({tenures}); the published record does not split it, so neither do we",
       "remaining": "The remaining {pct}% has no published completion figure yet.",
-      "sharpens": "This section sharpens as more dated reports are imported — every new official figure adds a split point."
+      "sharpens": "This section sharpens as more dated reports are imported — every new official figure adds a split point.",
+      "beforeRecord": "{pct}% was already complete at the first published figure ({date}) — the record does not say when it happened, or under whom.",
+      "beforeRecordTip": "{pct}% already complete before the first published figure"
     },
     "news": {
       "title": "News that mentions this project",
@@ -1116,7 +1199,7 @@
       "notScandal": "A shortfall is not by itself wrongdoing. Money goes unspent when a scheme starts late, a central share does not arrive, land is not acquired, or a tender fails. What the figure does show is the distance between what was announced in a budget speech and what actually happened.",
       "headlineSeries": "The Assembly votes a sum for every department, and the auditor later publishes what was actually spent against it. The state spent **{bestPct}%** of its voted capital money in {bestFy}. Across the {n} audited years since, that figure has ranged from **{lowPct}%** to **{highPct}%**, and it has never returned to where it started.",
       "seriesAria": "Share of the money the Assembly voted that was actually spent, financial year by financial year since bifurcation, shaded by the government in office",
-      "seriesTip": "{pct}% of it was spent<br>Voted ₹{promised} crore · spent ₹{spent} crore",
+      "seriesTip": "{pct}% of it was spent",
       "seriesAxis": "Appropriation Accounts, Accountant General (A&E), Andhra Pradesh — audited",
       "seriesSubCapital": "Capital money is the part that builds things — roads, buildings, irrigation. The dashed line is 100%: everything voted, spent.",
       "seriesSubRevenue": "Revenue money is the part that runs things — salaries, pensions, subsidies, interest. The dashed line is 100%: everything voted, spent.",
@@ -1126,7 +1209,8 @@
       "legendMissing": "Published, not yet readable",
       "legendTotalsOnly": "State totals only",
       "yearTitle": "One year, in detail",
-      "yearSub": "Pick a year to see how each part of the budget fared, and then every department the Assembly voted money to."
+      "yearSub": "Pick a year to see how each part of the budget fared, and then every department the Assembly voted money to.",
+      "seriesTipDetail": "Voted ₹{promised} crore · spent ₹{spent} crore"
     }
   },
   "governments": {
@@ -1676,7 +1760,7 @@
     },
     "why": {
       "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere — a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
-      "p2": "AP Nadu Nedu does one thing: it gathers what the government has already published into a single place and organises it — by project, by district, by department — so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
+      "p2": "Andhra Pradesh Fact Check does one thing: it gathers what the government has already published into a single place and organises it — by project, by district, by department — so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
       "p3": "We create nothing. We add nothing. We show existing public records, link every one back to where the government published it, and make it accessible to everyone — in English and in Telugu, free, with no login."
     },
     "principles": {
@@ -1739,7 +1823,7 @@
     },
     "independence": {
       "title": "Independent, and accountable for it",
-      "bodyBefore": "AP Nadu Nedu is a citizen-run initiative with no affiliation to the Government of Andhra Pradesh, the Government of India, or any political party. Nobody pays us to show or hide anything. And because mistakes are possible in any mirror of a moving source, we commit to this: if anything displayed here is inaccurate or outdated,",
+      "bodyBefore": "Andhra Pradesh Fact Check is a citizen-run initiative with no affiliation to the Government of Andhra Pradesh, the Government of India, or any political party. Nobody pays us to show or hide anything. And because mistakes are possible in any mirror of a moving source, we commit to this: if anything displayed here is inaccurate or outdated,",
       "tellUs": "tell us",
       "bodyAfter": "and we will review it within 48 hours — correcting, updating, or removing it, and saying so."
     },
@@ -1757,7 +1841,7 @@
     "sections": {
       "whoWeAre": {
         "title": "Who we are — and who we are not",
-        "p1": "AP Nadu Nedu is an independent, non-governmental transparency platform built and maintained by private citizens. We are NOT affiliated with, endorsed by, or connected to the Government of Andhra Pradesh, the Government of India, any government department, or any political party.",
+        "p1": "Andhra Pradesh Fact Check is an independent, non-governmental transparency platform built and maintained by private citizens. We are NOT affiliated with, endorsed by, or connected to the Government of Andhra Pradesh, the Government of India, any government department, or any political party.",
         "p2": "This website is not an official government website. Nothing here constitutes an official government communication. For official information, always refer to the government portals we link to."
       },
       "dataSources": {
@@ -1793,7 +1877,7 @@
       },
       "liability": {
         "title": "Limitation of liability",
-        "p1": "To the maximum extent permitted by law, AP Nadu Nedu and its maintainers accept no liability for any loss or damage arising from the use of, or reliance on, information displayed on this platform. Use of this platform is at your own discretion, and the linked official sources remain the authoritative record in every case."
+        "p1": "To the maximum extent permitted by law, Andhra Pradesh Fact Check and its maintainers accept no liability for any loss or damage arising from the use of, or reliance on, information displayed on this platform. Use of this platform is at your own discretion, and the linked official sources remain the authoritative record in every case."
       }
     },
     "contact": {
@@ -2374,7 +2458,9 @@
       "type": "Type",
       "status": "Status",
       "workedOn": "Worked on under",
-      "spanning": "Spanning two or more governments"
+      "spanning": "Spanning two or more governments",
+      "district": "District",
+      "clearDistrict": "Clear the {name} filter"
     },
     "showing": "Showing {n} of {total}",
     "none": "No project here matches that. Try a plainer word, or clear a filter.",
@@ -2409,6 +2495,22 @@
     "kind": {
       "documents": "documents assembled",
       "record": "government record"
+    },
+    "tenurePicture": {
+      "title": "Where these {n} projects sit across governments",
+      "hint": "Tap a government to filter",
+      "projects": "projects",
+      "stage": {
+        "completed": "Completed",
+        "building": "In progress",
+        "announced": "Announced only",
+        "stalled": "Stalled"
+      },
+      "spanning": "{n} span more than one government",
+      "caption": "A project can appear under more than one government. These are recorded events, not credit. Shade shows stage. Darkest is completed.",
+      "eventsTitle": "Share of recorded events",
+      "eventsUnit": "events",
+      "eventsCaption": "Events, not projects. One project contributes to every government it touched."
     }
   },
   "tenders": {
@@ -2416,7 +2518,7 @@
     "sub": "Live government tenders, mirrored from official boards — what is being procured, by whom, and until when.",
     "coverage": "What this register covers today: the AP CRDA (Amaravati) tenders board only. Thousands of tenders are live across Andhra Pradesh at any time — the state e-procurement portal alone lists them in the thousands, and it refuses access from outside India. Every tender below names its portal; counts here count what we track, never the whole state.",
     "tabActive": "Open now",
-    "tabClosed": "Closed — the history",
+    "tabClosed": "Expired — the archive",
     "count": {
       "one": "{count} tender",
       "other": "{count} tenders"
@@ -2431,7 +2533,10 @@
     "dates": "Published {from} · bids close {to}",
     "value": "Estimated value: {value}",
     "noValue": "Value not published on the portal's listing",
-    "pageN": "Page {page}"
+    "pageN": "Page {page}",
+    "expiredOn": "Expired {date}",
+    "archiveNote": "Expired tenders stay on record — nothing is ever deleted. This is the archive of what was open, and until when.",
+    "portalBreak": "Portals on record: {list}"
   },
   "updates": {
     "title": "What's new",

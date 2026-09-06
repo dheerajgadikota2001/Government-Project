@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT, makeDateFmt } from '../i18n'
 import AdvancedProjects from '../components/advanced/AdvancedProjects'
 import { ProjectsHero } from '../components/HeroInsights'
 import AllProjects from '../components/AllProjects'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
+import { EVENTS, track } from '../lib/analytics'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
   : `₹${Math.round(v).toLocaleString('en-IN')} ${t('unit.crore')}`)
@@ -110,7 +112,8 @@ const DEFAULT_STATUS_COLOR = STATUS_COLORS.announced
 
 const PAGE_SIZE = 21
 const EMPTY_FILTERS = {
-  q: '', district: '', type: '', status: '', dept: '', tenure: '', sort: 'updated', order: 'desc',
+  q: '', district: '', type: '', status: '', dept: '', tenure: '', placement: '',
+  sort: 'updated', order: 'desc',
 }
 
 /**
@@ -154,8 +157,92 @@ export default function Projects() {
   const typeLabel = enumLabel(t, 'type', KNOWN_TYPES)
   const sortLabel = enumLabel(t, 'sort', KNOWN_SORTS)
   const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+
+  // Scroll to the #hash the URL asks for.
+  //
+  // React Router does not do this on a client-side navigation, and nothing else
+  // in the app did either — so /projects?district=X#project-register simply
+  // landed at the top of the page. On desktop the register sits close enough
+  // that this looked correct; on a phone the hero and tenure strip stack above
+  // it and push it off the screen entirely, which is why the filter looked
+  // ignored on mobile and fine on the web.
+  //
+  // The target does not exist until the data has arrived and the register has
+  // rendered, so this polls briefly rather than looking once and giving up.
+  useEffect(() => {
+    const id = location.hash.slice(1)
+    if (!id) return
+    let tries = 0
+    let lastTop = null
+    let timer = null
+
+    // Scrolling once, the moment the element appears, is not enough — that was
+    // the first version of this and it left the register 1288px down the page
+    // on a phone. The hero, the tenure strip and the cards above it are still
+    // arriving and still growing, so the position that was correct when we
+    // scrolled is wrong a moment later.
+    //
+    // So it keeps re-scrolling until the element's position stops moving, then
+    // stops. Cheap, and it does not fight the reader: any scroll of their own
+    // cancels it.
+    const tick = () => {
+      const el = document.getElementById(id)
+      if (el) {
+        const top = Math.round(el.getBoundingClientRect().top + window.scrollY)
+        el.scrollIntoView({ behavior: 'auto', block: 'start' })
+        if (top === lastTop) return          // settled
+        lastTop = top
+      }
+      if (tries++ < 30) timer = setTimeout(tick, 120)   // ~3.5s, then give up quietly
+    }
+
+    const stop = () => { if (timer) clearTimeout(timer); timer = null; tries = 99 }
+    window.addEventListener('wheel', stop, { passive: true, once: true })
+    window.addEventListener('touchmove', stop, { passive: true, once: true })
+
+    tick()
+    return () => {
+      if (timer) clearTimeout(timer)
+      window.removeEventListener('wheel', stop)
+      window.removeEventListener('touchmove', stop)
+    }
+  }, [location.hash, location.key])
   // Two views of the same subject: the overview that was already here, and the
   // register. Kept in the URL so a link to ?view=all lands where it says.
+  // Every filter is readable from the URL, not just `tenure`.
+  //
+  // This is why a district link from the map showed all 526 projects: the map
+  // linked to /projects?district=Prakasam, which was correct, and this page
+  // built its filters from EMPTY_FILTERS and read only `tenure`. The parameter
+  // arrived and was dropped on the floor. Reading them all fixes the map link
+  // and every other link into a filtered list at the same time — search
+  // results, a department, a status — rather than special-casing one of them.
+  const URL_FILTERS = ['q', 'district', 'type', 'status', 'dept', 'tenure', 'placement']
+  const fromUrl = () => {
+    const picked = {}
+    for (const key of URL_FILTERS) {
+      const value = searchParams.get(key)
+      if (value) picked[key] = value
+    }
+    if (picked.tenure && !['tdp1', 'ysrcp', 'tdp2'].includes(picked.tenure)) delete picked.tenure
+    return picked
+  }
+  const urlFilters = fromUrl()
+
+  // The tab is decided ONLY by the explicit `view` parameter.
+  //
+  // I first made a district link force view=all, on the reasoning that someone
+  // who asked for a district wants a list rather than an overview. That was
+  // wrong, and worse than the bug it was meant to fix: the filtered list lives
+  // in the Overview tab, driven by `filters` and /projects/. The "All projects"
+  // tab is a different thing — the register, which fetches /projects/register
+  // for itself and never saw the URL at all. So the link went from showing all
+  // 526 projects to showing the whole register: still not one district's
+  // projects, just a different way of being wrong.
+  //
+  // Overview is the destination. The map link carries #project-register so the
+  // reader lands on the filtered list rather than on the hero above it.
   const view = searchParams.get('view') === 'all' ? 'all' : 'overview'
   const setView = next => {
     const q = new URLSearchParams(searchParams)
@@ -163,10 +250,7 @@ export default function Projects() {
     else q.delete('view')
     setSearchParams(q, { replace: false })
   }
-  const [filters, setFilters] = useState(() => ({
-    ...EMPTY_FILTERS,
-    tenure: ['tdp1', 'ysrcp', 'tdp2'].includes(searchParams.get('tenure')) ? searchParams.get('tenure') : '',
-  }))
+  const [filters, setFilters] = useState(() => ({ ...EMPTY_FILTERS, ...fromUrl() }))
   const [page, setPage] = useState(1)
   const [data, setData] = useState(null)
   const [options, setOptions] = useState(null)
@@ -181,8 +265,36 @@ export default function Projects() {
 
   const set = (key, value) => {
     setPage(1)
-    setFilters(f => ({ ...f, [key]: value }))
+    // `q` is excluded on purpose, twice over: it fires on every keystroke,
+    // which would flood the counts, and its value is the reader's own words,
+    // which never leave this browser.
+    if (key !== 'q' && value) track(EVENTS.FILTER_APPLIED, { filter: key, value: String(value).slice(0, 60) })
+    setFilters(f => {
+      const next = { ...f, [key]: value }
+      // Keep the URL in step with the filters, so the address bar always
+      // describes what is on screen and can be copied to someone else. replace,
+      // not push: typing in the search box must not fill the back button with
+      // one entry per keystroke.
+      if (URL_FILTERS.includes(key)) {
+        const q = new URLSearchParams(searchParams)
+        value ? q.set(key, value) : q.delete(key)
+        if (view === 'all') q.set('view', 'all')
+        setSearchParams(q, { replace: true })
+      }
+      return next
+    })
   }
+
+  // A link into this page while it is already open (the map, a search result)
+  // changes the URL without remounting, so the filters have to follow it.
+  useEffect(() => {
+    const incoming = fromUrl()
+    setFilters(f => {
+      const merged = { ...EMPTY_FILTERS, ...incoming, sort: f.sort, order: f.order }
+      return URL_FILTERS.every(k => (merged[k] || '') === (f[k] || '')) ? f : merged
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
 
   // Filter options + live status counts: once per load / retry.
   useEffect(() => {
@@ -213,6 +325,7 @@ export default function Projects() {
       apiGet('/projects/', {
         q: filters.q.trim() || null,
         district: filters.district || null,
+        placement: filters.placement || null,
         project_type: filters.type || null,
         status: filters.status || null,
         department: filters.dept || null,
@@ -273,7 +386,7 @@ export default function Projects() {
         </div>
         {!error && (
           <button
-            onClick={() => setAdvancedOpen(true)}
+            onClick={() => { setAdvancedOpen(true); track(EVENTS.ADVANCED_VIEW_OPENED, { section: 'projects' }) }}
             className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary text-primary text-label-md font-label-md font-semibold hover:bg-primary hover:text-on-primary transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">insights</span>
@@ -650,7 +763,16 @@ export default function Projects() {
         </>
       )}
 
-      {!error && view === 'all' && <AllProjects />}
+      {!error && view === 'all' && (
+        /* The register is where every district link from the map now lands, so
+           a malformed response here would blank the page readers arrive on. */
+        <ErrorBoundary label="AllProjects" resetKey={searchParams.toString()}>
+          {/* The register has its own filters and its own endpoint. Without
+              this it would quietly drop the district when a reader switched
+              tabs, which reads as the site losing their filter. */}
+          <AllProjects district={filters.district} onClearDistrict={() => set('district', '')} />
+        </ErrorBoundary>
+      )}
     </div>
   )
 }

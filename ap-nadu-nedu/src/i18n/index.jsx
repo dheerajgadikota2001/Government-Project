@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import en from './locales/en.json'
+import { EVENTS, track } from '../lib/analytics'
 
 // English ships in the main bundle (it is also the fallback for every other
 // language). The five other catalogues — 1.3 MB of JSON between them — load
@@ -93,6 +94,20 @@ export function LanguageProvider({ children }) {
     return () => { cancelled = true }
   }, [lang])
 
+  /**
+   * The Noto family for each script. index.html picks one of these before first
+   * paint from the stored language; this keeps it in step when the reader
+   * switches language without reloading. Kept identical to the map there — if
+   * a language is added, both need it.
+   */
+  const SCRIPT_FONT = {
+    te: 'Noto+Sans+Telugu',
+    hi: 'Noto+Sans+Devanagari',
+    ta: 'Noto+Sans+Tamil',
+    or: 'Noto+Sans+Oriya',
+    ur: 'Noto+Nastaliq+Urdu',
+  }
+
   useEffect(() => {
     const root = document.documentElement
     root.setAttribute('lang', lang)
@@ -103,10 +118,40 @@ export function LanguageProvider({ children }) {
     } catch {
       /* nothing to do; the choice just will not survive a reload */
     }
+
+    // Swap in the script's font. Only one is ever loaded: switching from Telugu
+    // to Tamil replaces the sheet rather than accumulating families, and
+    // switching back to English removes it entirely.
+    const existing = document.getElementById('script-font')
+    const family = SCRIPT_FONT[lang]
+    if (!family) {
+      existing?.remove()
+      return
+    }
+    const href =
+      `https://fonts.googleapis.com/css2?family=${family}:wght@400;500;600;700&display=swap`
+    if (existing) {
+      if (existing.href !== href) existing.href = href
+      return
+    }
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.id = 'script-font'
+    link.href = href
+    document.head.appendChild(link)
   }, [lang, meta.dir])
 
   const setLang = useCallback(code => {
-    if (CATALOGUES[code]) setLangState(code)
+    if (!CATALOGUES[code]) return
+    // Six catalogues are maintained here at real cost — 1,754 keys each — and
+    // until now nothing recorded whether any of them is read. Both sides of the
+    // switch are sent because the interesting number is not "Telugu was
+    // chosen", it is "readers arriving in English switch to Telugu", which is
+    // a different fact and the one that would justify the work.
+    setLangState(prev => {
+      if (prev !== code) track(EVENTS.LANGUAGE_CHANGED, { from: prev, to: code })
+      return code
+    })
   }, [])
 
   const value = useMemo(() => {

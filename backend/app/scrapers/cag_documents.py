@@ -22,6 +22,7 @@ import re
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -35,6 +36,15 @@ PORTAL_NAME = "CAG — Andhra Pradesh"
 class CAGDocumentsScraper(BaseScraper):
     PORTAL_NAME = "CAG_AndhraPradesh"
     BASE_URL = CAG_BASE
+    SANITY = SanitySpec(
+        min_rows=1,
+        fields={
+            "title": FieldRule(required=True, min_len=8, max_len=500),
+            "pdf_url": FieldRule(required=True, min_len=10),
+            "published_date": FieldRule(min_year=1950, max_year_ahead=1),
+        },
+        key_field="pdf_url",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -150,6 +160,7 @@ class CAGDocumentsScraper(BaseScraper):
             return None
 
     async def _save_documents(self, entries: list[dict]) -> int:
+        entries = await self.gate(entries)
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:

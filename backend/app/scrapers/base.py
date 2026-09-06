@@ -13,6 +13,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 
 from app.config import settings
 from app.utils.logger import logger
+from app.scrapers.sanity import SanityAbort, SanityGate, SanitySpec, summarise
 
 
 class BaseScraper(ABC):
@@ -33,6 +34,11 @@ class BaseScraper(ABC):
     # Override in subclass
     PORTAL_NAME: str = "unknown"
     BASE_URL: str = ""
+
+    # What a healthy batch from this scraper looks like. A scraper that declares
+    # nothing is not gated — which is a deliberate escape hatch, not a default
+    # anyone should be comfortable with. See app/scrapers/sanity.py.
+    SANITY: Optional[SanitySpec] = None
 
     def __init__(self):
         self._client: Optional[httpx.AsyncClient] = None
@@ -83,6 +89,83 @@ class BaseScraper(ABC):
         Must be implemented by each portal scraper.
         """
         ...
+
+    async def gate(self, rows: list[dict], run_id: str = "") -> list[dict]:
+        """Run the sanity layers over a parsed batch, and remember its shape.
+
+        Called at the top of a scraper's save path, before anything reaches the
+        database. Returns the rows that may be written; raises SanityAbort to
+        refuse the batch outright.
+
+        The refusal is the point. A stale figure carrying an honest date is
+        recoverable by the next run; a wrong figure presented as sourced is what
+        this whole platform exists to prevent, and once it is published a reader
+        has already seen it.
+
+        Every outcome — passed, partly dropped, refused — is written to
+        scrape_stats, because the next run's drift check has no other memory:
+        the container that ran today is destroyed before tomorrow's starts.
+        """
+        if self.SANITY is None:
+            return list(rows)
+
+        # Imported here rather than at module scope: the scraper package is
+        # imported by tooling that has no database configured, and a model
+        # import at the top would drag the engine in with it.
+        from sqlalchemy import select
+        from app.database import get_db_context
+        from app.models.scrape_stat import ScrapeStat
+
+        name = type(self).__name__
+
+        baseline: list[dict] = []
+        try:
+            async with get_db_context() as db:
+                previous = (await db.execute(
+                    select(ScrapeStat)
+                    .where(ScrapeStat.scraper == name, ScrapeStat.aborted.is_(False))
+                    .order_by(ScrapeStat.created_at.desc())
+                    .limit(5)
+                )).scalars().all()
+                baseline = [row.stats for row in previous if row.stats]
+        except Exception as exc:                     # noqa: BLE001
+            # No baseline means layer 3 is skipped for this run. That is a
+            # weaker check, not a reason to abandon the scrape.
+            logger.warning(f"[{self.PORTAL_NAME}] could not read drift baseline: {exc}")
+
+        gate = SanityGate(name, self.SANITY, baseline)
+        try:
+            result = gate.run(rows)
+        except SanityAbort as abort:
+            await self._record_stats(
+                name, run_id, rows=0, stats=summarise(rows, self.SANITY),
+                rejected=len(rows), reason=None, aborted=True, abort_reason=str(abort),
+            )
+            raise
+
+        await self._record_stats(
+            name, run_id, rows=len(result.rows), stats=result.stats,
+            rejected=len(result.rejected), reason=result.rejected_summary or None,
+            aborted=False, abort_reason=None,
+        )
+        return result.rows
+
+    async def _record_stats(self, name, run_id, rows, stats, rejected,
+                            reason, aborted, abort_reason) -> None:
+        """Persist one batch's shape. Never lets bookkeeping break a scrape."""
+        from app.database import get_db_context
+        from app.models.scrape_stat import ScrapeStat
+        try:
+            async with get_db_context() as db:
+                db.add(ScrapeStat(
+                    run_id=run_id or "adhoc", scraper=name, rows=rows, stats=stats,
+                    rejected=rejected, rejected_reason=(reason or None),
+                    aborted=aborted,
+                    abort_reason=(abort_reason[:1000] if abort_reason else None),
+                ))
+                await db.commit()
+        except Exception as exc:                     # noqa: BLE001
+            logger.warning(f"[{self.PORTAL_NAME}] could not record batch stats: {exc}")
 
     def log_start(self):
         logger.info(f"[{self.PORTAL_NAME}] Starting scrape run at {self.scraped_at}")

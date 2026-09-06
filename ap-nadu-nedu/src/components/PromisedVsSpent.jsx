@@ -101,16 +101,27 @@ function SpentSeries({ years, section, tip, t }) {
                 fill={tenureFill(ten)}
                 stroke={TENURE_HATCHED.has(ten) ? TENURE_COLOR[ten] : 'none'} strokeWidth="1"
                 opacity={partial ? 0.62 : 1}
-                onMouseMove={e => tip.show(e, `${label} · ${t(`depts.tenure.${ten}`)}`,
-                  t('finances.promised.seriesTip', {
-                    pct: pct.toFixed(1),
+                onMouseMove={e => tip.show(
+                  e,
+                  `${label} · ${t(`depts.tenure.${ten}`)}`,
+                  t('finances.promised.seriesTip', { pct: pct.toFixed(1) }),
+                  // The amounts belong on the tip's own second line. They used
+                  // to be glued on with a literal "<br>", which React escaped
+                  // and printed on screen as the characters <br>.
+                  t('finances.promised.seriesTipDetail', {
                     promised: fmtIN(Math.round(b.promised)),
                     spent: fmtIN(Math.round(b.spent)),
-                  }) + (partial ? `<br>${t('finances.promised.totalsOnly')}` : ''))}
+                  }) + (partial ? ` · ${t('finances.promised.totalsOnly')}` : ''),
+                )}
                 onMouseLeave={tip.hide} />
+              {/* The unit is not decoration here. A bare "103" beside a bare
+                  "38" reads as money, and the money runs the other way: the
+                  38% year spent MORE rupees than the 103% year, on a much
+                  larger vote. Printing the % is what stops a taller bar being
+                  read as a bigger number. */}
               <text x={x + bw / 2} y={H - h - 6} textAnchor="middle"
                 className="text-[11px] font-bold" fill="currentColor" fillOpacity="0.9">
-                {Math.round(pct)}
+                {Math.round(pct)}%
               </text>
               <text x={x + bw / 2} y={H + 15} textAnchor="middle" className="text-[10px]"
                 fill="currentColor" fillOpacity="0.65">{String(fy).slice(2)}</text>

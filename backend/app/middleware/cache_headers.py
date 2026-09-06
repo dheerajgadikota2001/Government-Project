@@ -48,6 +48,17 @@ CACHE_RULES: dict[str, int] = {
     # five-minute-old "no runs yet".
     "/api/v1/meta/updates": 60,
     "/api/v1/search": 60,
+    # The stamp every data request waits for. It was on the never-cache list
+    # below, which was correct in principle and expensive in practice: measured
+    # on the live site it cost 621 ms, and because every data request blocks on
+    # it, that was 621 ms added to every page load for every reader, forever.
+    #
+    # Fifteen seconds at the edge makes it ~20 ms instead. The guarantee it
+    # exists for survives: a corrected figure still reaches every reader within
+    # about a minute rather than instantly, against five minutes with no stamp
+    # at all. Trading a minute of propagation for half a second on every page
+    # view is the right way round.
+    "/api/v1/meta/version": 15,
 }
 
 # Paths that must NEVER carry a public cache header, whatever else matches.
@@ -55,7 +66,6 @@ CACHE_RULES: dict[str, int] = {
 NEVER_CACHE_FRAGMENTS: tuple[str, ...] = (
     "/admin/",        # returns correction reporters' contact details
     "/community",     # a reader must see their own post immediately
-    "/meta/version",  # the cache-busting stamp cannot itself be cached
     "/health",        # an uptime check must reach the real container
     "/docs",
     "/redoc",
@@ -66,6 +76,16 @@ NEVER_CACHE_FRAGMENTS: tuple[str, ...] = (
 # revalidating means a reader on a village connection is never blocked on us.
 BROWSER_MAX_AGE = 60
 STALE_WHILE_REVALIDATE = 3600
+
+# Paths whose freshness window must be tighter than the site-wide default.
+# `stale-while-revalidate=3600` is right for a budget table — a reader should
+# never wait on a refresh for a figure that changes twice a year — but it would
+# let an edge serve an hour-old *version stamp*, and the stamp is the mechanism
+# that makes a correction propagate at all. So it gets its own short window.
+FRESHNESS_OVERRIDES: dict[str, tuple[int, int]] = {
+    # path prefix -> (browser max-age, stale-while-revalidate)
+    "/api/v1/meta/version": (30, 30),
+}
 
 NO_STORE = "no-store, no-cache, must-revalidate, private"
 
@@ -104,9 +124,15 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
             response.headers["Cache-Control"] = NO_STORE
             return response
 
+        browser_max_age, swr = BROWSER_MAX_AGE, STALE_WHILE_REVALIDATE
+        for prefix, window in FRESHNESS_OVERRIDES.items():
+            if request.url.path.startswith(prefix):
+                browser_max_age, swr = window
+                break
+
         response.headers["Cache-Control"] = (
-            f"public, max-age={BROWSER_MAX_AGE}, s-maxage={ttl}, "
-            f"stale-while-revalidate={STALE_WHILE_REVALIDATE}"
+            f"public, max-age={browser_max_age}, s-maxage={ttl}, "
+            f"stale-while-revalidate={swr}"
         )
         # Responses are identical for every reader — language is chosen in the
         # browser, not negotiated here — so the only axis that varies is encoding.

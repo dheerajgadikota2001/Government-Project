@@ -54,7 +54,7 @@ function Drill({ open, onClose, title, sub, children }) {
   }, [open])
   return (
     <dialog ref={ref} onClose={onClose}
-      className="rounded-2xl p-0 w-[min(780px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45">
+      className="rounded-2xl p-0 w-[min(780px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45">
       <div className="sticky top-0 bg-surface z-10 flex justify-between items-center px-6 pt-5 pb-3 border-b border-surface-variant">
         <div className="min-w-0">
           <h2 className="text-headline-sm font-headline-sm text-on-surface font-bold">{title}</h2>
@@ -68,6 +68,43 @@ function Drill({ open, onClose, title, sub, children }) {
   )
 }
 
+/**
+ * The district map, remembered between visits.
+ *
+ * The map cannot be drawn in colour until the district counts arrive, and that
+ * round trip is currently the slowest thing on the page — the CDN in front of
+ * the API is not caching responses, so every visitor pays a full trip to
+ * Mumbai. Until that is fixed at the CDN, a returning reader should not have to
+ * watch the state redraw itself every single time.
+ *
+ * So the last answer this browser received is kept, and the map is painted from
+ * it on the next visit while the fresh one is fetched. Nothing here is invented
+ * or averaged: it is the government-sourced response this same browser was
+ * given earlier, it is discarded after a day, and it is replaced the moment the
+ * live answer lands. A first-time visitor still waits for the real thing.
+ */
+const INSIGHTS_CACHE_KEY = 'apfc.insights.v1'
+const INSIGHTS_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000
+
+function readCachedInsights() {
+  try {
+    const raw = localStorage.getItem(INSIGHTS_CACHE_KEY)
+    if (!raw) return null
+    const { at, data } = JSON.parse(raw)
+    return at && Date.now() - at < INSIGHTS_CACHE_MAX_AGE_MS ? data : null
+  } catch {
+    // Private mode, blocked storage, corrupted entry — all mean "no snapshot",
+    // which is simply the first-visit path. Never let this break the page.
+    return null
+  }
+}
+
+function writeCachedInsights(data) {
+  try {
+    localStorage.setItem(INSIGHTS_CACHE_KEY, JSON.stringify({ at: Date.now(), data }))
+  } catch { /* storage full or unavailable; the page does not depend on it */ }
+}
+
 export default function Home() {
   const { t } = useT()
   const [query, setQuery] = useState('')
@@ -77,7 +114,7 @@ export default function Home() {
   const [closingSoon, setClosingSoon] = useState(null)
   const [featured, setFeatured] = useState(null)
   const [latestNews, setLatestNews] = useState(null)
-  const [insights, setInsights] = useState(null)
+  const [insights, setInsights] = useState(readCachedInsights)
   const [mous, setMous] = useState(null)          // loaded lazily for the drill
   const [drill, setDrill] = useState(null)        // 'projects' | 'tenders' | 'investments' | 'mous'
   const [apiDown, setApiDown] = useState(false)
@@ -100,7 +137,9 @@ export default function Home() {
     apiGet('/tenders/closing-soon').then(r => !cancelled && setClosingSoon(r.length)).catch(() => !cancelled && setClosingSoon(0))
     apiGet('/projects/', { sort: 'cost', order: 'desc', page_size: 3 }).then(r => !cancelled && setFeatured(r.items)).catch(() => {})
     apiGet('/news/latest').then(r => !cancelled && setLatestNews(r.slice(0, 3))).catch(() => !cancelled && setLatestNews([]))
-    apiGet('/projects/insights').then(i => !cancelled && setInsights(i)).catch(() => {})
+    apiGet('/projects/insights')
+      .then(i => { if (!cancelled) { setInsights(i); writeCachedInsights(i) } })
+      .catch(() => {})
     return () => { cancelled = true }
   }, [])
 
@@ -140,15 +179,21 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 pb-8">
-      {/* The state first — the map, then everything else */}
-      {insights?.by_district?.length > 0 && (
-        <div className="max-w-[1280px] mx-auto w-full px-4 md:px-8 pt-6">
-          <APMap
-            byDistrict={insights.by_district}
-            statewideCount={insights.statewide_count}
-          />
-        </div>
-      )}
+      {/* The state first — the map, then everything else.
+          The boundaries are in the bundle, so the map is drawn the instant the
+          page renders and shades itself when the counts land. It used to wait
+          for the API before appearing at all, which left a blank space at the
+          very top of the page and then shoved everything down when it arrived —
+          the single most visible piece of "still loading" on the site. Every
+          district starts grey, which is also what a district with nothing on
+          record looks like, so nothing is implied that we have not measured. */}
+      <div className="max-w-[1280px] mx-auto w-full px-4 md:px-8 pt-6">
+        <APMap
+          byDistrict={insights?.by_district}
+          statewideCount={insights?.statewide_count || 0}
+          districtUnstatedCount={insights?.district_unstated_count || 0}
+        />
+      </div>
 
       {/* Hero */}
       <section data-flex-h className="relative w-full h-[520px] flex items-center justify-center text-center px-4 md:px-8 overflow-hidden">

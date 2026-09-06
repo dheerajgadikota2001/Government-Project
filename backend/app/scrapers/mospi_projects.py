@@ -28,6 +28,7 @@ import pdfplumber
 from sqlalchemy import select
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.progress_observation import ProgressObservation
@@ -122,6 +123,12 @@ async def upsert_observation(db, project_id, observed_date, *, progress, expendi
 class MospiProjectsScraper(BaseScraper):
     PORTAL_NAME = "MOSPI_IPMD"
     BASE_URL = "https://www.mospi.gov.in"
+    # Layer 1 only. What arrives here are the flash report's own raw columns,
+    # before _extract turns them into fields we have names for — so per-field
+    # rules would be asserting against a shape that changes with the report.
+    # The row-count floor still catches the case that matters: a report whose
+    # table moved and now yields a handful of rows instead of hundreds.
+    SANITY = SanitySpec(min_rows=1)
 
     async def scrape(self) -> int:
         self.log_start()
@@ -286,6 +293,7 @@ class MospiProjectsScraper(BaseScraper):
         }
 
     async def _save(self, ap_rows: list[dict]) -> int:
+        ap_rows = await self.gate(ap_rows)
         saved = 0
         obs_added = 0
         async with get_db_context() as db:

@@ -1,0 +1,54 @@
+# Can a GitHub runner reach the AP CRDA tenders board?
+#
+# WHY THIS EXISTS
+# crda.ap.gov.in drops connections from Google's network (proven from Cloud Run
+# on 6 Sep 2026, browser User-Agent included). It answers a home connection in
+# a second. GitHub's runners are a third kind of address, Microsoft's, and
+# nobody knows which way they fall until one tries. This workflow is that try.
+#
+# It fetches nothing but the public board, stores nothing, needs no secrets,
+# and prints what it saw. Read the log:
+#   "status : 200" and a table with headers  -> runners work; tenders can move here
+#   "ERROR  : ReadTimeout"                    -> blocked like Google; stay on the laptop
+#
+# Run it by hand from the Actions tab. It has no schedule on purpose.
+
+name: Probe CRDA reachability
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install just what the probe imports
+        run: pip install --quiet httpx==0.27.0 beautifulsoup4==4.12.3 lxml==5.2.1
+
+      - name: Where is this runner, roughly
+        # Region matters for the verdict. A block on "not India" and a block on
+        # "datacenter ranges" look identical from one probe; the region hint
+        # helps read the result.
+        run: |
+          echo "runner region hint:"
+          curl -s --max-time 10 https://ipinfo.io/json | python -c "import sys,json;d=json.load(sys.stdin);print(' ', d.get('org','?'), '|', d.get('country','?'), d.get('region','?'))" || echo "  (lookup unavailable)"
+
+      - name: Probe as ourselves (bot User-Agent, same as the scraper)
+        run: python scripts/probe_fetch.py https://crda.ap.gov.in/apcrdav2/views/NotificationsView.aspx --timeout 45 --chars 400
+
+      - name: Probe with a browser User-Agent
+        # Only meaningful if the first step timed out: tells agent block from
+        # network block, exactly as it did on Cloud Run.
+        if: always()
+        run: python scripts/probe_fetch.py https://crda.ap.gov.in/apcrdav2/views/NotificationsView.aspx --timeout 45 --chars 400 --ua browser

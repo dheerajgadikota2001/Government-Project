@@ -142,7 +142,7 @@ export default function AdvancedInvestments({ open, onClose }) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="rounded-2xl p-0 w-[min(880px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45"
+      className="rounded-2xl p-0 w-[min(880px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45"
       aria-label={t('advInvestments.dialogAria')}
     >
       <div className="sticky top-0 bg-surface z-10 flex justify-between items-center px-6 pt-5 pb-3 border-b border-surface-variant">
@@ -175,7 +175,7 @@ export default function AdvancedInvestments({ open, onClose }) {
 
             {/* Filter row — scopes everything below */}
             <div className="bg-surface-container-lowest border border-surface-variant rounded-xl px-4 py-3 flex flex-wrap gap-4 items-end">
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advInvestments.filters.yearSigned')}
                 <select
                   value={filters.year} onChange={e => set('year', e.target.value)}
@@ -185,7 +185,7 @@ export default function AdvancedInvestments({ open, onClose }) {
                   {yearOptions.map(o => <option key={o.value} value={o.value}>{o.text}</option>)}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advInvestments.filters.sector')}
                 <select
                   value={filters.sector} onChange={e => set('sector', e.target.value)}
@@ -195,7 +195,7 @@ export default function AdvancedInvestments({ open, onClose }) {
                   {sectorOptions.map(s => <option key={s} value={s}>{label(s)}</option>)}
                 </select>
               </label>
-              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant">
+              <label className="flex flex-col gap-1 text-label-sm text-on-surface-variant min-w-[9rem] flex-1 sm:flex-none [&>select]:w-full">
                 {t('advInvestments.filters.origin')}
                 <select
                   value={filters.origin} onChange={e => set('origin', e.target.value)}
@@ -230,6 +230,7 @@ export default function AdvancedInvestments({ open, onClose }) {
                 ]} />
 
                 <VizSection
+                  defaultOpen
                   title={t('advInvestments.viz.byCompany.title')}
                   sub={t('advInvestments.viz.byCompany.sub')}
                   provenance={t('advInvestments.viz.byCompany.provenance')}

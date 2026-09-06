@@ -91,3 +91,49 @@ async def get_tender(tender_id: int, db: AsyncSession = Depends(get_db)):
     if not tender:
         raise HTTPException(status_code=404, detail="Tender not found")
     return TenderOut.model_validate(tender)
+
+
+@router.get("/register/summary")
+@cache_response(ttl=300)
+async def register_summary(db: AsyncSession = Depends(get_db)):
+    """
+    What the tender register actually holds, so the page can state its own
+    coverage instead of implying it covers Andhra Pradesh.
+
+    Returns the count per status (the Active/Expired tabs read their own
+    numbers from here rather than paging to find out), the portals those rows
+    came from, and the date range on record. Nothing is estimated: every
+    number is a row count.
+    """
+    by_status = {s.value: 0 for s in TenderStatus}
+    rows = await db.execute(
+        select(Tender.status, func.count()).group_by(Tender.status)
+    )
+    for status, n in rows.all():
+        by_status[status.value if hasattr(status, "value") else str(status)] = n
+
+    portals = await db.execute(
+        select(
+            Tender.source_portal,
+            func.count(),
+            func.count().filter(Tender.status == TenderStatus.ACTIVE),
+        )
+        .group_by(Tender.source_portal)
+        .order_by(func.count().desc())
+    )
+    portal_rows = [
+        {"portal": p or "unattributed", "total": int(n or 0), "active": int(a or 0)}
+        for p, n, a in portals.all()
+    ]
+
+    span = (await db.execute(
+        select(func.min(Tender.published_date), func.max(Tender.published_date))
+    )).one()
+
+    return {
+        "total": sum(by_status.values()),
+        "by_status": by_status,
+        "portals": portal_rows,
+        "earliest_published": span[0],
+        "latest_published": span[1],
+    }

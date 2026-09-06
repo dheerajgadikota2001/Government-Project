@@ -1,5 +1,5 @@
 """
-Application configuration — reads from environment variables / .env file.
+Application configuration: reads from environment variables / .env file.
 All settings in one place, strongly typed via Pydantic.
 """
 
@@ -55,6 +55,23 @@ class Settings(BaseSettings):
     # Maintainer key for community moderation endpoints (X-Admin-Key header)
     admin_key: str = ""
 
+    # Alerts: Resend. The API key lives in Secret Manager and is injected as an
+    # environment variable; it is never written to a file in this repo.
+    #
+    # `alert_from` defaults to Resend's sandbox sender, which needs no DNS setup
+    # and delivers only to the address on the Resend account. Point it at a
+    # verified domain (e.g. alerts@dhethi.com) once that domain is set up.
+    # With no key or no recipient the alerting layer stays inert and says so , 
+    # a monitoring feature that fails silently is worse than none.
+    resend_api_key: str = ""
+    alert_from: str = "AP FactCheck <onboarding@resend.dev>"
+    alert_to: str = ""
+    alert_site_url: str = "https://apfactcheck.dhethi.com"
+    # Sent even when there is nothing wrong, so that silence is never ambiguous:
+    # no email for three weeks should mean healthy, not a dead scheduler.
+    alert_heartbeat_weekday: int = 0          # Monday
+
+
     # Scraper
     scraper_user_agent: str = "APNaduNedu-Bot/1.0 (Public data mirror; independent citizen project; contact: corrections@apnadunedu.in)"
     scraper_request_delay: float = 2.0
@@ -65,6 +82,17 @@ class Settings(BaseSettings):
 
     # Voice assistant
     voice_assistant_name: str = "Mitra"
+    # Voice is OFF by default. As of 6 Sep 2026 nothing in the frontend calls
+    # these endpoints (the button shows a "coming soon" toast), yet they were
+    # public and every call billed Google Speech and Text-to-Speech to us. An
+    # unused feature that can run up an invoice stays off until it is used.
+    # When it is switched on, the caps below bound the worst case per request
+    # and per minute. A per-day budget is deliberately not built yet: it needs
+    # a table and a migration, and that is worth doing when the feature exists.
+    voice_enabled: bool = False
+    voice_max_text_chars: int = 300        # TTS bills per character
+    voice_max_audio_bytes: int = 1_048_576 # STT bills per 15 s; 1 MB is ~30 s of webm
+    voice_per_minute: int = 5              # on top of the global limit
 
     @property
     def allowed_origins_list(self) -> List[str]:
@@ -89,8 +117,33 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    """Cached settings instance — only reads .env once."""
-    return Settings()
+    """Cached settings instance. Reads one env file, once.
+
+    Which file is chosen by APNN_ENV_FILE and defaults to .env. This exists
+    because a laptop has two databases within reach, the local one for
+    development and the production one through the Cloud SQL proxy, and on
+    6 Sep 2026 they were both called `applatform` on the same port number, so a
+    run meant for production quietly wrote to the laptop for weeks. Making the
+    file an explicit choice is the difference between "which database?" being
+    a question and being an accident.
+    """
+    import os
+    return Settings(_env_file=os.environ.get("APNN_ENV_FILE", ".env"))
+
+
+def database_target(url: str | None = None) -> str:
+    """The database a run is about to touch, with the password removed.
+
+    Printed at the top of every scraper run and schema check, because a log
+    that does not say where the data went is a log that can lie by omission.
+    """
+    from urllib.parse import urlsplit
+    p = urlsplit(url or get_settings().database_url)
+    host = p.hostname or "(unix socket)"
+    port = f":{p.port}" if p.port else ""
+    where = p.path.lstrip("/") or "?"
+    via = " via " + p.query if p.query else ""
+    return f"{host}{port}/{where}{via}"
 
 
 settings = get_settings()

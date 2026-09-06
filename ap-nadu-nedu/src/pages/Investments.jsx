@@ -3,12 +3,14 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT, fmtCrore } from '../i18n'
 import AdvancedInvestments from '../components/advanced/AdvancedInvestments'
+import Deferred from '../components/Deferred'
 import { InvestmentsHero } from '../components/HeroInsights'
 import SummitLedger from '../components/SummitLedger'
 import PageThread from '../components/community/PageThread'
 // Government colours come from one module: nine files used to declare their own
 // map and had drifted to three different values for the 2024 government.
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
+import { EVENTS, track } from '../lib/analytics'
 
 
 /** What each government's tenure signed, by the dates on the records.
@@ -198,7 +200,7 @@ function MouDetail({ id, onClose }) {
 
   return (
     <dialog ref={ref} onClose={onClose}
-      className="rounded-2xl p-0 w-[min(720px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45">
+      className="rounded-2xl p-0 w-[min(720px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45">
       {mou && (
         <>
           <div className="sticky top-0 bg-surface z-10 flex justify-between items-start px-6 pt-5 pb-3 border-b border-surface-variant gap-3">
@@ -421,7 +423,7 @@ export default function Investments() {
         </div>
         {!error && (
           <button
-            onClick={() => setAdvancedOpen(true)}
+            onClick={() => { setAdvancedOpen(true); track(EVENTS.ADVANCED_VIEW_OPENED, { section: 'investments' }) }}
             className="flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-primary text-primary text-label-md font-label-md font-semibold hover:bg-primary hover:text-on-primary transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">insights</span>
@@ -790,7 +792,7 @@ export default function Investments() {
         </>
       )}
 
-      <PageThread pageKey="investments" />
+      <Deferred minHeight={320}><PageThread pageKey="investments" /></Deferred>
       <MouDetail id={detailId} onClose={() => setDetailId(null)} />
     </div>
   )
