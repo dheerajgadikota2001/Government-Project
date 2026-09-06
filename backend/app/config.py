@@ -73,7 +73,10 @@ class Settings(BaseSettings):
 
 
     # Scraper
-    scraper_user_agent: str = "APNaduNedu-Bot/1.0 (Public data mirror; independent citizen project; contact: corrections@apnadunedu.in)"
+    # What every government portal sees in its logs. It names the site so an
+    # administrator can look us up, and nothing else: the old value carried
+    # a contact address on a domain we never owned.
+    scraper_user_agent: str = "APFactCheckBot/1.0 (+https://apfactcheck.dheeco.com; independent citizen project)"
     scraper_request_delay: float = 2.0
     scraper_timeout: int = 30
 

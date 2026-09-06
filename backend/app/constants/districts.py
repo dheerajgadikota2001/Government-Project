@@ -7,7 +7,7 @@ settled official names — use ONLY this list anywhere a district appears
 the API and the ingested data all agree.
 """
 
-from typing import Optional
+from typing import Iterable, Optional
 
 # All 26 districts, alphabetical. `code` is a stable slug for URLs and
 # query params; `name` is what a citizen sees.
@@ -129,6 +129,41 @@ def normalise_district(raw: Optional[str]) -> Optional[str]:
         return hits[0]
 
     return None
+
+
+def spellings_folding_to(canonical: str, candidates: Iterable[Optional[str]]) -> list[str]:
+    """
+    Every raw spelling in `candidates` that means the same district as `canonical`.
+
+    WHY THIS EXISTS
+    The map counts fold scraper spellings onto the canonical name before showing
+    them, so 16 projects stored as "Anantapur" are displayed under
+    "Ananthapuramu". The list query then compared that canonical name against
+    the raw column, which still holds "Anantapur", and matched nothing. Six
+    districts showed a count on the map and an empty list when opened, hiding
+    110 projects: Ananthapuramu, Tirupati, Sri Sathya Sai, Sri Potti Sriramulu
+    Nellore, Dr. B.R. Ambedkar Konaseema and Parvathipuram Manyam.
+
+    Folding BOTH sides with the same function is what makes that class of bug
+    structurally impossible rather than merely patched. A new misspelling
+    arriving from a scraper tomorrow is picked up here on its own, with nobody
+    editing an alias table, because this asks the same question the counts ask.
+
+    Pure and DB free on purpose, so the rule can be tested without a database.
+    """
+    target = normalise_district(canonical)
+    if not target:
+        return []
+
+    out: list[str] = []
+    seen: set[str] = set()
+    for raw in candidates:
+        if raw is None or raw in seen:
+            continue
+        seen.add(raw)
+        if normalise_district(raw) == target:
+            out.append(raw)
+    return out
 
 
 def is_valid_district(name: Optional[str]) -> bool:
