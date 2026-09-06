@@ -78,15 +78,16 @@ export default function Header() {
             to="/"
             className="flex flex-col items-start justify-center leading-tight text-on-primary min-w-0 overflow-hidden whitespace-nowrap"
           >
-            {/* The full name is what a citation or a news story should carry,
-                but it does not fit a 390px header beside the language and menu
-                buttons. The short form is the same brand, not a different one —
-                the way readers already abbreviate the state. */}
-            <span className="text-headline-md font-headline-md font-bold tracking-tight truncate 2xl:hidden">
+            {/* Always the short form. The header's inner row is capped at
+                1280px, so a wider window adds no room here; an earlier version
+                swapped in the full "Andhra Pradesh Fact Check" at 2xl and it
+                truncated to "Andhra Pradesh Fact" on every 1536px laptop, the
+                most common desktop width. The full name lives in the page
+                title, the hero and the footer, which is where a citation or a
+                news story takes it from. The short form is the same brand, the
+                way readers already abbreviate the state. */}
+            <span className="text-headline-md font-headline-md font-bold tracking-tight truncate">
               {t('nav.brandNameShort')}
-            </span>
-            <span className="text-title-lg font-title-lg font-bold tracking-tight truncate hidden 2xl:inline">
-              {t('nav.brandName')}
             </span>
             <span className="text-label-sm font-normal opacity-70 mt-0.5 tracking-wide truncate">by dheeco</span>
           </NavLink>
