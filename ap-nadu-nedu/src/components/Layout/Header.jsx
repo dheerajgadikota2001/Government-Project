@@ -88,7 +88,7 @@ export default function Header() {
             <span className="text-title-lg font-title-lg font-bold tracking-tight truncate hidden 2xl:inline">
               {t('nav.brandName')}
             </span>
-            <span className="text-label-sm font-normal opacity-70 mt-0.5 tracking-wide truncate">by dhethi</span>
+            <span className="text-label-sm font-normal opacity-70 mt-0.5 tracking-wide truncate">by dheeco</span>
           </NavLink>
         </div>
 

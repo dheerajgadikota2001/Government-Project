@@ -60,13 +60,13 @@ class Settings(BaseSettings):
     #
     # `alert_from` defaults to Resend's sandbox sender, which needs no DNS setup
     # and delivers only to the address on the Resend account. Point it at a
-    # verified domain (e.g. alerts@dhethi.com) once that domain is set up.
-    # With no key or no recipient the alerting layer stays inert and says so , 
+    # verified domain (alerts@dheeco.com) once dheeco.com is verified in Resend.
+    # With no key or no recipient the alerting layer stays inert and says so:
     # a monitoring feature that fails silently is worse than none.
     resend_api_key: str = ""
     alert_from: str = "AP FactCheck <onboarding@resend.dev>"
     alert_to: str = ""
-    alert_site_url: str = "https://apfactcheck.dhethi.com"
+    alert_site_url: str = "https://apfactcheck.dheeco.com"
     # Sent even when there is nothing wrong, so that silence is never ambiguous:
     # no email for three weeks should mean healthy, not a dead scheduler.
     alert_heartbeat_weekday: int = 0          # Monday

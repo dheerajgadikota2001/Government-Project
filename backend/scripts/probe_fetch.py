@@ -39,7 +39,7 @@ BROWSER_UA = (
 
 HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (compatible; APFactCheckBot/1.0; +https://apfactcheck.dhethi.com) "
+        "Mozilla/5.0 (compatible; APFactCheckBot/1.0; +https://apfactcheck.dheeco.com) "
         "citizen transparency platform"
     ),
     "Accept": "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
