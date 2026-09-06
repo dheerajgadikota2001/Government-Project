@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import asc, case, desc, func, or_, select, union
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.constants.districts import AP_DISTRICTS, normalise_district
+from app.constants.districts import AP_DISTRICTS, normalise_district, spellings_folding_to
 from app.constants.tenures import TENURES, tenure_by_key
 from app.database import get_db
 from app.models.project import Project, ProjectStatus, ProjectType
@@ -94,13 +94,35 @@ async def list_projects(
             # table is being filled, a project whose primary district is set but
             # whose link row has not been written yet must not disappear from
             # its own district's list.
+            # The old column is compared against every stored spelling that
+            # means this district, not against the canonical name alone. The
+            # map folds "Anantapur" into "Ananthapuramu" when counting, so a
+            # filter that does not fold the same way returns an empty list for
+            # a district the map says holds 16 projects. Reading the distinct
+            # values costs one indexed scan of a few dozen rows.
+            # BOTH sources are folded, not just the old column. Checking the
+            # link table for the canonical name alone was the same bug one
+            # layer down: Parvathipuram Manyam is counted only through
+            # project_districts, and its six projects still did not open until
+            # this side folded too. Every place that asks "which district is
+            # this row in" now asks it the same way.
+            stored = (await db.execute(
+                select(Project.district)
+                .where(Project.district.is_not(None))
+                .distinct()
+            )).scalars().all()
+            linked = (await db.execute(
+                select(ProjectDistrict.district).distinct()
+            )).scalars().all()
+            spellings = spellings_folding_to(canonical, stored) or [canonical]
+            link_spellings = spellings_folding_to(canonical, linked) or [canonical]
             stmt = stmt.where(
                 or_(
                     select(ProjectDistrict.id).where(
                         ProjectDistrict.project_id == Project.id,
-                        ProjectDistrict.district == canonical,
+                        ProjectDistrict.district.in_(link_spellings),
                     ).exists(),
-                    Project.district == canonical,
+                    Project.district.in_(spellings),
                 )
             )
         else:

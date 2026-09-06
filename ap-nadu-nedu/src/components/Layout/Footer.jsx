@@ -35,6 +35,18 @@ export default function Footer() {
             >
               {t('footer.links.rti')}
             </a>
+            {/* Who made this. Kept in the footer rather than the header brand
+                line, because the header lockup is already one link to home and
+                an anchor inside an anchor is invalid markup that browsers
+                resolve in their own ways. */}
+            <a
+              href="https://dheeco.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all"
+            >
+              {t('footer.links.builtBy')}
+            </a>
           </nav>
         </div>
         <div className="w-full h-px bg-on-tertiary-container/30" />
