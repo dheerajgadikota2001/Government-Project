@@ -63,7 +63,7 @@ export default function AdvancedGovernments({ open, onClose, data }) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="rounded-2xl p-0 w-[min(920px,calc(100vw-24px))] max-h-[calc(100vh-48px)] bg-surface backdrop:bg-black/45"
+      className="rounded-2xl p-0 w-[min(920px,calc(100vw-24px))] max-h-[calc(100dvh-48px)] overflow-y-auto overscroll-contain bg-surface backdrop:bg-black/45"
       aria-label={t('advGovernments.dialogAria')}
     >
       <div className="sticky top-0 bg-surface z-10 flex justify-between items-center px-6 pt-5 pb-3 border-b border-surface-variant">
@@ -79,6 +79,7 @@ export default function AdvancedGovernments({ open, onClose, data }) {
 
       <div className="px-6 py-5 flex flex-col gap-5">
         <VizSection
+          defaultOpen
           title={t('advGovernments.viz.capital.title')}
           sub={t('advGovernments.viz.capital.sub')}
           provenance={t('advGovernments.viz.capital.provenance')}

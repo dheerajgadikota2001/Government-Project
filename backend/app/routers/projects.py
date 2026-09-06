@@ -9,13 +9,14 @@ server-side do not belong in the UI.
 from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import asc, case, desc, func, or_, select
+from sqlalchemy import asc, case, desc, func, or_, select, union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.constants.districts import AP_DISTRICTS, normalise_district
 from app.constants.tenures import TENURES, tenure_by_key
 from app.database import get_db
 from app.models.project import Project, ProjectStatus, ProjectType
+from app.models.project_district import ProjectDistrict
 from app.schemas.common import PaginatedResponse
 from app.schemas.project import ProjectListOut, ProjectOut
 from app.services.cache import cache_response
@@ -38,6 +39,14 @@ _SORT_COLUMNS = {
 async def list_projects(
     q: Optional[str] = Query(None, description="Free text over title, description, department"),
     district: Optional[str] = Query(None, description="Any of the 26 AP districts (name or slug)"),
+    placement: Optional[str] = Query(
+        None,
+        description=(
+            "Projects with no district on record. 'statewide' = central-sector "
+            "projects the source tracks state-wide; 'unstated' = projects whose "
+            "source document prints no district at all."
+        ),
+    ),
     project_type: Optional[ProjectType] = Query(None),
     status: Optional[ProjectStatus] = Query(None),
     department: Optional[str] = Query(None),
@@ -72,12 +81,46 @@ async def list_projects(
         )
 
     if district:
-        # Accept a slug, a legacy name, or the canonical name — all resolve
-        # to one canonical value before hitting the column.
+        # Accept a slug, a legacy name, or the canonical name — all resolve to
+        # one canonical value before the query.
         canonical = normalise_district(district)
-        stmt = stmt.where(Project.district == canonical) if canonical else stmt.where(
-            Project.district.ilike(f"%{district}%")
-        )
+        if canonical:
+            # Matched through project_districts so a project that spans several
+            # districts appears under each of them. Filtering the single
+            # Project.district column instead is why Thotapalli Barrage could
+            # never show up under two of the three districts it lies in.
+            #
+            # The old column is still checked as a fallback: while the link
+            # table is being filled, a project whose primary district is set but
+            # whose link row has not been written yet must not disappear from
+            # its own district's list.
+            stmt = stmt.where(
+                or_(
+                    select(ProjectDistrict.id).where(
+                        ProjectDistrict.project_id == Project.id,
+                        ProjectDistrict.district == canonical,
+                    ).exists(),
+                    Project.district == canonical,
+                )
+            )
+        else:
+            stmt = stmt.where(Project.district.ilike(f"%{district}%"))
+
+    if placement in ("statewide", "unstated"):
+        # Until now these projects were unreachable: the map printed "147
+        # projects are recorded as statewide" as plain text, with no way to open
+        # them. Polavaram is in that set.
+        #
+        # The two are genuinely different and must not be merged again. MoSPI
+        # tracks central-sector projects by state, so "statewide" is accurate
+        # for those. The Socio-Economic Survey simply prints no district column,
+        # which says nothing about where its projects are.
+        unplaced = ~select(ProjectDistrict.project_id).where(
+            ProjectDistrict.project_id == Project.id
+        ).exists()
+        mospi = Project.source_portal.ilike("%MOSPI%")
+        stmt = stmt.where(unplaced, mospi if placement == "statewide"
+                          else func.coalesce(Project.source_portal, "").notilike("%MOSPI%"))
 
     if project_type:
         stmt = stmt.where(Project.project_type == project_type)
@@ -217,11 +260,39 @@ async def get_project_insights(
         .order_by(func.coalesce(func.sum(Project.estimated_cost_crore), 0).desc())
     )).all()
 
+    # A project is in a district if EITHER source says so: the project_districts
+    # link table, or the older single Project.district column.
+    #
+    # THIS UNION IS NOT BELT AND BRACES — IT IS THE BUG FIX.
+    # The first version of this query joined project_districts alone. The app
+    # calls metadata.create_all at startup, so deploying that code created an
+    # EMPTY project_districts table; the migration that backfills it had failed
+    # separately and never ran. An empty table joined to everything produced an
+    # empty result, and the live map showed 0 projects in all 26 districts —
+    # while the API returned a cheerful 200.
+    #
+    # A count that silently becomes zero is the worst failure this platform can
+    # have: it reads as "the government did nothing here". So the counts must
+    # never depend on one table being populated. Reading from both sources means
+    # the map is right during the backfill, after it, and if it never runs.
+    #
+    # The cost is NOT divided between districts. Splitting a published figure
+    # would be arithmetic we invented — the source states one cost for one
+    # project. A district's cost is "the published cost of the projects touching
+    # this district", so district costs deliberately do not sum to the state
+    # total, and the method note says so.
+    placement = union(
+        select(ProjectDistrict.project_id.label("pid"),
+               ProjectDistrict.district.label("district")),
+        select(Project.id.label("pid"), Project.district.label("district"))
+        .where(Project.district.is_not(None), func.btrim(Project.district) != ""),
+    ).subquery("placement")
+
     district_rows = (await db.execute(scoped(
-        select(Project.district, func.count(Project.id),
+        select(placement.c.district, func.count(func.distinct(Project.id)),
                func.coalesce(func.sum(Project.estimated_cost_crore), 0))
-        .where(Project.district.is_not(None))
-        ).group_by(Project.district)
+        .join(placement, placement.c.pid == Project.id)
+        ).group_by(placement.c.district)
     )).all()
 
     # Announcements year by year inside the scope — the shape of a term.
@@ -254,8 +325,31 @@ async def get_project_insights(
         d["cost_crore"] += float(cost or 0)
     districts = sorted(by_district.values(), key=lambda d: d["count"], reverse=True)
 
+    # A project is "unplaced" when nothing in project_districts points at it.
+    # That is the honest test now: Project.district being NULL only ever meant
+    # "the primary column is empty", which stays true for a project whose
+    # districts have since been sourced into the link table.
+    # Same rule as the counts: placed if either source names a district. Using
+    # the link table alone here is what turned 526 mapped projects into "573
+    # projects whose source prints no district", which was simply untrue.
+    placed = select(placement.c.pid).where(placement.c.pid == Project.id).exists()
+
+    # Two different facts were being shown as one word. The MoSPI flash report
+    # tracks CENTRAL-SECTOR projects by state — a highway crossing Andhra
+    # Pradesh has no single district, and "statewide" is exactly right. The
+    # Socio-Economic Survey's project table simply prints no district column,
+    # so its projects are not statewide at all; their district is unstated, and
+    # several of them — Polavaram among them — plainly sit in known districts.
+    #
+    # Labelling both "statewide" told readers something the source never said.
     statewide = (await db.execute(scoped(
-        select(func.count(Project.id)).where(Project.district.is_(None))
+        select(func.count(Project.id))
+        .where(~placed, Project.source_portal.ilike("%MOSPI%"))
+    ))).scalar_one()
+
+    unstated = (await db.execute(scoped(
+        select(func.count(Project.id))
+        .where(~placed, func.coalesce(Project.source_portal, "").notilike("%MOSPI%"))
     ))).scalar_one()
 
     with_progress = (await db.execute(scoped(
@@ -292,13 +386,21 @@ async def get_project_insights(
                    if t else None),
         "average_published_progress": round(float(avg_progress), 1) if avg_progress is not None else None,
         "statewide_count": statewide or 0,
+        "district_unstated_count": unstated or 0,
+        # Kept so anything still reading a single "no district" number keeps
+        # working while the frontend moves to the split above.
+        "unplaced_count": (statewide or 0) + (unstated or 0),
         "unmatched_district_count": unmatched,
         "with_published_progress": with_progress or 0,
         "total": total or 0,
         "method_note": (
             "Counted straight from the project records. District spellings from the source "
-            "documents are folded onto the canonical district name; projects recorded as "
-            "statewide have no district and are counted separately."
+            "documents are folded onto the canonical district name. A project that spans "
+            "districts is counted in every district it touches, so district counts sum to "
+            "more than the number of projects, and published costs are never divided "
+            "between districts. Projects with no district on record are split in two: "
+            "central-sector projects the source tracks state-wide, and projects whose "
+            "source document simply prints no district."
         ),
     }
 

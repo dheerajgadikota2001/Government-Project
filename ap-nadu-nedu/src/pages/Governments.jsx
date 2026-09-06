@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
-import { useChartTip, fmtIN, HBarChart } from '../components/advanced/ChartPrimitives'
+import { useChartTip, fmtIN, HBarChart, VizOpen } from '../components/advanced/ChartPrimitives'
+import Deferred from '../components/Deferred'
 import AdvancedGovernments from '../components/advanced/AdvancedGovernments'
 import { useT } from '../i18n'
 import { RankChart, CompareChart, IndexScorecards } from '../components/advanced/StateCharts'
@@ -9,6 +10,7 @@ import PageThread from '../components/community/PageThread'
 // Government colours come from one module: nine files used to declare their own
 // map and had drifted to three different values for the 2024 government.
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
+import { EVENTS, track } from '../lib/analytics'
 
 /**
  * Governments — the tenure record, organized as collapsed sections that
@@ -194,10 +196,14 @@ function TenureBody({ t: tenure, data, tip, records }) {
   return (
     <div>
       <p className="text-body-md text-on-surface leading-relaxed max-w-4xl">{tenure.summary}</p>
-      <div className="mt-3 flex gap-1 border-b border-surface-variant">
+      {/* Four tabs do not fit across a phone. Without a scroller they were
+          squeezed until the labels broke mid-word ("Timel/ine", "Manif/esto"),
+          which is how a translated label becomes unreadable. They now scroll
+          horizontally and each label stays on one line. */}
+      <div className="mt-3 flex gap-1 border-b border-surface-variant overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
         {TABS.map(([k, labelKey]) => (
           <button key={k} onClick={() => setTab(k)}
-            className={`px-4 py-2 text-label-md rounded-t-lg border border-b-0 ${tab === k ? 'bg-surface border-surface-variant font-bold text-on-surface' : 'border-transparent text-on-surface-variant hover:bg-surface-container'}`}>
+            className={`px-4 py-2 text-label-md rounded-t-lg border border-b-0 whitespace-nowrap shrink-0 ${tab === k ? 'bg-surface border-surface-variant font-bold text-on-surface' : 'border-transparent text-on-surface-variant hover:bg-surface-container'}`}>
             {t(labelKey)}
           </button>
         ))}
@@ -240,7 +246,7 @@ function TenureBody({ t: tenure, data, tip, records }) {
           <ol className="flex flex-col gap-2.5 max-w-4xl">
             {tenure.timeline.map(ev => (
               <li key={ev.date + ev.text.slice(0, 12)} className="flex gap-3">
-                <span className="text-label-sm tabular-nums text-on-surface-variant whitespace-nowrap pt-0.5 w-24">{ev.date}</span>
+                <span className="text-label-sm tabular-nums text-on-surface-variant whitespace-nowrap pt-0.5 w-24 shrink-0">{ev.date}</span>
                 <span className="text-body-md text-on-surface min-w-0">
                   {ev.text}{' '}
                   <a className="text-label-sm text-primary" href={data.sources[ev.source]?.url} target="_blank" rel="noreferrer">[{ev.source_name}]</a>
@@ -449,7 +455,7 @@ function HeadToHead({ data, records, tip }) {
           <button key={r.t.key} type="button" role="tab" aria-selected={picked === r.t.key}
             onClick={() => setPicked(r.t.key)}
             className={[
-              'flex-1 min-w-0 rounded-lg px-1.5 py-2 text-label-sm font-bold leading-tight transition-colors [overflow-wrap:anywhere]',
+              'flex-1 min-w-0 rounded-lg px-1 py-2 text-[0.72rem] sm:text-label-sm font-bold leading-tight transition-colors truncate',
               picked === r.t.key ? 'bg-surface-container-lowest text-on-surface shadow-sm' : 'text-on-surface-variant',
             ].join(' ')}
             style={{ borderBottom: `3px solid ${picked === r.t.key ? TENURE_TINT[r.t.key] : 'transparent'}` }}>
@@ -561,7 +567,13 @@ function HeadToHead({ data, records, tip }) {
  */
 function ChartsPanel({ open, children }) {
   if (!open) return null
-  return <div className="mb-4 flex flex-col gap-4">{children}</div>
+  // VizOpen: the reader has already asked for charts, so the charts inside
+  // must arrive drawn, not as another collapsed heading to click.
+  return (
+    <VizOpen>
+      <div className="mb-4 flex flex-col gap-4">{children}</div>
+    </VizOpen>
+  )
 }
 
 function StateLeaderboard({ lb, tip }) {
@@ -941,7 +953,7 @@ export default function Governments() {
         <div className="flex flex-wrap items-center gap-3">
           <h1 className="text-headline-lg font-headline-lg font-bold text-on-surface min-w-0">{t('governments.title')}</h1>
           <button
-            onClick={() => setAdvancedOpen(true)}
+            onClick={() => { setAdvancedOpen(true); track(EVENTS.ADVANCED_VIEW_OPENED, { section: 'governments' }) }}
             className="ms-auto inline-flex items-center gap-2 rounded-full border border-outline-variant px-4 py-2 text-label-md text-primary hover:bg-surface-container transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]" aria-hidden="true">insights</span>
@@ -1102,7 +1114,7 @@ export default function Governments() {
           <ol className="flex flex-col gap-2.5 max-w-4xl">
             {[...data.awards.items].sort((a, b) => b.date.localeCompare(a.date)).map(aw => (
               <li key={aw.date + aw.text.slice(0, 16)} className="flex gap-3">
-                <span className="text-label-sm tabular-nums text-on-surface-variant whitespace-nowrap pt-0.5 w-24">{aw.date}</span>
+                <span className="text-label-sm tabular-nums text-on-surface-variant whitespace-nowrap pt-0.5 w-24 shrink-0">{aw.date}</span>
                 <span className="text-body-md text-on-surface min-w-0">
                   {aw.text}{' '}
                   <a className="text-label-sm text-primary" href={aw.url} target="_blank" rel="noreferrer">[{aw.publisher}]</a>
@@ -1190,7 +1202,7 @@ export default function Governments() {
         </>
       )}
 
-      <PageThread pageKey="governments" />
+      <Deferred minHeight={320}><PageThread pageKey="governments" /></Deferred>
 
       <AdvancedGovernments open={advancedOpen} onClose={() => setAdvancedOpen(false)} data={data} />
       {tip.node}

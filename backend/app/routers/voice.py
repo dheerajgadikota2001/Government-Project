@@ -1,88 +1,108 @@
 """
-Voice Assistant API — "Mitra" voice processing endpoints.
-Handles STT (speech to text), intent parsing, and TTS (text to speech) responses.
+Voice assistant endpoints ("Mitra"): speech to text, intent, text to speech.
+
+COST, STATED PLAINLY
+Every call here can bill Google. /transcribe sends audio to Speech-to-Text,
+charged per 15 seconds. /query and /greeting send text to Text-to-Speech,
+charged per character. Nothing else on this platform costs money per request,
+so this router carries guards the others do not:
+
+  1. An off switch, off by default. Nothing in the frontend uses these yet.
+  2. A cap on text length and audio size, checked before Google is contacted.
+  3. A tighter per-minute limit than the rest of the API.
+  4. The greeting, which never changes, is synthesised once per language and
+     then served from memory.
+
+A per-day budget is the missing fourth guard. It needs a shared counter (a
+table) to hold across Cloud Run instances, and it is deliberately deferred to
+the day the voice UI is actually built.
 """
 
-import base64
-from fastapi import APIRouter, HTTPException, UploadFile, File, Query
-from pydantic import BaseModel
-from typing import Optional
+from fastapi import APIRouter, File, HTTPException, Query, Request, UploadFile
+from pydantic import BaseModel, Field
+from typing import Optional, Tuple
 
 from app.config import settings
+from app.rate_limit import limiter
 from app.services.voice import VoiceService
 
 router = APIRouter(prefix="/voice", tags=["Voice Assistant"])
 
+ALLOWED_AUDIO = {"audio/wav", "audio/webm", "audio/ogg", "audio/mp4", "audio/mpeg"}
+
+
+def _require_enabled() -> None:
+    if not settings.voice_enabled:
+        # 503, not 404: the route exists, the feature is switched off. A client
+        # can show "not available yet" instead of "broken".
+        raise HTTPException(status_code=503, detail="voice_not_available")
+
 
 class VoiceQueryRequest(BaseModel):
     """Text-based voice query (after client-side STT)."""
-    text: str
-    language: str = "te"   # te=Telugu, en=English
-    district: Optional[str] = None
+    # max_length is enforced by Pydantic before the handler runs, so an
+    # oversized body is a 422 and Google is never contacted.
+    text: str = Field(min_length=1, max_length=settings.voice_max_text_chars)
+    language: str = Field("te", pattern="^(te|en)$")
+    district: Optional[str] = Field(None, max_length=100)
 
 
 class VoiceResponse(BaseModel):
-    text_response: str               # Response text (in requested language)
-    audio_base64: Optional[str]      # Base64 encoded MP3 audio
-    intent: str                      # What we understood: project_status, news, tender_search etc.
-    data: Optional[dict] = None      # Supporting data returned
+    text_response: str
+    audio_base64: Optional[str]
+    intent: str
+    data: Optional[dict] = None
 
 
 @router.post("/query", response_model=VoiceResponse)
-async def voice_query(request: VoiceQueryRequest):
-    """
-    Process a text voice query and return text + audio response.
-    Client sends transcribed text → we parse intent → fetch data → generate spoken response.
-    """
+@limiter.limit(f"{settings.voice_per_minute}/minute")
+async def voice_query(request: Request, payload: VoiceQueryRequest):
+    """Text in, spoken answer out. Capped and rate limited, see module docstring."""
+    _require_enabled()
     service = VoiceService()
     return await service.process_query(
-        text=request.text,
-        language=request.language,
-        district=request.district,
+        text=payload.text, language=payload.language, district=payload.district,
     )
 
 
 @router.post("/transcribe")
+@limiter.limit(f"{settings.voice_per_minute}/minute")
 async def transcribe_audio(
+    request: Request,
     audio: UploadFile = File(...),
     language: str = Query("te", pattern="^(te|en)$"),
 ):
-    """
-    Transcribe uploaded audio file to text.
-    Client records audio → uploads here → gets back transcribed text.
-    Then call /voice/query with the transcribed text.
-    Supports WAV, WEBM, OGG formats.
-    """
-    if audio.content_type not in ["audio/wav", "audio/webm", "audio/ogg", "audio/mp4", "audio/mpeg"]:
+    """Audio in, text out. Size is checked while reading, not after."""
+    _require_enabled()
+    if audio.content_type not in ALLOWED_AUDIO:
         raise HTTPException(
             status_code=400,
-            detail=f"Unsupported audio format: {audio.content_type}. Use WAV, WebM, OGG, or MP4."
+            detail=f"Unsupported audio format: {audio.content_type}. Use WAV, WebM, OGG, or MP4.",
         )
 
-    audio_bytes = await audio.read()
-    if len(audio_bytes) > 10 * 1024 * 1024:  # 10MB limit
-        raise HTTPException(status_code=413, detail="Audio file too large. Max 10MB.")
+    # Read one byte past the cap. If we get it, the upload is too big, and we
+    # stop without buffering the rest of a file someone chose to make huge.
+    limit = settings.voice_max_audio_bytes
+    audio_bytes = await audio.read(limit + 1)
+    if len(audio_bytes) > limit:
+        raise HTTPException(status_code=413, detail=f"Audio too large. Max {limit // 1024} KB.")
 
     service = VoiceService()
     transcription = await service.transcribe(audio_bytes, audio.content_type, language)
+    return {"transcription": transcription, "language": language, "detected_language": language}
 
-    return {
-        "transcription": transcription,
-        "language": language,
-        "detected_language": language,  # Could add auto-detection later
-    }
+
+# The greeting is the same words every time. Synthesising it on every open
+# was a paid call for a constant; one per language per process is the ceiling.
+_GREETING_CACHE: dict[str, Tuple[str, Optional[str]]] = {}
 
 
 @router.get("/greeting")
 async def get_greeting(language: str = Query("te", pattern="^(te|en)$")):
-    """
-    Get Mitra's welcome greeting audio.
-    Called when user first opens the voice assistant.
-    """
-    service = VoiceService()
-    greeting_text, audio_b64 = await service.get_greeting(language)
-    return {
-        "text": greeting_text,
-        "audio_base64": audio_b64,
-        "assistant_name": settings.voice_assistant_name,
-    }
+    """Mitra's opening line, text and audio."""
+    _require_enabled()
+    if language not in _GREETING_CACHE:
+        service = VoiceService()
+        _GREETING_CACHE[language] = await service.get_greeting(language)
+    text, audio_b64 = _GREETING_CACHE[language]
+    return {"text": text, "audio_base64": audio_b64, "assistant_name": settings.voice_assistant_name}

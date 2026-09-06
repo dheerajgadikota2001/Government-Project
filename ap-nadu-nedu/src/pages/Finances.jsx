@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { apiGet } from '../lib/api'
 import { VizSection, StatTiles, useChartTip, fmtIN, SEQ, HBarChart } from '../components/advanced/ChartPrimitives'
+import Deferred from '../components/Deferred'
 import { FinancesHero } from '../components/HeroInsights'
 import DepartmentSpending from '../components/DepartmentSpending'
 import DebtClock from '../components/DebtClock'
@@ -540,7 +541,7 @@ export default function Finances() {
         question={t('finances.q.departments')}
         answer={t('finances.a.departments')}
       >
-        <DepartmentSpending />
+        <Deferred minHeight={520}><DepartmentSpending /></Deferred>
       </QuestionSection>
 
       <QuestionSection
@@ -585,7 +586,7 @@ export default function Finances() {
           {t('finances.sources.correction')}
         </p>
       </section>
-      <PageThread pageKey="finances" />
+      <Deferred minHeight={320}><PageThread pageKey="finances" /></Deferred>
       {tip.node}
     </div>
   )

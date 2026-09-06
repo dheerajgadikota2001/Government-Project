@@ -3,6 +3,7 @@ import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
 import { TENURE_COLOR, TENURE_HATCHED, TenureDefs, tenureFill } from '../lib/tenure'
 import { useChartTip, fmtIN } from '../components/advanced/ChartPrimitives'
+import Deferred from '../components/Deferred'
 import PageThread from '../components/community/PageThread'
 
 /**
@@ -397,7 +398,7 @@ export default function StateFacts() {
         )}
       </section>
 
-      <PageThread pageKey="state-facts" />
+      <Deferred minHeight={320}><PageThread pageKey="state-facts" /></Deferred>
       {tip.node}
     </div>
   )

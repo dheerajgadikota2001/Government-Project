@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
+import useDataGap from '../lib/useDataGap'
 
 /**
  * News — collected articles about AP government work, grouped into topics a
@@ -98,6 +99,11 @@ export default function News() {
   const [page, setPage] = useState(1)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+
+  // The News page has been showing "No articles collected yet" to every
+  // visitor. That is the honest thing to show, and it is also a hole nobody is
+  // counting — this puts a number on how many people meet it.
+  useDataGap('news', { empty: !loading && !error && (list?.length ?? 0) === 0, loading })
 
   useEffect(() => {
     apiGet('/news/topics')

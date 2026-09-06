@@ -34,6 +34,7 @@ from sqlalchemy import select
 from app.database import get_db_context
 from app.models.tender import Tender, TenderStatus, TenderType
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.utils.logger import logger
 
 LISTING_URL = "https://crda.ap.gov.in/apcrdav2/views/NotificationsView.aspx"
@@ -83,6 +84,24 @@ def _date_ist_start_of_day(s: str) -> Optional[datetime]:
 class CrdaTendersScraper(BaseScraper):
     PORTAL_NAME = "CRDA_TENDERS"
     BASE_URL = "https://crda.ap.gov.in"
+    # The board carried ~20-40 open notifications every run we have seen; three
+    # is the floor the parser already refused below, kept here so the reason is
+    # declared in one place rather than buried in _parse_grid.
+    SANITY = SanitySpec(
+        min_rows=3,
+        fields={
+            "nit": FieldRule(required=True, min_len=3, max_len=200),
+            "description": FieldRule(required=True, min_len=8, max_len=1000),
+            "department": FieldRule(min_len=2, max_len=200),
+            "published": FieldRule(min_year=2000, max_year_ahead=1),
+            # A closing date can legitimately be a couple of years out for a
+            # long-running auction; beyond that it is a parse error.
+            "closes": FieldRule(min_year=2000, max_year_ahead=3),
+        },
+        # The notification number is the portal's own identity for a row. If it
+        # stops being unique the next run duplicates the whole board.
+        key_field="nit",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -155,6 +174,7 @@ class CrdaTendersScraper(BaseScraper):
         return rows
 
     async def _save(self, rows: list[dict]) -> int:
+        rows = await self.gate(rows)
         now = datetime.now(timezone.utc)
         created = 0
         seen_ids: set[str] = set()

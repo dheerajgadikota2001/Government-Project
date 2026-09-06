@@ -33,6 +33,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import FieldRule, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -114,6 +115,21 @@ def classify(title: str) -> DocumentType:
 class DistrictDocumentsScraper(BaseScraper):
     PORTAL_NAME = "AP_Districts"
     BASE_URL = "https://andhrapradesh.s3waas.gov.in"
+    # Twenty-six districts are walked in one run, each saving its own small
+    # batch. Drift detection is deliberately off here (drift_fields=()): the
+    # baseline would mix twenty-six unrelated collectorates into one history and
+    # compare a district that publishes weekly against one that publishes twice
+    # a year. Layers 1, 2 and 4 still apply per district.
+    SANITY = SanitySpec(
+        min_rows=1,
+        fields={
+            "title": FieldRule(required=True, min_len=8, max_len=500),
+            "url": FieldRule(required=True, min_len=10),
+            "date": FieldRule(min_year=2000, max_year_ahead=1),
+        },
+        drift_fields=(),
+        key_field="url",
+    )
 
     async def scrape(self) -> int:
         self.log_start()
@@ -206,6 +222,7 @@ class DistrictDocumentsScraper(BaseScraper):
             return None
 
     async def _save(self, district: str, base: str, entries: list[dict]) -> int:
+        entries = await self.gate(entries)
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { apiGet } from '../lib/api'
 import WhoRunsTheSchools from '../components/WhoRunsTheSchools'
+import Deferred from '../components/Deferred'
 import { useChartTip, fmtIN, LineOverlay, VizSection } from '../components/advanced/ChartPrimitives'
 import { useT } from '../i18n'
 import PageThread from '../components/community/PageThread'
@@ -491,7 +492,7 @@ export default function SchoolEducation() {
       )}
 
       {tip.node}
-      <PageThread pageKey="school-education" />
+      <Deferred minHeight={320}><PageThread pageKey="school-education" /></Deferred>
     </div>
   )
 }

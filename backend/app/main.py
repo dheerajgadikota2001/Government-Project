@@ -10,9 +10,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
-from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from slowapi.util import get_remote_address
 
 from app.config import settings
 from app.middleware import CacheControlMiddleware
@@ -40,8 +39,8 @@ from app.routers import (
 )
 
 
-# Rate limiter — prevents abuse (100 requests/minute per IP by default)
-limiter = Limiter(key_func=get_remote_address, default_limits=[f"{settings.rate_limit_per_minute}/minute"])
+# Rate limiter. Lives in app.rate_limit so routers can tighten single endpoints.
+from app.rate_limit import limiter  # noqa: E402
 
 
 @asynccontextmanager
