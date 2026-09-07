@@ -201,9 +201,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/70 to-background/90 z-0" />
         <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col gap-4 items-center mt-10">
           <div className="flex flex-col items-center gap-2 mb-2">
-            <h2 className="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-on-primary text-balance drop-shadow-md">
+            <h1 className="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-on-primary text-balance drop-shadow-md">
               {t('home.hero.titleLine1')}<br />{t('home.hero.titleLine2')}
-            </h2>
+            </h1>
             <h3 className="text-headline-sm font-headline-sm text-secondary-fixed-dim text-balance font-medium">
               {t('home.hero.titleTe')}
             </h3>

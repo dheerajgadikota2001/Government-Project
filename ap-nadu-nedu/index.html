@@ -9,14 +9,34 @@
       content="Andhra Pradesh Fact Check is an independent, no-login transparency platform. Every project, budget and commitment figure is taken from a government document and cited, in six languages."
     />
     <!--
-      Public address of the site. Firebase also serves it at ap-nadu-nedu.web.app,
-      and the old apfactcheck.dhethi.com name redirects here. The canonical tag
-      tells search engines that apfactcheck.dheeco.com is the real one, so the
-      copies are never indexed as duplicates. Keep this address in step with
-      public/robots.txt, public/sitemap.xml, alert_site_url in backend/app/config.py
-      and ALLOWED_ORIGINS on Cloud Run.
+      NO CANONICAL HERE, ON PURPOSE.
+      NO og:url HERE EITHER, FOR THE SAME REASON.
+
+      There used to be both, and both pointed at the homepage. Every route in
+      this app is served from this one file, so /projects, /finances and every
+      other page told Google "the real page is the homepage". Search Console
+      confirmed it: User-declared canonical read https://apfactcheck.dheeco.com/
+      on every URL inspected. Google obeys a canonical. It would have indexed one
+      page and discarded the other eighteen as duplicates.
+
+      A static file cannot know which route it is about to serve, so the tags are
+      set at runtime instead, in src/lib/seo.js, from the route table in
+      src/lib/routes.js. Absent is better than wrong: with no canonical declared,
+      a crawler treats each URL as its own page, which is the correct answer for
+      every page here. And leaving a conflicting one in the raw HTML would give
+      Google two answers and let it pick.
+
+      WHAT THIS DOES NOT FIX
+
+      Crawlers that do not run JavaScript, which is most social previews, still
+      see only the generic title and description below. A link to /finances
+      shared on WhatsApp still previews as the site rather than as that page.
+      Prerendering is the fix for that; a runtime tag cannot be.
+
+      Keep the address in src/lib/routes.js in step with public/robots.txt,
+      public/sitemap.xml, alert_site_url in backend/app/config.py and
+      ALLOWED_ORIGINS on Cloud Run.
     -->
-    <link rel="canonical" href="https://apfactcheck.dheeco.com/" />
     <meta name="theme-color" content="#001e40" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Andhra Pradesh Fact Check" />
@@ -25,7 +45,6 @@
       property="og:description"
       content="Projects, finances and government commitments of Andhra Pradesh, every figure sourced from official documents. No login, six languages."
     />
-    <meta property="og:url" content="https://apfactcheck.dheeco.com/" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Andhra Pradesh Fact Check: every figure from a government document" />
     <meta
