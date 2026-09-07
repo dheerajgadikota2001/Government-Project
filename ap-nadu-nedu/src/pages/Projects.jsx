@@ -9,6 +9,7 @@ import ErrorBoundary from '../components/ErrorBoundary'
 
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
+import { applySeo, seoForDistrict } from '../lib/seo'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
   : `₹${Math.round(v).toLocaleString('en-IN')} ${t('unit.crore')}`)
@@ -284,6 +285,22 @@ export default function Projects() {
       return next
     })
   }
+
+  // A district is a page in its own right, not a filtered view.
+  //
+  // The Seo component fires on a pathname change, and picking a district only
+  // changes the query, so it never hears about it. The canonical keeps
+  // ?district= for the same reason: "projects in Palnadu" is a subject people
+  // search for by name and there are only 26 of them, where status and page
+  // are the same projects rearranged and must fold back into one URL.
+  //
+  // The count waits for the register to answer, so the description says 43
+  // rather than a number we assumed.
+  useEffect(() => {
+    const district = filters.district
+    const path = district ? `/projects?district=${encodeURIComponent(district)}` : '/projects'
+    applySeo(path, district ? seoForDistrict(district, data?.total) : {})
+  }, [filters.district, data?.total])
 
   // A link into this page while it is already open (the map, a search result)
   // changes the URL without remounting, so the filters have to follow it.

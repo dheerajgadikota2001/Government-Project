@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { apiGet, isNotFound, isRecordId } from '../lib/api'
+import { applySeo, seoForNews } from '../lib/seo'
 import { useT } from '../i18n'
 
 /**
@@ -52,7 +53,11 @@ export default function NewsArticle() {
       return
     }
     apiGet(`/news/${id}`)
-      .then(x => { if (!cancelled) setA(x) })
+      .then(x => {
+        if (cancelled) return
+        setA(x)
+        applySeo(`/news/${id}`, seoForNews(x))
+      })
       .catch(e => { if (!cancelled) setError(e) })
     return () => { cancelled = true }
   }, [id])

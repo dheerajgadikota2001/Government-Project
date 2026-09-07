@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import ChunkReloadBoundary from './components/ChunkReloadBoundary'
 import Analytics from './components/Analytics'
+import Seo from './components/Seo'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { LanguageProvider } from './i18n'
 import Header from './components/Layout/Header'
@@ -53,6 +54,7 @@ export default function App() {
       <BrowserRouter>
       {/* Inside the router: it needs useLocation. Renders nothing. */}
       <Analytics />
+      <Seo />
       <div className="bg-background text-on-background min-h-screen flex flex-col font-sans antialiased">
         <Header />
         <main className="flex-grow flex flex-col pb-16 lg:pb-0">

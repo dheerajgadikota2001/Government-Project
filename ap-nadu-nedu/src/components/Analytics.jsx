@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { EVENTS, initAnalytics, safePath, setContext, track } from '../lib/analytics'
+import { ROUTE_PATTERNS } from '../lib/routes'
 import { useT } from '../i18n'
 
 /**
@@ -24,31 +25,15 @@ import { useT } from '../i18n'
  * It renders nothing and, with no measurement id configured, does nothing.
  */
 
-// Kept in step with the <Route> list in App.jsx by hand.
+// The route list used to live here, hand-copied from App.jsx, and its own
+// comment recorded the cost: it had drifted before a single event was sent,
+// naming four routes that did not exist and missing five that did, so five
+// working pages would have reported themselves as route_not_found. A report
+// meant to reveal broken links, arriving full of false ones, gets ignored.
 //
-// This list had already drifted before a single event was ever sent: it named
-// /all-states, /data-sources, /tenure/:key and /investment-tenure/:key, none of
-// which are routes, and it was missing /states, /sources, /updates and both
-// real tenure paths. Five working pages would have reported themselves as
-// route_not_found, which is worse than useless, because the one report meant
-// to reveal broken links would have arrived full of false ones and been
-// learned to be ignored.
-//
-// A hand-maintained mirror of the router drifts again by construction. The
-// standing fix is a catch-all <Route path="*"> that reports itself, which the
-// router answers authoritatively and which also gives readers a real page
-// instead of a blank one; until that lands, this list is correct as of the
-// route table in App.jsx and must be edited with it.
-const ROUTE_PATTERNS = [
-  '/',
-  '/projects', '/projects/tenure/:key', '/projects/:id',
-  '/investments', '/investments/tenure/:key',
-  '/news', '/news/:id',
-  '/documents', '/tenders', '/finances', '/governments', '/school-education',
-  '/states', '/sources', '/updates', '/search',
-  '/about', '/disclaimer', '/privacy', '/community', '/state-facts', '/contacts',
-]
-
+// It now comes from src/lib/routes.js, which App.jsx is tested against. The
+// copy is gone rather than corrected, because a second copy drifts again by
+// construction.
 function matchesKnownRoute(pathname) {
   const parts = pathname.replace(/\/+$/, '').split('/').filter(Boolean)
   return ROUTE_PATTERNS.some(pattern => {

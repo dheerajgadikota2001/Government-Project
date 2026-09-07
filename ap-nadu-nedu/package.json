@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "icons": "python scripts/icon-font.py",
+    "sitemap": "node scripts/generate-sitemap.mjs",
     "prebuild": "node scripts/icon-font.mjs",
     "build": "vite build",
     "postbuild": "node scripts/csp-hash-check.mjs",
