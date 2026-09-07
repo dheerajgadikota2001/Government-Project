@@ -29,7 +29,7 @@ import { isOptedOut, isOptedOutByBrowser, setOptedOut } from '../lib/analytics'
 const SECTIONS = [
   { id: 'what-we-measure', key: 'measure', icon: 'visibility', paras: 3 },
   { id: 'what-we-never', key: 'never', icon: 'cloud_off', paras: 3 },
-  { id: 'cookies', key: 'cookies', icon: 'database', paras: 2 },
+  { id: 'cookies', key: 'cookies', icon: 'database', paras: 3 },
   { id: 'google', key: 'google', icon: 'public', paras: 4 },
   { id: 'children', key: 'children', icon: 'menu_book', paras: 1 },
   { id: 'changes', key: 'changes', icon: 'published_with_changes', paras: 1 },

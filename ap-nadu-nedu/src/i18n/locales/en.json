@@ -26,7 +26,7 @@
   "privacy": {
     "eyebrow": "Legal",
     "title": "Privacy",
-    "lead": "Short version: this site has no accounts and asks you for nothing. It counts which pages get opened, in which language, and which government documents people click through to. That tells us whether the site is reaching people outside the cities. It never records what you search for. It sets no cookies. And you can switch the counting off at the bottom of this page.",
+    "lead": "Short version: this site has no accounts and asks you for nothing. It counts which pages get opened, in which language, and which government documents people click through to. That tells us whether the site is reaching people outside the cities. It never records what you search for. It sets one cookie, so that a reader who comes back is not counted as a new person. And you can switch the counting off at the bottom of this page.",
     "lastUpdated": "Last updated: {month} {year}",
     "tocAria": "Sections",
     "sections": {
@@ -40,12 +40,13 @@
         "title": "What we never measure",
         "p1": "What you search for. The search box records that a search happened and whether it found anything. It never records the words. On a site about Andhra Pradesh politics, the words a reader types are the most sensitive thing they produce here. They are stripped out of the web address before anything is recorded, and they are never sent anywhere.",
         "p2": "Anything that identifies you. There is no account, no login, no name, no email address, no phone number, no user ID, no advertising identifier. Nothing you write into a correction or a message to us gets measured.",
-        "p3": "Because nothing is stored on your device to identify you, what reaches us are counts, not people. We could not pick your visit out of the reports. There is nothing measured here that could be used to contact you or to build a picture of you."
+        "p3": "What reaches us are counts, not people. The only identifier in play is a random number kept in a cookie on your own device, so that your second visit is not counted as a second person. It carries no name, no email address, and nothing you typed. We could not pick your visit out of the reports, and there is nothing measured here that could be used to contact you or to build a picture of you."
       },
       "cookies": {
         "title": "Cookies",
-        "p1": "This site sets no analytics cookies. Google Analytics runs here with storage consent permanently denied, which means it counts without writing a cookie and without keeping a lasting identifier for you. That is also why no cookie banner stands in your way. There is nothing to consent to.",
-        "p2": "Two small things are kept inside your own browser and never sent anywhere. One is the language you chose, so the site opens in it next time. The other is the fact that you asked not to be counted, and that one is only saved if you use the switch below. Clearing your browsing data removes both."
+        "p1": "This site sets one cookie. Google Analytics writes it, and it holds a random number and nothing else, so that a reader who returns is recognised as the same visit rather than counted twice. It lasts ninety days, not the two years Google uses by default. The switch at the bottom of this page stops it being written at all.",
+        "p2": "Readers in Europe, the United Kingdom and Switzerland are treated differently, because the law there expects to be asked first. For them the cookie is refused outright and the counting happens without it. That is also why no cookie banner stands in anyone's way here. We would rather give up the cookie than put a popup between a citizen and a public record.",
+        "p3": "Two other small things are kept inside your own browser and never sent anywhere. One is the language you chose, so the site opens in it next time. The other is the fact that you asked not to be counted, and that one is only saved if you use the switch below. Clearing your browsing data removes all of them, the analytics cookie included."
       },
       "google": {
         "title": "Who else sees it",
@@ -72,7 +73,7 @@
       "optInBtn": "Start counting my visits again",
       "gpc": "Your browser is sending a Global Privacy Control signal, so counting is already switched off for you. Nothing further is needed, and the analytics script has not been loaded on this visit.",
       "noStorage": "Counting is off for now. But your browser is blocking site storage, so this choice cannot be remembered. You will need to set it again on your next visit.",
-      "scope": "This is remembered in this browser only. Another browser, another device, or clearing your browsing data will each need the switch set again. That is a direct result of us not keeping an identifier for you, and we think it is the better trade."
+      "scope": "This is remembered in this browser only. Another browser, another device, or clearing your browsing data will each need the switch set again. Nothing about your choice is kept on our side, which is the whole reason it cannot follow you around, and we think that is the better trade."
     },
     "contact": {
       "title": "Questions",
@@ -83,7 +84,7 @@
     },
     "summary": {
       "titleTe": "మీ గోప్యత, క్లుప్తంగా",
-      "bodyTe": "ఈ వెబ్‌సైట్లో ఖాతాలు లేవు, మిమ్మల్ని ఏమీ అడగదు. ఏ పేజీలు, ఏ భాషలో, ఏ ప్రాంతం నుండి చూస్తున్నారో మాత్రమే లెక్కిస్తుంది. మీరు వెతికిన పదాలను ఎప్పుడూ నమోదు చేయదు. కుకీలు పెట్టదు. ఈ లెక్కింపును కూడా పై బటన్‌తో ఆపవచ్చు."
+      "bodyTe": "ఈ వెబ్‌సైట్లో ఖాతాలు లేవు, మిమ్మల్ని ఏమీ అడగదు. ఏ పేజీలు, ఏ భాషలో, ఏ ప్రాంతం నుండి చూస్తున్నారో మాత్రమే లెక్కిస్తుంది. మీరు వెతికిన పదాలను ఎప్పుడూ నమోదు చేయదు. తిరిగి వచ్చినవారిని రెండోసారి లెక్కించకుండా ఉండటానికి ఒకే ఒక కుకీ పెడుతుంది. ఈ లెక్కింపును కూడా పై బటన్‌తో ఆపవచ్చు."
     }
   },
   "unit": {
