@@ -93,6 +93,19 @@ function url(loc, changefreq, priority) {
          `    <priority>${priority}</priority>\n  </url>`
 }
 
+/**
+ * Every district the register knows about.
+ *
+ * A district is a page in its own right, not a filtered view: "projects in
+ * Palnadu" is a subject people search for by name, and there are 26 of them.
+ * The canonical keeps ?district= for the same reason, so these belong in the
+ * sitemap. Status, sort and page do not, and never will.
+ */
+async function districts() {
+  const r = await get('/projects/filters')
+  return (r.districts || []).filter(Boolean)
+}
+
 const entries = []
 
 for (const route of STATIC_ROUTES) {
@@ -117,6 +130,19 @@ if (!ids.length) {
   process.exit(1)
 }
 
+let names = []
+try {
+  names = await districts()
+} catch (err) {
+  console.error(`\nCould not read the district list: ${err.message}`)
+  console.error('Refusing to publish a sitemap missing 26 district pages.\n')
+  process.exit(1)
+}
+
+for (const district of names) {
+  entries.push(url(`${SITE_ORIGIN}/projects?district=${encodeURIComponent(district)}`, 'weekly', '0.8'))
+}
+
 for (const id of ids) {
   entries.push(url(`${SITE_ORIGIN}/projects/${id}`, 'weekly', '0.7'))
 }
@@ -136,5 +162,5 @@ ${entries.join('\n')}
 `
 
 writeFileSync(OUT, xml, 'utf8')
-console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${ids.length} projects = ${entries.length} URLs`)
+console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts + ${ids.length} projects = ${entries.length} URLs`)
 console.log(`written to public/sitemap.xml`)

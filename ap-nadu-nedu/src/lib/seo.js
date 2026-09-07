@@ -61,11 +61,35 @@ function link(rel, href) {
  * An unknown path falls back to the site name rather than leaving whatever the
  * previous page set, because a stale title is worse than a generic one.
  */
+/**
+ * Query parameters that name a genuinely different page, rather than a
+ * different view of the same one.
+ *
+ * The register has enough filters to generate thousands of addresses, and
+ * status, sort order and page number all show the same projects rearranged.
+ * Those must fold back into one URL or they compete with each other.
+ *
+ * District is different. "Projects in Palnadu" is its own subject, people
+ * search for it by name, and there are only 26 of them. Giving each a real
+ * address is 26 pages worth ranking; giving every filter combination one would
+ * be thousands of pages worth nothing.
+ */
+const RANKING_PARAMS = ['district']
+
 export function canonicalFor(pathname) {
-  // Any query string is dropped here. Kept a separate exported function so the
-  // rule can be tested without standing up a DOM for it.
-  const path = String(pathname).split('?')[0].split('#')[0]
-  return SITE_ORIGIN + (path.replace(/\/+$/, '') || '/')
+  // Kept a separate exported function so the rule can be tested without
+  // standing up a DOM for it.
+  const [path, query = ''] = String(pathname).split('#')[0].split('?')
+  const base = SITE_ORIGIN + (path.replace(/\/+$/, '') || '/')
+
+  const keep = new URLSearchParams()
+  const given = new URLSearchParams(query)
+  for (const key of RANKING_PARAMS) {
+    const value = given.get(key)
+    if (value) keep.set(key, value)
+  }
+  const rest = keep.toString()
+  return rest ? `${base}?${rest}` : base
 }
 
 export function applySeo(pathname, override = {}) {
@@ -95,5 +119,86 @@ export function applySeo(pathname, override = {}) {
     meta('name', 'robots', 'noindex, follow')
   } else if (robots) {
     robots.remove()
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Titles for pages the route table cannot know about
+// ---------------------------------------------------------------------------
+
+/**
+ * WHY THESE EXIST
+ *
+ * All 673 project pages shared one title: "Project record". Nobody searches
+ * that. Thousands search "Polavaram project cost". The route table cannot know
+ * the name of project 613, so the page supplies it once the record has loaded.
+ *
+ * These are pure functions rather than inline JSX so they can be tested, and so
+ * a sentence that reads badly can be fixed in one place rather than three.
+ *
+ * They never invent. Every clause below is dropped when its field is missing,
+ * because a description that says "status: undefined" is worse than a shorter
+ * one, and on this site in particular a made-up figure would be the whole
+ * point of the platform, lost.
+ */
+
+const clip = (s, max) => {
+  const text = String(s || '').replace(/\s+/g, ' ').trim()
+  return text.length <= max ? text : text.slice(0, max - 1).trimEnd() + '…'
+}
+
+/** "₹55,549 crore", in the grouping Indian readers actually use. */
+function rupees(crore) {
+  if (crore == null || Number.isNaN(Number(crore))) return null
+  return `₹${Math.round(Number(crore)).toLocaleString('en-IN')} crore`
+}
+
+export function seoForProject(project) {
+  if (!project?.title) return {}
+
+  const where = project.district || 'Andhra Pradesh'
+  const facts = []
+  if (project.status) facts.push(`Status: ${String(project.status).replace(/_/g, ' ')}`)
+  if (project.completion_percentage != null) facts.push(`${project.completion_percentage}% built`)
+  const cost = rupees(project.estimated_cost_crore)
+  if (cost) facts.push(`published estimated cost ${cost}`)
+
+  const opening = `${project.title}, a government project in ${where}.`
+  const body = facts.length ? ` ${facts.join('. ')}.` : ''
+
+  return {
+    // Name first, so it survives whatever Google truncates.
+    title: clip(`${project.title} | ${SITE_NAME}`, 70),
+    description: clip(
+      `${opening}${body} Every figure links to the government document it came from.`,
+      200,
+    ),
+  }
+}
+
+export function seoForNews(article) {
+  if (!article?.title) return {}
+  const source = article.source_name || article.source || null
+  return {
+    title: clip(`${article.title} | ${SITE_NAME}`, 70),
+    description: clip(
+      article.summary ||
+      `An announcement collected from an Andhra Pradesh government source${source ? `, ${source}` : ''}, with a link to the original publication.`,
+      200,
+    ),
+  }
+}
+
+export function seoForDistrict(district, projectCount) {
+  if (!district) return {}
+  const count = Number.isFinite(projectCount) ? projectCount : null
+  return {
+    title: clip(`Government projects in ${district} district, Andhra Pradesh`, 70),
+    description: clip(
+      count != null
+        ? `${count} tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`
+        : `Tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`,
+      200,
+    ),
   }
 }

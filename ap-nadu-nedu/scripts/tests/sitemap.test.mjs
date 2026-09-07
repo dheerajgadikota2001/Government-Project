@@ -57,3 +57,18 @@ test('every URL is absolute and on the live domain', () => {
     assert.ok(l.startsWith(SITE_ORIGIN + '/'), `${l} is not on ${SITE_ORIGIN}`)
   }
 })
+
+test('district pages are published, since each one is a subject people search', () => {
+  const districts = locs.filter(l => l.includes('?district='))
+  assert.ok(districts.length >= 20,
+    `only ${districts.length} district pages listed. There are 26. Run: npm run sitemap`)
+})
+
+test('no filter other than district is published', () => {
+  const withQuery = locs.filter(l => l.includes('?'))
+  for (const l of withQuery) {
+    const params = [...new URL(l).searchParams.keys()]
+    assert.deepEqual(params, ['district'],
+      `${l} publishes a filter that is the same projects rearranged`)
+  }
+})
