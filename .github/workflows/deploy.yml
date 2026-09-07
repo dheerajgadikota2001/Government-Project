@@ -1,4 +1,16 @@
-name: CI/CD Pipeline — AP Politics Platform
+# The gate that decides whether main is safe.
+#
+# It used to run only the backend tests against an empty database, then poke a
+# Render deploy hook for a service this project does not use any more. So it was
+# red on every commit, and a permanently red pipeline tells you nothing: nobody
+# reads a signal that is always the same colour.
+#
+# It is now two honest jobs. Backend: migrate, lint for undefined names, test.
+# Frontend: install, test, build. Deployment stays manual, to Cloud Run and
+# Firebase, because a deploy that fires without someone watching is not what
+# this project needs yet.
+
+name: CI
 
 on:
   push:
@@ -6,10 +18,22 @@ on:
   pull_request:
     branches: [main]
 
+# A second push to the same branch makes the first run pointless. Cancel it
+# rather than paying for both.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
-    name: Run Tests
+  backend:
+    name: Backend tests
     runs-on: ubuntu-latest
+
+    env:
+      APP_ENV: testing
+      DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/applatform_test
+      REDIS_URL: redis://localhost:6379/0
+      SECRET_KEY: test-secret-key
 
     services:
       postgres:
@@ -48,32 +72,58 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install ruff
+
+      # Without this the database is up but empty, every query hits a table
+      # that does not exist, and the API tests fail on a schema problem that
+      # has nothing to do with the change being reviewed. Running the
+      # migrations here also means a broken migration is caught before it is
+      # ever pointed at the real database.
+      - name: Run migrations
+        working-directory: backend
+        run: alembic upgrade head
+
+      # F821 is undefined-name. A missing import took the live API down once,
+      # returning 500 for every district, and nothing in this pipeline noticed.
+      # This is the cheapest possible guard against a repeat.
+      - name: Lint for undefined names
+        working-directory: backend
+        run: ruff check app --select F821
 
       - name: Run tests
         working-directory: backend
-        env:
-          APP_ENV: testing
-          DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/applatform_test
-          REDIS_URL: redis://localhost:6379/0
-          SECRET_KEY: test-secret-key
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: pytest tests/ -v --tb=short
+        run: pytest tests/ -q
 
-  deploy:
-    name: Deploy to Render
+  frontend:
+    name: Frontend tests and build
     runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: Trigger Render Deploy
-        env:
-          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
-        run: |
-          if [ -n "$RENDER_DEPLOY_HOOK" ]; then
-            curl -X POST "$RENDER_DEPLOY_HOOK"
-            echo "Render deploy triggered."
-          else
-            echo "RENDER_DEPLOY_HOOK not set — skipping auto-deploy."
-          fi
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: ap-nadu-nedu/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ap-nadu-nedu
+        run: npm ci
+
+      # Includes the consent guard. The site once shipped with analytics
+      # storage denied everywhere, which silently sent Google hits it refused
+      # to count. Nothing failed, and the only symptom was an empty dashboard.
+      - name: Run tests
+        working-directory: ap-nadu-nedu
+        run: npm run test:unit
+
+      # prebuild rebuilds the icon subset font and build runs the CSP hash
+      # check, so this catches a missing glyph or a drifted inline script hash
+      # here rather than in front of readers.
+      - name: Build
+        working-directory: ap-nadu-nedu
+        run: npm run build
