@@ -113,6 +113,16 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         response = await call_next(request)
 
+        # Keep the JSON out of search results, without keeping crawlers out of
+        # it. robots.txt used to carry "Disallow: /api/", which stopped Google's
+        # renderer fetching the data the pages are built from, so it rendered
+        # every figure as a dash and indexed the site's own "data server is not
+        # responding" message. Crawling and indexing are separate controls:
+        # robots.txt governs the fetch, this header governs the listing. Set on
+        # every response, including errors, because a 500 body has even less
+        # business appearing in a search result than a 200 one.
+        response.headers["X-Robots-Tag"] = "noindex"
+
         # Only successful reads are ever cacheable. Writes change state; redirects
         # and errors are transient and must not be pinned at an edge.
         if request.method not in ("GET", "HEAD") or not (200 <= response.status_code < 300):
