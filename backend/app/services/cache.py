@@ -108,7 +108,10 @@ async def get_redis() -> aioredis.Redis:
 async def close_redis():
     global _redis_client
     if _redis_client:
-        await _redis_client.close()
+        # aclose(), not close(). redis-py deprecated the sync-named close() on
+        # async clients in 5.0.1 and will remove it; aclose() is the same call
+        # without a deprecation warning on every shutdown.
+        await _redis_client.aclose()
         _redis_client = None
 
 

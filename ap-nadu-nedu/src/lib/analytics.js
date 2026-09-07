@@ -41,6 +41,26 @@ const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || ''
 const DEBUG = import.meta.env.VITE_ANALYTICS_DEBUG === 'true'
 
 /**
+ * The countries where the analytics cookie is refused outright.
+ *
+ * Google matches a visitor to one of these from their IP address, so this list
+ * needs no geo detection of our own and no extra request. In these countries
+ * the counting still happens, without a cookie and without a lasting
+ * identifier, which is what the law there expects when nobody has been asked.
+ * Everywhere else the cookie is written and the reports are actually usable.
+ *
+ * This is the EEA thirty, plus the United Kingdom and Switzerland. Kept as one
+ * named list rather than inlined, so the consent block below reads as a
+ * decision instead of a wall of country codes.
+ */
+const CONSENT_DENIED_REGIONS = [
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+  'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT',
+  'NL', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS',
+  'GB', 'CH',
+]
+
+/**
  * The catalogue. Adding an event means adding it here first.
  *
  * GA4 names must be snake_case, <= 40 chars, and must not start with a reserved
@@ -153,7 +173,7 @@ function storedOptOut() {
     // opted out" is the honest answer. Nobody has asked us to stop, and it
     // is the only reading that does not silently empty the reports for every
     // reader browsing privately. Nothing is written to their device either
-    // way: this build is cookieless regardless.
+    // way: a browser that blocks storage blocks the analytics cookie too.
     return false
   }
 }
@@ -265,17 +285,34 @@ function loadGtag(id) {
   window.dataLayer = window.dataLayer || []
   window.gtag = function gtag() { window.dataLayer.push(arguments) }
 
-  // Consent Mode v2, denied before the script is even requested.
+  // Consent Mode v2, set before the script is even requested.
   //
-  // In denied state GA4 still measures, without cookies and without a
-  // persistent identifier. That is the right default for this site: it gives
-  // real numbers on day one without a modal standing between a citizen and a
-  // public record. Granting consent later (grantConsent) upgrades it.
+  // Two defaults. A default carrying a region applies in those countries; the
+  // one without a region applies to everybody else. Order does not matter to
+  // Google, only to whoever reads this next.
+  //
+  // Advertising stays denied everywhere, permanently. This site sells nothing
+  // and there is no future version of it that should be feeding an ad profile.
+  //
+  // Analytics storage is granted outside the listed regions. An earlier build
+  // denied it everywhere. That sounded principled and in practice meant Google
+  // accepted every hit and counted none of them: the property reported no data
+  // collection at all, and an empty dashboard looks exactly like having no
+  // readers. Counting people honestly, saying so plainly on the privacy page,
+  // and giving them a switch that works is the better trade.
   window.gtag('consent', 'default', {
     ad_storage: 'denied',
     ad_user_data: 'denied',
     ad_personalization: 'denied',
     analytics_storage: 'denied',
+    region: CONSENT_DENIED_REGIONS,
+    wait_for_update: 500,
+  })
+  window.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'granted',
     wait_for_update: 500,
   })
   window.gtag('js', new Date())
@@ -283,6 +320,12 @@ function loadGtag(id) {
     send_page_view: false,        // fired by hand: this is a SPA, see Analytics.jsx
     anonymize_ip: true,
     transport_type: 'beacon',
+    // Ninety days, not Google's two year default. Long enough to tell a
+    // returning reader from a new one across a season, short enough that a
+    // browser left alone forgets this site on its own. Two years of memory is
+    // not something this site needs in order to answer its own questions.
+    cookie_expires: 60 * 60 * 24 * 90,
+    cookie_flags: 'SameSite=Lax;Secure',
   })
 
   const s = document.createElement('script')
@@ -338,7 +381,15 @@ export function setContext(patch) {
   context = { ...context, ...patch }
 }
 
-/** Upgrade Consent Mode once a reader agrees. Safe to call when inert. */
+/**
+ * Upgrade Consent Mode once a reader agrees. Safe to call when inert.
+ *
+ * Nothing calls this today, and that is correct rather than an oversight.
+ * Outside the denied regions consent already starts granted, so there is
+ * nothing to upgrade. This is the hook a European consent prompt would use if
+ * this site ever needs one, and it is one line of dead code against having to
+ * rediscover how the upgrade works under time pressure.
+ */
 export function grantConsent() {
   if (!canSend()) return
   try {

@@ -1,6 +1,23 @@
-# Public data site, everything may be indexed. The API is not a page.
+# Public data site. Everything here may be crawled and indexed.
+#
+# WHY /api/ IS NOT BLOCKED
+#
+# It used to be. "Disallow: /api/" looked obviously right: the API returns JSON,
+# and JSON is not a page anyone should land on from a search result.
+#
+# It was wrong, and Search Console showed exactly how. This is a React app, so
+# every number on every page arrives by fetch from /api/v1/... . robots.txt does
+# not only stop a crawler visiting a URL, it stops the renderer fetching it too.
+# So Googlebot rendered the homepage with every figure missing and captured the
+# page's own error box saying the data server was not responding. The site told
+# Google it was broken, because we had told Google not to look.
+#
+# Crawling and indexing are two different controls, and this is the file for the
+# first one only. The API now answers with "X-Robots-Tag: noindex" on every
+# response (see backend/app/middleware/cache_headers.py), which is the correct
+# way to keep JSON out of search results while still letting the renderer read
+# it. Blocking here would only bring the empty pages back.
 User-agent: *
 Allow: /
-Disallow: /api/
 
 Sitemap: https://apfactcheck.dheeco.com/sitemap.xml
