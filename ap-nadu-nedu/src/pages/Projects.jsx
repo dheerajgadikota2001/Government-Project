@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT, makeDateFmt } from '../i18n'
 import AdvancedProjects from '../components/advanced/AdvancedProjects'
@@ -12,6 +12,7 @@ import { EVENTS, track } from '../lib/analytics'
 import { applySeo, seoForDistrict } from '../lib/seo'
 import { croreAmount } from '../lib/money'
 import { districtSummary } from '../lib/districtSummary'
+import { districtSlug, districtPath } from '../lib/routes'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
   : `₹${croreAmount(v)} ${t('unit.crore')}`)
@@ -159,6 +160,7 @@ export default function Projects() {
   const statusLabel = enumLabel(t, 'status', KNOWN_STATUSES)
   const typeLabel = enumLabel(t, 'type', KNOWN_TYPES)
   const sortLabel = enumLabel(t, 'sort', KNOWN_SORTS)
+  const { slug } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
 
@@ -266,6 +268,24 @@ export default function Projects() {
   const [advancedOpen, setAdvancedOpen] = useState(false)
   const debounceRef = useRef(null)
 
+  /**
+   * Which district this page is showing, from either address.
+   *
+   * /districts/guntur is the canonical one. /projects?district=Guntur still
+   * works, because it was in the sitemap for days and may have been shared,
+   * and it canonicalises to the path form rather than competing with it.
+   *
+   * Declared here, above every effect that reads it. The first version of this
+   * sat further down the component next to the sentence it feeds, and the SEO
+   * effect above it referenced a const that did not exist yet.
+   */
+  const districtFromSlug = slug
+    ? (options?.districts || [])
+        .map(d => (typeof d === 'string' ? d : d?.name))
+        .find(name => name && districtSlug(name) === slug) || null
+    : null
+  const activeDistrict = districtFromSlug || filters.district || null
+
   const set = (key, value) => {
     setPage(1)
     // `q` is excluded on purpose, twice over: it fires on every keystroke,
@@ -299,11 +319,23 @@ export default function Projects() {
   // The count waits for the register to answer, so the description says 43
   // rather than a number we assumed.
   useEffect(() => {
-    const district = filters.district
-    const path = district ? `/projects?district=${encodeURIComponent(district)}` : '/projects'
+    const district = activeDistrict
+    // districtPath, not ?district=. A query string cannot be prerendered, so
+    // for months these 26 pages were visible only to crawlers that run
+    // JavaScript, which is Google and almost nothing else.
+    const path = district ? districtPath(district) : '/projects'
     applySeo(path, district ? seoForDistrict(district, data?.total) : {})
-  }, [filters.district, data?.total])
+  }, [activeDistrict, data?.total])
 
+
+  // A path-based district is a filter as far as the register query is
+  // concerned. Without this the page would show its own district heading over
+  // the whole 673-project register.
+  useEffect(() => {
+    if (!districtFromSlug || filters.district === districtFromSlug) return
+    setPage(1)
+    setFilters(f => ({ ...f, district: districtFromSlug }))
+  }, [districtFromSlug, filters.district])
 
   // A link into this page while it is already open (the map, a search result)
   // changes the URL without remounting, so the filters have to follow it.
@@ -392,9 +424,9 @@ export default function Projects() {
   // wrong pair of numbers. districtSummary cross-checks the aggregate against
   // the register's own count before it prints the cost at all.
   const districtLead = districtSummary({
-    district: filters.district,
+    district: activeDistrict,
     total: data?.total ?? null,
-    row: (insights?.by_district || []).find(r => r.district === filters.district),
+    row: (insights?.by_district || []).find(r => r.district === activeDistrict),
     t,
     fmtNum: n => Number(n).toLocaleString('en-IN'),
   })
@@ -422,8 +454,8 @@ export default function Projects() {
             one.
           */}
           <h1 className="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-on-surface">
-            {filters.district
-              ? t('projects.district.heading', { district: filters.district })
+            {activeDistrict
+              ? t('projects.district.heading', { district: activeDistrict })
               : <>
                   {t('projects.title')}{' '}
                   <span className="text-on-surface-variant font-normal text-headline-md block md:inline md:ms-4" lang="te">

@@ -173,7 +173,7 @@ test('project pages link to their neighbours and to their district', () => {
 
   const related = read('src/components/RelatedProjects.jsx')
   assert.match(related, /to=\{`\/projects\/\$\{p\.id\}`\}/, 'no links to other project pages')
-  assert.match(related, /projects\?district=\$\{encodeURIComponent\(district\)\}/,
+  assert.match(related, /districtPath\(district\)/,
     'nothing links to the district page, so it cannot rank for its own name')
 })
 

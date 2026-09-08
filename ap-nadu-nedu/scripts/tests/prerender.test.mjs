@@ -63,6 +63,26 @@ function stubApi({ empty = false, breakExtras = false } = {}) {
         const items = empty ? [] : [PROJECT]
         return res.end(JSON.stringify({ items, total: items.length, page: 1, page_size: 100, has_next: false }))
       }
+      if (url.pathname === '/api/v1/finances/departments') {
+        return res.end(JSON.stringify({
+          departments: empty ? [] : [{
+            department: 'School Education',
+            demand_no: 'XII',
+            rows: [
+              { year: '2019-20', tenure: 'ysrcp', stage: 'BE', total_crore: 29772.79 },
+              { year: '2019-20', tenure: 'ysrcp', stage: 'Actual', total_crore: 24819.73 },
+              { year: '2026-27', tenure: 'tdp2', stage: 'BE', total_crore: 32308.32 },
+            ],
+          }],
+          caveats: [{ title: 'These are budget estimates, not spending', body: 'b' }],
+          how_to_read: { title: 'How to read a demand' },
+        }))
+      }
+      if (url.pathname === '/api/v1/projects/insights') {
+        return res.end(JSON.stringify({
+          by_district: empty ? [] : [{ district: 'Eluru', count: 21, cost_crore: 30837 }],
+        }))
+      }
       if (/\/extras$/.test(url.pathname)) {
         if (breakExtras) { res.statusCode = 500; return res.end('{}') }
         return res.end(JSON.stringify({ images: [], documents: [], observations: [OBSERVATION] }))
@@ -217,9 +237,12 @@ test('the prerendered body sits inside #root so a reader never sees both', async
   try {
     await runPrerender(base, out)
     const html = readFileSync(join(out, 'projects/613/index.html'), 'utf8')
-    assert.match(html, /<div id="root">\s*<h1>/,
-      'the static body is outside #root; React will not replace it and the ' +
-      'page will show the prerendered copy under the real one')
+    // The marker is what makes a second pass strippable, so it is part of the
+    // contract, not decoration.
+    assert.match(html, /<div id="root"><!--prerendered-->\s*<h1>/,
+      'the static body is outside #root, or lost its marker; React will not ' +
+      'replace it and a second prerender pass cannot remove it')
+    assert.match(html, /<!--\/prerendered--><\/div>/)
   } finally {
     stop(); rmSync(out, { recursive: true, force: true })
   }
@@ -270,6 +293,97 @@ test('static routes are prerendered too, in every language', async () => {
       assert.match(html, /<h1>/, `${path} has no heading in its HTML`)
       assert.match(html, /<link rel="canonical"/)
     }
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+test('running it twice produces the same page, not two of everything', async () => {
+  // The homepage's own output is written to dist/index.html, which is the file
+  // this script reads as its template. So a second pass without a rebuild in
+  // between starts from a page that already has a canonical, a hreflang set,
+  // a JSON-LD block and a body. Two canonicals is worse than none: Google
+  // picks one and it need not be the page's own.
+  //
+  // This took three attempts to get right and every wrong version failed
+  // silently, with a perfect head over the homepage's body on every URL.
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    await runPrerender(base, out)
+    const once = readFileSync(join(out, 'projects/613/index.html'), 'utf8')
+    await runPrerender(base, out)
+    const twice = readFileSync(join(out, 'projects/613/index.html'), 'utf8')
+
+    assert.equal(twice, once, 'a second pass changed the output')
+    for (const [what, re] of [
+      ['canonical', /rel="canonical"/g],
+      ['og:url', /property="og:url"/g],
+      ['JSON-LD block', /id="site-schema"/g],
+      ['h1', /<h1>/g],
+    ]) {
+      assert.equal((twice.match(re) || []).length, 1, `${what} appears more than once`)
+    }
+    assert.match(twice, /<h1>POLAVARAM IRRIGATION PROJECT<\/h1>/,
+      'the body is not the project; the template was left unstripped')
+    assert.ok(!/independent, no-login transparency platform/.test(
+      twice.split('<div id="root">')[1].split('</div>')[0]),
+      'the homepage body survived inside the project page')
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+test('districts are prerendered too, now that they have a path', async () => {
+  // They used to live at /projects?district=Guntur. A query string is not a
+  // file path, so there was nowhere to write them and 26 real pages were
+  // visible only to a crawler that runs JavaScript.
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    await runPrerender(base, out)
+
+    const file = join(out, 'districts/eluru/index.html')
+    assert.ok(existsSync(file), 'no file was written for the district')
+    const html = readFileSync(file, 'utf8')
+
+    assert.match(html, /<h1>Government projects in Eluru district<\/h1>/)
+    assert.match(html, /21 tracked government projects in Eluru district/)
+    assert.match(html, /₹30,837 crore/, 'the district total is missing')
+    assert.match(html, /counted in each district it touches/,
+      'the caveat that stops a reader summing 26 districts is missing')
+    assert.match(html, /<link rel="canonical" href="[^"]*\/districts\/eluru"/)
+
+    const te = readFileSync(join(out, 'te/districts/eluru/index.html'), 'utf8')
+    assert.match(te, /<html lang="te"/)
+    assert.ok(/[ఀ-౿]/.test(te), 'the Telugu district page has no Telugu on it')
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+test('department pages are prerendered, in every language', async () => {
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    await runPrerender(base, out)
+
+    const file = join(out, 'finances/departments/school-education/index.html')
+    assert.ok(existsSync(file), 'no file was written for the department')
+    const html = readFileSync(file, 'utf8')
+
+    assert.match(html, /<h1>Andhra Pradesh School Education budget, year by year<\/h1>/)
+    assert.match(html, /₹32,308 crore for School Education in 2026-27/)
+    assert.match(html, /₹29,773 crore/, 'the budgeted figure is missing')
+    assert.match(html, /₹24,820 crore spent/, 'the audited actual is missing')
+    assert.match(html, /₹4,953 crore less than the Assembly authorised/,
+      'the gap between budgeted and spent is the point of the page and it is gone')
+    assert.match(html, /<link rel="canonical" href="[^"]*\/finances\/departments\/school-education"/)
+
+    const te = readFileSync(join(out, 'te/finances/departments/school-education/index.html'), 'utf8')
+    assert.match(te, /<html lang="te"/)
+    assert.ok(/[ఀ-౿]/.test(te), 'the Telugu department page has no Telugu on it')
+    assert.match(te, /32,308/, 'the figure did not survive translation')
   } finally {
     stop(); rmSync(out, { recursive: true, force: true })
   }

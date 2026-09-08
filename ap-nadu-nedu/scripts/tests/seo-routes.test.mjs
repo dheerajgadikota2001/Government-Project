@@ -65,18 +65,22 @@ test('only the homepage canonicalises to the homepage', () => {
   }
 })
 
-test('a district keeps its own address, every other filter folds away', () => {
-  // District is a real subject people search for by name, and there are 26.
-  // Status, sort and page are the same projects rearranged, and the register
-  // has enough filters to generate thousands of those.
+test('a district has its own path, and every filter folds away', () => {
+  // A district is still a real subject people search for by name. It used to
+  // keep its query parameter in the canonical for exactly that reason. It now
+  // has a path instead, /districts/palnadu, because a query string cannot be
+  // prerendered and those 26 pages were therefore invisible to every crawler
+  // that does not run JavaScript. The old form still resolves and folds into
+  // the register rather than competing with the real page.
+  assert.equal(canonicalFor('/districts/palnadu'),
+    'https://apfactcheck.dheeco.com/districts/palnadu')
+  assert.equal(canonicalFor('/districts/palnadu?status=completed&page=2'),
+    'https://apfactcheck.dheeco.com/districts/palnadu')
   assert.equal(canonicalFor('/projects?district=Palnadu'),
-    'https://apfactcheck.dheeco.com/projects?district=Palnadu')
-  assert.equal(canonicalFor('/projects?district=Guntur&status=completed&page=2&order=desc'),
-    'https://apfactcheck.dheeco.com/projects?district=Guntur')
+    'https://apfactcheck.dheeco.com/projects',
+    'the query form should fold into the register, not sit beside the real page')
   assert.equal(canonicalFor('/projects?status=completed&page=2'),
     'https://apfactcheck.dheeco.com/projects')
-  assert.equal(canonicalFor('/projects?district='),
-    'https://apfactcheck.dheeco.com/projects', 'an empty district is not a page')
   assert.equal(canonicalFor('/projects/'), 'https://apfactcheck.dheeco.com/projects')
   assert.equal(canonicalFor('/'), 'https://apfactcheck.dheeco.com/')
   assert.equal(canonicalFor('/search#top'), 'https://apfactcheck.dheeco.com/search')

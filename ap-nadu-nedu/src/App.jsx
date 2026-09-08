@@ -25,6 +25,7 @@ const About = lazy(() => import('./pages/About'))
 const Disclaimer = lazy(() => import('./pages/Disclaimer'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const Finances = lazy(() => import('./pages/Finances'))
+const Department = lazy(() => import('./pages/Department'))
 const Governments = lazy(() => import('./pages/Governments'))
 const SchoolEducation = lazy(() => import('./pages/SchoolEducation'))
 const AllStates = lazy(() => import('./pages/AllStates'))
@@ -145,6 +146,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/districts/:slug" element={<Projects />} />
             <Route path="/projects/tenure/:key" element={<TenureDive />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/investments" element={<Investments />} />
@@ -154,6 +156,7 @@ export default function App() {
             <Route path="/documents" element={<Documents />} />
             <Route path="/tenders" element={<Tenders />} />
             <Route path="/finances" element={<Finances />} />
+            <Route path="/finances/departments/:slug" element={<Department />} />
             <Route path="/governments" element={<Governments />} />
             <Route path="/school-education" element={<SchoolEducation />} />
             <Route path="/states" element={<AllStates />} />

@@ -53,6 +53,13 @@ export const ROUTES = [
       'Every tracked government project in Andhra Pradesh by district, with cost, status and the official document each figure came from. No login, free to read.',
   },
   {
+    pattern: '/districts/:slug',
+    static: false,
+    title: 'Government projects by district in Andhra Pradesh',
+    description:
+      'Every tracked government project in one Andhra Pradesh district, with its combined published cost and the official document behind every figure.',
+  },
+  {
     pattern: '/projects/tenure/:key',
     static: false,
     title: 'Projects by government tenure | Andhra Pradesh Fact Check',
@@ -109,6 +116,13 @@ export const ROUTES = [
     title: 'Andhra Pradesh state finances, from the budget documents',
     description:
       'Revenue, expenditure, debt and deficit for Andhra Pradesh, taken from published budget documents and CAG reports, with every figure cited.',
+  },
+  {
+    pattern: '/finances/departments/:slug',
+    static: false,
+    title: 'Andhra Pradesh department budgets, year by year',
+    description:
+      'What one Andhra Pradesh department was budgeted each year since 2014-15, and where the audited accounts exist, what was actually spent, with the budget volume behind every figure.',
   },
   {
     pattern: '/governments',
@@ -254,6 +268,31 @@ export function localizedPath(lang, pathname) {
  * reads the real address, so it is right on first paint and after every
  * navigation, with no ordering to get wrong.
  */
+/**
+ * A district's own address.
+ *
+ * Districts used to live at /projects?district=Guntur. That was a real page
+ * with a real heading and its own numbers, but a query string is not a file
+ * path, so there was nowhere for the prerenderer to write it. Twenty six pages
+ * that Google could see only by running JavaScript, and that ChatGPT, Bing and
+ * a WhatsApp preview could not see at all.
+ *
+ * Moved now rather than later on purpose: they had been in the sitemap for
+ * days, with almost nothing indexed, so the cost of changing the address is
+ * close to zero today and real in three months. The old query URL still works
+ * and canonicalises here, so nothing that was shared or indexed breaks.
+ */
+export const districtSlug = name => String(name || '')
+  .toLowerCase()
+  .normalize('NFKD')
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+
+export function districtPath(name) {
+  const slug = districtSlug(name)
+  return slug ? `/districts/${slug}` : '/projects'
+}
+
 export function currentLang() {
   if (typeof window === 'undefined') return 'en'
   return splitLangPath(window.location.pathname).lang

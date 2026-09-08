@@ -39,7 +39,8 @@ const args = process.argv.slice(2)
 const apiFlag = args.indexOf('--api')
 const API = apiFlag !== -1 ? args[apiFlag + 1] : 'https://apfactcheck.dheeco.com/api/v1'
 
-const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath } = await import('../src/lib/routes.js')
+const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath } = await import('../src/lib/routes.js')
+const { departmentPath } = await import('../src/lib/departmentSummary.js')
 
 // changefreq and priority are hints Google has said for years it largely
 // ignores, kept because other crawlers still read them and they cost nothing.
@@ -70,19 +71,36 @@ async function get(path) {
  * count is checked against total afterwards, so a truncated walk fails loudly
  * instead of publishing a sitemap that quietly forgets half the site.
  */
-async function projectIds() {
-  const ids = []
+/**
+ * Every project, with the date its record last changed.
+ *
+ * The date is why this returns records rather than ids. With 691 URLs Google
+ * would work through everything eventually; with 4302 it uses lastmod to
+ * decide what to look at first. Without it, a project whose spend figure moved
+ * last week waits behind four thousand pages that did not change at all.
+ */
+async function projectRecords() {
+  const items = []
   let expected = null
   for (let page = 1; page <= 200; page++) {
     const r = await get(`/projects/?page=${page}&page_size=100`)
     expected = r.total ?? expected
-    for (const item of r.items || []) if (item?.id != null) ids.push(item.id)
+    for (const item of r.items || []) {
+      if (item?.id != null) items.push({ id: item.id, updated: item.updated_at || null })
+    }
     if (!r.has_next) break
   }
-  if (expected != null && ids.length !== expected) {
-    throw new Error(`walked ${ids.length} projects but the register reports ${expected}`)
+  if (expected != null && items.length !== expected) {
+    throw new Error(`walked ${items.length} projects but the register reports ${expected}`)
   }
-  return ids
+  return items
+}
+
+/** W3C date, which is the only format a sitemap may carry. Bad input is dropped. */
+const isoDay = value => {
+  if (!value) return null
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10)
 }
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -97,7 +115,7 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(
  * the full set is repeated inside every entry. It is verbose and it is the
  * format.
  */
-function url(path, changefreq, priority) {
+function url(path, changefreq, priority, lastmod) {
   const links = LANG_CODES
     .map(code =>
       `    <xhtml:link rel="alternate" hreflang="${code}" href="${esc(SITE_ORIGIN + localizedPath(code, path))}"/>`)
@@ -108,6 +126,7 @@ function url(path, changefreq, priority) {
   return LANG_CODES.map(code =>
     `  <url>\n    <loc>${esc(SITE_ORIGIN + localizedPath(code, path))}</loc>\n` +
     `${links}\n` +
+    (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
     `    <changefreq>${changefreq}</changefreq>\n` +
     `    <priority>${priority}</priority>\n  </url>`,
   ).join('\n')
@@ -149,14 +168,10 @@ async function districts() {
 
 const entries = []
 
-for (const route of STATIC_ROUTES) {
-  const [freq, pri] = FREQ[route.pattern] || ['weekly', '0.5']
-  entries.push(url(route.pattern === '/' ? '/' : route.pattern, freq, pri))
-}
 
 let ids = []
 try {
-  ids = await projectIds()
+  ids = await projectRecords()
 } catch (err) {
   console.error(`\nCould not reach the register at ${API}`)
   console.error(`  ${err.message}`)
@@ -180,12 +195,51 @@ try {
   process.exit(1)
 }
 
-for (const district of names) {
-  entries.push(url(`/projects?district=${encodeURIComponent(district)}`, 'weekly', '0.8'))
+// The newest record in the register. A district page and the register itself
+// are as fresh as the most recent thing on them, which is a truthful claim and
+// the one that gets them recrawled when something actually moves.
+const newest = ids
+  .map(p => isoDay(p.updated))
+  .filter(Boolean)
+  .sort()
+  .pop() || null
+
+// The static pages are written after the register has answered, so they can
+// carry the same date. They are views onto the data, so the honest lastmod for
+// the homepage is the day the newest record changed, not the day of the build.
+for (const route of STATIC_ROUTES) {
+  const [freq, pri] = FREQ[route.pattern] || ['weekly', '0.5']
+  entries.push(url(route.pattern === '/' ? '/' : route.pattern, freq, pri, newest))
 }
 
-for (const id of ids) {
-  entries.push(url(`/projects/${id}`, 'weekly', '0.7'))
+for (const district of names) {
+  entries.push(url(districtPath(district), 'weekly', '0.8', newest))
+}
+
+/**
+ * The forty voted demands.
+ *
+ * Thirteen years of budget volumes each, already collected and already cited,
+ * and until now with no address of their own. Refusing to publish a sitemap
+ * over a failure here would be wrong: the register is the load-bearing part
+ * and these are an addition to it, so a missing department list costs forty
+ * URLs and not the whole file.
+ */
+let departments = []
+try {
+  const r = await get('/finances/departments')
+  departments = (r.departments || []).map(d => d.department).filter(Boolean)
+} catch (err) {
+  console.error(`Could not read the department list: ${err.message}`)
+  console.error('Publishing without the forty department pages.')
+}
+
+for (const name of departments) {
+  entries.push(url(departmentPath(name), 'yearly', '0.7', newest))
+}
+
+for (const project of ids) {
+  entries.push(url(`/projects/${project.id}`, 'weekly', '0.7', isoDay(project.updated)))
 }
 
 const xml =
@@ -204,6 +258,8 @@ ${entries.join('\n')}
 `
 
 writeFileSync(OUT, xml, 'utf8')
-const pages = STATIC_ROUTES.length + names.length + ids.length
-console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts + ${ids.length} projects = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
+const pages = STATIC_ROUTES.length + names.length + departments.length + ids.length
+console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts` +
+  ` + ${departments.length} departments + ${ids.length} projects` +
+  ` = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
 console.log(`written to public/sitemap.xml`)

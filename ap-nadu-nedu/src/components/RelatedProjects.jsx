@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiGet } from '../lib/api'
+import { districtPath } from '../lib/routes'
 import { useT } from '../i18n'
 
 /**
@@ -91,7 +92,7 @@ export default function RelatedProjects({ project, typeLabel }) {
         ))}
       </ul>
       <Link
-        to={district ? `/projects?district=${encodeURIComponent(district)}` : '/projects'}
+        to={district ? districtPath(district) : '/projects'}
         className="inline-block mt-4 text-primary text-label-md font-semibold hover:underline"
       >
         {district

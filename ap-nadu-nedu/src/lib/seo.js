@@ -76,7 +76,17 @@ function link(rel, href) {
  * address is 26 pages worth ranking; giving every filter combination one would
  * be thousands of pages worth nothing.
  */
-const RANKING_PARAMS = ['district']
+/**
+ * Empty on purpose, and that is the change.
+ *
+ * `district` used to be here, because "projects in Palnadu" is a real subject
+ * and folding it into /projects would have discarded 26 pages. It now has a
+ * real path, /districts/palnadu, so the query form canonicalises to that
+ * instead of competing with it. Nothing else in the register names a
+ * different page: status, sort and page number are the same projects
+ * rearranged, and there are thousands of combinations of them.
+ */
+const RANKING_PARAMS = []
 
 export function canonicalFor(pathname) {
   // Kept a separate exported function so the rule can be tested without

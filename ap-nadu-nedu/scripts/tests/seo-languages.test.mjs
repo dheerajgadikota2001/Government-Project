@@ -90,8 +90,10 @@ test('each language canonicalises to itself, never to English', () => {
   // discard it. That single line would undo the whole change.
   for (const code of PREFIXED_LANGS) {
     assert.equal(canonicalFor(`/${code}/finances`), `${SITE_ORIGIN}/${code}/finances`)
-    assert.equal(canonicalFor(`/${code}/projects?district=Palnadu`),
-      `${SITE_ORIGIN}/${code}/projects?district=Palnadu`)
+    // A district is a path now (/te/districts/palnadu), so the old query form
+    // canonicalises to the register rather than competing with the real page.
+    assert.equal(canonicalFor(`/${code}/districts/palnadu`),
+      `${SITE_ORIGIN}/${code}/districts/palnadu`)
   }
 })
 

@@ -161,3 +161,48 @@ test('the sitemap stays inside what a search engine will accept', () => {
   const megabytes = Buffer.byteLength(XML) / (1024 * 1024)
   assert.ok(megabytes <= 50, `sitemap is ${megabytes.toFixed(1)} MB, over the 50 MB limit`)
 })
+
+test('every URL carries a lastmod, and it is a real date', () => {
+  // With 691 URLs Google gets to everything eventually. With 4302 it uses
+  // lastmod to decide what to look at first, so without it a project whose
+  // spend figure moved last week waits behind four thousand that did not.
+  const blocks = [...XML.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => m[1])
+  const today = new Date().toISOString().slice(0, 10)
+  let withDate = 0
+  for (const block of blocks) {
+    const m = block.match(/<lastmod>([^<]+)<\/lastmod>/)
+    if (!m) continue
+    withDate++
+    assert.match(m[1], /^\d{4}-\d{2}-\d{2}$/,
+      `lastmod is not a W3C date: ${m[1]}`)
+    assert.ok(m[1] <= today, `lastmod is in the future: ${m[1]}`)
+    assert.ok(m[1] >= '2024-01-01', `lastmod is implausibly old: ${m[1]}`)
+  }
+  assert.ok(withDate / blocks.length > 0.9,
+    `only ${withDate} of ${blocks.length} URLs carry a lastmod`)
+})
+
+test('districts are published at their own path, not as a query', () => {
+  // A query string cannot be prerendered, so while districts lived at
+  // ?district= they were visible only to crawlers that run JavaScript.
+  const districts = locs.filter(l => /\/districts\//.test(l))
+  assert.ok(districts.length >= 26 * 6,
+    `only ${districts.length} district URLs; expected 26 in each of 6 languages`)
+  assert.equal(locs.filter(l => /[?&]district=/.test(l)).length, 0,
+    'the old query-string district URLs are still being published')
+  for (const l of districts.slice(0, 30)) {
+    assert.match(l, /\/districts\/[a-z0-9-]+$/, `not a clean slug: ${l}`)
+  }
+})
+
+test('the forty voted demands each have a URL', () => {
+  // Thirteen years of budget volumes per department, already collected and
+  // already cited, and until now with no address at all.
+  const depts = locs.filter(l => /\/finances\/departments\//.test(l))
+  assert.ok(depts.length >= 40 * 6,
+    `only ${depts.length} department URLs; expected 40 in each of 6 languages`)
+  for (const l of depts.slice(0, 40)) {
+    assert.match(l, /\/finances\/departments\/[a-z0-9-]+$/, `not a clean slug: ${l}`)
+  }
+  assert.ok(depts.some(l => /school-education$/.test(l)))
+})

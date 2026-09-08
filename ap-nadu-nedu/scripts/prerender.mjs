@@ -24,12 +24,10 @@
  * and the citation in the first 500 words, which is what makes a page quotable
  * rather than merely indexed. React hydrates over it for people.
  *
- * WHAT IT DOES NOT COVER, AND WHY
- *
- * District pages live at /projects?district=Guntur. A query string is not a
- * file path, so there is nowhere to write them. They need real paths before
- * they can be prerendered, which is a URL change and therefore a decision
- * rather than a detail.
+ * Districts are covered now. They used to live at /projects?district=Guntur,
+ * and a query string is not a file path, so there was nowhere to write them:
+ * 26 pages visible only to a crawler that runs JavaScript. They have real
+ * paths now, /districts/guntur, and are written like everything else.
  *
  * SAFETY
  *
@@ -59,11 +57,13 @@ const LIMIT = Number(flag('--limit') || 0)          // for a fast smoke run
 const CONCURRENCY = Number(flag('--concurrency') || 8)
 
 const {
-  SITE_NAME, STATIC_ROUTES, LANG_CODES, localizedPath,
+  SITE_NAME, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath,
 } = await import('../src/lib/routes.js')
-const { canonicalFor, seoForProject } = await import('../src/lib/seo.js')
+const { canonicalFor, seoForProject, seoForDistrict } = await import('../src/lib/seo.js')
 const { schemaFor, projectTrail } = await import('../src/lib/schema.js')
 const { projectSummary } = await import('../src/lib/projectSummary.js')
+const { districtSummary } = await import('../src/lib/districtSummary.js')
+const { departmentPath, departmentSummary, departmentFacts } = await import('../src/lib/departmentSummary.js')
 
 // ---------------------------------------------------------------- i18n
 
@@ -203,6 +203,45 @@ function projectBody({ project, observation, t, lang }) {
   ].filter(Boolean).join('\n      ')
 }
 
+function districtBody({ district, total, row, t, lang }) {
+  const lead = districtSummary({ district, total, row, t, fmtNum })
+  return [
+    `<h1>${esc(t('projects.district.heading', { district }))}</h1>`,
+    lead.length ? `<p>${esc(lead.join(' '))}</p>` : '',
+    `<p><a href="${esc(localizedPath(lang, '/projects'))}">${esc(t('projectDetail.related.seeRegister'))}</a></p>`,
+  ].filter(Boolean).join('\n      ')
+}
+
+function departmentBody({ department, t, lang }) {
+  const lead = departmentSummary({ department, t, fmtNum })
+  const facts = departmentFacts(department)
+  const rows = (department.rows || [])
+    .filter(r => r.total_crore != null)
+    .sort((a, b) => Number(String(b.year).slice(0, 4)) - Number(String(a.year).slice(0, 4)))
+    .slice(0, 16)
+
+  const stageWord = { BE: 'finances.dept.stageBE', RE: 'finances.dept.stageRE', Actual: 'finances.dept.stageActual' }
+
+  return [
+    `<h1>${esc(t('finances.dept.heading', { department: department.department }))}</h1>`,
+    lead.length ? `<p>${esc(lead.join(' '))}</p>` : '',
+    rows.length
+      ? `<h2>${esc(t('finances.dept.tableTitle'))}</h2><dl>` + rows.map(r =>
+          `<dt>${esc(r.year)} ${esc(t(stageWord[r.stage] || stageWord.BE))}</dt>` +
+          `<dd>₹${esc(fmtNum(Math.round(r.total_crore)))} ${esc(t('unit.croreWord'))}</dd>`).join('') + '</dl>'
+      : '',
+    facts.gaps.length
+      ? `<p>${esc(facts.gaps.map(g =>
+          t('finances.dept.gap', {
+            year: g.year, budgeted: fmtNum(Math.round(g.budgeted)),
+            spent: fmtNum(Math.round(g.spent)), gap: fmtNum(Math.round(g.gap)),
+            unit: t('unit.croreWord'),
+          })).slice(0, 3).join(' '))}</p>`
+      : '',
+    `<p><a href="${esc(localizedPath(lang, '/finances'))}">${esc(t('finances.dept.allDepartments'))}</a></p>`,
+  ].filter(Boolean).join('\n      ')
+}
+
 function routeBody({ route, t, lang }) {
   return [
     `<h1>${esc(route.title)}</h1>`,
@@ -211,8 +250,42 @@ function routeBody({ route, t, lang }) {
   ].join('\n      ')
 }
 
+const MARK_OPEN = '<!--prerendered-->'
+const MARK_CLOSE = '<!--/prerendered-->'
+
+/**
+ * Undo a previous pass before doing this one.
+ *
+ * The homepage's own output is written to dist/index.html, which is the file
+ * this script reads as its template. So the moment anyone runs the prerender
+ * twice without rebuilding in between, the template already carries a
+ * canonical, a hreflang set, a JSON-LD block and the homepage's body, and
+ * every page written in that second pass gets two of each. Two canonicals is
+ * worse than none: Google picks one and it may not be the page's own.
+ *
+ * Nothing about that failure is visible. The build succeeds, the site looks
+ * right, and the pages quietly argue with themselves. So the render is made
+ * idempotent rather than merely careful about call order.
+ */
+function stripPrevious(html) {
+  return html
+    // Empties #root whether or not the previous pass left a marker, and
+    // whether the module script sits after it or in the head, which is where
+    // Vite actually puts it. Two earlier versions of this line failed
+    // silently: one keyed on the marker, so a template from an older build was
+    // left untouched; the next anchored on a <script> that is not there, so it
+    // matched nothing. Both produced pages whose head was perfect and whose
+    // body was the homepage, on every URL.
+    .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*(?:<script|<\/body>))/, '<div id="root"></div>')
+    .replace(/\s*<link rel="canonical"[^>]*>/g, '')
+    .replace(/\s*<meta property="og:url"[^>]*>/g, '')
+    .replace(/\s*<meta property="og:locale"[^>]*>/g, '')
+    .replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '')
+    .replace(/\s*<script type="application\/ld\+json" id="site-schema">[\s\S]*?<\/script>/g, '')
+}
+
 function render(template, { lang, dir, path, title, description, schema, body }) {
-  let html = template
+  let html = stripPrevious(template)
 
   html = html.replace(/<html lang="[^"]*"/, `<html lang="${esc(lang)}" dir="${esc(dir)}"`)
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`)
@@ -234,7 +307,7 @@ function render(template, { lang, dir, path, title, description, schema, body })
   // never sees both. A crawler that stops before running scripts sees it all.
   html = html.replace(
     '<div id="root"></div>',
-    `<div id="root">\n      ${body}\n    </div>`)
+    `<div id="root">${MARK_OPEN}\n      ${body}\n    ${MARK_CLOSE}</div>`)
 
   return html
 }
@@ -268,6 +341,22 @@ if (!projects.length) {
   process.exit(1)
 }
 if (LIMIT) projects = projects.slice(0, LIMIT)
+
+let departments = []
+try {
+  const r = await get('/finances/departments')
+  departments = r?.departments || []
+} catch {
+  departments = []   // forty fewer pages, never forty wrong ones
+}
+
+let districtRows = []
+try {
+  const insights = await get('/projects/insights')
+  districtRows = insights?.by_district || []
+} catch {
+  districtRows = []   // districts still get their count, just not their cost
+}
 
 const extras = await pool(projects, CONCURRENCY, async p => {
   try {
@@ -303,6 +392,31 @@ for (const lang of LANG_CODES) {
     }))
   }
 
+  for (const department of departments) {
+    if (!department?.department) continue
+    const facts = departmentFacts(department)
+    if (!facts.latest) continue     // a demand with no figure has no page
+    const path = localizedPath(lang, departmentPath(department.department))
+    const title = clip(t('finances.dept.heading', { department: department.department }), 70)
+    const description = clip(departmentSummary({ department, t, fmtNum }).slice(0, 2).join(' '), 200)
+    const schema = schemaFor(path, { title, description })
+    emit(path, render(template, {
+      lang, dir, path, title, description, schema,
+      body: departmentBody({ department, t, lang }),
+    }))
+  }
+
+  for (const row of districtRows) {
+    if (!row?.district) continue
+    const path = localizedPath(lang, districtPath(row.district))
+    const seo = seoForDistrict(row.district, row.count)
+    const schema = schemaFor(path, { title: seo.title, description: seo.description })
+    emit(path, render(template, {
+      lang, dir, path, title: seo.title, description: seo.description, schema,
+      body: districtBody({ district: row.district, total: row.count, row, t, lang }),
+    }))
+  }
+
   projects.forEach((project, i) => {
     const path = localizedPath(lang, `/projects/${project.id}`)
     const seo = seoForProject(project)
@@ -318,6 +432,6 @@ for (const lang of LANG_CODES) {
   })
 }
 
-console.log(`prerender: ${STATIC_ROUTES.length} pages + ${projects.length} projects` +
+console.log(`prerender: ${STATIC_ROUTES.length} pages + ${districtRows.length} districts` +
+  ` + ${departments.length} departments + ${projects.length} projects` +
   ` x ${LANG_CODES.length} languages = ${written} files`)
-console.log('district pages are query-string URLs and cannot be prerendered yet')

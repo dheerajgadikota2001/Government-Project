@@ -1237,6 +1237,29 @@
       "yearTitle": "One year, in detail",
       "yearSub": "Pick a year to see how each part of the budget fared, and then every department the Assembly voted money to.",
       "seriesTipDetail": "Voted ₹{promised} crore · spent ₹{spent} crore"
+    },
+    "dept": {
+      "heading": "Andhra Pradesh {department} budget, year by year",
+      "latest": "Andhra Pradesh budgeted ₹{amount} {unit} for {department} in {year}.",
+      "span": "The demand is on record for {count} years, from {first} to {last}.",
+      "gap": "In {year} the state budgeted ₹{budgeted} {unit} and the audited accounts recorded ₹{spent} {unit} spent, ₹{gap} {unit} less than the Assembly authorised.",
+      "noActuals": "These are budget estimates, what the government asked the Assembly to authorise. The audited accounts for this demand are not in the collection yet, so nothing here is a spending figure.",
+      "perTenure": "Averaged per year, the demand was {parts}.",
+      "tenure": {
+        "tdp1": "₹{amount} {unit} under the 2014 government",
+        "ysrcp": "₹{amount} {unit} under the 2019 government",
+        "tdp2": "₹{amount} {unit} under the government from 2024"
+      },
+      "tableTitle": "Every year on record",
+      "colYear": "Year",
+      "colStage": "Stage",
+      "colTotal": "Total",
+      "colSource": "Source",
+      "stageBE": "Budget estimate",
+      "stageRE": "Revised estimate",
+      "stageActual": "Audited actual",
+      "allDepartments": "All forty demands",
+      "demandLabel": "Demand"
     }
   },
   "governments": {
