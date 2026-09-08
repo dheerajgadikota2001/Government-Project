@@ -204,3 +204,36 @@ test('the rounding rule is shared, not copied', async () => {
   assert.ok(!/Math\.round\((?:project|latestObs)\.[a-z_]*(?:cost|expenditure)[a-z_]*\)/.test(detail),
     'a cost tile went back to rounding on its own')
 })
+
+test('every per-project money figure uses the shared rule', async () => {
+  // The register list is 673 rows and most of them are small municipal
+  // schemes, so rounding there is the same 6% error as the tile, repeated
+  // once per row. seo.js matters more still: that string is the snippet
+  // Google prints, where a wrong number is the first thing a stranger sees.
+  const files = [
+    'src/pages/Projects.jsx',
+    'src/lib/seo.js',
+    'src/pages/ProjectDetail.jsx',
+    'src/components/AllProjects.jsx',
+    'src/components/SummitLedger.jsx',
+    'src/pages/SchoolEducation.jsx',
+  ]
+  for (const file of files) {
+    const src = readFileSync(resolve(here, '../../', file), 'utf8')
+    assert.match(src, /croreAmount/, `${file} is not using the shared rule`)
+    const rounded = src.match(/Math\.round\([^)]*(?:crore|cost|expenditure|investment|mean)[^)]*\)/gi)
+    assert.equal(rounded, null,
+      `${file} still rounds a per-project figure on its own: ${rounded}`)
+  }
+})
+
+test('the aggregate pages are deliberately left rounding', () => {
+  // Not an oversight. These are sums across hundreds of projects, always in
+  // thousands of crore, where decimals are noise rather than precision. This
+  // records the decision so nobody "fixes" them later without meaning to.
+  const aggregates = ['src/pages/Finances.jsx', 'src/pages/Governments.jsx', 'src/pages/TenureDive.jsx']
+  for (const file of aggregates) {
+    const src = readFileSync(resolve(here, '../../', file), 'utf8')
+    assert.match(src, /Math\.round/, `${file} no longer rounds; was that intended?`)
+  }
+})

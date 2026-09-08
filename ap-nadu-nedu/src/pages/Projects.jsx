@@ -10,9 +10,10 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
 import { applySeo, seoForDistrict } from '../lib/seo'
+import { croreAmount } from '../lib/money'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
-  : `₹${Math.round(v).toLocaleString('en-IN')} ${t('unit.crore')}`)
+  : `₹${croreAmount(v)} ${t('unit.crore')}`)
 
 /** Per-government strip: what each tenure shows in this register, counted
  * strictly by the dates on the records. Click a tenure to filter the list

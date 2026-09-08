@@ -3,8 +3,9 @@ import ChunkReloadBoundary from './components/ChunkReloadBoundary'
 import Analytics from './components/Analytics'
 import Seo from './components/Seo'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { LanguageProvider, readStoredLang } from './i18n'
-import { localizedPath, splitLangPath } from './lib/routes'
+import { LanguageProvider, readStoredLang, writeStoredLang } from './i18n'
+import { splitLangPath } from './lib/routes'
+import { bounceTarget, switchTarget } from './lib/language'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import MitraFAB from './components/Layout/MitraFAB'
@@ -83,13 +84,23 @@ const INITIAL_LANG = typeof window === 'undefined'
 
 const BASENAME = INITIAL_LANG === 'en' ? '/' : `/${INITIAL_LANG}`
 
-/** Switch language: same page, different address, fresh load. */
+/**
+ * Switch language: same page, different address, fresh load.
+ *
+ * The write comes first and that order is the whole fix. Persisting in an
+ * effect instead meant picking English navigated to "/", storage still said
+ * "te", the bounce below fired, and the reader was returned to Telugu.
+ * English was the one language nobody could select.
+ */
 function goToLanguage(code) {
   if (typeof window === 'undefined') return
-  const { path } = splitLangPath(window.location.pathname)
-  window.location.assign(
-    localizedPath(code, path) + window.location.search + window.location.hash,
-  )
+  writeStoredLang(code)
+  window.location.assign(switchTarget({
+    code,
+    path: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash,
+  }))
 }
 
 /**
@@ -104,13 +115,14 @@ function goToLanguage(code) {
  */
 function bounceToStoredLanguage() {
   if (typeof window === 'undefined') return
-  if (INITIAL_LANG !== 'en') return
-  const stored = readStoredLang()
-  if (!stored || stored === 'en') return
-  const { path } = splitLangPath(window.location.pathname)
-  window.location.replace(
-    localizedPath(stored, path) + window.location.search + window.location.hash,
-  )
+  const target = bounceTarget({
+    urlLang: INITIAL_LANG,
+    storedLang: readStoredLang(),
+    path: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash,
+  })
+  if (target) window.location.replace(target)
 }
 
 bounceToStoredLanguage()

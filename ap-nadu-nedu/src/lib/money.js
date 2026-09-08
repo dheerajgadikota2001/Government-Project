@@ -21,10 +21,10 @@
  * flat ₹12 crore is not dressed up as "₹12.00 crore".
  *
  * @param value   amount in crore
- * @param fmtNum  Indian digit grouping
+ * @param fmtNum  Indian digit grouping. Defaults to what every caller passed.
  * @returns string, with no currency symbol and no unit
  */
-export function croreAmount(value, fmtNum) {
+export function croreAmount(value, fmtNum = n => Number(n).toLocaleString('en-IN')) {
   // Number(null) is 0 and Number('') is 0, so a Number.isFinite check alone
   // turns "no figure on record" into "₹0 crore". Both callers happen to guard
   // for null already, but a money formatter that can invent a zero is a loaded

@@ -376,7 +376,7 @@ export default function ProjectDetail() {
           ? t('projectDetail.timeline.physicalProgress', { pct: o.completion_percentage })
           : t('projectDetail.timeline.progressObservation'),
         o.cumulative_expenditure_crore != null
-          ? t('projectDetail.timeline.cumulativeSpend', { amount: fmtIN(Math.round(o.cumulative_expenditure_crore)), unit: t('unit.crore') })
+          ? t('projectDetail.timeline.cumulativeSpend', { amount: croreAmount(o.cumulative_expenditure_crore, fmtIN), unit: t('unit.crore') })
           : null,
         // The source's own printed context (targets, ayacut, pre-closures,
         // and figures that move backwards between editions), API content

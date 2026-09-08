@@ -31,6 +31,7 @@
 // be tested without a bundler in the way.
 import { SITE_ORIGIN, SITE_NAME, matchRoute, LANG_CODES, localizedPath, currentLang } from './routes.js'
 import { schemaFor } from './schema.js'
+import { croreAmount } from './money.js'
 
 /** Set or create one <meta>, keyed by whichever attribute identifies it. */
 function meta(attr, key, content) {
@@ -201,7 +202,7 @@ const clip = (s, max) => {
 /** "₹55,549 crore", in the grouping Indian readers actually use. */
 function rupees(crore) {
   if (crore == null || Number.isNaN(Number(crore))) return null
-  return `₹${Math.round(Number(crore)).toLocaleString('en-IN')} crore`
+  return `₹${croreAmount(crore)} crore`
 }
 
 export function seoForProject(project) {

@@ -138,3 +138,61 @@ test('the router runs with a basename, which is what prefixes every link', () =>
   assert.match(APP, /const BASENAME = INITIAL_LANG === 'en' \? '\/' : `\/\$\{INITIAL_LANG\}`/,
     'the basename is no longer derived from the language in the address bar')
 })
+
+/**
+ * THE ONE THAT ONLY A CLICK FOUND
+ *
+ * Every language switch worked except English. Picking English from a Telugu
+ * page navigated to "/", the stored preference still said "te", the returning
+ * reader bounce fired, and you were back on Telugu. English was the only
+ * language a reader could not select, and the code read perfectly: the switch
+ * navigated, the bounce was correctly guarded, and the write to storage was
+ * in an effect. The effect was keyed on a prop the router fixes at page load,
+ * so it never ran for the language just chosen.
+ *
+ * Nothing here can catch a missing write on its own, so the last test asserts
+ * the order in App.jsx directly: persist, then navigate.
+ */
+test('the bounce leaves a reader alone once they have chosen English', async () => {
+  const { bounceTarget } = await import('../../src/lib/language.js')
+
+  // The bug: stored "te", reader deliberately switched to English, bounced back.
+  assert.equal(bounceTarget({ urlLang: 'en', storedLang: 'en', path: '/projects' }), null)
+  assert.equal(bounceTarget({ urlLang: 'en', storedLang: null, path: '/projects' }), null)
+
+  // Still does its job for a returning reader who never chose English.
+  assert.equal(bounceTarget({ urlLang: 'en', storedLang: 'te', path: '/projects' }), '/te/projects')
+  assert.equal(bounceTarget({ urlLang: 'en', storedLang: 'ur', path: '/' }), '/ur')
+
+  // Never fires from a path that already names a language, so it can never
+  // fight a reader who deliberately followed a link in another one.
+  assert.equal(bounceTarget({ urlLang: 'te', storedLang: 'hi', path: '/projects' }), null)
+  assert.equal(bounceTarget({ urlLang: 'ur', storedLang: 'en', path: '/projects' }), null)
+
+  // Query and hash survive the redirect.
+  assert.equal(
+    bounceTarget({ urlLang: 'en', storedLang: 'te', path: '/projects', search: '?district=Guntur', hash: '#map' }),
+    '/te/projects?district=Guntur#map')
+})
+
+test('switching language keeps the reader on the same page', async () => {
+  const { switchTarget } = await import('../../src/lib/language.js')
+
+  assert.equal(switchTarget({ code: 'en', path: '/te/finances' }), '/finances')
+  assert.equal(switchTarget({ code: 'hi', path: '/te/finances' }), '/hi/finances')
+  assert.equal(switchTarget({ code: 'te', path: '/projects/613' }), '/te/projects/613')
+  assert.equal(switchTarget({ code: 'en', path: '/ur' }), '/')
+  assert.equal(
+    switchTarget({ code: 'ta', path: '/te/projects', search: '?district=Palnadu' }),
+    '/ta/projects?district=Palnadu')
+})
+
+test('the language choice is written before the page navigates', () => {
+  // If these ever swap order, English becomes unselectable again and every
+  // other language keeps working, which is precisely why it went unnoticed.
+  const write = APP.indexOf('writeStoredLang(code)')
+  const go = APP.indexOf('window.location.assign(switchTarget(')
+  assert.ok(write !== -1, 'the language switch no longer records the choice')
+  assert.ok(go !== -1, 'the language switch no longer navigates')
+  assert.ok(write < go, 'App.jsx navigates before recording the choice; English will bounce back')
+})

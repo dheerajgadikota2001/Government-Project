@@ -66,6 +66,23 @@ export function readStoredLang() {
   return null
 }
 
+/**
+ * Remember the choice, now, rather than in an effect.
+ *
+ * The effect that used to do this is keyed on the language prop, which the
+ * router fixes at page load, so it never ran for the language just chosen.
+ * A switch has to persist before it navigates or the bounce on the next page
+ * load reads the old value and undoes the switch.
+ */
+export function writeStoredLang(code) {
+  if (!CATALOGUES[code]) return
+  try {
+    localStorage.setItem(STORAGE_KEY, code)
+  } catch {
+    /* private mode: the choice just will not survive a reload */
+  }
+}
+
 function readStored() {
   return readStoredLang() || DEFAULT
 }
