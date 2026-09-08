@@ -11,6 +11,7 @@ import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
 import { applySeo, seoForDistrict } from '../lib/seo'
 import { croreAmount } from '../lib/money'
+import { districtSummary } from '../lib/districtSummary'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
   : `₹${croreAmount(v)} ${t('unit.crore')}`)
@@ -303,6 +304,7 @@ export default function Projects() {
     applySeo(path, district ? seoForDistrict(district, data?.total) : {})
   }, [filters.district, data?.total])
 
+
   // A link into this page while it is already open (the map, a search result)
   // changes the URL without remounting, so the filters have to follow it.
   useEffect(() => {
@@ -380,6 +382,23 @@ export default function Projects() {
   const projects = data?.items ?? []
   const total = data?.total ?? 0
 
+  // The sentence under a district heading.
+  //
+  // The cost comes from insights, which this page already fetches for the
+  // charts, so no extra request. It deliberately does NOT come from
+  // /projects/stats: that endpoint accepts a district parameter and ignores
+  // it, answering 673 projects and ₹3.78 lakh crore whatever you pass. Built
+  // from that, all 26 district pages would have carried the same confidently
+  // wrong pair of numbers. districtSummary cross-checks the aggregate against
+  // the register's own count before it prints the cost at all.
+  const districtLead = districtSummary({
+    district: filters.district,
+    total: data?.total ?? null,
+    row: (insights?.by_district || []).find(r => r.district === filters.district),
+    t,
+    fmtNum: n => Number(n).toLocaleString('en-IN'),
+  })
+
   const statusChips = [
     { value: 'under_construction', count: stats?.ongoing ?? 0 },
     { value: 'completed', count: stats?.completed ?? 0 },
@@ -392,14 +411,28 @@ export default function Projects() {
       {/* Header */}
       <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="flex flex-col gap-2">
+          {/*
+            A district is a page, not a filter setting.
+            "Government projects in Guntur district" is a search people type,
+            and this page used to answer it with the heading "Projects" and
+            the same intro sentence as every other district. The district's
+            name appeared only inside a dropdown, which is not text a search
+            engine can match. Naming it in the h1 and saying its own numbers
+            underneath is what makes 26 pages distinct rather than 26 views of
+            one.
+          */}
           <h1 className="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-on-surface">
-            {t('projects.title')}{' '}
-            <span className="text-on-surface-variant font-normal text-headline-md block md:inline md:ms-4" lang="te">
-              {t('projects.titleSub')}
-            </span>
+            {filters.district
+              ? t('projects.district.heading', { district: filters.district })
+              : <>
+                  {t('projects.title')}{' '}
+                  <span className="text-on-surface-variant font-normal text-headline-md block md:inline md:ms-4" lang="te">
+                    {t('projects.titleSub')}
+                  </span>
+                </>}
           </h1>
           <p className="text-body-lg font-body-lg text-on-surface-variant">
-            {t('projects.intro')}
+            {districtLead.length ? districtLead.join(' ') : t('projects.intro')}
           </p>
         </div>
         {!error && (

@@ -412,6 +412,12 @@
       "aria": "Which view of projects to show",
       "overview": "Overview",
       "all": "All projects"
+    },
+    "district": {
+      "heading": "Government projects in {district} district",
+      "count": "{count} tracked government projects in {district} district, Andhra Pradesh.",
+      "cost": "Their combined published estimated cost is ₹{amount} {unit}.",
+      "method": "A project that spans districts is counted in each district it touches, and its published cost is never divided between them."
     }
   },
   "projectDetail": {
@@ -523,6 +529,13 @@
       "completed": "It was completed in {date}.",
       "source": "Every figure here is taken from {source}, and the document is linked below.",
       "approved": "The source records its approval in {date}."
+    },
+    "related": {
+      "inDistrict": "Other projects in {district} district",
+      "byType": "Other {type} projects in Andhra Pradesh",
+      "seeDistrict": "See all tracked projects in {district}",
+      "seeRegister": "See the whole register",
+      "note": "Same district, same register, same sources. Nothing here is a recommendation."
     }
   },
   "gallery": {

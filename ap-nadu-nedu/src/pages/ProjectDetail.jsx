@@ -9,6 +9,7 @@ import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
 import Deferred from '../components/Deferred'
 import SourceDocuments from '../components/SourceDocuments'
+import RelatedProjects from '../components/RelatedProjects'
 import PageThread from '../components/community/PageThread'
 import { TENURE_COLOR } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
@@ -533,6 +534,8 @@ export default function ProjectDetail() {
       <p className="text-label-sm text-on-surface-variant border-t border-surface-variant pt-3">
         {t('projectDetail.correctionNote')}
       </p>
+
+      <RelatedProjects project={project} typeLabel={typeLabel} />
 
       <Deferred minHeight={320}><PageThread pageKey={`project:${id}`} /></Deferred>
     </div>
