@@ -103,7 +103,28 @@ function url(loc, changefreq, priority) {
  */
 async function districts() {
   const r = await get('/projects/filters')
-  return (r.districts || []).filter(Boolean)
+  const raw = r.districts || []
+
+  // The endpoint returns objects like { code, name }, not strings. The first
+  // version of this assumed strings, and encodeURIComponent turned every one of
+  // them into "%5Bobject%20Object%5D". Twenty six identical junk URLs went into
+  // a sitemap that Google had already fetched.
+  //
+  // The stub used to test this returned plain strings, so it passed. That is
+  // twice now that a mock has been kinder than the real API: it also allowed a
+  // page_size the API rejects. A stub that only agrees with you is not a test.
+  const names = raw
+    .map(d => (typeof d === 'string' ? d : d?.name))
+    .filter(name => typeof name === 'string' && name.trim())
+    .map(name => name.trim())
+
+  if (names.length !== raw.length) {
+    throw new Error(
+      `read ${raw.length} districts but could only name ${names.length}. ` +
+      'The shape of /projects/filters has changed.',
+    )
+  }
+  return names
 }
 
 const entries = []
