@@ -4,6 +4,7 @@ import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { applySeo, seoForProject } from '../lib/seo'
 import { projectTrail } from '../lib/schema'
 import { projectSummary } from '../lib/projectSummary'
+import { croreAmount } from '../lib/money'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
 import Deferred from '../components/Deferred'
@@ -421,15 +422,15 @@ export default function ProjectDetail() {
       )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Tile title={t('projectDetail.tiles.estimatedCost')} value={project.estimated_cost_crore != null ? `₹${fmtIN(Math.round(project.estimated_cost_crore))} ${t('unit.crore')}` : t('common.notPublished')} />
+        <Tile title={t('projectDetail.tiles.estimatedCost')} value={project.estimated_cost_crore != null ? `₹${croreAmount(project.estimated_cost_crore, fmtIN)} ${t('unit.crore')}` : t('common.notPublished')} />
         <Tile title={t('projectDetail.tiles.physicalProgress')} value={project.completion_percentage != null ? `${project.completion_percentage}%` : t('common.notPublished')}
           detail={t(project.completion_percentage != null ? 'projectDetail.tiles.perLatestSource' : 'projectDetail.tiles.noOfficialFigure')} />
         {latestObs?.cumulative_expenditure_crore != null && (
-          <Tile title={t('projectDetail.tiles.moneySpent')} value={`₹${fmtIN(Math.round(latestObs.cumulative_expenditure_crore))} ${t('unit.crore')}`}
+          <Tile title={t('projectDetail.tiles.moneySpent')} value={`₹${croreAmount(latestObs.cumulative_expenditure_crore, fmtIN)} ${t('unit.crore')}`}
             detail={`${t('projectDetail.tiles.cumulativeAsOf', { date: fmtMonth(latestObs.observed_date) })}${latestObs.source_label ? ` · ${latestObs.source_label}` : ''}`} />
         )}
         {project.actual_cost_crore != null && (
-          <Tile title={t('projectDetail.tiles.actualCost')} value={`₹${fmtIN(Math.round(project.actual_cost_crore))} ${t('unit.crore')}`} detail={t('projectDetail.tiles.asRecordedOnCompletion')} />
+          <Tile title={t('projectDetail.tiles.actualCost')} value={`₹${croreAmount(project.actual_cost_crore, fmtIN)} ${t('unit.crore')}`} detail={t('projectDetail.tiles.asRecordedOnCompletion')} />
         )}
         <Tile title={t(project.actual_completion ? 'projectDetail.tiles.completed' : 'projectDetail.tiles.expectedCompletion')}
           value={fmtMonth(project.actual_completion || project.expected_completion) || t('common.notPublished')} />

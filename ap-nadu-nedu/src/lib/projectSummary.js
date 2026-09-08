@@ -26,6 +26,8 @@
  * to a thinner record.
  */
 
+import { croreAmount } from './money.js'
+
 /**
  * @param project      the project record
  * @param observation  the latest progress observation, or null
@@ -49,7 +51,11 @@ export function projectSummary({ project, observation, t, fmtNum, fmtMonth }) {
   // all 673 pages in all six languages. The test below now asserts the
   // absence of a doubled sign, because the first version of it matched the
   // amount loosely enough to walk straight past this.
-  const money = v => fmtNum(Math.round(v))
+  //
+  // Rounding lives in money.js, shared with the tiles directly below this
+  // paragraph. Two copies of that rule would eventually print ₹2.82 crore in
+  // the sentence and ₹3 Cr in the box beside it, about the same field.
+  const money = v => croreAmount(v, fmtNum)
 
   // A spend figure without the date it was published is not a fact anyone can
   // check, so it is never printed alone.
@@ -73,8 +79,19 @@ export function projectSummary({ project, observation, t, fmtNum, fmtMonth }) {
     out.push(t('projectDetail.summary.expected', { date: fmtMonth(project.expected_completion) }))
   }
 
+  // Not "announced", whatever the column is named in our own schema.
+  //
+  // announced_date has exactly one source: the MoSPI flash report Table 7
+  // column the parser reads as `approval`. That is the date a project got the
+  // investment approval which put it under central monitoring. For Polavaram
+  // it reads February 2009, and the project was proposed decades before that.
+  // Calling it "announced" would have told 673 pages that a project began the
+  // day a ministry started counting it, which is a claim the record does not
+  // make and this platform must not make either. The timeline below the fold
+  // already hedged it as "Announced / approved (as recorded)"; this sentence
+  // had been less careful than the page it sits on.
   if (project.announced_date) {
-    out.push(t('projectDetail.summary.announced', { date: fmtMonth(project.announced_date) }))
+    out.push(t('projectDetail.summary.approved', { date: fmtMonth(project.announced_date) }))
   }
 
   // The source line is the point of the paragraph, so it is only added when

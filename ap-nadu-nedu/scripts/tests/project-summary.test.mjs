@@ -117,7 +117,7 @@ test('every language can build the paragraph, with no key falling through', () =
       assert.ok(!/₹₹/.test(part), `${code} doubled the rupee sign: ${part}`)
       // A missing key falls back to the last segment of its own name, which
       // renders as a stray English word in the middle of Telugu prose.
-      assert.ok(!/^(spendVsCost|spendOnly|costOnly|progress|expected|completed|announced|source|croreWord)$/.test(part),
+      assert.ok(!/^(spendVsCost|spendOnly|costOnly|progress|expected|completed|approved|source|croreWord)$/.test(part),
         `${code} is missing a translation for ${part}`)
     }
     assert.ok(parts.join(' ').includes('₹23,776'), `${code} lost the spend figure`)
@@ -143,4 +143,64 @@ test('no language left the summary in English by accident', () => {
       assert.notEqual(other[key], en[key], `${code}.${key} is still the English string`)
     }
   }
+})
+
+test('the approval date is never called an announcement', () => {
+  // announced_date is fed by one thing: the MoSPI flash report's approval
+  // column. Polavaram reads February 2009 there and was proposed decades
+  // earlier. Saying "announced" would put a claim on 673 pages that the
+  // record does not support, and on this site that is not a wording problem,
+  // it is the argument the whole platform rests on.
+  const en = load('en').projectDetail.summary
+  assert.ok(en.approved, 'the approval sentence is missing')
+  assert.ok(!('announced' in en), 'the old announced key is still there')
+  assert.ok(!/announce/i.test(en.approved),
+    `the approval sentence still calls it an announcement: ${en.approved}`)
+
+  const text = run(POLAVARAM, OBSERVATION).join(' ')
+  assert.ok(!/announced/i.test(text), `summary still says announced: ${text}`)
+  assert.match(text, /approval in MONTH 2009/)
+})
+
+test('a small project is not rounded into a different number', () => {
+  // Rounding everything to whole crore turned a real ₹2.82 crore sewerage
+  // scheme into "₹3 crore". Six per cent, on the page that exists to say the
+  // figure has not been moved. Most of the register is small projects like
+  // this one, so this is the common case, not the edge case.
+  const small = run({ title: 'A sewerage network', estimated_cost_crore: 2.82 }, null).join(' ')
+  assert.match(small, /₹2\.82 crore/)
+  assert.ok(!/₹3 crore/.test(small))
+
+  // A whole number must not gain false precision on the way through.
+  const round = run({ title: 'A road', estimated_cost_crore: 12 }, null).join(' ')
+  assert.match(round, /₹12 crore/)
+  assert.ok(!/12\.00/.test(round))
+
+  // Large figures stay readable: nobody wants ₹55,548.87 crore in a sentence.
+  const big = run(POLAVARAM, OBSERVATION).join(' ')
+  assert.match(big, /₹55,549 crore/)
+  assert.ok(!/55,548\.87/.test(big))
+})
+
+test('the rounding rule is shared, not copied', async () => {
+  // The paragraph and the tile beneath it read the same field. Two copies of
+  // this rule is how a page ends up saying ₹2.82 crore in the sentence and
+  // ₹3 Cr in the box, six inches apart, about the same number.
+  const { croreAmount } = await import('../../src/lib/money.js')
+  const detail = readFileSync(resolve(here, '../../src/pages/ProjectDetail.jsx'), 'utf8')
+  const summarySrc = readFileSync(resolve(here, '../../src/lib/projectSummary.js'), 'utf8')
+
+  assert.equal(croreAmount(2.82, fmtNum), '2.82')
+  assert.equal(croreAmount(12, fmtNum), '12')
+  assert.equal(croreAmount(55548.87, fmtNum), '55,549')
+  // Number(null) is 0. A formatter that answers "0" to "no figure on record"
+  // prints ₹0 crore, which is the one sentence this platform cannot afford.
+  for (const empty of [null, undefined, '', 'nonsense', NaN]) {
+    assert.equal(croreAmount(empty, fmtNum), null, `croreAmount(${String(empty)}) invented a number`)
+  }
+  assert.equal(croreAmount(0, fmtNum), '0', 'a real recorded zero is still a zero')
+
+  assert.match(summarySrc, /croreAmount/, 'the summary stopped using the shared rule')
+  assert.ok(!/Math\.round\((?:project|latestObs)\.[a-z_]*(?:cost|expenditure)[a-z_]*\)/.test(detail),
+    'a cost tile went back to rounding on its own')
 })

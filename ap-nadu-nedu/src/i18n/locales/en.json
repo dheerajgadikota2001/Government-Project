@@ -521,8 +521,8 @@
       "progress": "Physical progress stood at {percent}%.",
       "expected": "Expected completion is {date}.",
       "completed": "It was completed in {date}.",
-      "announced": "It was announced in {date}.",
-      "source": "Every figure here is taken from {source}, and the document is linked below."
+      "source": "Every figure here is taken from {source}, and the document is linked below.",
+      "approved": "The source records its approval in {date}."
     }
   },
   "gallery": {
