@@ -30,6 +30,7 @@
 // does not, and scripts/tests runs under plain Node so that the route table can
 // be tested without a bundler in the way.
 import { SITE_ORIGIN, SITE_NAME, matchRoute } from './routes.js'
+import { schemaFor } from './schema.js'
 
 /** Set or create one <meta>, keyed by whichever attribute identifies it. */
 function meta(attr, key, content) {
@@ -110,6 +111,21 @@ export function applySeo(pathname, override = {}) {
   meta('property', 'og:site_name', SITE_NAME)
   meta('name', 'twitter:title', title)
   meta('name', 'twitter:description', description)
+
+  // One JSON-LD block, replaced rather than appended. Appending would leave a
+  // trail of stale Organization blocks behind as the reader moves around a
+  // single page app, and Google reading five contradictory descriptions of the
+  // same site is worse than it reading none.
+  let ld = document.head.querySelector('script[type="application/ld+json"]#site-schema')
+  if (!ld) {
+    ld = document.createElement('script')
+    ld.type = 'application/ld+json'
+    ld.id = 'site-schema'
+    document.head.appendChild(ld)
+  }
+  ld.textContent = JSON.stringify(
+    schemaFor(pathname, { title, description, breadcrumbTrail: override.breadcrumbTrail }),
+  )
 
   // Search pages are the classic thin duplicate: one page per query, none of
   // them worth a search result of their own. Followed, so the links out of

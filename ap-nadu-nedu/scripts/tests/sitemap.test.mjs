@@ -72,3 +72,16 @@ test('no filter other than district is published', () => {
       `${l} publishes a filter that is the same projects rearranged`)
   }
 })
+
+test('no URL contains a stringified object, which is what a wrong shape looks like', () => {
+  const junk = locs.filter(l => /%5Bobject|\[object/i.test(l))
+  assert.deepEqual(junk, [],
+    'a value was put into a URL without being turned into a string first. Run: npm run sitemap')
+})
+
+test('every district URL names a real district', () => {
+  for (const l of locs.filter(l => l.includes('?district='))) {
+    const name = new URL(l).searchParams.get('district')
+    assert.ok(name && name.length > 2 && /[A-Za-z]/.test(name), `bad district value: ${name}`)
+  }
+})
