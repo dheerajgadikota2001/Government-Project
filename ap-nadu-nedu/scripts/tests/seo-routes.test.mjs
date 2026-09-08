@@ -238,3 +238,46 @@ test('a very long project name is cut, not left to break the title', () => {
   assert.ok(seo.title.length <= 70, `title is ${seo.title.length} chars`)
   assert.ok(seo.title.endsWith('…'))
 })
+
+/**
+ * The description is the sentence a person reads in the search result before
+ * deciding whether to trust this site enough to click. It shipped broken:
+ *
+ *   "POLAVARAM IRRIGATION PROJECT, a government project in Andhra Pradesh.
+ *    Status: under construction. 76% built. published estimated cost ..."
+ *
+ * The clauses were fragments joined with full stops, so two of them began in
+ * lowercase. It read like a machine had stopped halfway. Nothing threw, no
+ * test failed, and it went out on all 673 project pages. This asserts the
+ * shape of the sentence rather than its exact words, so the wording can still
+ * be improved without the test having to be rewritten each time.
+ */
+test('a description never starts a sentence in lowercase', () => {
+  const cases = [
+    { title: 'POLAVARAM IRRIGATION PROJECT', district: 'Andhra Pradesh', status: 'under_construction', completion_percentage: 76, estimated_cost_crore: 55549 },
+    { title: 'Pattiseema Lift Irrigation Scheme', district: 'West Godavari', status: 'completed', completion_percentage: 100 },
+    { title: 'Gundrevula Reservoir Project', district: 'Kurnool', estimated_cost_crore: 1200 },
+    { title: 'KC Canal Lift Scheme', district: 'Kurnool', status: 'ongoing' },
+    { title: 'Some Project', district: 'Guntur' },
+  ]
+  for (const project of cases) {
+    const { description } = seoForProject(project)
+    const broken = description.match(/\.\s+[a-z]/g)
+    assert.equal(broken, null,
+      `lowercase after a full stop in: ${description}`)
+  }
+})
+
+test('the facts read as one sentence, not a list of fragments', () => {
+  const { description } = seoForProject({
+    title: 'POLAVARAM IRRIGATION PROJECT',
+    district: 'Andhra Pradesh',
+    status: 'under_construction',
+    completion_percentage: 76,
+    estimated_cost_crore: 55549,
+  })
+  assert.match(description,
+    /^POLAVARAM IRRIGATION PROJECT in Andhra Pradesh: under construction, 76% built, published estimated cost ₹55,549 crore\./)
+  assert.ok(!/Status:/.test(description),
+    'the label "Status:" reads like a form field, not a sentence')
+})

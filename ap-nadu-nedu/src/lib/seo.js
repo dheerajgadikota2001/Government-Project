@@ -174,19 +174,24 @@ export function seoForProject(project) {
 
   const where = project.district || 'Andhra Pradesh'
   const facts = []
-  if (project.status) facts.push(`Status: ${String(project.status).replace(/_/g, ' ')}`)
+  if (project.status) facts.push(String(project.status).replace(/_/g, ' '))
   if (project.completion_percentage != null) facts.push(`${project.completion_percentage}% built`)
   const cost = rupees(project.estimated_cost_crore)
   if (cost) facts.push(`published estimated cost ${cost}`)
 
-  const opening = `${project.title}, a government project in ${where}.`
-  const body = facts.length ? ` ${facts.join('. ')}.` : ''
+  // These are fragments, not sentences. Joining them with full stops is what
+  // shipped "76% built. published estimated cost" into live search results on
+  // every project page. A reader sees this line before deciding to click, so
+  // it is worth writing as one sentence a person would actually say.
+  const opening = facts.length
+    ? `${project.title} in ${where}: ${facts.join(', ')}.`
+    : `${project.title}, a government project in ${where}.`
 
   return {
     // Name first, so it survives whatever Google truncates.
     title: clip(`${project.title} | ${SITE_NAME}`, 70),
     description: clip(
-      `${opening}${body} Every figure links to the government document it came from.`,
+      `${opening} Every figure links to the government document it came from.`,
       200,
     ),
   }

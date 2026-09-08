@@ -96,6 +96,9 @@
         document.head.appendChild(link)
       })()
     </script>
+      <!-- The hero is a CSS background, so the browser only discovers it after
+         the stylesheet is parsed. This tells it to start fetching immediately. -->
+    <link rel="preload" as="image" href="/hero.jpg" />
   </head>
   <body>
     <div id="root"></div>
