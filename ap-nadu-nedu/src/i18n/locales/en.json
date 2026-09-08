@@ -93,7 +93,8 @@
     "lakh": "lakh",
     "percent": "per cent",
     "jobs": "jobs",
-    "rupeeCrore": "₹ crore"
+    "rupeeCrore": "₹ crore",
+    "croreWord": "crore"
   },
   "common": {
     "loading": "Loading…",
@@ -512,6 +513,16 @@
       "matchedOn": "matched automatically on \"{words}\" — not our endorsement of their accuracy",
       "matchedWords": "matched on \"{words}\"",
       "note": "Articles are listed because their text contains this project's name — nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
+    },
+    "summary": {
+      "spendVsCost": "As of {date}, ₹{spent} {unit} had been spent on {name}, against a published estimated cost of ₹{cost} {unit}.",
+      "spendOnly": "As of {date}, ₹{spent} {unit} had been spent on {name}.",
+      "costOnly": "The published estimated cost of {name} is ₹{cost} {unit}.",
+      "progress": "Physical progress stood at {percent}%.",
+      "expected": "Expected completion is {date}.",
+      "completed": "It was completed in {date}.",
+      "announced": "It was announced in {date}.",
+      "source": "Every figure here is taken from {source}, and the document is linked below."
     }
   },
   "gallery": {

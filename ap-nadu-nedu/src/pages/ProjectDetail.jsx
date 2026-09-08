@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { applySeo, seoForProject } from '../lib/seo'
 import { projectTrail } from '../lib/schema'
+import { projectSummary } from '../lib/projectSummary'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
 import Deferred from '../components/Deferred'
@@ -323,6 +324,8 @@ export default function ProjectDetail() {
   const obs = extras?.observations || []
   const latestObs = obs.length ? obs[obs.length - 1] : null
 
+  const summary = projectSummary({ project, observation: latestObs, t, fmtNum: fmtIN, fmtMonth })
+
   // Identity facts: rendered only when the record actually carries them.
   const facts = [
     project.external_id && {
@@ -401,6 +404,21 @@ export default function ProjectDetail() {
           {project.department ? ` · ${project.department}` : ''}
         </p>
       </div>
+
+      {/* The answer, in a sentence.
+          Every number on this page used to live in a tile, and a tile is not
+          text. A page holding the only cited answer to "how much has been
+          spent on Polavaram" did not contain that sentence anywhere, so a
+          search for it could not match. This says it, in the reader's
+          language, generated from the record for all of them rather than
+          hand-written for the famous few. Clauses drop out when the record is
+          thin, so a sparse project gets a short paragraph and never an
+          invented figure. */}
+      {summary.length > 0 && (
+        <p className="text-body-lg text-on-surface max-w-3xl">
+          {summary.join(' ')}
+        </p>
+      )}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Tile title={t('projectDetail.tiles.estimatedCost')} value={project.estimated_cost_crore != null ? `₹${fmtIN(Math.round(project.estimated_cost_crore))} ${t('unit.crore')}` : t('common.notPublished')} />
