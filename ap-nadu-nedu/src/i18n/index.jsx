@@ -16,6 +16,34 @@ const LOADERS = {
   or: () => import('./locales/or.json'),
 }
 const loaded = { en }
+const inflight = {}
+
+/**
+ * Fetch a catalogue before it is needed.
+ *
+ * Switching language is a full page load, and the catalogue is a separate
+ * chunk of 41-57 KB gzipped that the browser cannot discover until the main
+ * bundle has run. So the reader clicks, gets a white screen, waits for a file
+ * nobody knew to ask for, and then sees the page.
+ *
+ * The switcher calls this when a reader hovers or focuses a language, which
+ * buys the download the few hundred milliseconds between "moving towards it"
+ * and "clicking it". By the time the new page asks for the catalogue it is
+ * already in the browser cache, and the wait is gone rather than hidden.
+ *
+ * Safe to call repeatedly: already-loaded languages return at once, and a
+ * second call while one is in flight joins the first rather than starting
+ * another request.
+ */
+export function preloadLanguage(code) {
+  if (!LOADERS[code] || loaded[code]) return Promise.resolve()
+  if (!inflight[code]) {
+    inflight[code] = LOADERS[code]()
+      .then(mod => { loaded[code] = mod.default || mod })
+      .catch(() => { delete inflight[code] })  // offline: let a later attempt retry
+  }
+  return inflight[code]
+}
 
 /**
  * Translation layer.
@@ -218,7 +246,28 @@ export function LanguageProvider({ children, lang: langProp, onChangeLang }) {
     return { lang, setLang, dir: meta.dir, isRTL: meta.dir === 'rtl', meta, t, tn, has }
   }, [lang, meta, setLang, cat])
 
-  if (!cat) return null  // first paint waits for the stored language (see above)
+  // First paint waits for the catalogue rather than flashing English at a
+  // Telugu reader. Returning null painted plain white for as long as that
+  // took; this is the same wait with something on the screen, and it carries
+  // the right lang and dir so the browser is not laying out backwards for a
+  // moment when the real page arrives.
+  if (!cat) {
+    return (
+      <div
+        lang={lang}
+        dir={meta.dir}
+        aria-busy="true"
+        className="min-h-screen bg-background flex items-start justify-center pt-24"
+      >
+        <div className="w-full max-w-4xl px-4 animate-pulse" aria-hidden="true">
+          <div className="h-8 w-1/2 rounded-lg bg-surface-container-high mb-4" />
+          <div className="h-4 w-full rounded bg-surface-container mb-2" />
+          <div className="h-4 w-4/6 rounded bg-surface-container mb-8" />
+          <div className="h-40 rounded-xl bg-surface-container" />
+        </div>
+      </div>
+    )
+  }
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }
 

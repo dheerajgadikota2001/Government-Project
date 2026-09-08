@@ -196,3 +196,48 @@ test('the language choice is written before the page navigates', () => {
   assert.ok(go !== -1, 'the language switch no longer navigates')
   assert.ok(write < go, 'App.jsx navigates before recording the choice; English will bounce back')
 })
+
+/**
+ * SPEED, WHERE IT IS ACTUALLY LOST
+ *
+ * Switching language is a full page load, because the router's basename is
+ * fixed when the page loads. On top of that reload the catalogue is a
+ * separate chunk, 41 to 57 KB gzipped, which the browser cannot discover
+ * until the main bundle has run. So the reader clicks, sees white, and waits
+ * for a file nothing had asked for yet.
+ *
+ * Neither of these shows up as an error. The page is correct the whole time.
+ * It just feels slow, which is the kind of problem that never gets a bug
+ * report, only a reader who does not come back.
+ */
+test('the switcher starts the download before the click', () => {
+  const src = readFileSync(resolve(here, '../../src/components/Layout/LanguageSwitcher.jsx'), 'utf8')
+  assert.match(src, /preloadLanguage/, 'the switcher no longer warms the catalogue')
+  for (const trigger of ['onMouseEnter', 'onFocus', 'onPointerEnter']) {
+    assert.match(src, new RegExp(`${trigger}=\\{\\(\\) => preloadLanguage`),
+      `${trigger} no longer preloads, so that path back to a cold click is open again`)
+  }
+})
+
+test('preloading is idempotent and cannot stampede', () => {
+  const src = readFileSync(resolve(here, '../../src/i18n/index.jsx'), 'utf8')
+  assert.match(src, /if \(!LOADERS\[code\] \|\| loaded\[code\]\) return Promise\.resolve\(\)/,
+    'preload no longer short-circuits a language that is already loaded')
+  assert.match(src, /if \(!inflight\[code\]\)/,
+    'preload no longer joins an in-flight request, so hovering twice fetches twice')
+  assert.match(src, /\.catch\(\(\) => \{ delete inflight\[code\] \}\)/,
+    'a failed preload would be cached as permanently in-flight and never retried')
+})
+
+test('a loading page is not a blank page', () => {
+  // The provider held the whole tree back with `return null` while the
+  // catalogue arrived, so the switch painted white and then content. Same
+  // wait, but with the shape of a page in it and the right direction set, so
+  // an Urdu reader is not watching a left-to-right skeleton.
+  const src = readFileSync(resolve(here, '../../src/i18n/index.jsx'), 'utf8')
+  assert.ok(!/if \(!cat\) return null/.test(src), 'the provider went back to painting nothing')
+  const block = src.slice(src.indexOf('if (!cat) {'), src.indexOf('return <I18nContext.Provider'))
+  assert.match(block, /aria-busy="true"/, 'the loading state lost its busy flag')
+  assert.match(block, /dir=\{meta\.dir\}/,
+    'the loading state lost its direction, so an Urdu reader sees a left-to-right skeleton')
+})

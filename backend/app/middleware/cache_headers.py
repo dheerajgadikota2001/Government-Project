@@ -74,7 +74,21 @@ NEVER_CACHE_FRAGMENTS: tuple[str, ...] = (
 
 # Browsers get a short timer; the CDN gets the real one. Serving stale while
 # revalidating means a reader on a village connection is never blocked on us.
-BROWSER_MAX_AGE = 60
+#
+# Why 300 and not 60:
+# A correction does not wait for this timer. Every API call the app makes
+# carries `?v=<version stamp>`, so the moment the stamp moves the URL is
+# different and the old response is unreachable, whatever its age. The stamp
+# itself is refetched every 30 seconds (see FRESHNESS_OVERRIDES). So this
+# number governs only how often a reader refetches data that has not changed.
+#
+# At 60 it was costing real time. Switching language is a full page load, and
+# a reader who had been reading for more than a minute refetched the whole
+# page's data to see the same figures in a different script. Five minutes
+# covers a session's worth of moving around the site, and stale-while-
+# revalidate means even an expired entry is served instantly and refreshed
+# behind the reader rather than in front of them.
+BROWSER_MAX_AGE = 300
 STALE_WHILE_REVALIDATE = 3600
 
 # Paths whose freshness window must be tighter than the site-wide default.
