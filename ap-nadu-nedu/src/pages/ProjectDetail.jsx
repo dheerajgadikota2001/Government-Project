@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { applySeo, seoForProject } from '../lib/seo'
+import { projectTrail } from '../lib/schema'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
 import Deferred from '../components/Deferred'
@@ -279,7 +280,7 @@ export default function ProjectDetail() {
         // record supplies its own title once it lands. Before this, all 673
         // project pages shared the title "Project record", which nobody
         // searches for.
-        applySeo(`/projects/${id}`, seoForProject(p))
+        applySeo(`/projects/${id}`, { ...seoForProject(p), breadcrumbTrail: projectTrail(p) })
         // Fired on the loaded project rather than on the click, so it counts a
         // project a reader actually reached, not a link they clicked before
         // the request failed. The district and type are what make it useful:
