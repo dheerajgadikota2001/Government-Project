@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
-import { STATIC_ROUTES, SITE_ORIGIN } from '../../src/lib/routes.js'
+import { STATIC_ROUTES, SITE_ORIGIN, LANG_CODES, PREFIXED_LANGS, localizedPath, splitLangPath } from '../../src/lib/routes.js'
 
 /**
  * WHY THIS TEST EXISTS
@@ -84,4 +84,80 @@ test('every district URL names a real district', () => {
     const name = new URL(l).searchParams.get('district')
     assert.ok(name && name.length > 2 && /[A-Za-z]/.test(name), `bad district value: ${name}`)
   }
+})
+
+/**
+ * THE LANGUAGE HALF
+ *
+ * The site publishes six languages. Until the sitemap listed them, five of
+ * them had no way of being discovered at all: a crawler cannot guess that
+ * /te/projects/613 exists, and nothing on the site linked to it from outside
+ * a Telugu session. Listing them is what turns 717 pages into 4302.
+ *
+ * Google's rule for hreflang is that the annotation must be reciprocal. If the
+ * Telugu URL does not name the English one back, the pair is discarded and the
+ * two read as duplicates competing with each other, which is worse than not
+ * annotating at all. So the assertions below are about completeness, not
+ * presence.
+ */
+
+const urlBlocks = [...XML.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => m[1])
+
+test('every page is published in every language', () => {
+  const byLang = {}
+  for (const code of LANG_CODES) byLang[code] = 0
+  for (const loc of locs) byLang[splitLangPath(loc.replace(SITE_ORIGIN, '')).lang]++
+
+  const english = byLang.en
+  assert.ok(english > 700, `only ${english} English URLs, the register should be larger`)
+  for (const code of LANG_CODES) {
+    assert.equal(byLang[code], english,
+      `${code} has ${byLang[code]} URLs but English has ${english}`)
+  }
+  assert.equal(locs.length, english * LANG_CODES.length)
+})
+
+test('every URL carries the full reciprocal hreflang set', () => {
+  // Spot-checking a few would pass while the tail was broken, and the tail is
+  // where a generated file goes wrong.
+  for (const block of urlBlocks) {
+    const tags = [...block.matchAll(/hreflang="([^"]+)"/g)].map(m => m[1])
+    assert.deepEqual(tags, [...LANG_CODES, 'x-default'],
+      `incomplete hreflang set on ${block.match(/<loc>([^<]+)</)?.[1]}`)
+  }
+})
+
+test('an alternate points at the same page, not a different one', () => {
+  for (const block of urlBlocks) {
+    const loc = block.match(/<loc>([^<]+)</)[1]
+    const { path } = splitLangPath(loc.replace(SITE_ORIGIN, ''))
+    for (const [, code, href] of block.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)) {
+      const want = SITE_ORIGIN + localizedPath(code === 'x-default' ? 'en' : code, path)
+      assert.equal(href.replace(/&amp;/g, '&'), want.replace(/&amp;/g, '&'),
+        `${loc} points its ${code} alternate at ${href}`)
+    }
+  }
+})
+
+test('x-default sends an unpublished language to English', () => {
+  const sample = urlBlocks.slice(0, 50)
+  for (const block of sample) {
+    const xd = block.match(/hreflang="x-default" href="([^"]+)"/)[1]
+    for (const code of PREFIXED_LANGS) {
+      assert.ok(!xd.includes(`/${code}/`) && !xd.endsWith(`/${code}`),
+        `x-default points at ${code}, which is not a fallback anyone can read`)
+    }
+  }
+})
+
+test('the sitemap declares the xhtml namespace its alternates need', () => {
+  // Without this the xhtml:link elements are not valid and Google ignores
+  // every one of them, silently, while still reporting the sitemap as fine.
+  assert.match(XML, /xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/)
+})
+
+test('the sitemap stays inside what a search engine will accept', () => {
+  assert.ok(locs.length <= 50000, `${locs.length} URLs exceeds the 50,000 limit`)
+  const megabytes = Buffer.byteLength(XML) / (1024 * 1024)
+  assert.ok(megabytes <= 50, `sitemap is ${megabytes.toFixed(1)} MB, over the 50 MB limit`)
 })

@@ -47,14 +47,27 @@ const DEFAULT = 'en'
 
 export const langMeta = code => LANGUAGES.find(l => l.code === code) || LANGUAGES[0]
 
-function readStored() {
+/**
+ * The last language this reader chose, or null.
+ *
+ * This is a memory, not an authority. The URL decides which language a page
+ * is in, because a stored preference cannot be seen by a crawler and cannot
+ * be shared in a link, which is exactly how six translated languages ended up
+ * invisible to search. App.jsx uses this only to send a returning reader from
+ * a bare path to their language, once.
+ */
+export function readStoredLang() {
   try {
     const v = localStorage.getItem(STORAGE_KEY)
     if (v && CATALOGUES[v]) return v
   } catch {
-    /* private mode, blocked storage — fall through to the default */
+    /* private mode, blocked storage — nothing remembered, which is fine */
   }
-  return DEFAULT
+  return null
+}
+
+function readStored() {
+  return readStoredLang() || DEFAULT
 }
 
 /** Resolve "a.b.c" against a nested object. */
@@ -75,8 +88,15 @@ function interpolate(str, vars) {
 
 const I18nContext = createContext(null)
 
-export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(readStored)
+/**
+ * `lang` and `onChangeLang` come from the router (see App.jsx). When they are
+ * given, the URL owns the language and this component follows it. The prop
+ * free form is kept for tests and for any tree mounted outside a router.
+ */
+export function LanguageProvider({ children, lang: langProp, onChangeLang }) {
+  const controlled = Boolean(langProp && CATALOGUES[langProp])
+  const [langState, setLangState] = useState(readStored)
+  const lang = controlled ? langProp : langState
   // The catalogue actually in use. For a stored non-English choice this starts
   // null and the page holds (blank, ~100 ms) until the language arrives — a
   // flash of English on a Telugu reader's first paint would be worse.
@@ -143,6 +163,9 @@ export function LanguageProvider({ children }) {
 
   const setLang = useCallback(code => {
     if (!CATALOGUES[code]) return
+    // Under the router a language change is a navigation. The tracking below
+    // still fires, because "readers arriving in English switch to Telugu" is
+    // the number that justifies maintaining six catalogues.
     // Six catalogues are maintained here at real cost — 1,754 keys each — and
     // until now nothing recorded whether any of them is read. Both sides of the
     // switch are sent because the interesting number is not "Telugu was
@@ -152,7 +175,8 @@ export function LanguageProvider({ children }) {
       if (prev !== code) track(EVENTS.LANGUAGE_CHANGED, { from: prev, to: code })
       return code
     })
-  }, [])
+    if (onChangeLang) onChangeLang(code)
+  }, [onChangeLang])
 
   const value = useMemo(() => {
     const active = cat || en

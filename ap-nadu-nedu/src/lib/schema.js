@@ -28,7 +28,7 @@
  * on a site about honesty it would be an odd place to start lying.
  */
 
-import { SITE_ORIGIN, SITE_NAME } from './routes.js'
+import { SITE_ORIGIN, SITE_NAME, splitLangPath, localizedPath } from './routes.js'
 
 /**
  * Other places this project exists, for Google to connect into one entity.
@@ -85,7 +85,7 @@ function website() {
 }
 
 /** Breadcrumbs, which Google shows in place of the raw URL in a result. */
-function breadcrumb(trail) {
+function breadcrumb(trail, lang) {
   if (!trail?.length) return null
   return {
     '@type': 'BreadcrumbList',
@@ -93,7 +93,10 @@ function breadcrumb(trail) {
       '@type': 'ListItem',
       position: i + 1,
       name: step.name,
-      item: SITE_ORIGIN + step.path,
+      // A Telugu page's breadcrumb has to point at Telugu pages. Pointing the
+      // trail back at English would tell Google the Telugu page belongs to the
+      // English tree, which is the duplicate reading hreflang exists to stop.
+      item: SITE_ORIGIN + localizedPath(lang, step.path),
     })),
   }
 }
@@ -153,21 +156,28 @@ const DATASET_PAGES = {
  * organisation on every page.
  */
 export function schemaFor(pathname, { title, description, breadcrumbTrail } = {}) {
-  const path = String(pathname).split('?')[0].split('#')[0].replace(/\/+$/, '') || '/'
+  // Two paths, deliberately. `bare` has no language prefix and is what the
+  // lookup tables are keyed by, so /te/projects is still recognised as the
+  // projects register. `path` carries the prefix and is what goes into every
+  // url, so a Telugu page describes its Telugu address.
+  const { lang, path: unprefixed } = splitLangPath(pathname)
+  const bare = String(unprefixed).split('?')[0].split('#')[0].replace(/\/+$/, '') || '/'
+  const path = localizedPath(lang, bare)
   const graph = [organization(), website()]
 
-  const ds = DATASET_PAGES[path]
+  const ds = DATASET_PAGES[bare]
   if (ds) graph.push(dataset({ ...ds, path }))
 
-  const crumbs = breadcrumb(breadcrumbTrail)
+  const crumbs = breadcrumb(breadcrumbTrail, lang)
   if (crumbs) graph.push(crumbs)
 
-  if (path !== '/' && title) {
+  if (bare !== '/' && title) {
     graph.push({
       '@type': 'WebPage',
       url: SITE_ORIGIN + path,
       name: title,
       description: description || undefined,
+      inLanguage: lang,
       isPartOf: { '@id': WEBSITE_ID },
       publisher: { '@id': ORGANIZATION_ID },
     })

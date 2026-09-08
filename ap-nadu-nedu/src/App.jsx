@@ -3,7 +3,8 @@ import ChunkReloadBoundary from './components/ChunkReloadBoundary'
 import Analytics from './components/Analytics'
 import Seo from './components/Seo'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { LanguageProvider } from './i18n'
+import { LanguageProvider, readStoredLang } from './i18n'
+import { localizedPath, splitLangPath } from './lib/routes'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import MitraFAB from './components/Layout/MitraFAB'
@@ -48,10 +49,76 @@ function PageSkeleton() {
   )
 }
 
+/**
+ * LANGUAGE LIVES IN THE URL
+ *
+ * Six languages were published and Google could see one. The chosen language
+ * sat in localStorage, never touched the URL, and a crawler has no stored
+ * preference, so every Telugu, Hindi, Urdu, Tamil and Odia page on the site
+ * was unreachable from search. The translations were already written. They
+ * just had no address.
+ *
+ * English keeps the bare path, because moving 717 URLs Google had already
+ * indexed would cost real ranking for no gain. The other five take a prefix,
+ * and that prefix becomes the router's basename:
+ *
+ *   /projects/613       English
+ *   /te/projects/613    Telugu
+ *
+ * basename is doing the heavy lifting. Every <Link to="/projects"> across the
+ * app resolves against it, so a Telugu reader following any link in the site
+ * stays in Telugu without a single link having to be rewritten. useLocation()
+ * reports the path without the prefix, so the route table, matchRoute and the
+ * analytics patterns all keep working unchanged.
+ *
+ * It is read once, at module load, from the real address bar. A basename
+ * cannot change after the router mounts, which is why switching language is a
+ * full page load rather than a client-side navigation. That is the honest
+ * behaviour anyway: a switch already fetches a 150-300 KB catalogue, swaps the
+ * script font and can flip text direction for Urdu.
+ */
+const INITIAL_LANG = typeof window === 'undefined'
+  ? 'en'
+  : splitLangPath(window.location.pathname).lang
+
+const BASENAME = INITIAL_LANG === 'en' ? '/' : `/${INITIAL_LANG}`
+
+/** Switch language: same page, different address, fresh load. */
+function goToLanguage(code) {
+  if (typeof window === 'undefined') return
+  const { path } = splitLangPath(window.location.pathname)
+  window.location.assign(
+    localizedPath(code, path) + window.location.search + window.location.hash,
+  )
+}
+
+/**
+ * A returning reader who chose Telugu should not land on English just because
+ * they bookmarked the bare path.
+ *
+ * This only fires for a browser that has been here and chosen before, so
+ * Googlebot, which has no storage, always sees English at an English address.
+ * It runs before React mounts so there is no flash of the wrong language, and
+ * it replaces the history entry rather than pushing one, so Back still leaves
+ * the site.
+ */
+function bounceToStoredLanguage() {
+  if (typeof window === 'undefined') return
+  if (INITIAL_LANG !== 'en') return
+  const stored = readStoredLang()
+  if (!stored || stored === 'en') return
+  const { path } = splitLangPath(window.location.pathname)
+  window.location.replace(
+    localizedPath(stored, path) + window.location.search + window.location.hash,
+  )
+}
+
+bounceToStoredLanguage()
+
 export default function App() {
   return (
-    <LanguageProvider>
-      <BrowserRouter>
+    <LanguageProvider lang={INITIAL_LANG} onChangeLang={goToLanguage}>
+      <BrowserRouter basename={BASENAME}>
       {/* Inside the router: it needs useLocation. Renders nothing. */}
       <Analytics />
       <Seo />

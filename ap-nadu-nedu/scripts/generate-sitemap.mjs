@@ -39,7 +39,7 @@ const args = process.argv.slice(2)
 const apiFlag = args.indexOf('--api')
 const API = apiFlag !== -1 ? args[apiFlag + 1] : 'https://apfactcheck.dheeco.com/api/v1'
 
-const { SITE_ORIGIN, STATIC_ROUTES } = await import('../src/lib/routes.js')
+const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath } = await import('../src/lib/routes.js')
 
 // changefreq and priority are hints Google has said for years it largely
 // ignores, kept because other crawlers still read them and they cost nothing.
@@ -87,10 +87,30 @@ async function projectIds() {
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-function url(loc, changefreq, priority) {
-  return `  <url>\n    <loc>${esc(loc)}</loc>\n` +
-         `    <changefreq>${changefreq}</changefreq>\n` +
-         `    <priority>${priority}</priority>\n  </url>`
+/**
+ * One page, six addresses.
+ *
+ * Every language gets its own <url> entry, and each entry lists all six as
+ * alternates plus x-default. Google's rule is that the annotation has to be
+ * reciprocal: if the Telugu URL does not name the English one back, the pair
+ * is ignored and the two are read as duplicates competing with each other. So
+ * the full set is repeated inside every entry. It is verbose and it is the
+ * format.
+ */
+function url(path, changefreq, priority) {
+  const links = LANG_CODES
+    .map(code =>
+      `    <xhtml:link rel="alternate" hreflang="${code}" href="${esc(SITE_ORIGIN + localizedPath(code, path))}"/>`)
+    .concat(
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITE_ORIGIN + localizedPath('en', path))}"/>`)
+    .join('\n')
+
+  return LANG_CODES.map(code =>
+    `  <url>\n    <loc>${esc(SITE_ORIGIN + localizedPath(code, path))}</loc>\n` +
+    `${links}\n` +
+    `    <changefreq>${changefreq}</changefreq>\n` +
+    `    <priority>${priority}</priority>\n  </url>`,
+  ).join('\n')
 }
 
 /**
@@ -131,7 +151,7 @@ const entries = []
 
 for (const route of STATIC_ROUTES) {
   const [freq, pri] = FREQ[route.pattern] || ['weekly', '0.5']
-  entries.push(url(SITE_ORIGIN + (route.pattern === '/' ? '/' : route.pattern), freq, pri))
+  entries.push(url(route.pattern === '/' ? '/' : route.pattern, freq, pri))
 }
 
 let ids = []
@@ -161,11 +181,11 @@ try {
 }
 
 for (const district of names) {
-  entries.push(url(`${SITE_ORIGIN}/projects?district=${encodeURIComponent(district)}`, 'weekly', '0.8'))
+  entries.push(url(`/projects?district=${encodeURIComponent(district)}`, 'weekly', '0.8'))
 }
 
 for (const id of ids) {
-  entries.push(url(`${SITE_ORIGIN}/projects/${id}`, 'weekly', '0.7'))
+  entries.push(url(`/projects/${id}`, 'weekly', '0.7'))
 }
 
 const xml =
@@ -177,11 +197,13 @@ const xml =
   project register. Run "npm run sitemap" after the register changes, and
   commit the result.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${entries.join('\n')}
 </urlset>
 `
 
 writeFileSync(OUT, xml, 'utf8')
-console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts + ${ids.length} projects = ${entries.length} URLs`)
+const pages = STATIC_ROUTES.length + names.length + ids.length
+console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts + ${ids.length} projects = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
 console.log(`written to public/sitemap.xml`)

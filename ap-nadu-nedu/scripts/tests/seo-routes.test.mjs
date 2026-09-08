@@ -128,6 +128,15 @@ function fakeDocument() {
       if (t) return nodes.find(n => n.tag === 'link' && n.attrs.rel === t[1])
       return undefined
     },
+    // applySeo clears and rewrites the hreflang set on every call, so the fake
+    // head has to support removal as well as lookup, or the alternates pile up
+    // one navigation at a time and the test never notices.
+    querySelectorAll: sel => {
+      if (sel === 'link[rel="alternate"][hreflang]') {
+        return nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate' && n.attrs.hreflang)
+      }
+      return []
+    },
   }
   return { head, title: '', createElement: make, nodes }
 }
@@ -280,4 +289,42 @@ test('the facts read as one sentence, not a list of fragments', () => {
     /^POLAVARAM IRRIGATION PROJECT in Andhra Pradesh: under construction, 76% built, published estimated cost ₹55,549 crore\./)
   assert.ok(!/Status:/.test(description),
     'the label "Status:" reads like a form field, not a sentence')
+})
+
+/**
+ * hreflang is the whole mechanism. Six addresses that do not name each other
+ * are six near-duplicate pages competing for the same result, and Google
+ * picks one and drops five. Google also requires the annotation to be
+ * reciprocal, so every page has to carry the full set including itself.
+ */
+test('every page names all six of its language addresses', async () => {
+  const { applySeo } = await import('../../src/lib/seo.js')
+  const { LANG_CODES, SITE_ORIGIN: ORIGIN } = await import('../../src/lib/routes.js')
+
+  const doc = fakeDocument()
+  globalThis.document = doc
+  try {
+    applySeo('/finances')
+    const alts = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
+    const byLang = Object.fromEntries(alts.map(n => [n.attrs.hreflang, n.attrs.href]))
+
+    for (const code of LANG_CODES) {
+      assert.ok(byLang[code], `no hreflang entry for ${code}`)
+    }
+    assert.equal(byLang.en, `${ORIGIN}/finances`)
+    assert.equal(byLang.te, `${ORIGIN}/te/finances`)
+    assert.equal(byLang['x-default'], `${ORIGIN}/finances`,
+      'x-default should send an unmatched language to English')
+    assert.equal(alts.length, LANG_CODES.length + 1)
+
+    // Navigating again must replace the set, not add to it. A single page app
+    // that appends would accumulate stale alternates for every page visited.
+    applySeo('/documents')
+    const after = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
+    assert.equal(after.length, LANG_CODES.length + 1,
+      'alternates accumulated across navigations instead of being replaced')
+    assert.ok(after.every(n => n.attrs.href.includes('/documents')))
+  } finally {
+    delete globalThis.document
+  }
 })

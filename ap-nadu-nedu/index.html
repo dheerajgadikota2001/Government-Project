@@ -85,7 +85,16 @@
           ur: 'Noto+Nastaliq+Urdu',
         }
         var lang = 'en'
-        try { lang = localStorage.getItem('apnn.lang') || 'en' } catch (e) { /* private mode */ }
+        // The URL decides the language now, so the font has to be picked from
+        // the URL too. A Telugu link opened fresh, with nothing in storage,
+        // would otherwise paint Telugu text in a Latin fallback face before
+        // React ever mounts. Storage is only the fallback, for the bare path.
+        var seg = location.pathname.split('/')[1]
+        if (FAMILY[seg]) {
+          lang = seg
+        } else {
+          try { lang = localStorage.getItem('apnn.lang') || 'en' } catch (e) { /* private mode */ }
+        }
         var family = FAMILY[lang]
         if (!family) return              // English needs no Indic face
         var link = document.createElement('link')

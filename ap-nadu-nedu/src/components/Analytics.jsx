@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { EVENTS, initAnalytics, safePath, setContext, track } from '../lib/analytics'
-import { ROUTE_PATTERNS } from '../lib/routes'
+import { ROUTE_PATTERNS, localizedPath } from '../lib/routes'
 import { useT } from '../i18n'
 
 /**
@@ -74,7 +74,15 @@ export default function Analytics() {
     if (lastPath.current === path) return
     lastPath.current = path
 
-    track(EVENTS.PAGE_VIEW, { page_path: path, page_location: window.location.origin + path })
+    // page_path stays language free on purpose, so /projects reports one
+    // number across all six languages rather than six that have to be added
+    // up by hand. page_location carries the real address, and the language
+    // itself is already on every event via setContext above, so the split by
+    // language is still one dimension away.
+    track(EVENTS.PAGE_VIEW, {
+      page_path: path,
+      page_location: window.location.origin + localizedPath(lang, path),
+    })
 
     if (!matchesKnownRoute(location.pathname)) {
       track(EVENTS.ROUTE_NOT_FOUND, { page_path: path })

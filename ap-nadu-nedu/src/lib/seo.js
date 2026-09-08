@@ -29,7 +29,7 @@
 // Explicit .js extension. Vite resolves extensionless imports, plain Node ESM
 // does not, and scripts/tests runs under plain Node so that the route table can
 // be tested without a bundler in the way.
-import { SITE_ORIGIN, SITE_NAME, matchRoute } from './routes.js'
+import { SITE_ORIGIN, SITE_NAME, matchRoute, LANG_CODES, localizedPath, currentLang } from './routes.js'
 import { schemaFor } from './schema.js'
 
 /** Set or create one <meta>, keyed by whichever attribute identifies it. */
@@ -93,17 +93,52 @@ export function canonicalFor(pathname) {
   return rest ? `${base}?${rest}` : base
 }
 
+/**
+ * hreflang: the six addresses of one page, each naming the others.
+ *
+ * Without these Google sees six pages that look like near duplicates of each
+ * other and picks one, which is the opposite of the point. With them it knows
+ * they are the same page in six languages and serves a Telugu reader the
+ * Telugu one. x-default names English as the fallback for a language we do
+ * not publish.
+ *
+ * Rewritten in full on every navigation. Editing them in place would be
+ * cheaper and would also leave the previous page's alternates behind on any
+ * path where the set changed, which is the kind of bug nobody sees for months.
+ */
+function applyAlternates(pathname) {
+  for (const el of document.head.querySelectorAll('link[rel="alternate"][hreflang]')) {
+    el.remove()
+  }
+  const add = (hreflang, href) => {
+    const el = document.createElement('link')
+    el.setAttribute('rel', 'alternate')
+    el.setAttribute('hreflang', hreflang)
+    el.setAttribute('href', href)
+    document.head.appendChild(el)
+  }
+  for (const code of LANG_CODES) add(code, canonicalFor(localizedPath(code, pathname)))
+  add('x-default', canonicalFor(localizedPath('en', pathname)))
+}
+
 export function applySeo(pathname, override = {}) {
   if (typeof document === 'undefined') return
 
-  const route = matchRoute(pathname)
+  // Callers pass the path the router gave them, which has no language prefix
+  // because the router runs with a basename. Everything below describes an
+  // address to a search engine, so it has to be the real one. localizedPath is
+  // idempotent, so a caller that already prefixed is fine too.
+  const localized = localizedPath(currentLang(), pathname)
+
+  const route = matchRoute(localized)
   const title = override.title || route?.title || SITE_NAME
   const description = override.description || route?.description || ''
-  const canonical = canonicalFor(pathname)
+  const canonical = canonicalFor(localized)
 
   document.title = title
   meta('name', 'description', description)
   link('canonical', canonical)
+  applyAlternates(localized)
 
   meta('property', 'og:title', title)
   meta('property', 'og:description', description)
@@ -124,7 +159,7 @@ export function applySeo(pathname, override = {}) {
     document.head.appendChild(ld)
   }
   ld.textContent = JSON.stringify(
-    schemaFor(pathname, { title, description, breadcrumbTrail: override.breadcrumbTrail }),
+    schemaFor(localized, { title, description, breadcrumbTrail: override.breadcrumbTrail }),
   )
 
   // Search pages are the classic thin duplicate: one page per query, none of
