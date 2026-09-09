@@ -41,6 +41,8 @@ const API = apiFlag !== -1 ? args[apiFlag + 1] : 'https://apfactcheck.dheeco.com
 
 const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath } = await import('../src/lib/routes.js')
 const { departmentPath } = await import('../src/lib/departmentSummary.js')
+const { FACT_CHECKS, factCheckPath } = await import('../src/lib/factcheck.js')
+const { FINANCE_QUESTIONS, financeQuestionPath } = await import('../src/lib/financeQuestions.js')
 
 // changefreq and priority are hints Google has said for years it largely
 // ignores, kept because other crawlers still read them and they cost nothing.
@@ -53,7 +55,12 @@ const FREQ = {
 }
 
 async function get(path) {
-  const res = await fetch(API + path, { headers: { accept: 'application/json' } })
+  // The API sits behind a CDN that keeps a copy for five minutes and serves it
+  // stale for an hour after that. Right after a backend deploy that copy still
+  // has the old shape, and this script would read it and refuse to publish.
+  // A parameter the API ignores makes every request its own cache key.
+  const sep = path.includes('?') ? '&' : '?'
+  const res = await fetch(`${API}${path}${sep}fresh=${Date.now()}`, { headers: { accept: 'application/json' } })
   if (!res.ok) throw new Error(`${path} returned ${res.status}`)
   return res.json()
 }
@@ -180,6 +187,19 @@ try {
   process.exit(1)
 }
 
+// A register where nothing has ever been updated is not a register, it is a
+// list endpoint that forgot to send the field. That is exactly what happened
+// the first time this ran: updated_at was absent from the list response, every
+// lastmod came back null, the file was written without a single date, and a
+// test failure was read as "expected until regenerated" and committed over.
+// So this refuses rather than degrades.
+if (ids.length && !ids.some(p => p.updated)) {
+  console.error('\nNo project in the register carries updated_at, so no lastmod can be written.')
+  console.error('The list endpoint is not sending the field. Refusing to publish a sitemap')
+  console.error('that tells Google nothing has ever changed.\n')
+  process.exit(1)
+}
+
 if (!ids.length) {
   console.error('\nThe register returned no projects. Refusing to publish a sitemap')
   console.error('that would tell Google 673 pages had disappeared.\n')
@@ -234,6 +254,22 @@ try {
   console.error('Publishing without the forty department pages.')
 }
 
+// The finances questions are code, not data, so like the fact checks they are
+// never missing because a server was down. Their figures move with every
+// budget document, so they carry the register's newest date.
+for (const question of FINANCE_QUESTIONS) {
+  entries.push(url(financeQuestionPath(question.slug), 'monthly', '0.8', newest))
+}
+
+// Fact checks are reviewed data in the repo, not fetched, so they can never be
+// missing from a sitemap because a server was down.
+// lastmod is when the page changed, not when the claim was made: a white
+// paper from 2019 is checked against records that move with every budget, so
+// the page carries the register's newest date like every other computed page.
+for (const check of FACT_CHECKS) {
+  entries.push(url(factCheckPath(check.slug), 'monthly', '0.8', newest))
+}
+
 for (const name of departments) {
   entries.push(url(departmentPath(name), 'yearly', '0.7', newest))
 }
@@ -258,8 +294,8 @@ ${entries.join('\n')}
 `
 
 writeFileSync(OUT, xml, 'utf8')
-const pages = STATIC_ROUTES.length + names.length + departments.length + ids.length
-console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts` +
+const pages = STATIC_ROUTES.length + FINANCE_QUESTIONS.length + FACT_CHECKS.length + names.length + departments.length + ids.length
+console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${names.length} districts` +
   ` + ${departments.length} departments + ${ids.length} projects` +
   ` = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
 console.log(`written to public/sitemap.xml`)

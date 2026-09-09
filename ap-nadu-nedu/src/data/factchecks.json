@@ -1,0 +1,145 @@
+{
+  "_readme": [
+    "Every entry here is a claim made in a named official document, compared to figures in other government documents.",
+    "A status describes the comparison between two numbers. It is never a verdict on the person who made the claim.",
+    "Statuses: matches, differs, definition, unverifiable. See src/lib/factcheck.js for what each one means and when it may be used.",
+    "Both governments are checked with the same template and the same rules. A claim from one side that cannot be checked is not published as though it were false.",
+    "Every figure carries the URL of the document it came from. If the official host is dead, say so and cite the press record instead of pretending.",
+    "This file is reviewed by a person before it publishes. Nothing here is scraped."
+  ],
+  "checks": [
+    {
+      "slug": "ap-debt-31-march-2019",
+      "question": "What was Andhra Pradesh's debt on 31 March 2019?",
+      "topic": "debt",
+      "as_of": "2019-03-31",
+      "unit": "crore",
+      "summary": "Two governments, writing five years apart about the same date, gave figures ₹1,16,367 crore apart. The two independent auditors give a third and a fourth. The gap is a definition, and this page shows all four.",
+      "claims": [
+        {
+          "made_by": "YSRCP government",
+          "about": "the 2014 to 2019 TDP period",
+          "party": "YSRCP",
+          "date": "2019-07-10",
+          "document": "White paper on state finances, 10 July 2019",
+          "document_url": "https://www.business-standard.com/article/pti-stories/ap-finance-minister-releases-white-paper-on-state-finances-119071001242_1.html",
+          "document_note": "The official host, ipr.ap.nic.in, is no longer online. This is the PTI press record of the release.",
+          "quote": "Debt by the end of 2018-19 was ₹2,58,928 crore.",
+          "figure": 258928,
+          "status": "matches",
+          "note": "This is the state's own Revised Estimate for 2018-19. The audited accounts published later record ₹2,57,510 crore, a difference of 0.5 per cent."
+        },
+        {
+          "made_by": "TDP-led government",
+          "about": "the 2019 to 2024 YSRCP period",
+          "party": "TDP",
+          "date": "2024-07-26",
+          "document": "White Paper on State Finances, tabled in the Assembly, 26 July 2024",
+          "document_url": "https://www.business-standard.com/economy/news/andhra-pradesh-s-debt-at-rs-9-74-trn-cm-chandrababu-naidu-in-white-paper-124072601399_1.html",
+          "document_note": "The tabled document is an image-only scanned PDF. This is the press record of its figures.",
+          "quote": "Debt on the state's exchequer as on 31.03.2019 was ₹3,75,295 crore.",
+          "figure": 375295,
+          "status": "definition",
+          "note": "This total adds borrowings by state corporations and unpaid bills to the budget debt. RBI and the audited accounts count budget debt only. On that narrower definition the paper's own figures are close to the record; on the wider one there is no independent published total to check against."
+        }
+      ],
+      "record": [
+        {
+          "source": "Reserve Bank of India",
+          "document": "State Finances: A Study of Budgets of 2025-26",
+          "document_url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23728",
+          "measure": "Outstanding liabilities, end-March 2019",
+          "figure": 264451
+        },
+        {
+          "source": "Government of Andhra Pradesh, audited accounts",
+          "document": "Statement of Fiscal Policy (FRBM), Finance Department",
+          "document_url": "https://apfinance.gov.in/frbmreport.html",
+          "measure": "Outstanding liabilities, end-March 2019, Accounts",
+          "figure": 257510
+        }
+      ],
+      "explanation": "All four figures describe the same day. The 2019 white paper and the audited accounts count the debt the state itself has borrowed, and agree within half a per cent. RBI counts the same thing with slightly different coverage and lands ₹7,000 crore higher. The 2024 white paper adds two things the others leave out: money borrowed by state corporations with a government guarantee, and bills the government had not yet paid. Those are real obligations and they are not budget debt, and no auditor publishes a total that includes them. So the ₹1,16,367 crore gap between the two governments is a choice of what to count, not a disagreement about a number."
+    },
+    {
+      "slug": "ap-debt-june-2024",
+      "question": "Was Andhra Pradesh's debt ₹9,74,556 crore in June 2024?",
+      "topic": "debt",
+      "as_of": "2024-06-12",
+      "unit": "crore",
+      "summary": "The 2024 white paper's headline figure is roughly double what RBI and the state's own accounts record for the nearest year-end. The paper's own breakup shows why: only ₹4,38,278 crore of it is budget debt.",
+      "claims": [
+        {
+          "made_by": "TDP-led government",
+          "about": "the 2019 to 2024 YSRCP period",
+          "party": "TDP",
+          "date": "2024-07-26",
+          "document": "White Paper on State Finances, tabled in the Assembly, 26 July 2024",
+          "document_url": "https://www.business-standard.com/economy/news/andhra-pradesh-s-debt-at-rs-9-74-trn-cm-chandrababu-naidu-in-white-paper-124072601399_1.html",
+          "document_note": "The tabled document is an image-only scanned PDF. This is the press record of its figures.",
+          "quote": "Debt on the state's exchequer as on 12.06.2024 was ₹9,74,556 crore, of which government debt ₹4,38,278 crore and corporation debt ₹2,48,677 crore, plus unpaid dues.",
+          "figure": 974556,
+          "status": "definition",
+          "note": "The paper's own budget-debt component, ₹4,38,278 crore, is below both independent figures for 31 March 2024, three months earlier. The headline total is reached by adding corporation borrowings and unpaid bills, which no auditor totals."
+        }
+      ],
+      "record": [
+        {
+          "source": "Reserve Bank of India",
+          "document": "State Finances: A Study of Budgets of 2025-26",
+          "document_url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23728",
+          "measure": "Outstanding liabilities, end-March 2024",
+          "figure": 492568
+        },
+        {
+          "source": "Government of Andhra Pradesh, audited accounts",
+          "document": "Statement of Fiscal Policy (FRBM), Finance Department",
+          "document_url": "https://apfinance.gov.in/frbmreport.html",
+          "measure": "Outstanding liabilities, end-March 2024, Accounts",
+          "figure": 491734
+        }
+      ],
+      "explanation": "The white paper gives one large number and, to its credit, the parts it is made of. The part that matches what RBI and the accounts measure is government debt, and the paper puts that at ₹4,38,278 crore on 12 June 2024. RBI and the accounts put it at about ₹4,92,000 crore on 31 March 2024. The paper's figure is lower, not higher. The headline ₹9,74,556 crore is reached by adding corporation borrowings of ₹2,48,677 crore and unpaid bills. Those are obligations the state may have to meet, and they are not debt in the sense either auditor publishes. A reader can hold both facts at once: the wider total is a legitimate thing to worry about, and it is not comparable to any headline debt figure from RBI or CAG."
+    },
+    {
+      "slug": "ap-debt-june-2014",
+      "question": "Was Andhra Pradesh's debt about ₹97,000 crore when the TDP government took office in June 2014?",
+      "topic": "debt",
+      "as_of": "2014-06-08",
+      "unit": "crore",
+      "summary": "No auditor publishes a debt figure for June 2014. The state was bifurcated on 2 June 2014 and its opening debt was an apportionment still being argued over. The nearest published figures are nine months later and both are higher.",
+      "claims": [
+        {
+          "made_by": "YSRCP government",
+          "about": "the 2014 to 2019 TDP period",
+          "party": "YSRCP",
+          "date": "2019-07-10",
+          "document": "White paper on state finances, 10 July 2019",
+          "document_url": "https://www.business-standard.com/article/pti-stories/ap-finance-minister-releases-white-paper-on-state-finances-119071001242_1.html",
+          "document_note": "The official host, ipr.ap.nic.in, is no longer online. This is the PTI press record of the release.",
+          "quote": "Debt when the TDP government took office (June 2014) was about ₹97,000 crore.",
+          "figure": 97000,
+          "status": "unverifiable",
+          "note": "There is no published, audited debt figure for the residuary state at June 2014. The first year-end figures, for 31 March 2015, are ₹1,22,606 crore from RBI and ₹1,48,743 crore from the state's own book, and they include nine months of the new state's own borrowing."
+        }
+      ],
+      "record": [
+        {
+          "source": "Reserve Bank of India",
+          "document": "State Finances: A Study of Budgets of 2025-26",
+          "document_url": "https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23728",
+          "measure": "Outstanding liabilities, end-March 2015, the first published year-end for the residuary state",
+          "figure": 122606
+        },
+        {
+          "source": "Government of Andhra Pradesh, audited accounts",
+          "document": "Statement of Fiscal Policy (FRBM), Finance Department",
+          "document_url": "https://apfinance.gov.in/frbmreport.html",
+          "measure": "Outstanding liabilities, end-March 2015, Accounts",
+          "figure": 148743
+        }
+      ],
+      "explanation": "This claim cannot be checked, and the honest thing is to say so rather than reach for a nearby number. The state came into existence on 2 June 2014. Its share of the undivided state's debt was set by apportionment under the Reorganisation Act, and no auditor published a figure for that day. The earliest published year-end is 31 March 2015. By then the new state had borrowed on its own account for nine months, so neither of those figures is the number the claim is about. RBI and the state's own book also disagree with each other by ₹26,000 crore for that same date, which is a reminder that even the published figures depend on what is counted."
+    }
+  ]
+}

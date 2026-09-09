@@ -80,6 +80,13 @@ class ProjectListOut(BaseModel):
     cover_image: Optional[ProjectImageOut] = None
     image_count: int = 0
 
+    # When the record last changed. The sitemap is built from this list, and
+    # Google uses lastmod to decide which of 4,700 URLs to recrawl first. The
+    # field was missing from the list, so the generator quietly wrote no
+    # lastmod at all and the sitemap went out that way. One timestamp per row
+    # is the cost of a crawler knowing what moved.
+    updated_at: Optional[datetime] = None
+
     model_config = {"from_attributes": True}
 
     @classmethod
@@ -87,6 +94,7 @@ class ProjectListOut(BaseModel):
         cover = p.cover_image
         return cls(
             id=p.id,
+            updated_at=getattr(p, "updated_at", None),
             title=p.title,
             title_telugu=p.title_telugu,
             project_type=p.project_type,

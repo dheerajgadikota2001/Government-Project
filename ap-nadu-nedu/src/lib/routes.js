@@ -118,11 +118,33 @@ export const ROUTES = [
       'Revenue, expenditure, debt and deficit for Andhra Pradesh, taken from published budget documents and CAG reports, with every figure cited.',
   },
   {
+    // One question from the finances page, open on its own. The page decides
+    // the title once it knows which question; see financeQuestions.js.
+    pattern: '/finances/:question',
+    static: false,
+    title: 'Andhra Pradesh state finances, one question at a time',
+    description:
+      'One question about Andhra Pradesh\'s debt, deficits or spending, answered from the budget documents, RBI tables and CAG audits, with every figure cited.',
+  },
+  {
     pattern: '/finances/departments/:slug',
     static: false,
     title: 'Andhra Pradesh department budgets, year by year',
     description:
       'What one Andhra Pradesh department was budgeted each year since 2014-15, and where the audited accounts exist, what was actually spent, with the budget volume behind every figure.',
+  },
+  {
+    pattern: '/factcheck',
+    title: 'Fact checks: official claims beside the official record | Andhra Pradesh Fact Check',
+    description:
+      'Claims made in Andhra Pradesh government white papers and budget documents, set beside what RBI, CAG and the state accounts record for the same date. Both governments, same rules.',
+  },
+  {
+    pattern: '/factcheck/:slug',
+    static: false,
+    title: 'Fact check | Andhra Pradesh Fact Check',
+    description:
+      'One claim from an official Andhra Pradesh government document, compared with the figures other official documents record, and why they differ.',
   },
   {
     pattern: '/governments',

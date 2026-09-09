@@ -64,6 +64,8 @@ const { schemaFor, projectTrail } = await import('../src/lib/schema.js')
 const { projectSummary } = await import('../src/lib/projectSummary.js')
 const { districtSummary } = await import('../src/lib/districtSummary.js')
 const { departmentPath, departmentSummary, departmentFacts } = await import('../src/lib/departmentSummary.js')
+const { FACT_CHECKS, factCheckPath, STATUS_RATING, STATUSES } = await import('../src/lib/factcheck.js')
+const { FINANCE_QUESTIONS, financeQuestionPath } = await import('../src/lib/financeQuestions.js')
 
 // ---------------------------------------------------------------- i18n
 
@@ -98,7 +100,12 @@ const monthFmt = t => iso => {
 // ---------------------------------------------------------------- fetching
 
 async function get(path) {
-  const res = await fetch(API + path, { headers: { accept: 'application/json' } })
+  // The API sits behind a CDN that keeps a copy for five minutes and serves it
+  // stale for an hour after that. Right after a backend deploy that copy still
+  // has the old shape, and this script would read it and refuse to publish.
+  // A parameter the API ignores makes every request its own cache key.
+  const sep = path.includes('?') ? '&' : '?'
+  const res = await fetch(`${API}${path}${sep}fresh=${Date.now()}`, { headers: { accept: 'application/json' } })
   if (!res.ok) throw new Error(`${path} returned ${res.status}`)
   return res.json()
 }
@@ -239,6 +246,51 @@ function departmentBody({ department, t, lang }) {
           })).slice(0, 3).join(' '))}</p>`
       : '',
     `<p><a href="${esc(localizedPath(lang, '/finances'))}">${esc(t('finances.dept.allDepartments'))}</a></p>`,
+  ].filter(Boolean).join('\n      ')
+}
+
+function factCheckBody({ check, t, lang }) {
+  const money = v => `₹${fmtNum(Math.round(v))} ${t('unit.croreWord')}`
+  const claims = (check.claims || []).map(c =>
+    `<h2>${esc(t('factcheck.claimHeading'))}</h2>` +
+    `<p>${esc(t('factcheck.saidBy', { who: c.made_by, about: c.about }))}, ${esc(c.date)}. ` +
+    `<a href="${esc(c.document_url)}" rel="nofollow">${esc(c.document)}</a></p>` +
+    `<blockquote>${esc(c.quote)}</blockquote>` +
+    `<p>${esc(t('factcheck.figure'))}: ${esc(money(c.figure))}. ` +
+    `<strong>${esc(t(`factcheck.status.${c.status}`))}</strong>. ${esc(c.note)}</p>`).join('')
+  const record = (check.record || []).map(r =>
+    `<dt>${esc(r.source)}: ${esc(r.measure)}</dt>` +
+    `<dd>${esc(money(r.figure))} (<a href="${esc(r.document_url)}" rel="nofollow">${esc(r.document)}</a>)</dd>`).join('')
+  return [
+    `<h1>${esc(check.question)}</h1>`,
+    `<p>${esc(check.summary)}</p>`,
+    claims,
+    `<h2>${esc(t('factcheck.recordHeading'))}</h2><dl>${record}</dl>`,
+    `<h2>${esc(t('factcheck.differenceHeading'))}</h2><p>${esc(check.explanation)}</p>`,
+    `<p><a href="${esc(localizedPath(lang, '/factcheck'))}">${esc(t('factcheck.allChecks'))}</a></p>`,
+  ].join('\n      ')
+}
+
+/**
+ * One finances question, open on its own address.
+ *
+ * The charts and tables under a question are drawn from the API in the
+ * browser; a crawler without JavaScript gets the question, the one-paragraph
+ * answer where the catalogue has one, and links to the other eight. That is
+ * the same text a reader sees first, and it is enough for the address to mean
+ * something in a search result rather than "State finances" nine times over.
+ */
+function financeQuestionBody({ question, t, lang }) {
+  const others = FINANCE_QUESTIONS.filter(q => q.slug !== question.slug)
+  return [
+    `<h1>${esc(t('finances.title'))}</h1>`,
+    `<h2>${esc(t(question.questionKey))}</h2>`,
+    question.answerKey ? `<p>${esc(t(question.answerKey))}</p>` : '',
+    `<p>${esc(t('finances.menu.hint'))}</p>`,
+    '<ul>',
+    ...others.map(q => `<li><a href="${esc(localizedPath(lang, financeQuestionPath(q.slug)))}">${esc(t(q.questionKey))}</a></li>`),
+    '</ul>',
+    `<p><a href="${esc(localizedPath(lang, '/finances'))}">${esc(t('finances.title'))}</a></p>`,
   ].filter(Boolean).join('\n      ')
 }
 
@@ -392,6 +444,30 @@ for (const lang of LANG_CODES) {
     }))
   }
 
+  for (const question of FINANCE_QUESTIONS) {
+    const path = localizedPath(lang, financeQuestionPath(question.slug))
+    const title = clip(question.title, 90)
+    const description = clip(question.description, 200)
+    const schema = schemaFor(path, { title, description })
+    emit(path, render(template, {
+      lang, dir, path, title, description, schema,
+      body: financeQuestionBody({ question, t, lang }),
+    }))
+  }
+
+  for (const check of FACT_CHECKS) {
+    const path = localizedPath(lang, factCheckPath(check.slug))
+    const labels = Object.fromEntries(STATUSES.map(st => [st, t(`factcheck.status.${st}`)]))
+    const schema = schemaFor(path, {
+      title: check.question, description: check.summary,
+      factCheck: { check, ratings: STATUS_RATING, labels },
+    })
+    emit(path, render(template, {
+      lang, dir, path, title: clip(check.question, 70), description: clip(check.summary, 200), schema,
+      body: factCheckBody({ check, t, lang }),
+    }))
+  }
+
   for (const department of departments) {
     if (!department?.department) continue
     const facts = departmentFacts(department)
@@ -432,6 +508,6 @@ for (const lang of LANG_CODES) {
   })
 }
 
-console.log(`prerender: ${STATIC_ROUTES.length} pages + ${districtRows.length} districts` +
-  ` + ${departments.length} departments + ${projects.length} projects` +
+console.log(`prerender: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${FACT_CHECKS.length} fact checks` +
+  ` + ${districtRows.length} districts + ${departments.length} departments + ${projects.length} projects` +
   ` x ${LANG_CODES.length} languages = ${written} files`)

@@ -38,7 +38,17 @@ import { SITE_ORIGIN, SITE_NAME, splitLangPath, localizedPath } from './routes.j
  * portal. Add the real URLs once the accounts exist. Do not add a Reddit
  * comment or a profile that is not clearly this project's own.
  */
-const SAME_AS = []
+/**
+ * The profiles that are this organisation elsewhere.
+ *
+ * This is the signal that tells Google the LinkedIn page and this site are one
+ * entity, which is what a Knowledge Panel and a branded search result are built
+ * from. The dheeco company page is the publisher; an AP Fact Check page of its
+ * own goes here the day it exists.
+ */
+const SAME_AS = [
+  'https://www.linkedin.com/company/dheeco26',
+]
 
 const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`
 const WEBSITE_ID = `${SITE_ORIGIN}/#website`
@@ -155,7 +165,45 @@ const DATASET_PAGES = {
  * Google treat these as one entity across the site instead of a fresh
  * organisation on every page.
  */
-export function schemaFor(pathname, { title, description, breadcrumbTrail } = {}) {
+/**
+ * ClaimReview: Google's own vocabulary for a fact check.
+ *
+ * One node per claim on the page, each naming who said it, when, and what the
+ * comparison found. Google can show these as a fact-check rich result, though
+ * it is selective about which publishers qualify and a new site will not be
+ * one of them for a while. It is built in now so the day the site qualifies
+ * nothing has to change.
+ *
+ * The rating is the awkward part. ClaimReview expects a number on a scale, and
+ * this site deliberately does not rate people. The mapping in factcheck.js is
+ * about the comparison: a match scores high, a definition mismatch sits in the
+ * middle, and so does a claim no document can check, because "we cannot tell"
+ * is not "false" and must not be scored as though it were.
+ */
+function claimReviews(check, path, ratings, labels) {
+  return (check.claims || []).map(c => ({
+    '@type': 'ClaimReview',
+    url: SITE_ORIGIN + path,
+    datePublished: c.date,
+    claimReviewed: c.quote,
+    author: { '@id': ORGANIZATION_ID },
+    itemReviewed: {
+      '@type': 'Claim',
+      appearance: { '@type': 'CreativeWork', name: c.document, url: c.document_url },
+      author: { '@type': 'Organization', name: c.made_by },
+      datePublished: c.date,
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: ratings[c.status],
+      bestRating: 5,
+      worstRating: 1,
+      alternateName: labels[c.status] || c.status,
+    },
+  }))
+}
+
+export function schemaFor(pathname, { title, description, breadcrumbTrail, factCheck } = {}) {
   // Two paths, deliberately. `bare` has no language prefix and is what the
   // lookup tables are keyed by, so /te/projects is still recognised as the
   // projects register. `path` carries the prefix and is what goes into every
@@ -170,6 +218,10 @@ export function schemaFor(pathname, { title, description, breadcrumbTrail } = {}
 
   const crumbs = breadcrumb(breadcrumbTrail, lang)
   if (crumbs) graph.push(crumbs)
+
+  if (factCheck?.check) {
+    graph.push(...claimReviews(factCheck.check, path, factCheck.ratings, factCheck.labels))
+  }
 
   if (bare !== '/' && title) {
     graph.push({

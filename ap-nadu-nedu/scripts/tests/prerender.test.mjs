@@ -362,6 +362,34 @@ test('districts are prerendered too, now that they have a path', async () => {
   }
 })
 
+test('each finances question is prerendered on its own address', async () => {
+  // Nine questions that used to share one page and one title. A crawler that
+  // does not run JavaScript must still find the question, its answer and the
+  // way to the other eight, in every language.
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    await runPrerender(base, out)
+
+    const file = join(out, 'finances/does-the-state-earn-enough/index.html')
+    assert.ok(existsSync(file), 'no file was written for the question')
+    const html = readFileSync(file, 'utf8')
+    assert.match(html, /<title>Does Andhra Pradesh earn enough to run itself\?/)
+    assert.match(html, /<h2>Does the state earn enough to run itself\?<\/h2>/)
+    assert.match(html, /revenue deficit/i, 'the one-paragraph answer is missing')
+    assert.match(html, /href="\/finances\/whose-number-is-right"/, 'the other questions are not linked')
+    assert.match(html, /<link rel="canonical" href="[^"]*\/finances\/does-the-state-earn-enough"/)
+    assert.match(html, /hreflang="te" href="[^"]*\/te\/finances\/does-the-state-earn-enough"/)
+
+    const te = readFileSync(join(out, 'te/finances/does-the-state-earn-enough/index.html'), 'utf8')
+    assert.match(te, /<html lang="te"/)
+    assert.ok(/[ఀ-౿]/.test(te), 'the Telugu question page has no Telugu on it')
+    assert.match(te, /href="\/te\/finances\/whose-number-is-right"/, 'the Telugu page links to English neighbours')
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
 test('department pages are prerendered, in every language', async () => {
   const { base, stop } = await stubApi()
   const out = outDir()

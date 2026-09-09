@@ -170,7 +170,9 @@ export function applySeo(pathname, override = {}) {
     document.head.appendChild(ld)
   }
   ld.textContent = JSON.stringify(
-    schemaFor(localized, { title, description, breadcrumbTrail: override.breadcrumbTrail }),
+    schemaFor(localized, {
+      title, description, breadcrumbTrail: override.breadcrumbTrail, factCheck: override.factCheck,
+    }),
   )
 
   // Search pages are the classic thin duplicate: one page per query, none of

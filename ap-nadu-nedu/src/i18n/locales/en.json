@@ -1015,6 +1015,19 @@
     }
   },
   "finances": {
+    "menu": {
+      "eyebrow": "Below the numbers",
+      "title": "Pick a question. Only that answer opens.",
+      "hint": "Nine questions in four groups. The others stay one click away.",
+      "navAria": "Questions about the state's finances",
+      "allSources": "Every source on this page ↗",
+      "group": {
+        "howMuch": "How much",
+        "tooMuch": "Is it too much",
+        "used": "Was it used",
+        "claims": "What they claim"
+      }
+    },
     "title": "State Finances — the debt record",
     "intro": "When a family takes a loan, there is one passbook. A state has several: the government's own budget books, the national auditor's (CAG) audited accounts, and the Reserve Bank's records. **They do not always say the same number — so this page shows all of them, side by side, for every year since Andhra Pradesh was divided in June 2014.** Where they disagree, you see the disagreement. Nothing here is our estimate; every figure links back to the document it came from.",
     "threeGovernments": "Since bifurcation, AP has had three governments: **TDP (Chandrababu Naidu) Jun 2014 – May 2019**, **YSRCP (Jagan Mohan Reddy) May 2019 – Jun 2024**, and **TDP-led NDA (Chandrababu Naidu) since Jun 2024**.",
@@ -2631,5 +2644,40 @@
       "body": "Not everything can be collected automatically. These sources publish in ways a machine cannot read reliably, so a person fetches and enters them — which means they update less often, and we would rather say so than let you assume otherwise."
     },
     "seeSources": "Every document behind these figures is catalogued in"
+  },
+  "factcheck": {
+    "indexTitle": "Fact checks",
+    "indexIntro": "Claims made in official documents, set beside what other official documents record. A status describes the comparison between two numbers. It is never a verdict on the person who made the claim.",
+    "claimHeading": "The claim",
+    "claimsHeading": "The claims",
+    "recordHeading": "The record",
+    "differenceHeading": "Why they differ",
+    "rulesHeading": "How a claim gets on this page",
+    "rules": [
+      "It was made in a named official document: a white paper, a budget speech, an Assembly reply or an official release. Not a tweet, and not a news report paraphrasing a speech.",
+      "It contains a specific figure or date.",
+      "It can be set beside a figure in another government document.",
+      "Both governments are checked with the same template and the same statuses. A claim that cannot be checked is marked as such, never published as though it were wrong."
+    ],
+    "saidBy": "{who}, about {about}",
+    "onDate": "On {date}",
+    "inDocument": "In: {document}",
+    "quoted": "Quoted",
+    "measure": "What was measured",
+    "figure": "Figure",
+    "status": {
+      "matches": "Matches the record",
+      "differs": "Differs from the record",
+      "definition": "Uses a different definition",
+      "unverifiable": "Cannot be checked against a public document"
+    },
+    "statusHelp": {
+      "matches": "The claimed figure and the record agree, within rounding or within the gap between an estimate and its audit.",
+      "differs": "Same definition, same date, different number.",
+      "definition": "The claim counts something the record does not, or the other way round, so the two figures describe different things.",
+      "unverifiable": "No public document carries a figure for that date or that definition, so the claim can be neither confirmed nor denied."
+    },
+    "allChecks": "All fact checks",
+    "documentNote": "About this source"
   }
 }

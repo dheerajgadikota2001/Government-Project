@@ -26,6 +26,8 @@ const Disclaimer = lazy(() => import('./pages/Disclaimer'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const Finances = lazy(() => import('./pages/Finances'))
 const Department = lazy(() => import('./pages/Department'))
+const FactChecks = lazy(() => import('./pages/FactChecks'))
+const FactCheckDetail = lazy(() => import('./pages/FactCheckDetail'))
 const Governments = lazy(() => import('./pages/Governments'))
 const SchoolEducation = lazy(() => import('./pages/SchoolEducation'))
 const AllStates = lazy(() => import('./pages/AllStates'))
@@ -156,7 +158,10 @@ export default function App() {
             <Route path="/documents" element={<Documents />} />
             <Route path="/tenders" element={<Tenders />} />
             <Route path="/finances" element={<Finances />} />
+            <Route path="/finances/:question" element={<Finances />} />
             <Route path="/finances/departments/:slug" element={<Department />} />
+            <Route path="/factcheck" element={<FactChecks />} />
+            <Route path="/factcheck/:slug" element={<FactCheckDetail />} />
             <Route path="/governments" element={<Governments />} />
             <Route path="/school-education" element={<SchoolEducation />} />
             <Route path="/states" element={<AllStates />} />

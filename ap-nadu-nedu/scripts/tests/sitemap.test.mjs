@@ -59,9 +59,12 @@ test('every URL is absolute and on the live domain', () => {
 })
 
 test('district pages are published, since each one is a subject people search', () => {
-  const districts = locs.filter(l => l.includes('?district='))
-  assert.ok(districts.length >= 20,
-    `only ${districts.length} district pages listed. There are 26. Run: npm run sitemap`)
+  // Districts moved from ?district=Guntur to /districts/guntur so they could
+  // be prerendered. This asserted the old form for a while after the move,
+  // which is how a stale test reads: it fails on correct output.
+  const districts = locs.filter(l => /\/districts\/[a-z0-9-]+$/.test(l))
+  assert.ok(districts.length >= 20 * 6,
+    `only ${districts.length} district pages listed. There are 26 in 6 languages. Run: npm run sitemap`)
 })
 
 test('no filter other than district is published', () => {
@@ -193,6 +196,13 @@ test('districts are published at their own path, not as a query', () => {
   for (const l of districts.slice(0, 30)) {
     assert.match(l, /\/districts\/[a-z0-9-]+$/, `not a clean slug: ${l}`)
   }
+})
+
+test('each finances question has a URL, in every language', () => {
+  const questions = locs.filter(l => /\/finances\/[a-z0-9-]+$/.test(l) && !/\/finances\/departments\//.test(l))
+  assert.equal(questions.length, 9 * 6, `${questions.length} question URLs; expected 9 in each of 6 languages`)
+  assert.ok(questions.some(l => l.endsWith('/finances/whose-number-is-right')))
+  assert.ok(questions.some(l => l.endsWith('/te/finances/whose-number-is-right')))
 })
 
 test('the forty voted demands each have a URL', () => {

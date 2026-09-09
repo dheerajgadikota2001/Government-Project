@@ -83,14 +83,23 @@ test('the site search action points at the real search page', () => {
   assert.deepEqual(site.inLanguage, ['en', 'te', 'hi', 'ur', 'ta', 'or'])
 })
 
-test('every URL in the graph is absolute and on the live domain', () => {
-  const json = JSON.stringify(schemaFor('/projects/613', { title: 'X', breadcrumbTrail: projectTrail({ id: 613, title: 'P', district: 'Eluru' }) }))
-  for (const url of json.match(/https?:\/\/[^"]+/g) || []) {
+test('every URL in the graph is absolute, and leaves the site only where it should', () => {
+  // Two kinds of URL are meant to point elsewhere: sameAs, which is the whole
+  // point of the field, and a cited document. Everything else that names a
+  // page must be this site's own address, or the graph is describing someone
+  // else's pages as ours.
+  const graph = schemaFor('/projects/613', { title: 'X', breadcrumbTrail: projectTrail({ id: 613, title: 'P', district: 'Eluru' }) })
+  const org = graph['@graph'].find(n => n['@type'] === 'Organization')
+  const external = new Set([...(org.sameAs || [])])
+  for (const url of JSON.stringify(graph).match(/https?:\/\/[^"]+/g) || []) {
     assert.ok(
       url.startsWith('https://apfactcheck.dheeco.com') ||
       url.startsWith('https://schema.org') ||
-      url.startsWith('https://www.indiacode.nic.in'),
+      url.startsWith('https://www.indiacode.nic.in') ||
+      external.has(url),
       `unexpected URL in schema: ${url}`,
     )
   }
+  assert.ok(external.size > 0, 'sameAs is empty again; the organisation is not linked to its profiles')
+  for (const url of external) assert.match(url, /^https:\/\//, `sameAs is not https: ${url}`)
 })
