@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { useT, makeDateFmt } from '../i18n'
 import AdvancedProjects from '../components/advanced/AdvancedProjects'
@@ -10,9 +10,12 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import { TENURE_COLOR as TENURE_TINT } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
 import { applySeo, seoForDistrict } from '../lib/seo'
+import { croreAmount } from '../lib/money'
+import { districtSummary } from '../lib/districtSummary'
+import { districtSlug, districtPath } from '../lib/routes'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
-  : `₹${Math.round(v).toLocaleString('en-IN')} ${t('unit.crore')}`)
+  : `₹${croreAmount(v)} ${t('unit.crore')}`)
 
 /** Per-government strip: what each tenure shows in this register, counted
  * strictly by the dates on the records. Click a tenure to filter the list
@@ -157,6 +160,7 @@ export default function Projects() {
   const statusLabel = enumLabel(t, 'status', KNOWN_STATUSES)
   const typeLabel = enumLabel(t, 'type', KNOWN_TYPES)
   const sortLabel = enumLabel(t, 'sort', KNOWN_SORTS)
+  const { slug } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
 
@@ -264,6 +268,24 @@ export default function Projects() {
   const [advancedOpen, setAdvancedOpen] = useState(false)
   const debounceRef = useRef(null)
 
+  /**
+   * Which district this page is showing, from either address.
+   *
+   * /districts/guntur is the canonical one. /projects?district=Guntur still
+   * works, because it was in the sitemap for days and may have been shared,
+   * and it canonicalises to the path form rather than competing with it.
+   *
+   * Declared here, above every effect that reads it. The first version of this
+   * sat further down the component next to the sentence it feeds, and the SEO
+   * effect above it referenced a const that did not exist yet.
+   */
+  const districtFromSlug = slug
+    ? (options?.districts || [])
+        .map(d => (typeof d === 'string' ? d : d?.name))
+        .find(name => name && districtSlug(name) === slug) || null
+    : null
+  const activeDistrict = districtFromSlug || filters.district || null
+
   const set = (key, value) => {
     setPage(1)
     // `q` is excluded on purpose, twice over: it fires on every keystroke,
@@ -297,10 +319,23 @@ export default function Projects() {
   // The count waits for the register to answer, so the description says 43
   // rather than a number we assumed.
   useEffect(() => {
-    const district = filters.district
-    const path = district ? `/projects?district=${encodeURIComponent(district)}` : '/projects'
+    const district = activeDistrict
+    // districtPath, not ?district=. A query string cannot be prerendered, so
+    // for months these 26 pages were visible only to crawlers that run
+    // JavaScript, which is Google and almost nothing else.
+    const path = district ? districtPath(district) : '/projects'
     applySeo(path, district ? seoForDistrict(district, data?.total) : {})
-  }, [filters.district, data?.total])
+  }, [activeDistrict, data?.total])
+
+
+  // A path-based district is a filter as far as the register query is
+  // concerned. Without this the page would show its own district heading over
+  // the whole 673-project register.
+  useEffect(() => {
+    if (!districtFromSlug || filters.district === districtFromSlug) return
+    setPage(1)
+    setFilters(f => ({ ...f, district: districtFromSlug }))
+  }, [districtFromSlug, filters.district])
 
   // A link into this page while it is already open (the map, a search result)
   // changes the URL without remounting, so the filters have to follow it.
@@ -379,6 +414,23 @@ export default function Projects() {
   const projects = data?.items ?? []
   const total = data?.total ?? 0
 
+  // The sentence under a district heading.
+  //
+  // The cost comes from insights, which this page already fetches for the
+  // charts, so no extra request. It deliberately does NOT come from
+  // /projects/stats: that endpoint accepts a district parameter and ignores
+  // it, answering 673 projects and ₹3.78 lakh crore whatever you pass. Built
+  // from that, all 26 district pages would have carried the same confidently
+  // wrong pair of numbers. districtSummary cross-checks the aggregate against
+  // the register's own count before it prints the cost at all.
+  const districtLead = districtSummary({
+    district: activeDistrict,
+    total: data?.total ?? null,
+    row: (insights?.by_district || []).find(r => r.district === activeDistrict),
+    t,
+    fmtNum: n => Number(n).toLocaleString('en-IN'),
+  })
+
   const statusChips = [
     { value: 'under_construction', count: stats?.ongoing ?? 0 },
     { value: 'completed', count: stats?.completed ?? 0 },
@@ -391,14 +443,28 @@ export default function Projects() {
       {/* Header */}
       <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div className="flex flex-col gap-2">
+          {/*
+            A district is a page, not a filter setting.
+            "Government projects in Guntur district" is a search people type,
+            and this page used to answer it with the heading "Projects" and
+            the same intro sentence as every other district. The district's
+            name appeared only inside a dropdown, which is not text a search
+            engine can match. Naming it in the h1 and saying its own numbers
+            underneath is what makes 26 pages distinct rather than 26 views of
+            one.
+          */}
           <h1 className="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-on-surface">
-            {t('projects.title')}{' '}
-            <span className="text-on-surface-variant font-normal text-headline-md block md:inline md:ms-4" lang="te">
-              {t('projects.titleSub')}
-            </span>
+            {activeDistrict
+              ? t('projects.district.heading', { district: activeDistrict })
+              : <>
+                  {t('projects.title')}{' '}
+                  <span className="text-on-surface-variant font-normal text-headline-md block md:inline md:ms-4" lang="te">
+                    {t('projects.titleSub')}
+                  </span>
+                </>}
           </h1>
           <p className="text-body-lg font-body-lg text-on-surface-variant">
-            {t('projects.intro')}
+            {districtLead.length ? districtLead.join(' ') : t('projects.intro')}
           </p>
         </div>
         {!error && (

@@ -25,6 +25,7 @@ from sqlalchemy import select
 
 from app.database import get_db_context
 from app.models.data_update import DataUpdate, RunStatus, RunTrigger
+from app.scrapers.base import ScrapeIncomplete
 from app.scrapers.sanity import SanityAbort
 from app.models.document import Document
 from app.models.news import NewsArticle
@@ -156,6 +157,50 @@ async def previous_status(source: str, before_run_id: str) -> Optional[RunStatus
     return row
 
 
+ESCALATE_AFTER_DAYS = (3, 7, 14, 30, 60)
+
+
+def crossed_an_escalation(days_now: float, days_at_last_run: float) -> bool:
+    """True when a failure streak has just passed one of the escalation marks.
+
+    Alerts report change, not state, which is right: a portal that has been down
+    a week must not send an email every two hours. But taken literally it means
+    a broken source produces exactly one email, ever, and if that one is missed
+    the silence afterwards is indistinguishable from health.
+
+    So a streak is re-reported as it lengthens, at three days, a week, a
+    fortnight, a month and two months, and then not again. Five emails over two
+    months for a source nobody has fixed is a reminder; a nightly one would be
+    noise, and noise is what taught the reader to archive these unread.
+    """
+    return any(days_at_last_run < mark <= days_now for mark in ESCALATE_AFTER_DAYS)
+
+
+async def failure_streak(source: str, before_run_id: str) -> Optional[tuple[datetime, datetime]]:
+    """(first failure of the current unbroken streak, the run before this one).
+
+    None when the source's previous run was not a failure. The second timestamp
+    is what the escalation check compares against: it is how long the streak had
+    been running the last time anyone looked, so a mark is crossed once.
+    """
+    async with get_db_context() as db:
+        rows = (await db.execute(
+            select(DataUpdate.status, DataUpdate.started_at)
+            .where(DataUpdate.source == source, DataUpdate.run_id != before_run_id)
+            .order_by(DataUpdate.started_at.desc())
+            .limit(200)
+        )).all()
+    if not rows or rows[0][0] is not RunStatus.FAILED:
+        return None
+    previous_run_at = rows[0][1]
+    streak_started_at = previous_run_at
+    for status, started_at in rows:
+        if status is not RunStatus.FAILED:
+            break
+        streak_started_at = started_at
+    return streak_started_at, previous_run_at
+
+
 @asynccontextmanager
 async def track(run_id: str, source: str, scraper_cls: type, trigger: RunTrigger):
     """
@@ -191,6 +236,22 @@ async def track(run_id: str, source: str, scraper_cls: type, trigger: RunTrigger
         )
         slot["blocked"] = str(abort)
         return
+    except ScrapeIncomplete as incomplete:
+        # The scraper caught its own error, kept whatever it had already saved,
+        # and handed the failure back rather than swallowing it. Both halves
+        # matter: the run is FAILED because the source was not fully read, and
+        # records_new is the partial count because those rows really are in the
+        # database and claiming zero would be a second inaccuracy.
+        logger.error(f"{source}: FAILED. {incomplete.detail}")
+        await record(
+            run_id=run_id, source=source, scraper=scraper_cls.__name__, started_at=started_at,
+            status=RunStatus.FAILED, trigger=trigger, error=incomplete.detail,
+            records_new=incomplete.records_new,
+        )
+        slot["failed"] = True
+        slot["error"] = incomplete.detail
+        slot["records_new"] = incomplete.records_new
+        return
     except Exception as exc:
         # str() of an httpx timeout is the empty string, and an alert that says
         # "FAILED:" followed by nothing has already cost a real evening of
@@ -202,6 +263,11 @@ async def track(run_id: str, source: str, scraper_cls: type, trigger: RunTrigger
             status=RunStatus.FAILED, trigger=trigger, error=detail,
         )
         slot["failed"] = True
+        # The caller reads this to build the alert. Without it every failing
+        # source reached the email with an empty detail and the generic advice
+        # line "read the error above", pointing at an error the email did not
+        # contain. The audit row had it all along; only the email was blind.
+        slot["error"] = detail
         return
     await record(
         run_id=run_id, source=source, scraper=scraper_cls.__name__, started_at=started_at,

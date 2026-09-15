@@ -65,18 +65,22 @@ test('only the homepage canonicalises to the homepage', () => {
   }
 })
 
-test('a district keeps its own address, every other filter folds away', () => {
-  // District is a real subject people search for by name, and there are 26.
-  // Status, sort and page are the same projects rearranged, and the register
-  // has enough filters to generate thousands of those.
+test('a district has its own path, and every filter folds away', () => {
+  // A district is still a real subject people search for by name. It used to
+  // keep its query parameter in the canonical for exactly that reason. It now
+  // has a path instead, /districts/palnadu, because a query string cannot be
+  // prerendered and those 26 pages were therefore invisible to every crawler
+  // that does not run JavaScript. The old form still resolves and folds into
+  // the register rather than competing with the real page.
+  assert.equal(canonicalFor('/districts/palnadu'),
+    'https://apfactcheck.dheeco.com/districts/palnadu')
+  assert.equal(canonicalFor('/districts/palnadu?status=completed&page=2'),
+    'https://apfactcheck.dheeco.com/districts/palnadu')
   assert.equal(canonicalFor('/projects?district=Palnadu'),
-    'https://apfactcheck.dheeco.com/projects?district=Palnadu')
-  assert.equal(canonicalFor('/projects?district=Guntur&status=completed&page=2&order=desc'),
-    'https://apfactcheck.dheeco.com/projects?district=Guntur')
+    'https://apfactcheck.dheeco.com/projects',
+    'the query form should fold into the register, not sit beside the real page')
   assert.equal(canonicalFor('/projects?status=completed&page=2'),
     'https://apfactcheck.dheeco.com/projects')
-  assert.equal(canonicalFor('/projects?district='),
-    'https://apfactcheck.dheeco.com/projects', 'an empty district is not a page')
   assert.equal(canonicalFor('/projects/'), 'https://apfactcheck.dheeco.com/projects')
   assert.equal(canonicalFor('/'), 'https://apfactcheck.dheeco.com/')
   assert.equal(canonicalFor('/search#top'), 'https://apfactcheck.dheeco.com/search')
@@ -127,6 +131,15 @@ function fakeDocument() {
       const t = sel.match(/^link\[rel="([^"]+)"\]$/)
       if (t) return nodes.find(n => n.tag === 'link' && n.attrs.rel === t[1])
       return undefined
+    },
+    // applySeo clears and rewrites the hreflang set on every call, so the fake
+    // head has to support removal as well as lookup, or the alternates pile up
+    // one navigation at a time and the test never notices.
+    querySelectorAll: sel => {
+      if (sel === 'link[rel="alternate"][hreflang]') {
+        return nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate' && n.attrs.hreflang)
+      }
+      return []
     },
   }
   return { head, title: '', createElement: make, nodes }
@@ -237,4 +250,85 @@ test('a very long project name is cut, not left to break the title', () => {
   const seo = seoForProject({ title: 'X'.repeat(200), status: 'completed' })
   assert.ok(seo.title.length <= 70, `title is ${seo.title.length} chars`)
   assert.ok(seo.title.endsWith('…'))
+})
+
+/**
+ * The description is the sentence a person reads in the search result before
+ * deciding whether to trust this site enough to click. It shipped broken:
+ *
+ *   "POLAVARAM IRRIGATION PROJECT, a government project in Andhra Pradesh.
+ *    Status: under construction. 76% built. published estimated cost ..."
+ *
+ * The clauses were fragments joined with full stops, so two of them began in
+ * lowercase. It read like a machine had stopped halfway. Nothing threw, no
+ * test failed, and it went out on all 673 project pages. This asserts the
+ * shape of the sentence rather than its exact words, so the wording can still
+ * be improved without the test having to be rewritten each time.
+ */
+test('a description never starts a sentence in lowercase', () => {
+  const cases = [
+    { title: 'POLAVARAM IRRIGATION PROJECT', district: 'Andhra Pradesh', status: 'under_construction', completion_percentage: 76, estimated_cost_crore: 55549 },
+    { title: 'Pattiseema Lift Irrigation Scheme', district: 'West Godavari', status: 'completed', completion_percentage: 100 },
+    { title: 'Gundrevula Reservoir Project', district: 'Kurnool', estimated_cost_crore: 1200 },
+    { title: 'KC Canal Lift Scheme', district: 'Kurnool', status: 'ongoing' },
+    { title: 'Some Project', district: 'Guntur' },
+  ]
+  for (const project of cases) {
+    const { description } = seoForProject(project)
+    const broken = description.match(/\.\s+[a-z]/g)
+    assert.equal(broken, null,
+      `lowercase after a full stop in: ${description}`)
+  }
+})
+
+test('the facts read as one sentence, not a list of fragments', () => {
+  const { description } = seoForProject({
+    title: 'POLAVARAM IRRIGATION PROJECT',
+    district: 'Andhra Pradesh',
+    status: 'under_construction',
+    completion_percentage: 76,
+    estimated_cost_crore: 55549,
+  })
+  assert.match(description,
+    /^POLAVARAM IRRIGATION PROJECT in Andhra Pradesh: under construction, 76% built, published estimated cost ₹55,549 crore\./)
+  assert.ok(!/Status:/.test(description),
+    'the label "Status:" reads like a form field, not a sentence')
+})
+
+/**
+ * hreflang is the whole mechanism. Six addresses that do not name each other
+ * are six near-duplicate pages competing for the same result, and Google
+ * picks one and drops five. Google also requires the annotation to be
+ * reciprocal, so every page has to carry the full set including itself.
+ */
+test('every page names all six of its language addresses', async () => {
+  const { applySeo } = await import('../../src/lib/seo.js')
+  const { LANG_CODES, SITE_ORIGIN: ORIGIN } = await import('../../src/lib/routes.js')
+
+  const doc = fakeDocument()
+  globalThis.document = doc
+  try {
+    applySeo('/finances')
+    const alts = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
+    const byLang = Object.fromEntries(alts.map(n => [n.attrs.hreflang, n.attrs.href]))
+
+    for (const code of LANG_CODES) {
+      assert.ok(byLang[code], `no hreflang entry for ${code}`)
+    }
+    assert.equal(byLang.en, `${ORIGIN}/finances`)
+    assert.equal(byLang.te, `${ORIGIN}/te/finances`)
+    assert.equal(byLang['x-default'], `${ORIGIN}/finances`,
+      'x-default should send an unmatched language to English')
+    assert.equal(alts.length, LANG_CODES.length + 1)
+
+    // Navigating again must replace the set, not add to it. A single page app
+    // that appends would accumulate stale alternates for every page visited.
+    applySeo('/documents')
+    const after = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
+    assert.equal(after.length, LANG_CODES.length + 1,
+      'alternates accumulated across navigations instead of being replaced')
+    assert.ok(after.every(n => n.attrs.href.includes('/documents')))
+  } finally {
+    delete globalThis.document
+  }
 })

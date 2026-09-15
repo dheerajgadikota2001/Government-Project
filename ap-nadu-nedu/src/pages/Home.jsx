@@ -11,7 +11,12 @@ import { useT } from '../i18n'
  * click. If the backend is unreachable we say so — no invented totals.
  */
 
-const heroImg = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA5OkinJ_1e_09IiR7ZC0dt_i-nhCqUh2KSqxrAGMj3sfL8ULWSeT4ugxnnFcq4v1_lvJZCqHDbKi3n1ycHXzXqyMuSlni9EYHiWlTi6FHYa2bT3xeiG0zr6QPx-_-UTuCftmRQ9UlGmyMN0yj_3WluXuilhX72wuapy5fxo-XxjQwVSicfqb49Y-ruQEiJ8FH4Z7jaa8Mm5W_vjdOgZlKILYjw-7v4PgyE7lcBBSp6Qqu78_kSvbh'
+// Self hosted on purpose. This used to point at an lh3.googleusercontent.com
+// aida-public URL, which is a temporary Google asset link. The day Google
+// expired it the homepage hero would have gone blank and we would have heard
+// about it from a visitor. A site whose whole argument is "you can check us"
+// should not have its first screen borrowed from a URL we do not control.
+const heroImg = '/hero.jpg'
 
 // Status labels are keys, resolved at render so they follow the chosen language.
 const STATUS_KEYS = {

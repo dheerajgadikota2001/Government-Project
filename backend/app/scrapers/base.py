@@ -1,9 +1,28 @@
 """
-Base scraper class — all portal scrapers extend this.
-Handles: rate limiting, retry logic, session management, polite crawling.
+Base scraper class. All portal scrapers extend this.
+
+Handles rate limiting, retry logic, session management, polite crawling, and
+one rule that matters more than any of them: a scraper that could not read its
+source must not return a number.
+
+WHY THAT RULE IS HERE AND NOT IN EACH SCRAPER
+Every scraper used to end with `except Exception: log_error(...)` followed by
+`return whatever_it_had`. That reads as careful, and it is the opposite. The
+runner sees a normal return, records the run as OK with nothing new, and the
+alert email counts the source under "quiet, ran clean". Six portals were
+unreachable for weeks and the platform reported "All clear" every single time,
+because "the site was down" and "the site had nothing new" produced identical
+output. Only one of those needs a person, so only one of them may look like
+this.
+
+So a scrape ends through finish(), which turns a swallowed failure back into a
+ScrapeIncomplete the recorder can write down and the email can name. The
+partial count travels with the exception, because rows already saved are
+already in the database and reporting zero would be its own lie.
 """
 
 import asyncio
+import dataclasses
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Optional
@@ -14,6 +33,22 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 from app.config import settings
 from app.utils.logger import logger
 from app.scrapers.sanity import SanityAbort, SanityGate, SanitySpec, summarise
+
+
+class ScrapeIncomplete(Exception):
+    """A scrape that did not finish, carrying whatever it managed to save.
+
+    Deliberately distinct from SanityAbort. An abort means the parser looked at
+    the page, decided it had changed, and refused to write: the safety net
+    working, and the site still serves its last known-good data. This means the
+    opposite: we never got a usable read at all, and whatever is on the site is
+    as old as the last successful run.
+    """
+
+    def __init__(self, detail: str, records_new: int = 0):
+        super().__init__(detail)
+        self.detail = detail
+        self.records_new = records_new
 
 
 class BaseScraper(ABC):
@@ -43,6 +78,16 @@ class BaseScraper(ABC):
     def __init__(self):
         self._client: Optional[httpx.AsyncClient] = None
         self.scraped_at = datetime.now(timezone.utc)
+        # Reachability, counted rather than inferred. A scraper that walks four
+        # index pages and gets a connection error on all four has not "found no
+        # documents"; it has not seen the portal. These two fields are what let
+        # finish() tell those apart without every subclass reimplementing it.
+        self.fetch_ok = 0
+        self.fetch_failures: list[tuple[str, str]] = []
+        # Things a person should know that are not failures: "this run read a
+        # PDF off the local disk instead of downloading it", for instance. The
+        # runner collects these and the alert email prints them.
+        self.notes: list[str] = []
 
     @property
     def client(self) -> httpx.AsyncClient:
@@ -69,13 +114,69 @@ class BaseScraper(ABC):
         retry=retry_if_exception_type((httpx.HTTPError, httpx.TimeoutException)),
         reraise=True,
     )
-    async def fetch(self, url: str, params: Optional[dict] = None) -> httpx.Response:
-        """Fetch a URL with automatic retry on network errors."""
+    async def _fetch_with_retries(self, url: str, params: Optional[dict] = None) -> httpx.Response:
         logger.debug(f"[{self.PORTAL_NAME}] Fetching: {url}")
         await asyncio.sleep(settings.scraper_request_delay)   # Be polite
         response = await self.client.get(url, params=params)
         response.raise_for_status()
         return response
+
+    async def fetch(self, url: str, params: Optional[dict] = None) -> httpx.Response:
+        """Fetch a URL with automatic retry, and remember how it went.
+
+        Callers still catch their own errors and carry on, which is right: one
+        district being down should not cost the other twenty-five. The counting
+        happens here so that carrying on never adds up to silence.
+        """
+        try:
+            response = await self._fetch_with_retries(url, params=params)
+        except Exception as exc:                     # noqa: BLE001
+            # str() of an httpx timeout is empty, and "failed:" followed by
+            # nothing has already cost a real evening of guessing.
+            why = f"{type(exc).__name__}: {exc}" if str(exc) else type(exc).__name__
+            self.fetch_failures.append((url, why))
+            raise
+        self.fetch_ok += 1
+        return response
+
+    def unreachable(self) -> bool:
+        """True when every request this scraper made failed.
+
+        Not "some failed": a portal that serves three pages and 404s on a fourth
+        is alive and has moved a page, which is a different problem with a
+        different fix.
+        """
+        return self.fetch_ok == 0 and bool(self.fetch_failures)
+
+    def note(self, text: str) -> None:
+        """Record something the alert email should mention. Not a failure."""
+        logger.info(f"[{self.PORTAL_NAME}] {text}")
+        self.notes.append(text)
+
+    def finish(self, saved: int, failure: Optional[BaseException] = None) -> int:
+        """End a scrape: the count when it worked, an exception when it did not.
+
+        Call this instead of `return saved` at the end of every scrape(). It is
+        the one place that decides whether a run counts as a success, so the
+        decision cannot drift between eleven scrapers.
+        """
+        self.log_done(saved)
+
+        if isinstance(failure, ScrapeIncomplete):
+            failure.records_new = saved
+            raise failure
+        if failure is not None:
+            detail = (f"{type(failure).__name__}: {failure}"
+                      if str(failure) else type(failure).__name__)
+            raise ScrapeIncomplete(detail, saved) from failure
+        if self.unreachable():
+            url, why = self.fetch_failures[0]
+            raise ScrapeIncomplete(
+                f"could not reach the portal: {len(self.fetch_failures)} request(s) tried, "
+                f"none answered. First was {url} ({why})",
+                saved,
+            )
+        return saved
 
     async def fetch_json(self, url: str, params: Optional[dict] = None) -> dict:
         """Fetch and parse JSON response."""
@@ -90,7 +191,8 @@ class BaseScraper(ABC):
         """
         ...
 
-    async def gate(self, rows: list[dict], run_id: str = "") -> list[dict]:
+    async def gate(self, rows: list[dict], run_id: str = "",
+                   compare_rows: bool = True) -> list[dict]:
         """Run the sanity layers over a parsed batch, and remember its shape.
 
         Called at the top of a scraper's save path, before anything reaches the
@@ -108,6 +210,16 @@ class BaseScraper(ABC):
         """
         if self.SANITY is None:
             return list(rows)
+
+        spec = self.SANITY
+        if not compare_rows:
+            # A paginated archive tapers. The last page of CAG's listing holds
+            # three reports because there are seventy-three in total, and
+            # measuring it against a full page of ten called the end of the
+            # archive a truncated response. The row floor belongs on the first
+            # page, where a short batch really does mean the page changed.
+            # Everything else about the gate still applies to every page.
+            spec = dataclasses.replace(spec, row_floor_ratio=0.0)
 
         # Imported here rather than at module scope: the scraper package is
         # imported by tooling that has no database configured, and a model
@@ -133,12 +245,12 @@ class BaseScraper(ABC):
             # weaker check, not a reason to abandon the scrape.
             logger.warning(f"[{self.PORTAL_NAME}] could not read drift baseline: {exc}")
 
-        gate = SanityGate(name, self.SANITY, baseline)
+        gate = SanityGate(name, spec, baseline)
         try:
             result = gate.run(rows)
         except SanityAbort as abort:
             await self._record_stats(
-                name, run_id, rows=0, stats=summarise(rows, self.SANITY),
+                name, run_id, rows=0, stats=summarise(rows, spec),
                 rejected=len(rows), reason=None, aborted=True, abort_reason=str(abort),
             )
             raise

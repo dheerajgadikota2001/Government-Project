@@ -6,6 +6,7 @@ import { useChartTip, fmtIN, LineOverlay, VizSection } from '../components/advan
 import { useT } from '../i18n'
 import PageThread from '../components/community/PageThread'
 import { TENURE_COLOR } from '../lib/tenure'
+import { croreAmount } from '../lib/money'
 
 /**
  * School education, 2014 onward: what the state spent, what it built, and what
@@ -29,7 +30,7 @@ const STAGE_COLORS = { BE: '#86b6ef', RE: '#2a78d6', Actual: '#104281' }
 const SEVERITY = { high: '#a6421f', medium: '#7a5c12', low: '#5a5850' }
 
 const toCr = r => (r == null ? null : r / 1e7)
-const crLabel = (cr, t) => (cr == null ? t('common.notPublished') : `₹${fmtIN(Math.round(cr))} ${t('unit.crore')}`)
+const crLabel = (cr, t) => (cr == null ? t('common.notPublished') : `₹${croreAmount(cr, fmtIN)} ${t('unit.crore')}`)
 
 function rich(str) {
   return String(str).split(/(\*\*[^*]+\*\*)/g).map((p, i) =>
@@ -195,7 +196,7 @@ export default function SchoolEducation() {
                 <div className="text-label-sm text-outline">{c.label}</div>
                 <div className="text-headline-sm font-bold text-on-surface mt-1"
                   style={{ fontVariantNumeric: 'tabular-nums' }}>
-                  ₹{fmtIN(Math.round(c.mean))} {t('unit.crore')}
+                  ₹{croreAmount(c.mean, fmtIN)} {t('unit.crore')}
                 </div>
                 <div className="text-label-sm text-on-surface-variant mt-1">
                   {t('schoolEd.capital.years', { have: c.have, total: c.total })}

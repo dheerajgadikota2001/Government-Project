@@ -22,7 +22,7 @@ import re
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -43,6 +43,17 @@ class CAGDocumentsScraper(BaseScraper):
             "pdf_url": FieldRule(required=True, min_len=10),
             "published_date": FieldRule(min_year=1950, max_year_ahead=1),
         },
+        # published_date is deliberately not watched for drift. This listing is
+        # chronological and eight pages deep, and CAG simply did not print a
+        # publication date on its oldest entries: every card on the last page
+        # reads "Report of 2011" with no date at all. The drift layer saw a null
+        # rate go from 0% on pages 1 to 6 to 100% on page 7 and called it a moved
+        # column, which refused the batch and ended the run. An empty date on a
+        # 2009 report is the portal being accurate, not the parser being wrong.
+        # The two fields that must never be null are still watched, and layer 2
+        # is what really guards them: a card missing a title or a PDF link is
+        # rejected row by row, and more than a fifth rejected aborts the batch.
+        drift_fields=("title", "pdf_url"),
         key_field="pdf_url",
     )
 
@@ -52,25 +63,28 @@ class CAGDocumentsScraper(BaseScraper):
         page = 1
         max_pages = 50  # hard safety cap — real total is currently ~8
 
+        failure: BaseException | None = None
         try:
             while page <= max_pages:
                 entries = await self._fetch_page(page)
                 if not entries:
                     break
 
-                saved = await self._save_documents(entries)
+                saved = await self._save_documents(entries, page)
                 total_saved += saved
                 logger.info(f"[{self.PORTAL_NAME}] Page {page}: fetched {len(entries)}, saved {saved} new")
 
                 page += 1
 
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
 
-        self.log_done(total_saved)
-        return total_saved
+        return self.finish(total_saved, failure)
 
     async def _fetch_page(self, page: int) -> list[dict]:
         url = CAG_LISTING_URL if page == 1 else f"{CAG_LISTING_URL}?page={page}"
@@ -151,6 +165,23 @@ class CAGDocumentsScraper(BaseScraper):
         m = re.match(r"^(Report\s+\d+\s+of\s+\d{4})", title)
         return m.group(1) if m else None
 
+    def _year_from_title(self, title: str) -> Optional[int]:
+        """The year CAG put in the report's own name, for the undated entries.
+
+        Not an inference. The oldest entries carry no publication date and are
+        titled "Report of 2011" or "Report No. 2 of 2012", so the year is stated
+        in the title by the publisher. The first four-digit year is the report's
+        own number-year; any later one is the period it covers ("for the year
+        ended March 2013"), which is a different thing and must not win. Used
+        only when there is no date, so a real date always takes precedence.
+        """
+        match = re.search(r"\b(19|20)(\d{2})\b", title or "")
+        if not match:
+            return None
+        year = int(match.group(1) + match.group(2))
+        horizon = datetime.now(timezone.utc).year + 1
+        return year if 1950 <= year <= horizon else None
+
     def _parse_date(self, text: Optional[str]) -> Optional[datetime]:
         if not text:
             return None
@@ -159,8 +190,9 @@ class CAGDocumentsScraper(BaseScraper):
         except ValueError:
             return None
 
-    async def _save_documents(self, entries: list[dict]) -> int:
-        entries = await self.gate(entries)
+    async def _save_documents(self, entries: list[dict], page: int = 1) -> int:
+        # Only page one is measured against previous runs. See gate().
+        entries = await self.gate(entries, compare_rows=(page == 1))
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:
@@ -176,7 +208,8 @@ class CAGDocumentsScraper(BaseScraper):
                     doc = Document(
                         title=e["title"],
                         document_type=DocumentType.AUDIT_REPORT,
-                        year=e["published_date"].year if e["published_date"] else None,
+                        year=(e["published_date"].year if e["published_date"]
+                              else self._year_from_title(e["title"])),
                         department="Comptroller and Auditor General of India",
                         reference_number=e["reference_number"],
                         description=e["description"],

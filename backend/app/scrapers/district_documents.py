@@ -32,8 +32,8 @@ from typing import Optional
 
 from bs4 import BeautifulSoup
 
-from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.base import BaseScraper, ScrapeIncomplete
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -122,6 +122,13 @@ class DistrictDocumentsScraper(BaseScraper):
     # a year. Layers 1, 2 and 4 still apply per district.
     SANITY = SanitySpec(
         min_rows=1,
+        # Layer 1's baseline comparison is off for the same reason drift is: the
+        # baseline is one history shared by twenty-six unrelated collectorates,
+        # so it holds the best page any of them ever produced. Bapatla posting
+        # one document was read as "1 row against a recent best of 8" and the
+        # whole source refused to write. min_rows still applies per district,
+        # which is the check that actually means something here.
+        row_floor_ratio=0.0,
         fields={
             "title": FieldRule(required=True, min_len=8, max_len=500),
             "url": FieldRule(required=True, min_len=10),
@@ -136,23 +143,64 @@ class DistrictDocumentsScraper(BaseScraper):
         total_saved = 0
         self._skipped_electoral = 0
 
+        self._unreachable_districts: list[str] = []
+        self._blocked_districts: list[str] = []
+        failure: BaseException | None = None
         try:
             for district, base in DISTRICT_SITES.items():
                 saved = await self._scrape_district(district, base)
                 total_saved += saved
                 logger.info(f"[{self.PORTAL_NAME}] {district}: saved {saved} new")
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
+
+        # A refusal belongs to the district that caused it. One collectorate
+        # publishing a thin page must not stop the other twenty-five from being
+        # read, which is what happened when SanityAbort escaped the district
+        # loop: the run ended at Bapatla and twenty-one districts were skipped.
+        # Once most of them refuse it is no longer one odd page, and the source
+        # as a whole is refused the way a single-portal scraper would be.
+        refused = len(self._blocked_districts)
+        if failure is None and refused * 3 >= len(DISTRICT_SITES):
+            raise SanityAbort(
+                f"{refused} of {len(DISTRICT_SITES)} district sites refused their batch "
+                f"({', '.join(self._blocked_districts[:5])}"
+                f"{' and more' if refused > 5 else ''}). Nothing written for those."
+            )
+        if refused:
+            self.note(
+                f"{refused} of {len(DISTRICT_SITES)} district sites refused their batch "
+                "and were skipped; the rest were read normally: "
+                + ", ".join(self._blocked_districts)
+            )
+
+        # One collectorate being down is weather. A third of them being down is
+        # a broken source, and the difference has to be visible: this scraper
+        # walked four of twenty-six districts and still reported a clean run.
+        down = len(self._unreachable_districts)
+        if failure is None and down * 3 >= len(DISTRICT_SITES):
+            failure = ScrapeIncomplete(
+                f"{down} of {len(DISTRICT_SITES)} district sites could not be read "
+                f"({', '.join(self._unreachable_districts[:5])}"
+                f"{' and more' if down > 5 else ''})"
+            )
+        elif down:
+            self.note(
+                f"{down} of {len(DISTRICT_SITES)} district sites could not be read: "
+                + ", ".join(self._unreachable_districts)
+            )
 
         if self._skipped_electoral:
             logger.info(
                 f"[{self.PORTAL_NAME}] skipped {self._skipped_electoral} electoral-roll/"
                 "voter documents (personal data — deliberately not indexed)"
             )
-        self.log_done(total_saved)
-        return total_saved
+        return self.finish(total_saved, failure)
 
     async def _scrape_district(self, district: str, base: str) -> int:
         saved = 0
@@ -162,6 +210,12 @@ class DistrictDocumentsScraper(BaseScraper):
                 response = await self.fetch(url)
             except Exception as e:
                 logger.warning(f"[{self.PORTAL_NAME}] {district} page {page} unreachable: {e}")
+                if page == 1:
+                    # Page one is the district's front door. Failing there means
+                    # this collectorate contributed nothing to the run, which is
+                    # what the threshold above counts. Failing on page four just
+                    # means the history is shallower than we asked for.
+                    self._unreachable_districts.append(district)
                 break
 
             entries, rows_seen = self._parse_page(response.text)
@@ -171,7 +225,12 @@ class DistrictDocumentsScraper(BaseScraper):
             if not entries:
                 continue  # page existed but was all filtered (e.g. voter rolls) — keep paging
 
-            new_count = await self._save(district, base, entries)
+            try:
+                new_count = await self._save(district, base, entries)
+            except SanityAbort as abort:
+                logger.warning(f"[{self.PORTAL_NAME}] {district} page {page} refused: {abort}")
+                self._blocked_districts.append(district)
+                break
             saved += new_count
 
             # Whole page already known -> everything older is known too.

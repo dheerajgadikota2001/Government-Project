@@ -175,6 +175,12 @@ class SanitySpec:
     fields: dict[str, FieldRule] = dc_field(default_factory=dict)
     # Above this share of rejected rows the parser is wrong, not the page.
     max_reject_ratio: float = 0.2
+    # ...but not below this many rejected rows, whatever the share. A ratio has
+    # no meaning on a tiny batch: a district collectorate whose page holds two
+    # documents, one of them titled "Notice", is 50% rejected and perfectly
+    # healthy. Three bad rows is the smallest number that can describe a parser
+    # rather than an unusual page.
+    min_rejects_to_abort: int = 3
 
     # Layer 3 — fields whose null rate is watched across runs. Defaults to every
     # declared field, which is usually what you want.
@@ -214,7 +220,13 @@ def summarise(rows: Sequence[dict], spec: SanitySpec) -> dict:
     record — this is the outline of the data, not the data.
     """
     n = len(rows)
-    watched = spec.drift_fields or tuple(spec.fields.keys())
+    # None means "watch every declared field", which is the useful default.
+    # An empty tuple means "watch none", and it has to be distinguished from
+    # None rather than tested for truth: `() or fields` is `fields`, so a
+    # scraper that switched drift off got every field watched instead. The
+    # district scraper has carried `drift_fields=()` and a comment explaining
+    # why since the day the gate was written, and drift was on the whole time.
+    watched = tuple(spec.fields.keys()) if spec.drift_fields is None else spec.drift_fields
 
     null_rates = {}
     for name in watched:
@@ -305,7 +317,8 @@ class SanityGate:
             (kept.append(row) if problem is None else rejected.append((row, problem)))
 
         total = len(kept) + len(rejected)
-        if total and (len(rejected) / total) > self.spec.max_reject_ratio:
+        if (total and len(rejected) >= self.spec.min_rejects_to_abort
+                and (len(rejected) / total) > self.spec.max_reject_ratio):
             reasons: dict[str, int] = {}
             for _, why in rejected:
                 reasons[why] = reasons.get(why, 0) + 1

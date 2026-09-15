@@ -28,7 +28,7 @@ import pdfplumber
 from sqlalchemy import select
 
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.progress_observation import ProgressObservation
@@ -133,6 +133,7 @@ class MospiProjectsScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         saved = 0
+        failure: BaseException | None = None
         try:
             pdf_path = await self._get_pdf()
             rows = self._parse_table7(pdf_path)
@@ -142,16 +143,23 @@ class MospiProjectsScraper(BaseScraper):
                 f"{len(ap)} in Andhra Pradesh"
             )
             saved = await self._save(ap)
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
-        self.log_done(saved)
-        return saved
+        return self.finish(saved, failure)
 
     async def _get_pdf(self) -> str:
         if os.path.exists(LOCAL_PDF):
-            logger.info(f"[{self.PORTAL_NAME}] using local PDF {LOCAL_PDF}")
+            # See the same note in amrut_projects: convenient locally, and
+            # invisible staleness on a schedule unless it is said out loud.
+            self.note(
+                f"read the local copy at {LOCAL_PDF} instead of downloading; "
+                "delete that file to force a fresh fetch of the MoSPI flash report"
+            )
             return LOCAL_PDF
         response = await self.fetch(SOURCE_URL)
         os.makedirs(os.path.dirname(LOCAL_PDF), exist_ok=True)

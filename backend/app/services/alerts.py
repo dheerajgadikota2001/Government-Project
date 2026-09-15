@@ -71,6 +71,7 @@ def build_body(report: dict) -> tuple[str, str]:
         quiet        [source, ...]
         still_failing [{title, detail}]   failed last run too; heartbeat only
         recovered    [source, ...]       failed last run, fine now
+        notes        [{source, note}]    true, worth knowing, not a failure
         dead         [{source_key, publisher, title, url}]
         run_id, started_at, duration_s, heartbeat (bool)
     """
@@ -79,6 +80,8 @@ def build_body(report: dict) -> tuple[str, str]:
     changed = report.get("changed") or []
     quiet = report.get("quiet") or []
     dead = report.get("dead") or []
+    still = report.get("still_failing") or []
+    notes = report.get("notes") or []
 
     # Subject carries the verdict, because it is often all that gets read.
     if needs:
@@ -86,6 +89,12 @@ def build_body(report: dict) -> tuple[str, str]:
         subject = f"[AP FactCheck] {len(needs)} need you: {headline}"
     elif blocked:
         subject = f"[AP FactCheck] {len(blocked)} write(s) blocked, data held, not lost"
+    elif still:
+        # "All clear" while six portals are down is the exact sentence that let
+        # this go unnoticed. A source that was reported when it broke is not
+        # news, but it is not clear either, and the subject is often all that
+        # gets read.
+        subject = f"[AP FactCheck] {len(still)} source(s) still failing, nothing new"
     else:
         total = sum(item.get("count", 0) for item in changed)
         subject = f"[AP FactCheck] All clear: {len(changed) + len(quiet)} sources, {total} new records"
@@ -103,6 +112,14 @@ def build_body(report: dict) -> tuple[str, str]:
                 lines.append(f"   {item['url']}")
             lines.append(f"   -> {item['action']}")
             lines.append("")
+    elif still:
+        # Deliberately a count and not the list: the detail belongs to the
+        # heartbeat, and repeating it nightly is what trains a reader to stop
+        # reading. But "every scraper is working" must never print over the top
+        # of sources that are not.
+        lines += ["NEEDS YOU (0)", RULE,
+                  f"Nothing new. {len(still)} source(s) reported earlier are still broken; "
+                  "the weekly heartbeat lists them.", ""]
     else:
         lines += ["NEEDS YOU (0)", RULE, "Nothing. Every source is current and every scraper is working.", ""]
 
@@ -112,7 +129,6 @@ def build_body(report: dict) -> tuple[str, str]:
         lines += [f"{name}: was failing, ran clean this time. Nothing to do." for name in recovered]
         lines.append("")
 
-    still = report.get("still_failing") or []
     if still and report.get("heartbeat"):
         lines += [f"STILL FAILING ({len(still)})", RULE,
                   "Already reported. Listed here so the weekly picture is complete."]
@@ -139,6 +155,16 @@ def build_body(report: dict) -> tuple[str, str]:
 
     if quiet:
         lines += [f"QUIET, ran clean, nothing new ({len(quiet)})", ", ".join(quiet), ""]
+
+    if notes:
+        # Not failures, and not actions. Things that are true about how the run
+        # got its data and that a reader would want to know before trusting a
+        # date on the site: "this register was read from a local copy, so it
+        # cannot have picked up a newer edition".
+        lines += [f"WORTH KNOWING ({len(notes)})", RULE]
+        for item in notes:
+            lines.append(f"{item['source']}: {item['note']}")
+        lines.append("")
 
     lines += [f"DEAD CITATIONS ({len(dead)})"]
     if dead:
