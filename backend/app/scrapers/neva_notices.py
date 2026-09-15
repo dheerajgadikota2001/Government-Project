@@ -24,7 +24,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -50,18 +50,21 @@ class NevaNoticesScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         total_saved = 0
+        failure: BaseException | None = None
         try:
             response = await self.fetch(NEVA_HOME)
             entries = self._parse(response.text)
             total_saved = await self._save(entries)
             logger.info(f"[{self.PORTAL_NAME}] Notice board: {len(entries)} entries, {total_saved} new")
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
 
-        self.log_done(total_saved)
-        return total_saved
+        return self.finish(total_saved, failure)
 
     def _parse(self, html: str) -> list[dict]:
         soup = BeautifulSoup(html, "lxml")

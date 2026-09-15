@@ -26,7 +26,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -54,6 +54,7 @@ class APFinanceBudgetScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         total_saved = 0
+        failure: BaseException | None = None
 
         try:
             response = await self.fetch(BUDGET_PAGE_URL)
@@ -96,13 +97,15 @@ class APFinanceBudgetScraper(BaseScraper):
             total_saved += saved
             logger.info(f"[{self.PORTAL_NAME}] Found {len(entries)} unique documents, saved {saved} new")
 
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
 
-        self.log_done(total_saved)
-        return total_saved
+        return self.finish(total_saved, failure)
 
     def _absolute(self, href: str) -> str:
         if href.startswith("http"):
