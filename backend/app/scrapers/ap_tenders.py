@@ -11,6 +11,7 @@ import re
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import SanityAbort
 from app.database import get_db_context
 from app.models.tender import Tender, TenderStatus, TenderType
 from app.utils.logger import logger
@@ -34,6 +35,7 @@ class APTendersScraper(BaseScraper):
         self.log_start()
         total_saved = 0
         page = 1
+        failure: BaseException | None = None
 
         try:
             while True:
@@ -49,13 +51,15 @@ class APTendersScraper(BaseScraper):
                     break
                 page += 1
 
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
 
-        self.log_done(total_saved)
-        return total_saved
+        return self.finish(total_saved, failure)
 
     async def _fetch_tender_list(self, page: int) -> list[dict]:
         """

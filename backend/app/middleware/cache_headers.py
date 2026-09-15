@@ -74,7 +74,21 @@ NEVER_CACHE_FRAGMENTS: tuple[str, ...] = (
 
 # Browsers get a short timer; the CDN gets the real one. Serving stale while
 # revalidating means a reader on a village connection is never blocked on us.
-BROWSER_MAX_AGE = 60
+#
+# Why 300 and not 60:
+# A correction does not wait for this timer. Every API call the app makes
+# carries `?v=<version stamp>`, so the moment the stamp moves the URL is
+# different and the old response is unreachable, whatever its age. The stamp
+# itself is refetched every 30 seconds (see FRESHNESS_OVERRIDES). So this
+# number governs only how often a reader refetches data that has not changed.
+#
+# At 60 it was costing real time. Switching language is a full page load, and
+# a reader who had been reading for more than a minute refetched the whole
+# page's data to see the same figures in a different script. Five minutes
+# covers a session's worth of moving around the site, and stale-while-
+# revalidate means even an expired entry is served instantly and refreshed
+# behind the reader rather than in front of them.
+BROWSER_MAX_AGE = 300
 STALE_WHILE_REVALIDATE = 3600
 
 # Paths whose freshness window must be tighter than the site-wide default.
@@ -121,6 +135,13 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
         # robots.txt governs the fetch, this header governs the listing. Set on
         # every response, including errors, because a 500 body has even less
         # business appearing in a search result than a 200 one.
+        #
+        # One response never reaches this line: a crash. An unhandled exception
+        # is turned into a 500 by ServerErrorMiddleware, which Starlette keeps
+        # outside every middleware added with add_middleware, so that response
+        # is built above this one and leaves without passing through it. The
+        # same two headers are therefore repeated in global_exception_handler
+        # in app/main.py. If you change either header here, change it there.
         response.headers["X-Robots-Tag"] = "noindex"
 
         # Only successful reads are ever cacheable. Writes change state; redirects

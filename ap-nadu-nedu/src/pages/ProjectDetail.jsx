@@ -3,10 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { applySeo, seoForProject } from '../lib/seo'
 import { projectTrail } from '../lib/schema'
+import { projectSummary } from '../lib/projectSummary'
+import { croreAmount } from '../lib/money'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
 import Deferred from '../components/Deferred'
 import SourceDocuments from '../components/SourceDocuments'
+import RelatedProjects from '../components/RelatedProjects'
 import PageThread from '../components/community/PageThread'
 import { TENURE_COLOR } from '../lib/tenure'
 import { EVENTS, track } from '../lib/analytics'
@@ -323,6 +326,8 @@ export default function ProjectDetail() {
   const obs = extras?.observations || []
   const latestObs = obs.length ? obs[obs.length - 1] : null
 
+  const summary = projectSummary({ project, observation: latestObs, t, fmtNum: fmtIN, fmtMonth })
+
   // Identity facts: rendered only when the record actually carries them.
   const facts = [
     project.external_id && {
@@ -372,7 +377,7 @@ export default function ProjectDetail() {
           ? t('projectDetail.timeline.physicalProgress', { pct: o.completion_percentage })
           : t('projectDetail.timeline.progressObservation'),
         o.cumulative_expenditure_crore != null
-          ? t('projectDetail.timeline.cumulativeSpend', { amount: fmtIN(Math.round(o.cumulative_expenditure_crore)), unit: t('unit.crore') })
+          ? t('projectDetail.timeline.cumulativeSpend', { amount: croreAmount(o.cumulative_expenditure_crore, fmtIN), unit: t('unit.crore') })
           : null,
         // The source's own printed context (targets, ayacut, pre-closures,
         // and figures that move backwards between editions), API content
@@ -402,16 +407,31 @@ export default function ProjectDetail() {
         </p>
       </div>
 
+      {/* The answer, in a sentence.
+          Every number on this page used to live in a tile, and a tile is not
+          text. A page holding the only cited answer to "how much has been
+          spent on Polavaram" did not contain that sentence anywhere, so a
+          search for it could not match. This says it, in the reader's
+          language, generated from the record for all of them rather than
+          hand-written for the famous few. Clauses drop out when the record is
+          thin, so a sparse project gets a short paragraph and never an
+          invented figure. */}
+      {summary.length > 0 && (
+        <p className="text-body-lg text-on-surface max-w-3xl">
+          {summary.join(' ')}
+        </p>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Tile title={t('projectDetail.tiles.estimatedCost')} value={project.estimated_cost_crore != null ? `₹${fmtIN(Math.round(project.estimated_cost_crore))} ${t('unit.crore')}` : t('common.notPublished')} />
+        <Tile title={t('projectDetail.tiles.estimatedCost')} value={project.estimated_cost_crore != null ? `₹${croreAmount(project.estimated_cost_crore, fmtIN)} ${t('unit.crore')}` : t('common.notPublished')} />
         <Tile title={t('projectDetail.tiles.physicalProgress')} value={project.completion_percentage != null ? `${project.completion_percentage}%` : t('common.notPublished')}
           detail={t(project.completion_percentage != null ? 'projectDetail.tiles.perLatestSource' : 'projectDetail.tiles.noOfficialFigure')} />
         {latestObs?.cumulative_expenditure_crore != null && (
-          <Tile title={t('projectDetail.tiles.moneySpent')} value={`₹${fmtIN(Math.round(latestObs.cumulative_expenditure_crore))} ${t('unit.crore')}`}
+          <Tile title={t('projectDetail.tiles.moneySpent')} value={`₹${croreAmount(latestObs.cumulative_expenditure_crore, fmtIN)} ${t('unit.crore')}`}
             detail={`${t('projectDetail.tiles.cumulativeAsOf', { date: fmtMonth(latestObs.observed_date) })}${latestObs.source_label ? ` · ${latestObs.source_label}` : ''}`} />
         )}
         {project.actual_cost_crore != null && (
-          <Tile title={t('projectDetail.tiles.actualCost')} value={`₹${fmtIN(Math.round(project.actual_cost_crore))} ${t('unit.crore')}`} detail={t('projectDetail.tiles.asRecordedOnCompletion')} />
+          <Tile title={t('projectDetail.tiles.actualCost')} value={`₹${croreAmount(project.actual_cost_crore, fmtIN)} ${t('unit.crore')}`} detail={t('projectDetail.tiles.asRecordedOnCompletion')} />
         )}
         <Tile title={t(project.actual_completion ? 'projectDetail.tiles.completed' : 'projectDetail.tiles.expectedCompletion')}
           value={fmtMonth(project.actual_completion || project.expected_completion) || t('common.notPublished')} />
@@ -514,6 +534,8 @@ export default function ProjectDetail() {
       <p className="text-label-sm text-on-surface-variant border-t border-surface-variant pt-3">
         {t('projectDetail.correctionNote')}
       </p>
+
+      <RelatedProjects project={project} typeLabel={typeLabel} />
 
       <Deferred minHeight={320}><PageThread pageKey={`project:${id}`} /></Deferred>
     </div>

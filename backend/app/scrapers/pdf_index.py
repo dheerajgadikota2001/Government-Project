@@ -37,8 +37,8 @@ import re
 from bs4 import BeautifulSoup
 from sqlalchemy import select
 
-from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.base import BaseScraper, ScrapeIncomplete
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -98,22 +98,42 @@ class PdfIndexScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         total = 0
+        links_found = 0
         seen: set[str] = set()      # within-run dedupe: index pages overlap
+        failure: BaseException | None = None
         try:
             for page in self.INDEX_PAGES:
                 found = await self._walk(page, seen)
                 if not found:
                     logger.warning(f"[{self.PORTAL_NAME}] No documents on {page}")
                     continue
+                links_found += len(found)
                 saved = await self._save(found)
                 total += saved
                 logger.info(f"[{self.PORTAL_NAME}] {page}: {len(found)} links, {saved} new")
+        except SanityAbort:
+            # A deliberate refusal. It has to reach the recorder as BLOCKED, not
+            # be flattened into a crash here.
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
-        self.log_done(total)
-        return total
+
+        if failure is None and not self.unreachable() and links_found == 0:
+            # Every index page answered and not one document link matched.
+            # These registers are never empty: CSE has always carried its
+            # Educational Statistics volumes, APSDPS its publications, PPA its
+            # annual reports. Zero links means the page was rebuilt around us,
+            # which is precisely the drift this platform exists to catch and
+            # precisely the shape of failure that used to pass as a clean run.
+            failure = ScrapeIncomplete(
+                f"{len(self.INDEX_PAGES)} index page(s) answered but no document link "
+                "matched. The page layout or the REQUIRE filter has drifted; re-probe "
+                "the portal before changing the parser."
+            )
+        return self.finish(total, failure)
 
     async def _walk(self, page_url: str, seen: set[str]) -> list[dict]:
         try:

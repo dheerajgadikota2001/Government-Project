@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Navigate, useParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
+import { applySeo } from '../lib/seo'
+import { findFinanceQuestion, FINANCE_QUESTIONS, financeQuestionPath } from '../lib/financeQuestions'
+import FinanceQuestionMenu from '../components/FinanceQuestionMenu'
 import { VizSection, StatTiles, useChartTip, fmtIN, SEQ, HBarChart } from '../components/advanced/ChartPrimitives'
 import Deferred from '../components/Deferred'
 import { FinancesHero } from '../components/HeroInsights'
@@ -267,6 +271,22 @@ export default function Finances() {
   const [error, setError] = useState(null)
   const tip = useChartTip()
 
+  // Which question is open comes from the address, never from state: see
+  // financeQuestions.js. /finances opens on the first question; a slug that is
+  // not on the list goes back to /finances rather than showing an empty menu.
+  const { question: slug } = useParams()
+  const active = (slug && findFinanceQuestion(slug)) || FINANCE_QUESTIONS[0]
+  const unknownSlug = Boolean(slug) && !findFinanceQuestion(slug)
+
+  // The route table only knows "/finances/:question". The question knows its
+  // own title, so it sets it. Runs after the Seo component's effect (that one
+  // is mounted before the routes), so this is the title that stays.
+  useEffect(() => {
+    if (unknownSlug) return
+    if (slug) applySeo(financeQuestionPath(active.slug), { title: active.title, description: active.description })
+    else applySeo('/finances')
+  }, [slug, active, unknownSlug])
+
   useEffect(() => {
     apiGet('/governments/').then(g => setGov(g)).catch(() => {})
     apiGet('/finances/').then(d => { setData(d); setError(null) }).catch(setError)
@@ -336,6 +356,8 @@ export default function Finances() {
     }).filter(Boolean)
   }, [bySeries, gsdp])
 
+  if (unknownSlug) return <Navigate to="/finances" replace />
+
   if (error) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-10">
@@ -370,6 +392,11 @@ export default function Finances() {
         {gov && <FinancesHero finances={data} governments={gov} />}
       </QuestionSection>
 
+      {/* Everything above stays on every visit. Everything below is one
+          question at a time: the menu decides which of these renders. */}
+      <FinanceQuestionMenu active={active}>
+
+      {active.id === 'three-sources' && (
       <QuestionSection
         id="three-sources"
         question={t('finances.q.threeSources')}
@@ -389,13 +416,15 @@ export default function Finances() {
           <SectionSources data={data} sectionKey="debt" />
         </VizSection>
       </QuestionSection>
+      )}
 
-      {data.composition?.cag_three_way && (
+      {active.id === 'debt-composition' && (
         <QuestionSection
           id="debt-composition"
           question={t('finances.q.composition')}
           answer={t('finances.a.composition')}
         >
+          {data.composition?.cag_three_way && (
           <VizSection
             title={t('finances.composition.title')}
             info={<InfoTip tip={tip} text={data.glossary?.composition} />}
@@ -442,9 +471,11 @@ export default function Finances() {
               </div>
             )}
           </VizSection>
+          )}
         </QuestionSection>
       )}
 
+      {active.id === 'off-budget' && (
       <QuestionSection
         id="off-budget"
         question={t('finances.q.hidden')}
@@ -486,7 +517,9 @@ export default function Finances() {
           </VizSection>
         </div>
       </QuestionSection>
+      )}
 
+      {active.id === 'ratio' && (
       <QuestionSection
         id="ratio"
         question={t('finances.q.tooBig')}
@@ -506,10 +539,12 @@ export default function Finances() {
           <SectionSources data={data} sectionKey="ratio" />
         </VizSection>
       </QuestionSection>
+      )}
 
       {/* What interest takes before any new decision is possible. */}
-      <CommittedSpending data={data} tip={tip} />
+      {active.id === 'committed' && <CommittedSpending data={data} tip={tip} />}
 
+      {active.id === 'deficits' && (
       <QuestionSection
         id="deficits"
         question={t('finances.q.deficits')}
@@ -532,10 +567,12 @@ export default function Finances() {
           <SectionSources data={data} sectionKey="deficits" />
         </VizSection>
       </QuestionSection>
+      )}
 
       {/* Voted by the Assembly, against what actually left the treasury. */}
-      <PromisedVsSpent data={data} tip={tip} />
+      {active.id === 'promised' && <PromisedVsSpent data={data} tip={tip} />}
 
+      {active.id === 'departments' && (
       <QuestionSection
         id="departments"
         question={t('finances.q.departments')}
@@ -543,7 +580,9 @@ export default function Finances() {
       >
         <Deferred minHeight={520}><DepartmentSpending /></Deferred>
       </QuestionSection>
+      )}
 
+      {active.id === 'claims' && (
       <QuestionSection
         id="claims"
         question={t('finances.q.claims')}
@@ -568,8 +607,11 @@ export default function Finances() {
         </div>
         <SectionSources data={data} sectionKey="claims" />
       </QuestionSection>
+      )}
 
-      <section className="flex flex-col gap-2 border-t border-surface-variant pt-6">
+      </FinanceQuestionMenu>
+
+      <section id="all-sources" className="scroll-mt-20 flex flex-col gap-2 border-t border-surface-variant pt-6">
         <h2 className="text-title-lg font-title-lg text-on-surface">{t('finances.sources.allTitle')}</h2>
         <ul className="text-label-md text-on-surface-variant flex flex-col gap-1.5 leading-relaxed">
           {Object.entries(data.sources).map(([k, s]) => (

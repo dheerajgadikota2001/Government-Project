@@ -14,7 +14,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from app.config import settings
-from app.middleware import CacheControlMiddleware
+from app.middleware import CacheControlMiddleware, NO_STORE
 from app.database import init_db, close_db, engine
 from app.services.cache import close_redis
 from app.utils.logger import logger
@@ -188,8 +188,26 @@ async def root():
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    """The last line before a crash reaches a reader.
+
+    THE HEADERS ARE SET HERE AND NOT LEFT TO THE MIDDLEWARE, ON PURPOSE.
+
+    Starlette runs this handler inside ServerErrorMiddleware, which sits
+    OUTSIDE everything added with add_middleware. So the response built here
+    never passes back through CacheControlMiddleware, and until this was
+    fixed every 500 the API produced left with no X-Robots-Tag and no
+    Cache-Control at all. The middleware could not have caught it; by the time
+    it would have run, the exception had already gone past it.
+
+    That is the exact failure test_seo_headers.py exists to prevent: an
+    uncached, unindexed rule that quietly stops applying to error responses,
+    which are the ones with the least business being listed in a search result
+    or pinned at an edge cache. Both headers are repeated here so the promise
+    holds on the one response nobody is watching.
+    """
     logger.error(f"Unhandled exception on {request.url}: {exc}", exc_info=True)
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal server error. Our team has been notified."},
+        headers={"X-Robots-Tag": "noindex", "Cache-Control": NO_STORE},
     )

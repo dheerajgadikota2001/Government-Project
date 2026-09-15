@@ -57,7 +57,7 @@ from sqlalchemy import select
 
 from app.config import settings
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
 from app.utils.logger import logger
@@ -110,6 +110,7 @@ class APLegislatureBillsScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         total = 0
+        failure: BaseException | None = None
         try:
             term_param, options = await self._discover_terms()
             if not options:
@@ -140,12 +141,14 @@ class APLegislatureBillsScraper(BaseScraper):
                 saved = await self._save(rows, label, start_year, end_year)
                 total += saved
                 logger.info(f"[{self.PORTAL_NAME}] Term {label}: {len(rows)} rows, {saved} new")
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
-        self.log_done(total)
-        return total
+        return self.finish(total, failure)
 
     def _term_years(self, label: str) -> tuple[Optional[int], Optional[int]]:
         """Pull "(2024 - 2029)" out of the option label the portal supplied."""

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { LANGUAGES, useT } from '../../i18n'
+import { LANGUAGES, useT, preloadLanguage } from '../../i18n'
 
 /**
  * Language picker.
@@ -55,6 +55,15 @@ export default function LanguageSwitcher() {
           <li className="px-3 pb-1.5 pt-0.5 text-label-sm text-on-surface-variant border-b border-surface-variant mb-1">
             {t('lang.choose')}
           </li>
+          {/*
+            Each option warms its own catalogue on hover, focus or the first
+            touch of a tap. The catalogue is a 41-57 KB chunk the browser
+            cannot know to fetch until after the switch has already happened,
+            so without this the reader clicks, sees a white screen, and waits
+            for a file nothing had asked for. Starting it on approach spends
+            the few hundred milliseconds between reaching for a language and
+            selecting it, which is time that was being thrown away.
+          */}
           {LANGUAGES.map(l => {
             const active = l.code === lang
             return (
@@ -64,6 +73,9 @@ export default function LanguageSwitcher() {
                     setLang(l.code)
                     setOpen(false)
                   }}
+                  onMouseEnter={() => preloadLanguage(l.code)}
+                  onPointerEnter={() => preloadLanguage(l.code)}
+                  onFocus={() => preloadLanguage(l.code)}
                   lang={l.code}
                   dir={l.dir}
                   className={`w-full text-start px-3 py-2 flex items-center justify-between gap-3 transition-colors ${

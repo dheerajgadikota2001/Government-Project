@@ -8,6 +8,7 @@ from typing import Optional
 import feedparser
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.sanity import SanityAbort
 from app.database import get_db_context
 from app.models.news import NewsArticle, NewsCategory, NewsSource
 from app.services.summarization import SummarizationService
@@ -29,18 +30,21 @@ class BaseNewsScraper(BaseScraper):
         """Scrape latest articles from RSS feed."""
         self.log_start()
         total = 0
+        failure: BaseException | None = None
 
         try:
             articles = await self._fetch_rss()
             if articles:
                 total = await self._save_articles(articles)
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("News scrape failed", e)
+            failure = e
         finally:
             await self.close()
 
-        self.log_done(total)
-        return total
+        return self.finish(total, failure)
 
     async def _fetch_rss(self) -> list[dict]:
         """Parse RSS feed and return list of article dicts."""

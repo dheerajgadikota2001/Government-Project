@@ -9,10 +9,11 @@
     "sitemap": "node scripts/generate-sitemap.mjs",
     "prebuild": "node scripts/icon-font.mjs",
     "build": "vite build",
-    "postbuild": "node scripts/csp-hash-check.mjs",
+    "postbuild": "node scripts/csp-hash-check.mjs && node scripts/prerender.mjs",
     "preview": "vite preview",
     "layout-audit": "node scripts/layout-audit.mjs",
-    "test:unit": "node --test scripts/tests/*.test.mjs"
+    "test:unit": "node --test scripts/tests/*.test.mjs",
+    "prerender": "node scripts/prerender.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

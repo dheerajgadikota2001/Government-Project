@@ -39,7 +39,10 @@ const args = process.argv.slice(2)
 const apiFlag = args.indexOf('--api')
 const API = apiFlag !== -1 ? args[apiFlag + 1] : 'https://apfactcheck.dheeco.com/api/v1'
 
-const { SITE_ORIGIN, STATIC_ROUTES } = await import('../src/lib/routes.js')
+const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath } = await import('../src/lib/routes.js')
+const { departmentPath } = await import('../src/lib/departmentSummary.js')
+const { FACT_CHECKS, factCheckPath } = await import('../src/lib/factcheck.js')
+const { FINANCE_QUESTIONS, financeQuestionPath } = await import('../src/lib/financeQuestions.js')
 
 // changefreq and priority are hints Google has said for years it largely
 // ignores, kept because other crawlers still read them and they cost nothing.
@@ -52,7 +55,12 @@ const FREQ = {
 }
 
 async function get(path) {
-  const res = await fetch(API + path, { headers: { accept: 'application/json' } })
+  // The API sits behind a CDN that keeps a copy for five minutes and serves it
+  // stale for an hour after that. Right after a backend deploy that copy still
+  // has the old shape, and this script would read it and refuse to publish.
+  // A parameter the API ignores makes every request its own cache key.
+  const sep = path.includes('?') ? '&' : '?'
+  const res = await fetch(`${API}${path}${sep}fresh=${Date.now()}`, { headers: { accept: 'application/json' } })
   if (!res.ok) throw new Error(`${path} returned ${res.status}`)
   return res.json()
 }
@@ -70,27 +78,65 @@ async function get(path) {
  * count is checked against total afterwards, so a truncated walk fails loudly
  * instead of publishing a sitemap that quietly forgets half the site.
  */
-async function projectIds() {
-  const ids = []
+/**
+ * Every project, with the date its record last changed.
+ *
+ * The date is why this returns records rather than ids. With 691 URLs Google
+ * would work through everything eventually; with 4302 it uses lastmod to
+ * decide what to look at first. Without it, a project whose spend figure moved
+ * last week waits behind four thousand pages that did not change at all.
+ */
+async function projectRecords() {
+  const items = []
   let expected = null
   for (let page = 1; page <= 200; page++) {
     const r = await get(`/projects/?page=${page}&page_size=100`)
     expected = r.total ?? expected
-    for (const item of r.items || []) if (item?.id != null) ids.push(item.id)
+    for (const item of r.items || []) {
+      if (item?.id != null) items.push({ id: item.id, updated: item.updated_at || null })
+    }
     if (!r.has_next) break
   }
-  if (expected != null && ids.length !== expected) {
-    throw new Error(`walked ${ids.length} projects but the register reports ${expected}`)
+  if (expected != null && items.length !== expected) {
+    throw new Error(`walked ${items.length} projects but the register reports ${expected}`)
   }
-  return ids
+  return items
+}
+
+/** W3C date, which is the only format a sitemap may carry. Bad input is dropped. */
+const isoDay = value => {
+  if (!value) return null
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10)
 }
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-function url(loc, changefreq, priority) {
-  return `  <url>\n    <loc>${esc(loc)}</loc>\n` +
-         `    <changefreq>${changefreq}</changefreq>\n` +
-         `    <priority>${priority}</priority>\n  </url>`
+/**
+ * One page, six addresses.
+ *
+ * Every language gets its own <url> entry, and each entry lists all six as
+ * alternates plus x-default. Google's rule is that the annotation has to be
+ * reciprocal: if the Telugu URL does not name the English one back, the pair
+ * is ignored and the two are read as duplicates competing with each other. So
+ * the full set is repeated inside every entry. It is verbose and it is the
+ * format.
+ */
+function url(path, changefreq, priority, lastmod) {
+  const links = LANG_CODES
+    .map(code =>
+      `    <xhtml:link rel="alternate" hreflang="${code}" href="${esc(SITE_ORIGIN + localizedPath(code, path))}"/>`)
+    .concat(
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITE_ORIGIN + localizedPath('en', path))}"/>`)
+    .join('\n')
+
+  return LANG_CODES.map(code =>
+    `  <url>\n    <loc>${esc(SITE_ORIGIN + localizedPath(code, path))}</loc>\n` +
+    `${links}\n` +
+    (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
+    `    <changefreq>${changefreq}</changefreq>\n` +
+    `    <priority>${priority}</priority>\n  </url>`,
+  ).join('\n')
 }
 
 /**
@@ -129,19 +175,28 @@ async function districts() {
 
 const entries = []
 
-for (const route of STATIC_ROUTES) {
-  const [freq, pri] = FREQ[route.pattern] || ['weekly', '0.5']
-  entries.push(url(SITE_ORIGIN + (route.pattern === '/' ? '/' : route.pattern), freq, pri))
-}
 
 let ids = []
 try {
-  ids = await projectIds()
+  ids = await projectRecords()
 } catch (err) {
   console.error(`\nCould not reach the register at ${API}`)
   console.error(`  ${err.message}`)
   console.error('\nRefusing to write a sitemap that silently drops every project.')
   console.error('The existing public/sitemap.xml is left untouched.\n')
+  process.exit(1)
+}
+
+// A register where nothing has ever been updated is not a register, it is a
+// list endpoint that forgot to send the field. That is exactly what happened
+// the first time this ran: updated_at was absent from the list response, every
+// lastmod came back null, the file was written without a single date, and a
+// test failure was read as "expected until regenerated" and committed over.
+// So this refuses rather than degrades.
+if (ids.length && !ids.some(p => p.updated)) {
+  console.error('\nNo project in the register carries updated_at, so no lastmod can be written.')
+  console.error('The list endpoint is not sending the field. Refusing to publish a sitemap')
+  console.error('that tells Google nothing has ever changed.\n')
   process.exit(1)
 }
 
@@ -160,12 +215,67 @@ try {
   process.exit(1)
 }
 
-for (const district of names) {
-  entries.push(url(`${SITE_ORIGIN}/projects?district=${encodeURIComponent(district)}`, 'weekly', '0.8'))
+// The newest record in the register. A district page and the register itself
+// are as fresh as the most recent thing on them, which is a truthful claim and
+// the one that gets them recrawled when something actually moves.
+const newest = ids
+  .map(p => isoDay(p.updated))
+  .filter(Boolean)
+  .sort()
+  .pop() || null
+
+// The static pages are written after the register has answered, so they can
+// carry the same date. They are views onto the data, so the honest lastmod for
+// the homepage is the day the newest record changed, not the day of the build.
+for (const route of STATIC_ROUTES) {
+  const [freq, pri] = FREQ[route.pattern] || ['weekly', '0.5']
+  entries.push(url(route.pattern === '/' ? '/' : route.pattern, freq, pri, newest))
 }
 
-for (const id of ids) {
-  entries.push(url(`${SITE_ORIGIN}/projects/${id}`, 'weekly', '0.7'))
+for (const district of names) {
+  entries.push(url(districtPath(district), 'weekly', '0.8', newest))
+}
+
+/**
+ * The forty voted demands.
+ *
+ * Thirteen years of budget volumes each, already collected and already cited,
+ * and until now with no address of their own. Refusing to publish a sitemap
+ * over a failure here would be wrong: the register is the load-bearing part
+ * and these are an addition to it, so a missing department list costs forty
+ * URLs and not the whole file.
+ */
+let departments = []
+try {
+  const r = await get('/finances/departments')
+  departments = (r.departments || []).map(d => d.department).filter(Boolean)
+} catch (err) {
+  console.error(`Could not read the department list: ${err.message}`)
+  console.error('Publishing without the forty department pages.')
+}
+
+// The finances questions are code, not data, so like the fact checks they are
+// never missing because a server was down. Their figures move with every
+// budget document, so they carry the register's newest date.
+for (const question of FINANCE_QUESTIONS) {
+  entries.push(url(financeQuestionPath(question.slug), 'monthly', '0.8', newest))
+}
+
+// Fact checks are reviewed data in the repo, not fetched, so they can never be
+// missing from a sitemap because a server was down.
+// lastmod is when the page changed, not when the claim was made: a white
+// paper from 2019 is checked against records that move with every budget, so
+// the page carries the register's newest date like every other computed page.
+for (const check of FACT_CHECKS) {
+  entries.push(url(factCheckPath(check.slug), 'monthly', '0.8', newest))
+}
+
+for (const name of departments) {
+  entries.push(url(departmentPath(name), 'yearly', '0.7', newest))
+}
+
+for (const project of ids) {
+  entries.push(url(`/projects/${project.id}`, 'weekly', '0.7', isoDay(project.updated)))
 }
 
 const xml =
@@ -177,11 +287,15 @@ const xml =
   project register. Run "npm run sitemap" after the register changes, and
   commit the result.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${entries.join('\n')}
 </urlset>
 `
 
 writeFileSync(OUT, xml, 'utf8')
-console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${names.length} districts + ${ids.length} projects = ${entries.length} URLs`)
+const pages = STATIC_ROUTES.length + FINANCE_QUESTIONS.length + FACT_CHECKS.length + names.length + departments.length + ids.length
+console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${names.length} districts` +
+  ` + ${departments.length} departments + ${ids.length} projects` +
+  ` = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
 console.log(`written to public/sitemap.xml`)

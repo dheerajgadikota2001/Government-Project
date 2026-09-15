@@ -91,11 +91,19 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
     changed: list[dict] = []
     quiet: list[str] = []
     broke: list[dict] = []
+    notes: list[dict] = []
 
     for _group, name, cls in selected:
         logger.info(f"=== {name} ===")
+        # The instance is held rather than thrown away inline, because a scraper
+        # has something to say beyond its count: which requests failed, and
+        # whether it read a local copy instead of the portal.
+        scraper = cls()
         async with track(run_id, name, cls, trigger) as slot:
-            slot["records_new"] = await cls().scrape()
+            slot["records_new"] = await scraper.scrape()
+
+        for text in getattr(scraper, "notes", []):
+            notes.append({"source": name, "note": text})
 
         if slot.get("blocked"):
             # Deliberate refusal, not a crash. Nothing was written and the site
@@ -106,8 +114,13 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
             blocked.append({"source": name, "reason": slot["blocked"]})
             summary.append((name, "BLOCKED"))
         elif slot.get("failed"):
-            summary.append((name, "FAILED"))
-            broke.append({"source": name, "error": str(slot.get("error") or "")[:300]})
+            saved = slot.get("records_new") or 0
+            summary.append((name, "FAILED" + (f", {saved} saved first" if saved else "")))
+            broke.append({
+                "source": name,
+                "error": str(slot.get("error") or "")[:300],
+                "saved": saved,
+            })
         else:
             count = slot.get("records_new") or 0
             summary.append((name, f"{count} new"))
@@ -120,13 +133,19 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
 
     # A non-zero exit is what makes Cloud Scheduler mark the run failed and
     # trigger the alert, so a run where every source broke must not look fine.
-    ok_sources = [name for name, outcome in summary if outcome not in ("FAILED", "BLOCKED")]
-    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources)
+    ok_sources = [name for name, outcome in summary if not outcome.startswith(("FAILED", "BLOCKED"))]
+    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes)
 
-    failed = [name for name, outcome in summary if outcome == "FAILED"]
+    failed = [item["source"] for item in broke]
+    if failed:
+        logger.error(f"{len(failed)} of {len(summary)} source(s) failed: {', '.join(failed)}")
     if failed and len(failed) == len(summary):
         logger.error("Every source failed. Exiting non-zero so the job is flagged.")
         return 1
+    # A partial failure deliberately still exits zero. Cloud Run retries a failed
+    # job, and retrying the whole run because one portal was down would re-walk
+    # ten healthy government sites for nothing. The email is the channel for a
+    # partial failure; the exit code is for a run that achieved nothing at all.
     return 0
 
 
@@ -151,7 +170,7 @@ def _advice(error: str) -> str:
     return "Read the error above; re-probe the portal before changing the parser."
 
 
-async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources) -> None:
+async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes=None) -> None:
     """Assemble the run into the alert report and hand it to the sender.
 
     Never raises. An email that cannot be sent is a nuisance; a refresh run that
@@ -165,18 +184,48 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources) ->
         # source that was failing and is now fine is worth one email of its own,
         # because "it fixed itself" is a fact a person wants to stop worrying about.
         from app.models.data_update import RunStatus
-        from app.services.run_recorder import previous_status
+        from app.services.run_recorder import (
+            crossed_an_escalation, failure_streak, previous_status,
+        )
 
+        now = datetime.now(timezone.utc)
         needs_you, still_failing, recovered = [], [], []
         for item in broke:
             prev = await previous_status(item["source"], run_id)
+            saved = item.get("saved") or 0
+            detail = f"Error: {item['error']}" if item.get("error") else ""
+            if saved:
+                # Without this the email reads as though nothing was collected,
+                # and someone goes looking for rows that are already there.
+                detail = (detail + "\n" if detail else "") + \
+                    f"{saved} record(s) were saved before it broke; the rest of this source was not read."
             entry = {
                 "kind": "scraper failing",
                 "title": item["source"],
-                "detail": f"Error: {item['error']}" if item.get("error") else "",
+                "detail": detail,
                 "action": _advice(item.get("error", "")),
             }
-            (still_failing if prev == RunStatus.FAILED else needs_you).append(entry)
+            if prev != RunStatus.FAILED:
+                needs_you.append(entry)
+                continue
+
+            # Already reported when it first broke. Re-report it as the streak
+            # lengthens, so one missed email cannot turn into months of silence.
+            streak = await failure_streak(item["source"], run_id)
+            if streak:
+                streak_started_at, previous_run_at = streak
+                days_now = (now - streak_started_at).total_seconds() / 86400
+                days_before = (previous_run_at - streak_started_at).total_seconds() / 86400
+                if crossed_an_escalation(days_now, days_before):
+                    entry["kind"] = "scraper failing for days"
+                    entry["detail"] = (
+                        f"Failing since {streak_started_at.date().isoformat()}, "
+                        f"{days_now:.0f} days. " + entry["detail"]
+                    ).strip()
+                    needs_you.append(entry)
+                    continue
+                entry["detail"] = f"failing {days_now:.0f} days"
+            still_failing.append(entry)
         for name in ok_sources:
             if await previous_status(name, run_id) == RunStatus.FAILED:
                 recovered.append(name)
@@ -190,6 +239,7 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources) ->
             "quiet": quiet,
             "still_failing": still_failing,
             "recovered": recovered,
+            "notes": notes or [],
             "dead": [],
             "heartbeat": alerts.is_heartbeat_day(),
         }

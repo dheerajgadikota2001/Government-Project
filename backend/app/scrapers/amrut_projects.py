@@ -27,7 +27,7 @@ import pdfplumber
 from sqlalchemy import select
 
 from app.scrapers.base import BaseScraper
-from app.scrapers.sanity import FieldRule, SanitySpec
+from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.utils.logger import logger
@@ -160,21 +160,31 @@ class AmrutProjectsScraper(BaseScraper):
     async def scrape(self) -> int:
         self.log_start()
         saved = 0
+        failure: BaseException | None = None
         try:
             pdf_path = await self._get_pdf()
             rows = self._parse_pdf(pdf_path)
             logger.info(f"[{self.PORTAL_NAME}] parsed {len(rows)} AMRUT project rows")
             saved = await self._save(rows)
+        except SanityAbort:
+            raise
         except Exception as e:
             self.log_error("Scrape failed", e)
+            failure = e
         finally:
             await self.close()
-        self.log_done(saved)
-        return saved
+        return self.finish(saved, failure)
 
     async def _get_pdf(self) -> str:
         if os.path.exists(LOCAL_PDF):
-            logger.info(f"[{self.PORTAL_NAME}] using local PDF {LOCAL_PDF}")
+            # Deliberate: the download is slow and the file rarely changes. But a
+            # scheduled run that always reads the same local file can never bring
+            # in a newer edition, and nothing used to say so. Now it does, and the
+            # note reaches the alert email.
+            self.note(
+                f"read the local copy at {LOCAL_PDF} instead of downloading; "
+                "delete that file to force a fresh fetch from MoHUA"
+            )
             return LOCAL_PDF
         response = await self.fetch(SOURCE_URL)
         os.makedirs(os.path.dirname(LOCAL_PDF), exist_ok=True)

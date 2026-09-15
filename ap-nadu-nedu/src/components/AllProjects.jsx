@@ -3,6 +3,7 @@ import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
 import { TENURE_COLOR, TENURE_HATCHED } from '../lib/tenure'
 import TenurePicture from './TenurePicture'
+import { croreAmount } from '../lib/money'
 
 /**
  * The register: every project, and what happened on it, in order.
@@ -233,7 +234,7 @@ function ProjectCard({ p, q, t, open, onToggle, detail, detailError }) {
               <p className="text-title-sm font-title-sm text-on-surface">{t('register.reportedTitle')}</p>
               <p className="text-body-md text-on-surface-variant mt-1 leading-relaxed">
                 {t('register.reportedBody', {
-                  value: Math.round(p.unverified_cost_crore).toLocaleString('en-IN'),
+                  value: croreAmount(p.unverified_cost_crore),
                   claim: p.unverified_cost_source.claim,
                   publisher: p.unverified_cost_source.publisher,
                   date: fmtDate(p.unverified_cost_source.date, t),

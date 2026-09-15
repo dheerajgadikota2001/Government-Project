@@ -5,6 +5,7 @@ import { HBarChart, VizSection, useChartTip } from './advanced/ChartPrimitives'
 // Government colours come from one module: nine files used to declare their own
 // map and had drifted to three different values for the 2024 government.
 import { TENURE_COLOR as TINT, TENURE_HATCHED, PATTERN_ID } from '../lib/tenure'
+import { croreAmount } from '../lib/money'
 
 
 /**
@@ -306,7 +307,7 @@ function GroundedYears({ rows, tip }) {
                     </text>
                   )}
                   <text x={cx + bw / 2} y={y - 5} textAnchor="middle" fontSize="10.5" fontWeight="600" className="fill-on-surface" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    {Math.round(r.investment_crore).toLocaleString('en-IN')}
+                    {croreAmount(r.investment_crore)}
                   </text>
                 </>
               ) : (
