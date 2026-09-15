@@ -135,6 +135,13 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
         # robots.txt governs the fetch, this header governs the listing. Set on
         # every response, including errors, because a 500 body has even less
         # business appearing in a search result than a 200 one.
+        #
+        # One response never reaches this line: a crash. An unhandled exception
+        # is turned into a 500 by ServerErrorMiddleware, which Starlette keeps
+        # outside every middleware added with add_middleware, so that response
+        # is built above this one and leaves without passing through it. The
+        # same two headers are therefore repeated in global_exception_handler
+        # in app/main.py. If you change either header here, change it there.
         response.headers["X-Robots-Tag"] = "noindex"
 
         # Only successful reads are ever cacheable. Writes change state; redirects
