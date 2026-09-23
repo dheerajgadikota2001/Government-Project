@@ -25,6 +25,8 @@
  * at all, which was the position before.
  */
 
+import { canonicalDistrict } from './districts.js'
+
 export const SITE_ORIGIN = 'https://apfactcheck.dheeco.com'
 
 export const SITE_NAME = 'Andhra Pradesh Fact Check'
@@ -247,6 +249,40 @@ export const LANG_CODES = ['en', 'te', 'hi', 'ur', 'ta', 'or']
 /** The five that carry a path prefix. English is the bare path. */
 export const PREFIXED_LANGS = LANG_CODES.filter(code => code !== 'en')
 
+/**
+ * The languages we ask search engines to index. Today, English only.
+ *
+ * WHY
+ *
+ * Every page exists in six languages for the reader who picks one. Only the
+ * English text is written by hand; the other five are templated sentences
+ * around an untranslated project name, so an Odia page reads "Providing Water
+ * Supply Facilities in Badvel Municipalityର ପ୍ରକାଶିତ ଆନୁମାନିକ ବ୍ୟୟ". Submitting
+ * that to Google five times over is what put 4,300 URLs in "Discovered,
+ * currently not indexed" and 72 of the 97 in "Crawled, currently not indexed".
+ * Google judged the whole site by its weakest pages.
+ *
+ * So the language pages stay, for readers, and step out of search:
+ * noindex, follow on the page, no hreflang, not in the sitemap, and no link
+ * to them from an English page, so crawl time goes to pages that can rank.
+ *
+ * WHEN A LANGUAGE IS PROPERLY TRANSLATED, ADD IT HERE. That one line brings
+ * back its sitemap entries, its reciprocal hreflang and its indexing, and the
+ * tests hold every one of those to this list.
+ *
+ * Telugu is back, because it is the language of the people this site is for
+ * and because it now earns it: every sentence in the catalogue is Telugu,
+ * every district has its Telugu name (placeNames.js), and every page title
+ * and search snippet is written in Telugu (the "seo" block in te.json). A
+ * page whose substance is still English, a fact check or a department's
+ * budget volume, stays out of the Telugu index page by page; see
+ * ENGLISH_CONTENT_PATTERNS in seo.js.
+ */
+export const INDEXED_LANGS = ['en', 'te']
+
+/** True when pages in this language should be offered to search engines. */
+export const isIndexedLang = code => INDEXED_LANGS.includes(code)
+
 const PREFIX_SET = new Set(PREFIXED_LANGS)
 
 /**
@@ -304,7 +340,25 @@ export function localizedPath(lang, pathname) {
  * close to zero today and real in three months. The old query URL still works
  * and canonicalises here, so nothing that was shared or indexed breaks.
  */
-export const districtSlug = name => String(name || '')
+/**
+ * The address form of a district name.
+ *
+ * Folded through canonicalDistrict first, and that is the whole point. The
+ * register keeps each source document's own spelling, so the same district
+ * arrives as "Tirupathi" from one table and "Tirupati" from another. Slugging
+ * the raw string gave each spelling its own address, and only one of those
+ * addresses was ever built. Forty two project pages linked to a page that did
+ * not exist, and the projects behind them were missing from the district page
+ * where a reader would look for them.
+ *
+ * Folding here rather than at each call site is deliberate: the sitemap, the
+ * prerenderer, the register filter and the related-projects card all ask this
+ * one function, so they cannot disagree about where a district lives.
+ *
+ * An unknown name still slugs as written. That keeps a district we have not
+ * catalogued reachable instead of silently redirecting it to the register.
+ */
+export const districtSlug = name => String(canonicalDistrict(name) || name || '')
   .toLowerCase()
   .normalize('NFKD')
   .replace(/[^a-z0-9]+/g, '-')

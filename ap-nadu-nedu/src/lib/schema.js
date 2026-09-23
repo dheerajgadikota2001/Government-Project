@@ -28,7 +28,8 @@
  * on a site about honesty it would be an odd place to start lying.
  */
 
-import { SITE_ORIGIN, SITE_NAME, splitLangPath, localizedPath } from './routes.js'
+import { SITE_ORIGIN, SITE_NAME, splitLangPath, localizedPath, districtPath } from './routes.js'
+import { displayTitle } from './projectTitle.js'
 
 /**
  * Other places this project exists, for Google to connect into one entity.
@@ -203,7 +204,28 @@ function claimReviews(check, path, ratings, labels) {
   }))
 }
 
-export function schemaFor(pathname, { title, description, breadcrumbTrail, factCheck } = {}) {
+/**
+ * The question and answer pairs on a project page, as data.
+ *
+ * Every answer is the same sentence the reader is shown, so this graph cannot
+ * say something the page does not. A pair with an empty side is dropped rather
+ * than published with a blank answer, because an FAQPage carrying an empty
+ * acceptedAnswer is invalid markup and a validator failing on 4,038 pages is
+ * worse than no markup at all.
+ */
+function faqPage(pairs, url) {
+  const entities = (pairs || [])
+    .filter(p => p && p.q && p.a)
+    .map(p => ({
+      '@type': 'Question',
+      name: p.q,
+      acceptedAnswer: { '@type': 'Answer', text: p.a },
+    }))
+  if (!entities.length) return null
+  return { '@type': 'FAQPage', url, mainEntity: entities }
+}
+
+export function schemaFor(pathname, { title, description, breadcrumbTrail, factCheck, faq } = {}) {
   // Two paths, deliberately. `bare` has no language prefix and is what the
   // lookup tables are keyed by, so /te/projects is still recognised as the
   // projects register. `path` carries the prefix and is what goes into every
@@ -223,6 +245,9 @@ export function schemaFor(pathname, { title, description, breadcrumbTrail, factC
     graph.push(...claimReviews(factCheck.check, path, factCheck.ratings, factCheck.labels))
   }
 
+  const questions = faqPage(faq, SITE_ORIGIN + path)
+  if (questions) graph.push(questions)
+
   if (bare !== '/' && title) {
     graph.push({
       '@type': 'WebPage',
@@ -238,18 +263,33 @@ export function schemaFor(pathname, { title, description, breadcrumbTrail, factC
   return { '@context': 'https://schema.org', '@graph': graph }
 }
 
-/** The trail shown above a project in a search result. */
-export function projectTrail(project) {
+/**
+ * The trail shown above a project in a search result.
+ *
+ * @param districtUrl  the district page's path, or null to leave the district
+ *                     out of the trail. Omit the argument to derive it.
+ *
+ * The prerenderer passes null when the register's spelling resolves to no page
+ * that was built, because a breadcrumb is a published URL: emitting one for a
+ * page that does not exist hands a crawler a 404 with a schema.org blessing on
+ * it. The browser keeps the derived default, where an unresolved slug lands on
+ * the register rather than on nothing.
+ */
+export function projectTrail(project, districtUrl) {
   const trail = [
     { name: 'Home', path: '/' },
     { name: 'Projects', path: '/projects' },
   ]
   if (project?.district) {
-    trail.push({
-      name: project.district,
-      path: `/projects?district=${encodeURIComponent(project.district)}`,
-    })
+    // districtPath, not ?district=. The query form renders the same page and
+    // canonicalises to this one, so a breadcrumb pointing at it published a
+    // URL that tells the crawler to go somewhere else. It also folds a source
+    // document's spelling onto the district's real address, so a project
+    // filed as "Tirupathi" sits under Tirupati in the trail rather than
+    // hanging off a page that does not exist.
+    const href = districtUrl === undefined ? districtPath(project.district) : districtUrl
+    if (href) trail.push({ name: project.district, path: href })
   }
-  if (project?.title) trail.push({ name: project.title, path: `/projects/${project.id}` })
+  if (project?.title) trail.push({ name: displayTitle(project.title), path: `/projects/${project.id}` })
   return trail
 }

@@ -28,18 +28,21 @@
  *   npm run sitemap -- --api http://127.0.0.1:8001/api/v1
  */
 
-import { writeFileSync } from 'node:fs'
+import { writeFileSync, readdirSync, unlinkSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const OUT = resolve(here, '../public/sitemap.xml')
+const PUBLIC = resolve(here, '../public')
+const OUT = resolve(PUBLIC, 'sitemap.xml')
 
 const args = process.argv.slice(2)
 const apiFlag = args.indexOf('--api')
 const API = apiFlag !== -1 ? args[apiFlag + 1] : 'https://apfactcheck.dheeco.com/api/v1'
 
-const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath } = await import('../src/lib/routes.js')
+const { SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, INDEXED_LANGS, localizedPath, districtPath } = await import('../src/lib/routes.js')
+const { isDuplicate } = await import('../src/lib/sameWork.js')
+const { robotsFor, alternatesFor } = await import('../src/lib/seo.js')
 const { departmentPath } = await import('../src/lib/departmentSummary.js')
 const { FACT_CHECKS, factCheckPath } = await import('../src/lib/factcheck.js')
 const { FINANCE_QUESTIONS, financeQuestionPath } = await import('../src/lib/financeQuestions.js')
@@ -113,30 +116,40 @@ const isoDay = value => {
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
 /**
- * One page, six addresses.
+ * One page, one address per indexed language.
  *
- * Every language gets its own <url> entry, and each entry lists all six as
- * alternates plus x-default. Google's rule is that the annotation has to be
+ * A sitemap is the list of URLs we ask to have indexed, so it carries only
+ * INDEXED_LANGS. Listing a noindex page here is a contradiction Search
+ * Console reports rather than resolves, and it is what put 4,300 language
+ * URLs in the crawl queue ahead of pages that could rank.
+ *
+ * When a second language is indexed, each entry lists every indexed address
+ * as an alternate plus x-default. Google's rule is that the annotation is
  * reciprocal: if the Telugu URL does not name the English one back, the pair
- * is ignored and the two are read as duplicates competing with each other. So
- * the full set is repeated inside every entry. It is verbose and it is the
- * format.
+ * is ignored. With English alone there is nothing to annotate, so none is
+ * written.
+ */
+/*
+ * Page by page, not language by language: an indexed language can still hold
+ * a page that is noindex in it (a Telugu fact check), and that page must be
+ * neither listed nor named as an alternate. robotsFor and alternatesFor are
+ * the same functions the page head uses, so the sitemap cannot disagree with
+ * the pages it lists.
  */
 function url(path, changefreq, priority, lastmod) {
-  const links = LANG_CODES
-    .map(code =>
-      `    <xhtml:link rel="alternate" hreflang="${code}" href="${esc(SITE_ORIGIN + localizedPath(code, path))}"/>`)
-    .concat(
-      `    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITE_ORIGIN + localizedPath('en', path))}"/>`)
-    .join('\n')
+  const alternates = alternatesFor(localizedPath('en', path))
+  const links = alternates.length
+    ? alternates
+      .map(([code, href]) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${esc(href)}"/>`)
+      .join('\n') + '\n'
+    : ''
 
-  return LANG_CODES.map(code =>
+  return INDEXED_LANGS.filter(code => robotsFor(localizedPath(code, path)) === null).map(code => ({ code, xml:
     `  <url>\n    <loc>${esc(SITE_ORIGIN + localizedPath(code, path))}</loc>\n` +
-    `${links}\n` +
+    links +
     (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
     `    <changefreq>${changefreq}</changefreq>\n` +
-    `    <priority>${priority}</priority>\n  </url>`,
-  ).join('\n')
+    `    <priority>${priority}</priority>\n  </url>` }))
 }
 
 /**
@@ -275,11 +288,22 @@ for (const name of departments) {
 }
 
 for (const project of ids) {
+  // A record that canonicalises to another project's page is asking not to be
+  // indexed under its own address. A sitemap is a list of URLs asking to be
+  // indexed, so publishing it here contradicts the page's own tag, and Google
+  // reports the conflict rather than resolving it.
+  if (isDuplicate(project.id)) continue
   entries.push(url(`/projects/${project.id}`, 'weekly', '0.7', isoDay(project.updated)))
 }
 
-const xml =
-`<?xml version="1.0" encoding="UTF-8"?>
+/*
+ * One sitemap per indexed language, and sitemap.xml as the index that names
+ * them. Search Console reports coverage per submitted sitemap, so this is what
+ * turns one number ("4.3K not indexed") into two that say which language is
+ * the problem. robots.txt and every console already point at sitemap.xml, and
+ * an index at that address is followed like any sitemap.
+ */
+const HEADER = `<?xml version="1.0" encoding="UTF-8"?>
 <!--
   GENERATED FILE. Do not edit by hand.
 
@@ -287,15 +311,57 @@ const xml =
   project register. Run "npm run sitemap" after the register changes, and
   commit the result.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${entries.join('\n')}
-</urlset>
 `
+const flat = entries.flat()
+const counts = {}
+const children = []
+for (const code of INDEXED_LANGS) {
+  const mine = flat.filter(e => e.code === code).map(e => e.xml)
+  counts[code] = mine.length
+  const hasLinks = mine.some(x => x.includes('<xhtml:link'))
+  const file = `sitemap-${code}.xml`
+  writeFileSync(resolve(PUBLIC, file),
+    HEADER +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"${hasLinks ? '\n        xmlns:xhtml="http://www.w3.org/1999/xhtml"' : ''}>\n` +
+    `${mine.join('\n')}\n</urlset>\n`, 'utf8')
+  children.push(file)
+}
 
-writeFileSync(OUT, xml, 'utf8')
+// A language taken out of INDEXED_LANGS must not leave its old file behind,
+// still served and still listing pages that now say noindex.
+for (const name of readdirSync(PUBLIC)) {
+  if (/^sitemap-[a-z]{2}\.xml$/.test(name) && !children.includes(name)) unlinkSync(resolve(PUBLIC, name))
+}
+
+writeFileSync(OUT,
+  HEADER +
+  '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  children.map(file =>
+    `  <sitemap>\n    <loc>${SITE_ORIGIN}/${file}</loc>\n` +
+    (newest ? `    <lastmod>${newest}</lastmod>\n` : '') +
+    '  </sitemap>').join('\n') +
+  '\n</sitemapindex>\n', 'utf8')
 const pages = STATIC_ROUTES.length + FINANCE_QUESTIONS.length + FACT_CHECKS.length + names.length + departments.length + ids.length
+// Counted from what was written, not from what was fetched. The two used to be
+// the same number and no longer are: a record that canonicalises to another
+// project's page is deliberately left out, and a log line that keeps claiming
+// the old total is how nobody notices when the gap grows.
+const merged = ids.filter(p => isDuplicate(p.id)).length
 console.log(`sitemap: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${names.length} districts` +
-  ` + ${departments.length} departments + ${ids.length} projects` +
-  ` = ${pages} pages x ${LANG_CODES.length} languages = ${pages * LANG_CODES.length} URLs`)
-console.log(`written to public/sitemap.xml`)
+  ` + ${departments.length} departments + ${ids.length - merged} projects` +
+  ` = ${entries.length} pages; ` +
+  INDEXED_LANGS.map(c => `${counts[c]} in sitemap-${c}.xml`).join(', ') + ` = ${flat.length} URLs`)
+if (INDEXED_LANGS.length < LANG_CODES.length) {
+  console.log(`sitemap: ${LANG_CODES.filter(c => !INDEXED_LANGS.includes(c)).join(', ')} left out on purpose; ` +
+    'those pages are noindex until translated (src/lib/routes.js INDEXED_LANGS)')
+}
+const englishOnly = counts.en - Math.min(...INDEXED_LANGS.map(c => counts[c]))
+if (englishOnly > 0) {
+  console.log(`sitemap: ${englishOnly} page(s) are English only, because their text is English ` +
+    '(seo.js ENGLISH_CONTENT_PATTERNS)')
+}
+if (merged) {
+  console.log(`sitemap: ${merged} record(s) left out, because their page hands its ranking ` +
+    'to another project as the same work')
+}
+console.log(`written to public/sitemap.xml (index) and ${children.map(f => `public/${f}`).join(', ')}`)

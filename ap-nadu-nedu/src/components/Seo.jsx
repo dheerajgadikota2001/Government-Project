@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { applySeo } from '../lib/seo'
+import { applySeo, setSeoLanguage } from '../lib/seo'
+import { useT } from '../i18n'
 
 /**
  * Mounted once inside the router, next to Analytics, for the same reason:
@@ -12,6 +13,10 @@ import { applySeo } from '../lib/seo'
  */
 export default function Seo() {
   const { pathname } = useLocation()
-  useEffect(() => { applySeo(pathname) }, [pathname])
+  const { t, lang } = useT()
+  // During render, not in an effect: a detail page's effect can run before
+  // this component's, and it must already find the page's language here.
+  setSeoLanguage({ t, lang })
+  useEffect(() => { applySeo(pathname) }, [pathname, t, lang])
   return null
 }

@@ -533,7 +533,8 @@
       "heading": "{district} ज़िले की सरकारी परियोजनाएँ",
       "count": "आंध्र प्रदेश के {district} ज़िले में {count} सरकारी परियोजनाएँ दर्ज हैं।",
       "cost": "इनकी कुल प्रकाशित अनुमानित लागत ₹{amount} {unit} है।",
-      "method": "जो परियोजना एक से अधिक ज़िलों में फैली है, वह हर ज़िले में गिनी जाती है, और उसकी लागत ज़िलों के बीच बाँटी नहीं जाती।"
+      "method": "जो परियोजना एक से अधिक ज़िलों में फैली है, वह हर ज़िले में गिनी जाती है, और उसकी लागत ज़िलों के बीच बाँटी नहीं जाती।",
+      "none": "{district} ज़िले की कोई सरकारी परियोजना यहाँ अभी दर्ज नहीं है। जिस दस्तावेज़ का हम हवाला देते हैं उसमें कोई प्रकाशित होते ही वह इस पृष्ठ पर दिखेगी।"
     }
   },
   "projectDetail": {
@@ -652,6 +653,31 @@
       "seeDistrict": "{district} में दर्ज सभी परियोजनाएँ देखें",
       "seeRegister": "पूरा रजिस्टर देखें",
       "note": "वही ज़िला, वही रजिस्टर, वही स्रोत। यहाँ कुछ भी सिफ़ारिश नहीं है।"
+    },
+    "q": {
+      "what": "{name} क्या है?",
+      "cost": "{name} की लागत कितनी है?",
+      "stage": "{name} किस चरण में है?",
+      "when": "{name} कब पूरा होना है?",
+      "where": "{name} कहाँ है?",
+      "who": "{name} की ज़िम्मेदारी किसकी है?",
+      "source": "ये आंकड़े कहाँ से आए हैं?",
+      "differ": "{name} के बारे में सरकारी स्रोत अलग-अलग आंकड़े क्यों देते हैं?"
+    },
+    "a": {
+      "place": "{name} {district} ज़िले में दर्ज है।",
+      "placeMandal": "{name} {district} ज़िले के {mandal} मंडल में दर्ज है।",
+      "stage": "नवीनतम दर्ज स्थिति: {status}।",
+      "stageType": "यह {type} कार्य के रूप में दर्ज है। नवीनतम दर्ज स्थिति: {status}।",
+      "runBy": "यह {department} के अधीन दर्ज है।",
+      "runByAgency": "यह {department} के अधीन दर्ज है, और क्रियान्वयन एजेंसी के रूप में {agency} दर्ज है।",
+      "code": "स्रोत इसे परियोजना कोड {code} देता है। वह कोड दस्तावेज़ में खोजकर आप इस पृष्ठ की जाँच स्वयं कर सकते हैं।",
+      "differ": "यह {count} सरकारी दस्तावेज़ों में दर्ज है और वे आपस में मेल नहीं खाते। एक {low} प्रकाशित करता है, दूसरा {high}। दोनों आधिकारिक हैं। कौन सा सही है, यह साइट तय नहीं करती; हर आंकड़ा और उसका दस्तावेज़ नीचे दिया गया है।"
+    },
+    "sources": {
+      "heading": "कौन सा सरकारी स्रोत क्या कहता है",
+      "note": "एक ही काम एक से अधिक सरकारी रिकॉर्ड में दर्ज है। हर रिकॉर्ड यहाँ वैसा ही दिखाया गया है जैसा प्रकाशित हुआ, उसके दस्तावेज़ के साथ।",
+      "column": "स्रोत दस्तावेज़"
     }
   },
   "gallery": {
@@ -804,7 +830,13 @@
         "press": "समाचार रिपोर्ट",
         "unlabelled": "स्रोत अंकित नहीं"
       },
-      "undated": "हस्ताक्षर की विश्वसनीय तिथि प्रकाशित नहीं"
+      "undated": "हस्ताक्षर की विश्वसनीय तिथि प्रकाशित नहीं",
+      "statusBy": "{status} · {source}",
+      "saysWho": {
+        "company": "company says",
+        "press": "press reports",
+        "unlabelled": "source not labelled"
+      }
     },
     "provenance": {
       "title": "यह कुल आँकड़ा किससे बना है",
@@ -812,7 +844,8 @@
       "detail": "{n} समझौते · कुल का {pct}%",
       "footnote": "घोषित {total} करोड़ में से {gov} करोड़ ही किसी सरकारी दस्तावेज़ में दर्ज हैं। बाकी कंपनियों और अख़बारों के बयान हैं। नीचे हर समझौते पर उसका स्रोत अंकित है।",
       "compact": "ये आंकड़े किसके कहे हैं: {gov}% सरकारी रिकॉर्ड से · {company}% कंपनियों के बयानों से · {press}% अखबारी खबरों से।",
-      "seeBreakdown": "पूरा विवरण देखें"
+      "seeBreakdown": "पूरा विवरण देखें",
+      "notLive": "Not counted in the total: {cancelled} cancelled ({cancelledCr} crore) and {stalled} stalled ({stalledCr} crore). They are still listed below with their status."
     },
     "tabs": {
       "aria": "निवेश का कौन-सा दृश्य दिखाना है",
@@ -822,6 +855,19 @@
     },
     "sources": {
       "intro": "इस पेज का हर आंकड़ा बताता है कि वह किस दस्तावेज़ से आया है। यह टैब दिखाता है कि मुख्य कुल के पीछे कौन है, और सरकारी रिकॉर्ड आपस में कहां टकराते हैं।"
+    },
+    "register": {
+      "heading": "Every commitment on record",
+      "summary": "{n} live commitments, {total} announced in total. Who says these figures: {gov}% from government records, {company}% from company statements, {press}% from press reports.",
+      "col": {
+        "company": "Company",
+        "sector": "Sector",
+        "amount": "Announced amount",
+        "status": "Status",
+        "source": "Kind of source",
+        "signed": "Signed"
+      },
+      "amountUnknown": "No amount published"
     }
   },
   "summits": {

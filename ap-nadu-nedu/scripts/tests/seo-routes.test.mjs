@@ -211,7 +211,7 @@ test('a project page is titled with the project, not the word "record"', () => {
     estimated_cost_crore: 55549,
     completion_percentage: 76,
   })
-  assert.match(seo.title, /^POLAVARAM IRRIGATION PROJECT \|/)
+  assert.match(seo.title, /^Polavaram Irrigation Project \|/)
   assert.match(seo.description, /Andhra Pradesh/)
   assert.match(seo.description, /under construction/)
   assert.match(seo.description, /76% built/)
@@ -256,7 +256,7 @@ test('a very long project name is cut, not left to break the title', () => {
  * The description is the sentence a person reads in the search result before
  * deciding whether to trust this site enough to click. It shipped broken:
  *
- *   "POLAVARAM IRRIGATION PROJECT, a government project in Andhra Pradesh.
+ *   "Polavaram Irrigation Project, a government project in Andhra Pradesh.
  *    Status: under construction. 76% built. published estimated cost ..."
  *
  * The clauses were fragments joined with full stops, so two of them began in
@@ -290,45 +290,182 @@ test('the facts read as one sentence, not a list of fragments', () => {
     estimated_cost_crore: 55549,
   })
   assert.match(description,
-    /^POLAVARAM IRRIGATION PROJECT in Andhra Pradesh: under construction, 76% built, published estimated cost ₹55,549 crore\./)
+    /^Polavaram Irrigation Project in Andhra Pradesh: under construction, 76% built, published estimated cost ₹55,549 crore\./)
   assert.ok(!/Status:/.test(description),
     'the label "Status:" reads like a form field, not a sentence')
 })
 
 /**
- * hreflang is the whole mechanism. Six addresses that do not name each other
- * are six near-duplicate pages competing for the same result, and Google
- * picks one and drops five. Google also requires the annotation to be
- * reciprocal, so every page has to carry the full set including itself.
+ * hreflang names indexed languages only. Pointing it at a noindex page is an
+ * error Search Console reports on every URL, and a set of one names nothing.
+ * When more than one language is indexed the set must be reciprocal and
+ * complete, so that case is asserted too, through the same function.
  */
-test('every page names all six of its language addresses', async () => {
-  const { applySeo } = await import('../../src/lib/seo.js')
-  const { LANG_CODES, SITE_ORIGIN: ORIGIN } = await import('../../src/lib/routes.js')
+test('the hreflang set names indexed languages only, and is complete when there is one', async () => {
+  const { alternatesFor } = await import('../../src/lib/seo.js')
+  const { INDEXED_LANGS, LANG_CODES, SITE_ORIGIN: ORIGIN, localizedPath } = await import('../../src/lib/routes.js')
+
+  const alts = alternatesFor('/finances')
+  if (INDEXED_LANGS.length < 2) {
+    assert.deepEqual(alts, [], 'one indexed language needs no hreflang, and gets none')
+  } else {
+    assert.deepEqual(alts.map(([code]) => code), [...INDEXED_LANGS, 'x-default'])
+    for (const [code, href] of alts) {
+      assert.equal(href, ORIGIN + localizedPath(code === 'x-default' ? 'en' : code, '/finances'))
+    }
+  }
+  for (const code of LANG_CODES.filter(c => !INDEXED_LANGS.includes(c))) {
+    assert.deepEqual(alternatesFor(localizedPath(code, '/finances')), [],
+      `${code} is not indexed, so its page declares no alternates`)
+    assert.ok(!alternatesFor('/finances').some(([, href]) => href.includes(`/${code}/`)),
+      `an indexed page names the noindex ${code} page as its translation`)
+  }
+})
+
+test('a language kept out of the index says so, and still passes its links on', async () => {
+  const { robotsFor } = await import('../../src/lib/seo.js')
+  const { LANG_CODES, isIndexedLang, localizedPath } = await import('../../src/lib/routes.js')
+  for (const code of LANG_CODES) {
+    for (const path of ['/', '/finances', '/projects/613', '/districts/palnadu']) {
+      const got = robotsFor(localizedPath(code, path))
+      if (isIndexedLang(code)) assert.equal(got, null, `${localizedPath(code, path)} asks not to be indexed`)
+      else assert.equal(got, 'noindex, follow', `${localizedPath(code, path)} is offered to search`)
+    }
+  }
+  // English is where every figure is written by hand. It can never drop out.
+  assert.ok(isIndexedLang('en'))
+})
+
+test('the app writes the same head the prerender did, and replaces it on navigation', async () => {
+  const { applySeo, alternatesFor } = await import('../../src/lib/seo.js')
 
   const doc = fakeDocument()
   globalThis.document = doc
   try {
     applySeo('/finances')
     const alts = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
-    const byLang = Object.fromEntries(alts.map(n => [n.attrs.hreflang, n.attrs.href]))
-
-    for (const code of LANG_CODES) {
-      assert.ok(byLang[code], `no hreflang entry for ${code}`)
-    }
-    assert.equal(byLang.en, `${ORIGIN}/finances`)
-    assert.equal(byLang.te, `${ORIGIN}/te/finances`)
-    assert.equal(byLang['x-default'], `${ORIGIN}/finances`,
-      'x-default should send an unmatched language to English')
-    assert.equal(alts.length, LANG_CODES.length + 1)
+    assert.deepEqual(alts.map(n => [n.attrs.hreflang, n.attrs.href]), alternatesFor('/finances'))
+    assert.ok(!doc.nodes.some(n => n.tag === 'meta' && n.attrs.name === 'robots'),
+      'an English page carries a robots tag')
 
     // Navigating again must replace the set, not add to it. A single page app
     // that appends would accumulate stale alternates for every page visited.
     applySeo('/documents')
     const after = doc.nodes.filter(n => n.tag === 'link' && n.attrs.rel === 'alternate')
-    assert.equal(after.length, LANG_CODES.length + 1,
+    assert.deepEqual(after.map(n => [n.attrs.hreflang, n.attrs.href]), alternatesFor('/documents'),
       'alternates accumulated across navigations instead of being replaced')
-    assert.ok(after.every(n => n.attrs.href.includes('/documents')))
   } finally {
     delete globalThis.document
   }
+})
+
+// ---------------------------------------------------------------------------
+// The head in Telugu
+// ---------------------------------------------------------------------------
+
+const TE_CAT = JSON.parse(readFileSync(new URL('../../src/i18n/locales/te.json', import.meta.url), 'utf8'))
+const EN_CAT = JSON.parse(readFileSync(new URL('../../src/i18n/locales/en.json', import.meta.url), 'utf8'))
+const TE_SCRIPT = /[\u0C00-\u0C7F]/
+
+/** The prerenderer's translator, rebuilt here so the test uses the same rules. */
+async function teTranslator() {
+  const { localiseVars } = await import('../../src/lib/placeNames.js')
+  const look = (c, key) => key.split('.').reduce((n, k) => (n == null ? n : n[k]), c)
+  return (key, vars) => {
+    const s = look(TE_CAT, key) ?? look(EN_CAT, key)
+    if (typeof s !== 'string') return key.split('.').pop()
+    const v = localiseVars(vars, 'te')
+    return v ? s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m)) : s
+  }
+}
+
+test('every page Telugu search is offered has a Telugu title and snippet written for it', async () => {
+  const { ROUTES, isIndexedLang } = await import('../../src/lib/routes.js')
+  const { routeKey, ENGLISH_CONTENT_PATTERNS } = await import('../../src/lib/seo.js')
+  const { FINANCE_QUESTIONS } = await import('../../src/lib/financeQuestions.js')
+  if (!isIndexedLang('te')) return
+  for (const route of ROUTES) {
+    if (route.index === false || ENGLISH_CONTENT_PATTERNS.has(route.pattern)) continue
+    const entry = TE_CAT.seo?.route?.[routeKey(route.pattern)]
+    assert.ok(entry, `no Telugu title for ${route.pattern} (te.json seo.route.${routeKey(route.pattern)})`)
+    assert.ok(TE_SCRIPT.test(entry.title) && TE_SCRIPT.test(entry.description),
+      `the Telugu head for ${route.pattern} is not in Telugu`)
+    assert.ok(entry.description.length <= 200, `${route.pattern}: snippet is ${entry.description.length} characters`)
+  }
+  for (const q of FINANCE_QUESTIONS) {
+    const entry = TE_CAT.seo?.financeQuestion?.[q.slug]
+    assert.ok(entry && TE_SCRIPT.test(entry.title) && TE_SCRIPT.test(entry.description),
+      `no Telugu head for the finances question ${q.slug}`)
+  }
+})
+
+test('the Telugu head never carries a long dash or an empty slot', () => {
+  const walk = (node, at) => Object.entries(node).flatMap(([k, v]) =>
+    typeof v === 'string' ? [[`${at}.${k}`, v]] : walk(v, `${at}.${k}`))
+  for (const [key, text] of walk(TE_CAT.seo, 'seo')) {
+    assert.ok(!/[\u2014\u2013]|--/.test(text), `${key} has a long dash`)
+    assert.ok(!/undefined|null/.test(text), `${key} says ${text}`)
+  }
+})
+
+test('a Telugu project snippet is Telugu, names the district in Telugu, and invents nothing', async () => {
+  const { seoForProject } = await import('../../src/lib/seo.js')
+  const t = await teTranslator()
+  const full = seoForProject({
+    title: 'POLAVARAM IRRIGATION PROJECT', district: 'Eluru', status: 'under_construction',
+    completion_percentage: 76, estimated_cost_crore: 55548.87,
+  }, { t, lang: 'te' })
+  assert.equal(full.title, 'Polavaram Irrigation Project | ఆంధ్రప్రదేశ్ ఫ్యాక్ట్ చెక్')
+  assert.match(full.description, /^Polavaram Irrigation Project, ఏలూరు జిల్లా: నిర్మాణంలో, 76% పూర్తయింది, ప్రకటించిన అంచనా వ్యయం ₹55,549 కోట్లు\./)
+
+  // A legacy spelling still finds its Telugu name.
+  const legacy = seoForProject({ title: 'X', district: 'Anantapur' }, { t, lang: 'te' })
+  assert.match(legacy.description, /అనంతపురం/)
+
+  // Nothing known: no clause is written for it.
+  const bare = seoForProject({ title: 'X' }, { t, lang: 'te' })
+  assert.match(bare.description, /^X: ఆంధ్రప్రదేశ్ పరిధిలోని ఒక ప్రభుత్వ ప్రాజెక్టు\./)
+  assert.ok(!/undefined|\{/.test(bare.description + bare.title))
+
+  // English is untouched by any of this.
+  const en = seoForProject({ title: 'X', district: 'Eluru' }, { t, lang: 'en' })
+  assert.match(en.description, /^X, a government project in Eluru\./)
+})
+
+test('a Telugu district head names the district in Telugu', async () => {
+  const { seoForDistrict } = await import('../../src/lib/seo.js')
+  const t = await teTranslator()
+  const seo = seoForDistrict('Guntur', 12, { t, lang: 'te' })
+  assert.equal(seo.title, 'గుంటూరు జిల్లాలో ప్రభుత్వ ప్రాజెక్టులు, ఆంధ్రప్రదేశ్')
+  assert.match(seo.description, /గుంటూరు జిల్లాలో ట్రాక్ చేస్తున్న 12 ప్రభుత్వ ప్రాజెక్టులు/)
+  assert.match(seoForDistrict('Guntur', 0, { t, lang: 'te' }).description, /ఇంకా ఏ ప్రభుత్వ ప్రాజెక్టూ/)
+})
+
+test('English text keeps a page out of the Telugu index, and out of every hreflang set', async () => {
+  const { robotsFor, alternatesFor } = await import('../../src/lib/seo.js')
+  const { isIndexedLang, SITE_ORIGIN: ORIGIN } = await import('../../src/lib/routes.js')
+  if (!isIndexedLang('te')) return
+  assert.equal(robotsFor('/te/projects/613'), null)
+  assert.equal(robotsFor('/te/factcheck/anything'), 'noindex, follow')
+  assert.equal(robotsFor('/te/finances/departments/school-education'), 'noindex, follow')
+  assert.equal(robotsFor('/finances/departments/school-education'), null, 'the English page must stay indexed')
+
+  assert.deepEqual(alternatesFor('/projects/613'), [
+    ['en', `${ORIGIN}/projects/613`], ['te', `${ORIGIN}/te/projects/613`], ['x-default', `${ORIGIN}/projects/613`],
+  ])
+  assert.deepEqual(alternatesFor('/te/projects/613'), alternatesFor('/projects/613'),
+    'the two pages of a pair must name each other identically, or Google drops the pair')
+  assert.deepEqual(alternatesFor('/finances/departments/school-education'), [])
+  assert.deepEqual(alternatesFor('/te/finances/departments/school-education'), [])
+})
+
+test('the app registers the page language before any page sets its head', () => {
+  const src = readFileSync(new URL('../../src/components/Seo.jsx', import.meta.url), 'utf8')
+  const register = src.indexOf('setSeoLanguage({ t, lang })')
+  const effect = src.indexOf('useEffect(')
+  assert.ok(register !== -1, 'Seo.jsx no longer registers the translator, so every title goes back to English')
+  assert.ok(register < src.indexOf('return null') && (effect === -1 || register < effect),
+    'the translator must be registered during render, before the effect')
+  const fin = readFileSync(new URL('../../src/pages/Finances.jsx', import.meta.url), 'utf8')
+  assert.match(fin, /seoForFinanceQuestion\(active\)/, 'a finances question sets an English head again')
 })

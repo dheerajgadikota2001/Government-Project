@@ -533,7 +533,8 @@
       "heading": "{district} ضلع کے سرکاری منصوبے",
       "count": "آندھرا پردیش کے {district} ضلع میں {count} سرکاری منصوبے درج ہیں۔",
       "cost": "ان کی مجموعی شائع شدہ تخمینی لاگت ₹{amount} {unit} ہے۔",
-      "method": "جو منصوبہ ایک سے زیادہ اضلاع میں پھیلا ہو، وہ ہر ضلع میں شمار ہوتا ہے، اور اس کی لاگت اضلاع کے درمیان تقسیم نہیں کی جاتی۔"
+      "method": "جو منصوبہ ایک سے زیادہ اضلاع میں پھیلا ہو، وہ ہر ضلع میں شمار ہوتا ہے، اور اس کی لاگت اضلاع کے درمیان تقسیم نہیں کی جاتی۔",
+      "none": "{district} ضلع کا کوئی سرکاری منصوبہ یہاں ابھی درج نہیں ہے۔ جس دستاویز کا ہم حوالہ دیتے ہیں اس میں کوئی شائع ہوتے ہی وہ اس صفحے پر آ جائے گا۔"
     }
   },
   "projectDetail": {
@@ -652,6 +653,31 @@
       "seeDistrict": "{district} میں درج تمام منصوبے دیکھیں",
       "seeRegister": "پورا رجسٹر دیکھیں",
       "note": "وہی ضلع، وہی رجسٹر، وہی ماخذ۔ یہاں کچھ بھی سفارش نہیں ہے۔"
+    },
+    "q": {
+      "what": "{name} کیا ہے؟",
+      "cost": "{name} کی لاگت کتنی ہے؟",
+      "stage": "{name} کس مرحلے میں ہے؟",
+      "when": "{name} کب مکمل ہونا ہے؟",
+      "where": "{name} کہاں ہے؟",
+      "who": "{name} کی ذمہ داری کس کی ہے؟",
+      "source": "یہ اعداد کہاں سے آئے ہیں؟",
+      "differ": "{name} کے بارے میں سرکاری ماخذ مختلف اعداد کیوں دیتے ہیں؟"
+    },
+    "a": {
+      "place": "{name} {district} ضلع میں درج ہے۔",
+      "placeMandal": "{name} {district} ضلع کے {mandal} منڈل میں درج ہے۔",
+      "stage": "تازہ ترین درج حالت: {status}۔",
+      "stageType": "یہ {type} کام کے طور پر درج ہے۔ تازہ ترین درج حالت: {status}۔",
+      "runBy": "یہ {department} کے تحت درج ہے۔",
+      "runByAgency": "یہ {department} کے تحت درج ہے، اور نفاذ کے ادارے کے طور پر {agency} درج ہے۔",
+      "code": "ماخذ اسے منصوبہ کوڈ {code} دیتا ہے۔ وہ کوڈ دستاویز میں تلاش کر کے آپ اس صفحے کی جانچ خود کر سکتے ہیں۔",
+      "differ": "یہ {count} سرکاری دستاویزات میں درج ہے اور وہ آپس میں متفق نہیں۔ ایک {low} شائع کرتا ہے، دوسرا {high}۔ دونوں سرکاری ہیں۔ کون سا درست ہے، یہ سائٹ طے نہیں کرتی؛ ہر ہندسہ اور اس کی دستاویز نیچے درج ہے۔"
+    },
+    "sources": {
+      "heading": "کون سا سرکاری ماخذ کیا کہتا ہے",
+      "note": "ایک ہی کام ایک سے زیادہ سرکاری ریکارڈ میں درج ہے۔ ہر ریکارڈ یہاں ویسا ہی دکھایا گیا ہے جیسا شائع ہوا، اس کی دستاویز کے ساتھ۔",
+      "column": "ماخذ دستاویز"
     }
   },
   "gallery": {
@@ -804,7 +830,13 @@
         "press": "اخباری رپورٹ",
         "unlabelled": "ماخذ درج نہیں"
       },
-      "undated": "دستخط کی قابلِ اعتماد تاریخ شائع نہیں"
+      "undated": "دستخط کی قابلِ اعتماد تاریخ شائع نہیں",
+      "statusBy": "{status} · {source}",
+      "saysWho": {
+        "company": "company says",
+        "press": "press reports",
+        "unlabelled": "source not labelled"
+      }
     },
     "provenance": {
       "title": "یہ مجموعہ کن چیزوں سے بنا ہے",
@@ -812,7 +844,8 @@
       "detail": "{n} معاہدے · کل کا {pct}%",
       "footnote": "اعلان کردہ {total} کروڑ میں سے صرف {gov} کروڑ کسی سرکاری ریکارڈ میں درج ہیں۔ باقی کمپنیوں اور اخبارات کے بیانات ہیں۔ نیچے ہر معاہدے پر اس کا ماخذ درج ہے۔",
       "compact": "یہ اعداد کس کے بتائے ہوئے ہیں: {gov}% سرکاری ریکارڈ سے · {company}% کمپنیوں کے بیانات سے · {press}% اخباری خبروں سے۔",
-      "seeBreakdown": "مکمل تفصیل دیکھیں"
+      "seeBreakdown": "مکمل تفصیل دیکھیں",
+      "notLive": "Not counted in the total: {cancelled} cancelled ({cancelledCr} crore) and {stalled} stalled ({stalledCr} crore). They are still listed below with their status."
     },
     "tabs": {
       "aria": "سرمایہ کاری کا کون سا منظر دکھایا جائے",
@@ -822,6 +855,19 @@
     },
     "sources": {
       "intro": "اس صفحے کا ہر عدد بتاتا ہے کہ وہ کس دستاویز سے آیا ہے۔ یہ ٹیب دکھاتا ہے کہ سرخی کے کل کے پیچھے کون ہے، اور سرکاری ریکارڈ آپس میں کہاں ٹکراتے ہیں۔"
+    },
+    "register": {
+      "heading": "Every commitment on record",
+      "summary": "{n} live commitments, {total} announced in total. Who says these figures: {gov}% from government records, {company}% from company statements, {press}% from press reports.",
+      "col": {
+        "company": "Company",
+        "sector": "Sector",
+        "amount": "Announced amount",
+        "status": "Status",
+        "source": "Kind of source",
+        "signed": "Signed"
+      },
+      "amountUnknown": "No amount published"
     }
   },
   "summits": {

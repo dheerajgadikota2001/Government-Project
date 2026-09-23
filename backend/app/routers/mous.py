@@ -20,6 +20,7 @@ from app.models.mou import MOU, MOUStatus, MOUSector
 from app.schemas.common import PaginatedResponse
 from app.schemas.mou import MOUOut, MOUListOut
 from app.services.cache import cache_response
+from app.services.mou_stats import MouRow, summarise
 
 router = APIRouter(prefix="/mous", tags=["MoUs & Investments"])
 
@@ -440,66 +441,37 @@ async def get_summits(db: AsyncSession = Depends(get_db)):
 @cache_response(ttl=600)
 async def get_mou_stats(db: AsyncSession = Depends(get_db)):
     """
-    Total investment stats — and what those totals are actually made of.
+    Total investment stats, and what those totals are actually made of.
 
-    WHY THE BREAKDOWN IS NOT OPTIONAL
-    Every MoU card on the page already carries a source-tier badge, because a
-    commitment recorded in a G.O. and a commitment a newspaper attributed to a
-    minister are not the same kind of fact. The headline total had no such
-    label: it summed all of them into one number. On the current register that
-    number is about 2 per cent government-recorded and about 59 per cent
-    press-reported, and nothing on the page said so.
+    The arithmetic lives in app/services/mou_stats.py, where it is tested
+    without a database. Two rules it enforces, both learned the hard way:
 
-    So the total still comes back — people look for it, and "what has been
-    announced" is a real thing to count — but it never travels without its
-    composition. A reader who sees the big figure sees, in the same breath,
-    how much of it the government itself has ever written down.
+    - The headline total counts live commitments only. A cancelled MoU (Lulu,
+      2,200 crore) was being added to "promised" on the home page.
+    - The total never travels without its source composition. On this
+      register it is about 2 per cent government-recorded and about 59 per
+      cent press-reported, and a bare number hides that.
     """
     result = await db.execute(
         select(
-            func.count(MOU.id).label("total_mous"),
-            func.sum(MOU.investment_crore).label("total_investment_crore"),
-            func.sum(MOU.expected_employment).label("total_expected_jobs"),
-            func.count(MOU.id).filter(MOU.is_foreign_investment == True).label("foreign_mous"),
-        )
-    )
-    row = result.one()
-
-    tiers = await db.execute(
-        select(
+            MOU.status,
             MOU.source_tier,
-            func.count(MOU.id).label("mous"),
-            func.sum(MOU.investment_crore).label("investment_crore"),
-        ).group_by(MOU.source_tier)
-    )
-    by_tier = {
-        "government": {"mous": 0, "investment_crore": 0.0},
-        "company": {"mous": 0, "investment_crore": 0.0},
-        "press": {"mous": 0, "investment_crore": 0.0},
-        "unlabelled": {"mous": 0, "investment_crore": 0.0},
-    }
-    for tier, mous, crore in tiers:
-        key = tier if tier in by_tier else "unlabelled"
-        by_tier[key]["mous"] += mous or 0
-        by_tier[key]["investment_crore"] = round(
-            by_tier[key]["investment_crore"] + (crore or 0), 2
+            MOU.investment_crore,
+            MOU.expected_employment,
+            MOU.is_foreign_investment,
         )
-
-    total = round(row.total_investment_crore or 0, 2)
-    for key, block in by_tier.items():
-        block["share_pct"] = round(100 * block["investment_crore"] / total, 1) if total else 0.0
-
-    return {
-        "total_mous": row.total_mous or 0,
-        "total_investment_crore": total,
-        "total_expected_jobs": row.total_expected_jobs or 0,
-        "foreign_investments": row.foreign_mous or 0,
-        "by_source_tier": by_tier,
-        "provenance_note": (
-            "This total is what has been announced, not what the government has recorded. "
-            "Each figure below is the part of it that comes from that kind of source."
-        ),
-    }
+    )
+    rows = [
+        MouRow(
+            status=(status.value if hasattr(status, "value") else str(status)),
+            source_tier=tier,
+            investment_crore=crore,
+            expected_employment=jobs,
+            is_foreign=bool(foreign),
+        )
+        for status, tier, crore, jobs, foreign in result.all()
+    ]
+    return summarise(rows)
 
 
 @router.get("/{mou_id}", response_model=MOUOut)

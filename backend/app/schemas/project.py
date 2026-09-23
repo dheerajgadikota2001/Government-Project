@@ -87,12 +87,67 @@ class ProjectListOut(BaseModel):
     # is the cost of a crawler knowing what moved.
     updated_at: Optional[datetime] = None
 
+    # ---------------------------------------------------------------- full
+    #
+    # Everything below is sent ONLY when the caller asks for full=true, and is
+    # left unset otherwise, so the register page a phone loads is byte for byte
+    # what it was.
+    #
+    # WHY THEY ARE HERE AT ALL
+    #
+    # The prerenderer builds all 4,620 static pages from this endpoint, and it
+    # renders every field below. None of them were in this schema, so for
+    # months it rendered ten fields the endpoint never returns: the page had
+    # working code for the project's description, its project code, its
+    # implementing agency and its source document link, and printed none of
+    # them, on every project, in six languages.
+    #
+    # It read as missing data. It was not. Every scraper writes a description
+    # and all four write good ones, from the AMRUT milestone line to the
+    # multi-paragraph Government Order account behind Ramayapatnam Port. The
+    # content was written, stored and paid for, and stopped one schema short of
+    # the page.
+    description: Optional[str] = None
+    description_telugu: Optional[str] = None
+    external_id: Optional[str] = None
+    implementing_agency: Optional[str] = None
+    mandal: Optional[str] = None
+    constituency: Optional[str] = None
+    announced_date: Optional[datetime] = None
+    actual_completion: Optional[datetime] = None
+    actual_cost_crore: Optional[float] = None
+    source_portal: Optional[str] = None
+    source_url: Optional[str] = None
+
     model_config = {"from_attributes": True}
 
     @classmethod
-    def from_project(cls, p) -> "ProjectListOut":
+    def from_project(cls, p, full: bool = False) -> "ProjectListOut":
+        """
+        A row for the register.
+
+        `full` adds the fields a whole page needs and a card does not. The
+        extra fields are not merely None when full is False, they are never
+        passed, which leaves them unset: the route serialises with
+        exclude_unset, so the slim response carries no extra keys at all and
+        the app's payload does not grow by a single byte.
+        """
         cover = p.cover_image
+        extra = {} if not full else dict(
+            description=p.description,
+            description_telugu=p.description_telugu,
+            external_id=p.external_id,
+            implementing_agency=p.implementing_agency,
+            mandal=p.mandal,
+            constituency=p.constituency,
+            announced_date=p.announced_date,
+            actual_completion=p.actual_completion,
+            actual_cost_crore=p.actual_cost_crore,
+            source_portal=p.source_portal,
+            source_url=p.source_url,
+        )
         return cls(
+            **extra,
             id=p.id,
             updated_at=getattr(p, "updated_at", None),
             title=p.title,

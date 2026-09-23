@@ -57,11 +57,31 @@ const LIMIT = Number(flag('--limit') || 0)          // for a fast smoke run
 const CONCURRENCY = Number(flag('--concurrency') || 8)
 
 const {
-  SITE_NAME, STATIC_ROUTES, LANG_CODES, localizedPath, districtPath,
+  SITE_NAME, STATIC_ROUTES, LANG_CODES, INDEXED_LANGS, localizedPath, districtPath,
 } = await import('../src/lib/routes.js')
-const { canonicalFor, seoForProject, seoForDistrict } = await import('../src/lib/seo.js')
+const { canonicalFor, alternatesFor, robotsFor, seoForRoute, seoForFinanceQuestion, seoForProject, seoForDistrict } =
+  await import('../src/lib/seo.js')
+const { localiseVars } = await import('../src/lib/placeNames.js')
 const { schemaFor, projectTrail } = await import('../src/lib/schema.js')
-const { projectSummary } = await import('../src/lib/projectSummary.js')
+const { canonicalIdFor, isDuplicate, membersOf, groupFor, costsDisagree } =
+  await import('../src/lib/sameWork.js')
+const { croreAmount } = await import('../src/lib/money.js')
+const { displayTitle, splitSuspects } = await import('../src/lib/projectTitle.js')
+
+/**
+ * An amount with its unit, for a table cell rather than a sentence.
+ *
+ * The rupee sign is added here because, unlike the summary strings, a cell
+ * has no locale sentence around it to carry one. Rounding still comes from
+ * money.js, so a figure in this table and the same figure in the paragraph
+ * above it cannot round differently.
+ */
+const croreLabel = (v, t) =>
+  (v == null ? null : `\u20B9${croreAmount(v, fmtNum)} ${t('unit.croreWord')}`)
+const {
+  projectSummary, moneySentence, placeSentence, progressSentence, timingSentence,
+  approvalSentence, stageSentence, responsibleSentence, sourceSentence, codeSentence,
+} = await import('../src/lib/projectSummary.js')
 const { districtSummary } = await import('../src/lib/districtSummary.js')
 const { departmentPath, departmentSummary, departmentFacts } = await import('../src/lib/departmentSummary.js')
 const { FACT_CHECKS, factCheckPath, STATUS_RATING, STATUSES } = await import('../src/lib/factcheck.js')
@@ -82,7 +102,10 @@ function translator(code) {
   return (key, vars) => {
     const s = look(cat, key) ?? look(en, key)
     if (typeof s !== 'string') return key.split('.').pop()
-    return vars ? s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m)) : s
+    // Same rule as the app's translator: a {district} slot is filled with the
+    // district's name in this language (src/lib/placeNames.js).
+    const v = localiseVars(vars, code)
+    return v ? s.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(v[k]) : m)) : s
   }
 }
 
@@ -115,7 +138,11 @@ async function allProjects() {
   const items = []
   let expected = null
   for (let page = 1; page <= 200; page++) {
-    const r = await get(`/projects/?page=${page}&page_size=100`)
+    // full=true, because this endpoint is where every static page gets its
+    // facts. Without it the response omits the description, the project code,
+    // the implementing agency and the source document link, and the page
+    // renders nothing for all of them while looking like the record is empty.
+    const r = await get(`/projects/?page=${page}&page_size=100&full=true`)
     expected = r.total ?? expected
     for (const item of r.items || []) if (item?.id != null) items.push(item)
     if (!r.has_next) break
@@ -151,14 +178,201 @@ const clip = (s, max) => {
   return text.length <= max ? text : text.slice(0, max - 1).trimEnd() + '…'
 }
 
-function headTags({ lang, path, title, description, schema }) {
-  const canonical = canonicalFor(path)
-  const alternates = LANG_CODES
-    .map(code => `<link rel="alternate" hreflang="${code}" href="${esc(canonicalFor(localizedPath(code, path)))}" />`)
-    .concat(`<link rel="alternate" hreflang="x-default" href="${esc(canonicalFor(localizedPath('en', path)))}" />`)
+/**
+ * The link graph, written into every page.
+ *
+ * WHY THIS EXISTS
+ *
+ * Search Console, 16 September 2026: 169 pages indexed out of 4,620 submitted,
+ * and 4,379 of them sitting under "Discovered, currently not indexed". That
+ * reason means Google found the URL in the sitemap and chose not to spend a
+ * crawl on it.
+ *
+ * The cause was measurable and it was in this file. Every page written here
+ * carried exactly one link, always to /projects, and /projects linked only to
+ * itself. Following links from the homepage reached two pages out of 4,620.
+ * Every project, district, department, fact check and finance question was an
+ * orphan, known to Google only from the sitemap and linked from nothing. A URL
+ * with no inbound link is the definition of low crawl priority, so Google
+ * queued them and moved on.
+ *
+ * A sitemap is a suggestion. Links are the argument. So every page now carries
+ * the section navigation the React header already renders, every hub page
+ * lists its own children the way the React page does, and the six language
+ * addresses of a page point at each other. Nothing here is shown to a crawler
+ * that a reader does not also get, which is the line that separates internal
+ * linking from cloaking.
+ */
+
+// A language's own name is not a translated string, it is a fixed name, so it
+// lives here rather than in a catalogue where five of six copies would be wrong.
+const LANG_NAME = {
+  en: 'English', te: 'తెలుగు', hi: 'हिन्दी', ur: 'اردو', ta: 'தமிழ்', or: 'ଓଡ଼ିଆ',
+}
+
+// The header's own labels, so the crawler reads the same words a reader does.
+// A route with no entry falls back to the part of its title before the pipe.
+const NAV_KEY = {
+  '/': 'nav.home',
+  '/projects': 'nav.projects',
+  '/finances': 'nav.finances',
+  '/factcheck': 'factcheck.allChecks',
+  '/investments': 'nav.investments',
+  '/governments': 'nav.governments',
+  '/documents': 'nav.govDocuments',
+  '/tenders': 'nav.tenders',
+  '/news': 'nav.news',
+  '/school-education': 'nav.schoolEducation',
+  '/state-facts': 'nav.stateFacts',
+  '/contacts': 'nav.contacts',
+  '/states': 'nav.allStates',
+  '/sources': 'nav.dataSources',
+  '/community': 'nav.community',
+}
+
+const linkTo = (lang, path, label) =>
+  `<li><a href="${esc(localizedPath(lang, path))}">${esc(label)}</a></li>`
+
+const list = (items, heading) =>
+  (items.length ? `${heading ? `<h2>${esc(heading)}</h2>` : ''}<ul>${items.join('')}</ul>` : '')
+
+/** Every section, on every page. This is what makes the site crawlable at all. */
+function siteNav({ t, lang, current }) {
+  const items = STATIC_ROUTES
+    .filter(r => r.pattern !== current)
+    .map(r => linkTo(lang, r.pattern, NAV_KEY[r.pattern]
+      ? t(NAV_KEY[r.pattern])
+      : clip(String(r.title).split('|')[0], 60)))
+  return `<nav><ul>${items.join('')}</ul></nav>`
+}
+
+/**
+ * The same page in the other indexed languages, as real links.
+ *
+ * Indexed ones only. This markup is what a crawler follows; a reader never
+ * sees it, because the app replaces #root on mount and brings its own
+ * switcher, which navigates by script rather than by link. So linking a
+ * noindex language page here would spend crawl time on a page that has
+ * asked not to be indexed, 526 projects at a time. A language page still
+ * links back to English, which is the direction worth following.
+ */
+function langNav({ path, lang }) {
+  // lang, deliberately not hreflang. The head declares the hreflang set, when
+  // there is one, exactly once. On an anchor lang is the attribute that tells
+  // a screen reader to switch voice.
+  // And only where that language's page is itself indexed: a Telugu
+  // department page is noindex, so the English one does not link it.
+  const items = INDEXED_LANGS.filter(c => c !== lang && robotsFor(localizedPath(c, path)) === null).map(c =>
+    `<li><a href="${esc(localizedPath(c, path))}" lang="${esc(c)}">${esc(LANG_NAME[c] || c)}</a></li>`)
+  return items.length ? `<ul>${items.join('')}</ul>` : ''
+}
+
+/** The tail every page carries: the other languages, then every section. */
+function footer({ t, lang, path, current }) {
+  return [langNav({ path, lang }), siteNav({ t, lang, current })].filter(Boolean).join('\n      ')
+}
+
+// ---------------------------------------------------------------- child lists
+//
+// A hub page that names its children is two things at once: a page worth
+// indexing, and the only route by which those children get crawled.
+
+/**
+ * A district link, but only where the district has a page.
+ *
+ * The register carries the district name the source document used, and some
+ * sources write Anantapur for Ananthapuramu, Nellore for Sri Potti Sriramulu
+ * Nellore, Tirupathi for Tirupati. districtPath folds all of those now, so the
+ * seven spellings that used to produce 42 links to pages that do not exist
+ * resolve to the district's real address instead.
+ *
+ * This guard stays because the register is fed by scrapers. The next new
+ * spelling, typo or renamed district will arrive with nothing behind it, and a
+ * crawl budget spent on 404s is worse than no link. The build names whatever
+ * it could not match rather than hiding it.
+ */
+const unmatchedDistricts = new Set()
+function districtHref(name, known) {
+  if (!name) return null
+  const path = districtPath(name)
+  if (known.has(path)) return path
+  unmatchedDistricts.add(name)
+  return null
+}
+
+const districtLinks = ({ districtRows, t, lang }) => list(
+  districtRows.filter(r => r?.district).map(r =>
+    linkTo(lang, districtPath(r.district), t('projects.district.heading', { district: r.district }))),
+  t('projects.filters.district'))
+
+const departmentLinks = ({ departments, t, lang }) => list(
+  departments.filter(d => d?.department && departmentFacts(d).latest).map(d =>
+    linkTo(lang, departmentPath(d.department), d.department)),
+  t('finances.dept.allDepartments'))
+
+const questionLinks = ({ t, lang }) => list(
+  FINANCE_QUESTIONS.map(q => linkTo(lang, financeQuestionPath(q.slug), t(q.questionKey))),
+  t('finances.menu.title'))
+
+const checkLinks = ({ t, lang }) => list(
+  FACT_CHECKS.map(c => linkTo(lang, factCheckPath(c.slug), c.question)),
+  t('factcheck.allChecks'))
+
+/**
+ * Every project, under the district it belongs to.
+ *
+ * 673 links on one page is a lot to read and exactly right to crawl: it is the
+ * register, and the register is the list. Grouping by district gives the crawl
+ * a structure to follow and gives a reader the heading they were looking for.
+ */
+function projectLinks({ projects, t, lang, knownDistricts, districtOf = p => p.district }) {
+  const byDistrict = new Map()
+  // One entry per real-world work. The register listed Polavaram twice, under
+  // two names, at two costs, and a reader scanning for it had no way to know
+  // which one to open.
+  for (const p of projects.filter(p => !isDuplicate(p.id))) {
+    const key = districtOf(p) || ''
+    if (!byDistrict.has(key)) byDistrict.set(key, [])
+    byDistrict.get(key).push(p)
+  }
+  const out = []
+  for (const key of [...byDistrict.keys()].sort()) {
+    const href = districtHref(key, knownDistricts)
+    const label = key ? esc(t('projects.district.heading', { district: key })) : ''
+    const heading = !key ? ''
+      : href ? `<h2><a href="${esc(localizedPath(lang, href))}">${label}</a></h2>`
+      : `<h2>${label}</h2>`
+    out.push(heading + `<ul>${byDistrict.get(key)
+      .map(p => linkTo(lang, `/projects/${p.id}`, displayTitle(p.title))).join('')}</ul>`)
+  }
+  return out.join('\n      ')
+}
+
+/**
+ * @param canonicalPath  the path this page should hand its ranking to, when
+ *                       that is not its own. Used by the second record of a
+ *                       project two government sources both carry: the page is
+ *                       still written and still reachable, and it tells the
+ *                       crawler which of the two to rank rather than competing
+ *                       with itself.
+ *
+ * The hreflang set, when there is one, is deliberately NOT redirected with
+ * it. hreflang describes this page in its languages, and pointing it at
+ * another project's addresses would claim a different record's translation
+ * is this one's.
+ *
+ * Head rules live in seo.js (alternatesFor, robotsFor) so the prerendered
+ * head and the one the app writes after load cannot disagree.
+ */
+function headTags({ lang, path, title, description, schema, canonicalPath }) {
+  const canonical = canonicalFor(canonicalPath || path)
+  const alternates = alternatesFor(path)
+    .map(([code, href]) => `<link rel="alternate" hreflang="${esc(code)}" href="${esc(href)}" />`)
     .join('\n    ')
+  const robots = robotsFor(path)
 
   return [
+    robots ? `<meta name="robots" content="${esc(robots)}" />` : '',
     `<link rel="canonical" href="${esc(canonical)}" />`,
     `<meta property="og:url" content="${esc(canonical)}" />`,
     `<meta property="og:title" content="${esc(title)}" />`,
@@ -168,7 +382,124 @@ function headTags({ lang, path, title, description, schema }) {
     `<meta name="twitter:description" content="${esc(description)}" />`,
     alternates,
     `<script type="application/ld+json" id="site-schema">${JSON.stringify(schema)}</script>`,
-  ].join('\n    ')
+  ].filter(Boolean).join('\n    ')
+}
+
+/**
+ * The questions a person types, and this page's answer to each one.
+ *
+ * WHY QUESTIONS
+ *
+ * Nobody searches "Polavaram Irrigation Project (Phase 1)". They search "how
+ * much was sanctioned for Polavaram" and "when will Polavaram be finished".
+ * The page held both answers and phrased neither as the question, so a search
+ * that this page could answer better than anyone matched a rival page that
+ * merely asked it.
+ *
+ * Nothing new is invented here. Every answer is one of the sentences in
+ * projectSummary.js, built from the same field by the same helper, so the
+ * paragraph at the top and the section below it cannot disagree. A question
+ * whose field is empty is not asked at all: 673 pages carrying an identical
+ * "no figure is on record" paragraph would be duplicate boilerplate, which is
+ * the thin-content problem this work exists to fix, not a fix for it.
+ *
+ * @returns [{ q, a, extra }]  q and a are plain text and go into the FAQ
+ *                             schema; extra is optional markup that does not.
+ */
+function projectSections({ project, observation, t, lang, knownDistricts, siblings = [] }) {
+  const fm = monthFmt(t)
+  const name = displayTitle(project.title)
+  const out = []
+  const ask = (key, sentences, extra) => {
+    const a = sentences.filter(Boolean).join(' ')
+    if (a) out.push({ q: t(`projectDetail.q.${key}`, { name }), a, extra })
+  }
+
+  // What it is, in the source document's own words, and first because it is
+  // the reader's first question. This is the only section on the page that is
+  // prose rather than a figure, and all four scrapers write it: the AMRUT
+  // milestone line, the Socio-Economic Survey's table reference, the
+  // multi-paragraph Government Order account behind Ramayapatnam Port. None of
+  // it reached a page until the list endpoint started carrying it.
+  ask('what', [project.description])
+
+  ask('cost', [moneySentence({ project, observation, t, fmtNum, fmtMonth: fm })])
+  ask('stage', [stageSentence(project, t), progressSentence(project, t)])
+  ask('when', [timingSentence(project, t, fm), approvalSentence(project, t, fm)])
+
+  // The district link lives inside its own answer rather than loose at the
+  // foot of the page. A reader who has just been told which district this is
+  // in is the reader most likely to want the other projects in it, and a
+  // crawler reads the link in the context of the words around it.
+  const districtTarget = districtHref(project.district, knownDistricts)
+  ask('where', [placeSentence(project, t)], districtTarget
+    ? `<p><a href="${esc(localizedPath(lang, districtTarget))}">` +
+      `${esc(t('projectDetail.related.seeDistrict', { district: project.district }))}</a></p>`
+    : '')
+
+  ask('who', [responsibleSentence(project, t)])
+
+  const source = observation?.source_url || project.source_url
+  const sourceLabel = observation?.source_label || project.source_portal
+  ask('source', [sourceSentence({ project, observation, t }), codeSentence(project, t)],
+    source
+      ? `<p><a href="${esc(source)}" rel="nofollow">${esc(sourceLabel || t('projectDetail.primarySource'))}</a></p>`
+      : '')
+
+  // The disagreement, when there is one, asked as the question a reader would
+  // ask. This is the only section on the page that no other site can write:
+  // Wikipedia gives one figure, the project authority gives one figure, a news
+  // article quotes one figure and moves on. Nobody says the government's own
+  // documents differ, because nobody else is holding both of them open.
+  if (siblings.length > 1) {
+    const money = v => (v == null ? null : croreLabel(v, t))
+    const costs = siblings.map(p => p.estimated_cost_crore)
+    if (costsDisagree(costs)) {
+      const real = costs.filter(c => typeof c === 'number' && c > 0)
+      ask('differ', [t('projectDetail.a.differ', {
+        name, count: siblings.length,
+        low: money(Math.min(...real)), high: money(Math.max(...real)),
+      })])
+    }
+  }
+
+  return out
+}
+
+/**
+ * Every government record of this work, side by side.
+ *
+ * Not a merge. Nothing here picks a winning figure or averages two of them:
+ * both numbers are published by the government and the gap between them is the
+ * fact. Each row names its own document, so a reader can check either one and
+ * disagree with us.
+ */
+function sourcesTable({ siblings, observations, t, lang }) {
+  if (siblings.length < 2) return ''
+  const money = v => (v == null ? '' : croreLabel(v, t))
+  const fm = monthFmt(t)
+
+  const head = [t('projectDetail.sources.column'), t('projectDetail.tiles.estimatedCost'),
+    t('projectDetail.tiles.physicalProgress'), t('projectDetail.tiles.expectedCompletion')]
+
+  const rows = siblings.map((p, i) => {
+    const obs = observations[i]
+    const label = obs?.source_label || p.source_portal || ''
+    const href = obs?.source_url || p.source_url
+    const cell = href
+      ? `<a href="${esc(href)}" rel="nofollow">${esc(label)}</a>`
+      : esc(label)
+    return `<tr><td>${cell}</td><td>${esc(money(p.estimated_cost_crore))}</td>` +
+      `<td>${esc(p.completion_percentage == null ? '' : `${p.completion_percentage}%`)}</td>` +
+      `<td>${esc(p.expected_completion ? fm(p.expected_completion) : '')}</td></tr>`
+  }).join('')
+
+  return [
+    `<h2>${esc(t('projectDetail.sources.heading'))}</h2>`,
+    `<p>${esc(t('projectDetail.sources.note'))}</p>`,
+    `<table><thead><tr>${head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead>` +
+      `<tbody>${rows}</tbody></table>`,
+  ].join('\n      ')
 }
 
 /**
@@ -177,49 +508,62 @@ function headTags({ lang, path, title, description, schema }) {
  * Ordered the way a citation is built: what it is, the number, when it was
  * published, who published it, then where to check. An answer engine quoting
  * this page has everything it needs before it stops reading.
+ *
+ * The lead paragraph is the whole summary and the sections below restate parts
+ * of it. That repetition is deliberate and it is how an answer page reads: the
+ * paragraph is what a snippet quotes, the headings are what a query matches.
  */
-function projectBody({ project, observation, t, lang }) {
-  const fm = monthFmt(t)
-  const summary = projectSummary({ project, observation, t, fmtNum, fmtMonth: fm })
-  const rows = []
-
-  const money = v => (v == null ? null : `₹${fmtNum(Math.round(v) >= 100 ? Math.round(v) : Number(Number(v).toFixed(2)))} ${t('unit.croreWord')}`)
-
-  if (project.estimated_cost_crore != null) rows.push([t('projectDetail.tiles.estimatedCost'), money(project.estimated_cost_crore)])
-  if (observation?.cumulative_expenditure_crore != null) rows.push([t('projectDetail.tiles.moneySpent'), money(observation.cumulative_expenditure_crore)])
-  if (project.completion_percentage != null) rows.push([t('projectDetail.tiles.physicalProgress'), `${project.completion_percentage}%`])
-  if (project.expected_completion) rows.push([t('projectDetail.tiles.expectedCompletion'), fm(project.expected_completion)])
-  if (project.district) rows.push([t('projects.filters.district'), project.district])
-  if (project.department) rows.push([t('projectDetail.facts.department'), project.department])
-  if (project.implementing_agency) rows.push([t('projectDetail.facts.implementingAgency'), project.implementing_agency])
-  if (project.external_id) rows.push([t('projectDetail.facts.projectCode'), project.external_id])
-
-  const source = observation?.source_url || project.source_url
-  const sourceLabel = observation?.source_label || project.source_portal
+function projectBody({ project, observation, t, lang, path, knownDistricts, sections, sourcesBlock = '' }) {
+  const summary = projectSummary({ project, observation, t, fmtNum, fmtMonth: monthFmt(t) })
 
   return [
-    `<h1>${esc(project.title)}</h1>`,
+    // The name is the register's, in English, until a checked translation
+    // exists. lang="en" tells a screen reader to switch voice and tells a
+    // crawler which words on a Telugu page are not Telugu.
+    `<h1${lang === 'en' ? '' : ' lang="en"'}>${esc(displayTitle(project.title))}</h1>`,
     summary.length ? `<p>${esc(summary.join(' '))}</p>` : '',
-    rows.length ? `<dl>${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : '',
-    project.description ? `<h2>${esc(t('projectDetail.whatRecordSays'))}</h2><p>${esc(project.description)}</p>` : '',
-    source ? `<p><a href="${esc(source)}" rel="nofollow">${esc(sourceLabel || t('projectDetail.primarySource'))}</a></p>` : '',
-    project.district
-      ? `<p><a href="${esc(localizedPath(lang, `/projects?district=${encodeURIComponent(project.district)}`))}">${esc(t('projectDetail.related.seeDistrict', { district: project.district }))}</a></p>`
-      : '',
+    ...sections.map(({ q, a, extra }) =>
+      `<h2>${esc(q)}</h2>\n      <p>${esc(a)}</p>${extra ? `\n      ${extra}` : ''}`),
+    sourcesBlock,
     `<p><a href="${esc(localizedPath(lang, '/projects'))}">${esc(t('projectDetail.related.seeRegister'))}</a></p>`,
+    footer({ t, lang, path }),
   ].filter(Boolean).join('\n      ')
 }
 
-function districtBody({ district, total, row, t, lang }) {
+function districtBody({ district, total, row, projects, t, lang, path,
+  districtOf = p => p.district, canonicalProject = p => p }) {
   const lead = districtSummary({ district, total, row, t, fmtNum })
+  // A district page that does not name its own projects is a dead end: those
+  // projects then have no inbound link except the register, and the whole
+  // point of giving districts a real address was that people search for them.
+  const home = districtPath(district)
+  // Matched on the address, not on the string. An exact comparison is what
+  // kept 42 projects off the district page they belong to: the register spells
+  // one of them "Tirupathi" and this page is headed "Tirupati", and those are
+  // two correct names for one district.
+  //
+  // districtOf, not p.district, for the same reason one page down: the record
+  // that names the district is not always the record that carries the work.
+  const seen = new Set()
+  const mine = []
+  for (const p of projects || []) {
+    const where = districtOf(p)
+    if (!where || districtPath(where) !== home) continue
+    const owner = canonicalProject(p)
+    if (seen.has(owner.id)) continue
+    seen.add(owner.id)
+    mine.push(owner)
+  }
   return [
     `<h1>${esc(t('projects.district.heading', { district }))}</h1>`,
     lead.length ? `<p>${esc(lead.join(' '))}</p>` : '',
+    list(mine.map(p => linkTo(lang, `/projects/${p.id}`, displayTitle(p.title)))),
     `<p><a href="${esc(localizedPath(lang, '/projects'))}">${esc(t('projectDetail.related.seeRegister'))}</a></p>`,
+    footer({ t, lang, path }),
   ].filter(Boolean).join('\n      ')
 }
 
-function departmentBody({ department, t, lang }) {
+function departmentBody({ department, t, lang, path }) {
   const lead = departmentSummary({ department, t, fmtNum })
   const facts = departmentFacts(department)
   const rows = (department.rows || [])
@@ -246,10 +590,11 @@ function departmentBody({ department, t, lang }) {
           })).slice(0, 3).join(' '))}</p>`
       : '',
     `<p><a href="${esc(localizedPath(lang, '/finances'))}">${esc(t('finances.dept.allDepartments'))}</a></p>`,
+    footer({ t, lang, path }),
   ].filter(Boolean).join('\n      ')
 }
 
-function factCheckBody({ check, t, lang }) {
+function factCheckBody({ check, t, lang, path }) {
   const money = v => `₹${fmtNum(Math.round(v))} ${t('unit.croreWord')}`
   const claims = (check.claims || []).map(c =>
     `<h2>${esc(t('factcheck.claimHeading'))}</h2>` +
@@ -268,6 +613,7 @@ function factCheckBody({ check, t, lang }) {
     `<h2>${esc(t('factcheck.recordHeading'))}</h2><dl>${record}</dl>`,
     `<h2>${esc(t('factcheck.differenceHeading'))}</h2><p>${esc(check.explanation)}</p>`,
     `<p><a href="${esc(localizedPath(lang, '/factcheck'))}">${esc(t('factcheck.allChecks'))}</a></p>`,
+    footer({ t, lang, path }),
   ].join('\n      ')
 }
 
@@ -280,7 +626,7 @@ function factCheckBody({ check, t, lang }) {
  * the same text a reader sees first, and it is enough for the address to mean
  * something in a search result rather than "State finances" nine times over.
  */
-function financeQuestionBody({ question, t, lang }) {
+function financeQuestionBody({ question, t, lang, path }) {
   const others = FINANCE_QUESTIONS.filter(q => q.slug !== question.slug)
   return [
     `<h1>${esc(t('finances.title'))}</h1>`,
@@ -291,15 +637,82 @@ function financeQuestionBody({ question, t, lang }) {
     ...others.map(q => `<li><a href="${esc(localizedPath(lang, financeQuestionPath(q.slug)))}">${esc(t(q.questionKey))}</a></li>`),
     '</ul>',
     `<p><a href="${esc(localizedPath(lang, '/finances'))}">${esc(t('finances.title'))}</a></p>`,
+    footer({ t, lang, path }),
   ].filter(Boolean).join('\n      ')
 }
 
-function routeBody({ route, t, lang }) {
+/**
+ * A section page, with the section in it.
+ *
+ * This used to be a heading, a sentence and one link to /projects, on all
+ * nineteen static routes including /projects itself. That is both halves of
+ * the Search Console report in one function: nothing to crawl onward to, which
+ * produced 4,379 "discovered, not indexed", and nothing worth indexing, which
+ * produced the 41 that were crawled and passed over.
+ */
+/**
+ * The MoU register as a crawler reads it: a headline that carries its own
+ * composition, then every commitment with its amount, its status and who
+ * says so. Same catalogue keys as the cards, so the two cannot disagree.
+ */
+function mouRegister({ mous, mouStats, t, lang }) {
+  if (!mous.length) return ''
+  const label = v => String(v || '').replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase())
+  const tier = m => t(`investments.card.tier.${m.source_tier || 'unlabelled'}`)
+  const status = m => (!m.source_tier || m.source_tier === 'government')
+    ? label(m.status)
+    : t('investments.card.statusBy', { status: label(m.status), source: t(`investments.card.saysWho.${m.source_tier}`) })
+  const fmtMonth = monthFmt(t)
+  const out = []
+
+  if (mouStats?.total_investment_crore != null) {
+    const by = mouStats.by_source_tier || {}
+    out.push(`<p>${esc(t('investments.register.summary', {
+      total: croreLabel(mouStats.total_investment_crore, t),
+      n: mouStats.total_mous,
+      gov: by.government?.share_pct ?? 0, company: by.company?.share_pct ?? 0, press: by.press?.share_pct ?? 0,
+    }))}</p>`)
+    const nl = mouStats.not_live
+    if (nl && (nl.cancelled?.mous || nl.stalled?.mous)) {
+      out.push(`<p>${esc(t('investments.provenance.notLive', {
+        cancelled: nl.cancelled?.mous || 0, cancelledCr: croreAmount(nl.cancelled?.investment_crore || 0, fmtNum),
+        stalled: nl.stalled?.mous || 0, stalledCr: croreAmount(nl.stalled?.investment_crore || 0, fmtNum),
+      }))}</p>`)
+    }
+  }
+
+  const cols = ['company', 'sector', 'amount', 'status', 'source', 'signed']
+  out.push(`<h2>${esc(t('investments.register.heading'))}</h2>`)
+  out.push('<table>',
+    `<thead><tr>${cols.map(c => `<th>${esc(t(`investments.register.col.${c}`))}</th>`).join('')}</tr></thead>`,
+    '<tbody>',
+    ...mous.map(m => '<tr>' + [
+      m.company_name,
+      label(m.sector),
+      m.investment_crore == null ? t('investments.register.amountUnknown') : croreLabel(m.investment_crore, t),
+      status(m),
+      tier(m),
+      m.signed_date ? fmtMonth(String(m.signed_date).slice(0, 7)) : t('investments.card.undated'),
+    ].map(v => `<td>${esc(v)}</td>`).join('') + '</tr>'),
+    '</tbody></table>')
+  return out.join('\n      ')
+}
+
+function routeBody({ route, seo, t, lang, path, ctx }) {
+  const children = {
+    '/': () => districtLinks(ctx),
+    '/projects': () => [districtLinks(ctx), projectLinks(ctx)].join('\n      '),
+    '/finances': () => [questionLinks(ctx), departmentLinks(ctx)].join('\n      '),
+    '/factcheck': () => checkLinks(ctx),
+    '/investments': () => mouRegister(ctx),
+  }[route.pattern]
+
   return [
-    `<h1>${esc(route.title)}</h1>`,
-    `<p>${esc(route.description)}</p>`,
-    `<p><a href="${esc(localizedPath(lang, '/projects'))}">${esc(t('projectDetail.related.seeRegister'))}</a></p>`,
-  ].join('\n      ')
+    `<h1>${esc(seo.title)}</h1>`,
+    `<p>${esc(seo.description)}</p>`,
+    children ? children() : '',
+    footer({ t, lang, path, current: route.pattern }),
+  ].filter(Boolean).join('\n      ')
 }
 
 const MARK_OPEN = '<!--prerendered-->'
@@ -332,11 +745,12 @@ function stripPrevious(html) {
     .replace(/\s*<link rel="canonical"[^>]*>/g, '')
     .replace(/\s*<meta property="og:url"[^>]*>/g, '')
     .replace(/\s*<meta property="og:locale"[^>]*>/g, '')
+    .replace(/\s*<meta name="robots"[^>]*>/g, '')
     .replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '')
     .replace(/\s*<script type="application\/ld\+json" id="site-schema">[\s\S]*?<\/script>/g, '')
 }
 
-function render(template, { lang, dir, path, title, description, schema, body }) {
+function render(template, { lang, dir, path, title, description, schema, body, canonicalPath }) {
   let html = stripPrevious(template)
 
   html = html.replace(/<html lang="[^"]*"/, `<html lang="${esc(lang)}" dir="${esc(dir)}"`)
@@ -353,13 +767,20 @@ function render(template, { lang, dir, path, title, description, schema, body })
   html = html.replace(/<meta\s+name="twitter:title"[\s\S]*?\/>\s*/g, '')
   html = html.replace(/<meta\s+name="twitter:description"[\s\S]*?\/>\s*/g, '')
 
-  html = html.replace('</head>', `  ${headTags({ lang, path, title, description, schema })}\n  </head>`)
+  html = html.replace('</head>', `  ${headTags({ lang, path, title, description, schema, canonicalPath })}\n  </head>`)
 
-  // Inside #root on purpose: React replaces this on hydration, so a reader
-  // never sees both. A crawler that stops before running scripts sees it all.
+  // Inside #root on purpose: createRoot empties the container when the app
+  // mounts, so a reader never sees both. A crawler that stops before running
+  // scripts sees it all.
+  //
+  // data-prerender is what the inline stylesheet in index.html hooks onto. The
+  // reader looks at this markup for as long as the 420 KB bundle takes to
+  // arrive, and until that attribute existed they looked at it with no styles
+  // at all: a bare column of links that read as a broken page. The attribute
+  // lives only here, so those rules can never reach React's DOM afterwards.
   html = html.replace(
     '<div id="root"></div>',
-    `<div id="root">${MARK_OPEN}\n      ${body}\n    ${MARK_CLOSE}</div>`)
+    `<div id="root">${MARK_OPEN}<div data-prerender>\n      ${body}\n    </div>${MARK_CLOSE}</div>`)
 
   return html
 }
@@ -402,12 +823,70 @@ try {
   departments = []   // forty fewer pages, never forty wrong ones
 }
 
+/**
+ * Every district that gets a page, and its count where the register knows one.
+ *
+ * Two endpoints, on purpose. /projects/insights returns only districts that
+ * currently hold a project, and that is what the counts come from. But the
+ * sitemap is built from /projects/filters, which returns all 26. For months
+ * the two disagreed by one: Alluri Sitharama Raju has no tracked project yet,
+ * so it was published in the sitemap and never prerendered, and the six URLs
+ * behind it served the empty app shell to every crawler that does not run
+ * JavaScript.
+ *
+ * Taking the union fixes that from this side rather than by quietly dropping
+ * the district from the sitemap. A district with nothing tracked in it is a
+ * true answer to "projects in Alluri Sitharama Raju", and saying so is the
+ * page this site should have. The count is zero and the page says zero.
+ */
+/**
+ * The MoU register and its headline, for the /investments page.
+ *
+ * The page a crawler read was 83 words: the route's title and description,
+ * and nothing else. Twenty-eight commitments, 8.5 lakh crore of announced
+ * money, Google, NTPC, ArcelorMittal by name, all of it fetched by script
+ * after load and none of it in the HTML. A search for "Google data centre
+ * Visakhapatnam investment" could not find the page that lists it.
+ *
+ * Non-fatal: a register that cannot be read costs the table, not the build.
+ */
+let mous = []
+let mouStats = null
+try {
+  const r = await get('/mous/?page=1&page_size=100')
+  mous = r?.items || []
+  if (r?.has_next) console.warn('prerender: the MoU register has more than 100 rows; only the first page is prerendered')
+  mouStats = await get('/mous/stats')
+} catch {
+  mous = []
+  mouStats = null
+}
+
 let districtRows = []
 try {
   const insights = await get('/projects/insights')
   districtRows = insights?.by_district || []
 } catch {
   districtRows = []   // districts still get their count, just not their cost
+}
+
+try {
+  const filters = await get('/projects/filters')
+  // The endpoint returns { code, name } objects, not strings. The sitemap
+  // learned that the hard way and shipped 26 URLs reading %5Bobject%20Object%5D.
+  const named = (filters?.districts || [])
+    .map(d => (typeof d === 'string' ? d : d?.name))
+    .filter(n => typeof n === 'string' && n.trim())
+    .map(n => n.trim())
+  const have = new Set(districtRows.filter(r => r?.district).map(r => districtPath(r.district)))
+  for (const name of named) {
+    if (have.has(districtPath(name))) continue
+    have.add(districtPath(name))
+    districtRows.push({ district: name, count: 0 })
+  }
+} catch {
+  // The filters endpoint is not load bearing. Without it the build is exactly
+  // what it was before: every district that holds a project still gets a page.
 }
 
 const extras = await pool(projects, CONCURRENCY, async p => {
@@ -419,6 +898,44 @@ const extras = await pool(projects, CONCURRENCY, async p => {
     return null   // a thinner paragraph, never a wrong one
   }
 })
+
+// Every project by id, and where it sits in `extras`, so a project can reach
+// the other government record of the same work without a scan per page.
+const byId = new Map(projects.map(p => [p.id, p]))
+const indexById = new Map(projects.map((p, i) => [p.id, i]))
+
+/** The project whose page carries this work. Itself, unless it is a duplicate. */
+const canonicalOf = p => byId.get(canonicalIdFor(p.id)) || p
+
+/**
+ * Where a work is, taking the answer from whichever record has one.
+ *
+ * The record with the fuller figures is not always the record with the
+ * district. MoSPI files Polavaram with no district at all, the Socio-Economic
+ * Survey files it in Eluru, and once the MoSPI page became canonical the dam
+ * dropped off Eluru's district page entirely: the page still linked the other
+ * record, which now points away from itself. A link a crawler is told to leave
+ * again is worse than the duplicate it replaced.
+ *
+ * This is not inventing a location. It is reading the same work's own row in
+ * another government document, which is what the page tells the reader it is
+ * doing.
+ */
+function workDistrict(p) {
+  if (p?.district) return p.district
+  for (const id of membersOf(p?.id)) {
+    const sib = byId.get(id)
+    if (sib?.district) return sib.district
+  }
+  return null
+}
+
+// The districts that actually have a page. districtPath folds a source
+// document's spelling onto the canonical address first, so "Tirupathi" and
+// "Tirupati" both land here as one entry. Anything still left out is a name
+// nothing in the catalogue recognises, and must not be linked.
+const knownDistricts = new Set(
+  districtRows.filter(r => r?.district).map(r => districtPath(r.district)))
 
 const DIRS = { ur: 'rtl' }
 let written = 0
@@ -434,24 +951,26 @@ function emit(path, html) {
 for (const lang of LANG_CODES) {
   const t = translator(lang)
   const dir = DIRS[lang] || 'ltr'
+  // Everything a hub page needs to name its children, built once per language.
+  const ctx = { projects, districtRows, departments, knownDistricts, mous, mouStats, t, lang, districtOf: workDistrict }
 
   for (const route of STATIC_ROUTES) {
     const path = localizedPath(lang, route.pattern)
-    const schema = schemaFor(path, { title: route.title, description: route.description })
+    const seo = seoForRoute(route, { t, lang })
+    const schema = schemaFor(path, { title: seo.title, description: seo.description })
     emit(path, render(template, {
-      lang, dir, path, title: route.title, description: route.description, schema,
-      body: routeBody({ route, t, lang }),
+      lang, dir, path, title: seo.title, description: seo.description, schema,
+      body: routeBody({ route, seo, t, lang, path, ctx }),
     }))
   }
 
   for (const question of FINANCE_QUESTIONS) {
     const path = localizedPath(lang, financeQuestionPath(question.slug))
-    const title = clip(question.title, 90)
-    const description = clip(question.description, 200)
+    const { title, description } = seoForFinanceQuestion(question, { t, lang })
     const schema = schemaFor(path, { title, description })
     emit(path, render(template, {
       lang, dir, path, title, description, schema,
-      body: financeQuestionBody({ question, t, lang }),
+      body: financeQuestionBody({ question, t, lang, path }),
     }))
   }
 
@@ -464,7 +983,7 @@ for (const lang of LANG_CODES) {
     })
     emit(path, render(template, {
       lang, dir, path, title: clip(check.question, 70), description: clip(check.summary, 200), schema,
-      body: factCheckBody({ check, t, lang }),
+      body: factCheckBody({ check, t, lang, path }),
     }))
   }
 
@@ -478,36 +997,114 @@ for (const lang of LANG_CODES) {
     const schema = schemaFor(path, { title, description })
     emit(path, render(template, {
       lang, dir, path, title, description, schema,
-      body: departmentBody({ department, t, lang }),
+      body: departmentBody({ department, t, lang, path }),
     }))
   }
 
   for (const row of districtRows) {
     if (!row?.district) continue
     const path = localizedPath(lang, districtPath(row.district))
-    const seo = seoForDistrict(row.district, row.count)
+    const seo = seoForDistrict(row.district, row.count, { t, lang })
     const schema = schemaFor(path, { title: seo.title, description: seo.description })
     emit(path, render(template, {
       lang, dir, path, title: seo.title, description: seo.description, schema,
-      body: districtBody({ district: row.district, total: row.count, row, t, lang }),
+      body: districtBody({
+        district: row.district, total: row.count, row, projects, t, lang, path,
+        districtOf: workDistrict, canonicalProject: canonicalOf,
+      }),
     }))
   }
 
   projects.forEach((project, i) => {
     const path = localizedPath(lang, `/projects/${project.id}`)
-    const seo = seoForProject(project)
-    const title = seo.title || `${project.title} | ${SITE_NAME}`
+    // The same district the page body prints: a record with none of its own
+    // (the MoSPI Polavaram row) takes it from the merged sibling that has one,
+    // so the title and snippet cannot say "Andhra Pradesh" where the page
+    // itself says "Eluru".
+    const seo = seoForProject({ ...project, district: workDistrict(project) }, { t, lang })
+    const title = seo.title || `${displayTitle(project.title)} | ${SITE_NAME}`
     const description = clip(seo.description || project.description || '', 200)
+    const observation = extras[i]
+
+    // Every government record of this same work, canonical first. Usually just
+    // this one. Two sources carrying one dam under two names is the case this
+    // exists for, and both of them lost while they competed for the same query.
+    const siblings = membersOf(project.id).map(id => byId.get(id)).filter(Boolean)
+    const siblingObs = siblings.map(p => extras[indexById.get(p.id)] ?? null)
+
+    const sections = projectSections({ project, observation, t, lang, knownDistricts, siblings })
+    // The same question and answer pairs the reader sees, handed to the
+    // machines as data. Google shows an FAQ rich result only for a short list
+    // of official sites and this is not one of them, so this is not here for a
+    // rich result. It is here because an answer engine asked "how much did
+    // Polavaram cost" reads this graph before it reads the prose, and a cited
+    // answer it can lift cleanly is the whole point of the site.
     const schema = schemaFor(path, {
-      title, description, breadcrumbTrail: projectTrail(project),
+      title,
+      description,
+      // The same check the visible link makes. A breadcrumb naming a district
+      // page that was never written is a published 404.
+      breadcrumbTrail: projectTrail(project, districtHref(project.district, knownDistricts)),
+      faq: sections,
     })
     emit(path, render(template, {
       lang, dir, path, title, description, schema,
-      body: projectBody({ project, observation: extras[i], t, lang }),
+      // A duplicate record hands its ranking to the canonical page rather than
+      // splitting it. The page is still written: its URL may already be
+      // indexed or shared, and a crawler that finds it must be told where the
+      // work really lives, not given a 404.
+      canonicalPath: isDuplicate(project.id)
+        ? localizedPath(lang, `/projects/${canonicalIdFor(project.id)}`)
+        : undefined,
+      body: projectBody({
+        project, observation, t, lang, path, knownDistricts, sections,
+        sourcesBlock: sourcesTable({ siblings, observations: siblingObs, t, lang }),
+      }),
     }))
   })
 }
 
+const merged = projects.filter(p => isDuplicate(p.id)).length
 console.log(`prerender: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${FACT_CHECKS.length} fact checks` +
   ` + ${districtRows.length} districts + ${departments.length} departments + ${projects.length} projects` +
   ` x ${LANG_CODES.length} languages = ${written} files`)
+// The number that decides whether any of it gets crawled. Every page carries
+// the section nav, so a crawler reaching one page can reach all of them.
+console.log(`prerender: every page links to ${STATIC_ROUTES.length - 1} sections;` +
+  ` /projects lists ${projects.length - merged} projects, /finances lists ${FINANCE_QUESTIONS.length} questions and ${departments.length} demands`)
+// Said every build, so nobody wonders later why five languages are missing
+// from Search Console. They are written, served and deliberately not indexed.
+const quiet = LANG_CODES.filter(c => !INDEXED_LANGS.includes(c))
+if (quiet.length) {
+  console.log(`prerender: indexed ${INDEXED_LANGS.join(', ')}; ${quiet.join(', ')} written for readers ` +
+    'with noindex, follow and no hreflang (src/lib/routes.js INDEXED_LANGS). Pages whose text is English ' +
+    '(fact checks, department budgets) are noindex outside English (seo.js ENGLISH_CONTENT_PATTERNS)')
+}
+if (merged) {
+  // Said out loud because merging is a judgement, not a rule, and a silent
+  // merge is how a real project disappears from a public register.
+  console.log(`prerender: ${merged} record(s) point at another project's page as the same work, ` +
+    'and are kept out of the register list and the sitemap ' +
+    `(${projects.filter(p => isDuplicate(p.id)).map(p => `/projects/${p.id} -> /projects/${canonicalIdFor(p.id)}`).join(', ')})`)
+}
+// Case is fixed here; a word the PDF tore in half is not, because repairing it
+// without a dictionary is a guess at what a government document said. Counted
+// so it is visible rather than sitting unseen in 900 pages.
+const byTitle = new Map(projects.map(p => [p.title, p.id]))
+const torn = splitSuspects(projects.map(p => p.title))
+  .map(x => ({ id: byTitle.get(x.title), at: x.at }))
+if (torn.length) {
+  console.warn(`prerender: ${torn.length} title(s) look like the source PDF broke a word ` +
+    'across a column edge. They are printed as the record holds them; the fix belongs in the parser.')
+  console.warn(`prerender: for example ${torn.slice(0, 5).map(x => `/projects/${x.id} "${x.at}"`).join(', ')}`)
+}
+
+if (unmatchedDistricts.size) {
+  // Not fatal: the pages are still written and still correct, they just do not
+  // link a district page because there is none under that spelling. It is said
+  // here because a project filed under a district that does not exist is also
+  // missing from that district's page, which is a data problem, not a link one.
+  console.warn(`prerender: ${unmatchedDistricts.size} district name(s) in the register match no district page, ` +
+    `so those projects link no district: ${[...unmatchedDistricts].sort().join(', ')}`)
+  console.warn('prerender: fold them onto the canonical name (backend/scripts/backfill_project_districts.py)')
+}

@@ -29,8 +29,9 @@
 // Explicit .js extension. Vite resolves extensionless imports, plain Node ESM
 // does not, and scripts/tests runs under plain Node so that the route table can
 // be tested without a bundler in the way.
-import { SITE_ORIGIN, SITE_NAME, matchRoute, LANG_CODES, localizedPath, currentLang } from './routes.js'
+import { SITE_ORIGIN, SITE_NAME, matchRoute, INDEXED_LANGS, isIndexedLang, localizedPath, splitLangPath, currentLang } from './routes.js'
 import { schemaFor } from './schema.js'
+import { displayTitle } from './projectTitle.js'
 import { croreAmount } from './money.js'
 
 /** Set or create one <meta>, keyed by whichever attribute identifies it. */
@@ -105,17 +106,30 @@ export function canonicalFor(pathname) {
 }
 
 /**
- * hreflang: the six addresses of one page, each naming the others.
+ * The hreflang set for a path, as [hreflang, href] pairs.
  *
- * Without these Google sees six pages that look like near duplicates of each
- * other and picks one, which is the opposite of the point. With them it knows
- * they are the same page in six languages and serves a Telugu reader the
- * Telugu one. x-default names English as the fallback for a language we do
- * not publish.
- *
- * Rewritten in full on every navigation. Editing them in place would be
- * cheaper and would also leave the previous page's alternates behind on any
- * path where the set changed, which is the kind of bug nobody sees for months.
+ * Only the languages this page is indexed in are named. hreflang pointing at a
+ * noindex page is an error Search Console reports on every URL, and a set of
+ * one names nothing. So an English department page, whose Telugu twin is
+ * noindex, declares no alternates, while a project page names English and
+ * Telugu. A page that is itself out of the index declares none either: it is
+ * not asking to be ranked in any language. Pure, so it is tested without a DOM.
+ */
+export function alternatesFor(pathname) {
+  const clean = String(pathname).split('#')[0]
+  if (robotsFor(clean) !== null) return []
+  const { path } = splitLangPath(clean)
+  const langs = INDEXED_LANGS.filter(code => robotsFor(localizedPath(code, path)) === null)
+  if (langs.length < 2) return []
+  return langs
+    .map(code => [code, canonicalFor(localizedPath(code, path))])
+    .concat([['x-default', canonicalFor(localizedPath('en', path))]])
+}
+
+/**
+ * Rewritten in full on every navigation. Editing in place would be cheaper
+ * and would also leave the previous page's alternates behind on any path
+ * where the set changed, which is the kind of bug nobody sees for months.
  */
 function applyAlternates(pathname) {
   for (const el of document.head.querySelectorAll('link[rel="alternate"][hreflang]')) {
@@ -128,8 +142,91 @@ function applyAlternates(pathname) {
     el.setAttribute('href', href)
     document.head.appendChild(el)
   }
-  for (const code of LANG_CODES) add(code, canonicalFor(localizedPath(code, pathname)))
-  add('x-default', canonicalFor(localizedPath('en', pathname)))
+  for (const [code, href] of alternatesFor(pathname)) add(code, href)
+}
+
+/**
+ * Pages whose substance is English whatever language the chrome around it is.
+ *
+ * A fact check quotes a white paper and a department page reads out a budget
+ * volume, and neither text exists in Telugu. Offering the Telugu address to
+ * search would put an English page in the Telugu index, which is the
+ * half-translated signal that got 4,300 URLs ignored. They stay readable in
+ * Telugu, noindex, until their own text is translated. Take a pattern out of
+ * this set when it is.
+ */
+export const ENGLISH_CONTENT_PATTERNS = new Set([
+  '/factcheck/:slug',
+  '/finances/departments/:slug',
+  '/news/:id',
+])
+
+/**
+ * The robots directive for a page, or null for the default (index, follow).
+ *
+ * follow, never nofollow: a page out of the index is not a dead end, and the
+ * links on it still lead a crawler to pages that rank.
+ */
+export function robotsFor(pathname, route) {
+  const clean = String(pathname).split(/[?#]/)[0]
+  const { lang } = splitLangPath(clean)
+  if (!isIndexedLang(lang)) return 'noindex, follow'
+  const r = route === undefined ? matchRoute(clean) : route
+  if (r && r.index === false) return 'noindex, follow'
+  if (lang !== 'en' && r && ENGLISH_CONTENT_PATTERNS.has(r.pattern)) return 'noindex, follow'
+  return null
+}
+
+// ---------------------------------------------------------------------------
+// The head in the page's language
+// ---------------------------------------------------------------------------
+
+/**
+ * WHY A TRANSLATOR IS REGISTERED HERE
+ *
+ * Every page title and search snippet was English on every language, because
+ * these functions had no way to reach the catalogue. Threading `t` through
+ * nine call sites would work until the tenth forgot. The Seo component sits
+ * inside the language provider on every page, so it registers the page's
+ * translator once, during render, before any page's effect can run, and the
+ * functions below read it by default. The language never changes during a
+ * page's life (switching reloads), so there is nothing to keep in sync.
+ *
+ * The prerenderer passes { t, lang } explicitly and never touches this.
+ */
+let ACTIVE = { t: null, lang: 'en' }
+
+export function setSeoLanguage({ t, lang } = {}) {
+  ACTIVE = { t: t || null, lang: lang || 'en' }
+}
+
+const activeLanguage = () => ACTIVE
+
+/**
+ * A catalogue string for a non-English page, or null.
+ *
+ * Both translators answer a missing key with the key's last segment rather
+ * than with nothing, so a miss is recognised by that and turned into null.
+ * English never reads the catalogue here: the English head is the text in the
+ * route table and below, unchanged.
+ */
+function localText(ctx, key, vars) {
+  if (!ctx?.t || !ctx.lang || ctx.lang === 'en') return null
+  const s = ctx.t(key, vars)
+  return typeof s === 'string' && s !== key.split('.').pop() ? s : null
+}
+
+/** The catalogue key for a route: "/finances/:question" is "finances_question". */
+export const routeKey = pattern => String(pattern).replace(/^\/+/, '').replace(/[/:]+/g, '_') || 'home'
+
+/** The title and snippet the route table gives a page, in the page's language. */
+export function seoForRoute(route, ctx = activeLanguage()) {
+  if (!route) return {}
+  const base = `seo.route.${routeKey(route.pattern)}`
+  return {
+    title: localText(ctx, `${base}.title`) || route.title,
+    description: localText(ctx, `${base}.description`) || route.description,
+  }
 }
 
 export function applySeo(pathname, override = {}) {
@@ -142,8 +239,9 @@ export function applySeo(pathname, override = {}) {
   const localized = localizedPath(currentLang(), pathname)
 
   const route = matchRoute(localized)
-  const title = override.title || route?.title || SITE_NAME
-  const description = override.description || route?.description || ''
+  const fromRoute = seoForRoute(route)
+  const title = override.title || fromRoute.title || SITE_NAME
+  const description = override.description || fromRoute.description || ''
   const canonical = canonicalFor(localized)
 
   document.title = title
@@ -178,9 +276,11 @@ export function applySeo(pathname, override = {}) {
   // Search pages are the classic thin duplicate: one page per query, none of
   // them worth a search result of their own. Followed, so the links out of
   // them still count, just not listed.
+  // Language pages are out of the index for now; see INDEXED_LANGS.
   const robots = document.head.querySelector('meta[name="robots"]')
-  if (route && route.index === false) {
-    meta('name', 'robots', 'noindex, follow')
+  const directive = robotsFor(localized, route)
+  if (directive) {
+    meta('name', 'robots', directive)
   } else if (robots) {
     robots.remove()
   }
@@ -217,8 +317,38 @@ function rupees(crore) {
   return `₹${croreAmount(crore)} crore`
 }
 
-export function seoForProject(project) {
+export function seoForProject(project, ctx = activeLanguage()) {
   if (!project?.title) return {}
+  // The <title> is what a search result shows, and 150 of the 673 records are
+  // titled in capitals because the source PDF is typeset that way. Cased here
+  // rather than at each call site so the tab, the snippet, the heading and the
+  // breadcrumb cannot end up disagreeing about the same project's name.
+  const title = displayTitle(project.title)
+
+  // The project's own name stays as the register holds it, in English, until
+  // a checked Telugu name exists. Everything around it is Telugu, and the
+  // status comes from the same catalogue entry the page itself prints, so the
+  // snippet and the page cannot describe one project two ways.
+  if (localText(ctx, 'seo.project.title', { name: title })) {
+    const tr = (key, vars) => localText(ctx, key, vars)
+    const facts = []
+    const status = project.status && tr(`projects.status.${project.status}`)
+    if (status) facts.push(status)
+    if (project.completion_percentage != null) facts.push(tr('seo.project.built', { pct: project.completion_percentage }))
+    if (project.estimated_cost_crore != null && !Number.isNaN(Number(project.estimated_cost_crore))) {
+      facts.push(tr('seo.project.cost', { cost: croreAmount(project.estimated_cost_crore) }))
+    }
+    const where = project.district
+      ? tr('seo.project.inDistrict', { district: project.district })
+      : tr('seo.project.statewide')
+    const opening = facts.length
+      ? tr('seo.project.opening', { name: title, where, facts: facts.join(', ') })
+      : tr('seo.project.openingBare', { name: title, where })
+    return {
+      title: clip(tr('seo.project.title', { name: title }), 70),
+      description: clip(`${opening} ${tr('seo.project.tail')}`, 200),
+    }
+  }
 
   const where = project.district || 'Andhra Pradesh'
   const facts = []
@@ -232,12 +362,12 @@ export function seoForProject(project) {
   // every project page. A reader sees this line before deciding to click, so
   // it is worth writing as one sentence a person would actually say.
   const opening = facts.length
-    ? `${project.title} in ${where}: ${facts.join(', ')}.`
-    : `${project.title}, a government project in ${where}.`
+    ? `${title} in ${where}: ${facts.join(', ')}.`
+    : `${title}, a government project in ${where}.`
 
   return {
     // Name first, so it survives whatever Google truncates.
-    title: clip(`${project.title} | ${SITE_NAME}`, 70),
+    title: clip(`${title} | ${SITE_NAME}`, 70),
     description: clip(
       `${opening} Every figure links to the government document it came from.`,
       200,
@@ -258,16 +388,44 @@ export function seoForNews(article) {
   }
 }
 
-export function seoForDistrict(district, projectCount) {
+export function seoForDistrict(district, projectCount, ctx = activeLanguage()) {
   if (!district) return {}
   const count = Number.isFinite(projectCount) ? projectCount : null
+  // The {district} slot is filled in the page's language by the translator
+  // itself (placeNames.js), so "Guntur" arrives here and "గుంటూరు" leaves.
+  const localTitle = localText(ctx, 'seo.district.title', { district })
+  if (localTitle) {
+    const key = count === 0 ? 'none' : count != null ? 'count' : 'some'
+    return {
+      title: clip(localTitle, 70),
+      description: clip(localText(ctx, `seo.district.${key}`, { district, count }), 200),
+    }
+  }
   return {
     title: clip(`Government projects in ${district} district, Andhra Pradesh`, 70),
     description: clip(
-      count != null
-        ? `${count} tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`
-        : `Tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`,
+      count === 0
+        ? `No government project in ${district} district, Andhra Pradesh is tracked here yet. Every figure this site publishes comes from an official document we cite.`
+        : count != null
+          ? `${count} tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`
+          : `Tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`,
       200,
     ),
+  }
+}
+
+/**
+ * A finances question's title and snippet, in the page's language.
+ *
+ * The question itself was already translated for the page body
+ * (questionKey); the head was the one place still reading the English title
+ * off the question record.
+ */
+export function seoForFinanceQuestion(question, ctx = activeLanguage()) {
+  if (!question) return {}
+  const base = `seo.financeQuestion.${question.slug}`
+  return {
+    title: clip(localText(ctx, `${base}.title`) || question.title, 90),
+    description: clip(localText(ctx, `${base}.description`) || question.description, 200),
   }
 }

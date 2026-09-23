@@ -417,7 +417,8 @@
       "heading": "Government projects in {district} district",
       "count": "{count} tracked government projects in {district} district, Andhra Pradesh.",
       "cost": "Their combined published estimated cost is ₹{amount} {unit}.",
-      "method": "A project that spans districts is counted in each district it touches, and its published cost is never divided between them."
+      "method": "A project that spans districts is counted in each district it touches, and its published cost is never divided between them.",
+      "none": "No government project in {district} district is tracked here yet. When one is published in a document we cite, it appears on this page."
     }
   },
   "projectDetail": {
@@ -536,6 +537,31 @@
       "seeDistrict": "See all tracked projects in {district}",
       "seeRegister": "See the whole register",
       "note": "Same district, same register, same sources. Nothing here is a recommendation."
+    },
+    "q": {
+      "what": "What is {name}?",
+      "cost": "How much does {name} cost?",
+      "stage": "What stage is {name} at?",
+      "when": "When is {name} due to be completed?",
+      "where": "Where is {name}?",
+      "who": "Who is responsible for {name}?",
+      "source": "Where do these figures come from?",
+      "differ": "Why do government sources give different figures for {name}?"
+    },
+    "a": {
+      "place": "{name} is recorded in {district} district.",
+      "placeMandal": "{name} is recorded in {mandal} mandal, {district} district.",
+      "stage": "Its latest recorded status is {status}.",
+      "stageType": "It is recorded as {type} work. Its latest recorded status is {status}.",
+      "runBy": "It is listed under {department}.",
+      "runByAgency": "It is listed under {department}, and {agency} is recorded as the implementing agency.",
+      "code": "The source gives it project code {code}. Look for that code inside the document to check this page against it.",
+      "differ": "It is recorded in {count} government documents, and they do not agree. One publishes {low}, another publishes {high}. Both are official. This site does not decide which is right; every figure and the document it came from are set out below."
+    },
+    "sources": {
+      "heading": "What each government source says",
+      "note": "The same work appears in more than one government record. Every record is shown here as it was published, with the document it came from.",
+      "column": "Source document"
     }
   },
   "gallery": {
@@ -643,7 +669,7 @@
       "projected": "Projected",
       "foreignInvestors": "Foreign Investors",
       "nonDomestic": "Non-domestic",
-      "committedAnnounced": "Committed investment, as announced"
+      "committedAnnounced": "Live commitments, as announced"
     },
     "filters": {
       "searchLabel": "Search MoUs",
@@ -688,7 +714,13 @@
         "press": "Press report",
         "unlabelled": "Source not labelled"
       },
-      "undated": "No reliable signing date published"
+      "undated": "No reliable signing date published",
+      "statusBy": "{status} · {source}",
+      "saysWho": {
+        "company": "company says",
+        "press": "press reports",
+        "unlabelled": "source not labelled"
+      }
     },
     "provenance": {
       "title": "What that total is made of",
@@ -696,7 +728,8 @@
       "detail": "{n} agreements · {pct}% of the total",
       "footnote": "Of the {total} crore announced, {gov} crore appears in a government record. The rest is what companies and newspapers have stated. Every agreement below is labelled with which of the three it came from.",
       "compact": "Who says these numbers: {gov}% from government records · {company}% from company statements · {press}% from press reports.",
-      "seeBreakdown": "See the full breakdown"
+      "seeBreakdown": "See the full breakdown",
+      "notLive": "Not counted in the total: {cancelled} cancelled ({cancelledCr} crore) and {stalled} stalled ({stalledCr} crore). They are still listed below with their status."
     },
     "tabs": {
       "aria": "Which view of investments to show",
@@ -706,6 +739,19 @@
     },
     "sources": {
       "intro": "Every figure on this page names the document it came from. This tab shows who stands behind the headline total, and where the official record disagrees with itself."
+    },
+    "register": {
+      "heading": "Every commitment on record",
+      "summary": "{n} live commitments, {total} announced in total. Who says these figures: {gov}% from government records, {company}% from company statements, {press}% from press reports.",
+      "col": {
+        "company": "Company",
+        "sector": "Sector",
+        "amount": "Announced amount",
+        "status": "Status",
+        "source": "Kind of source",
+        "signed": "Signed"
+      },
+      "amountUnknown": "No amount published"
     }
   },
   "summits": {

@@ -533,7 +533,8 @@
       "heading": "{district} ଜିଲ୍ଲାର ସରକାରୀ ପ୍ରକଳ୍ପ",
       "count": "ଆନ୍ଧ୍ରପ୍ରଦେଶର {district} ଜିଲ୍ଲାରେ {count} ସରକାରୀ ପ୍ରକଳ୍ପ ଲିପିବଦ୍ଧ ଅଛି।",
       "cost": "ଏଗୁଡ଼ିକର ମୋଟ ପ୍ରକାଶିତ ଆନୁମାନିକ ବ୍ୟୟ ₹{amount} {unit}।",
-      "method": "ଏକାଧିକ ଜିଲ୍ଲାରେ ବ୍ୟାପିଥିବା ପ୍ରକଳ୍ପ ପ୍ରତ୍ୟେକ ଜିଲ୍ଲାରେ ଗଣନା କରାଯାଏ, ଏବଂ ଏହାର ବ୍ୟୟ ଜିଲ୍ଲାମାନଙ୍କ ମଧ୍ୟରେ ବିଭାଜିତ ହୁଏ ନାହିଁ।"
+      "method": "ଏକାଧିକ ଜିଲ୍ଲାରେ ବ୍ୟାପିଥିବା ପ୍ରକଳ୍ପ ପ୍ରତ୍ୟେକ ଜିଲ୍ଲାରେ ଗଣନା କରାଯାଏ, ଏବଂ ଏହାର ବ୍ୟୟ ଜିଲ୍ଲାମାନଙ୍କ ମଧ୍ୟରେ ବିଭାଜିତ ହୁଏ ନାହିଁ।",
+      "none": "{district} ଜିଲ୍ଲାର କୌଣସି ସରକାରୀ ପ୍ରକଳ୍ପ ଏଠାରେ ଏପର୍ଯ୍ୟନ୍ତ ଲିପିବଦ୍ଧ ହୋଇନାହିଁ। ଆମେ ଉଦ୍ଧୃତ କରୁଥିବା ଦଲିଲରେ ଗୋଟିଏ ପ୍ରକାଶିତ ହେବା ମାତ୍ରେ ତାହା ଏହି ପୃଷ୍ଠାରେ ଦେଖାଯିବ।"
     }
   },
   "projectDetail": {
@@ -652,6 +653,31 @@
       "seeDistrict": "{district}ରେ ଲିପିବଦ୍ଧ ସମସ୍ତ ପ୍ରକଳ୍ପ ଦେଖନ୍ତୁ",
       "seeRegister": "ସମ୍ପୂର୍ଣ୍ଣ ରେଜିଷ୍ଟର ଦେଖନ୍ତୁ",
       "note": "ସେହି ଜିଲ୍ଲା, ସେହି ରେଜିଷ୍ଟର, ସେହି ଉତ୍ସ। ଏଠାରେ କିଛି ସୁପାରିଶ ନୁହେଁ।"
+    },
+    "q": {
+      "what": "{name} କ’ଣ?",
+      "cost": "{name}ର ବ୍ୟୟ କେତେ?",
+      "stage": "{name} କେଉଁ ପର୍ଯ୍ୟାୟରେ ଅଛି?",
+      "when": "{name} କେବେ ସମାପ୍ତ ହେବ?",
+      "where": "{name} କେଉଁଠାରେ ଅଛି?",
+      "who": "{name} ପାଇଁ କିଏ ଦାୟୀ?",
+      "source": "ଏହି ସଂଖ୍ୟାଗୁଡ଼ିକ କେଉଁଠାରୁ ଆସିଛି?",
+      "differ": "{name} ବିଷୟରେ ସରକାରୀ ଉତ୍ସଗୁଡ଼ିକ କାହିଁକି ଭିନ୍ନ ସଂଖ୍ୟା ଦେଉଛନ୍ତି?"
+    },
+    "a": {
+      "place": "{name} {district} ଜିଲ୍ଲାରେ ଲିପିବଦ୍ଧ ଅଛି।",
+      "placeMandal": "{name} {district} ଜିଲ୍ଲାର {mandal} ମଣ୍ଡଳରେ ଲିପିବଦ୍ଧ ଅଛି।",
+      "stage": "ସର୍ବଶେଷ ଲିପିବଦ୍ଧ ସ୍ଥିତି: {status}।",
+      "stageType": "ଏହା {type} କାର୍ଯ୍ୟ ଭାବେ ଲିପିବଦ୍ଧ। ସର୍ବଶେଷ ଲିପିବଦ୍ଧ ସ୍ଥିତି: {status}।",
+      "runBy": "ଏହା {department} ଅଧୀନରେ ଲିପିବଦ୍ଧ।",
+      "runByAgency": "ଏହା {department} ଅଧୀନରେ ଲିପିବଦ୍ଧ, ଏବଂ କାର୍ଯ୍ୟକାରୀ ସଂସ୍ଥା ଭାବେ {agency} ଲିପିବଦ୍ଧ।",
+      "code": "ଉତ୍ସ ଏହାକୁ ପ୍ରକଳ୍ପ କୋଡ୍ {code} ଦେଇଛି। ସେହି କୋଡ୍ ଦଲିଲରେ ଖୋଜି ଆପଣ ଏହି ପୃଷ୍ଠାକୁ ନିଜେ ଯାଞ୍ଚ କରିପାରିବେ।",
+      "differ": "ଏହା {count} ସରକାରୀ ଦଲିଲରେ ଲିପିବଦ୍ଧ ଅଛି ଏବଂ ସେଗୁଡ଼ିକ ପରସ୍ପର ସହ ମେଳ ଖାଉନାହିଁ। ଗୋଟିଏ {low} ପ୍ରକାଶ କରେ, ଆଉ ଗୋଟିଏ {high}। ଦୁଇଟି ଯାକ ସରକାରୀ। କେଉଁଟି ଠିକ୍ ତାହା ଏହି ସାଇଟ୍ ସ୍ଥିର କରେ ନାହିଁ; ପ୍ରତ୍ୟେକ ସଂଖ୍ୟା ଓ ତାହାର ଦଲିଲ ତଳେ ଦିଆଯାଇଛି।"
+    },
+    "sources": {
+      "heading": "କେଉଁ ସରକାରୀ ଉତ୍ସ କ’ଣ କହୁଛି",
+      "note": "ସେହି ଏକା କାର୍ଯ୍ୟ ଏକାଧିକ ସରକାରୀ ରେକର୍ଡରେ ଅଛି। ପ୍ରତ୍ୟେକ ରେକର୍ଡ ଏଠାରେ ପ୍ରକାଶିତ ରୂପରେ, ତାହାର ଦଲିଲ ସହିତ ଦେଖାଯାଇଛି।",
+      "column": "ଉତ୍ସ ଦଲିଲ"
     }
   },
   "gallery": {
@@ -804,7 +830,13 @@
         "press": "ସମ୍ବାଦ ରିପୋର୍ଟ",
         "unlabelled": "ଉତ୍ସ ଚିହ୍ନିତ ନୁହେଁ"
       },
-      "undated": "ବିଶ୍ୱସନୀୟ ସ୍ୱାକ୍ଷର ତାରିଖ ପ୍ରକାଶିତ ନୁହେଁ"
+      "undated": "ବିଶ୍ୱସନୀୟ ସ୍ୱାକ୍ଷର ତାରିଖ ପ୍ରକାଶିତ ନୁହେଁ",
+      "statusBy": "{status} · {source}",
+      "saysWho": {
+        "company": "company says",
+        "press": "press reports",
+        "unlabelled": "source not labelled"
+      }
     },
     "provenance": {
       "title": "ଏହି ମୋଟ ଅଙ୍କ କେଉଁଥିରେ ତିଆରି",
@@ -812,7 +844,8 @@
       "detail": "{n} ଚୁକ୍ତି · ମୋଟର {pct}%",
       "footnote": "ଘୋଷିତ {total} କୋଟି ମଧ୍ୟରୁ {gov} କୋଟି ହିଁ ସରକାରୀ ରେକର୍ଡରେ ଅଛି। ବାକିଗୁଡ଼ିକ କମ୍ପାନୀ ଓ ଖବରକାଗଜର ବିବୃତି। ତଳେ ପ୍ରତ୍ୟେକ ଚୁକ୍ତିରେ ତାହାର ଉତ୍ସ ଚିହ୍ନିତ।",
       "compact": "ଏହି ସଂଖ୍ୟା କିଏ କହିଛି: {gov}% ସରକାରୀ ରେକର୍ଡରୁ · {company}% କମ୍ପାନୀ ବିବୃତିରୁ · {press}% ଖବରକାଗଜ ଖବରରୁ।",
-      "seeBreakdown": "ପୂରା ବିବରଣୀ ଦେଖନ୍ତୁ"
+      "seeBreakdown": "ପୂରା ବିବରଣୀ ଦେଖନ୍ତୁ",
+      "notLive": "Not counted in the total: {cancelled} cancelled ({cancelledCr} crore) and {stalled} stalled ({stalledCr} crore). They are still listed below with their status."
     },
     "tabs": {
       "aria": "ପୁଞ୍ଜିନିବେଶର କେଉଁ ଦୃଶ୍ୟ ଦେଖାଯିବ",
@@ -822,6 +855,19 @@
     },
     "sources": {
       "intro": "ଏହି ପୃଷ୍ଠାର ପ୍ରତ୍ୟେକ ସଂଖ୍ୟା କେଉଁ ଦଲିଲରୁ ଆସିଛି ତାହା କହେ। ମୁଖ୍ୟ ମୋଟ ପଛରେ କିଏ ଅଛି, ଏବଂ ସରକାରୀ ରେକର୍ଡ ନିଜ ଭିତରେ କେଉଁଠି ଅସଙ୍ଗତ, ତାହା ଏହି ଟ୍ୟାବ୍ ଦେଖାଏ।"
+    },
+    "register": {
+      "heading": "Every commitment on record",
+      "summary": "{n} live commitments, {total} announced in total. Who says these figures: {gov}% from government records, {company}% from company statements, {press}% from press reports.",
+      "col": {
+        "company": "Company",
+        "sector": "Sector",
+        "amount": "Announced amount",
+        "status": "Status",
+        "source": "Kind of source",
+        "signed": "Signed"
+      },
+      "amountUnknown": "No amount published"
     }
   },
   "summits": {

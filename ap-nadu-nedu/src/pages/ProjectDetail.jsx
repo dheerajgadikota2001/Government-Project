@@ -4,6 +4,7 @@ import { apiGet, isNotFound, isRecordId } from '../lib/api'
 import { applySeo, seoForProject } from '../lib/seo'
 import { projectTrail } from '../lib/schema'
 import { projectSummary } from '../lib/projectSummary'
+import { displayTitle } from '../lib/projectTitle'
 import { croreAmount } from '../lib/money'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
@@ -397,7 +398,7 @@ export default function ProjectDetail() {
       <div>
         <Link className="text-primary text-label-md" to="/projects">{t('projectDetail.allProjects')}</Link>
         <div className="flex flex-wrap items-start gap-3 mt-2">
-          <h1 className="text-headline-lg font-headline-lg font-bold text-on-surface max-w-3xl min-w-0">{project.title}</h1>
+          <h1 className="text-headline-lg font-headline-lg font-bold text-on-surface max-w-3xl min-w-0">{displayTitle(project.title)}</h1>
           <span className={`text-label-md px-3 py-1 rounded-full ${statusCls} mt-2`}>{statusLabel(project.status) || t('projects.status.announced')}</span>
         </div>
         <p className="text-label-md text-on-surface-variant mt-1">
@@ -485,7 +486,7 @@ export default function ProjectDetail() {
 
       {extras?.images?.length > 0 && (
         <ProgressGallery
-          projectTitle={project.title}
+          projectTitle={displayTitle(project.title)}
           images={extras.images.map((im, i) => ({
             id: i, url: im.url, thumbnailUrl: im.thumbnail_url, kind: im.kind,
             caption: im.caption, capturedDate: im.captured_date, credit: im.credit,
