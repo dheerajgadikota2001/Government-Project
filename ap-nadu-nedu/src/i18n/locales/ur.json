@@ -1577,7 +1577,8 @@
       "stageRE": "نظرثانی شدہ تخمینہ",
       "stageActual": "آڈٹ شدہ حقیقی",
       "allDepartments": "تمام چالیس مطالبات",
-      "demandLabel": "مطالبہ"
+      "demandLabel": "مطالبہ",
+      "headingShort": "{department} بجٹ، سال بہ سال"
     }
   },
   "governments": {

@@ -1577,7 +1577,8 @@
       "stageRE": "திருத்தப்பட்ட மதிப்பீடு",
       "stageActual": "தணிக்கை செய்யப்பட்ட உண்மை",
       "allDepartments": "நாற்பது கோரிக்கைகளும்",
-      "demandLabel": "கோரிக்கை"
+      "demandLabel": "கோரிக்கை",
+      "headingShort": "{department} நிதிநிலை ஒதுக்கீடு, ஆண்டுவாரியாக"
     }
   },
   "governments": {

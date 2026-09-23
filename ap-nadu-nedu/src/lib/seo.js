@@ -34,6 +34,76 @@ import { schemaFor } from './schema.js'
 import { displayTitle } from './projectTitle.js'
 import { croreAmount } from './money.js'
 
+// ---------------------------------------------------------------------------
+// Lengths a search result actually shows
+// ---------------------------------------------------------------------------
+
+/**
+ * WHY THESE NUMBERS
+ *
+ * A live check on 23 September 2026 found 59 of 113 titles over 60 characters
+ * and 60 of 113 descriptions over 160. Google cuts a title at roughly 600
+ * pixels and a snippet at roughly 920, which is about 60 and 160 characters of
+ * ordinary text. Past that the reader sees an ellipsis, and what fell off the
+ * end was usually the part that said where the figure came from.
+ *
+ * Every title and description on the site now passes through fitText or
+ * titleFor below, and scripts/tests/seo-lengths.test.mjs holds every curated
+ * string to these limits without clipping, so a new route that is too long
+ * fails the build instead of shipping cut off.
+ */
+export const TITLE_MAX = 60
+export const DESCRIPTION_MAX = 160
+
+const norm = s => String(s ?? '').replace(/\s+/g, ' ').trim()
+
+/**
+ * Shorten at a word boundary, never inside a word or a figure.
+ *
+ * "₹55,549 cr…" half a number is worse than no number: a reader takes it at
+ * face value. So the cut backs up to the last space, and trailing punctuation
+ * goes with it, before the ellipsis is added.
+ */
+export function fitText(s, max) {
+  const text = norm(s)
+  if (text.length <= max) return text
+  const cut = text.slice(0, max - 1)
+  const at = cut.lastIndexOf(' ')
+  const head = at > max * 0.5 ? cut.slice(0, at) : cut
+  return head.replace(/[\s,;:.\u2013\u2014|(-]+$/, '') + '\u2026'
+}
+
+/** The first candidate that fits whole; failing that, the last one, shortened. */
+export function firstThatFits(candidates, max) {
+  const list = candidates.map(norm).filter(Boolean)
+  return list.find(c => c.length <= max) ?? fitText(list[list.length - 1] || '', max)
+}
+
+/** The part of a title before the site name: what the page itself is called. */
+export const coreTitle = t => norm(String(t ?? '').split(' | ')[0])
+
+/**
+ * The Open Graph locale for a page's language.
+ *
+ * Open Graph wants language_TERRITORY. "te" on its own is read by Facebook as
+ * an unknown locale and ignored, so a Telugu page previewed as undeclared.
+ */
+export const OG_LOCALE = { en: 'en_IN', te: 'te_IN', hi: 'hi_IN', ur: 'ur_IN', ta: 'ta_IN', or: 'or_IN' }
+export const ogLocale = lang => OG_LOCALE[lang] || 'en_IN'
+
+/**
+ * The share card a page falls back to when it has none of its own.
+ *
+ * Committed in public/og, drawn by scripts/share-cards.mjs from the same
+ * template as every other card, so a link previews as the site even on a
+ * build whose card renderer could not start. Only English and Telugu are
+ * drawn: the other four languages are read but not indexed, and their pages
+ * reuse the English card rather than showing half-translated text in a
+ * preview.
+ */
+export const SHARE_CARD_SIZE = { width: 1200, height: 630 }
+export const siteCardPath = lang => `/og/site-${lang === 'te' ? 'te' : 'en'}.jpg`
+
 /** Set or create one <meta>, keyed by whichever attribute identifies it. */
 function meta(attr, key, content) {
   if (!content) return
@@ -219,14 +289,100 @@ function localText(ctx, key, vars) {
 /** The catalogue key for a route: "/finances/:question" is "finances_question". */
 export const routeKey = pattern => String(pattern).replace(/^\/+/, '').replace(/[/:]+/g, '_') || 'home'
 
-/** The title and snippet the route table gives a page, in the page's language. */
+/**
+ * The site's name in the page's language, for the end of a title.
+ *
+ * Telugu pages carried "| Andhra Pradesh Fact Check" in English after a Telugu
+ * heading until the catalogue grew seo.brand.
+ */
+export function brandFor(ctx = activeLanguage()) {
+  return localText(ctx, 'seo.brand') || SITE_NAME
+}
+
+/**
+ * A page's <title>: what it is called, then the site's name when both fit.
+ *
+ * WHY THE NAME IS DROPPED RATHER THAN THE PAGE
+ *
+ * Google shows a site name above every result, taken from the WebSite schema
+ * this site already publishes, so "| Andhra Pradesh Fact Check" at the end of a
+ * title says the same thing twice. When the two together pass 60 characters,
+ * the name goes and the page's own words stay whole. The other way round, a
+ * long title reads "Fact checks: official claims beside the offic…", which is
+ * the worst of both.
+ */
+export function titleFor(core, ctx = activeLanguage()) {
+  const name = norm(core)
+  const brand = brandFor(ctx)
+  if (!name) return brand
+  if (name.includes(brand) || name.includes(SITE_NAME)) return fitText(name, TITLE_MAX)
+  return firstThatFits([`${name} | ${brand}`, name], TITLE_MAX)
+}
+
+/**
+ * A description that fits, built from sentences in order of importance.
+ *
+ * The first sentence is the fact. Later ones (where the figure came from, that
+ * the site is free) are dropped whole when there is no room, rather than
+ * being cut mid-word by Google.
+ */
+export function describe(sentences, max = DESCRIPTION_MAX) {
+  const parts = sentences.map(norm).filter(Boolean)
+  if (!parts.length) return ''
+  let out = parts[0].length <= max ? parts[0] : fitText(parts[0], max)
+  for (const next of parts.slice(1)) {
+    if (`${out} ${next}`.length <= max) out = `${out} ${next}`
+  }
+  return out
+}
+
+/**
+ * The title, snippet and heading the route table gives a page, in the page's
+ * language.
+ *
+ * `heading` is the page's <h1>. It used to be the <title> itself, so ten pages
+ * opened with "Privacy | Andhra Pradesh Fact Check" as their heading: the site
+ * name belongs in the browser tab, not at the top of the page.
+ */
 export function seoForRoute(route, ctx = activeLanguage()) {
   if (!route) return {}
   const base = `seo.route.${routeKey(route.pattern)}`
+  const rawTitle = localText(ctx, `${base}.title`) || route.title
+  const english = !ctx?.t || !ctx.lang || ctx.lang === 'en'
   return {
-    title: localText(ctx, `${base}.title`) || route.title,
-    description: localText(ctx, `${base}.description`) || route.description,
+    title: titleFor(coreTitle(rawTitle), ctx),
+    description: fitText(localText(ctx, `${base}.description`) || route.description, DESCRIPTION_MAX),
+    heading: localText(ctx, `${base}.heading`) || (english ? route.heading : null) || coreTitle(rawTitle),
   }
+}
+
+/**
+ * The page the browser first loaded, and the card its HTML was built with.
+ *
+ * The prerenderer writes each page's own share card into the head. This file
+ * cannot know that card's name (it carries a content hash, so a preview
+ * refreshes when a figure changes), so on the page that was loaded the tag is
+ * left exactly as the HTML set it. Only after the reader moves to another
+ * route does the tag change, to the site card, because the previous page's
+ * card describing the new page would be wrong, and wrong is worse than
+ * generic.
+ */
+const LOADED = typeof document === 'undefined' ? null : {
+  path: String(location.pathname).replace(/\/+$/, '') || '/',
+  image: document.head.querySelector('meta[property="og:image"]')?.getAttribute('content') || null,
+  alt: document.head.querySelector('meta[property="og:image:alt"]')?.getAttribute('content') || null,
+}
+
+function applyShareImage(localized, override) {
+  const here = String(localized).split(/[?#]/)[0].replace(/\/+$/, '') || '/'
+  const { lang } = splitLangPath(here)
+  const onLoadedPage = LOADED && LOADED.path === here && LOADED.image
+  const image = override?.src || (onLoadedPage ? LOADED.image : SITE_ORIGIN + siteCardPath(lang))
+  const alt = override?.alt || (onLoadedPage ? LOADED.alt : SITE_NAME)
+  meta('property', 'og:image', image)
+  meta('property', 'og:image:alt', alt)
+  meta('name', 'twitter:image', image)
+  meta('name', 'twitter:image:alt', alt)
 }
 
 export function applySeo(pathname, override = {}) {
@@ -253,8 +409,10 @@ export function applySeo(pathname, override = {}) {
   meta('property', 'og:description', description)
   meta('property', 'og:url', canonical)
   meta('property', 'og:site_name', SITE_NAME)
+  meta('property', 'og:locale', ogLocale(splitLangPath(localized).lang))
   meta('name', 'twitter:title', title)
   meta('name', 'twitter:description', description)
+  applyShareImage(localized, override.image)
 
   // One JSON-LD block, replaced rather than appended. Appending would leave a
   // trail of stale Organization blocks behind as the reader moves around a
@@ -306,15 +464,27 @@ export function applySeo(pathname, override = {}) {
  * point of the platform, lost.
  */
 
-const clip = (s, max) => {
-  const text = String(s || '').replace(/\s+/g, ' ').trim()
-  return text.length <= max ? text : text.slice(0, max - 1).trimEnd() + '…'
-}
-
 /** "₹55,549 crore", in the grouping Indian readers actually use. */
 function rupees(crore) {
   if (crore == null || Number.isNaN(Number(crore))) return null
   return `₹${croreAmount(crore)} crore`
+}
+
+/**
+ * The opening sentence with the project's name shortened only as far as it
+ * must be.
+ *
+ * MoSPI names run to 150 characters ("Construction of New Domestic Terminal
+ * Building Building and miscellaneous works including maintenance, operations
+ * and AICMC at Kadapa Airport"). Clipping the finished sentence would cut the
+ * figures, which are the point. So the name gives way first, at a word
+ * boundary, and the figures after it survive whole.
+ */
+function openingThatFits(name, build, max = DESCRIPTION_MAX) {
+  const full = build(name)
+  if (full.length <= max) return full
+  const room = max - (full.length - name.length)
+  return room >= 24 ? build(fitText(name, room)) : fitText(full, max)
 }
 
 export function seoForProject(project, ctx = activeLanguage()) {
@@ -341,12 +511,12 @@ export function seoForProject(project, ctx = activeLanguage()) {
     const where = project.district
       ? tr('seo.project.inDistrict', { district: project.district })
       : tr('seo.project.statewide')
-    const opening = facts.length
-      ? tr('seo.project.opening', { name: title, where, facts: facts.join(', ') })
-      : tr('seo.project.openingBare', { name: title, where })
+    const opening = openingThatFits(title, name => (facts.length
+      ? tr('seo.project.opening', { name, where, facts: facts.join(', ') })
+      : tr('seo.project.openingBare', { name, where })))
     return {
-      title: clip(tr('seo.project.title', { name: title }), 70),
-      description: clip(`${opening} ${tr('seo.project.tail')}`, 200),
+      title: titleFor(title, ctx),
+      description: describe([opening, tr('seo.project.tail')]),
     }
   }
 
@@ -361,17 +531,14 @@ export function seoForProject(project, ctx = activeLanguage()) {
   // shipped "76% built. published estimated cost" into live search results on
   // every project page. A reader sees this line before deciding to click, so
   // it is worth writing as one sentence a person would actually say.
-  const opening = facts.length
-    ? `${title} in ${where}: ${facts.join(', ')}.`
-    : `${title}, a government project in ${where}.`
+  const opening = openingThatFits(title, name => (facts.length
+    ? `${name} in ${where}: ${facts.join(', ')}.`
+    : `${name}, a government project in ${where}.`))
 
   return {
     // Name first, so it survives whatever Google truncates.
-    title: clip(`${title} | ${SITE_NAME}`, 70),
-    description: clip(
-      `${opening} Every figure links to the government document it came from.`,
-      200,
-    ),
+    title: titleFor(title, ctx),
+    description: describe([opening, 'Every figure links to the government document it came from.']),
   }
 }
 
@@ -379,11 +546,11 @@ export function seoForNews(article) {
   if (!article?.title) return {}
   const source = article.source_name || article.source || null
   return {
-    title: clip(`${article.title} | ${SITE_NAME}`, 70),
-    description: clip(
+    title: titleFor(article.title),
+    description: fitText(
       article.summary ||
       `An announcement collected from an Andhra Pradesh government source${source ? `, ${source}` : ''}, with a link to the original publication.`,
-      200,
+      DESCRIPTION_MAX,
     ),
   }
 }
@@ -397,19 +564,25 @@ export function seoForDistrict(district, projectCount, ctx = activeLanguage()) {
   if (localTitle) {
     const key = count === 0 ? 'none' : count != null ? 'count' : 'some'
     return {
-      title: clip(localTitle, 70),
-      description: clip(localText(ctx, `seo.district.${key}`, { district, count }), 200),
+      title: firstThatFits([localTitle, localText(ctx, 'seo.district.titleShort', { district })], TITLE_MAX),
+      description: fitText(localText(ctx, `seo.district.${key}`, { district, count }), DESCRIPTION_MAX),
     }
   }
   return {
-    title: clip(`Government projects in ${district} district, Andhra Pradesh`, 70),
-    description: clip(
+    // "Dr. B.R. Ambedkar Konaseema" makes the long form 70 characters, so the
+    // shorter forms are there for the three districts with long names.
+    title: firstThatFits([
+      `Government projects in ${district} district, Andhra Pradesh`,
+      `Government projects in ${district} district`,
+      `${district} district projects`,
+    ], TITLE_MAX),
+    description: fitText(
       count === 0
-        ? `No government project in ${district} district, Andhra Pradesh is tracked here yet. Every figure this site publishes comes from an official document we cite.`
+        ? `No government project in ${district} district, Andhra Pradesh is tracked here yet. Every figure this site publishes comes from an official document.`
         : count != null
           ? `${count} tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`
           : `Tracked government projects in ${district} district, Andhra Pradesh, with cost, status and the official document behind every figure.`,
-      200,
+      DESCRIPTION_MAX,
     ),
   }
 }
@@ -419,13 +592,39 @@ export function seoForDistrict(district, projectCount, ctx = activeLanguage()) {
  *
  * The question itself was already translated for the page body
  * (questionKey); the head was the one place still reading the English title
- * off the question record.
+ * off the question record. seoTitle and seoDescription are the search
+ * versions, written to fit: the page's own title reads well as a heading and
+ * runs to 78 characters, which is not a search result.
  */
 export function seoForFinanceQuestion(question, ctx = activeLanguage()) {
   if (!question) return {}
   const base = `seo.financeQuestion.${question.slug}`
   return {
-    title: clip(localText(ctx, `${base}.title`) || question.title, 90),
-    description: clip(localText(ctx, `${base}.description`) || question.description, 200),
+    title: titleFor(localText(ctx, `${base}.title`) || question.seoTitle || question.title, ctx),
+    description: fitText(
+      localText(ctx, `${base}.description`) || question.seoDescription || question.description, DESCRIPTION_MAX),
+  }
+}
+
+/**
+ * A fact check's title and snippet. The same function for the prerendered
+ * head and the one the page writes after load, so the two cannot differ: they
+ * used to, by a hand-written .slice(0, 70) on one side and clip(…, 70) on the
+ * other, and both cut mid-word.
+ */
+export function seoForFactCheck(check, ctx = activeLanguage()) {
+  if (!check) return {}
+  return {
+    title: titleFor(check.seoTitle || check.question, ctx),
+    description: fitText(check.seoDescription || check.summary, DESCRIPTION_MAX),
+  }
+}
+
+/** A department budget page's title and snippet, for the head and the page. */
+export function seoForDepartment({ department, heading, headingShort, lead }, ctx = activeLanguage()) {
+  if (!department) return {}
+  return {
+    title: firstThatFits([heading, headingShort, department], TITLE_MAX),
+    description: describe(lead || []),
   }
 }

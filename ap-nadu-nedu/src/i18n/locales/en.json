@@ -746,6 +746,7 @@
       "col": {
         "company": "Company",
         "sector": "Sector",
+        "district": "District",
         "amount": "Announced amount",
         "status": "Status",
         "source": "Kind of source",
@@ -1318,7 +1319,8 @@
       "stageRE": "Revised estimate",
       "stageActual": "Audited actual",
       "allDepartments": "All forty demands",
-      "demandLabel": "Demand"
+      "demandLabel": "Demand",
+      "headingShort": "{department} budget, year by year"
     }
   },
   "governments": {
@@ -2725,5 +2727,44 @@
     },
     "allChecks": "All fact checks",
     "documentNote": "About this source"
+  },
+  "share": {
+    "built": "built",
+    "status": "status",
+    "estimatedCost": "estimated cost",
+    "spent": "spent so far",
+    "projectsTracked": "projects tracked",
+    "combinedCost": "combined estimated cost",
+    "source": "Source: {source}",
+    "sourceGeneric": "Every figure from a government document",
+    "district": "{district} district",
+    "statewide": "Andhra Pradesh",
+    "siteTitle": "Andhra Pradesh projects, budget and debt, from the official record",
+    "tagline": "Every figure is taken from a government document, and the document is linked beside it.",
+    "kind": {
+      "district": "District",
+      "factcheck": "Fact check",
+      "finances": "State finances",
+      "department": "Department budget",
+      "section": "Andhra Pradesh Fact Check"
+    },
+    "districtsCovered": "districts",
+    "departmentBudgets": "department budgets",
+    "cta": {
+      "project": "See the documents",
+      "district": "See all {count}",
+      "factcheck": "Read the check",
+      "finances": "See the figures",
+      "department": "See the budget",
+      "section": "Read more",
+      "site": "Open the site"
+    }
+  },
+  "related": {
+    "factChecks": "Fact checks on the same record",
+    "financeQuestions": "Questions about the state's money",
+    "districts": "Government projects by district",
+    "districtName": "{district}",
+    "note": "Pages about the same record, chosen by hand. Nothing here is a recommendation."
   }
 }

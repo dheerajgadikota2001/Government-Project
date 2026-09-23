@@ -194,9 +194,13 @@ function stubApi({ empty = false, breakExtras = false, stray = false, folded = f
  * which is a worse thing to debug than any test it contains.
  */
 function runPrerender(base, out, extraArgs = []) {
+  // Share cards start Chromium. Every other test here reads page markup, so
+  // they skip the cards; the one that is about cards asks for them.
+  const cards = extraArgs.includes('--cards')
+  const rest = extraArgs.filter(a => a !== '--cards')
   return new Promise(done => {
     const child = spawn(process.execPath,
-      ['scripts/prerender.mjs', '--api', base, '--out', out, ...extraArgs],
+      ['scripts/prerender.mjs', '--api', base, '--out', out, ...(cards ? [] : ['--no-cards']), ...rest],
       { cwd: ROOT })
     let stdout = '', stderr = ''
     child.stdout.on('data', d => { stdout += d })
@@ -512,7 +516,9 @@ test('each finances question is prerendered on its own address', async () => {
     const file = join(out, 'finances/does-the-state-earn-enough/index.html')
     assert.ok(existsSync(file), 'no file was written for the question')
     const html = readFileSync(file, 'utf8')
-    assert.match(html, /<title>Does Andhra Pradesh earn enough to run itself\?/)
+    // The search title, written to fit 60 characters (seoTitle), not the
+    // 73-character question Google used to cut off mid-phrase.
+    assert.match(html, /<title>Andhra Pradesh revenue and fiscal deficit, year by year<\/title>/)
     assert.match(html, /<h2>Does the state earn enough to run itself\?<\/h2>/)
     assert.match(html, /revenue deficit/i, 'the one-paragraph answer is missing')
     assert.match(html, /href="\/finances\/whose-number-is-right"/, 'the other questions are not linked')
@@ -1276,6 +1282,63 @@ test('a merged record names its district in the snippet, the way the page does',
     assert.match(en.match(/<meta name="description" content="([^"]*)"/)[1], /in Eluru:/)
     const te = readFileSync(join(out, 'te/projects/1/index.html'), 'utf8')
     assert.match(te.match(/<meta name="description" content="([^"]*)"/)[1], /ఏలూరు జిల్లా/)
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+// ------------------------------------------------------------- share cards
+
+const metas = (html, attr, name) =>
+  [...html.matchAll(new RegExp(`<meta ${attr}="${name.replace(/[:.]/g, '\\$&')}" content="([^"]*)"`, 'g'))].map(m => m[1])
+
+test('with no cards drawn, every page still previews with the site card', async () => {
+  // The build must not depend on Chromium. A machine without it writes every
+  // page pointing at the committed site card, in the page's language.
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    assert.equal((await runPrerender(base, out)).status, 0)
+    for (const [file, card] of [['projects/613/index.html', '/og/site-en.jpg'], ['te/projects/613/index.html', '/og/site-te.jpg'],
+      ['index.html', '/og/site-en.jpg'], ['te/districts/eluru/index.html', '/og/site-te.jpg']]) {
+      const html = readFileSync(join(out, file), 'utf8')
+      const images = metas(html, 'property', 'og:image')
+      assert.equal(images.length, 1, `${file} names ${images.length} og:image tags`)
+      assert.ok(images[0].endsWith(card), `${file} previews with ${images[0]}, expected ${card}`)
+      assert.deepEqual(metas(html, 'name', 'twitter:card'), ['summary_large_image'], `${file}: X shows a thumbnail, not the card`)
+      assert.deepEqual(metas(html, 'property', 'og:image:width'), ['1200'])
+      assert.deepEqual(metas(html, 'property', 'og:image:height'), ['630'])
+    }
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+test('with cards drawn, a project page previews with its own card, and the file is there', async t => {
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  try {
+    const r = await runPrerender(base, out, ['--cards'])
+    assert.equal(r.status, 0, r.stderr)
+    if (/Chromium would not start|Playwright is not installed/.test(r.stderr)) {
+      t.skip('Chromium is not installed here. Run "npx playwright install chromium" once to test the drawn cards.')
+      return
+    }
+    assert.doesNotMatch(r.stderr, /was not drawn|layout check failed/, 'a card was refused:\n' + r.stderr)
+    for (const [file, key] of [['projects/613/index.html', 'p/613-en'], ['te/projects/613/index.html', 'p/613-te'],
+      ['districts/eluru/index.html', 'd/eluru-en']]) {
+      const html = readFileSync(join(out, file), 'utf8')
+      const [image] = metas(html, 'property', 'og:image')
+      const m = image && image.match(/\/og\/(.+)$/)
+      assert.ok(m && m[1].startsWith(key) && /-[0-9a-f]{10}\.jpg$/.test(m[1]), `${file} previews with ${image}, not its own card`)
+      assert.ok(existsSync(join(out, 'og', m[1])), `${file} names /og/${m[1]}, which was never written`)
+      const [alt] = metas(html, 'property', 'og:image:alt')
+      assert.ok(alt && alt.length > 10, `${file} has no alt text for its card`)
+    }
+    // The alt text is the card read aloud, so it carries the page's figure.
+    const [alt] = metas(readFileSync(join(out, 'projects/613/index.html'), 'utf8'), 'property', 'og:image:alt')
+    assert.match(alt, /Polavaram Irrigation Project/)
+    assert.match(alt, /55,549/)
   } finally {
     stop(); rmSync(out, { recursive: true, force: true })
   }

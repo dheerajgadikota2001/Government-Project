@@ -1577,7 +1577,8 @@
       "stageRE": "संशोधित अनुमान",
       "stageActual": "लेखा परीक्षित वास्तविक",
       "allDepartments": "सभी चालीस मांगें",
-      "demandLabel": "मांग"
+      "demandLabel": "मांग",
+      "headingShort": "{department} बजट, साल दर साल"
     }
   },
   "governments": {

@@ -1577,7 +1577,8 @@
       "stageRE": "ସଂଶୋଧିତ ଆକଳନ",
       "stageActual": "ଅଡିଟ ହୋଇଥିବା ପ୍ରକୃତ",
       "allDepartments": "ସମସ୍ତ ଚାଳିଶ ଦାବି",
-      "demandLabel": "ଦାବି"
+      "demandLabel": "ଦାବି",
+      "headingShort": "{department} ବଜେଟ, ବର୍ଷ ଅନୁଯାୟୀ"
     }
   },
   "governments": {

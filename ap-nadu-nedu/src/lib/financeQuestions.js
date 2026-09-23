@@ -46,9 +46,11 @@ export const FINANCE_GROUPS = [
  *   questionKey   the question as the reader sees it, translated
  *   answerKey     the one-paragraph answer, translated; null where the
  *                 component computes its own from the data
- *   title         the browser tab and search headline, English (see routes.js
- *                 for why titles are still English on every language)
- *   description   the search snippet, under about 155 characters
+ *   seoTitle      the search headline, 60 characters at most (seo.js
+ *                 seoForFinanceQuestion; Telugu in seo.financeQuestion.*)
+ *   seoDescription the search snippet, 160 characters at most
+ *   title         the question's longer name, kept for anything that reads it
+ *   description   the longer summary, likewise
  */
 export const FINANCE_QUESTIONS = [
   {
@@ -57,6 +59,9 @@ export const FINANCE_QUESTIONS = [
     group: 'howMuch',
     questionKey: 'finances.q.threeSources',
     answerKey: 'finances.a.threeSources',
+    seoTitle: 'Andhra Pradesh debt: RBI, CAG and budget figures compared',
+    seoDescription:
+      'Three official sources publish a different total for Andhra Pradesh\'s debt on the same date. All three, side by side, year by year, and why they differ.',
     title: 'Whose debt figure is right? RBI, CAG and the AP budget compared',
     description:
       'Three official sources publish a different total for Andhra Pradesh\'s debt on the same 31 March. Each is shown side by side, year by year, with the reason they differ.',
@@ -67,6 +72,9 @@ export const FINANCE_QUESTIONS = [
     group: 'howMuch',
     questionKey: 'finances.q.composition',
     answerKey: 'finances.a.composition',
+    seoTitle: 'What Andhra Pradesh\'s debt is made of, year by year',
+    seoDescription:
+      'Market loans, central loans, provident funds and deposits: what makes up Andhra Pradesh\'s debt each year, from CAG and RBI.',
     title: 'What Andhra Pradesh\'s debt is made of, from the audited accounts',
     description:
       'Market loans, central government loans, provident funds and deposits: what makes up Andhra Pradesh\'s debt each year, from CAG and RBI, with the largest piece named.',
@@ -77,6 +85,9 @@ export const FINANCE_QUESTIONS = [
     group: 'howMuch',
     questionKey: 'finances.q.hidden',
     answerKey: 'finances.a.hidden',
+    seoTitle: 'Andhra Pradesh off-budget debt and guarantees, by year',
+    seoDescription:
+      'Borrowing through state corporations and guarantees given for others are real obligations the headline debt leaves out. What CAG and RBI record, yearly.',
     title: 'What the Andhra Pradesh debt figure leaves out: corporations and guarantees',
     description:
       'Borrowing through state corporations and guarantees given for others are real obligations that never appear in the headline debt. What CAG and RBI record for each, year by year.',
@@ -87,6 +98,9 @@ export const FINANCE_QUESTIONS = [
     group: 'tooMuch',
     questionKey: 'finances.q.tooBig',
     answerKey: 'finances.a.tooBig',
+    seoTitle: 'Andhra Pradesh debt to GSDP ratio, year by year',
+    seoDescription:
+      'Andhra Pradesh\'s debt against everything the state produces in a year, the way a bank compares a loan with an income. RBI debt over NSO GSDP since 2014-15.',
     title: 'Is Andhra Pradesh\'s debt too big for the state? Debt against GSDP',
     description:
       'Andhra Pradesh\'s debt compared with everything the state produces in a year, the way a bank compares a loan with an income. RBI debt over NSO GSDP, every year since 2014-15.',
@@ -97,6 +111,9 @@ export const FINANCE_QUESTIONS = [
     group: 'tooMuch',
     questionKey: 'finances.committed.title',
     answerKey: null,
+    seoTitle: 'How much of Andhra Pradesh\'s revenue goes to interest',
+    seoDescription:
+      'Interest on debt already taken is the first claim on what Andhra Pradesh earns. Its share of revenue each year since 2014-15, from the state\'s own budgets.',
     title: 'How much of Andhra Pradesh\'s revenue goes to interest before anything is built',
     description:
       'Interest on debt already taken is the first claim on what Andhra Pradesh earns. The share of revenue it takes each year since 2014-15, from the state\'s own budget documents.',
@@ -107,6 +124,9 @@ export const FINANCE_QUESTIONS = [
     group: 'tooMuch',
     questionKey: 'finances.q.deficits',
     answerKey: 'finances.a.deficits',
+    seoTitle: 'Andhra Pradesh revenue and fiscal deficit, year by year',
+    seoDescription:
+      'Andhra Pradesh has run a revenue deficit every year since bifurcation, borrowing to pay salaries, pensions and interest. Both deficits, from the budget books.',
     title: 'Does Andhra Pradesh earn enough to run itself? Fiscal and revenue deficit',
     description:
       'Andhra Pradesh has run a revenue deficit in every year since bifurcation: it borrows to pay salaries, pensions and interest. Both deficits, year by year, from the budget books.',
@@ -117,6 +137,9 @@ export const FINANCE_QUESTIONS = [
     group: 'used',
     questionKey: 'finances.promised.title',
     answerKey: null,
+    seoTitle: 'Did Andhra Pradesh spend what its Assembly voted?',
+    seoDescription:
+      'What the Andhra Pradesh Assembly voted each year, against what the audited Appropriation Accounts say was actually spent.',
     title: 'Did Andhra Pradesh spend the money its Assembly voted? Budgeted against actual',
     description:
       'What the Andhra Pradesh Assembly voted for building and for running the state each year, against what the audited accounts say was actually spent. Appropriation Accounts, every year.',
@@ -127,6 +150,9 @@ export const FINANCE_QUESTIONS = [
     group: 'used',
     questionKey: 'finances.q.departments',
     answerKey: 'finances.a.departments',
+    seoTitle: 'Andhra Pradesh department budgets: voted and spent',
+    seoDescription:
+      'Forty Andhra Pradesh departments, each with what the Assembly voted and what the audited accounts record as spent, year by year, from the Demands for Grants.',
     title: 'Which Andhra Pradesh departments the money was voted for, and what each spent',
     description:
       'Forty Andhra Pradesh departments, each with what the Assembly voted and what the audited accounts record as spent, year by year, from the Demands for Grants.',
@@ -137,6 +163,9 @@ export const FINANCE_QUESTIONS = [
     group: 'claims',
     questionKey: 'finances.q.claims',
     answerKey: 'finances.a.claims',
+    seoTitle: 'AP governments\' debt claims about each other, checked',
+    seoDescription:
+      'The 2019 and 2024 white papers each put a number on the previous government\'s debt. Each claim, beside what RBI, CAG and the accounts record for that date.',
     title: 'What Andhra Pradesh\'s governments claimed about each other\'s debt, checked',
     description:
       'The 2019 and 2024 white papers each put a number on the previous government\'s debt. Each claim is set beside what RBI, CAG and the accounts record for the same date.',

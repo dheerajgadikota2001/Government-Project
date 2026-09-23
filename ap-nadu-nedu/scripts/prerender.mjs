@@ -55,12 +55,21 @@ const DIST = flag('--out') ? resolve(process.cwd(), flag('--out')) : BUILD
 const TEMPLATE = join(BUILD, 'index.html')
 const LIMIT = Number(flag('--limit') || 0)          // for a fast smoke run
 const CONCURRENCY = Number(flag('--concurrency') || 8)
+// --no-cards, or SHARE_CARDS=0, skips drawing the share cards. The tests use
+// it: each of them runs this script, and starting Chromium a dozen times to
+// test page markup would triple the suite for nothing. One test draws them.
+const CARDS = !args.includes('--no-cards') && process.env.SHARE_CARDS !== '0'
 
 const {
-  SITE_NAME, STATIC_ROUTES, LANG_CODES, INDEXED_LANGS, localizedPath, districtPath,
+  SITE_NAME, SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, INDEXED_LANGS, localizedPath, districtPath,
 } = await import('../src/lib/routes.js')
-const { canonicalFor, alternatesFor, robotsFor, seoForRoute, seoForFinanceQuestion, seoForProject, seoForDistrict } =
-  await import('../src/lib/seo.js')
+const {
+  canonicalFor, alternatesFor, robotsFor, seoForRoute, seoForFinanceQuestion, seoForProject, seoForDistrict,
+  seoForFactCheck, seoForDepartment, ogLocale, siteCardPath, SHARE_CARD_SIZE,
+} = await import('../src/lib/seo.js')
+const { projectCard, districtCard, sectionCard, homeCard, cardAlt } = await import('../src/lib/shareCard.js')
+const { relatedGroups, neighbours } = await import('../src/lib/related.js')
+const { renderCards } = await import('./share-cards.mjs')
 const { localiseVars } = await import('../src/lib/placeNames.js')
 const { schemaFor, projectTrail } = await import('../src/lib/schema.js')
 const { canonicalIdFor, isDuplicate, membersOf, groupFor, costsDisagree } =
@@ -364,12 +373,17 @@ function projectLinks({ projects, t, lang, knownDistricts, districtOf = p => p.d
  * Head rules live in seo.js (alternatesFor, robotsFor) so the prerendered
  * head and the one the app writes after load cannot disagree.
  */
-function headTags({ lang, path, title, description, schema, canonicalPath }) {
+function headTags({ lang, path, title, description, schema, canonicalPath, image }) {
   const canonical = canonicalFor(canonicalPath || path)
-  const alternates = alternatesFor(path)
+  const pairs = alternatesFor(path)
+  const alternates = pairs
     .map(([code, href]) => `<link rel="alternate" hreflang="${esc(code)}" href="${esc(href)}" />`)
     .join('\n    ')
+  // The other languages this page is published in, as Open Graph knows them,
+  // so Facebook can pick the Telugu preview for a Telugu reader.
+  const otherLocales = pairs.map(([code]) => code).filter(code => code !== 'x-default' && code !== lang)
   const robots = robotsFor(path)
+  const src = image?.src ? SITE_ORIGIN + image.src : null
 
   return [
     robots ? `<meta name="robots" content="${esc(robots)}" />` : '',
@@ -377,9 +391,19 @@ function headTags({ lang, path, title, description, schema, canonicalPath }) {
     `<meta property="og:url" content="${esc(canonical)}" />`,
     `<meta property="og:title" content="${esc(title)}" />`,
     `<meta property="og:description" content="${esc(description)}" />`,
-    `<meta property="og:locale" content="${esc(lang)}" />`,
+    `<meta property="og:locale" content="${esc(ogLocale(lang))}" />`,
+    ...otherLocales.map(code => `<meta property="og:locale:alternate" content="${esc(ogLocale(code))}" />`),
+    src ? `<meta property="og:image" content="${esc(src)}" />` : '',
+    src ? `<meta property="og:image:type" content="image/jpeg" />` : '',
+    src ? `<meta property="og:image:width" content="${SHARE_CARD_SIZE.width}" />` : '',
+    src ? `<meta property="og:image:height" content="${SHARE_CARD_SIZE.height}" />` : '',
+    src ? `<meta property="og:image:alt" content="${esc(image.alt)}" />` : '',
+    // The large card, not the thumbnail: the figure is the reason to share.
+    `<meta name="twitter:card" content="${src ? 'summary_large_image' : 'summary'}" />`,
     `<meta name="twitter:title" content="${esc(title)}" />`,
     `<meta name="twitter:description" content="${esc(description)}" />`,
+    src ? `<meta name="twitter:image" content="${esc(src)}" />` : '',
+    src ? `<meta name="twitter:image:alt" content="${esc(image.alt)}" />` : '',
     alternates,
     `<script type="application/ld+json" id="site-schema">${JSON.stringify(schema)}</script>`,
   ].filter(Boolean).join('\n    ')
@@ -513,7 +537,29 @@ function sourcesTable({ siblings, observations, t, lang }) {
  * of it. That repetition is deliberate and it is how an answer page reads: the
  * paragraph is what a snippet quotes, the headings are what a query matches.
  */
-function projectBody({ project, observation, t, lang, path, knownDistricts, sections, sourcesBlock = '' }) {
+/**
+ * "Other projects in Eluru district", as the React page shows it
+ * (components/RelatedProjects.jsx), written into the HTML.
+ *
+ * Without it a project page linked to its district and to the register and
+ * to nothing else, so 728 project pages were reachable only through two hub
+ * pages. With it every project page links six neighbours, and the register
+ * becomes a web a crawler can walk rather than a star it has to keep
+ * returning to the centre of.
+ */
+function neighbourBlock({ near, project, t, lang }) {
+  if (!near?.items?.length) return ''
+  const heading = near.by === 'district'
+    ? t('projectDetail.related.inDistrict', { district: near.district })
+    : t('projectDetail.related.byType', { type: t(`projects.type.${project.project_type}`) })
+  return [
+    `<h2>${esc(heading)}</h2>`,
+    `<p>${esc(t('projectDetail.related.note'))}</p>`,
+    `<ul>${near.items.map(p => linkTo(lang, `/projects/${p.id}`, displayTitle(p.title))).join('')}</ul>`,
+  ].join('\n      ')
+}
+
+function projectBody({ project, observation, t, lang, path, knownDistricts, sections, sourcesBlock = '', near = null }) {
   const summary = projectSummary({ project, observation, t, fmtNum, fmtMonth: monthFmt(t) })
 
   return [
@@ -525,6 +571,7 @@ function projectBody({ project, observation, t, lang, path, knownDistricts, sect
     ...sections.map(({ q, a, extra }) =>
       `<h2>${esc(q)}</h2>\n      <p>${esc(a)}</p>${extra ? `\n      ${extra}` : ''}`),
     sourcesBlock,
+    neighbourBlock({ near, project, t, lang }),
     `<p><a href="${esc(localizedPath(lang, '/projects'))}">${esc(t('projectDetail.related.seeRegister'))}</a></p>`,
     footer({ t, lang, path }),
   ].filter(Boolean).join('\n      ')
@@ -655,7 +702,7 @@ function financeQuestionBody({ question, t, lang, path }) {
  * composition, then every commitment with its amount, its status and who
  * says so. Same catalogue keys as the cards, so the two cannot disagree.
  */
-function mouRegister({ mous, mouStats, t, lang }) {
+function mouRegister({ mous, mouStats, t, lang, knownDistricts = new Set() }) {
   if (!mous.length) return ''
   const label = v => String(v || '').replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase())
   const tier = m => t(`investments.card.tier.${m.source_tier || 'unlabelled'}`)
@@ -681,19 +728,28 @@ function mouRegister({ mous, mouStats, t, lang }) {
     }
   }
 
-  const cols = ['company', 'sector', 'amount', 'status', 'source', 'signed']
+  const cols = ['company', 'sector', 'district', 'amount', 'status', 'source', 'signed']
+  // The district, linked to its page when it has one. A commitment is made
+  // somewhere, and "Google data centre Visakhapatnam" is a search that should
+  // be able to reach the Visakhapatnam page from here.
+  const districtCell = m => {
+    if (!m.district) return ''
+    const href = districtHref(m.district, knownDistricts)
+    return href ? `<a href="${esc(localizedPath(lang, href))}">${esc(m.district)}</a>` : esc(m.district)
+  }
   out.push(`<h2>${esc(t('investments.register.heading'))}</h2>`)
   out.push('<table>',
     `<thead><tr>${cols.map(c => `<th>${esc(t(`investments.register.col.${c}`))}</th>`).join('')}</tr></thead>`,
     '<tbody>',
     ...mous.map(m => '<tr>' + [
-      m.company_name,
-      label(m.sector),
-      m.investment_crore == null ? t('investments.register.amountUnknown') : croreLabel(m.investment_crore, t),
-      status(m),
-      tier(m),
-      m.signed_date ? fmtMonth(String(m.signed_date).slice(0, 7)) : t('investments.card.undated'),
-    ].map(v => `<td>${esc(v)}</td>`).join('') + '</tr>'),
+      esc(m.company_name),
+      esc(label(m.sector)),
+      districtCell(m),
+      esc(m.investment_crore == null ? t('investments.register.amountUnknown') : croreLabel(m.investment_crore, t)),
+      esc(status(m)),
+      esc(tier(m)),
+      esc(m.signed_date ? fmtMonth(String(m.signed_date).slice(0, 7)) : t('investments.card.undated')),
+    ].map(v => `<td>${v}</td>`).join('') + '</tr>'),
     '</tbody></table>')
   return out.join('\n      ')
 }
@@ -707,10 +763,18 @@ function routeBody({ route, seo, t, lang, path, ctx }) {
     '/investments': () => mouRegister(ctx),
   }[route.pattern]
 
+  // The same groups components/RelatedLinks.jsx shows a reader.
+  const written = path => !path.startsWith('/districts/') || ctx.knownDistricts.has(path)
+  const related = relatedGroups(route.pattern, t, { keep: written })
+    .map(g => list(g.links.map(l => linkTo(lang, l.path, l.label)), g.heading))
+    .join('\n      ')
+
   return [
-    `<h1>${esc(seo.title)}</h1>`,
+    // The page's heading, not its <title>: the site name belongs in the tab.
+    `<h1>${esc(seo.heading || seo.title)}</h1>`,
     `<p>${esc(seo.description)}</p>`,
     children ? children() : '',
+    related,
     footer({ t, lang, path, current: route.pattern }),
   ].filter(Boolean).join('\n      ')
 }
@@ -744,13 +808,15 @@ function stripPrevious(html) {
     .replace(/<div id="root">[\s\S]*?<\/div>(?=\s*(?:<script|<\/body>))/, '<div id="root"></div>')
     .replace(/\s*<link rel="canonical"[^>]*>/g, '')
     .replace(/\s*<meta property="og:url"[^>]*>/g, '')
-    .replace(/\s*<meta property="og:locale"[^>]*>/g, '')
+    .replace(/\s*<meta property="og:locale(?::alternate)?"[^>]*>/g, '')
+    .replace(/\s*<meta property="og:image(?::[a-z_]+)?"[^>]*>/g, '')
+    .replace(/\s*<meta name="twitter:(?:card|image|image:alt)"[^>]*>/g, '')
     .replace(/\s*<meta name="robots"[^>]*>/g, '')
     .replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '')
     .replace(/\s*<script type="application\/ld\+json" id="site-schema">[\s\S]*?<\/script>/g, '')
 }
 
-function render(template, { lang, dir, path, title, description, schema, body, canonicalPath }) {
+function render(template, { lang, dir, path, title, description, schema, body, canonicalPath, image }) {
   let html = stripPrevious(template)
 
   html = html.replace(/<html lang="[^"]*"/, `<html lang="${esc(lang)}" dir="${esc(dir)}"`)
@@ -767,7 +833,7 @@ function render(template, { lang, dir, path, title, description, schema, body, c
   html = html.replace(/<meta\s+name="twitter:title"[\s\S]*?\/>\s*/g, '')
   html = html.replace(/<meta\s+name="twitter:description"[\s\S]*?\/>\s*/g, '')
 
-  html = html.replace('</head>', `  ${headTags({ lang, path, title, description, schema, canonicalPath })}\n  </head>`)
+  html = html.replace('</head>', `  ${headTags({ lang, path, title, description, schema, canonicalPath, image })}\n  </head>`)
 
   // Inside #root on purpose: createRoot empties the container when the app
   // mounts, so a reader never sees both. A crawler that stops before running
@@ -948,6 +1014,35 @@ function emit(path, html) {
   written++
 }
 
+/**
+ * Pages are collected first and written after the share cards are drawn,
+ * because a page's head names its card, and the card's file name is the hash
+ * of what is on it.
+ *
+ * Only English and Telugu get cards of their own. The other four languages
+ * are read, not indexed, and their pages reuse the English card: a preview in
+ * half-translated Hindi would be worse than a preview in English. Pages whose
+ * text is English in every language (fact checks, department budgets) reuse
+ * the English card for the same reason.
+ */
+const pages = []
+const cards = new Map()
+const CARD_LANGS = new Set(['en', 'te'])
+
+function page({ path, lang, key, card, build }) {
+  const own = key && card && CARD_LANGS.has(lang) ? `${key}-${lang}` : null
+  if (own) cards.set(own, card)
+  pages.push({ path, lang, cardKey: own || (key ? `${key}-en` : null), build })
+}
+
+/** The card for one language of a page, only when this language draws its own. */
+const cardIn = (lang, make) => (CARD_LANGS.has(lang) ? make() : null)
+
+const slugOf = pattern => pattern.replace(/^\/+/, '').replace(/[^a-z0-9]+/gi, '-') || 'home'
+
+// Counts for the homepage card, from the register this build is writing.
+const liveProjectCount = projects.filter(p => !isDuplicate(p.id)).length
+
 for (const lang of LANG_CODES) {
   const t = translator(lang)
   const dir = DIRS[lang] || 'ltr'
@@ -958,33 +1053,50 @@ for (const lang of LANG_CODES) {
     const path = localizedPath(lang, route.pattern)
     const seo = seoForRoute(route, { t, lang })
     const schema = schemaFor(path, { title: seo.title, description: seo.description })
-    emit(path, render(template, {
-      lang, dir, path, title: seo.title, description: seo.description, schema,
-      body: routeBody({ route, seo, t, lang, path, ctx }),
-    }))
+    page({
+      path, lang, key: route.pattern === '/' ? 'home' : `s/${slugOf(route.pattern)}`,
+      card: cardIn(lang, () => (route.pattern === '/'
+        ? homeCard({ projects: liveProjectCount, districts: knownDistricts.size, departments: departments.length, t, lang })
+        : sectionCard({ title: seo.heading || seo.title, subtitle: seo.description, t, lang }))),
+      build: image => render(template, {
+        lang, dir, path, title: seo.title, description: seo.description, schema, image,
+        body: routeBody({ route, seo, t, lang, path, ctx }),
+      }),
+    })
   }
 
   for (const question of FINANCE_QUESTIONS) {
     const path = localizedPath(lang, financeQuestionPath(question.slug))
     const { title, description } = seoForFinanceQuestion(question, { t, lang })
     const schema = schemaFor(path, { title, description })
-    emit(path, render(template, {
-      lang, dir, path, title, description, schema,
-      body: financeQuestionBody({ question, t, lang, path }),
-    }))
+    page({
+      path, lang, key: `fq/${question.slug}`,
+      card: cardIn(lang, () => sectionCard({
+        title: t(question.questionKey), subtitle: description, eyebrow: t('share.kind.finances'), kind: 'finances', t, lang })),
+      build: image => render(template, {
+        lang, dir, path, title, description, schema, image,
+        body: financeQuestionBody({ question, t, lang, path }),
+      }),
+    })
   }
 
   for (const check of FACT_CHECKS) {
     const path = localizedPath(lang, factCheckPath(check.slug))
     const labels = Object.fromEntries(STATUSES.map(st => [st, t(`factcheck.status.${st}`)]))
+    const { title, description } = seoForFactCheck(check, { t, lang })
     const schema = schemaFor(path, {
-      title: check.question, description: check.summary,
+      title, description,
       factCheck: { check, ratings: STATUS_RATING, labels },
     })
-    emit(path, render(template, {
-      lang, dir, path, title: clip(check.question, 70), description: clip(check.summary, 200), schema,
-      body: factCheckBody({ check, t, lang, path }),
-    }))
+    page({
+      path, lang, key: `fc/${check.slug}`,
+      card: lang === 'en' ? sectionCard({
+        title: check.question, subtitle: check.summary, eyebrow: t('share.kind.factcheck'), kind: 'factcheck', t, lang }) : null,
+      build: image => render(template, {
+        lang, dir, path, title, description, schema, image,
+        body: factCheckBody({ check, t, lang, path }),
+      }),
+    })
   }
 
   for (const department of departments) {
@@ -992,13 +1104,22 @@ for (const lang of LANG_CODES) {
     const facts = departmentFacts(department)
     if (!facts.latest) continue     // a demand with no figure has no page
     const path = localizedPath(lang, departmentPath(department.department))
-    const title = clip(t('finances.dept.heading', { department: department.department }), 70)
-    const description = clip(departmentSummary({ department, t, fmtNum }).slice(0, 2).join(' '), 200)
+    const heading = t('finances.dept.heading', { department: department.department })
+    const { title, description } = seoForDepartment({
+      department: department.department,
+      heading,
+      headingShort: t('finances.dept.headingShort', { department: department.department }),
+      lead: departmentSummary({ department, t, fmtNum }).slice(0, 2),
+    })
     const schema = schemaFor(path, { title, description })
-    emit(path, render(template, {
-      lang, dir, path, title, description, schema,
-      body: departmentBody({ department, t, lang, path }),
-    }))
+    page({
+      path, lang, key: `dept/${departmentPath(department.department).split('/').pop()}`,
+      card: lang === 'en' ? sectionCard({ title: heading, subtitle: description, eyebrow: t('share.kind.department'), kind: 'department', t, lang }) : null,
+      build: image => render(template, {
+        lang, dir, path, title, description, schema, image,
+        body: departmentBody({ department, t, lang, path }),
+      }),
+    })
   }
 
   for (const row of districtRows) {
@@ -1006,13 +1127,17 @@ for (const lang of LANG_CODES) {
     const path = localizedPath(lang, districtPath(row.district))
     const seo = seoForDistrict(row.district, row.count, { t, lang })
     const schema = schemaFor(path, { title: seo.title, description: seo.description })
-    emit(path, render(template, {
-      lang, dir, path, title: seo.title, description: seo.description, schema,
-      body: districtBody({
-        district: row.district, total: row.count, row, projects, t, lang, path,
-        districtOf: workDistrict, canonicalProject: canonicalOf,
+    page({
+      path, lang, key: `d/${districtPath(row.district).split('/').pop()}`,
+      card: cardIn(lang, () => districtCard({ district: row.district, count: row.count, costCrore: row.cost_crore, t, lang })),
+      build: image => render(template, {
+        lang, dir, path, title: seo.title, description: seo.description, schema, image,
+        body: districtBody({
+          district: row.district, total: row.count, row, projects, t, lang, path,
+          districtOf: workDistrict, canonicalProject: canonicalOf,
+        }),
       }),
-    }))
+    })
   }
 
   projects.forEach((project, i) => {
@@ -1021,9 +1146,10 @@ for (const lang of LANG_CODES) {
     // (the MoSPI Polavaram row) takes it from the merged sibling that has one,
     // so the title and snippet cannot say "Andhra Pradesh" where the page
     // itself says "Eluru".
-    const seo = seoForProject({ ...project, district: workDistrict(project) }, { t, lang })
+    const where = workDistrict(project)
+    const seo = seoForProject({ ...project, district: where }, { t, lang })
     const title = seo.title || `${displayTitle(project.title)} | ${SITE_NAME}`
-    const description = clip(seo.description || project.description || '', 200)
+    const description = seo.description || clip(project.description || '', 160)
     const observation = extras[i]
 
     // Every government record of this same work, canonical first. Usually just
@@ -1033,6 +1159,7 @@ for (const lang of LANG_CODES) {
     const siblingObs = siblings.map(p => extras[indexById.get(p.id)] ?? null)
 
     const sections = projectSections({ project, observation, t, lang, knownDistricts, siblings })
+    const near = neighbours(project, projects, { districtOf: workDistrict, isDuplicate })
     // The same question and answer pairs the reader sees, handed to the
     // machines as data. Google shows an FAQ rich result only for a short list
     // of official sites and this is not one of them, so this is not here for a
@@ -1047,24 +1174,50 @@ for (const lang of LANG_CODES) {
       breadcrumbTrail: projectTrail(project, districtHref(project.district, knownDistricts)),
       faq: sections,
     })
-    emit(path, render(template, {
-      lang, dir, path, title, description, schema,
-      // A duplicate record hands its ranking to the canonical page rather than
-      // splitting it. The page is still written: its URL may already be
-      // indexed or shared, and a crawler that finds it must be told where the
-      // work really lives, not given a 404.
-      canonicalPath: isDuplicate(project.id)
-        ? localizedPath(lang, `/projects/${canonicalIdFor(project.id)}`)
-        : undefined,
-      body: projectBody({
-        project, observation, t, lang, path, knownDistricts, sections,
-        sourcesBlock: sourcesTable({ siblings, observations: siblingObs, t, lang }),
+    page({
+      path, lang, key: `p/${project.id}`,
+      card: cardIn(lang, () => projectCard({ project, observation, district: where, t, lang })),
+      build: image => render(template, {
+        lang, dir, path, title, description, schema, image,
+        // A duplicate record hands its ranking to the canonical page rather than
+        // splitting it. The page is still written: its URL may already be
+        // indexed or shared, and a crawler that finds it must be told where the
+        // work really lives, not given a 404.
+        canonicalPath: isDuplicate(project.id)
+          ? localizedPath(lang, `/projects/${canonicalIdFor(project.id)}`)
+          : undefined,
+        body: projectBody({
+          project, observation, t, lang, path, knownDistricts, sections, near,
+          sourcesBlock: sourcesTable({ siblings, observations: siblingObs, t, lang }),
+        }),
       }),
-    }))
+    })
   })
 }
 
+// ------------------------------------------------------------- share cards
+
+let drawnCards = { urls: new Map(), drawn: 0, cached: 0, failed: 0, reason: CARDS ? null : 'skipped (--no-cards)' }
+if (CARDS && cards.size) {
+  drawnCards = await renderCards([...cards].map(([key, card]) => ({ key, card })), {
+    outDir: DIST, log: m => console.warn(`prerender: ${m}`),
+  })
+}
+
+/** The image a page's head names: its own card, the English one, or the site's. */
+function imageFor({ cardKey, lang }) {
+  const own = cardKey && drawnCards.urls.get(cardKey)
+  if (own) return { src: own, alt: clip(cardAlt(cards.get(cardKey)), 420) }
+  return { src: siteCardPath(lang), alt: SITE_NAME }
+}
+
+for (const p of pages) emit(p.path, p.build(imageFor(p)))
+
 const merged = projects.filter(p => isDuplicate(p.id)).length
+if (CARDS) {
+  console.log(`prerender: share cards: ${drawnCards.drawn} drawn, ${drawnCards.cached} reused from the cache` +
+    (drawnCards.failed ? `, ${drawnCards.failed} not drawn (${drawnCards.reason || 'see above'}); those pages preview with the site card` : ''))
+}
 console.log(`prerender: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${FACT_CHECKS.length} fact checks` +
   ` + ${districtRows.length} districts + ${departments.length} departments + ${projects.length} projects` +
   ` x ${LANG_CODES.length} languages = ${written} files`)

@@ -241,7 +241,11 @@ test('a district page names the district, which is what people search', () => {
 
 test('a news page is titled with the headline', () => {
   const seo = seoForNews({ title: 'Cabinet clears the coastal corridor', source_name: 'AP CRDA' })
-  assert.match(seo.title, /^Cabinet clears the coastal corridor \|/)
+  // 35 characters of headline and 28 of site name is 63, past what Google
+  // shows, so the headline stands alone (seo.js titleFor). A short headline
+  // still carries the site name.
+  assert.equal(seo.title, 'Cabinet clears the coastal corridor')
+  assert.equal(seoForNews({ title: 'Budget tabled' }).title, 'Budget tabled | Andhra Pradesh Fact Check')
   assert.match(seo.description, /AP CRDA/)
   assert.deepEqual(seoForNews({}), {})
 })

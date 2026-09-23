@@ -15,6 +15,7 @@
       "as_of": "2019-03-31",
       "unit": "crore",
       "summary": "Two governments, writing five years apart about the same date, gave figures ₹1,16,367 crore apart. The two independent auditors give a third and a fourth. The gap is a definition, and this page shows all four.",
+      "seoDescription": "Two governments gave figures ₹1,16,367 crore apart for AP's debt on 31 March 2019. Two auditors give a third and a fourth. The gap is a definition.",
       "claims": [
         {
           "made_by": "YSRCP government",
@@ -68,6 +69,7 @@
       "as_of": "2024-06-12",
       "unit": "crore",
       "summary": "The 2024 white paper's headline figure is roughly double what RBI and the state's own accounts record for the nearest year-end. The paper's own breakup shows why: only ₹4,38,278 crore of it is budget debt.",
+      "seoDescription": "The 2024 white paper's debt figure is about double what RBI and the state's accounts record for the nearest year-end. Only ₹4,38,278 crore of it is budget debt.",
       "claims": [
         {
           "made_by": "TDP-led government",
@@ -108,6 +110,8 @@
       "as_of": "2014-06-08",
       "unit": "crore",
       "summary": "No auditor publishes a debt figure for June 2014. The state was bifurcated on 2 June 2014 and its opening debt was an apportionment still being argued over. The nearest published figures are nine months later and both are higher.",
+      "seoTitle": "Was AP's debt about ₹97,000 crore in June 2014?",
+      "seoDescription": "No auditor publishes a debt figure for June 2014: the state had just been bifurcated. The nearest published figures are nine months later, and both are higher.",
       "claims": [
         {
           "made_by": "YSRCP government",

@@ -36,17 +36,27 @@ export const SITE_NAME = 'Andhra Pradesh Fact Check'
  *
  *   pattern      matches App.jsx exactly, ':' segments are parameters
  *   title        the browser tab and the search result headline
+ *   heading      the page's <h1>, when it differs from the title
  *   description  the search result snippet, kept under about 155 characters
  *   index        false keeps the page out of search results but still followed
  *   static       false for pages whose address contains a parameter, so the
  *                sitemap generator knows not to publish the literal ':id'
  */
 export const ROUTES = [
+  // title and description are held to 60 and 160 characters by
+  // scripts/tests/seo-lengths.test.mjs. The site name is added to a title by
+  // seo.js titleFor when it fits, so it is not written here.
+  // heading, where given, is the page's <h1>; otherwise the title is.
   {
     pattern: '/',
-    title: 'Andhra Pradesh Fact Check | ఏపీ నిజ నిర్ధారణ',
+    // The site's name first, then the three things people search for. The
+    // old title was the name alone, in two scripts, which ranks for nothing
+    // but the name, and nobody searches a name they have not heard yet.
+    title: 'Andhra Pradesh Fact Check: AP projects, budget and debt',
+    // The same words the reader sees in the hero (home.hero.titleLine1/2).
+    heading: 'Track Andhra Pradesh Government Work',
     description:
-      'Andhra Pradesh Fact Check is an independent, no-login transparency platform. Every project, budget and commitment figure is taken from a government document and cited, in six languages.',
+      'Projects, budget, debt and investment MoUs of Andhra Pradesh, every figure taken from a government document and cited. Independent, free, no login.',
   },
   {
     pattern: '/projects',
@@ -79,7 +89,7 @@ export const ROUTES = [
     pattern: '/investments',
     title: 'Investment MoUs signed by Andhra Pradesh',
     description:
-      'Investment memorandums announced by the Andhra Pradesh government, by sector and value, with the announcement each figure came from. An MoU is a promise, not money spent.',
+      'Investment MoUs announced by the Andhra Pradesh government, by sector and value, each with its source. An MoU is a promise, not money spent.',
   },
   {
     pattern: '/investments/tenure/:key',
@@ -90,7 +100,7 @@ export const ROUTES = [
   },
   {
     pattern: '/news',
-    title: 'Andhra Pradesh government news, collected from official sources',
+    title: 'Andhra Pradesh government news from official sources',
     description:
       'Announcements and updates collected from Andhra Pradesh government portals, each linked back to where it was published.',
   },
@@ -103,7 +113,7 @@ export const ROUTES = [
   },
   {
     pattern: '/documents',
-    title: 'Andhra Pradesh government documents, free to read and download',
+    title: 'Andhra Pradesh government documents, free to download',
     description:
       'A library of official Andhra Pradesh government documents: budget papers, CAG reports, project registers and orders. Free to read, free to download, no login.',
   },
@@ -133,13 +143,13 @@ export const ROUTES = [
     static: false,
     title: 'Andhra Pradesh department budgets, year by year',
     description:
-      'What one Andhra Pradesh department was budgeted each year since 2014-15, and where the audited accounts exist, what was actually spent, with the budget volume behind every figure.',
+      'What one Andhra Pradesh department was budgeted each year since 2014-15, and what the audited accounts say it spent, with the budget volume cited.',
   },
   {
     pattern: '/factcheck',
-    title: 'Fact checks: official claims beside the official record | Andhra Pradesh Fact Check',
+    title: 'Fact checks: official claims beside the official record',
     description:
-      'Claims made in Andhra Pradesh government white papers and budget documents, set beside what RBI, CAG and the state accounts record for the same date. Both governments, same rules.',
+      'Claims from Andhra Pradesh white papers and budgets, set beside what RBI, CAG and the state accounts record for the same date. Both governments, same rules.',
   },
   {
     pattern: '/factcheck/:slug',
@@ -156,7 +166,7 @@ export const ROUTES = [
   },
   {
     pattern: '/school-education',
-    title: 'School education in Andhra Pradesh, by the official statistics',
+    title: 'School education in Andhra Pradesh, official statistics',
     description:
       'Enrolment, schools, teachers and infrastructure in Andhra Pradesh, taken from published government education statistics.',
   },
