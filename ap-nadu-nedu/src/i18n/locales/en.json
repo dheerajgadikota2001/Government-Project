@@ -59,6 +59,12 @@
         "title": "Children",
         "p1": "This site collects no personal information from anyone, at any age, and it has no accounts. So there is nothing here that would treat a student's visit differently from anyone else's. School and college students are among the readers this platform is most for."
       },
+      "reports": {
+        "title": "Corrections and board posts",
+        "p1": "The correction form sends us the page you name, what you write, and a way to reach you if you choose to give one. It goes only to the maintainer. It is never shown on the site and never sent to analytics.",
+        "p2": "A post on the community board is public, under the name you choose. You can delete your own post from the browser you wrote it in.",
+        "p3": "For both, we keep a scrambled form of your internet address, made with a secret key, only to stop spam and repeated abuse. The address itself is never stored. We keep correction reports so we can show what was fixed and why. To have your report, your contact detail or your post removed, send a correction request that says which one, and we will delete it."
+      },
       "changes": {
         "title": "If this changes",
         "p1": "This page describes what the code actually does. It gets updated in the same change as the code, not afterwards. The date at the top is the date it last changed. If anything here is unclear, or looks wrong to you, tell us. Being wrong about our own data handling would be the most serious mistake this platform could make."
@@ -1869,9 +1875,9 @@
       "line2": "Finding it shouldn't be a full-time job."
     },
     "why": {
-      "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere — a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
-      "p2": "Andhra Pradesh Fact Check does one thing: it gathers what the government has already published into a single place and organises it — by project, by district, by department — so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
-      "p3": "We create nothing. We add nothing. We show existing public records, link every one back to where the government published it, and make it accessible to everyone — in English and in Telugu, free, with no login."
+      "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere: a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
+      "p2": "Andhra Pradesh Fact Check does one thing. It gathers what the government has already published into a single place and organises it by project, by district and by department, so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
+      "p3": "We show existing public records, link every one back to where the government published it, and make it accessible to everyone: in English and in Telugu, free, with no login."
     },
     "principles": {
       "title": "How we keep it trustworthy",
@@ -1885,11 +1891,11 @@
       },
       "dated": {
         "title": "Dated, not \"current\"",
-        "body": "Government data changes, and our copy can lag the original. So nothing here claims to be live — every figure carries the date it was last collected, and the original portal is always one click away for the latest version."
+        "body": "Government data changes, and our copy can lag the original. So nothing here claims to be live. Every figure carries the date it was last collected, and the original portal is always one click away for the latest version."
       },
       "noSide": {
         "title": "No side to take",
-        "body": "The platform tracks work, not parties. The same project keeps its page and its history through every change of government. What was promised, what was sanctioned, what was built — the record speaks for itself."
+        "body": "The platform tracks work, not parties. The same project keeps its page and its history through every change of government. What was promised, what was sanctioned, what was built: the record speaks for itself."
       }
     },
     "sources": {
@@ -1899,7 +1905,7 @@
       "list": {
         "eProcurement": {
           "name": "AP e-Procurement Portal",
-          "what": "Tenders — notices, deadlines, awards"
+          "what": "Tenders: notices, deadlines, awards"
         },
         "goir": {
           "name": "Government Orders Issue Register (GOIR)",
@@ -1910,7 +1916,7 @@
           "what": "Budgets, fund releases, expenditure statements"
         },
         "cag": {
-          "name": "CAG — AG (Audit) Andhra Pradesh",
+          "name": "CAG, AG (Audit) Andhra Pradesh",
           "what": "Audit reports and state finance reports"
         },
         "openData": {
@@ -1927,7 +1933,7 @@
         },
         "press": {
           "name": "Published news reports",
-          "what": "Sakshi, Eenadu, The Hans India, Deccan Chronicle and others — always linked, never republished"
+          "what": "Sakshi, Eenadu, The Hans India, Deccan Chronicle and others. Always linked, never republished."
         }
       }
     },
@@ -1935,7 +1941,7 @@
       "title": "Independent, and accountable for it",
       "bodyBefore": "Andhra Pradesh Fact Check is a citizen-run initiative with no affiliation to the Government of Andhra Pradesh, the Government of India, or any political party. Nobody pays us to show or hide anything. And because mistakes are possible in any mirror of a moving source, we commit to this: if anything displayed here is inaccurate or outdated,",
       "tellUs": "tell us",
-      "bodyAfter": "and we will review it within 48 hours — correcting, updating, or removing it, and saying so."
+      "bodyAfter": "and we will review it within 48 hours. We correct, update or remove it, and we say so."
     },
     "cta": {
       "disclaimer": "Read the full disclaimer",
@@ -1945,12 +1951,12 @@
   "disclaimer": {
     "eyebrow": "Legal",
     "title": "Disclaimer",
-    "lead": "The short version: we are an independent citizen platform mirroring public government records, with a source link and timestamp on everything — and if something here is wrong, we fix it within 48 hours of being told.",
+    "lead": "The short version: we are an independent citizen platform that shows public government records, with a source link and a timestamp on everything. If something here is wrong, we fix it within 48 hours of being told.",
     "lastUpdated": "Last updated: {month} {year}",
     "tocAria": "Sections",
     "sections": {
       "whoWeAre": {
-        "title": "Who we are — and who we are not",
+        "title": "Who we are, and who we are not",
         "p1": "Andhra Pradesh Fact Check is an independent, non-governmental transparency platform built and maintained by private citizens. We are NOT affiliated with, endorsed by, or connected to the Government of Andhra Pradesh, the Government of India, any government department, or any political party.",
         "p2": "This website is not an official government website. Nothing here constitutes an official government communication. For official information, always refer to the government portals we link to."
       },
@@ -1968,22 +1974,27 @@
       },
       "copyright": {
         "title": "Copyright and content",
-        "p1": "Government Orders, Acts, notifications, reports, and similar public records are reproduced in accordance with the exemptions provided under Section 52 of the Copyright Act, 1957, which permits the reproduction of government works of this nature.",
+        "p1": "Some public records are reproduced here under Section 52(1)(q) of the Copyright Act, 1957. That clause covers matter published in the Official Gazette, Acts of a legislature published with commentary, reports of government committees laid before the Legislature, and judgments and orders of courts. For every other government document, we report the facts and figures it states and link to the original file on the government portal.",
         "p2": "News content: we display only headlines, source attributions, and short AI-generated summaries clearly labeled as such. Full articles remain on the publishers' websites, and every headline links to the original publisher. We do not host or republish full news articles.",
         "p3": "Documents in our library link to the original file on the government portal wherever possible. Where we hold a cached copy for reliability, the original source link is always displayed alongside it, together with the date of retrieval."
       },
       "ai": {
         "title": "AI-generated summaries",
-        "p1": "Summaries marked \"AI Summary\" are generated automatically to make long articles and documents easier to scan. They may contain errors and are not a substitute for the original text. The original is always linked — read it before relying on any detail."
+        "p1": "Summaries marked \"AI Summary\" are generated automatically to make long articles and documents easier to scan. They may contain errors and are not a substitute for the original text. The original is always linked. Read it before relying on any detail."
       },
       "corrections": {
         "title": "Corrections and takedown requests",
-        "p1": "If you believe any information displayed here is inaccurate, outdated, defamatory, or should not be displayed, write to us with a link to the specific item. We review every request within 48 hours and will correct, update, annotate, or remove content where warranted — and note that we did so.",
+        "p1": "If you believe any information displayed here is inaccurate, outdated, defamatory, or should not be displayed, write to us with a link to the specific item. We review every request within 48 hours. Where it is warranted we correct, update, annotate or remove the content, and we note that we did so.",
         "p2": "This applies to everyone: citizens, officials, contractors, and companies named in public records alike. We show public records as published; if the record itself is wrong, we will link to any official correction once one is published."
+      },
+      "grievance": {
+        "title": "Grievance officer",
+        "p1": "The grievance officer for this platform, including the community board, is {name}. Write to {email}. This is the contact the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021 ask a platform to publish.",
+        "p2": "We acknowledge every complaint within 24 hours and resolve it within 15 days. A request to remove content is acted on within 72 hours, and a correction to a figure within the 48 hours promised above."
       },
       "branding": {
         "title": "Emblems and official marks",
-        "p1": "This platform deliberately does not use the State Emblem of Andhra Pradesh, the State Emblem of India, or any official government seal, logo, or insignia — their use by private entities is restricted under the State Emblem of India (Prohibition of Improper Use) Act, 2005, and using them would wrongly suggest official status. Our logo and branding are original marks."
+        "p1": "This platform deliberately does not use the State Emblem of Andhra Pradesh, the State Emblem of India, or any official government seal, logo, or insignia. Their use by private entities is restricted under the State Emblem of India (Prohibition of Improper Use) Act, 2005, and using them would wrongly suggest official status. Our logo and branding are original marks."
       },
       "liability": {
         "title": "Limitation of liability",
@@ -1999,7 +2010,7 @@
     },
     "summary": {
       "titleTe": "సంక్షిప్తంగా",
-      "bodyTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి గానీ, ఏ రాజకీయ పార్టీకి గానీ సంబంధించినది కాదు. ఇక్కడి సమాచారం అంతా అధికారిక ప్రభుత్వ పోర్టళ్ల నుండి సేకరించబడింది — ప్రతి అంశానికీ మూలం లింక్ మరియు సేకరించిన తేదీ ఉంటాయి. ఏదైనా తప్పుగా ఉంటే మాకు తెలియజేయండి; 48 గంటల్లో సరిచేస్తాము."
+      "bodyTe": "ఆంధ్రప్రదేశ్ ఫ్యాక్ట్ చెక్ ఒక స్వతంత్ర పౌర వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి గానీ, ఏ రాజకీయ పార్టీకి గానీ సంబంధించినది కాదు. ఇక్కడి సమాచారం అంతా అధికారిక ప్రభుత్వ పోర్టళ్ల నుండి సేకరించబడింది. ప్రతి అంశానికీ మూలం లింకు, సేకరించిన తేదీ ఉంటాయి. ఏదైనా తప్పుగా ఉంటే మాకు తెలియజేయండి; 48 గంటల్లో సరిచేస్తాము."
     }
   },
   "sourceDocs": {
