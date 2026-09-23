@@ -1,44 +1,76 @@
 """
-MoSPI flash-report importer — central-sector projects in Andhra Pradesh.
+MoSPI flash-report importer: central-sector projects in Andhra Pradesh.
 
 Source: the Ministry of Statistics & Programme Implementation's monthly
 flash report tracks every central-sector infrastructure project of
-Rs 150 crore and above. Table 7 lists each ongoing project with agency,
-official project code, approval date, original/anticipated commissioning,
-original/revised/anticipated cost, cumulative expenditure and physical
-progress %. The mospi.gov.in mirror is reachable worldwide.
+Rs 150 crore and above, with agency, project code, approval date,
+original and revised completion, original and revised cost, cumulative
+expenditure and physical progress.
 
-Parsing: Table 7 is a positional PDF layout (state and sector are
-left-margin group labels that wrap across lines), so this parser assigns
-words to columns by x-coordinate — boundaries measured from the real
-June 2025 report and verified to reproduce the exact national total
-(1,595 projects) and AP total (100 projects, Sl 10-109).
+HOW IT FINDS THE REPORT
 
-Uses backend/fetched/mospi_flash.pdf when present, else downloads
-SOURCE_URL. Rows upsert by official project code (e.g. N30000002), so
-each month's report refreshes progress/cost on the same rows.
+It asks mospi.gov.in's own listing endpoint for the newest edition
+(mospi_editions.py). The old way, building FR_<MONTH>_<YEAR>.pdf from a
+pattern, stopped working after June 2025 and nobody was told: the daily
+job simply re-read the same PDF for thirteen months. A run that finds the
+newest edition already recorded stops there and says so.
+
+HOW IT READS IT
+
+The PAIMANA-era report (from mid 2025) lists every ongoing project in
+"Table 6: All Ongoing Projects", grouped by ministry and sector, one
+multi-line block per project. mospi_layout.py turns each page's words into
+those blocks by x position; the boundaries were measured on the July 2026
+report and the parser reproduces the national count the report prints on
+its overview page (1,775), which every run re-checks before writing.
+
+The pre-PAIMANA "Table:-7" parser is kept below for
+scripts/import_mospi_archive.py, which backfills older editions.
+
+HOW ROWS ARE MATCHED
+
+PAIMANA renumbered every project: Polavaram was N30000002 and is now
+701415, and the report prints the legacy code as "-". A row is matched by
+its current code, then by its legacy code, then by the reviewed
+renumbering map (mospi_renumbering.json: which old code each PAIMANA code
+replaced, with the evidence for every pair), then by its exact title among
+this portal's own rows. On a map or title match the row is re-keyed to the
+current code and the change is logged. Matching by likeness happens in
+scripts/mospi_renumbering.py, offline, where a person can read the
+evidence; the daily job only ever follows the reviewed list.
+
+A register row the newest edition no longer lists (finished, dropped, or
+moved under another state) keeps its last figures and is marked in its
+description as not listed in that edition. Nothing is inferred from the
+absence: the row says what the last report said, and that it is no longer
+reported.
 """
 
+import json
 import os
 import re
 from datetime import datetime, timezone
+from functools import lru_cache
 from typing import Optional
 
 import pdfplumber
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.mospi_editions import Edition, fetch_newest
+from app.scrapers.mospi_layout import (
+    TABLE_TITLE, extract as extract_block, month_end, overview_project_count,
+    parse_page_words, report_month,
+)
 from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.project import Project, ProjectStatus, ProjectType
 from app.models.progress_observation import ProgressObservation
 from app.utils.logger import logger
 
-# Which edition the DAILY job ingests. MoSPI publishes a new flash report every
-# month at an irregular upload URL, so the edition is configured, never
-# discovered: set MOSPI_FLASH_URL / MOSPI_FLASH_LABEL / MOSPI_FLASH_AS_OF
-# (YYYY-MM-DD) / MOSPI_FLASH_PDF in backend\.env to move the job to a newer
-# report. The defaults are the June 2025 edition this parser was measured on.
+# The edition is discovered, not configured. MOSPI_FLASH_URL / _LABEL /
+# _AS_OF / _PDF still pin one edition by hand (a re-import, or a month the
+# listing is down); MOSPI_FORCE=1 re-ingests an edition already recorded.
 # Historic editions are backfilled with scripts/import_mospi_archive.py.
 _BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SOURCE_URL = os.environ.get(
@@ -55,6 +87,84 @@ REPORT_AS_OF = datetime.strptime(
 LOCAL_PDF = os.environ.get(
     "MOSPI_FLASH_PDF", os.path.join(_BACKEND_DIR, "fetched", "mospi_flash.pdf")
 )
+
+# The PAIMANA report names sectors differently from the old Table 7.
+# Matched as lowercase substrings against the sector heading, first hit wins.
+SECTOR_KEYWORDS = (
+    ("road", ProjectType.ROADS), ("highway", ProjectType.ROADS),
+    ("railway", ProjectType.RAILWAYS), ("aviation", ProjectType.AIRPORTS), ("airport", ProjectType.AIRPORTS),
+    ("port", ProjectType.PORTS), ("shipping", ProjectType.PORTS),
+    ("water resources", ProjectType.IRRIGATION), ("irrigation", ProjectType.IRRIGATION),
+    ("transmission", ProjectType.POWER), ("power", ProjectType.POWER), ("renewable", ProjectType.POWER),
+    ("oil", ProjectType.INDUSTRIAL), ("gas", ProjectType.INDUSTRIAL), ("petroleum", ProjectType.INDUSTRIAL),
+    ("coal", ProjectType.INDUSTRIAL), ("steel", ProjectType.INDUSTRIAL), ("mine", ProjectType.INDUSTRIAL),
+    ("telecom", ProjectType.IT_TECH), ("education", ProjectType.EDUCATION),
+    ("health", ProjectType.HEALTH), ("hospital", ProjectType.HEALTH),
+    ("waste", ProjectType.URBAN_DEVELOPMENT), ("urban", ProjectType.URBAN_DEVELOPMENT),
+    ("housing", ProjectType.HOUSING),
+)
+
+
+def sector_type(sector: str) -> ProjectType:
+    key = (sector or "").lower()
+    for word, ptype in SECTOR_KEYWORDS:
+        # Whole words: "port" must not fire on "transport" or "support".
+        if re.search(rf"\b{re.escape(word)}", key):
+            return ptype
+    return SECTOR_TYPE.get(key.upper(), ProjectType.INFRASTRUCTURE)
+
+
+def _norm_title(t: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).strip()
+
+
+RENUMBERING_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mospi_renumbering.json")
+
+
+@lru_cache(maxsize=1)
+def renumbering() -> dict[str, str]:
+    """
+    PAIMANA code -> the pre-PAIMANA code it replaced, from the reviewed map.
+    Every pair in the file carries the evidence it was accepted on;
+    scripts/mospi_renumbering.py check verifies the file against the
+    fixtures before it is trusted.
+    """
+    with open(RENUMBERING_FILE, encoding="utf-8") as f:
+        pairs = json.load(f)["pairs"]
+    out: dict[str, str] = {}
+    for p in pairs:
+        if p["new"] in out or p["old"] in out.values():
+            raise ValueError(f"mospi_renumbering.json lists a code twice: {p['new']} / {p['old']}")
+        out[p["new"]] = p["old"]
+    return out
+
+
+def old_code_for(code: str) -> Optional[str]:
+    return renumbering().get(code)
+
+
+def new_code_for(old_code: str) -> Optional[str]:
+    for new, old in renumbering().items():
+        if old == old_code:
+            return new
+    return None
+
+
+_ABSENT = re.compile(r"\s*Not listed among ongoing projects in the [^.]+\.")
+
+
+def absent_note(label: str) -> str:
+    """The sentence a register row carries once an edition stops listing it."""
+    return f"Not listed among ongoing projects in the {label}."
+
+
+def with_absent_note(description: Optional[str], label: str) -> str:
+    """The description carrying exactly one such sentence, for the newest
+    edition: a row that stays unlisted month after month does not grow a
+    sentence a month."""
+    base = _ABSENT.sub("", description or "").rstrip()
+    return (base + " " + absent_note(label)).strip()
+
 
 SECTOR_TYPE = {
     "CIVIL AVIATION": ProjectType.AIRPORTS,
@@ -97,16 +207,31 @@ def _month_year(m: str, y: str) -> Optional[datetime]:
 
 async def upsert_observation(db, project_id, observed_date, *, progress, expenditure,
                              cost, portal, url, label) -> int:
-    """Insert one dated observation if not already recorded. Returns 1 if added."""
-    exists = (await db.execute(
-        select(ProgressObservation.id).where(
+    """
+    One dated observation per (project, date, portal).
+
+    Returns 1 when added, 2 when an existing row was corrected, 0 when the row
+    already said exactly this. It used to insert-or-skip, which meant a row
+    written by a broken parse could never be repaired: the July 2026 date was
+    occupied on the local database, so the correct import wrote nothing for
+    it. A dated observation is a claim about what one report said; if a
+    better read of that report disagrees, the better read wins.
+    """
+    row = (await db.execute(
+        select(ProgressObservation).where(
             ProgressObservation.project_id == project_id,
             ProgressObservation.observed_date == observed_date,
             ProgressObservation.source_portal == portal,
         ).limit(1)
     )).scalars().first()
-    if exists:
-        return 0
+    if row:
+        changed = False
+        for attr, value in (("completion_percentage", progress), ("cumulative_expenditure_crore", expenditure),
+                            ("estimated_cost_crore", cost), ("source_url", url), ("source_label", label)):
+            if value is not None and getattr(row, attr) != value:
+                setattr(row, attr, value)
+                changed = True
+        return 2 if changed else 0
     db.add(ProgressObservation(
         project_id=project_id,
         observed_date=observed_date,
@@ -135,14 +260,38 @@ class MospiProjectsScraper(BaseScraper):
         saved = 0
         failure: BaseException | None = None
         try:
-            pdf_path = await self._get_pdf()
-            rows = self._parse_table7(pdf_path)
-            ap = [r for r in rows if r["state"] and "ANDHRA PRADESH" in r["state"]]
+            edition = await self._resolve_edition()
+            if edition is None:
+                raise RuntimeError("could not determine which flash report to read")
+            as_of = month_end(edition.year, edition.month)
+            done = 0 if os.environ.get("MOSPI_FORCE") else await self._already_recorded(edition)
+            if done:
+                self.note(
+                    f"{edition.label} is already imported ({done} project rows carry its URL) and "
+                    "nothing newer is listed on mospi.gov.in. Set MOSPI_FORCE=1 to re-ingest."
+                )
+                await self.close()
+                return self.finish(0, None)
+
+            pdf_path = await self._get_pdf(edition)
+            rows, printed_total, cover_month = self._read_report(pdf_path)
+            if cover_month and cover_month != (edition.year, edition.month):
+                self.note(f"the PDF cover says {cover_month[1]}/{cover_month[0]} but the listing "
+                          f"called it {edition.month}/{edition.year}; the cover wins")
+                as_of = month_end(*cover_month)
+                edition = Edition(cover_month[0], cover_month[1], edition.title, edition.url)
+            if printed_total is not None and len(rows) != printed_total:
+                raise SanityAbort(
+                    f"[{self.PORTAL_NAME}] parsed {len(rows)} ongoing projects but the report's "
+                    f"overview page says {printed_total}. The table layout has moved; refusing to write."
+                )
+            ap = [r for r in rows if r["state"] and "andhra pradesh" in r["state"].lower()]
+            multi = sum(1 for r in ap if r["state"].lower().startswith("multi"))
             logger.info(
-                f"[{self.PORTAL_NAME}] Table 7 parsed: {len(rows)} projects nationally, "
-                f"{len(ap)} in Andhra Pradesh"
+                f"[{self.PORTAL_NAME}] {edition.label}: {len(rows)} projects nationally, "
+                f"{len(ap)} in Andhra Pradesh ({multi} shared with other states)"
             )
-            saved = await self._save(ap)
+            saved = await self._save(ap, edition, as_of)
         except SanityAbort:
             raise
         except Exception as e:
@@ -152,37 +301,116 @@ class MospiProjectsScraper(BaseScraper):
             await self.close()
         return self.finish(saved, failure)
 
-    async def _get_pdf(self) -> str:
-        if os.path.exists(LOCAL_PDF):
-            # See the same note in amrut_projects: convenient locally, and
-            # invisible staleness on a schedule unless it is said out loud.
-            self.note(
-                f"read the local copy at {LOCAL_PDF} instead of downloading; "
-                "delete that file to force a fresh fetch of the MoSPI flash report"
-            )
+    async def _resolve_edition(self) -> Optional[Edition]:
+        """The pinned edition when one is configured, else the newest listed."""
+        if os.environ.get("MOSPI_FLASH_URL"):
+            y, m = REPORT_AS_OF.year, REPORT_AS_OF.month
+            self.note(f"MOSPI_FLASH_URL is set, so the {m}/{y} edition it names is used instead of the newest listed")
+            return Edition(y, m, REPORT_LABEL, os.environ["MOSPI_FLASH_URL"])
+        try:
+            edition = await fetch_newest(self.client)
+        except Exception as e:
+            self.note(f"could not read the flash report listing on mospi.gov.in: {e}")
+            return None
+        if edition:
+            self.note(f"newest edition listed: {edition.label}")
+        return edition
+
+    async def _already_recorded(self, edition: Edition) -> int:
+        """
+        How many of this portal's project rows were last refreshed from this
+        exact report file. Zero means the edition has not been imported.
+
+        Keyed on the file URL, not the observation date. An archive backfill
+        writes observations only, and a first cut of this check took an
+        occupied date as "done" and skipped the import that actually updates
+        what the site shows. The project rows carry the URL of the edition
+        that last wrote them, and no two editions share a URL.
+        """
+        async with get_db_context() as db:
+            return (await db.execute(
+                select(func.count(Project.id))
+                .where(Project.source_portal == self.PORTAL_NAME)
+                .where(Project.source_url == edition.url)
+            )).scalar_one()
+
+    async def _get_pdf(self, edition: Edition) -> str:
+        # A pinned local copy is only honoured for a pinned edition. The daily
+        # job must never read last month's file because it happened to be there.
+        if os.environ.get("MOSPI_FLASH_URL") and os.path.exists(LOCAL_PDF):
+            self.note(f"read the local copy at {LOCAL_PDF} instead of downloading")
             return LOCAL_PDF
-        response = await self.fetch(SOURCE_URL)
+        response = await self.fetch(edition.url)
+        if not response.content.startswith(b"%PDF"):
+            raise RuntimeError(f"{edition.url} did not return a PDF")
         os.makedirs(os.path.dirname(LOCAL_PDF), exist_ok=True)
         with open(LOCAL_PDF, "wb") as f:
             f.write(response.content)
         return LOCAL_PDF
 
+    def _read_report(self, path: str) -> tuple[list[dict], Optional[int], Optional[tuple[int, int]]]:
+        """
+        Every ongoing project in the report, the count the report itself
+        prints, and the month on its cover.
+
+        Pages are flushed as they go, for the reason the old parser gave:
+        pdfplumber keeps every page it has parsed, and a 150-page report
+        walked without flushing was measured at 1.1 GB against Cloud Run's
+        1 GiB.
+        """
+        rows: list[dict] = []
+        printed_total = None
+        cover_month = None
+        ministry = sector = None
+        with pdfplumber.open(path) as pdf:
+            for i, page in enumerate(pdf.pages):
+                text = page.extract_text() or ""
+                if i == 0:
+                    cover_month = report_month(text)
+                if printed_total is None and i < 8:
+                    printed_total = overview_project_count(text)
+                if text[:40].startswith(TABLE_TITLE):
+                    blocks, ministry, sector = parse_page_words(page.extract_words(), ministry=ministry, sector=sector)
+                    for b in blocks:
+                        r = extract_block(b)
+                        if r is None:
+                            logger.warning(f"[{self.PORTAL_NAME}] skipped an unreadable block on page {i + 1} (Sl {b.sl})")
+                            continue
+                        rows.append(r)
+                page.flush_cache()
+        return rows, printed_total, cover_month
+
+    # ---- pre-PAIMANA "Table:-7" layout, kept for scripts/import_mospi_archive.py
     def _parse_table7(self, path: str) -> list[dict]:
         projects, current = [], None
         state_buf, cur_state, state_block = [], None, None
         sector_buf, cur_sector, sector_block = [], None, None
 
         with pdfplumber.open(path) as pdf:
-            t7_pages = [
-                i for i, pg in enumerate(pdf.pages)
-                if "Table:-7" in (pg.extract_text() or "")[:200]
-            ]
+            # The flush after each page is what keeps this inside a Cloud Run
+            # job's memory. pdfplumber caches every object it parses on the Page
+            # that produced it, so walking a 14 MB report to find the Table 7
+            # pages leaves the whole document decoded in memory: measured at
+            # 1132 MB peak, against a 1 GiB limit. Flushing each page once we
+            # have what we need drops the peak by more than half and changes
+            # nothing about what is parsed.
+            t7_pages = []
+            for i, pg in enumerate(pdf.pages):
+                heading = (pg.extract_text() or "")[:200]
+                pg.flush_cache()
+                if "Table:-7" in heading:
+                    t7_pages.append(i)
+
             for pi in t7_pages:
                 lines: dict[int, list] = {}
-                for w in pdf.pages[pi].extract_words():
+                page = pdf.pages[pi]
+                words = page.extract_words()
+                for w in words:
                     if w["top"] <= 118:
                         continue  # repeated page header
                     lines.setdefault(round(w["top"] / 4), []).append(w)
+
+                page.flush_cache()
 
                 for key in sorted(lines):
                     cols: dict[str, list[str]] = {}
@@ -278,12 +506,15 @@ class MospiProjectsScraper(BaseScraper):
             expected = _month_year(m.group(1), m.group(2))
 
         cost_txt = " ".join(row["cost"])
-        cost = None
-        m = re.search(r"\{([\d,]+\.\d\d)\}", cost_txt)          # anticipated
-        if not m:
-            m = re.search(r"^([\d,]+\.\d\d)", cost_txt)         # original
-        if m:
-            cost = float(m.group(1).replace(",", ""))
+        # "1,852.12 {1,787.00}": original, then the anticipated figure in
+        # braces. `cost` is the anticipated one when printed (what the site
+        # shows); both are kept for the renumbering proposer, which needs the
+        # original as a witness.
+        m_orig = re.search(r"^([\d,]+\.\d\d)", cost_txt)
+        m_rev = re.search(r"\{([\d,]+\.\d\d)\}", cost_txt)
+        cost_original = float(m_orig.group(1).replace(",", "")) if m_orig else None
+        cost_revised = float(m_rev.group(1).replace(",", "")) if m_rev else None
+        cost = cost_revised if cost_revised is not None else cost_original
 
         exp_m = re.search(r"([\d,]+\.\d\d)", " ".join(row["exp"]))
         expenditure = float(exp_m.group(1).replace(",", "")) if exp_m else None
@@ -297,78 +528,144 @@ class MospiProjectsScraper(BaseScraper):
             "code": code, "name": name[:500], "agency": agency,
             "sector": row["sector"] or "", "approval": approval,
             "expected": expected, "cost": cost,
+            "cost_original": cost_original, "cost_revised": cost_revised,
             "expenditure": expenditure, "progress": progress,
         }
 
-    async def _save(self, ap_rows: list[dict]) -> int:
+    async def _find_existing(self, db, r: dict, by_title: dict[str, list[Project]]) -> tuple[Optional[Project], str]:
+        """The row this report row updates, and how it was matched."""
+        for code, how in ((r["code"], "code"), (r.get("legacy_code"), "legacy code"),
+                          (old_code_for(r["code"]), "renumbering map")):
+            if not code:
+                continue
+            hit = (await db.execute(
+                select(Project).where(Project.source_portal == self.PORTAL_NAME, Project.external_id == code)
+            )).scalar_one_or_none()
+            if hit:
+                return hit, how
+        # A project the site already tracks can arrive under a code it has
+        # never seen (the PAIMANA renumbering; the map above covers the rows
+        # it reworded). When the title has not changed, among this portal's
+        # own rows a title is unique.
+        hits = by_title.get(_norm_title(r["name"]), [])
+        if len(hits) == 1:
+            return hits[0], "title"
+        return None, "new"
+
+    async def _note_absent(self, db, edition: Edition) -> int:
+        """
+        Mark this portal's rows that this edition did not list: every row
+        this edition did write carries its URL, so the rest are the absent
+        ones. The row keeps its last reported figures and its description
+        ends with one sentence saying the newest report no longer carries
+        it. Idempotent: a row already carrying that sentence is left alone.
+        """
+        note = absent_note(edition.label)
+        marked = 0
+        for p in (await db.execute(
+            select(Project).where(Project.source_portal == self.PORTAL_NAME, Project.source_url != edition.url)
+        )).scalars().all():
+            if note in (p.description or ""):
+                continue
+            p.description = with_absent_note(p.description, edition.label)
+            marked += 1
+        return marked
+
+    async def _save(self, ap_rows: list[dict], edition: Edition, as_of: datetime) -> int:
         ap_rows = await self.gate(ap_rows)
         saved = 0
+        updated = 0
         obs_added = 0
+        obs_fixed = 0
+        rekeyed: list[str] = []
+        mapped: list[str] = []
+        claimed: set[int] = set()
         async with get_db_context() as db:
-            for raw in ap_rows:
-                r = self._extract(raw)
-                if r is None:
-                    logger.warning(f"[{self.PORTAL_NAME}] skipped malformed row Sl {raw.get('sl')}")
-                    continue
+            # This portal's rows by normalised title, read once. It is the
+            # fallback match for rows that arrive under a code the site has
+            # never seen, which after the PAIMANA renumbering is all of them.
+            by_title: dict[str, list[Project]] = {}
+            for p in (await db.execute(
+                select(Project).where(Project.source_portal == self.PORTAL_NAME)
+            )).scalars().all():
+                by_title.setdefault(_norm_title(p.title), []).append(p)
 
-                sector = re.sub(r"\s+", " ", r["sector"]).strip().upper()
-                ptype = SECTOR_TYPE.get(sector, ProjectType.INFRASTRUCTURE)
+            for r in ap_rows:
+                sector = re.sub(r"\s+", " ", r["sector"] or "").strip()
+                ptype = sector_type(sector)
                 description = (
-                    f"Central-sector project ({sector.title() if sector else 'sector not stated'}"
+                    f"Central-sector project ({sector or 'sector not stated'}"
                     + (f", {r['agency']}" if r["agency"] else "")
-                    + f") tracked in the {REPORT_LABEL} as ongoing."
+                    + f") tracked in the {edition.label} as ongoing."
                     + (f" Cumulative expenditure Rs {r['expenditure']:,.2f} Cr" if r["expenditure"] is not None else "")
-                    + (f"; physical progress {r['progress']:.2f}% as of {REPORT_AS_OF.day} {REPORT_AS_OF:%B %Y}." if r["progress"] is not None else ".")
+                    + (f"; physical progress {r['progress']:.2f}% as of {as_of.day} {as_of:%B %Y}." if r["progress"] is not None else ".")
+                    + (f" Shared with other states: {r['state']}." if r["state"].lower().startswith("multi") else "")
                 )
 
-                existing = (await db.execute(
-                    select(Project).where(Project.external_id == r["code"])
-                )).scalar_one_or_none()
-
+                existing, how = await self._find_existing(db, r, by_title)
+                if existing and existing.id in claimed:
+                    # Two report rows with one title (two packages named alike)
+                    # must not both land on the same database row.
+                    existing, how = None, "new"
                 if existing:
+                    claimed.add(existing.id)
+                    if existing.external_id != r["code"]:
+                        rekeyed.append(f"{existing.external_id} -> {r['code']} ({r['name'][:60]})")
+                        if how == "renumbering map":
+                            mapped.append(f"{existing.external_id} -> {r['code']}")
+                        existing.external_id = r["code"]
                     existing.completion_percentage = r["progress"]
                     existing.estimated_cost_crore = r["cost"]
                     existing.expected_completion = r["expected"]
                     existing.description = description
-                    # Refresh classification too — a parser fix must be able to
-                    # reach rows already in the DB (the NH-365BG row sat typed
-                    # 'railways' because only progress fields were refreshed).
                     existing.title = r["name"]
                     existing.project_type = ptype
-                    existing.department = sector.title() if sector else None
+                    existing.department = sector or None
+                    existing.implementing_agency = (r["agency"] or "")[:200] or existing.implementing_agency
+                    existing.source_url = edition.url
                     existing.last_scraped_at = self.scraped_at
                     project = existing
+                    updated += 1
                 else:
                     project = Project(
                         external_id=r["code"],
                         title=r["name"],
                         description=description,
                         project_type=ptype,
-                        status=ProjectStatus.UNDER_CONSTRUCTION,   # Table 7 = ongoing projects
-                        district=None,                              # report is state-level; honest null
+                        status=ProjectStatus.UNDER_CONSTRUCTION,   # the table is "All Ongoing Projects"
+                        district=None,                              # the report is state-level; honest null
                         estimated_cost_crore=r["cost"],
                         completion_percentage=r["progress"],
                         announced_date=r["approval"],
                         expected_completion=r["expected"],
-                        department=sector.title() if sector else None,
+                        department=sector or None,
                         implementing_agency=(r["agency"] or "")[:200] or None,
                         source_portal=self.PORTAL_NAME,
-                        source_url=SOURCE_URL,
+                        source_url=edition.url,
                         last_scraped_at=self.scraped_at,
                     )
                     db.add(project)
                     saved += 1
 
-                # Dated snapshot — the raw material of per-tenure attribution.
                 await db.flush()
-                obs_added += await upsert_observation(
-                    db, project.id, REPORT_AS_OF,
+                outcome = await upsert_observation(
+                    db, project.id, as_of,
                     progress=r["progress"], expenditure=r["expenditure"], cost=r["cost"],
-                    portal=self.PORTAL_NAME, url=SOURCE_URL, label=REPORT_LABEL,
+                    portal=self.PORTAL_NAME, url=edition.url, label=edition.label,
                 )
+                obs_added += outcome == 1
+                obs_fixed += outcome == 2
+            absent = await self._note_absent(db, edition)
             await db.commit()
-        if obs_added:
-            logger.info(f"[{self.PORTAL_NAME}] recorded {obs_added} dated progress observations ({REPORT_LABEL})")
+        logger.info(f"[{self.PORTAL_NAME}] {edition.label}: {saved} new project row(s), {updated} refreshed, "
+                    f"{absent} older row(s) marked as not listed in this edition")
+        if rekeyed:
+            self.note(f"{len(rekeyed)} project(s) re-keyed to their PAIMANA code"
+                      + (f" ({len(mapped)} through the reviewed renumbering map)" if mapped else "")
+                      + ": " + "; ".join(rekeyed[:10]) + (" ..." if len(rekeyed) > 10 else ""))
+        if obs_added or obs_fixed:
+            logger.info(f"[{self.PORTAL_NAME}] dated observations for {as_of:%d %b %Y}: "
+                        f"{obs_added} recorded, {obs_fixed} corrected")
         return saved
 
 

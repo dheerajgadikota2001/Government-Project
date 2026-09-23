@@ -1,0 +1,427 @@
+{
+ "_about": "Which pre-PAIMANA project code (June 2025 flash report and earlier) each PAIMANA code (July 2026 flash report onward) replaced, for the Andhra Pradesh rows. PAIMANA renumbered every project and prints the old code as '-'. 'matched' pairs were found by app/scrapers/mospi_match.py on the evidence quoted; 'reviewed' pairs were checked by hand against both reports. scripts/mospi_renumbering.py check verifies every pair against the fixtures in tests/fixtures. Add a pair only with the evidence that justifies it.",
+ "old_edition": "MoSPI flash report, June 2025 (FR_JUNE_2025.pdf)",
+ "new_edition": "MoSPI flash report, July 2026 (FlashReport_July_2026_.pdf)",
+ "pairs": [
+  {
+   "new": "400120",
+   "old": "N16000247",
+   "how": "matched",
+   "evidence": "approved 03/2016; original cost 34,012.00 matches; name 100% shared",
+   "title": "KG-DWN-98/2 Cluster - II Development Project - NELP Block"
+  },
+  {
+   "new": "400298",
+   "old": "N22000286",
+   "how": "reviewed",
+   "evidence": "original cost 2,312.00 to the paisa; the one Nadikudi-Srikalahasti new line; June prints it as NADIKUDE-SRI KALAHASTI",
+   "title": "Nadikude-Srikalahasti 308.7 km"
+  },
+  {
+   "new": "611752",
+   "old": "N22000585",
+   "how": "matched",
+   "evidence": "approved 03/2023; original cost 351.83 matches; name 100% shared",
+   "title": "Doubling between Gooty-Pendakallu 29.225 km PB73/2023-24/NR"
+  },
+  {
+   "new": "612786",
+   "old": "N04000106",
+   "how": "matched",
+   "evidence": "approved 03/2023; original cost 265.91 matches; name 68% shared",
+   "title": "Construction of New Domestic Terminal Building Building and miscellaneous works including "
+  },
+  {
+   "new": "617183",
+   "old": "N18000416",
+   "how": "matched",
+   "evidence": "approved 03/2025; original cost 2,886.00 matches; name 89% shared",
+   "title": "Transmission system strengthening at Kurnool- III PS for integration of additional RE gene"
+  },
+  {
+   "new": "617185",
+   "old": "N18000413",
+   "how": "matched",
+   "evidence": "approved 03/2025; name 100% shared",
+   "title": "Transmission System for Integration of Kurnool-IV REZ Phase-I [for 4.5 GW] [POWERGRID Kurn"
+  },
+  {
+   "new": "617984",
+   "old": "N24001955",
+   "how": "matched",
+   "evidence": "approved 03/2022; original cost 317.22 matches; name 80% shared",
+   "title": "Gudivada Town 2 RoB, and Road improvement NH-165"
+  },
+  {
+   "new": "617985",
+   "old": "N24001939",
+   "how": "matched",
+   "evidence": "approved 03/2020; name 87% shared",
+   "title": "Widening to two lane with paved shoulders from Km 0/0 to 64/020 Pamarru to Akiveedu"
+  },
+  {
+   "new": "617986",
+   "old": "N24002146",
+   "how": "matched",
+   "evidence": "original cost 292.63 matches; name 100% shared",
+   "title": "Kurnool/Kadapa Border-Jammalamadugu section of NH-167K i.e. Design Ch. Km 248010 to km 269"
+  },
+  {
+   "new": "617991",
+   "old": "N24000931",
+   "how": "matched",
+   "evidence": "approved 11/2016; name 78% shared",
+   "title": "Rehabilitation and up-gradation of NH-167 from Km 14/900 to Km70/000 Design Ch. 14/900 to "
+  },
+  {
+   "new": "618013",
+   "old": "N24002139",
+   "how": "reviewed",
+   "evidence": "Puttaparthi-Koduru NH-342: cost 1,318.57 against 1,318.59; June title is cut off at 'PUTTA' and names km 32 to 79.65, the stretch after Mudigubba-Puttaparthi (km 0-32)",
+   "title": "4-laning of Puttaparthi-Koduru Section of NH-342"
+  },
+  {
+   "new": "618037",
+   "old": "N24001934",
+   "how": "matched",
+   "evidence": "approved 12/2021; original cost 439.82 matches",
+   "title": "Rehabilitation and Up-gradation of existin of road from 2-lane to 2-lane with paved should"
+  },
+  {
+   "new": "618194",
+   "old": "N24000937",
+   "how": "matched",
+   "evidence": "approved 03/2018; revised cost 285.29 matches; name 79% shared",
+   "title": "Rehabilitation and upgradation of New NH 544DD from design Chainage Km. 56/000 to 102/20 o"
+  },
+  {
+   "new": "618238",
+   "old": "N24000964",
+   "how": "reviewed",
+   "evidence": "Timmapuram-Gurjanapalle NH-214 km 26.150 to 41.161: same chainages and approval 08/2016; PAIMANA spells it Thimmapuram to Gurajanapalli; progress 98.2% in both",
+   "title": "Rehabilitation and Up-gradation of Thimmapuram to Gurajanapalli section from Km 26/150 to "
+  },
+  {
+   "new": "618254",
+   "old": "N24002148",
+   "how": "matched",
+   "evidence": "approved 03/2023; original cost 244.43 matches; name 92% shared",
+   "title": "Construction of Paderu bypass Km 0000 to Km 13000 of 2- lane with paved shoulder on NH-516"
+  },
+  {
+   "new": "618255",
+   "old": "N24002142",
+   "how": "reviewed",
+   "evidence": "Lambasingi-Paderu NH-516E: original cost 361.24 to the paisa and both place names; the Adoni bypass costs the same and is excluded by its name",
+   "title": "Two laning with paved shoulders of Lambasingi to Paderusection of NH 516E"
+  },
+  {
+   "new": "618256",
+   "old": "N24001958",
+   "how": "matched",
+   "evidence": "approved 08/2020; original cost 311.22 matches; name 79% shared",
+   "title": "Rehabilitation and Upgradation to 2-lane with paved should ders Sir, configuration of Chap"
+  },
+  {
+   "new": "618257",
+   "old": "N24001957",
+   "how": "matched",
+   "evidence": "approved 08/2020; original cost 349.29 matches; name 79% shared",
+   "title": "Rehabilitation and Upgradation to 2-lane with paved shoulders configuration of Koyyuru to "
+  },
+  {
+   "new": "618475",
+   "old": "N24001985",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; same package (pkg2); name 90% shared",
+   "title": "Bangalore Chennai Expressway Phase-II Pkg-II from km.96.000 to Km 127.000 Baireddypalle to"
+  },
+  {
+   "new": "618476",
+   "old": "N24001821",
+   "how": "matched",
+   "evidence": "approved 11/2020; same package (pkg3); name 91% shared",
+   "title": "Bangalore Chennai Expressway Phase-II Pkg-III from km.127.000 to Km 156.000 Bangarupalem t"
+  },
+  {
+   "new": "618634",
+   "old": "N24001819",
+   "how": "matched",
+   "evidence": "approved 03/2021; same package (pkg3); name 100% shared",
+   "title": "6L of Veera Kaveri Raja Puram to Pondavakkam from km 61.380 to km 96.040 of NH 716B Pkg-II"
+  },
+  {
+   "new": "618681",
+   "old": "N24001838",
+   "how": "matched",
+   "evidence": "approved 02/2021; same package (pkg1); name 100% shared",
+   "title": "6L Aluru - Jakkuva Section of NH-130CD Road from km 365.033 to km 396.800 Pkg. 1"
+  },
+  {
+   "new": "618700",
+   "old": "N24001824",
+   "how": "matched",
+   "evidence": "approved 03/2020; name 100% shared",
+   "title": "Renigunta - Poyya - Naidupeta km 124.60 to km 183.4 of NH 71"
+  },
+  {
+   "new": "618712",
+   "old": "N24001841",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; original cost 912.94 matches; name 90% shared",
+   "title": "6L Access Controlled Greenfield Highway from Kodur Ch. 0000 to Vanavolu Ch. 24300 of [NH-5"
+  },
+  {
+   "new": "618713",
+   "old": "N24001846",
+   "how": "matched",
+   "evidence": "approved 02/2023; original cost 1,200.42 matches; name 73% shared",
+   "title": "6L Access Controlled Greenfield Highway from Yerragudipadu Ch. 129000 to Audireddipalle Ch"
+  },
+  {
+   "new": "618714",
+   "old": "N24001845",
+   "how": "matched",
+   "evidence": "original cost 1,253.26 matches; name 78% shared",
+   "title": "6L Access Controlled Greenfield Highway from Nallacheruvu palli Ch. 96300 to Yerragudipadu"
+  },
+  {
+   "new": "618715",
+   "old": "N24001844",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; original cost 1,058.90 matches; name 60% shared",
+   "title": "6L Access Controlled Greenfield Highway from Odulapalle Ch. 72000 to Nallacheruvu- palli C"
+  },
+  {
+   "new": "618716",
+   "old": "N24001843",
+   "how": "matched",
+   "evidence": "approved 12/2022; original cost 992.91 matches; name 80% shared",
+   "title": "6L Access Controlled Greenfield Highway from Vankarakunta Ch. 45700 to Odulapalle Ch. 7200"
+  },
+  {
+   "new": "618717",
+   "old": "N24001842",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; original cost 750.81 matches; name 81% shared",
+   "title": "6L Access Controlled Greenfield Highway from Vanavolu Ch. 24300 to Vankarakunta Ch. 45700 "
+  },
+  {
+   "new": "618718",
+   "old": "N24002215",
+   "how": "matched",
+   "evidence": "approved 02/2023; original cost 1,092.18 matches",
+   "title": "6L Access Controlled Greenfield Highway from Kavulakuntla Ch. 196000 to Narayanmpet Ch. 20"
+  },
+  {
+   "new": "618719",
+   "old": "N24001848",
+   "how": "matched",
+   "evidence": "approved 02/2023; original cost 909.02 matches; name 70% shared",
+   "title": "6L Access Controlled Greenfield Highway from Mallapalle Ch. 176000 to Kavulakuntla Ch. 196"
+  },
+  {
+   "new": "618720",
+   "old": "N24001847",
+   "how": "reviewed",
+   "evidence": "Audireddipalle-Mallapalle NH-544G Package-7: same places and chainage 160.000-176.000, approval 1 month apart; cost re-entered (956.14 -> 987.10)",
+   "title": "6L Access Controlled Greenfield Highway from Audireddipalle Ch. 160000 to Mallapalle Ch. 1"
+  },
+  {
+   "new": "618721",
+   "old": "N24002123",
+   "how": "matched",
+   "evidence": "original cost 1,292.65 matches; name 68% shared",
+   "title": "6L Access Controlled Greenfield Highway from Chandrasekharapuram Ch. 228000 to Polavaram C"
+  },
+  {
+   "new": "618759",
+   "old": "N24001849",
+   "how": "matched",
+   "evidence": "approved 05/2022; name 100% shared",
+   "title": "4L PS Mydukur - Badvel from Km 585.820 to Km 630.960 of NH-67"
+  },
+  {
+   "new": "618772",
+   "old": "N24001988",
+   "how": "matched",
+   "evidence": "approved 02/2021; name 79% shared",
+   "title": "6L of Kumarajapet to Veera Kaveri Raja Puram from km 43.800 to km 61.380 of NH- 716B Pkg-I"
+  },
+  {
+   "new": "618777",
+   "old": "N24001986",
+   "how": "reviewed",
+   "evidence": "Pileru-Kalur NH-71 Package-II: title identical to the chainage; PAIMANA prints Package-I's original cost (1,877.47) and a different approval month against it",
+   "title": "4L of Pileru to Kalur Section from Km 55.900 to Km 92.800 & Km 94.500 to Km 95.717 of NH-7"
+  },
+  {
+   "new": "618778",
+   "old": "N24001823",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; same package (pkg1); name 100% shared",
+   "title": "4L of Madanapalle to Pileru Section from Km 0.000 to Km 55.900 of NH-71Package-I"
+  },
+  {
+   "new": "618803",
+   "old": "N24001856",
+   "how": "reviewed",
+   "evidence": "Samarlakota-Achampeta Junction 4-lane: same places; cost 648.75 (June) against 645.63 (July); approval 05/2023 against 09/2022",
+   "title": "Development of 4L Road from Samarlakota to Achampeta Junction as part of Kakinada Port Con"
+  },
+  {
+   "new": "618804",
+   "old": "N24000811",
+   "how": "matched",
+   "evidence": "approved 03/2018; original cost 348.72 matches; same package (pkg1); name 67% shared",
+   "title": "Dedicated Port road to Krishnapatnam Port Package-I from Km. 0.000 to Km. 18.000"
+  },
+  {
+   "new": "618807",
+   "old": "N24001979",
+   "how": "matched",
+   "evidence": "approved 08/2022; original cost 609.43 matches; name 88% shared",
+   "title": "4L Greenfield Road connecting North and South industrial cluster of Khandaleru Creek near "
+  },
+  {
+   "new": "618826",
+   "old": "N24001980",
+   "how": "matched",
+   "evidence": "approved 10/2022; original cost 907.76 matches",
+   "title": "4 Laning of NH-544D from Km 0.000 to km 37.000 of Anantapur- Muchukota section Pkg-1"
+  },
+  {
+   "new": "618827",
+   "old": "N24001983",
+   "how": "matched",
+   "evidence": "approved 10/2022; revised cost 1,055.23 matches; name 68% shared",
+   "title": "4 Laning of NH-544D from Km 37.000 to km 69.000 of Muchukota- Bugga section Pkg-2"
+  },
+  {
+   "new": "618920",
+   "old": "N24002217",
+   "how": "matched",
+   "evidence": "original cost 1,346.82 matches; name 77% shared",
+   "title": "Access Controlled Highway of 4 Lane with Paved Shoulders from TN/AP Border Design Chainage"
+  },
+  {
+   "new": "619111",
+   "old": "N24001837",
+   "how": "matched",
+   "evidence": "approved 02/2021; same package (pkg2); name 100% shared",
+   "title": "6L Jakkuva Korlam Section of NH-130CD Road from km 396.800 to km 421.100 Pkg 2"
+  },
+  {
+   "new": "619112",
+   "old": "N24001836",
+   "how": "matched",
+   "evidence": "approved 02/2021; same package (pkg4); name 100% shared",
+   "title": "6L Kantakapalle Sabbavaram Section of NH-130CD Road from Km 445.100 to Km 464.662 Pkg-4"
+  },
+  {
+   "new": "619123",
+   "old": "N24002122",
+   "how": "matched",
+   "evidence": "original cost 813.66 matches; name 67% shared",
+   "title": "6L Access Controlled Greenfield Highway from Narayanmpet Ch. 203500 to Chandrasekharpuram "
+  },
+  {
+   "new": "619124",
+   "old": "N24002124",
+   "how": "matched",
+   "evidence": "original cost 747.29 matches; name 72% shared",
+   "title": "6L Access Controlled Greenfield Highway from Polavaram Ch. 260000 to Marripudi Ch. 285500 "
+  },
+  {
+   "new": "619125",
+   "old": "N24002126",
+   "how": "matched",
+   "evidence": "original cost 1,103.90 matches; name 85% shared",
+   "title": "6L Access Controlled Greenfield Highway from Somavarappadu Ch.314.600 to Muppavaram Ch.343"
+  },
+  {
+   "new": "619126",
+   "old": "N24002125",
+   "how": "matched",
+   "evidence": "original cost 976.41 matches; name 73% shared",
+   "title": "6L Access Controlled Greenfield Highway from Marripudi Ch. 285500 to Somavarappadu Ch. 314"
+  },
+  {
+   "new": "619140",
+   "old": "N24001981",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; original cost 1,398.84 matches; name 100% shared",
+   "title": "6L of Naidupeta Junction - Turpukanupur Section from km 57.046 to km 91.927"
+  },
+  {
+   "new": "619141",
+   "old": "N24002033",
+   "how": "reviewed",
+   "evidence": "Chillakuru cross road-Turpu Kanupur: approval 1 month apart, title 85% shared ('Turpukanupur' vs 'Turpu Kanupur'); cost 909.47 against 864.20",
+   "title": "Construction of four lane access controlled highway from Chillakuru cross road to Turpu Ka"
+  },
+  {
+   "new": "619160",
+   "old": "N24002103",
+   "how": "reviewed",
+   "evidence": "Balance works on NH-205: original cost 166.52 to the paisa, approval 1 month apart, 'balance works'; progress 98% -> 100%",
+   "title": "Balance works in AP Portion and punch list items in TN & AP portion of NH-205"
+  },
+  {
+   "new": "619199",
+   "old": "N24001822",
+   "how": "matched",
+   "evidence": "approved 12/2020; same package (pkg1); name 100% shared",
+   "title": "Bangalore Chennai Expressway Phase-II Pkg-I from km.71.000 to Km 96.000 Bethamangala in th"
+  },
+  {
+   "new": "701107",
+   "old": "N04000091",
+   "how": "matched",
+   "evidence": "approval 2 month(s) apart; original cost 611.80 matches; name 69% shared",
+   "title": "Construction of New Integrated Terminal Building and associated works including apron to p"
+  },
+  {
+   "new": "701121",
+   "old": "N04000103",
+   "how": "matched",
+   "evidence": "approved 12/2022; original cost 347.15 matches; name 100% shared",
+   "title": "Construction of New Domestic Terminal Building at Rajahmundry Airport."
+  },
+  {
+   "new": "701415",
+   "old": "N30000002",
+   "how": "matched",
+   "evidence": "approval 1 month(s) apart; revised cost 55,548.87 matches; name 100% shared",
+   "title": "Polavaram Irrigation Project"
+  },
+  {
+   "new": "705512",
+   "old": "N22000377",
+   "how": "reviewed",
+   "evidence": "Kottavalasa-Koraput doubling: cost 2,499.71 against 2,500.00; 'Koraput' shared, June spells it KOTTAVALSA; progress 70% -> 74%",
+   "title": "Kottavalasa-Koraput 189.278 km"
+  },
+  {
+   "new": "705610",
+   "old": "N22000587",
+   "how": "matched",
+   "evidence": "approved 04/2016; original cost 302.00 matches; name 100% shared",
+   "title": "Renigunta 9.60 km, Wadi 7.60 km & Gooty 3.8 km - Bypass"
+  },
+  {
+   "new": "705632",
+   "old": "N22000586",
+   "how": "matched",
+   "evidence": "approved 04/2016; name 100% shared",
+   "title": "Vijayawada19.50 km & Kazipet10.65 km -Byepass line"
+  },
+  {
+   "new": "709752",
+   "old": "N16000432",
+   "how": "matched",
+   "evidence": "approved 09/2021; revised cost 220.00 matches; name 100% shared",
+   "title": "HP-COAT [Crude to Olefins and Aromatics Technology] demo unit at Visakh Refinery"
+  }
+ ]
+}
