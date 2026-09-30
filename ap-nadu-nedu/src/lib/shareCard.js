@@ -32,6 +32,7 @@
  * the site.
  */
 import { displayTitle } from './projectTitle.js'
+import { summarySource } from './sourceDocs.js'
 import { croreAmount } from './money.js'
 
 /** Card text is drawn at a fixed size, so a very long name is cut here, at a word. */
@@ -106,7 +107,9 @@ export function projectCard({ project, observation = null, district = null, t, l
     : tr('share.statewide') || 'Andhra Pradesh'
   const type = project.project_type ? tr(`projects.type.${project.project_type}`) : null
 
-  const sourceName = norm(observation?.source_label)
+  // The document the figures on the card come from, by the same rule as the
+  // page's own source line (sourceDocs.js), so the two cannot disagree.
+  const sourceName = norm(summarySource({ project, observation })?.label)
   return {
     kind: 'project',
     lang,

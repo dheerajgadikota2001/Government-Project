@@ -89,6 +89,19 @@ test('the Telugu summary names the site as it is called now, the same on every p
   }
 })
 
+test('the footer on every page uses the site\'s name and the clause it relies on', () => {
+  // The footer is on every page, so an old name or an over-wide claim there
+  // is repeated thousands of times. It still said "ఏపీ నాడు–నేడు" after the
+  // legal pages had moved on, and claimed all of Section 52.
+  const brand = CATS.te.seo.brand
+  for (const code of LANGS) {
+    const line = CATS[code].footer.disclaimerTe
+    assert.ok(line.startsWith(brand), `${code}: the footer's Telugu line does not start with "${brand}"`)
+    assert.doesNotMatch(line, /నాడు|నేడు|[\u2014\u2013]/, `${code}: the footer's Telugu line still carries the old name or a long dash`)
+    assert.match(CATS[code].footer.copyrightAct, /52\(1\)\(q\)/, `${code}: the footer claims more than Section 52(1)(q)`)
+  }
+})
+
 test('the about page does not claim the site adds nothing', () => {
   // The site writes fact checks and labelled AI summaries. "We add nothing"
   // is a promise it cannot keep, and a complainant would quote it.

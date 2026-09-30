@@ -1,0 +1,1164 @@
+{
+  "id": 2,
+  "status": "draft",
+  "reviewed": null,
+  "replaces": [
+    "what",
+    "cost",
+    "stage",
+    "when",
+    "late",
+    "handover",
+    "source"
+  ],
+  "sources": [
+    {
+      "id": "moca2016",
+      "short": "Civil Aviation Ministry, 7 Oct 2016",
+      "title": "Grant of in-principle approval, Bhogapuram International Greenfield Airport",
+      "publisher": "Ministry of Civil Aviation, Government of India",
+      "date": "2016-10-07",
+      "url": "https://www.civilaviation.gov.in/sites/default/files/2023-07/Bhogapuram%2C%20Andhra%20Pradesh.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "ses1718",
+      "short": "Socio-Economic Survey 2017-18",
+      "title": "Socio-Economic Survey 2017-18, Economic Infrastructure (airports)",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2018-03",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2017-18.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "gmr2019",
+      "short": "GMR press release, Feb 2019",
+      "title": "GMR Airports Ltd. emerges as the highest bidder for Greenfield Airport at Bhogapuram in Andhra Pradesh",
+      "publisher": "GMR Infrastructure Limited, filing to the stock exchanges",
+      "date": "2019-02",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2018-19/february/Press%20Release-%20GMR%20Airports%20Limited%20emerges%20as%20the%20highest%20bidder%20for%20Greenfield%20Airport%20at%20Bhogapuram%20in%20Andhra%20Pradesh%20%2B%2B26-Feb-19%2B%2B.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "ses1819",
+      "short": "Socio-Economic Survey 2018-19",
+      "title": "Socio-Economic Survey 2018-19, Economic Infrastructure (airports)",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2019-07",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "hans2019",
+      "short": "The Hans India, 15 Feb 2019",
+      "title": "CM Chandrababu Naidu lays foundation stone for Bhogapuram airport",
+      "publisher": "The Hans India",
+      "date": "2019-02-15",
+      "url": "https://www.thehansindia.com/posts/index/andhra-pradesh/2019-02-14/cm-chandrababu-naidu-lays-foundation-stone-for-bhogapuram-airport/494820",
+      "tier": "other"
+    },
+    {
+      "id": "apgaz2019",
+      "short": "AP Gazette, 30 May 2019",
+      "title": "Appointment of Chief Minister (G.O.Ms.No.54, General Administration (Political.A) Department)",
+      "publisher": "Andhra Pradesh Gazette, Part I Extraordinary, Government of Andhra Pradesh (copy kept by the Internet Archive)",
+      "date": "2019-05-30",
+      "url": "https://archive.org/details/in.gazette.andhra.2019-05-30.5185",
+      "tier": "gov"
+    },
+    {
+      "id": "gmr2020ca",
+      "short": "GMR press release, 12 Jun 2020",
+      "title": "GMR Visakhapatnam International Airport Limited (GVIAL) signs Concession Agreement (CA) for the development and operations of Bhogapuram Airport",
+      "publisher": "GMR Infrastructure Limited, filing to the stock exchanges",
+      "date": "2020-06-12",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2019-20/june/Press%20Release-%20GMR%20Visakhapatnam%20International%20Airport%20Limited%20%28GVIAL%29%20signs%20Concession%20Agreement%20%28CA%29%20for%20the%20development%20and%20operations%20of%20Bhogapuram%20Airport%20%2B%2B14-Jun-2020%2B%2B.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "ses2021",
+      "short": "Socio-Economic Survey 2020-21",
+      "title": "Socio-Economic Survey 2020-21, Economic Infrastructure (airports)",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2021-05",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "pib2023",
+      "short": "PIB, 4 May 2023",
+      "title": "The first phase of the development of Bhogapuram International Greenfield Airport set in motion",
+      "publisher": "Press Information Bureau, Ministry of Civil Aviation",
+      "date": "2023-05-04",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1922036",
+      "tier": "gov"
+    },
+    {
+      "id": "gmrq3fy24",
+      "short": "GMR investor presentation, Q3FY24",
+      "title": "Investor Presentation Q3FY24",
+      "publisher": "GMR Airports Infrastructure Limited, presentation to investors",
+      "date": "2024-02-01",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2024/q3-fy-2024/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq4fy24",
+      "short": "GMR investor presentation, Q4FY24",
+      "title": "Investor Presentation Q4FY24",
+      "publisher": "GMR Airports Infrastructure Limited, presentation to investors",
+      "date": "2024-05-29",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2024/q4-fy-2024/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "pib2024",
+      "short": "PIB, 12 Jun 2024",
+      "title": "PM attends oath taking ceremony of new Andhra Pradesh Government",
+      "publisher": "Press Information Bureau, Prime Minister's Office",
+      "date": "2024-06-12",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2024656",
+      "tier": "gov"
+    },
+    {
+      "id": "gmrq1fy25",
+      "short": "GMR investor presentation, Q1FY25",
+      "title": "Investor Presentation Q1FY25",
+      "publisher": "GMR Airports Infrastructure Limited, presentation to investors",
+      "date": "2024-08-14",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q1-fy-2025/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq2fy25",
+      "short": "GMR investor presentation, Q2FY25",
+      "title": "Investor Presentation Q2FY25",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2024-10-24",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q2-fy-2025/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "ses2324",
+      "short": "Socio-Economic Survey 2023-24",
+      "title": "Socio-Economic Survey 2023-24, Economic Infrastructure (airports)",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2024-11",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2023-24.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "gmrq3fy25",
+      "short": "GMR investor presentation, Q3FY25",
+      "title": "Investor Presentation Q3FY25",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2025-01-28",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q3-fy-2025/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "ses2425",
+      "short": "Socio-Economic Survey 2024-25",
+      "title": "Socio-Economic Survey 2024-25, section 7.11 Airports",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2025-02",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "gmrq4fy25",
+      "short": "GMR investor presentation, Q4FY25",
+      "title": "Investor Presentation Q4 & FY25",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2025-05-23",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q4-fy-2025/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq1fy26",
+      "short": "GMR investor presentation, Q1FY26",
+      "title": "Investor Presentation Q1FY26",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2025-07-29",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q1-fy-2026/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq2fy26",
+      "short": "GMR investor presentation, Q2FY26",
+      "title": "Investor Presentation Q2FY26",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2025-11-13",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q2-fy-2026/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq3fy26",
+      "short": "GMR investor presentation, Q3FY26",
+      "title": "Investor Presentation Q3FY26",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2026-02-13",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q3-fy-2026/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gvialfy26",
+      "short": "GVIAL accounts 2025-26",
+      "title": "GMR Visakhapatnam International Airport Limited, audited financial statements for the year ended 31 March 2026",
+      "publisher": "GMR Visakhapatnam International Airport Limited",
+      "date": "2026-05-04",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/annual-account-of-subsidaries/fy-2025-26/GMR%20Visakhapatnam%20International%20Airport%20Limited.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "gmrq4fy26",
+      "short": "GMR investor presentation, Q4FY26",
+      "title": "Investor Presentation Q4FY26",
+      "publisher": "GMR Airports Limited, presentation to investors",
+      "date": "2026-05-27",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q4-fy-2026/Financial%20Performance.pdf",
+      "tier": "company"
+    },
+    {
+      "id": "pib2026",
+      "short": "PIB, 31 Jul 2026",
+      "title": "PM to visit Andhra Pradesh and Karnataka on 1 August",
+      "publisher": "Press Information Bureau, Prime Minister's Office",
+      "date": "2026-07-31",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165",
+      "tier": "gov"
+    },
+    {
+      "id": "noa2026",
+      "short": "News On AIR, 1 Aug 2026",
+      "title": "PM Modi inaugurates Alluri Sitarama Raju International Airport in Andhra Pradesh",
+      "publisher": "News On AIR, All India Radio, Prasar Bharati",
+      "date": "2026-08-01",
+      "url": "https://newsonair.gov.in/pm-modi-inaugurates-alluri-sitarama-raju-international-airport-in-andhra-pradesh/",
+      "tier": "gov"
+    },
+    {
+      "id": "gmr2026ops",
+      "short": "GMR filing, 17 Aug 2026",
+      "title": "Commencement of Operations at Bhogapuram International Airport",
+      "publisher": "GMR Airports Limited, filing to the stock exchanges",
+      "date": "2026-08-17",
+      "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2025-26/august/Commencement%20of%20Operations%20at%20Bhogapuram%20International%20Airport%20%2B%2B17-August-2026%2B%2B.pdf",
+      "tier": "company"
+    }
+  ],
+  "facts": [
+    {
+      "text": "2015",
+      "source": "ses1718"
+    },
+    {
+      "text": "August 2015",
+      "source": "ses1718"
+    },
+    {
+      "text": "2016",
+      "source": "moca2016"
+    },
+    {
+      "text": "7 October 2016",
+      "source": "moca2016"
+    },
+    {
+      "text": "Socio-Economic Survey 2017-18",
+      "source": "ses1718"
+    },
+    {
+      "text": "80%",
+      "source": "ses1718"
+    },
+    {
+      "text": "₹854 crore",
+      "source": "ses1718"
+    },
+    {
+      "text": "November 2018",
+      "source": "gmr2019"
+    },
+    {
+      "text": "February 2019",
+      "source": "gmr2019"
+    },
+    {
+      "text": "₹2,300 crore",
+      "source": "gmr2019"
+    },
+    {
+      "text": "Socio-Economic Survey 2018-19",
+      "source": "ses1819"
+    },
+    {
+      "text": "14 February 2019",
+      "source": "ses1819"
+    },
+    {
+      "text": "₹2,302 crore",
+      "source": "ses1819"
+    },
+    {
+      "text": "records three bids",
+      "source": "ses1819"
+    },
+    {
+      "text": "30 May 2019",
+      "source": "apgaz2019"
+    },
+    {
+      "text": "May 2019",
+      "source": "apgaz2019"
+    },
+    {
+      "text": "April 2020",
+      "source": "gmr2020ca"
+    },
+    {
+      "text": "2019-20",
+      "source": "ses1819"
+    },
+    {
+      "text": "2022",
+      "source": "ses1819"
+    },
+    {
+      "text": "40 years",
+      "source": "gmr2020ca"
+    },
+    {
+      "text": "contract's 40 years",
+      "source": "gvialfy26"
+    },
+    {
+      "text": "20 years",
+      "source": "gmr2020ca"
+    },
+    {
+      "text": "10%",
+      "source": "gmr2020ca"
+    },
+    {
+      "text": "seven firms",
+      "source": "gmr2019"
+    },
+    {
+      "text": "only three submitted financial bids",
+      "source": "gmr2019"
+    },
+    {
+      "text": "two tasks",
+      "source": "ses1819"
+    },
+    {
+      "text": "three years for building",
+      "source": "ses2021"
+    },
+    {
+      "text": "three years for building",
+      "source": "ses2425"
+    },
+    {
+      "text": "last three months of 2023",
+      "source": "gmrq3fy24"
+    },
+    {
+      "text": "₹3,215 crore",
+      "source": "gmrq3fy24"
+    },
+    {
+      "text": "40 million",
+      "source": "gmr2026ops"
+    },
+    {
+      "text": "June 2020",
+      "source": "ses2021"
+    },
+    {
+      "text": "12 June 2020",
+      "source": "ses2021"
+    },
+    {
+      "text": "Socio-Economic Survey 2020-21",
+      "source": "ses2021"
+    },
+    {
+      "text": "12 September 2022",
+      "source": "pib2023"
+    },
+    {
+      "text": "30 years",
+      "source": "pib2023"
+    },
+    {
+      "text": "10 March 2023",
+      "source": "pib2023"
+    },
+    {
+      "text": "6 April 2023",
+      "source": "pib2023"
+    },
+    {
+      "text": "3 May 2023",
+      "source": "pib2023"
+    },
+    {
+      "text": "May 2023",
+      "source": "pib2023"
+    },
+    {
+      "text": "₹4,592 crore",
+      "source": "pib2023"
+    },
+    {
+      "text": "6 million",
+      "source": "pib2023"
+    },
+    {
+      "text": "3,800 metre",
+      "source": "pib2023"
+    },
+    {
+      "text": "18 million",
+      "source": "pib2023"
+    },
+    {
+      "text": "1 November 2023",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "7 December 2023",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "December 2023",
+      "source": "ses2324"
+    },
+    {
+      "text": "14 December 2023",
+      "source": "ses2324"
+    },
+    {
+      "text": "Socio-Economic Survey 2023-24",
+      "source": "ses2324"
+    },
+    {
+      "text": "December 2026",
+      "source": "ses2324"
+    },
+    {
+      "text": "three months",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "18.7%",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "March 2024",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "31 March 2024",
+      "source": "gmrq4fy24"
+    },
+    {
+      "text": "29.7%",
+      "source": "gmrq1fy25"
+    },
+    {
+      "text": "30 June 2024",
+      "source": "gmrq1fy25"
+    },
+    {
+      "text": "55%",
+      "source": "gmrq3fy25"
+    },
+    {
+      "text": "31 December 2024",
+      "source": "gmrq3fy25"
+    },
+    {
+      "text": "80% on 30 June 2025",
+      "source": "gmrq1fy26"
+    },
+    {
+      "text": "98.7%",
+      "source": "gmrq4fy26"
+    },
+    {
+      "text": "March 2026",
+      "source": "gmrq4fy26"
+    },
+    {
+      "text": "31 March 2026",
+      "source": "gmrq4fy26"
+    },
+    {
+      "text": "12 June 2024",
+      "source": "pib2024"
+    },
+    {
+      "text": "June 2024",
+      "source": "pib2024"
+    },
+    {
+      "text": "Socio-Economic Survey 2024-25",
+      "source": "ses2425"
+    },
+    {
+      "text": "₹2,302.51 crore",
+      "source": "ses2425"
+    },
+    {
+      "text": "₹795 crore",
+      "source": "ses2425"
+    },
+    {
+      "text": "2,203.26",
+      "source": "ses2425"
+    },
+    {
+      "text": "2,703.26 acres",
+      "source": "ses2425"
+    },
+    {
+      "text": "₹5,640 crore",
+      "source": "pib2026"
+    },
+    {
+      "text": "₹5,640 crore",
+      "source": "noa2026"
+    },
+    {
+      "text": "August 2026",
+      "source": "noa2026"
+    },
+    {
+      "text": "1 August 2026",
+      "source": "noa2026"
+    },
+    {
+      "text": "17 August 2026",
+      "source": "gmr2026ops"
+    }
+  ],
+  "keyDates": [
+    {
+      "label": {
+        "en": "In-principle approval",
+        "te": "సూత్రప్రాయ ఆమోదం"
+      },
+      "date": "2016-10-07",
+      "precision": "day",
+      "source": "moca2016",
+      "detail": {
+        "en": "From the Union Civil Aviation Ministry",
+        "te": "కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ నుంచి"
+      }
+    },
+    {
+      "label": {
+        "en": "Order to start works",
+        "te": "పనుల ప్రారంభ ఆదేశం"
+      },
+      "date": "2023-12-07",
+      "precision": "day",
+      "source": "gmrq4fy24",
+      "detail": {
+        "en": "GMR told its building contractor, L&T, to start",
+        "te": "నిర్మాణ కాంట్రాక్టర్ ఎల్ అండ్ టీకి పనులు మొదలుపెట్టమని జీఎంఆర్ చెప్పింది"
+      }
+    },
+    {
+      "label": {
+        "en": "Inaugurated",
+        "te": "ప్రారంభోత్సవం"
+      },
+      "date": "2026-08-01",
+      "precision": "day",
+      "source": "noa2026",
+      "detail": {
+        "en": "By Prime Minister Narendra Modi",
+        "te": "ప్రధానమంత్రి నరేంద్ర మోదీ చేతుల మీదుగా"
+      }
+    }
+  ],
+  "stepsTitle": {
+    "en": "How Bhogapuram airport came to be",
+    "te": "భోగాపురం విమానాశ్రయం ఇలా వచ్చింది"
+  },
+  "steps": [
+    {
+      "date": "2015-08",
+      "precision": "month",
+      "icon": "description",
+      "source": "ses1718",
+      "text": {
+        "en": "The state set up a company for the airport.",
+        "te": "విమానాశ్రయం కోసం రాష్ట్రం ఒక సంస్థను ఏర్పాటు చేసింది."
+      },
+      "short": {
+        "en": "Company set up",
+        "te": "సంస్థ ఏర్పాటు"
+      }
+    },
+    {
+      "date": "2016-10-07",
+      "precision": "day",
+      "icon": "verified",
+      "source": "moca2016",
+      "text": {
+        "en": "The Union Civil Aviation Ministry gave in-principle approval.",
+        "te": "కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ సూత్రప్రాయ ఆమోదం ఇచ్చింది."
+      },
+      "short": {
+        "en": "First approval",
+        "te": "తొలి ఆమోదం"
+      }
+    },
+    {
+      "date": "2020-06-12",
+      "precision": "day",
+      "icon": "handshake",
+      "source": "ses2021",
+      "text": {
+        "en": "The state signed the contract with GMR's airport company.",
+        "te": "రాష్ట్రం జీఎంఆర్ విమానాశ్రయ కంపెనీతో ఒప్పందం చేసుకుంది."
+      },
+      "short": {
+        "en": "Contract signed",
+        "te": "ఒప్పందం"
+      }
+    },
+    {
+      "date": "2023-12-07",
+      "precision": "day",
+      "icon": "construction",
+      "source": "gmrq4fy24",
+      "text": {
+        "en": "GMR told its building contractor, L&T, to start.",
+        "te": "నిర్మాణ కాంట్రాక్టర్ ఎల్ అండ్ టీకి పనులు మొదలుపెట్టమని జీఎంఆర్ చెప్పింది."
+      },
+      "short": {
+        "en": "Works start",
+        "te": "పనుల ప్రారంభం"
+      }
+    },
+    {
+      "date": "2026-08-01",
+      "precision": "day",
+      "icon": "task_alt",
+      "source": "noa2026",
+      "text": {
+        "en": "The Prime Minister inaugurated it.",
+        "te": "ప్రధానమంత్రి దీన్ని ప్రారంభించారు."
+      },
+      "short": {
+        "en": "Opened",
+        "te": "ప్రారంభోత్సవం"
+      }
+    }
+  ],
+  "chart": {
+    "readings": [
+      {
+        "date": "2024-03-31",
+        "pct": 18.7,
+        "source": "gmrq4fy24"
+      },
+      {
+        "date": "2024-06-30",
+        "pct": 29.7,
+        "source": "gmrq1fy25"
+      },
+      {
+        "date": "2024-09-30",
+        "pct": 41.8,
+        "source": "gmrq2fy25"
+      },
+      {
+        "date": "2024-12-31",
+        "pct": 55,
+        "source": "gmrq3fy25"
+      },
+      {
+        "date": "2025-03-31",
+        "pct": 69,
+        "source": "gmrq4fy25"
+      },
+      {
+        "date": "2025-06-30",
+        "pct": 80,
+        "source": "gmrq1fy26"
+      },
+      {
+        "date": "2025-09-30",
+        "pct": 87.5,
+        "source": "gmrq2fy26"
+      },
+      {
+        "date": "2025-12-31",
+        "pct": 95.8,
+        "source": "gmrq3fy26"
+      },
+      {
+        "date": "2026-03-31",
+        "pct": 98.7,
+        "source": "gmrq4fy26"
+      }
+    ],
+    "marks": [
+      {
+        "date": "2026-08-01",
+        "kind": "opened",
+        "label": {
+          "en": "Inaugurated",
+          "te": "ప్రారంభోత్సవం"
+        },
+        "source": "noa2026"
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "id": "start",
+      "title": {
+        "en": "How it started",
+        "te": "ఎలా మొదలైంది"
+      },
+      "line": {
+        "en": "The state set up a company for the airport in 2015. The Union Civil Aviation Ministry gave in-principle approval in 2016.",
+        "te": "విమానాశ్రయం కోసం రాష్ట్రం 2015లో ఒక సంస్థను ఏర్పాటు చేసింది. 2016లో కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ సూత్రప్రాయ ఆమోదం ఇచ్చింది."
+      },
+      "paras": [
+        {
+          "en": "In August 2015 the state government set up a company it fully owns, Bhogapuram International Airport Corporation Limited. Its job was to develop a new international airport at Bhogapuram in Vizianagaram district, near Visakhapatnam. The company was later renamed Andhra Pradesh Airports Development Corporation Limited (APADCL).",
+          "te": "2015 ఆగస్టులో రాష్ట్ర ప్రభుత్వం పూర్తిగా తన యాజమాన్యంలో భోగాపురం ఇంటర్నేషనల్ ఎయిర్‌పోర్ట్ కార్పొరేషన్ లిమిటెడ్ అనే సంస్థను ఏర్పాటు చేసింది. విశాఖపట్నం దగ్గర, విజయనగరం జిల్లా భోగాపురంలో కొత్త అంతర్జాతీయ విమానాశ్రయాన్ని అభివృద్ధి చేసే పనిని దానికి అప్పగించారు. తర్వాత ఈ సంస్థ పేరును ఆంధ్రప్రదేశ్ ఎయిర్‌పోర్ట్స్ డెవలప్‌మెంట్ కార్పొరేషన్ లిమిటెడ్ (ఏపీఏడీసీఎల్)గా మార్చారు.",
+          "sources": [
+            "ses1718",
+            "ses1819"
+          ]
+        },
+        {
+          "en": "On 7 October 2016 the Union Civil Aviation Ministry gave this company in-principle approval for the airport. One of the conditions was that land acquisition be completed before the closing date for financial bids.",
+          "te": "2016 అక్టోబర్ 7న కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ ఈ సంస్థకు విమానాశ్రయం కోసం సూత్రప్రాయ ఆమోదం ఇచ్చింది. ఆర్థిక బిడ్ల దాఖలు చివరి తేదీ లోపు భూసేకరణ పూర్తి కావాలన్నది అందులోని షరతుల్లో ఒకటి.",
+          "sources": [
+            "moca2016"
+          ]
+        },
+        {
+          "en": "The state's Socio-Economic Survey 2017-18 said nearly 80% of the land had been acquired. It said HUDCO had sanctioned a loan of ₹854 crore for land acquisition and pre-development work.",
+          "te": "దాదాపు 80% భూసేకరణ పూర్తయిందని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2017-18 పేర్కొంది. భూసేకరణ, ప్రాథమిక పనుల కోసం హడ్కో ₹854 కోట్ల రుణం మంజూరు చేసిందని కూడా అది చెప్పింది.",
+          "sources": [
+            "ses1718"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deal",
+      "title": {
+        "en": "Choosing who builds and runs it",
+        "te": "నిర్మించి, నడిపే సంస్థ ఎంపిక"
+      },
+      "line": {
+        "en": "GMR says its bid came out highest in February 2019. The state signed the contract with GMR's airport company in June 2020.",
+        "te": "2019 ఫిబ్రవరిలో తన బిడ్ అత్యధికంగా నిలిచిందని జీఎంఆర్ చెబుతోంది. 2020 జూన్‌లో రాష్ట్రం జీఎంఆర్ విమానాశ్రయ కంపెనీతో ఒప్పందం చేసుకుంది."
+      },
+      "paras": [
+        {
+          "en": "GMR says the state's airport company invited final bids in November 2018. It says seven firms had been shortlisted earlier, but only three submitted financial bids: GMR, GVK and Dolt Infra. The state's Socio-Economic Survey 2018-19 also records three bids. GMR announced in February 2019 that its bid was the highest.",
+          "te": "2018 నవంబర్‌లో రాష్ట్ర విమానాశ్రయ సంస్థ తుది బిడ్లను ఆహ్వానించిందని జీఎంఆర్ చెబుతోంది. అంతకుముందు ఏడు కంపెనీలను ఎంపిక జాబితాలో చేర్చినా, జీఎంఆర్, జీవీకే, డోల్ట్ ఇన్‌ఫ్రా అనే మూడు కంపెనీలే ఆర్థిక బిడ్లు వేశాయని కూడా అది చెబుతోంది. మూడు బిడ్లు వచ్చాయని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2018-19 కూడా నమోదు చేసింది. తన బిడ్ అత్యధికమని జీఎంఆర్ 2019 ఫిబ్రవరిలో ప్రకటించింది.",
+          "sources": [
+            "gmr2019",
+            "ses1819"
+          ]
+        },
+        {
+          "en": "The state's Socio-Economic Survey 2018-19 records a ground-breaking ceremony on 14 February 2019. The Hans India newspaper reported that Chief Minister N. Chandrababu Naidu laid the foundation stone that day.",
+          "te": "2019 ఫిబ్రవరి 14న భూమి పూజ కార్యక్రమం జరిగిందని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2018-19 నమోదు చేసింది. ఆ రోజు ముఖ్యమంత్రి ఎన్. చంద్రబాబు నాయుడు శంకుస్థాపన చేశారని ది హన్స్ ఇండియా పత్రిక రాసింది.",
+          "sources": [
+            "ses1819",
+            "hans2019"
+          ]
+        },
+        {
+          "en": "The same survey's proposed action plan for 2019-20 listed two tasks for Bhogapuram: complete the land acquisition, and decide on closing the existing civilian airport at Visakhapatnam.",
+          "te": "అదే సర్వే తన 2019-20 ప్రతిపాదిత కార్యాచరణ ప్రణాళికలో భోగాపురం కోసం రెండు పనులను పేర్కొంది: భూసేకరణ పూర్తి చేయడం, విశాఖపట్నంలో అప్పటికే ఉన్న పౌర విమానాశ్రయం మూసివేతపై నిర్ణయం తీసుకోవడం.",
+          "sources": [
+            "ses1819"
+          ]
+        },
+        {
+          "en": "The Socio-Economic Survey 2018-19 said the bids had been sent to the government for approval. A new state government took office on 30 May 2019. GMR says it received the letter awarding it the project in April 2020.",
+          "te": "బిడ్లను ఆమోదం కోసం ప్రభుత్వానికి పంపారని సామాజిక ఆర్థిక సర్వే 2018-19 పేర్కొంది. 2019 మే 30న రాష్ట్రంలో కొత్త ప్రభుత్వం బాధ్యతలు చేపట్టింది. ప్రాజెక్టును తమకు అప్పగిస్తూ ఇచ్చిన లేఖ 2020 ఏప్రిల్‌లో అందిందని జీఎంఆర్ చెబుతోంది.",
+          "sources": [
+            "apgaz2019",
+            "ses1819",
+            "gmr2020ca"
+          ]
+        },
+        {
+          "en": "On 12 June 2020 the state signed the contract, called a concession agreement, with GMR's airport company. The state's surveys call it a public-private partnership (PPP) project. GMR said that under it, its airport company designs, builds, finances and runs the airport for 40 years. It also said the 40 years can be extended by another 20 years through international competitive bidding, in which it has a 10% right of first refusal.",
+          "te": "2020 జూన్ 12న రాష్ట్రం జీఎంఆర్ విమానాశ్రయ కంపెనీతో కన్సెషన్ ఒప్పందం చేసుకుంది. రాష్ట్ర సర్వేలు దీన్ని ప్రభుత్వ, ప్రైవేటు భాగస్వామ్య (పీపీపీ) ప్రాజెక్టుగా పేర్కొన్నాయి. దీని ప్రకారం విమానాశ్రయానికి డిజైన్, నిర్మాణం, పెట్టుబడి, నిర్వహణ అన్నీ 40 ఏళ్లపాటు తమ విమానాశ్రయ కంపెనీ బాధ్యత అని జీఎంఆర్ తెలిపింది. అంతర్జాతీయ పోటీ బిడ్డింగ్ ద్వారా ఈ 40 ఏళ్లను మరో 20 ఏళ్లు పొడిగించవచ్చని, ఆ బిడ్డింగ్‌లో తమకు 10% ప్రాధాన్య హక్కు (రైట్ ఆఫ్ ఫస్ట్ రిఫ్యూజల్) ఉంటుందని కూడా జీఎంఆర్ చెప్పింది.",
+          "sources": [
+            "ses2021",
+            "ses2425",
+            "gmr2020ca"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wait",
+      "title": {
+        "en": "From contract to the start of works",
+        "te": "ఒప్పందం నుంచి పనుల ప్రారంభం వరకు"
+      },
+      "line": {
+        "en": "The contract was signed in June 2020. GMR's order to its building contractor to start works and the contract's appointed date both came in December 2023.",
+        "te": "ఒప్పందం 2020 జూన్‌లో కుదిరింది. పనులు మొదలుపెట్టమని నిర్మాణ కాంట్రాక్టర్‌కు జీఎంఆర్ ఇచ్చిన ఆదేశం, ఒప్పందంలోని అపాయింటెడ్ డేట్ రెండూ 2023 డిసెంబర్‌లో వచ్చాయి."
+      },
+      "paras": [
+        {
+          "en": "The state's surveys give three years for building. The Socio-Economic Survey 2020-21 counts them from the day GMR's financing is in place and both sides have met the conditions set in the contract. The Socio-Economic Survey 2023-24 says the same. The Socio-Economic Survey 2024-25 counts them from the appointed date. The accounts of GMR's airport company say the contract's 40 years are counted from that date.",
+          "te": "రాష్ట్ర సర్వేల ప్రకారం నిర్మాణానికి మూడేళ్ల గడువు ఉంది. సామాజిక ఆర్థిక సర్వే 2020-21 ఆ మూడేళ్లను, జీఎంఆర్‌కు ఆర్థిక వనరులు సమకూరి, ఇరుపక్షాలూ ఒప్పందంలోని షరతులు నెరవేర్చిన రోజు నుంచి లెక్కిస్తుంది. సామాజిక ఆర్థిక సర్వే 2023-24 కూడా అదే చెబుతోంది. సామాజిక ఆర్థిక సర్వే 2024-25 ఆ మూడేళ్లను అపాయింటెడ్ డేట్ నుంచి లెక్కిస్తుంది. ఒప్పందంలోని 40 ఏళ్లను ఆ రోజు నుంచి లెక్కిస్తారని జీఎంఆర్ విమానాశ్రయ కంపెనీ ఆర్థిక నివేదికలు చెబుతున్నాయి.",
+          "sources": [
+            "ses2021",
+            "ses2324",
+            "ses2425",
+            "gvialfy26"
+          ]
+        },
+        {
+          "en": "The Socio-Economic Survey 2020-21 also said GMR was in the process of arranging its financing.",
+          "te": "జీఎంఆర్ ఆర్థిక వనరులు సమకూర్చుకునే ప్రక్రియలో ఉందని కూడా సామాజిక ఆర్థిక సర్వే 2020-21 చెప్పింది.",
+          "sources": [
+            "ses2021"
+          ]
+        },
+        {
+          "en": "On 12 September 2022 the state signed a memorandum of understanding with the Airports Authority of India. Under it, regular commercial flights at the existing civilian airport at Visakhapatnam are to stop for 30 years from the day operations begin at Bhogapuram. That airport is at the naval airfield INS Dega.",
+          "te": "2022 సెప్టెంబర్ 12న రాష్ట్రం ఎయిర్‌పోర్ట్స్ అథారిటీ ఆఫ్ ఇండియాతో అవగాహన ఒప్పందం చేసుకుంది. దాని ప్రకారం భోగాపురంలో కార్యకలాపాలు మొదలైన రోజు నుంచి 30 ఏళ్లపాటు విశాఖపట్నంలో అప్పటికే ఉన్న పౌర విమానాశ్రయంలో షెడ్యూల్ ప్రకారం నడిచే వాణిజ్య విమాన సర్వీసులు ఆగిపోవాలి. ఆ విమానాశ్రయం నౌకాదళ వైమానిక కేంద్రం ఐఎన్ఎస్ డేగాలో ఉంది.",
+          "sources": [
+            "pib2023",
+            "ses2324"
+          ]
+        },
+        {
+          "en": "On 10 March 2023 GMR's airport company and the Union Civil Aviation Ministry exchanged a memorandum of understanding for reserved services at the airport. On 6 April 2023 the company exchanged an agreement with the Bureau of Civil Aviation Security.",
+          "te": "2023 మార్చి 10న జీఎంఆర్ విమానాశ్రయ కంపెనీ, కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ విమానాశ్రయంలో రిజర్వ్‌డ్ సర్వీసుల కోసం అవగాహన ఒప్పంద పత్రాలు మార్చుకున్నాయి. 2023 ఏప్రిల్ 6న ఆ కంపెనీ బ్యూరో ఆఫ్ సివిల్ ఏవియేషన్ సెక్యూరిటీతో మరో ఒప్పంద పత్రం మార్చుకుంది.",
+          "sources": [
+            "pib2023"
+          ]
+        },
+        {
+          "en": "On 3 May 2023 Chief Minister Y.S. Jagan Mohan Reddy laid the foundation stone, the Union Civil Aviation Ministry said. It gave the first phase's estimated cost as ₹4,592 crore, for 6 million passengers a year. It said the airport would have a 3,800 metre runway, and that later phases would raise its capacity to 18 million passengers a year.",
+          "te": "2023 మే 3న ముఖ్యమంత్రి వై.ఎస్. జగన్ మోహన్ రెడ్డి శంకుస్థాపన చేశారని కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ తెలిపింది. ఏటా 6 మిలియన్ల ప్రయాణికులకు సేవలు అందించే మొదటి దశ అంచనా వ్యయం ₹4,592 కోట్లు అని అది పేర్కొంది. విమానాశ్రయానికి 3,800 మీటర్ల రన్‌వే ఉంటుందని, తర్వాతి దశలతో సామర్థ్యాన్ని ఏటా 18 మిలియన్ల ప్రయాణికులకు పెంచుతారని కూడా చెప్పింది.",
+          "sources": [
+            "pib2023"
+          ]
+        },
+        {
+          "en": "GMR told its investors that on 1 November 2023 it signed the building contract with L&T and held a ground-breaking ritual. It said it issued L&T the notice to proceed, the order to start work, on 7 December 2023.",
+          "te": "2023 నవంబర్ 1న నిర్మాణ ఒప్పందాన్ని ఎల్ అండ్ టీతో కుదుర్చుకుని, భూమి పూజ చేశామని జీఎంఆర్ తన పెట్టుబడిదారులకు చెప్పింది. 2023 డిసెంబర్ 7న పనులు మొదలుపెట్టాలని ఎల్ అండ్ టీకి నోటీసు (నోటీస్ టు ప్రొసీడ్) ఇచ్చామని కూడా చెప్పింది.",
+          "sources": [
+            "gmrq4fy24"
+          ]
+        },
+        {
+          "en": "The state's Socio-Economic Survey 2023-24 records that the appointed date was issued on 14 December 2023. The accounts of GMR's airport company give the same date.",
+          "te": "అపాయింటెడ్ డేట్‌ను 2023 డిసెంబర్ 14న జారీ చేశారని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2023-24 నమోదు చేసింది. జీఎంఆర్ విమానాశ్రయ కంపెనీ ఆర్థిక నివేదికలు కూడా అదే తేదీని చూపుతున్నాయి.",
+          "sources": [
+            "ses2324",
+            "gvialfy26"
+          ]
+        },
+        {
+          "en": "In its report to investors on the last three months of 2023, GMR said lenders had approved loans of ₹3,215 crore for the airport.",
+          "te": "2023 చివరి మూడు నెలలపై పెట్టుబడిదారులకు ఇచ్చిన నివేదికలో, విమానాశ్రయం కోసం ₹3,215 కోట్ల రుణాలకు రుణదాతలు ఆమోదం తెలిపారని జీఎంఆర్ చెప్పింది.",
+          "sources": [
+            "gmrq3fy24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "title": {
+        "en": "Building it",
+        "te": "నిర్మాణం"
+      },
+      "line": {
+        "en": "By GMR's figures, reported to its investors, the work went from 18.7% in March 2024 to 98.7% in March 2026.",
+        "te": "పెట్టుబడిదారులకు జీఎంఆర్ ఇచ్చిన అంకెల ప్రకారం పనుల పురోగతి 2024 మార్చిలో 18.7% నుంచి 2026 మార్చిలో 98.7%కి చేరింది."
+      },
+      "paras": [
+        {
+          "en": "Every three months GMR told its investors how far the work had got. These are the company's figures. None of the government documents listed here gives a progress figure for the building work.",
+          "te": "ప్రతి మూడు నెలలకు ఒకసారి పనులు ఎంతవరకు వచ్చాయో జీఎంఆర్ తన పెట్టుబడిదారులకు చెప్పేది. ఇవి ఆ కంపెనీ అంకెలు. ఇక్కడ పేర్కొన్న ప్రభుత్వ పత్రాల్లో ఏదీ నిర్మాణ పనుల పురోగతి అంకెను ఇవ్వలేదు.",
+          "sources": [
+            "gmrq4fy24",
+            "gmrq4fy26"
+          ]
+        },
+        {
+          "en": "By GMR's figures the work stood at 18.7% on 31 March 2024 and about 55% on 31 December 2024. It stood at about 80% on 30 June 2025 and 98.7% on 31 March 2026.",
+          "te": "జీఎంఆర్ అంకెల ప్రకారం పనుల పురోగతి 2024 మార్చి 31 నాటికి 18.7%, 2024 డిసెంబర్ 31 నాటికి సుమారు 55% ఉంది. 2025 జూన్ 30 నాటికి అది సుమారు 80%, 2026 మార్చి 31 నాటికి 98.7% ఉంది.",
+          "sources": [
+            "gmrq4fy24",
+            "gmrq3fy25",
+            "gmrq1fy26",
+            "gmrq4fy26"
+          ]
+        },
+        {
+          "en": "A new state government took office on 12 June 2024. GMR's last figure before that was 18.7%, for 31 March 2024. Its first figure after that was 29.7%, for 30 June 2024. None of these documents gives a figure for the day itself.",
+          "te": "2024 జూన్ 12న రాష్ట్రంలో కొత్త ప్రభుత్వం బాధ్యతలు చేపట్టింది. అంతకు ముందు జీఎంఆర్ ఇచ్చిన చివరి అంకె 2024 మార్చి 31 నాటికి 18.7%. ఆ తర్వాత ఇచ్చిన మొదటి అంకె 2024 జూన్ 30 నాటికి 29.7%. ఆ రోజుకు సంబంధించిన అంకెను ఈ పత్రాల్లో ఏదీ ఇవ్వలేదు.",
+          "sources": [
+            "pib2024",
+            "gmrq4fy24",
+            "gmrq1fy25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "money",
+      "title": {
+        "en": "What it cost",
+        "te": "ఖర్చు ఎంత"
+      },
+      "line": {
+        "en": "GMR put the first phase's initial investment at about ₹2,300 crore in February 2019. Before the inauguration in August 2026, the Prime Minister's Office put the airport's cost at over ₹5,640 crore.",
+        "te": "2019 ఫిబ్రవరిలో మొదటి దశ ప్రారంభ పెట్టుబడి సుమారు ₹2,300 కోట్లు అని జీఎంఆర్ చెప్పింది. 2026 ఆగస్టులో ప్రారంభోత్సవానికి ముందు, విమానాశ్రయ ఖర్చు ₹5,640 కోట్లకు పైగా అని ప్రధానమంత్రి కార్యాలయం చెప్పింది."
+      },
+      "paras": [
+        {
+          "en": "When GMR announced in February 2019 that its bid was the highest, it said the first phase would need an initial investment of about ₹2,300 crore. The state's Socio-Economic Survey 2018-19 gave the project's estimated cost as ₹2,302 crore.",
+          "te": "2019 ఫిబ్రవరిలో తన బిడ్ అత్యధికమని ప్రకటించినప్పుడు, మొదటి దశకు సుమారు ₹2,300 కోట్ల ప్రారంభ పెట్టుబడి అవసరమని జీఎంఆర్ చెప్పింది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2018-19 ప్రాజెక్టు అంచనా వ్యయాన్ని ₹2,302 కోట్లుగా పేర్కొంది.",
+          "sources": [
+            "gmr2019",
+            "ses1819"
+          ]
+        },
+        {
+          "en": "When the foundation stone was laid in May 2023, the Union Civil Aviation Ministry gave the first phase's estimated cost as ₹4,592 crore.",
+          "te": "2023 మేలో శంకుస్థాపన జరిగినప్పుడు, మొదటి దశ అంచనా వ్యయాన్ని ₹4,592 కోట్లుగా కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ పేర్కొంది.",
+          "sources": [
+            "pib2023"
+          ]
+        },
+        {
+          "en": "The state's Socio-Economic Survey 2024-25 gave the first phase's estimated cost as ₹2,302.51 crore.",
+          "te": "రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 మొదటి దశ అంచనా వ్యయాన్ని ₹2,302.51 కోట్లుగా పేర్కొంది.",
+          "sources": [
+            "ses2425"
+          ]
+        },
+        {
+          "en": "Before the inauguration on 1 August 2026, the Prime Minister's Office said the airport was developed at a cost of over ₹5,640 crore. All India Radio's News On AIR gave the same figure on the day. None of these documents explains why the figures differ.",
+          "te": "2026 ఆగస్టు 1న ప్రారంభోత్సవానికి ముందు, ఈ విమానాశ్రయాన్ని ₹5,640 కోట్లకు పైగా ఖర్చుతో అభివృద్ధి చేశారని ప్రధానమంత్రి కార్యాలయం తెలిపింది. ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ కూడా ఆ రోజు అదే అంకెను ఇచ్చింది. ఈ అంకెలు ఎందుకు వేరువేరుగా ఉన్నాయో ఈ పత్రాల్లో ఏదీ వివరించలేదు.",
+          "sources": [
+            "pib2026",
+            "noa2026",
+            "gmr2019",
+            "ses1819",
+            "pib2023",
+            "ses2425"
+          ]
+        },
+        {
+          "en": "The state's airport company acquired the land. The Socio-Economic Survey 2024-25 says ₹795 crore was spent on acquiring land and on rehabilitation and resettlement. It says 2,203.26 of the 2,703.26 acres acquired were handed over to GMR's airport company.",
+          "te": "భూమిని రాష్ట్ర విమానాశ్రయ సంస్థ సేకరించింది. భూసేకరణ, పునరావాసం, పునఃస్థాపన కోసం ₹795 కోట్లు ఖర్చయ్యాయని సామాజిక ఆర్థిక సర్వే 2024-25 చెబుతోంది. సేకరించిన 2,703.26 ఎకరాల్లో 2,203.26 ఎకరాలను జీఎంఆర్ విమానాశ్రయ కంపెనీకి అప్పగించారని కూడా చెబుతోంది.",
+          "sources": [
+            "ses2425"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open",
+      "title": {
+        "en": "Opening",
+        "te": "విమానాశ్రయం ప్రారంభం"
+      },
+      "line": {
+        "en": "The Prime Minister inaugurated it on 1 August 2026. GMR says commercial flights began on 17 August 2026.",
+        "te": "2026 ఆగస్టు 1న ప్రధానమంత్రి దీన్ని ప్రారంభించారు. 2026 ఆగస్టు 17న వాణిజ్య విమాన సర్వీసులు మొదలయ్యాయని జీఎంఆర్ చెబుతోంది."
+      },
+      "paras": [
+        {
+          "en": "Prime Minister Narendra Modi inaugurated the Alluri Sitarama Raju International Airport on 1 August 2026, All India Radio's News On AIR reported.",
+          "te": "2026 ఆగస్టు 1న ప్రధానమంత్రి నరేంద్ర మోదీ అల్లూరి సీతారామరాజు అంతర్జాతీయ విమానాశ్రయాన్ని ప్రారంభించారని ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ తెలిపింది.",
+          "sources": [
+            "noa2026"
+          ]
+        },
+        {
+          "en": "GMR told the stock exchanges that the airport began commercial operations on 17 August 2026. Its press release also said the airport has been planned to expand in phases to handle over 40 million passengers a year.",
+          "te": "విమానాశ్రయంలో 2026 ఆగస్టు 17న వాణిజ్య కార్యకలాపాలు మొదలయ్యాయని జీఎంఆర్ స్టాక్ ఎక్స్ఛేంజీలకు తెలిపింది. విమానాశ్రయాన్ని దశలవారీగా విస్తరించి ఏటా 40 మిలియన్లకు పైగా ప్రయాణికులకు సేవలు అందించేలా ప్రణాళిక వేశారని కూడా దాని పత్రికా ప్రకటన పేర్కొంది.",
+          "sources": [
+            "gmr2026ops"
+          ]
+        },
+        {
+          "en": "In its Socio-Economic Survey 2018-19, the state gave 2022 as the tentative year for commercial operations to begin. Its Socio-Economic Survey 2023-24 said construction was to be completed by December 2026 as per the agreement.",
+          "te": "వాణిజ్య కార్యకలాపాలు 2022లో మొదలవుతాయని రాష్ట్రం తన సామాజిక ఆర్థిక సర్వే 2018-19లో తాత్కాలికంగా పేర్కొంది. ఒప్పందం ప్రకారం నిర్మాణం 2026 డిసెంబర్ నాటికి పూర్తి కావాలని సామాజిక ఆర్థిక సర్వే 2023-24 చెప్పింది.",
+          "sources": [
+            "ses1819",
+            "ses2324"
+          ]
+        },
+        {
+          "en": "So the airport opened before December 2026, the date by which the Socio-Economic Survey 2023-24 said construction was to be completed. It opened after 2022, the tentative year given in the Socio-Economic Survey 2018-19. None of the documents listed here gives the day construction was finished.",
+          "te": "అంటే నిర్మాణం పూర్తి కావాలని సామాజిక ఆర్థిక సర్వే 2023-24 చెప్పిన 2026 డిసెంబర్ కంటే ముందు విమానాశ్రయం ప్రారంభమైంది. సామాజిక ఆర్థిక సర్వే 2018-19 తాత్కాలికంగా చెప్పిన 2022 తర్వాత ప్రారంభమైంది. నిర్మాణం ఏ రోజు పూర్తయిందో ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ చెప్పలేదు.",
+          "sources": [
+            "ses1819",
+            "ses2324",
+            "noa2026",
+            "gmr2026ops"
+          ]
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": {
+        "en": "What is the Alluri Sitarama Raju International Airport?",
+        "te": "అల్లూరి సీతారామరాజు అంతర్జాతీయ విమానాశ్రయం అంటే ఏమిటి?"
+      },
+      "a": {
+        "en": "It is the new international airport at Bhogapuram in Vizianagaram district, near Visakhapatnam. GMR's airport company developed it and runs it under a contract with the state. GMR says the contract is for 40 years. Prime Minister Narendra Modi inaugurated it on 1 August 2026. GMR says commercial flights began on 17 August 2026.",
+        "te": "ఇది విశాఖపట్నం దగ్గర, విజయనగరం జిల్లా భోగాపురంలో ఉన్న కొత్త అంతర్జాతీయ విమానాశ్రయం. రాష్ట్రంతో కుదిరిన ఒప్పందం కింద జీఎంఆర్ విమానాశ్రయ కంపెనీ దీన్ని అభివృద్ధి చేసి, నడుపుతోంది. ఆ ఒప్పందం 40 ఏళ్లకు అని జీఎంఆర్ చెబుతోంది. 2026 ఆగస్టు 1న ప్రధానమంత్రి నరేంద్ర మోదీ దీన్ని ప్రారంభించారు. 2026 ఆగస్టు 17న వాణిజ్య విమాన సర్వీసులు మొదలయ్యాయని జీఎంఆర్ చెబుతోంది."
+      },
+      "sources": [
+        "ses2425",
+        "gmr2020ca",
+        "noa2026",
+        "gmr2026ops"
+      ]
+    },
+    {
+      "q": {
+        "en": "Who laid the foundation stone of Bhogapuram airport?",
+        "te": "భోగాపురం విమానాశ్రయానికి శంకుస్థాపన ఎవరు చేశారు?"
+      },
+      "a": {
+        "en": "There was more than one ceremony. The state's Socio-Economic Survey 2018-19 records a ground-breaking ceremony on 14 February 2019. The Hans India newspaper reported that Chief Minister N. Chandrababu Naidu laid the foundation stone that day. On 3 May 2023 Chief Minister Y.S. Jagan Mohan Reddy laid the foundation stone, the Union Civil Aviation Ministry said. GMR says it held a ground-breaking ritual on 1 November 2023.",
+        "te": "ఒకటి కంటే ఎక్కువ కార్యక్రమాలు జరిగాయి. 2019 ఫిబ్రవరి 14న భూమి పూజ కార్యక్రమం జరిగిందని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2018-19 నమోదు చేసింది. ఆ రోజు ముఖ్యమంత్రి ఎన్. చంద్రబాబు నాయుడు శంకుస్థాపన చేశారని ది హన్స్ ఇండియా పత్రిక రాసింది. 2023 మే 3న ముఖ్యమంత్రి వై.ఎస్. జగన్ మోహన్ రెడ్డి శంకుస్థాపన చేశారని కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ తెలిపింది. 2023 నవంబర్ 1న భూమి పూజ చేశామని జీఎంఆర్ చెబుతోంది."
+      },
+      "sources": [
+        "ses1819",
+        "hans2019",
+        "pib2023",
+        "gmrq4fy24"
+      ]
+    },
+    {
+      "q": {
+        "en": "What stage was the project at when the government changed in May 2019?",
+        "te": "2019 మేలో ప్రభుత్వం మారినప్పుడు ప్రాజెక్టు ఏ దశలో ఉంది?"
+      },
+      "a": {
+        "en": "GMR had announced in February 2019 that its bid was the highest. The Socio-Economic Survey 2018-19 said the bids had been sent to the government for approval. A new state government took office on 30 May 2019. GMR says it received the letter awarding it the project in April 2020. The state signed the contract with GMR's airport company on 12 June 2020.",
+        "te": "తన బిడ్ అత్యధికమని జీఎంఆర్ 2019 ఫిబ్రవరిలో ప్రకటించింది. బిడ్లను ఆమోదం కోసం ప్రభుత్వానికి పంపారని సామాజిక ఆర్థిక సర్వే 2018-19 పేర్కొంది. 2019 మే 30న రాష్ట్రంలో కొత్త ప్రభుత్వం బాధ్యతలు చేపట్టింది. ప్రాజెక్టును తమకు అప్పగిస్తూ ఇచ్చిన లేఖ 2020 ఏప్రిల్‌లో అందిందని జీఎంఆర్ చెబుతోంది. 2020 జూన్ 12న రాష్ట్రం జీఎంఆర్ విమానాశ్రయ కంపెనీతో ఒప్పందం చేసుకుంది."
+      },
+      "sources": [
+        "gmr2019",
+        "ses1819",
+        "apgaz2019",
+        "gmr2020ca",
+        "ses2021"
+      ]
+    },
+    {
+      "q": {
+        "en": "How much of the airport was built when the government changed in June 2024?",
+        "te": "2024 జూన్‌లో ప్రభుత్వం మారినప్పుడు విమానాశ్రయం ఎంతవరకు పూర్తయింది?"
+      },
+      "a": {
+        "en": "None of the government documents listed here gives a figure. GMR says it ordered its building contractor to start works on 7 December 2023. GMR's figures put the work at 18.7% on 31 March 2024 and 29.7% on 30 June 2024. The new state government took office on 12 June 2024, between those two dates.",
+        "te": "ఇక్కడ పేర్కొన్న ప్రభుత్వ పత్రాల్లో ఏదీ ఆ అంకెను ఇవ్వలేదు. పనులు మొదలుపెట్టమని 2023 డిసెంబర్ 7న తన నిర్మాణ కాంట్రాక్టర్‌ను ఆదేశించినట్లు జీఎంఆర్ చెబుతోంది. జీఎంఆర్ అంకెల ప్రకారం పనుల పురోగతి 2024 మార్చి 31 నాటికి 18.7%, 2024 జూన్ 30 నాటికి 29.7%. రాష్ట్రంలో కొత్త ప్రభుత్వం ఈ రెండు తేదీల మధ్య, 2024 జూన్ 12న బాధ్యతలు చేపట్టింది."
+      },
+      "sources": [
+        "gmrq4fy24",
+        "gmrq1fy25",
+        "pib2024"
+      ]
+    },
+    {
+      "q": {
+        "en": "How much did Bhogapuram airport cost?",
+        "te": "భోగాపురం విమానాశ్రయానికి ఎంత ఖర్చయింది?"
+      },
+      "a": {
+        "en": "The documents give different cost figures. In February 2019 GMR said the first phase would need an initial investment of about ₹2,300 crore. In May 2023 the Union Civil Aviation Ministry gave the first phase's estimated cost as ₹4,592 crore. The state's Socio-Economic Survey 2024-25 gave the first phase's estimated cost as ₹2,302.51 crore. It said ₹795 crore was spent on acquiring land and on rehabilitation and resettlement. Before the inauguration in August 2026, the Prime Minister's Office said the airport was developed at a cost of over ₹5,640 crore. None of these documents explains why the figures differ.",
+        "te": "పత్రాలు వేరువేరు ఖర్చు అంకెలు ఇచ్చాయి. 2019 ఫిబ్రవరిలో మొదటి దశకు సుమారు ₹2,300 కోట్ల ప్రారంభ పెట్టుబడి అవసరమని జీఎంఆర్ చెప్పింది. 2023 మేలో మొదటి దశ అంచనా వ్యయాన్ని ₹4,592 కోట్లుగా కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ పేర్కొంది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 మొదటి దశ అంచనా వ్యయాన్ని ₹2,302.51 కోట్లుగా పేర్కొంది. భూసేకరణ, పునరావాసం, పునఃస్థాపన కోసం ₹795 కోట్లు ఖర్చయ్యాయని కూడా అది చెప్పింది. 2026 ఆగస్టులో ప్రారంభోత్సవానికి ముందు, విమానాశ్రయాన్ని ₹5,640 కోట్లకు పైగా ఖర్చుతో అభివృద్ధి చేశారని ప్రధానమంత్రి కార్యాలయం తెలిపింది. ఈ అంకెలు ఎందుకు వేరువేరుగా ఉన్నాయో ఈ పత్రాల్లో ఏదీ వివరించలేదు."
+      },
+      "sources": [
+        "gmr2019",
+        "pib2023",
+        "ses2425",
+        "pib2026"
+      ]
+    },
+    {
+      "q": {
+        "en": "Was Bhogapuram airport finished on time?",
+        "te": "భోగాపురం విమానాశ్రయం సమయానికి పూర్తయిందా?"
+      },
+      "a": {
+        "en": "It depends on the date you compare with. The state's Socio-Economic Survey 2018-19 gave 2022 as the tentative year for commercial operations. Its Socio-Economic Survey 2024-25 gives three years for building from the appointed date. The accounts of GMR's airport company say the contract's 40 years start on that date. The Socio-Economic Survey 2023-24 records that the appointed date was issued on 14 December 2023. It says construction was to be completed by December 2026 as per the agreement. The airport was inaugurated on 1 August 2026. GMR says commercial flights began on 17 August 2026. None of the documents listed here gives the day construction was finished.",
+        "te": "ఏ తేదీతో పోలుస్తామన్న దానిపై ఆధారపడి ఉంటుంది. వాణిజ్య కార్యకలాపాలు 2022లో మొదలవుతాయని రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2018-19 తాత్కాలికంగా పేర్కొంది. అపాయింటెడ్ డేట్ నుంచి నిర్మాణానికి మూడేళ్లు అని సామాజిక ఆర్థిక సర్వే 2024-25 చెబుతోంది. ఒప్పందంలోని 40 ఏళ్లు ఆ రోజు నుంచి మొదలవుతాయని జీఎంఆర్ విమానాశ్రయ కంపెనీ ఆర్థిక నివేదికలు చెబుతున్నాయి. అపాయింటెడ్ డేట్‌ను 2023 డిసెంబర్ 14న జారీ చేశారని సామాజిక ఆర్థిక సర్వే 2023-24 నమోదు చేసింది. ఒప్పందం ప్రకారం నిర్మాణం 2026 డిసెంబర్ నాటికి పూర్తి కావాలని కూడా అది చెప్పింది. విమానాశ్రయాన్ని 2026 ఆగస్టు 1న ప్రారంభించారు. 2026 ఆగస్టు 17న వాణిజ్య విమాన సర్వీసులు మొదలయ్యాయని జీఎంఆర్ చెబుతోంది. నిర్మాణం ఏ రోజు పూర్తయిందో ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ చెప్పలేదు."
+      },
+      "sources": [
+        "ses1819",
+        "ses2425",
+        "gvialfy26",
+        "ses2324",
+        "noa2026",
+        "gmr2026ops"
+      ]
+    },
+    {
+      "q": {
+        "en": "What happens to the old Visakhapatnam airport?",
+        "te": "పాత విశాఖపట్నం విమానాశ్రయం ఏమవుతుంది?"
+      },
+      "a": {
+        "en": "The state signed a memorandum of understanding with the Airports Authority of India on 12 September 2022. Under it, regular commercial flights at the old Visakhapatnam airport are to stop for 30 years from the day operations begin at Bhogapuram. The old airport is at the naval airfield INS Dega. GMR says operations at Bhogapuram began on 17 August 2026. None of the documents listed here says whether or when flights at the old airport stopped.",
+        "te": "2022 సెప్టెంబర్ 12న రాష్ట్రం ఎయిర్‌పోర్ట్స్ అథారిటీ ఆఫ్ ఇండియాతో అవగాహన ఒప్పందం చేసుకుంది. దాని ప్రకారం భోగాపురంలో కార్యకలాపాలు మొదలైన రోజు నుంచి 30 ఏళ్లపాటు పాత విశాఖపట్నం విమానాశ్రయంలో షెడ్యూల్ ప్రకారం నడిచే వాణిజ్య విమాన సర్వీసులు ఆగిపోవాలి. పాత విమానాశ్రయం నౌకాదళ వైమానిక కేంద్రం ఐఎన్ఎస్ డేగాలో ఉంది. భోగాపురంలో కార్యకలాపాలు 2026 ఆగస్టు 17న మొదలయ్యాయని జీఎంఆర్ చెబుతోంది. పాత విమానాశ్రయంలో విమాన సర్వీసులు ఆగిపోయాయా, ఎప్పుడు ఆగిపోయాయో ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ చెప్పలేదు."
+      },
+      "sources": [
+        "pib2023",
+        "ses2324",
+        "gmr2026ops"
+      ]
+    },
+    {
+      "q": {
+        "en": "Where do these figures come from?",
+        "te": "ఈ అంకెలు ఎక్కడి నుంచి వచ్చాయి?"
+      },
+      "a": {
+        "en": "Each part of this page names its documents. The government documents are from the Union Civil Aviation Ministry, the Press Information Bureau (PIB) and All India Radio's News On AIR. They also include the state's Socio-Economic Surveys and the Andhra Pradesh Gazette. GMR's documents are marked as the company's own reports. These are its press releases, stock exchange filings, reports to investors and accounts. The progress figures come from its reports to investors. One newspaper report is marked as not a government document. The documents record the date of each step. They do not give reasons for the time between steps.",
+        "te": "ఈ పేజీలోని ప్రతి భాగం కింద అది ఏ పత్రాల నుంచి వచ్చిందో ఉంది. ప్రభుత్వ పత్రాలు కేంద్ర పౌర విమానయాన మంత్రిత్వ శాఖ, పత్రికా సమాచార కార్యాలయం (పీఐబీ), ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ నుంచి వచ్చాయి. రాష్ట్ర సామాజిక ఆర్థిక సర్వేలు, ఆంధ్రప్రదేశ్ గెజిట్ కూడా వీటిలో ఉన్నాయి. జీఎంఆర్ పత్రాలను కంపెనీ సొంత నివేదికలుగా గుర్తించాం. అవి ఆ సంస్థ పత్రికా ప్రకటనలు, స్టాక్ ఎక్స్ఛేంజీలకు ఇచ్చిన సమాచారం, పెట్టుబడిదారులకు ఇచ్చిన నివేదికలు, లెక్కలు. పురోగతి అంకెలు పెట్టుబడిదారులకు ఇచ్చిన నివేదికల నుంచి వచ్చాయి. ఒక పత్రికా కథనాన్ని ప్రభుత్వ పత్రం కాదని గుర్తించాం. ఈ పత్రాలు ప్రతి దశ తేదీని నమోదు చేశాయి. దశల మధ్య పట్టిన సమయానికి కారణాలను అవి చెప్పలేదు."
+      },
+      "sources": [
+        "moca2016",
+        "pib2023",
+        "noa2026",
+        "ses2425",
+        "apgaz2019",
+        "gmr2020ca",
+        "gmrq4fy26",
+        "hans2019"
+      ]
+    }
+  ]
+}

@@ -35,7 +35,7 @@
  * nothing, for the same reason the sitemap generator does: publishing 4000
  * empty pages is far worse than publishing none.
  */
-import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readFileSync, existsSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 
@@ -59,6 +59,10 @@ const CONCURRENCY = Number(flag('--concurrency') || 8)
 // it: each of them runs this script, and starting Chromium a dozen times to
 // test page markup would triple the suite for nothing. One test draws them.
 const CARDS = !args.includes('--no-cards') && process.env.SHARE_CARDS !== '0'
+// Where the hand-written project stories are read from. Only reviewed stories
+// live directly in this folder; drafts sit in drafts/ below it and are never
+// read here. --stories lets the tests hand the script a folder of their own.
+const STORIES_DIR = flag('--stories') ? resolve(process.cwd(), flag('--stories')) : resolve(here, '../src/data/stories')
 
 const {
   SITE_NAME, SITE_ORIGIN, STATIC_ROUTES, LANG_CODES, INDEXED_LANGS, localizedPath, districtPath,
@@ -69,10 +73,10 @@ const {
 } = await import('../src/lib/seo.js')
 const { projectCard, districtCard, sectionCard, homeCard, cardAlt } = await import('../src/lib/shareCard.js')
 const { relatedGroups, neighbours } = await import('../src/lib/related.js')
-const { renderCards } = await import('./share-cards.mjs')
+const { renderCards, renderPictures } = await import('./share-cards.mjs')
 const { localiseVars } = await import('../src/lib/placeNames.js')
 const { schemaFor, projectTrail } = await import('../src/lib/schema.js')
-const { canonicalIdFor, isDuplicate, membersOf, groupFor, costsDisagree } =
+const { canonicalIdFor, isDuplicate, membersOf, groupFor } =
   await import('../src/lib/sameWork.js')
 const { croreAmount } = await import('../src/lib/money.js')
 const { displayTitle, splitSuspects } = await import('../src/lib/projectTitle.js')
@@ -87,10 +91,13 @@ const { displayTitle, splitSuspects } = await import('../src/lib/projectTitle.js
  */
 const croreLabel = (v, t) =>
   (v == null ? null : `\u20B9${croreAmount(v, fmtNum)} ${t('unit.croreWord')}`)
+const { projectSummary } = await import('../src/lib/projectSummary.js')
 const {
-  projectSummary, moneySentence, placeSentence, progressSentence, timingSentence,
-  approvalSentence, stageSentence, responsibleSentence, sourceSentence, codeSentence,
-} = await import('../src/lib/projectSummary.js')
+  readingsOf, storyFacts, storyTools, keyDates: storyKeyDates, automaticStory, projectQuestions,
+} = await import('../src/lib/projectStory.js')
+const { validateStory, resolveStory, keptQuestions } = await import('../src/lib/storyData.js')
+const { automaticSteps, stepsPicture } = await import('../src/lib/projectSteps.js')
+const { summarySource, portalName } = await import('../src/lib/sourceDocs.js')
 const { districtSummary } = await import('../src/lib/districtSummary.js')
 const { departmentPath, departmentSummary, departmentFacts } = await import('../src/lib/departmentSummary.js')
 const { FACT_CHECKS, factCheckPath, STATUS_RATING, STATUSES } = await import('../src/lib/factcheck.js')
@@ -127,6 +134,14 @@ const monthFmt = t => iso => {
   const [y, m] = String(iso).split('-')
   if (!m) return y
   return t('date.monthYear', { month: t(MONTH_KEYS[Number(m)]), year: y })
+}
+/** "12 June 2024", in each language's own order. Same rule as makeDateFmt in the app. */
+const dayFmt = t => iso => {
+  if (!iso) return null
+  const [y, m, d] = String(iso).slice(0, 10).split('-')
+  if (!m) return y
+  if (!d) return t('date.monthYear', { month: t(MONTH_KEYS[Number(m)]), year: y })
+  return t('date.full', { day: Number(d), month: t(MONTH_KEYS[Number(m)]), year: y })
 }
 
 // ---------------------------------------------------------------- fetching
@@ -421,73 +436,40 @@ function headTags({ lang, path, title, description, schema, canonicalPath, image
  * merely asked it.
  *
  * Nothing new is invented here. Every answer is one of the sentences in
- * projectSummary.js, built from the same field by the same helper, so the
- * paragraph at the top and the section below it cannot disagree. A question
- * whose field is empty is not asked at all: 673 pages carrying an identical
- * "no figure is on record" paragraph would be duplicate boilerplate, which is
- * the thin-content problem this work exists to fix, not a fix for it.
+ * projectSummary.js or projectStory.js, built from the same field by the same
+ * helper, so the paragraph at the top and the section below it cannot
+ * disagree. A question whose field is empty is not asked at all: 673 pages
+ * carrying an identical "no figure is on record" paragraph would be duplicate
+ * boilerplate, which is the thin-content problem this work exists to fix, not
+ * a fix for it.
  *
+ * @param questions  projectQuestions(), plus a hand-written story's own
+ * @param source     the document the figures come from, for the link under
+ *                   "where do these figures come from"
  * @returns [{ q, a, extra }]  q and a are plain text and go into the FAQ
  *                             schema; extra is optional markup that does not.
  */
-function projectSections({ project, observation, t, lang, knownDistricts, siblings = [] }) {
-  const fm = monthFmt(t)
-  const name = displayTitle(project.title)
-  const out = []
-  const ask = (key, sentences, extra) => {
-    const a = sentences.filter(Boolean).join(' ')
-    if (a) out.push({ q: t(`projectDetail.q.${key}`, { name }), a, extra })
-  }
-
-  // What it is, in the source document's own words, and first because it is
-  // the reader's first question. This is the only section on the page that is
-  // prose rather than a figure, and all four scrapers write it: the AMRUT
-  // milestone line, the Socio-Economic Survey's table reference, the
-  // multi-paragraph Government Order account behind Ramayapatnam Port. None of
-  // it reached a page until the list endpoint started carrying it.
-  ask('what', [project.description])
-
-  ask('cost', [moneySentence({ project, observation, t, fmtNum, fmtMonth: fm })])
-  ask('stage', [stageSentence(project, t), progressSentence(project, t)])
-  ask('when', [timingSentence(project, t, fm), approvalSentence(project, t, fm)])
-
-  // The district link lives inside its own answer rather than loose at the
-  // foot of the page. A reader who has just been told which district this is
-  // in is the reader most likely to want the other projects in it, and a
-  // crawler reads the link in the context of the words around it.
+function projectSections({ project, questions, source, t, lang, knownDistricts }) {
+  // The questions and their answers are built in src/lib/projectStory.js,
+  // where the React page builds them too, so the page a reader sees and the
+  // page a crawler reads ask the same questions and give the same answers.
+  // Only the links are added here, because only this page is plain HTML.
   const districtTarget = districtHref(project.district, knownDistricts)
-  ask('where', [placeSentence(project, t)], districtTarget
-    ? `<p><a href="${esc(localizedPath(lang, districtTarget))}">` +
-      `${esc(t('projectDetail.related.seeDistrict', { district: project.district }))}</a></p>`
-    : '')
-
-  ask('who', [responsibleSentence(project, t)])
-
-  const source = observation?.source_url || project.source_url
-  const sourceLabel = observation?.source_label || project.source_portal
-  ask('source', [sourceSentence({ project, observation, t }), codeSentence(project, t)],
-    source
-      ? `<p><a href="${esc(source)}" rel="nofollow">${esc(sourceLabel || t('projectDetail.primarySource'))}</a></p>`
-      : '')
-
-  // The disagreement, when there is one, asked as the question a reader would
-  // ask. This is the only section on the page that no other site can write:
-  // Wikipedia gives one figure, the project authority gives one figure, a news
-  // article quotes one figure and moves on. Nobody says the government's own
-  // documents differ, because nobody else is holding both of them open.
-  if (siblings.length > 1) {
-    const money = v => (v == null ? null : croreLabel(v, t))
-    const costs = siblings.map(p => p.estimated_cost_crore)
-    if (costsDisagree(costs)) {
-      const real = costs.filter(c => typeof c === 'number' && c > 0)
-      ask('differ', [t('projectDetail.a.differ', {
-        name, count: siblings.length,
-        low: money(Math.min(...real)), high: money(Math.max(...real)),
-      })])
+  return questions.map(({ key, q, a }) => {
+    let extra = ''
+    // The district link lives inside its own answer rather than loose at the
+    // foot of the page. A reader who has just been told which district this
+    // is in is the reader most likely to want the other projects in it, and a
+    // crawler reads the link in the context of the words around it.
+    if (key === 'where' && districtTarget) {
+      extra = `<p><a href="${esc(localizedPath(lang, districtTarget))}">` +
+        `${esc(t('projectDetail.related.seeDistrict', { district: project.district }))}</a></p>`
     }
-  }
-
-  return out
+    if (key === 'source' && source?.href) {
+      extra = `<p><a href="${esc(source.href)}" rel="nofollow">${esc(source.label || t('projectDetail.primarySource'))}</a></p>`
+    }
+    return { q, a, extra }
+  })
 }
 
 /**
@@ -508,7 +490,7 @@ function sourcesTable({ siblings, observations, t, lang }) {
 
   const rows = siblings.map((p, i) => {
     const obs = observations[i]
-    const label = obs?.source_label || p.source_portal || ''
+    const label = obs?.source_label || portalName(p) || ''
     const href = obs?.source_url || p.source_url
     const cell = href
       ? `<a href="${esc(href)}" rel="nofollow">${esc(label)}</a>`
@@ -559,7 +541,85 @@ function neighbourBlock({ near, project, t, lang }) {
   ].join('\n      ')
 }
 
-function projectBody({ project, observation, t, lang, path, knownDistricts, sections, sourcesBlock = '', near = null }) {
+/** A source under a paragraph, as a link, with what kind of document it is. */
+function citeHtml(sources, t) {
+  if (!sources?.length) return ''
+  const kind = s => (s.tier === 'company' ? t('projectDetail.story.tier.company')
+    : s.tier === 'lender' ? t('projectDetail.story.tier.lender')
+      : s.tier && s.tier !== 'gov' ? t('projectDetail.story.tier.other') : null)
+  const one = s => {
+    const label = kind(s) ? `${s.name} (${kind(s)})` : s.name
+    return s.url ? `<a href="${esc(s.url)}" rel="nofollow">${esc(label)}</a>` : esc(label)
+  }
+  return ` <cite>${sources.map(one).join(', ')}</cite>`
+}
+
+function blockHtml(b, t) {
+  if (b.type === 'list') {
+    const items = b.items.map(it => {
+      const doc = it.doc
+        ? `${doc0(it.doc, t)}: `
+        : ''
+      return `<li>${doc}${esc(it.text)}</li>`
+    }).join('')
+    return `${b.intro ? `<p>${esc(b.intro)}</p>` : ''}<ul>${items}</ul>`
+  }
+  return `<p>${esc(b.text)}${citeHtml(b.sources, t)}</p>`
+}
+
+/** A reading's document at the head of its line in "Year by year". */
+function doc0(doc, t) {
+  const kind = doc.tier && doc.tier !== 'gov'
+    ? ` (${t(`projectDetail.story.tier.${doc.tier === 'company' ? 'company' : doc.tier === 'lender' ? 'lender' : 'other'}`)})`
+    : ''
+  return doc.url
+    ? `<a href="${esc(doc.url)}" rel="nofollow">${esc(doc.name)}</a>${esc(kind)}`
+    : `${esc(doc.name)}${esc(kind)}`
+}
+
+/**
+ * The story, as a crawler reads it: the key dates, then every chapter with
+ * its paragraphs open. A reader gets the same chapters folded; a search
+ * engine indexes text inside a closed section anyway, so there is nothing to
+ * gain from hiding it here.
+ */
+function storyBlock({ story, t }) {
+  if (!story) return ''
+  const out = []
+  // The story in steps holds the key dates and names each one's paper, so a
+  // page with a road does not repeat them, the same as the live page.
+  if (story.road) {
+    const tier = x => (x === 'company' ? 'company' : x === 'lender' ? 'lender' : x && x !== 'gov' ? 'other' : null)
+    out.push(`<h2>${esc(story.road.title)}</h2>`)
+    out.push(`<p>${esc(story.road.sub)}</p>`)
+    out.push(`<ol>${story.road.steps.map(s => {
+      const kind = tier(s.paper?.tier)
+      const paper = s.paper
+        ? ` ${esc(t('projectDetail.story.steps.paper'))}: ${s.paper.url ? `<a href="${esc(s.paper.url)}" rel="noopener">${esc(s.paper.name)}</a>` : esc(s.paper.name)}` +
+          (kind ? ` (${esc(t(`projectDetail.story.tier.${kind}`))})` : '')
+        : ''
+      // An automatic step is a phrase ("80.19% built") and a hand-written one
+      // a sentence; each ends with exactly one full stop here.
+      const said = `${s.text}${s.note ? ` (${s.note})` : ''}`
+      return `<li>${esc(s.when)}: ${esc(said)}${/[.?!।]$/.test(said) ? '' : '.'}${paper}</li>`
+    }).join('')}</ol>`)
+  } else if (story.keyDates?.length) {
+    out.push(`<h2>${esc(t('projectDetail.story.keyDates.title'))}</h2>`)
+    out.push(`<ul>${story.keyDates.map(k =>
+      `<li>${esc(k.label)}: ${esc(k.value)}${k.detail ? ` (${esc(k.detail)})` : ''}</li>`).join('')}</ul>`)
+  }
+  if (story.chapters?.length) {
+    out.push(`<h2>${esc(t('projectDetail.story.heading'))}</h2>`)
+    if (story.note) out.push(`<p>${esc(story.note)}</p>`)
+    for (const c of story.chapters) {
+      out.push(`<h3>${esc(c.title)}</h3>`)
+      for (const b of c.blocks) out.push(blockHtml(b, t))
+    }
+  }
+  return out.join('\n      ')
+}
+
+function projectBody({ project, observation, t, lang, path, knownDistricts, sections, sourcesBlock = '', near = null, story = null }) {
   const summary = projectSummary({ project, observation, t, fmtNum, fmtMonth: monthFmt(t) })
 
   return [
@@ -568,6 +628,7 @@ function projectBody({ project, observation, t, lang, path, knownDistricts, sect
     // crawler which words on a Telugu page are not Telugu.
     `<h1${lang === 'en' ? '' : ' lang="en"'}>${esc(displayTitle(project.title))}</h1>`,
     summary.length ? `<p>${esc(summary.join(' '))}</p>` : '',
+    storyBlock({ story, t }),
     ...sections.map(({ q, a, extra }) =>
       `<h2>${esc(q)}</h2>\n      <p>${esc(a)}</p>${extra ? `\n      ${extra}` : ''}`),
     sourcesBlock,
@@ -955,15 +1016,50 @@ try {
   // what it was before: every district that holds a project still gets a page.
 }
 
+// Every dated reading of every project, oldest first. The summary and the
+// share card use the latest one; the story tells all of them.
 const extras = await pool(projects, CONCURRENCY, async p => {
   try {
     const x = await get(`/projects/${p.id}/extras`)
-    const obs = x?.observations || []
-    return obs.length ? obs[obs.length - 1] : null
+    return Array.isArray(x?.observations) ? x.observations : []
   } catch {
-    return null   // a thinner paragraph, never a wrong one
+    return []   // a thinner story, never a wrong one
   }
 })
+const latestOf = list => (list?.length ? list[list.length - 1] : null)
+
+/**
+ * The hand-written stories, reviewed ones only, keyed by project id.
+ *
+ * A story that fails validateStory() is not used, and the build says so out
+ * loud: a reviewed story that no longer checks out (a fact deleted, a Telugu
+ * number that drifted) must fall back to the automatic story rather than
+ * publish a claim its own file can no longer support. The test suite fails on
+ * the same file first, so this is the second lock, not the only one.
+ */
+function readStories(dir) {
+  const out = new Map()
+  if (!existsSync(dir)) return out
+  for (const file of readdirSync(dir).filter(f => /^\d+-.+\.json$/.test(f)).sort()) {
+    let story
+    try {
+      story = JSON.parse(readFileSync(join(dir, file), 'utf8'))
+    } catch (err) {
+      console.warn(`prerender: story ${file} is not valid JSON and is not used (${err.message})`)
+      continue
+    }
+    const problems = validateStory(story)
+    if (story.status !== 'reviewed') problems.unshift('it is not marked reviewed')
+    if (problems.length) {
+      console.warn(`prerender: story ${file} is not used: ${problems.slice(0, 3).join('; ')}`)
+      continue
+    }
+    out.set(story.id, story)
+  }
+  return out
+}
+const STORIES = readStories(STORIES_DIR)
+const TODAY = new Date().toISOString().slice(0, 10)
 
 // Every project by id, and where it sits in `extras`, so a project can reach
 // the other government record of the same work without a scan per page.
@@ -1027,6 +1123,8 @@ function emit(path, html) {
  */
 const pages = []
 const cards = new Map()
+// The square steps pictures, one per project and card language with a road.
+const pictures = new Map()
 const CARD_LANGS = new Set(['en', 'te'])
 
 function page({ path, lang, key, card, build }) {
@@ -1150,15 +1248,61 @@ for (const lang of LANG_CODES) {
     const seo = seoForProject({ ...project, district: where }, { t, lang })
     const title = seo.title || `${displayTitle(project.title)} | ${SITE_NAME}`
     const description = seo.description || clip(project.description || '', 160)
-    const observation = extras[i]
+    const observations = extras[i]
+    const observation = latestOf(observations)
 
     // Every government record of this same work, canonical first. Usually just
     // this one. Two sources carrying one dam under two names is the case this
     // exists for, and both of them lost while they competed for the same query.
     const siblings = membersOf(project.id).map(id => byId.get(id)).filter(Boolean)
-    const siblingObs = siblings.map(p => extras[indexById.get(p.id)] ?? null)
+    const siblingObs = siblings.map(p => latestOf(extras[indexById.get(p.id)]))
 
-    const sections = projectSections({ project, observation, t, lang, knownDistricts, siblings })
+    // The story: hand-written when a reviewed one exists for this work and is
+    // written in this language, built from the record otherwise.
+    const fm = monthFmt(t)
+    const fd = dayFmt(t)
+    const tools = storyTools({ t, fmtNum, fmtMonth: fm, fmtDay: fd, lang })
+    const facts = storyFacts({ project, readings: readingsOf(observations), today: TODAY })
+    const auto = projectQuestions({ project, observation, facts, tools, siblings })
+    const written = STORIES.get(canonicalIdFor(project.id))
+    const flagship = written ? resolveStory(written, lang, { fmtMonth: fm, fmtDay: fd }) : null
+    // The story in steps, by the same rule as the live page: the reviewed
+    // story's own road, or the record's when it makes one of three.
+    const steps = flagship?.steps || automaticSteps({ project, facts, tools, today: TODAY })
+    const road = steps
+      ? { title: flagship?.stepsTitle || t('projectDetail.story.steps.title'), sub: t('projectDetail.story.steps.sub', { count: steps.length }), steps }
+      : null
+    if (road && CARD_LANGS.has(lang)) {
+      pictures.set(`steps/${project.id}-${lang}`, stepsPicture({
+        steps,
+        title: flagship?.stepsTitle || displayTitle(project.title),
+        eyebrow: flagship?.stepsTitle ? '' : t('projectDetail.story.steps.title'),
+        link: SITE_ORIGIN.replace(/^https?:\/\//, '') + localizedPath(lang, `/projects/${project.id}`),
+        t, lang,
+      }))
+    }
+    const story = flagship
+      ? {
+          road,
+          keyDates: flagship.keyDates.length ? flagship.keyDates : storyKeyDates({ facts, project, t, fmtMonth: fm, today: TODAY }),
+          chapters: flagship.chapters,
+          note: t('projectDetail.story.flagshipNote', { date: fd(flagship.reviewedOn) }),
+        }
+      : {
+          road,
+          keyDates: storyKeyDates({ facts, project, t, fmtMonth: fm, today: TODAY }),
+          chapters: automaticStory({ project, facts, tools }),
+          note: t('projectDetail.story.autoNote'),
+        }
+    const questions = flagship ? [...flagship.questions, ...keptQuestions(auto, flagship.replaces)] : auto
+
+    const sections = projectSections({
+      project, questions, t, lang, knownDistricts,
+      source: (() => {
+        const src = summarySource({ project, observation })
+        return src ? { href: src.url, label: src.label } : null
+      })(),
+    })
     const near = neighbours(project, projects, { districtOf: workDistrict, isDuplicate })
     // The same question and answer pairs the reader sees, handed to the
     // machines as data. Google shows an FAQ rich result only for a short list
@@ -1187,7 +1331,7 @@ for (const lang of LANG_CODES) {
           ? localizedPath(lang, `/projects/${canonicalIdFor(project.id)}`)
           : undefined,
         body: projectBody({
-          project, observation, t, lang, path, knownDistricts, sections, near,
+          project, observation, t, lang, path, knownDistricts, sections, near, story,
           sourcesBlock: sourcesTable({ siblings, observations: siblingObs, t, lang }),
         }),
       }),
@@ -1204,6 +1348,22 @@ if (CARDS && cards.size) {
   })
 }
 
+// The steps pictures, and the index the live page reads to find one when a
+// reader taps "Share as picture". A picture that is not drawn is simply not
+// in the index, and the page then offers the link alone.
+let drawnPictures = { urls: new Map(), drawn: 0, cached: 0, failed: 0, reason: CARDS ? null : 'skipped (--no-cards)' }
+if (CARDS && pictures.size) {
+  drawnPictures = await renderPictures([...pictures].map(([key, card]) => ({ key, card })), {
+    outDir: DIST, log: m => console.warn(`prerender: ${m}`),
+  })
+}
+{
+  const index = {}
+  for (const [key, url] of drawnPictures.urls) index[key.replace(/^steps\//, '')] = url
+  mkdirSync(join(DIST, 'og', 'steps'), { recursive: true })
+  writeFileSync(join(DIST, 'og', 'steps', 'index.json'), JSON.stringify(index), 'utf8')
+}
+
 /** The image a page's head names: its own card, the English one, or the site's. */
 function imageFor({ cardKey, lang }) {
   const own = cardKey && drawnCards.urls.get(cardKey)
@@ -1217,6 +1377,8 @@ const merged = projects.filter(p => isDuplicate(p.id)).length
 if (CARDS) {
   console.log(`prerender: share cards: ${drawnCards.drawn} drawn, ${drawnCards.cached} reused from the cache` +
     (drawnCards.failed ? `, ${drawnCards.failed} not drawn (${drawnCards.reason || 'see above'}); those pages preview with the site card` : ''))
+  console.log(`prerender: steps pictures: ${drawnPictures.drawn} drawn, ${drawnPictures.cached} reused from the cache` +
+    (drawnPictures.failed ? `, ${drawnPictures.failed} not drawn (${drawnPictures.reason || 'see above'}); those pages offer the link only` : ''))
 }
 console.log(`prerender: ${STATIC_ROUTES.length} pages + ${FINANCE_QUESTIONS.length} finance questions + ${FACT_CHECKS.length} fact checks` +
   ` + ${districtRows.length} districts + ${departments.length} departments + ${projects.length} projects` +

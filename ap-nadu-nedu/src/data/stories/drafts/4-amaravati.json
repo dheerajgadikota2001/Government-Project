@@ -1,0 +1,898 @@
+{
+  "id": 4,
+  "status": "draft",
+  "reviewed": null,
+  "replaces": [
+    "what",
+    "cost",
+    "stage",
+    "when",
+    "late",
+    "source",
+    "handover"
+  ],
+  "sources": [
+    {
+      "id": "cag2023",
+      "short": "CAG report, Sep 2023",
+      "title": "Report No. 3 of 2023, Compliance Audit Report for the year ended March 2021, Government of Andhra Pradesh, section 2.1 Development of Capital City Amaravati",
+      "publisher": "Comptroller and Auditor General of India",
+      "date": "2023-09-25",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2023/Report-3-of-2023-Compliance-Audit-Report-of-the-Comptroller-and-Auditor-General-of-India-for-the-year-ended-March-2021-0651175e5b219e1.97774777.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "budget2024",
+      "short": "Union Budget speech, 23 Jul 2024",
+      "title": "Budget 2024-2025, Speech of the Minister of Finance",
+      "publisher": "Ministry of Finance, Government of India",
+      "date": "2024-07-23",
+      "url": "https://www.indiabudget.gov.in/budget2024-25/doc/budget_speech.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "adb2024",
+      "short": "ADB news release, 12 Dec 2024",
+      "title": "ADB Approves Loan to Support Development of Inclusive, Sustainable Capital City in India",
+      "publisher": "Asian Development Bank",
+      "date": "2024-12-12",
+      "url": "https://www.adb.org/news/adb-approves-loan-support-development-inclusive-sustainable-capital-city-india",
+      "tier": "lender"
+    },
+    {
+      "id": "wb2024",
+      "short": "World Bank press release, 20 Dec 2024",
+      "title": "World Bank Supports Inclusive and Sustainable Development of Amaravati City",
+      "publisher": "World Bank",
+      "date": "2024-12-20",
+      "url": "https://www.worldbank.org/en/news/press-release/2024/12/20/world-bank-supports-inclusive-and-sustainable-development-of-amaravati-city",
+      "tier": "lender"
+    },
+    {
+      "id": "pib2025b",
+      "short": "PIB, 2 May 2025",
+      "title": "Prime Minister Shri Narendra Modi lays foundation stone, inaugurates development works worth over Rs 58,000 crore in Amaravati, Andhra Pradesh",
+      "publisher": "Press Information Bureau, Prime Minister's Office",
+      "date": "2025-05-02",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2126248",
+      "tier": "gov"
+    },
+    {
+      "id": "pib2026a",
+      "short": "PIB, 10 Jun 2026 (offices)",
+      "title": "Cabinet approves construction of new Central Government General Pool Office Accommodation at the New Capital City, Amaravati, Andhra Pradesh",
+      "publisher": "Press Information Bureau, Ministry of Housing and Urban Affairs",
+      "date": "2026-06-10",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2271063",
+      "tier": "gov"
+    },
+    {
+      "id": "pib2026b",
+      "short": "PIB, 10 Jun 2026 (housing)",
+      "title": "Cabinet approves the construction of the General Pool Residential Accommodation (GPRA) at New Capital City, Amaravati, Andhra Pradesh",
+      "publisher": "Press Information Bureau, Ministry of Housing and Urban Affairs",
+      "date": "2026-06-10",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2271061",
+      "tier": "gov"
+    }
+  ],
+  "facts": [
+    {
+      "text": "2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "Andhra Pradesh Reorganisation Act, 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "2 June 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "27 August 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "ten years",
+      "source": "cag2023"
+    },
+    {
+      "text": "three options",
+      "source": "cag2023"
+    },
+    {
+      "text": "September 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "30 December 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "April 2015",
+      "source": "cag2023"
+    },
+    {
+      "text": "217.23 sq km across 25 villages",
+      "source": "cag2023"
+    },
+    {
+      "text": "15,167 acres",
+      "source": "cag2023"
+    },
+    {
+      "text": "28%",
+      "source": "cag2023"
+    },
+    {
+      "text": "October 2015",
+      "source": "cag2023"
+    },
+    {
+      "text": "2 May 2025",
+      "source": "pib2025b"
+    },
+    {
+      "text": "in 2015",
+      "source": "pib2025b"
+    },
+    {
+      "text": "28,631 landowners",
+      "source": "cag2023"
+    },
+    {
+      "text": "34,402 acres",
+      "source": "cag2023"
+    },
+    {
+      "text": "January 2015",
+      "source": "cag2023"
+    },
+    {
+      "text": "February 2022",
+      "source": "cag2023"
+    },
+    {
+      "text": "49,569 acres",
+      "source": "cag2023"
+    },
+    {
+      "text": "January 2020",
+      "source": "cag2023"
+    },
+    {
+      "text": "December 2021",
+      "source": "cag2023"
+    },
+    {
+      "text": "41,615",
+      "source": "cag2023"
+    },
+    {
+      "text": "64,757",
+      "source": "cag2023"
+    },
+    {
+      "text": "to 2024",
+      "source": "cag2023"
+    },
+    {
+      "text": "September 2016",
+      "source": "cag2023"
+    },
+    {
+      "text": "January 2017",
+      "source": "cag2023"
+    },
+    {
+      "text": "12 months",
+      "source": "cag2023"
+    },
+    {
+      "text": "three years",
+      "source": "cag2023"
+    },
+    {
+      "text": "seven years",
+      "source": "cag2023"
+    },
+    {
+      "text": "September 2021",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹1,815.52 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹1,150.20 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "19,149",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹407.58 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "February or May 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "57 packages",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹33,476.23 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "three kinds",
+      "source": "cag2023"
+    },
+    {
+      "text": "2016 and 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹35,444.62 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "two packages",
+      "source": "cag2023"
+    },
+    {
+      "text": "November 2016",
+      "source": "cag2023"
+    },
+    {
+      "text": "two Judicial Complex buildings",
+      "source": "cag2023"
+    },
+    {
+      "text": "95%",
+      "source": "cag2023"
+    },
+    {
+      "text": "85%",
+      "source": "cag2023"
+    },
+    {
+      "text": "61 of 78",
+      "source": "cag2023"
+    },
+    {
+      "text": "April 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹7,221.66 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹6,059.60 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹323 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹1,162.06 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹2,244.94 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "2018-19",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹55,343 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "2016-2023",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹11,487.16 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹1,500 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹2,000 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "February 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "first project reports",
+      "source": "cag2023"
+    },
+    {
+      "text": "August 2018",
+      "source": "cag2023"
+    },
+    {
+      "text": "June 2022",
+      "source": "cag2023"
+    },
+    {
+      "text": "May 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "June 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "May 2022",
+      "source": "cag2023"
+    },
+    {
+      "text": "March 2021",
+      "source": "cag2023"
+    },
+    {
+      "text": "September 2022",
+      "source": "cag2023"
+    },
+    {
+      "text": "first step",
+      "source": "cag2023"
+    },
+    {
+      "text": "July 2020",
+      "source": "cag2023"
+    },
+    {
+      "text": "two laws",
+      "source": "cag2023"
+    },
+    {
+      "text": "three capitals",
+      "source": "cag2023"
+    },
+    {
+      "text": "August 2020",
+      "source": "cag2023"
+    },
+    {
+      "text": "13 December 2021",
+      "source": "cag2023"
+    },
+    {
+      "text": "law of 2014",
+      "source": "cag2023"
+    },
+    {
+      "text": "55 packages",
+      "source": "cag2023"
+    },
+    {
+      "text": "2019-20",
+      "source": "cag2023"
+    },
+    {
+      "text": "₹28,047.82 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "stop in 2019",
+      "source": "cag2023"
+    },
+    {
+      "text": "23 July 2024",
+      "source": "budget2024"
+    },
+    {
+      "text": "July 2024",
+      "source": "budget2024"
+    },
+    {
+      "text": "₹15,000 crore",
+      "source": "budget2024"
+    },
+    {
+      "text": "2024-25",
+      "source": "budget2024"
+    },
+    {
+      "text": "December 2024",
+      "source": "adb2024"
+    },
+    {
+      "text": "$788.8 million",
+      "source": "adb2024"
+    },
+    {
+      "text": "$800 million",
+      "source": "wb2024"
+    },
+    {
+      "text": "two banks",
+      "source": "wb2024"
+    },
+    {
+      "text": "first phase",
+      "source": "wb2024"
+    },
+    {
+      "text": "5,200 families",
+      "source": "pib2025b"
+    },
+    {
+      "text": "₹11,240 crore",
+      "source": "pib2025b"
+    },
+    {
+      "text": "320 km",
+      "source": "pib2025b"
+    },
+    {
+      "text": "₹17,400 crore",
+      "source": "pib2025b"
+    },
+    {
+      "text": "1,281 km",
+      "source": "pib2025b"
+    },
+    {
+      "text": "₹20,400 crore",
+      "source": "pib2025b"
+    },
+    {
+      "text": "10 June 2026",
+      "source": "pib2026a"
+    },
+    {
+      "text": "two central government projects",
+      "source": "pib2026a"
+    },
+    {
+      "text": "two central government projects",
+      "source": "pib2026b"
+    },
+    {
+      "text": "₹1,299.08 crore",
+      "source": "pib2026a"
+    },
+    {
+      "text": "₹1,234.91 crore",
+      "source": "pib2026b"
+    },
+    {
+      "text": "₹35,518.50 crore",
+      "source": "cag2023"
+    },
+    {
+      "text": "February 2016",
+      "source": "cag2023"
+    },
+    {
+      "text": "three phases",
+      "source": "cag2023"
+    },
+    {
+      "text": "2035 to 2050",
+      "source": "cag2023"
+    }
+  ],
+  "keyDates": [
+    {
+      "label": {
+        "en": "Foundation stone",
+        "te": "శంకుస్థాపన"
+      },
+      "date": "2015-10",
+      "precision": "month",
+      "source": "cag2023",
+      "detail": {
+        "en": "For the new capital city",
+        "te": "కొత్త రాజధాని నగరానికి"
+      }
+    },
+    {
+      "label": {
+        "en": "Works stopped",
+        "te": "పనులు నిలిచాయి"
+      },
+      "date": "2019-05",
+      "precision": "month",
+      "source": "cag2023",
+      "detail": {
+        "en": "State order to halt works for review",
+        "te": "పనులు ఆపి సమీక్షించాలని రాష్ట్ర ఆదేశం"
+      }
+    },
+    {
+      "label": {
+        "en": "Foundation stones",
+        "te": "శంకుస్థాపనలు"
+      },
+      "date": "2025-05-02",
+      "precision": "day",
+      "source": "pib2025b",
+      "detail": {
+        "en": "For capital works",
+        "te": "రాజధాని పనులకు"
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": "choose",
+      "title": {
+        "en": "Choosing a capital",
+        "te": "రాజధాని ఎంపిక"
+      },
+      "line": {
+        "en": "After the state was divided in 2014, it chose Amaravati, between Vijayawada and Guntur, as its new capital.",
+        "te": "2014లో రాష్ట్ర విభజన తర్వాత, విజయవాడ, గుంటూరు మధ్య ఉన్న అమరావతిని రాష్ట్రం కొత్త రాజధానిగా ఎంచుకుంది."
+      },
+      "paras": [
+        {
+          "en": "The Andhra Pradesh Reorganisation Act, 2014 divided the state from 2 June 2014 and made Hyderabad the common capital of both states for up to ten years. An expert committee set up by the Centre reported on 27 August 2014 with three options for a new capital.",
+          "te": "ఆంధ్రప్రదేశ్ పునర్వ్యవస్థీకరణ చట్టం, 2014 ప్రకారం 2014 జూన్ 2 నుంచి రాష్ట్రం విడిపోయింది. ఈ చట్టం హైదరాబాద్‌ను పదేళ్లకు మించకుండా రెండు రాష్ట్రాలకు ఉమ్మడి రాజధానిగా చేసింది. కొత్త రాజధాని కోసం కేంద్రం వేసిన నిపుణుల కమిటీ 2014 ఆగస్టు 27న మూడు మార్గాలు సూచిస్తూ నివేదిక ఇచ్చింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "In September 2014 the state cabinet decided on a capital around Vijayawada. On 30 December 2014 the decision to place the capital area between Vijayawada and Guntur, on the Krishna river, was published. In April 2015 Amaravati was notified as the name of the capital. The city was planned over 217.23 sq km across 25 villages of Guntur district.",
+          "te": "2014 సెప్టెంబర్‌లో విజయవాడ చుట్టుపక్కల రాజధాని ఏర్పాటు చేయాలని రాష్ట్ర మంత్రివర్గం నిర్ణయించింది. కృష్ణా నది ఒడ్డున విజయవాడ, గుంటూరు మధ్య ప్రాంతంలో రాజధాని ఏర్పాటు నిర్ణయాన్ని 2014 డిసెంబర్ 30న ప్రచురించారు. 2015 ఏప్రిల్‌లో రాజధాని పేరు అమరావతి అని అధికారికంగా ప్రకటించారు. గుంటూరు జిల్లాలోని 25 గ్రామాల్లో 217.23 చదరపు కిలోమీటర్ల విస్తీర్ణంలో ఈ నగరానికి ప్రణాళిక వేశారు.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The expert committee had advised that, if a completely new (greenfield) capital was chosen, the government should look for places with large parcels of government land. The CAG notes that the chosen area had 15,167 acres of government land, 28% of the total, and that the state chose land pooling from farmers for the rest. The CAG says this went against the committee's advice.",
+          "te": "కొత్తగా (గ్రీన్‌ఫీల్డ్) రాజధాని నిర్మించాలనుకుంటే, పెద్ద ఎత్తున ప్రభుత్వ భూమి అందుబాటులో ఉన్న ప్రాంతాలను వెతకాలని నిపుణుల కమిటీ సూచించింది. ఎంచుకున్న ప్రాంతంలో ప్రభుత్వ భూమి 15,167 ఎకరాలు, అంటే మొత్తం భూమిలో 28% ఉందని, మిగిలిన భూమిని రైతుల నుంచి సమీకరించాలని రాష్ట్రం నిర్ణయించిందని కాగ్ పేర్కొంది. ఇది కమిటీ సూచనకు విరుద్ధమని కాగ్ చెప్పింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The state's Municipal Administration and Urban Development Department told the CAG that the Cabinet chose the location after considering the committee's recommendations. The CAG says the department did not give it the key factors the Cabinet had considered. It also says it was not given details of any study, done before the Master Plan, of how much land the capital actually needed.",
+          "te": "కమిటీ సిఫార్సులను పరిశీలించిన తర్వాత మంత్రివర్గం రాజధాని స్థలాన్ని నిర్ణయించిందని రాష్ట్ర పురపాలక, పట్టణాభివృద్ధి శాఖ కాగ్‌కు బదులిచ్చింది. మంత్రివర్గం పరిగణించిన ముఖ్యమైన అంశాల వివరాలను ఈ శాఖ తమకు ఇవ్వలేదని కాగ్ పేర్కొంది. మాస్టర్ ప్లాన్‌కు ముందు రాజధానికి నిజంగా ఎంత భూమి అవసరమో అంచనా వేసిన ఏ అధ్యయనం వివరాలూ తమకు అందలేదని కూడా చెప్పింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The foundation stone for the capital was laid in October 2015, the CAG says. On 2 May 2025 in Amaravati, Prime Minister Narendra Modi recalled that he had laid it in 2015.",
+          "te": "రాజధానికి 2015 అక్టోబర్‌లో శంకుస్థాపన జరిగిందని కాగ్ పేర్కొంది. 2015లో తాను శంకుస్థాపన చేశానని ప్రధానమంత్రి నరేంద్ర మోదీ 2025 మే 2న అమరావతిలో గుర్తు చేసుకున్నారు.",
+          "sources": [
+            "cag2023",
+            "pib2025b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "land",
+      "title": {
+        "en": "The land farmers gave",
+        "te": "రైతులు ఇచ్చిన భూమి"
+      },
+      "line": {
+        "en": "By February 2022, 28,631 landowners had pooled 34,402 acres for the capital, in return for developed plots and yearly payments.",
+        "te": "2022 ఫిబ్రవరి నాటికి, అభివృద్ధి చేసిన ప్లాట్లు, ఏటా చెల్లింపులకు బదులుగా 28,631 మంది భూయజమానులు రాజధానికి 34,402 ఎకరాలు ఇచ్చారు."
+      },
+      "paras": [
+        {
+          "en": "Under the land pooling rules notified in January 2015, landowners transferred their land to the Capital Region Development Authority (CRDA). In return they were to get back developed residential and commercial plots in proportion to the land they gave, and a yearly payment for ten years. Landless families in the area were to get a pension for ten years.",
+          "te": "2015 జనవరిలో అధికారికంగా ప్రకటించిన భూ సమీకరణ (ల్యాండ్ పూలింగ్) నిబంధనల ప్రకారం భూయజమానులు తమ భూమిని రాజధాని ప్రాంత అభివృద్ధి సంస్థ (సీఆర్డీఏ)కు బదలాయించారు. బదులుగా, వారు ఇచ్చిన భూమికి తగిన నిష్పత్తిలో అభివృద్ధి చేసిన నివాస, వాణిజ్య ప్లాట్లను వారికి తిరిగి ఇవ్వాల్సి ఉంది, పదేళ్లపాటు ఏటా చెల్లింపు ఇవ్వాల్సి ఉంది. ఆ ప్రాంతంలోని భూమిలేని కుటుంబాలకు పదేళ్లపాటు పింఛను ఇవ్వాల్సి ఉంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "By February 2022, 28,631 landowners had pooled 34,402 acres. With 15,167 acres of government land, the authority held 49,569 acres for the capital.",
+          "te": "2022 ఫిబ్రవరి నాటికి 28,631 మంది భూయజమానులు 34,402 ఎకరాలు ఇచ్చారు. 15,167 ఎకరాల ప్రభుత్వ భూమితో కలిపి రాజధాని కోసం సంస్థ వద్ద 49,569 ఎకరాలు ఉన్నాయి.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The final land pooling notifications were issued between September 2016 and January 2017. The CAG says the rules required plots to be marked out with roads and handed over to landowners within 12 months of these notifications. The roads and services for the returned plots were due within three years, by January 2020. The CAG found they were not ready, and as of December 2021 the plots had not been physically handed over.",
+          "te": "భూ సమీకరణ తుది ప్రకటనలు 2016 సెప్టెంబర్ నుంచి 2017 జనవరి మధ్య వెలువడ్డాయి. నిబంధనల ప్రకారం, ఈ ప్రకటనలు వెలువడిన 12 నెలల్లోగా ప్లాట్లకు రోడ్లతో సహా హద్దులు గుర్తించి, ఆ ప్లాట్లను భూయజమానులకు అప్పగించాల్సి ఉందని కాగ్ పేర్కొంది. తిరిగి ఇచ్చే ప్లాట్లకు రోడ్లు, సౌకర్యాలు మూడేళ్లలో, అంటే 2020 జనవరి నాటికి పూర్తి కావాల్సి ఉంది. అవి సిద్ధం కాలేదని, 2021 డిసెంబర్ నాటికి ప్లాట్లను భౌతికంగా అప్పగించలేదని కాగ్ గుర్తించింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "By February 2022, 41,615 of the 64,757 plots had been registered to landowners. The authority extended the deadline for handing over physical possession of plots from three years to seven years after the final notifications, to 2024. It told the CAG the delays were mostly because the trunk works, the main roads and utilities across the city, were late and final drawings were not ready.",
+          "te": "2022 ఫిబ్రవరి నాటికి 64,757 ప్లాట్లలో 41,615 ప్లాట్లను భూయజమానుల పేరిట రిజిస్టర్ చేశారు. తుది ప్రకటనల నుంచి ప్లాట్లను భౌతికంగా అప్పగించే గడువును సంస్థ మూడేళ్ల నుంచి ఏడేళ్లకు, అంటే 2024 వరకు పొడిగించింది. నగరమంతటా వేసే ప్రధాన రోడ్లు, వసతుల (ట్రంక్) పనులు ఆలస్యం కావడం, తుది నిర్మాణ డ్రాయింగ్‌లు సిద్ధం కాకపోవడం ఈ జాప్యానికి ప్రధాన కారణాలని సంస్థ కాగ్‌కు తెలిపింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "By September 2021, ₹1,815.52 crore had gone on benefits to landowners and landless families, the CAG's table shows. This included ₹1,150.20 crore in yearly payments to 28,631 landowners and ₹407.58 crore in pensions to 19,149 landless families. The CAG found that other promised benefits, such as health cards and housing for the homeless, were not continued after February or May 2019. It also says the urban development department did not give it the records and reasons for this.",
+          "te": "2021 సెప్టెంబర్ నాటికి భూయజమానులు, భూమిలేని కుటుంబాలకు ప్రయోజనాల కోసం ₹1,815.52 కోట్లు ఖర్చయ్యాయని కాగ్ పట్టిక చూపుతోంది. ఇందులో 28,631 మంది భూయజమానులకు ఏటా చెల్లింపులుగా ₹1,150.20 కోట్లు, 19,149 భూమిలేని కుటుంబాలకు పింఛన్లుగా ₹407.58 కోట్లు ఉన్నాయి. ఆరోగ్య కార్డులు, నిరాశ్రయులకు ఇళ్లు వంటి ఇతర హామీలను 2019 ఫిబ్రవరి లేదా మే తర్వాత కొనసాగించలేదని కాగ్ గుర్తించింది. దీనికి సంబంధించిన రికార్డులను, కారణాలను పట్టణాభివృద్ధి శాఖ తమకు ఇవ్వలేదని కూడా కాగ్ పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "title": {
+        "en": "The first round of building",
+        "te": "మొదటి విడత నిర్మాణం"
+      },
+      "line": {
+        "en": "According to the CAG, contracts for 57 packages worth ₹33,476.23 crore were awarded for the capital's roads, services and buildings. By September 2021 none of the Master Plan works was finished.",
+        "te": "కాగ్ ప్రకారం, రాజధానిలో రోడ్లు, సౌకర్యాలు, భవనాల కోసం ₹33,476.23 కోట్ల విలువైన 57 ప్యాకేజీల కాంట్రాక్టులు ఇచ్చారు. 2021 సెప్టెంబర్ నాటికి మాస్టర్ ప్లాన్ పనుల్లో ఏదీ పూర్తి కాలేదు."
+      },
+      "paras": [
+        {
+          "en": "The works were of three kinds: main roads and utilities across the city (the trunk works), roads and services for the returned plots, and government buildings. The CAG report gives different dates in different places for when these works were awarded, all between 2016 and 2019. Including other works and consultancies, contracts worth ₹35,444.62 crore had been signed.",
+          "te": "ఈ పనులు మూడు రకాలు: నగరమంతటా ప్రధాన రోడ్లు, వసతులు (ట్రంక్ పనులు); తిరిగి ఇచ్చే ప్లాట్లకు రోడ్లు, సౌకర్యాలు; ప్రభుత్వ భవనాలు. ఈ పనుల కాంట్రాక్టులు ఇచ్చిన తేదీలను కాగ్ నివేదిక వేర్వేరు చోట్ల వేర్వేరుగా చెప్పింది, అవన్నీ 2016 నుంచి 2019 మధ్య ఉన్నాయి. ఇతర పనులు, సలహా సేవలతో (కన్సల్టెన్సీలు) కలిపి ₹35,444.62 కోట్ల విలువైన కాంట్రాక్టులు కుదిరాయి.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "By September 2021 none of the works awarded under the Master Plan was finished. The two packages the CAG counts as complete, the Interim Government Complex and a school building, were not part of the Master Plan. The CAG says the Interim Government Complex, finished in November 2016, houses the Secretariat and the Legislative Assembly. It says the High Court has worked since April 2019 in two Judicial Complex buildings that were 95% and 85% complete. It also counts 61 of 78 other works as complete.",
+          "te": "2021 సెప్టెంబర్ నాటికి మాస్టర్ ప్లాన్ కింద ఇచ్చిన పనుల్లో ఏదీ పూర్తి కాలేదు. పూర్తయినట్లు కాగ్ చూపిన రెండు ప్యాకేజీలు (తాత్కాలిక ప్రభుత్వ సముదాయం, ఒక పాఠశాల భవనం) మాస్టర్ ప్లాన్‌లో భాగం కావు. 2016 నవంబర్‌లో పూర్తయిన తాత్కాలిక ప్రభుత్వ సముదాయంలో సచివాలయం, శాసనసభ ఉన్నాయని కాగ్ పేర్కొంది. 95%, 85% పూర్తయిన రెండు న్యాయ సముదాయ భవనాల్లో 2019 ఏప్రిల్ నుంచి హైకోర్టు పనిచేస్తోందని చెప్పింది. 78 ఇతర పనుల్లో 61 పూర్తయినట్లు కూడా కాగ్ చూపింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The agencies gave the CAG reasons for the delays. For the slow trunk works, the Amaravati Development Corporation cited delays in land acquisition and the halt after May 2019. The CAG disagreed, saying the works were stopped without the review the May 2019 order asked for. For government buildings, the capital authority cited designs not being finalised, unpaid bills to contractors after May 2019 and a shortage of sand. The CAG says works were awarded before their designs were finalised.",
+          "te": "పనులు ఎందుకు ఆలస్యమయ్యాయో సంస్థలు కాగ్‌కు కారణాలు చెప్పాయి. భూసేకరణలో జాప్యం, 2019 మే తర్వాత పనులు ఆగిపోవడం వల్ల ప్రధాన (ట్రంక్) పనులు నెమ్మదించాయని అమరావతి డెవలప్‌మెంట్ కార్పొరేషన్ చెప్పింది. 2019 మే ఉత్తర్వు కోరిన సమీక్ష చేయకుండా పనులు ఆపేశారని చెబుతూ కాగ్ ఈ జవాబుతో ఏకీభవించలేదు. ప్రభుత్వ భవనాల విషయంలో డిజైన్లు ఖరారు కాకపోవడం, 2019 మే తర్వాత కాంట్రాక్టర్లకు బిల్లులు చెల్లించకపోవడం, ఇసుక కొరతను రాజధాని సంస్థ కారణాలుగా చెప్పింది. డిజైన్లు ఖరారు కాకముందే పనులు అప్పగించారని కాగ్ పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "By the end of April 2019, ₹7,221.66 crore had been spent on works, the CAG says. Its table of all contracts shows ₹6,059.60 crore paid, including ₹323 crore for consultancies, and ₹1,162.06 crore outstanding.",
+          "te": "2019 ఏప్రిల్ చివరి నాటికి పనులపై ₹7,221.66 కోట్లు ఖర్చయ్యాయని కాగ్ చెప్పింది. అన్ని కాంట్రాక్టుల కాగ్ పట్టిక ప్రకారం సలహా సేవలకు (కన్సల్టెన్సీలు) ₹323 కోట్లు సహా ₹6,059.60 కోట్లు చెల్లించారు, ఇంకా ₹1,162.06 కోట్లు బకాయి ఉంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The CAG says the contracts were signed without firming up the financing plan. It says the state's budget support for the capital went to land pooling payments, such as pensions and yearly payments. It also says that until 2018-19 the state had not committed to pay for any part of the capital's development. The CAG says the authority worked out a need of ₹55,343 crore for 2016-2023 and raised ₹11,487.16 crore from all sources. The sources the CAG lists include a central grant of ₹1,500 crore and ₹2,000 crore raised through Amaravati bonds.",
+          "te": "నిధుల ప్రణాళికను ఖరారు చేయకుండా కాంట్రాక్టులు కుదుర్చుకున్నారని కాగ్ చెప్పింది. రాజధానికి రాష్ట్రం బడ్జెట్ నుంచి ఇచ్చిన మద్దతు పింఛన్లు, ఏటా చెల్లింపులు వంటి ల్యాండ్ పూలింగ్ చెల్లింపులకు వెళ్లిందని పేర్కొంది. 2018-19 వరకు రాజధాని అభివృద్ధిలో ఏ భాగానికీ నిధులు ఇస్తామని రాష్ట్రం హామీ ఇవ్వలేదని కూడా పేర్కొంది. 2016-2023కి ₹55,343 కోట్లు అవసరమని సంస్థ లెక్కించిందని, అన్ని మార్గాల నుంచి ₹11,487.16 కోట్లు సమీకరించిందని కాగ్ పేర్కొంది. కాగ్ చూపిన నిధుల మార్గాల్లో కేంద్రం ఇచ్చిన ₹1,500 కోట్ల గ్రాంటు, అమరావతి బాండ్ల ద్వారా సమీకరించిన ₹2,000 కోట్లు ఉన్నాయి.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The CAG says the state neither gave budget support as per its financial plan nor released grants as planned after February 2019. It says the first project reports, sent to the Centre in August 2018, lacked site engineering data, so the Central Public Works Department could give only limited comments. It also says the state took until June 2022 to reply to the points raised, which held up further central money.",
+          "te": "ఆర్థిక ప్రణాళిక ప్రకారం రాష్ట్రం బడ్జెట్ మద్దతు ఇవ్వలేదని, 2019 ఫిబ్రవరి తర్వాత ప్రణాళిక ప్రకారం గ్రాంట్లు విడుదల చేయలేదని కాగ్ చెప్పింది. 2018 ఆగస్టులో కేంద్రానికి పంపిన మొదటి విడత ప్రాజెక్టు నివేదికల్లో స్థలానికి సంబంధించిన ఇంజినీరింగ్ వివరాలు లేనందున కేంద్ర ప్రజా పనుల విభాగం పరిమిత వ్యాఖ్యలు మాత్రమే ఇవ్వగలిగిందని కాగ్ పేర్కొంది. లేవనెత్తిన అంశాలపై రాష్ట్రం 2022 జూన్ వరకు జవాబు ఇవ్వలేదని, దాంతో కేంద్రం నుంచి మరిన్ని నిధులు ఆగిపోయాయని కూడా చెప్పింది.",
+          "sources": [
+            "cag2023"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "halt",
+      "title": {
+        "en": "Works stop",
+        "te": "పనులు ఆగిపోయాయి"
+      },
+      "line": {
+        "en": "In May 2019 the state ordered works halted for review. From July 2020 to December 2021, a state law provided for three capitals.",
+        "te": "2019 మేలో పనులు ఆపి సమీక్షించాలని రాష్ట్రం ఆదేశించింది. 2020 జూలై నుంచి 2021 డిసెంబర్ వరకు మూడు రాజధానులను నిర్దేశించే రాష్ట్ర చట్టం ఉంది."
+      },
+      "paras": [
+        {
+          "en": "In February 2019 the state approved a financial plan for the capital. In May 2019 the state's Finance Department told all departments to halt works and review ongoing projects, saying priorities had not been followed. The CAG found that by September 2021 no review had been done and no funds had been released for works after April 2019, so all ongoing works stalled. It also says the urban development department did not give it the records and reasons for not reviewing the works after May 2019.",
+          "te": "2019 ఫిబ్రవరిలో రాజధాని కోసం రాష్ట్రం ఒక ఆర్థిక ప్రణాళికను ఆమోదించింది. పనుల్లో ప్రాధాన్యాలు పాటించలేదని చెబుతూ, పనులు ఆపి జరుగుతున్న ప్రాజెక్టులను సమీక్షించాలని 2019 మేలో రాష్ట్ర ఆర్థిక శాఖ అన్ని శాఖలను ఆదేశించింది. 2021 సెప్టెంబర్ నాటికి ఆ సమీక్ష జరగలేదని, 2019 ఏప్రిల్ తర్వాత పనులకు నిధులు విడుదల కాలేదని, దాంతో జరుగుతున్న పనులన్నీ నిలిచిపోయాయని కాగ్ గుర్తించింది. 2019 మే తర్వాత పనులను ఎందుకు సమీక్షించలేదో తెలిపే రికార్డులను, కారణాలను పట్టణాభివృద్ధి శాఖ తమకు ఇవ్వలేదని కూడా కాగ్ పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "On the trunk works, the Amaravati Development Corporation wrote to all contractors in June 2019 about withdrawing the halt notice. But after June 2019 the contractors stopped all work, the CAG says. The corporation told the CAG in May 2022 that the state had ordered in March 2021 that trunk and land pooling infrastructure be taken up in order of priority. The CAG itself says the state ordered the works to go ahead in March 2021, but pipes bought for them were still lying idle in September 2022.",
+          "te": "ప్రధాన (ట్రంక్) మౌలిక వసతుల పనుల్లో, నిలిపివేత నోటీసు ఉపసంహరణ గురించి అమరావతి డెవలప్‌మెంట్ కార్పొరేషన్ 2019 జూన్‌లో కాంట్రాక్టర్లందరికీ లేఖ రాసింది. అయినా 2019 జూన్ తర్వాత కాంట్రాక్టర్లు పనులన్నీ ఆపేశారని కాగ్ చెప్పింది. ట్రంక్, ల్యాండ్ పూలింగ్ మౌలిక వసతుల పనులను ప్రాధాన్య క్రమంలో చేపట్టాలని 2021 మార్చిలో రాష్ట్రం ఉత్తర్వులు ఇచ్చిందని ఆ కార్పొరేషన్ 2022 మేలో కాగ్‌కు తెలిపింది. 2021 మార్చిలో పనులు కొనసాగించాలని రాష్ట్రం ఆదేశించినా, వాటి కోసం కొన్న పైపులు 2022 సెప్టెంబర్‌లో ఇంకా వాడకుండా పడి ఉన్నాయని కాగ్ స్వయంగా పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "For the land pooling layout works, the capital authority told the CAG in May 2022 that buying pipes was the first step in these works. It said it would resume the works once it got government orders, which had not yet come. The CAG did not accept the reply. It says the authority took no immediate steps to lay the pipes, which lay idle.",
+          "te": "ల్యాండ్ పూలింగ్ లేఅవుట్ పనుల విషయంలో, ఈ పనుల్లో పైపులు కొనడం మొదటి దశ అని రాజధాని సంస్థ 2022 మేలో కాగ్‌కు చెప్పింది. ప్రభుత్వ ఉత్తర్వులు వచ్చాక పనులను మళ్లీ చేపడతామని, ఆ ఉత్తర్వులు ఇంకా రాలేదని తెలిపింది. కాగ్ ఈ జవాబును అంగీకరించలేదు. పైపులను వేయడానికి సంస్థ వెంటనే చర్యలు తీసుకోలేదని, అవి వాడకుండా పడి ఉన్నాయని కాగ్ పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "In July 2020 the state passed two laws. One repealed the law that set up the capital authority and replaced the authority with a metropolitan region development authority. It said landowners who had pooled land would keep all their rights under the land pooling rules. The other provided for three capitals: Amaravati as the legislative capital, Visakhapatnam as the executive capital and Kurnool as the judicial capital. Many petitions were filed in the High Court, which in August 2020 ordered that things stay as they were.",
+          "te": "2020 జూలైలో రాష్ట్రం రెండు చట్టాలు చేసింది. ఒకటి రాజధాని ప్రాంత అభివృద్ధి సంస్థ చట్టాన్ని రద్దు చేసి, ఆ సంస్థ స్థానంలో మహానగర ప్రాంత అభివృద్ధి సంస్థను తెచ్చింది. భూమి ఇచ్చిన భూయజమానులకు ల్యాండ్ పూలింగ్ నిబంధనల కింద ఉన్న హక్కులన్నీ కొనసాగుతాయని ఆ చట్టం పేర్కొంది. మరొకటి మూడు రాజధానులను నిర్దేశించింది: శాసన రాజధానిగా అమరావతి, కార్యనిర్వాహక రాజధానిగా విశాఖపట్నం, న్యాయ రాజధానిగా కర్నూలు. హైకోర్టులో చాలా పిటిషన్లు దాఖలయ్యాయి. 2020 ఆగస్టులో ఉన్నది ఉన్నట్లే ఉంచాలని (యథాతథ స్థితి) హైకోర్టు ఆదేశించింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "In December 2021 the state repealed both laws, and the capital authority law of 2014 came back into force from 13 December 2021.",
+          "te": "2021 డిసెంబర్‌లో రాష్ట్రం ఆ రెండు చట్టాలను రద్దు చేసింది. 2021 డిసెంబర్ 13 నుంచి 2014 నాటి రాజధాని ప్రాంత అభివృద్ధి సంస్థ చట్టం మళ్లీ అమల్లోకి వచ్చింది.",
+          "sources": [
+            "cag2023"
+          ]
+        },
+        {
+          "en": "The CAG found that 55 packages were still open contracts with no work or spending since 2019-20. It says finishing them on the contract terms would need more than ₹28,047.82 crore.",
+          "te": "55 ప్యాకేజీలు 2019-20 నుంచి పనులు, ఖర్చు ఏవీ లేకుండా ముగియని కాంట్రాక్టులుగా మిగిలిపోయాయని కాగ్ గుర్తించింది. కాంట్రాక్టు నిబంధనల ప్రకారం వాటిని పూర్తి చేయాలంటే ₹28,047.82 కోట్లకు పైగా కావాల్సి ఉంటుందని కాగ్ పేర్కొంది.",
+          "sources": [
+            "cag2023"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "restart",
+      "title": {
+        "en": "The restart",
+        "te": "మళ్లీ ప్రారంభం"
+      },
+      "line": {
+        "en": "In December 2024 the World Bank and the Asian Development Bank approved loans for Amaravati. On 2 May 2025 the Prime Minister laid foundation stones for capital works.",
+        "te": "2024 డిసెంబర్‌లో ప్రపంచ బ్యాంకు, ఆసియా అభివృద్ధి బ్యాంకు అమరావతికి రుణాలను ఆమోదించాయి. 2025 మే 2న రాజధాని పనులకు ప్రధానమంత్రి శంకుస్థాపన చేశారు."
+      },
+      "paras": [
+        {
+          "en": "In the Union Budget speech on 23 July 2024, the Finance Minister said the Centre would facilitate special financial support for the capital through multilateral development agencies. The speech said ₹15,000 crore would be arranged in 2024-25, with more in later years.",
+          "te": "2024 జూలై 23న కేంద్ర బడ్జెట్ ప్రసంగంలో, బహుళపక్ష అభివృద్ధి సంస్థల ద్వారా రాజధానికి ప్రత్యేక ఆర్థిక సహాయం అందేలా కేంద్రం వీలు కల్పిస్తుందని ఆర్థిక మంత్రి చెప్పారు. 2024-25లో ₹15,000 కోట్లు, తర్వాతి సంవత్సరాల్లో మరిన్ని నిధులు ఏర్పాటు చేస్తామని ప్రసంగంలో పేర్కొన్నారు.",
+          "sources": [
+            "budget2024"
+          ]
+        },
+        {
+          "en": "In December 2024 the Asian Development Bank approved a loan of $788.8 million to the state for Amaravati. The World Bank approved an $800 million loan, which the Government of India had requested. The World Bank says the two banks are supporting the first phase of the city's development.",
+          "te": "2024 డిసెంబర్‌లో అమరావతి కోసం ఆసియా అభివృద్ధి బ్యాంకు రాష్ట్రానికి 788.8 మిలియన్ డాలర్ల రుణాన్ని ఆమోదించింది. భారత ప్రభుత్వం కోరిన 800 మిలియన్ డాలర్ల రుణాన్ని ప్రపంచ బ్యాంకు ఆమోదించింది. ఈ రెండు బ్యాంకులు నగర అభివృద్ధి మొదటి దశకు మద్దతు ఇస్తున్నాయని ప్రపంచ బ్యాంకు పేర్కొంది.",
+          "sources": [
+            "adb2024",
+            "wb2024"
+          ]
+        },
+        {
+          "en": "On 2 May 2025 Prime Minister Narendra Modi laid foundation stones for capital works. According to the Prime Minister's Office, they include the Legislative Assembly, High Court, Secretariat, other administrative buildings and homes for over 5,200 families, worth over ₹11,240 crore. They also include trunk infrastructure and flood control projects, with a 320 km transport network with underground utilities, worth over ₹17,400 crore. The land pooling infrastructure projects are to cover 1,281 km of roads, worth over ₹20,400 crore.",
+          "te": "2025 మే 2న ప్రధానమంత్రి నరేంద్ర మోదీ రాజధాని పనులకు శంకుస్థాపన చేశారు. ప్రధానమంత్రి కార్యాలయం ప్రకారం, వీటిలో శాసనసభ, హైకోర్టు, సచివాలయం, ఇతర పరిపాలనా భవనాలు, 5,200కు పైగా కుటుంబాలకు ఇళ్లు ఉన్నాయి. వీటి విలువ ₹11,240 కోట్లకు పైగా. భూగర్భ వసతులతో 320 కిలోమీటర్ల రవాణా నెట్‌వర్క్‌తో కూడిన ట్రంక్ మౌలిక వసతులు, వరద నియంత్రణ ప్రాజెక్టులు కూడా ఉన్నాయి. వీటి విలువ ₹17,400 కోట్లకు పైగా. ల్యాండ్ పూలింగ్ మౌలిక వసతుల ప్రాజెక్టుల కింద 1,281 కిలోమీటర్ల రోడ్లు వేస్తారు. వీటి విలువ ₹20,400 కోట్లకు పైగా.",
+          "sources": [
+            "pib2025b"
+          ]
+        },
+        {
+          "en": "On 10 June 2026 the Cabinet Committee on Economic Affairs approved two central government projects in Amaravati. An office complex is estimated to cost ₹1,299.08 crore, and homes for central government staff ₹1,234.91 crore. The Centre will fund both from its budget.",
+          "te": "2026 జూన్ 10న కేంద్ర మంత్రివర్గ ఆర్థిక వ్యవహారాల కమిటీ అమరావతిలో రెండు కేంద్ర ప్రభుత్వ ప్రాజెక్టులను ఆమోదించింది. కార్యాలయ సముదాయానికి ₹1,299.08 కోట్లు, కేంద్ర ఉద్యోగుల నివాసాలకు ₹1,234.91 కోట్లు ఖర్చవుతుందని అంచనా. రెండింటికీ కేంద్ర బడ్జెట్ నుంచి నిధులు ఇస్తారు.",
+          "sources": [
+            "pib2026a",
+            "pib2026b"
+          ]
+        },
+        {
+          "en": "None of the documents listed here gives a current total cost or completion date for building the whole capital. The CAG report quotes earlier estimates that differ from one another, such as ₹55,343 crore for 2016-2023 and a financial requirement of ₹35,518.50 crore. The Master Plan notified in February 2016 set out three phases, the last running from 2035 to 2050.",
+          "te": "రాజధాని మొత్తం నిర్మాణానికి ప్రస్తుత ఖర్చు అంచనా గానీ, పూర్తయ్యే తేదీ గానీ ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ ఇవ్వలేదు. 2016-2023కి ₹55,343 కోట్లు, ₹35,518.50 కోట్ల ఆర్థిక అవసరం వంటి, ఒకదానికొకటి భిన్నమైన పాత అంచనాలను కాగ్ నివేదిక పేర్కొంది. 2016 ఫిబ్రవరిలో అధికారికంగా ప్రకటించిన మాస్టర్ ప్లాన్ మూడు దశలను నిర్దేశించింది, వాటిలో చివరిది 2035 నుంచి 2050 వరకు.",
+          "sources": [
+            "cag2023",
+            "pib2025b"
+          ]
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": {
+        "en": "What is Amaravati?",
+        "te": "అమరావతి అంటే ఏమిటి?"
+      },
+      "a": {
+        "en": "Amaravati is the capital city Andhra Pradesh chose after it was divided in 2014. It was planned over 217.23 sq km across 25 villages of Guntur district, between Vijayawada and Guntur on the Krishna river. The name was notified in April 2015.",
+        "te": "2014లో విభజన తర్వాత ఆంధ్రప్రదేశ్ ఎంచుకున్న రాజధాని నగరం అమరావతి. కృష్ణా నది ఒడ్డున విజయవాడ, గుంటూరు మధ్య, గుంటూరు జిల్లాలోని 25 గ్రామాల్లో 217.23 చదరపు కిలోమీటర్ల విస్తీర్ణంలో దీనికి ప్రణాళిక వేశారు. 2015 ఏప్రిల్‌లో ఈ పేరును అధికారికంగా ప్రకటించారు."
+      },
+      "sources": [
+        "cag2023"
+      ]
+    },
+    {
+      "q": {
+        "en": "How much land did farmers give for Amaravati?",
+        "te": "అమరావతికి రైతులు ఎంత భూమి ఇచ్చారు?"
+      },
+      "a": {
+        "en": "By February 2022, 28,631 landowners had pooled 34,402 acres under the land pooling scheme, the CAG says. With 15,167 acres of government land, 49,569 acres were held for the capital.",
+        "te": "2022 ఫిబ్రవరి నాటికి ల్యాండ్ పూలింగ్ పథకం కింద 28,631 మంది భూయజమానులు 34,402 ఎకరాలు ఇచ్చారని కాగ్ చెప్పింది. 15,167 ఎకరాల ప్రభుత్వ భూమితో కలిపి రాజధాని కోసం 49,569 ఎకరాలు ఉన్నాయి."
+      },
+      "sources": [
+        "cag2023"
+      ]
+    },
+    {
+      "q": {
+        "en": "Why did Amaravati works stop in 2019?",
+        "te": "2019లో అమరావతి పనులు ఎందుకు ఆగిపోయాయి?"
+      },
+      "a": {
+        "en": "In May 2019 the state's Finance Department ordered works halted and ongoing projects reviewed, saying priorities had not been followed. The CAG found that by September 2021 no review had been done and no funds had been released for works after April 2019, so all ongoing works stalled. On the trunk works, it says, contractors stopped all work after June 2019. In July 2020 the state passed two laws, one of them for three capitals, and it repealed both in December 2021. The CAG refers to a change in policy on capital city development since May 2019.",
+        "te": "పనుల్లో ప్రాధాన్యాలు పాటించలేదని చెబుతూ, పనులు ఆపి జరుగుతున్న ప్రాజెక్టులను సమీక్షించాలని 2019 మేలో రాష్ట్ర ఆర్థిక శాఖ ఆదేశించింది. 2021 సెప్టెంబర్ నాటికి ఆ సమీక్ష జరగలేదని, 2019 ఏప్రిల్ తర్వాత పనులకు నిధులు విడుదల కాలేదని, దాంతో జరుగుతున్న పనులన్నీ నిలిచిపోయాయని కాగ్ గుర్తించింది. ప్రధాన (ట్రంక్) మౌలిక వసతుల పనుల్లో 2019 జూన్ తర్వాత కాంట్రాక్టర్లు పనులన్నీ ఆపేశారని కాగ్ చెప్పింది. 2020 జూలైలో రాష్ట్రం రెండు చట్టాలు చేసింది, వాటిలో ఒకటి మూడు రాజధానుల చట్టం. 2021 డిసెంబర్‌లో రెండింటినీ రద్దు చేసింది. 2019 మే నుంచి రాజధాని అభివృద్ధి విధానం మారిందని కాగ్ పేర్కొంది."
+      },
+      "sources": [
+        "cag2023"
+      ]
+    },
+    {
+      "q": {
+        "en": "Did the farmers get their plots?",
+        "te": "రైతులకు ప్లాట్లు అందాయా?"
+      },
+      "a": {
+        "en": "Not as of December 2021, according to the CAG. It says the rules required plots to be handed over within 12 months of the final land pooling notifications, issued between September 2016 and January 2017. The roads and services were not ready, so the plots had not been physically handed over. By February 2022, 41,615 of the 64,757 plots had been registered in landowners' names. The capital authority extended the deadline for handing over physical possession of plots from three years to seven years after the final notifications, to 2024. None of the documents listed here says how many plots have been handed over since the CAG's audit. On 2 May 2025 the Prime Minister laid foundation stones for capital works, including land pooling works to cover 1,281 km of roads.",
+        "te": "కాగ్ ప్రకారం 2021 డిసెంబర్ నాటికి అందలేదు. నిబంధనల ప్రకారం, 2016 సెప్టెంబర్ నుంచి 2017 జనవరి మధ్య వెలువడిన భూ సమీకరణ తుది ప్రకటనల నుంచి 12 నెలల్లోగా ప్లాట్లు అప్పగించాల్సి ఉందని కాగ్ పేర్కొంది. రోడ్లు, సౌకర్యాలు సిద్ధం కాకపోవడంతో ప్లాట్లను భౌతికంగా అప్పగించలేదు. 2022 ఫిబ్రవరి నాటికి 64,757 ప్లాట్లలో 41,615 ప్లాట్లను భూయజమానుల పేరిట రిజిస్టర్ చేశారు. తుది ప్రకటనల నుంచి ప్లాట్లను భౌతికంగా అప్పగించే గడువును రాజధాని సంస్థ మూడేళ్ల నుంచి ఏడేళ్లకు, అంటే 2024 వరకు పొడిగించింది. కాగ్ ఆడిట్ తర్వాత ఎన్ని ప్లాట్లు అప్పగించారో ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ చెప్పలేదు. 1,281 కిలోమీటర్ల రోడ్లు వేసే ల్యాండ్ పూలింగ్ పనులతో సహా రాజధాని పనులకు 2025 మే 2న ప్రధానమంత్రి శంకుస్థాపన చేశారు."
+      },
+      "sources": [
+        "cag2023",
+        "pib2025b"
+      ]
+    },
+    {
+      "q": {
+        "en": "How much has been spent on Amaravati?",
+        "te": "అమరావతిపై ఎంత ఖర్చు చేశారు?"
+      },
+      "a": {
+        "en": "The CAG says ₹7,221.66 crore had been spent on works by the end of April 2019. Its table of all contracts shows ₹6,059.60 crore paid and ₹1,162.06 crore outstanding. It puts spending on the land pooling scheme at ₹2,244.94 crore. This includes ₹1,815.52 crore on benefits to landowners and landless families by September 2021, of which ₹1,150.20 crore was yearly payments. None of the documents listed here gives spending figures for the years after the CAG's audit.",
+        "te": "2019 ఏప్రిల్ చివరి నాటికి పనులపై ₹7,221.66 కోట్లు ఖర్చయ్యాయని కాగ్ చెప్పింది. అన్ని కాంట్రాక్టుల కాగ్ పట్టిక ప్రకారం ₹6,059.60 కోట్లు చెల్లించారు, ఇంకా ₹1,162.06 కోట్లు బకాయి ఉంది. ల్యాండ్ పూలింగ్ పథకంపై ₹2,244.94 కోట్లు ఖర్చయ్యాయని కాగ్ పేర్కొంది. ఇందులో 2021 సెప్టెంబర్ నాటికి భూయజమానులు, భూమిలేని కుటుంబాలకు ప్రయోజనాల కోసం ఖర్చయిన ₹1,815.52 కోట్లు ఉన్నాయి. అందులో ఏటా చెల్లింపులు ₹1,150.20 కోట్లు. కాగ్ ఆడిట్ తర్వాతి సంవత్సరాల్లో ఎంత ఖర్చయిందో ఇక్కడ పేర్కొన్న పత్రాల్లో ఏదీ చెప్పలేదు."
+      },
+      "sources": [
+        "cag2023"
+      ]
+    },
+    {
+      "q": {
+        "en": "Who is paying for Amaravati now?",
+        "te": "ఇప్పుడు అమరావతికి నిధులు ఎవరు ఇస్తున్నారు?"
+      },
+      "a": {
+        "en": "In its July 2024 budget, the Centre said it would facilitate support through multilateral development agencies, with ₹15,000 crore to be arranged in 2024-25. In December 2024 the Asian Development Bank approved a $788.8 million loan to the state, and the World Bank an $800 million loan requested by the Government of India. These documents do not say who will repay the loans. On 10 June 2026 the Centre approved its own office complex and staff homes in the city, to be funded from its budget.",
+        "te": "2024 జూలై బడ్జెట్‌లో, బహుళపక్ష అభివృద్ధి సంస్థల ద్వారా సహాయానికి వీలు కల్పిస్తామని, 2024-25లో ₹15,000 కోట్లు ఏర్పాటు చేస్తామని కేంద్రం చెప్పింది. 2024 డిసెంబర్‌లో ఆసియా అభివృద్ధి బ్యాంకు రాష్ట్రానికి 788.8 మిలియన్ డాలర్ల రుణాన్ని, ప్రపంచ బ్యాంకు భారత ప్రభుత్వం కోరిన 800 మిలియన్ డాలర్ల రుణాన్ని ఆమోదించాయి. ఈ రుణాలను ఎవరు తిరిగి చెల్లిస్తారో ఈ పత్రాలు చెప్పలేదు. నగరంలో తన సొంత కార్యాలయ సముదాయానికి, ఉద్యోగుల నివాసాలకు 2026 జూన్ 10న కేంద్రం ఆమోదం తెలిపింది. వాటికి కేంద్ర బడ్జెట్ నుంచి నిధులు ఇస్తారు."
+      },
+      "sources": [
+        "budget2024",
+        "adb2024",
+        "wb2024",
+        "pib2026a",
+        "pib2026b"
+      ]
+    },
+    {
+      "q": {
+        "en": "Where do these figures come from?",
+        "te": "ఈ అంకెలు ఎక్కడి నుంచి వచ్చాయి?"
+      },
+      "a": {
+        "en": "Each part of this page names its documents. Most come from the CAG's audit of the capital, the Union Budget speech and releases of the Press Information Bureau (PIB). The loan figures come from the World Bank and the Asian Development Bank, and are marked as lenders' documents.",
+        "te": "ఈ పేజీలోని ప్రతి భాగం కింద దాని పత్రాల పేర్లు ఉన్నాయి. ఎక్కువ భాగం రాజధానిపై కాగ్ ఆడిట్, కేంద్ర బడ్జెట్ ప్రసంగం, పత్రికా సమాచార కార్యాలయం (పీఐబీ) ప్రకటనల నుంచి వచ్చాయి. రుణాల అంకెలు ప్రపంచ బ్యాంకు, ఆసియా అభివృద్ధి బ్యాంకు పత్రాల నుంచి వచ్చాయి. వాటిని రుణ సంస్థల పత్రాలుగా గుర్తించాం."
+      },
+      "sources": [
+        "cag2023",
+        "budget2024",
+        "pib2025b",
+        "pib2026a",
+        "pib2026b",
+        "wb2024",
+        "adb2024"
+      ]
+    }
+  ]
+}

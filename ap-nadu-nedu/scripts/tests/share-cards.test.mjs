@@ -208,6 +208,23 @@ const STRESS = {
 }
 const STRESS_OBS = { cumulative_expenditure_crore: 987654, source_label: 'Ministry of Road Transport and Highways, project monitoring report for the quarter ending June 2026, annexure four' }
 
+// Live records whose cards went out, in September 2026, with the end of the
+// name missing: the box holding the name had shrunk to fit above the bar, so
+// the box cleared the bar and every check passed while "Guntur" and
+// "Patrunivalasa, Srikakulam" were hidden inside it. The Telugu cards also cut
+// the bottom off the district line, taking the letters Telugu writes under
+// the line (the ర under శ in శ్రీకాకుళం, the ల under ల in జిల్లా). Bhogapuram
+// lost "Bhogapuram" the same way; it is here as the register will carry it
+// once the seed is reloaded, with no progress figure and so no bar.
+const LIVE = [
+  { id: 2, title: 'Alluri Sitarama Raju International Airport, Bhogapuram', project_type: 'airports',
+    status: 'completed', estimated_cost_crore: 5640, completion_percentage: null, district: 'Vizianagaram' },
+  { id: 11, title: 'APTIDCO - Providing 2.10 MLD STP at Patrunivalasa, Srikakulam', project_type: 'urban_development',
+    status: 'completed', estimated_cost_crore: 6.1, completion_percentage: 100, district: 'Srikakulam' },
+  { id: 286, title: 'Rejuvenation of Ankireddypadu tank — Guntur', project_type: 'urban_development',
+    status: 'completed', estimated_cost_crore: 3, completion_percentage: 100, district: 'Guntur' },
+]
+
 function allCards() {
   const out = []
   for (const lang of ['en', 'te']) {
@@ -220,6 +237,7 @@ function allCards() {
       { name: `site ${lang}`, card: siteCard({ t, lang }) },
       { name: `finance question ${lang}`, card: sectionCard({ title: t('finances.q.threeSources'), subtitle: t('seo.route.home.description'), eyebrow: t('share.kind.finances'), kind: 'finances', t, lang }) },
       { name: `longest name ${lang}`, card: projectCard({ project: STRESS, observation: STRESS_OBS, district: 'Dr. B.R. Ambedkar Konaseema', t, lang }), stress: true },
+      ...LIVE.map(p => ({ name: `live project ${p.id} ${lang}`, card: projectCard({ project: p, district: p.district, t, lang }) })),
     )
   }
   out.push({ name: 'fact check en', card: sectionCard({
@@ -241,6 +259,8 @@ test('every kind of card draws cleanly: nothing overlaps, nothing spills, nothin
     assert.deepEqual(a.overlaps, [], `${name}: ${a.overlaps.join(', ')} overlap`)
     assert.deepEqual(a.outside, [], `${name}: ${a.outside.join(', ')} spill outside the card`)
     assert.equal(a.figuresOverflow, false, `${name}: the figures do not fit on one line`)
+    // Words hidden inside their own box, which the overlap test cannot see.
+    assert.deepEqual(a.clipped, [], `${name}: part of the ${(a.clipped || []).join(', ')} is hidden`)
     assert.deepEqual(a.size, { width: CARD_WIDTH, height: CARD_HEIGHT }, `${name}: the image is the wrong size`)
     assert.ok(a.bytes <= CARD_MAX_BYTES, `${name}: ${a.bytes} bytes; WhatsApp drops a preview over ${CARD_MAX_BYTES}`)
     assert.ok(a.titleSize >= 40, `${name}: the title shrank to ${a.titleSize}px, too small to read in a chat`)

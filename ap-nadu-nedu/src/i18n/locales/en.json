@@ -293,9 +293,9 @@
   "footer": {
     "tagline": "ప్రజల పాలన · People's Governance",
     "disclaimer": "An independent, citizen-run transparency initiative. We are not affiliated with, endorsed by, or connected to the Government of Andhra Pradesh or any of its departments. All information is mirrored from publicly available official government portals, with a source link and collection date on every item.",
-    "disclaimerTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
+    "disclaimerTe": "ఆంధ్రప్రదేశ్ ఫ్యాక్ట్ చెక్ ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
     "copyright": "© 2026 Andhra Pradesh Fact Check · Built by citizens, for citizens · Not an official government website",
-    "copyrightAct": "Government documents reproduced under Section 52, Copyright Act 1957",
+    "copyrightAct": "Some public records reproduced under Section 52(1)(q), Copyright Act 1957",
     "links": {
       "about": "About · Why we exist",
       "sources": "Data Sources",
@@ -434,13 +434,7 @@
     "loading": "Loading the cited record…",
     "whatRecordSays": "What the record says",
     "primarySource": "Primary source:",
-    "correctionNote": "Found a figure that doesn't match its source, or a document we're missing? Tell us and we correct it — that promise is the foundation of this platform.",
-    "tenures": {
-      "pre": "Before bifurcation (undivided AP)",
-      "tdp1": "TDP (Naidu) 2014–19",
-      "ysrcp": "YSRCP (Jagan) 2019–24",
-      "tdp2": "TDP-led NDA (Naidu) 2024–"
-    },
+    "correctionNote": "Found a figure that doesn't match its source, or a document we're missing? Tell us and we correct it. That promise is the foundation of this platform.",
     "tiles": {
       "estimatedCost": "Estimated cost",
       "physicalProgress": "Physical progress",
@@ -460,62 +454,14 @@
     },
     "facts": {
       "projectCode": "Project code",
-      "projectCodeHint": "find this code inside the source document — your independent check on us",
+      "projectCodeHint": "search for this code inside the source document to check us yourself",
       "implementingAgency": "Implementing agency",
       "department": "Department / ministry",
       "mandal": "Mandal",
       "constituency": "Constituency",
       "trackedFrom": "Tracked from",
-      "registeredSince": "In our register since"
-    },
-    "datedRecord": {
-      "title": "Dated record",
-      "note": "Only dates and figures from official/cited publications. Progress points name the document they came from; the list grows as new reports are imported. A gap means \"no published figure for that period\" — never zero work, and never our estimate."
-    },
-    "span": {
-      "fromAnnouncement": "Announcement",
-      "fromStart": "Start",
-      "toCompletion": "completion",
-      "toExpected": "expected completion",
-      "years": {
-        "one": "{count} year",
-        "other": "{count} years"
-      },
-      "months": {
-        "one": "{count} month",
-        "other": "{count} months"
-      },
-      "text": "{from} to {to}: about {duration} between the recorded dates."
-    },
-    "milestone": {
-      "announced": "Announced / approved (as recorded)",
-      "started": "Works began (as recorded)",
-      "expectedAsRecorded": "Expected completion (as recorded)",
-      "expectedLatestCited": "Expected completion (latest cited)",
-      "completed": "Completed (as recorded)"
-    },
-    "timeline": {
-      "physicalProgress": "Physical progress {pct}%",
-      "progressObservation": "Progress observation",
-      "cumulativeSpend": "cumulative spend ₹{amount} {unit}"
-    },
-    "band": {
-      "title": "Which government, how much — as far as the record says",
-      "intro": "Progress between two published figures is credited to a government only when both dates fall inside its tenure. Where a stretch crosses a handover, the official reports don't say how much happened under each — so we show it striped and say exactly that, instead of guessing.",
-      "chartLabel": "Progress split by government tenure, where attributable",
-      "worksBegan": "works began",
-      "announced": "announced",
-      "publishedFigure": "published figure",
-      "completed": "completed",
-      "segmentTip": "{pct}% under {tenure} ({from} → {to})",
-      "segmentTipSpanned": "{pct}% across a change of government — record cannot split it",
-      "notReported": "not yet reported as done",
-      "attributed": "under {tenure} — from {fromPct}% ({fromDate}, {fromLabel}) to {toPct}% ({toDate}, {toLabel})",
-      "spanned": "between {from} and {to} — this stretch crosses a change of government ({tenures}); the published record does not split it, so neither do we",
-      "remaining": "The remaining {pct}% has no published completion figure yet.",
-      "sharpens": "This section sharpens as more dated reports are imported — every new official figure adds a split point.",
-      "beforeRecord": "{pct}% was already complete at the first published figure ({date}) — the record does not say when it happened, or under whom.",
-      "beforeRecordTip": "{pct}% already complete before the first published figure"
+      "registeredSince": "In our register since",
+      "projectCodeHintNumber": "search the source document for the number {number} to check us yourself"
     },
     "news": {
       "title": "News that mentions this project",
@@ -523,9 +469,9 @@
         "one": "{count} article",
         "other": "{count} articles"
       },
-      "matchedOn": "matched automatically on \"{words}\" — not our endorsement of their accuracy",
+      "matchedOn": "matched automatically on \"{words}\", not our endorsement of their accuracy",
       "matchedWords": "matched on \"{words}\"",
-      "note": "Articles are listed because their text contains this project's name — nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
+      "note": "Articles are listed because their text contains this project's name, nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
     },
     "summary": {
       "spendVsCost": "As of {date}, ₹{spent} {unit} had been spent on {name}, against a published estimated cost of ₹{cost} {unit}.",
@@ -552,7 +498,9 @@
       "where": "Where is {name}?",
       "who": "Who is responsible for {name}?",
       "source": "Where do these figures come from?",
-      "differ": "Why do government sources give different figures for {name}?"
+      "differ": "Why do government sources give different figures for {name}?",
+      "late": "Is {name} running late?",
+      "handover": "Where did {name} stand when the government changed in {date}?"
     },
     "a": {
       "place": "{name} is recorded in {district} district.",
@@ -562,12 +510,159 @@
       "runBy": "It is listed under {department}.",
       "runByAgency": "It is listed under {department}, and {agency} is recorded as the implementing agency.",
       "code": "The source gives it project code {code}. Look for that code inside the document to check this page against it.",
-      "differ": "It is recorded in {count} government documents, and they do not agree. One publishes {low}, another publishes {high}. Both are official. This site does not decide which is right; every figure and the document it came from are set out below."
+      "differ": "It is recorded in {count} government documents, and they do not agree. One publishes {low}, another publishes {high}. Both are official. This site does not decide which is right; every figure and the document it came from are set out below.",
+      "codeNumber": "The source lists it as project {code}. Search the document for the number {number} to check this page against it."
     },
     "sources": {
       "heading": "What each government source says",
       "note": "The same work appears in more than one government record. Every record is shown here as it was published, with the document it came from.",
       "column": "Source document"
+    },
+    "story": {
+      "heading": "The story so far",
+      "autoNote": "Built only from this project's own record. Nothing is added, and each part names the document it comes from.",
+      "flagshipNote": "Written from the documents named under each part. Checked on {date}.",
+      "draftNote": "Draft. Not checked yet, so readers do not see it.",
+      "questionsHeading": "Questions people ask",
+      "open": "Open the document",
+      "listSep": ", ",
+      "tier": {
+        "company": "the company's own report",
+        "other": "not a government document",
+        "lender": "a lender's document"
+      },
+      "keyDates": {
+        "title": "Key dates",
+        "approved": "Approved",
+        "began": "Works began",
+        "firstReport": "First report",
+        "latestReport": "Latest report",
+        "due": "Due",
+        "completed": "Completed",
+        "passed": "This date has passed",
+        "pctDone": "{pct}% done"
+      },
+      "chart": {
+        "title": "Progress over time",
+        "aria": "Physical progress, as printed in {count} reports",
+        "note": "Each dot is a figure a report printed. The line only joins the dots; it is not a measurement. It breaks where the government changed, because this record has no figure for that day.",
+        "hollow": "A hollow dot is not a government figure.",
+        "undated": "A survey that prints no date is placed at the end of its survey year.",
+        "changed": "Government changed",
+        "done": "Completed"
+      },
+      "start": {
+        "title": "How it started",
+        "lineBoth": "Approved in {approved}. Works began in {began}.",
+        "lineApproved": "Approved in {approved}.",
+        "lineBegan": "Works began in {began}.",
+        "approved": "The record gives {date} as the date it was approved. That is the approval date, not the day the idea was first announced.",
+        "began": "The record says works began in {date}.",
+        "beforeDivision": "That was before Andhra Pradesh was divided on 2 June 2014."
+      },
+      "money": {
+        "title": "The money",
+        "lineCostSpent": "Estimated cost ₹{cost} crore. ₹{spent} crore spent as of {when}.",
+        "lineCost": "Estimated cost ₹{cost} crore.",
+        "lineSpent": "₹{spent} crore spent as of {when}.",
+        "lineActual": "Actual cost ₹{actual} crore.",
+        "cost": "The estimated cost on record is ₹{cost} crore.",
+        "costHistory": "The estimated cost printed in each report:",
+        "costItem": "₹{cost} crore.",
+        "spentOne": "The only spending figure on record is ₹{spent} crore ({doc}).",
+        "spentHistory": "Money spent so far, as each report printed it:",
+        "spentItem": "₹{spent} crore.",
+        "actual": "The actual cost recorded when it was completed is ₹{actual} crore."
+      },
+      "years": {
+        "title": "Year by year",
+        "linePct": "From {from}% to {to}% across {count} reports.",
+        "lineOnePct": "One report so far, with {pct}% done.",
+        "lineCount": {
+          "one": "One report on record.",
+          "other": "{count} reports on record."
+        },
+        "entry": "{facts}.",
+        "pct": "{pct}% done",
+        "spent": "₹{spent} crore spent so far",
+        "cost": "estimated cost ₹{cost} crore",
+        "noFigure": "No figure, only a note.",
+        "lower": "This is lower than the figure before it. It is shown as printed.",
+        "note": "Note with this entry: “{note}”",
+        "changed": "{date}: the government changed. This record has no figure for that day."
+      },
+      "delays": {
+        "title": "Delays and changes",
+        "lineDueBefore": "The completion date on record, {due}, is earlier than the latest report.",
+        "lineDuePassed": "The completion date on record, {due}, has passed.",
+        "lineCostUp": "The estimated cost went up between reports.",
+        "lineCostDown": "The estimated cost went down between reports.",
+        "lineFell": "A later report printed lower progress than an earlier one.",
+        "lineSpentDown": "A later report printed lower spending than an earlier one.",
+        "lineStatus": "Status on the latest record: {status}.",
+        "dueBefore": "The completion date on record is {due}. The latest report ({doc}) comes after that date, and it still lists the work as {status}.",
+        "duePassedEarlierReport": "The completion date on record, {due}, has now passed. The latest report is from {reportDate}, before that date, so it cannot say whether the work finished on time.",
+        "duePassed": "The completion date on record, {due}, has now passed. The record does not say whether the work has finished.",
+        "costUp": "The estimated cost went up: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}).",
+        "costDown": "The estimated cost went down: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}).",
+        "fell": "Progress went down: {from}% ({docFrom}), then {to}% ({docTo}). Both figures are shown as printed.",
+        "spentDown": "The spending figure went down: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}). Both figures are shown as printed.",
+        "status": "Status on the latest record: {status}.",
+        "noReason": "The record does not give a reason."
+      },
+      "now": {
+        "title": "Where it stands now",
+        "lineCompleted": "Completed in {date}.",
+        "lineListedCompleted": "Listed as completed.",
+        "lineStatus": "{status}.",
+        "linePct": "{pct}% done.",
+        "lineDue": "Due {due}.",
+        "completed": "It was completed in {date}.",
+        "listedCompleted": "The record lists it as completed, but gives no completion date.",
+        "status": "Status on the latest record: {status}.",
+        "pct": "Physical progress in the latest report: {pct}% ({doc}).",
+        "pctRecord": "Physical progress on record: {pct}%.",
+        "due": "The completion date on record is {due}."
+      },
+      "gaps": {
+        "title": "What the record does not say",
+        "line": "Not on record: {list}.",
+        "intro": "The record does not give:",
+        "item": {
+          "start": "start date",
+          "progress": "progress figure",
+          "spend": "money spent",
+          "due": "completion date",
+          "district": "district"
+        },
+        "blank": "A blank means the source did not publish it. It does not mean nothing happened."
+      },
+      "handover": {
+        "changed": "The government changed on {date}.",
+        "pct": "The last progress figure in this record before that is {before}% ({docBefore}). The first after it is {after}% ({docAfter}).",
+        "spend": "The last spending figure before that is ₹{before} crore ({docBefore}). The first after it is ₹{after} crore ({docAfter}).",
+        "noDay": "This record has no figure for the day itself."
+      },
+      "steps": {
+        "title": "How this project has moved",
+        "sub": "{count} steps. Each one names the paper it comes from.",
+        "approved": "Approved",
+        "built": "{pct}% built",
+        "spent": "₹{amount} crore spent",
+        "cost": "Cost put at ₹{amount} crore",
+        "due": "Due to finish",
+        "completed": "Completed",
+        "lower": "Lower than the report before",
+        "paper": "Paper",
+        "readFull": "Read the full story",
+        "share": "Share as picture",
+        "preparing": "Getting the picture ready",
+        "send": "Send the picture",
+        "download": "Download picture",
+        "copyLink": "Copy link",
+        "copied": "Link copied",
+        "pictureFoot": "Every step with its paper"
+      }
     }
   },
   "gallery": {

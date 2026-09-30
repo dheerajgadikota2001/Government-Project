@@ -67,6 +67,15 @@
      half under the figures while every overflow check still passes. */
   .canvas > * { flex-shrink: 0; }
   .canvas > .main { flex: 1 1 auto; min-height: 0; }
+  /* The same one level down. The words stand in a column inside the middle
+     band, and a flex item with overflow:hidden has no minimum height, so a
+     name that did not fit used to shrink its own box and hide its last line:
+     the box cleared the bar and every check passed. In September 2026 that
+     hid the end of the name on the cards of 466 of the 728 projects, in both
+     languages, and cut the bottom off the Telugu district line, where Telugu
+     writes letters under the line. Now the words keep their height, the band
+     overflows where fits() can see it, and fit() takes a smaller size. */
+  .text > * { flex-shrink: 0; }
 
   .top { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 52px; }
   .brand { display: flex; align-items: center; gap: 12px; white-space: nowrap;
@@ -224,13 +233,23 @@
     }
     const size = sizes[sizes.length - 1]
     el.style.fontSize = size + 'px'
+    // As many lines as the space holds, never more than asked for. The last
+    // one ends in an ellipsis, so a reader can see the words go on.
+    for (let lines = maxLines; lines >= 1; lines--) {
+      clamp(el, lines)
+      if (fits()) break
+    }
+    return size
+  }
+
+  /** Shows the first `lines` lines of a box, the last ending in an ellipsis. */
+  function clamp(el, lines) {
     const lh = parseFloat(getComputedStyle(el).lineHeight)
     // A few pixels over the line budget keeps the last line's descenders.
-    el.style.maxHeight = (Math.ceil(lh * maxLines) + 6) + 'px'
+    el.style.maxHeight = (Math.ceil(lh * lines) + 6) + 'px'
     el.style.display = '-webkit-box'
     el.style.webkitBoxOrient = 'vertical'
-    el.style.webkitLineClamp = String(maxLines)
-    return size
+    el.style.webkitLineClamp = String(lines)
   }
 
   window.drawCard = function drawCard(card) {
@@ -289,11 +308,25 @@
     // Four lines when the space is there; fits() is what stops a fourth line
     // from pushing the figures off the card.
     const titleLines = 4
-    const fitWords = () => {
+    const subLines = hasStats ? 2 : 3
+    const fitTitle = keep => {
       title.removeAttribute('style'); subtitle.removeAttribute('style')
-      if (subtitle.textContent.trim()) subtitle.style.fontSize = subSizes[subSizes.length - 1] + 'px'
-      const size = fit(title, titleSizes, titleLines)
-      fit(subtitle, subSizes, hasStats ? 2 : 3)
+      if (subtitle.textContent.trim()) {
+        subtitle.style.fontSize = subSizes[subSizes.length - 1] + 'px'
+        clamp(subtitle, keep)
+      }
+      return fit(title, titleSizes, titleLines)
+    }
+    const fitWords = () => {
+      // Against the most the subtitle may show, so both keep every line when
+      // they can. Only if that would cut the title is it fitted again against
+      // the one line the subtitle always keeps, and the subtitle gives up the
+      // rest. (Before the words kept their height, the subtitle's box took
+      // this loss by hiding lines with no mark; now it ends in an ellipsis.)
+      let size = fitTitle(subLines)
+      if (title.style.webkitLineClamp && subtitle.textContent.trim()) size = fitTitle(1)
+      subtitle.removeAttribute('style')
+      fit(subtitle, subSizes, subLines)
       return { size, cut: !!title.style.webkitLineClamp }
     }
     // A long name gets the motif's column. Scheme works are filed under names
@@ -342,8 +375,23 @@
         if (a.x < b.r - 0.5 && b.x < a.r - 0.5 && a.y < b.b - 0.5 && b.y < a.b - 0.5) overlaps.push(`${an}/${bn}`)
       }
     }
+    // Words hidden inside their own box. The overlap test above cannot see
+    // this: a box that shrank with the words still in it clears everything.
+    // A name cut on purpose ends in an ellipsis and is titleClamped instead.
+    // The place line is one line in a box its own height, so any hidden pixel
+    // is a squeeze (in Telugu it takes the letters written under the line).
+    // A title's box ends a little above the font's own spacing below its last
+    // line (5px of 62 in the serif, 18px of 78 in the Telugu display face), so
+    // there a quarter of a line counts.
+    const clipped = ['eyebrow', 'title', 'subtitle'].filter(id => {
+      const el = $(id)
+      if (!el.textContent.trim() || !el.getClientRects().length || el.style.webkitLineClamp) return false
+      const style = getComputedStyle(el)
+      const lh = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.2
+      return el.scrollHeight - el.clientHeight > (id === 'eyebrow' ? 1 : Math.max(2, lh * 0.25))
+    })
     return {
-      overlaps, outside,
+      overlaps, outside, clipped,
       figuresOverflow: $('stats').scrollWidth > $('stats').clientWidth + 1,
       titleClamped: !!$('title').style.webkitLineClamp,
       titleSize: parseFloat(getComputedStyle($('title')).fontSize),

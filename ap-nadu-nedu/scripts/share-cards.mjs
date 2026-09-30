@@ -43,13 +43,35 @@ import { fileURLToPath } from 'node:url'
 const here = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(here, '..')
 const FONTS = join(here, 'share-cards', 'fonts')
-const TEMPLATE_FILE = join(here, 'share-cards', 'card.html')
 
 export const CARD_WIDTH = 1200
 export const CARD_HEIGHT = 630
 /** WhatsApp drops a preview image over roughly 300 KB, silently. */
 export const CARD_MAX_BYTES = 300 * 1024
 const DEFAULT_CACHE = join(ROOT, 'node_modules', '.cache', 'share-cards')
+
+/** The square picture of a project's story in steps (src/lib/projectSteps.js). */
+export const STEPS_SIZE = 1080
+/**
+ * A steps picture is downloaded on mobile data by a reader who wants to send
+ * it on, so it is held small too. The largest drawn from the live register
+ * in September 2026 was about 210 KB.
+ */
+export const STEPS_MAX_BYTES = 400 * 1024
+
+/**
+ * The two kinds of picture drawn here: the link card a URL previews with, and
+ * the square a reader sends on from a project page. Each has its own
+ * template, size, byte limit and cache; everything else is shared.
+ */
+const KINDS = {
+  card: { file: 'card.html', width: CARD_WIDTH, height: CARD_HEIGHT, draw: 'drawCard', audit: 'auditCard',
+    maxBytes: CARD_MAX_BYTES, quality: 88, cache: DEFAULT_CACHE },
+  // The square's words are three times the card's size, so a lower JPEG
+  // quality leaves them just as sharp at a fifth less weight.
+  steps: { file: 'steps.html', width: STEPS_SIZE, height: STEPS_SIZE, draw: 'drawSteps', audit: 'auditSteps',
+    maxBytes: STEPS_MAX_BYTES, quality: 80, cache: join(ROOT, 'node_modules', '.cache', 'share-cards-steps') },
+}
 
 /**
  * The four faces a card is drawn in. Two carry the body text in each script;
@@ -63,15 +85,15 @@ export const CARD_FONTS = [
   { family: 'Card Telugu Display', file: 'RamabhadraCard-Subset.ttf', weight: '400', probe: ['400 40px "Card Telugu Display"', 'తె'] },
 ]
 
-/** The template with the fonts inlined, and a fingerprint of all of it. */
-function template() {
+/** A kind's template with the fonts inlined, and a fingerprint of all of it. */
+function template(kind = 'card') {
   const face = (family, file, weight) => {
     const data = readFileSync(join(FONTS, file)).toString('base64')
     return `@font-face { font-family: '${family}'; src: url(data:font/ttf;base64,${data}) format('truetype');` +
       ` font-weight: ${weight}; font-style: normal; font-display: block; }`
   }
   const fonts = CARD_FONTS.map(f => face(f.family, f.file, f.weight)).join('\n')
-  const html = readFileSync(TEMPLATE_FILE, 'utf8').replace('/* __FONTS__ */', fonts)
+  const html = readFileSync(join(here, 'share-cards', KINDS[kind].file), 'utf8').replace('/* __FONTS__ */', fonts)
   return { html, fingerprint: createHash('sha256').update(html).digest('hex').slice(0, 12) }
 }
 
@@ -131,8 +153,9 @@ async function launch(log) {
  * exists to avoid. document.fonts.check alone answers true for a face nobody
  * has asked for yet, so each face is loaded by name first and then checked.
  */
-async function openCardPage(browser, html) {
-  const page = await browser.newPage({ viewport: { width: CARD_WIDTH, height: CARD_HEIGHT }, deviceScaleFactor: 1 })
+async function openCardPage(browser, html, kind = 'card') {
+  const { width, height } = KINDS[kind]
+  const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 })
   await page.setContent(html, { waitUntil: 'load' })
   const ok = await page.evaluate(async list => {
     await Promise.all(list.map(([font, text]) => document.fonts.load(font, text)))
@@ -148,18 +171,28 @@ async function openCardPage(browser, html) {
  * each, for the tests. Returns null when no browser can start, so a test can
  * skip rather than fail on a machine without Chromium.
  *
- * @returns [{ overlaps, outside, figuresOverflow, titleClamped, titleSize, bytes }] or null
+ * @returns [{ overlaps, outside, clipped, figuresOverflow, titleClamped, titleSize, bytes }] or null
  */
-export async function inspectCards(cards, { log = () => {} } = {}) {
+export async function inspectCards(cards, opts = {}) {
+  return inspect('card', cards, opts)
+}
+
+/** The same, for steps pictures. @returns [{ overlaps, outside, clipped, titleClamped, titleSize, labelSize, bytes, size }] or null */
+export async function inspectPictures(pictures, opts = {}) {
+  return inspect('steps', pictures, opts)
+}
+
+async function inspect(kind, items, { log = () => {} } = {}) {
+  const K = KINDS[kind]
   const browser = await launch(log)
   if (!browser) return null
   try {
-    const page = await openCardPage(browser, template().html)
+    const page = await openCardPage(browser, template(kind).html, kind)
     const out = []
-    for (const card of cards) {
-      await page.evaluate(c => window.drawCard(c), card)
-      const audit = await page.evaluate(() => window.auditCard())
-      const img = await page.screenshot({ type: 'jpeg', quality: 88, clip: { x: 0, y: 0, width: CARD_WIDTH, height: CARD_HEIGHT } })
+    for (const item of items) {
+      await page.evaluate(([fn, c]) => window[fn](c), [K.draw, item])
+      const audit = await page.evaluate(fn => window[fn](), K.audit)
+      const img = await page.screenshot({ type: 'jpeg', quality: K.quality, clip: { x: 0, y: 0, width: K.width, height: K.height } })
       out.push({ ...audit, bytes: img.length, size: jpegSize(img) })
     }
     return out
@@ -175,8 +208,24 @@ export async function inspectCards(cards, { log = () => {} } = {}) {
  * @param jobs      [{ key: 'p/613-en', card }], card from src/lib/shareCard.js
  * @returns         { urls: Map(key -> '/og/p/613-en-1a2b3c4d5e.jpg'), drawn, cached, failed, reason }
  */
-export async function renderCards(jobs, { outDir, cacheDir = DEFAULT_CACHE, concurrency = 4, log = console.log } = {}) {
-  const { html, fingerprint } = template()
+export async function renderCards(jobs, opts = {}) {
+  return render('card', jobs, opts)
+}
+
+/**
+ * Draw every steps picture that is not already cached, into
+ * `outDir/og/steps/<id>-<lang>-<hash>.jpg`. Same rules as the cards: a
+ * picture that fails its layout check is refused, never shipped.
+ *
+ * @param jobs  [{ key: 'steps/613-te', card }], card from stepsPicture()
+ */
+export async function renderPictures(jobs, opts = {}) {
+  return render('steps', jobs, opts)
+}
+
+async function render(kind, jobs, { outDir, cacheDir = KINDS[kind].cache, concurrency = 4, log = console.log } = {}) {
+  const K = KINDS[kind]
+  const { html, fingerprint } = template(kind)
   mkdirSync(cacheDir, { recursive: true })
   const urls = new Map()
   const todo = []
@@ -209,22 +258,24 @@ export async function renderCards(jobs, { outDir, cacheDir = DEFAULT_CACHE, conc
       try {
         let next = 0
         await Promise.all(Array.from({ length: Math.min(concurrency, todo.length) }, async () => {
-          const page = await openCardPage(browser, html)
+          const page = await openCardPage(browser, html, kind)
           while (true) {
             const i = next++
             if (i >= todo.length) break
             const { key, card, name } = todo[i]
             try {
-              await page.evaluate(c => window.drawCard(c), card)
+              await page.evaluate(([fn, c]) => window[fn](c), [K.draw, card])
               // A card with words over the motif or figures off the edge is
               // worse than the plain site card, so it is refused and the page
-              // falls back. A long name cut to three lines with an ellipsis is
-              // allowed: that is the template's own last resort.
-              const audit = await page.evaluate(() => window.auditCard())
+              // falls back. So is one that hides the end of a name with nothing
+              // to show it. A long name that ends in an ellipsis is allowed:
+              // that is the template's own last resort.
+              const audit = await page.evaluate(fn => window[fn](), K.audit)
               const faults = [
                 ...audit.overlaps.map(o => `${o} overlap`),
                 ...audit.outside.map(o => `${o} outside the card`),
                 ...(audit.figuresOverflow ? ['figures do not fit on one line'] : []),
+                ...audit.clipped.map(o => `part of the ${o} is hidden`),
               ]
               if (faults.length) throw new Error(`layout check failed: ${faults.join(', ')}`)
               // JPEG, not PNG. The dotted cotton ground and the border pattern
@@ -232,8 +283,8 @@ export async function renderCards(jobs, { outDir, cacheDir = DEFAULT_CACHE, conc
               // was 250 to 290 KB as PNG, a hair under the size WhatsApp
               // silently drops, and about a fifth of that as JPEG at a quality
               // where the text edges are clean.
-              const img = await page.screenshot({ type: 'jpeg', quality: 88, clip: { x: 0, y: 0, width: CARD_WIDTH, height: CARD_HEIGHT } })
-              if (img.length > CARD_MAX_BYTES) throw new Error(`${img.length} bytes is over the ${CARD_MAX_BYTES} WhatsApp accepts`)
+              const img = await page.screenshot({ type: 'jpeg', quality: K.quality, clip: { x: 0, y: 0, width: K.width, height: K.height } })
+              if (img.length > K.maxBytes) throw new Error(`${img.length} bytes is over the ${K.maxBytes} this kind of picture may weigh`)
               writeFileSync(join(cacheDir, name.replaceAll('/', '__')), img)
               place(key, name)
               drawn++

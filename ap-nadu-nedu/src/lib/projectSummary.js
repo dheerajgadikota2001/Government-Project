@@ -28,6 +28,7 @@
 
 import { croreAmount } from './money.js'
 import { displayTitle } from './projectTitle.js'
+import { summarySource, whenPrinted } from './sourceDocs.js'
 
 /**
  * The reader-facing label for a status or a type, or null.
@@ -118,7 +119,9 @@ export function moneySentence({ project, observation, t, fmtNum, fmtMonth }) {
   const money = v => croreAmount(v, fmtNum)
   const cost = project.estimated_cost_crore
   const spent = observation?.cumulative_expenditure_crore
-  const asOf = observation?.observed_date ? fmtMonth(observation.observed_date) : null
+  // "As of 2018-19" for a survey that printed no date, never the end-of-year
+  // day our register files it under (sourceDocs.js whenPrinted).
+  const asOf = whenPrinted(observation, fmtMonth)
 
   if (spent != null && asOf && cost != null) {
     return t('projectDetail.summary.spendVsCost', {
@@ -144,6 +147,11 @@ export function timingSentence(project, t, fmtMonth) {
   if (project?.actual_completion) {
     return t('projectDetail.summary.completed', { date: fmtMonth(project.actual_completion) })
   }
+  // A project the record calls completed is not "expected" any more, and the
+  // record gives no day it finished: the status sentence says it is done, and
+  // nothing here pretends to know when. 97 completed projects used to be told
+  // they were still expected, on the date they had been scheduled for.
+  if (project?.status === 'completed') return null
   if (project?.expected_completion) {
     return t('projectDetail.summary.expected', { date: fmtMonth(project.expected_completion) })
   }
@@ -168,10 +176,38 @@ export function approvalSentence(project, t, fmtMonth) {
     : null
 }
 
-/** Which document every figure above came from, or null. */
+/**
+ * Which document every figure above came from, or null.
+ *
+ * Not simply the latest reading's document: see summarySource in
+ * sourceDocs.js for the two pages that rule used to get wrong.
+ */
 export function sourceSentence({ project, observation, t }) {
-  const source = observation?.source_label || project?.source_portal
-  return source ? t('projectDetail.summary.source', { source }) : null
+  const source = summarySource({ project, observation })
+  return source ? t('projectDetail.summary.source', { source: source.label }) : null
+}
+
+/**
+ * The project's code as its source document prints it, and what a reader
+ * should type to find it there. null when the code is not the source's.
+ *
+ * Two kinds of external_id are not what they look like:
+ *
+ *  - SES-IRR-VELIGONDA and its sixty siblings are our own keys. The
+ *    Socio-Economic Survey prints no project codes, so telling a reader to
+ *    search the survey for one sent them looking for a string that is not
+ *    in it.
+ *  - AP-SRIKAKULAM-12066 is the AMRUT status PDF's own ID, but the PDF
+ *    prints it across three lines of a table cell ("AP-", "SRIKAKULAM",
+ *    "-12066"), so the whole code is never found by a search. The number is.
+ */
+export function sourceCode(project) {
+  const code = String(project?.external_id || '').trim()
+  if (!code) return null
+  if (/^SES-/i.test(code)) return null
+  const amrut = code.match(/^AP-.+-(\d+)$/)
+  if (amrut && project.source_portal === 'AMRUT_MoHUA') return { code, search: amrut[1] }
+  return { code, search: code }
 }
 
 /**
@@ -181,9 +217,11 @@ export function sourceSentence({ project, observation, t }) {
  * sourced: the code is the string to search for inside the linked PDF.
  */
 export function codeSentence(project, t) {
-  return project?.external_id
-    ? t('projectDetail.a.code', { code: project.external_id })
-    : null
+  const sc = sourceCode(project)
+  if (!sc) return null
+  return sc.search === sc.code
+    ? t('projectDetail.a.code', { code: sc.code })
+    : t('projectDetail.a.codeNumber', { code: sc.code, number: sc.search })
 }
 
 /**

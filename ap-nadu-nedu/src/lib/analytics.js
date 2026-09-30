@@ -85,6 +85,10 @@ export const EVENTS = {
   TENDERS_TAB: 'tenders_tab',
   TENURE_COMPARED: 'tenure_compared',
   CORRECTION_SUBMITTED: 'correction_submitted',
+  // A project's story in steps sent on as a picture, and how: the share
+  // sheet, a download, or the link copied. The picture exists so the record
+  // can travel in WhatsApp groups; if this stays near zero, it is not.
+  PICTURE_SHARED: 'picture_shared',
 
   // ---- health: this week's failures, made visible ------------------------
   SECTION_FAILED: 'section_failed',

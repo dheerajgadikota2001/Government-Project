@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
-import { readFileSync, rmSync, existsSync, mkdtempSync, readdirSync } from 'node:fs'
+import { readFileSync, rmSync, existsSync, mkdtempSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join, relative, sep } from 'node:path'
@@ -399,6 +399,10 @@ test('a broken extras call costs a sentence, not a page', async () => {
     const html = readFileSync(join(out, 'projects/613/index.html'), 'utf8')
     assert.match(html, /55,549/, 'lost the cost as well as the spend')
     assert.ok(!/23,776/.test(html), 'invented a spend figure it never received')
+    // With no readings the record makes only two steps, so there is no road
+    // and the key dates stay.
+    assert.match(html, /<h2>Key dates<\/h2>/, 'a record too thin for a road lost its key dates too')
+    assert.doesNotMatch(html, /How this project has moved/)
   } finally {
     stop(); rmSync(out, { recursive: true, force: true })
   }
@@ -1072,16 +1076,18 @@ test('what the record says about a project leads its page', async () => {
   // page had working code for it and printed nothing, on every project, in
   // six languages, and it read as missing data rather than a missing field.
   //
-  // It leads now, as the first question, because "what is this" is the first
-  // thing a reader asks and it is the only prose on the page.
+  // It leads the questions, as the first one, because "what is this" is the
+  // first thing a reader asks. Since September 2026 the page opens with the
+  // project's story (key dates, then chapters), and the questions follow it,
+  // the same order the reader sees; the description is still the first answer.
   const { base, stop } = await stubApi()
   const out = outDir()
   try {
     assert.equal((await runPrerender(base, out)).status, 0)
     const body = readFileSync(join(out, 'projects/613/index.html'), 'utf8').split('<body')[1]
 
-    const h2s = [...body.matchAll(/<h2>([^<]+)<\/h2>/g)].map(m => m[1])
-    assert.match(h2s[0], /^What is /, `the first heading is "${h2s[0]}"`)
+    const questions = [...body.matchAll(/<h2>([^<]+\?)<\/h2>/g)].map(m => m[1])
+    assert.match(questions[0], /^What is /, `the first question is "${questions[0]}"`)
     assert.match(body, /Central-sector project tracked in the MoSPI flash report/)
 
     // Once only. It used to have its own block at the foot of the page as
@@ -1341,5 +1347,139 @@ test('with cards drawn, a project page previews with its own card, and the file 
     assert.match(alt, /55,549/)
   } finally {
     stop(); rmSync(out, { recursive: true, force: true })
+  }
+})
+
+/**
+ * THE STORY ON THE PAGE
+ *
+ * Every project page now opens with the project's story: key dates, then
+ * chapters. For most projects it is built from the record; for the flagship
+ * ones it is written by hand, reviewed, and read from src/data/stories. The
+ * prerendered page must carry the story a reader sees, and must never carry
+ * a story nobody has reviewed.
+ */
+
+/** A small reviewed story for project 613, in a folder of the test's own. */
+function storyFolder({ status = 'reviewed', broken = false, steps = false } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), 'stories-'))
+  const story = {
+    id: 613,
+    status,
+    reviewed: status === 'reviewed' ? { by: 'Test editor', on: '2026-09-25' } : null,
+    sources: [{ id: 'mospi', short: 'MoSPI flash report, July 2026', title: 'Flash report', publisher: 'MoSPI', date: '2026-07-31', url: 'https://www.mospi.gov.in/example.pdf', tier: 'gov' }],
+    facts: [{ text: '86.15%', source: 'mospi' }],
+    chapters: [{
+      id: 'now',
+      title: { en: 'Where the dam stands', te: 'ఆనకట్ట ఎక్కడ ఉంది' },
+      line: { en: 'The latest report puts it at 86.15%.', te: 'తాజా నివేదిక ప్రకారం 86.15%.' },
+      paras: [{ en: broken ? 'The latest report puts it at 86.15%, and 90% by June.' : 'The latest report puts it at 86.15%.', te: 'తాజా నివేదిక ప్రకారం 86.15%.', sources: ['mospi'] }],
+    }],
+    questions: [{ q: { en: 'How far along is the dam?', te: 'ఆనకట్ట ఎంత వరకు పూర్తయింది?' }, a: { en: 'The latest report puts it at 86.15%.', te: 'తాజా నివేదిక ప్రకారం 86.15%.' }, sources: ['mospi'] }],
+    replaces: ['stage'],
+  }
+  if (steps) {
+    story.stepsTitle = { en: 'How the dam came this far', te: 'ఆనకట్ట ఇంత వరకు ఇలా వచ్చింది' }
+    story.steps = [
+      { date: '2009-02', precision: 'month', icon: 'verified', source: 'mospi',
+        text: { en: 'The Union government approved the project.', te: 'కేంద్ర ప్రభుత్వం ప్రాజెక్టును ఆమోదించింది.' },
+        short: { en: 'Approved', te: 'ఆమోదం' } },
+      { date: '2025-06-30', precision: 'day', icon: 'monitoring', source: 'mospi',
+        text: { en: 'The flash report carried its figures.', te: 'ఫ్లాష్ నివేదికలో దాని అంకెలు ఉన్నాయి.' },
+        short: { en: 'Reported', te: 'నివేదిక' } },
+      { date: '2026-07-31', precision: 'day', icon: 'monitoring', source: 'mospi',
+        text: { en: 'The latest report puts it at 86.15%.', te: 'తాజా నివేదిక ప్రకారం 86.15%.' },
+        short: { en: 'Latest report', te: 'తాజా నివేదిక' } },
+    ]
+  }
+  writeFileSync(join(dir, '613-polavaram.json'), JSON.stringify(story))
+  return dir
+}
+
+test('a project page carries its story, in the order a reader sees it', async () => {
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  const empty = mkdtempSync(join(tmpdir(), 'stories-'))
+  try {
+    assert.equal((await runPrerender(base, out, ['--stories', empty])).status, 0)
+    const body = readFileSync(join(out, 'projects/613/index.html'), 'utf8').split('<body')[1]
+    const at = s => body.indexOf(s)
+    // The record makes a road of three (approved, a reading, due), so the
+    // road leads and the key dates, which it holds, are not repeated.
+    assert.ok(at('<h2>How this project has moved</h2>') > 0, 'no story in steps on the page')
+    assert.ok(at('<h2>Key dates</h2>') < 0, 'the key dates are repeated beside the road that holds them')
+    assert.match(body, /<ol><li>February 2009: Approved\. Paper: <a href="https:\/\/www\.mospi\.gov\.in\/example\.pdf"/,
+      'the first step does not name its paper')
+    assert.ok(at('<h2>The story so far</h2>') > at('<h2>How this project has moved</h2>'), 'the story does not follow the road')
+    assert.ok(at('<h2>What is ') > at('<h2>The story so far</h2>'), 'the questions do not follow the story')
+    assert.match(body, /<h3>How it started<\/h3>/)
+    assert.match(body, /<h3>Where it stands now<\/h3>/)
+    assert.match(body, /Built only from this project&#39;s own record/)
+    const te = readFileSync(join(out, 'te/projects/613/index.html'), 'utf8').split('<body')[1]
+    assert.match(te, /<h2>ఇప్పటివరకు ఏం జరిగింది<\/h2>/, 'the Telugu page tells the story in English, or not at all')
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true }); rmSync(empty, { recursive: true, force: true })
+  }
+})
+
+test('a reviewed story with its own road shows that road, one full stop to a step', async () => {
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  const dir = storyFolder({ steps: true })
+  try {
+    assert.equal((await runPrerender(base, out, ['--stories', dir])).status, 0)
+    const body = readFileSync(join(out, 'projects/613/index.html'), 'utf8').split('<body')[1]
+    assert.match(body, /<h2>How the dam came this far<\/h2>/, 'the story\'s own road is not on the page')
+    assert.doesNotMatch(body, /How this project has moved/, 'the record\'s road is shown beside the story\'s')
+    assert.match(body, /<li>February 2009: The Union government approved the project\. Paper: /)
+    assert.doesNotMatch(body, /\.\. Paper:/, 'a step ends with two full stops')
+    const te = readFileSync(join(out, 'te/projects/613/index.html'), 'utf8').split('<body')[1]
+    assert.match(te, /<h2>ఆనకట్ట ఇంత వరకు ఇలా వచ్చింది<\/h2>/)
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true }); rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a reviewed story replaces the automatic one, in the languages it is written in', async () => {
+  const { base, stop } = await stubApi()
+  const out = outDir()
+  const dir = storyFolder()
+  try {
+    assert.equal((await runPrerender(base, out, ['--stories', dir])).status, 0)
+    const page = readFileSync(join(out, 'projects/613/index.html'), 'utf8')
+    const body = page.split('<body')[1]
+    assert.match(body, /<h3>Where the dam stands<\/h3>/, 'the reviewed story is not on the page')
+    assert.doesNotMatch(body, /<h3>How it started<\/h3>/, 'the automatic story is still there beside it')
+    assert.match(body, /Checked on 25 September 2026/)
+    // Its question leads, and the one it answers better is gone.
+    assert.match(body, /<h2>How far along is the dam\?<\/h2>/)
+    assert.doesNotMatch(body, /<h2>What stage is /, 'a question the story replaces is still asked')
+    const graph = JSON.parse(page.match(/id="site-schema">([\s\S]*?)<\/script>/)[1])['@graph']
+    const faq = graph.find(n => n['@type'] === 'FAQPage')
+    assert.equal(faq.mainEntity[0].name, 'How far along is the dam?', 'the structured data does not carry the story\'s question first')
+    // Telugu is written; Hindi is not, so Hindi keeps the automatic story.
+    assert.match(readFileSync(join(out, 'te/projects/613/index.html'), 'utf8'), /ఆనకట్ట ఎక్కడ ఉంది/)
+    const hi = readFileSync(join(out, 'hi/projects/613/index.html'), 'utf8')
+    assert.doesNotMatch(hi, /Where the dam stands/)
+    assert.match(hi, /<h3>अभी कहाँ है<\/h3>/)
+  } finally {
+    stop(); rmSync(out, { recursive: true, force: true }); rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a story nobody has reviewed, or one that fails its checks, never reaches the page', async () => {
+  for (const [label, dir] of [['a draft', storyFolder({ status: 'draft' })], ['a broken story', storyFolder({ broken: true })]]) {
+    const { base, stop } = await stubApi()
+    const out = outDir()
+    try {
+      const r = await runPrerender(base, out, ['--stories', dir])
+      assert.equal(r.status, 0)
+      assert.match(r.stderr, /story 613-polavaram\.json is not used/, `${label} was not reported`)
+      const body = readFileSync(join(out, 'projects/613/index.html'), 'utf8').split('<body')[1]
+      assert.doesNotMatch(body, /Where the dam stands/, `${label} reached the page`)
+      assert.match(body, /<h3>Where it stands now<\/h3>/, `${label} left the page with no story at all`)
+    } finally {
+      stop(); rmSync(out, { recursive: true, force: true }); rmSync(dir, { recursive: true, force: true })
+    }
   }
 })

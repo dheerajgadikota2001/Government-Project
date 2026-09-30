@@ -290,3 +290,39 @@ test('an empty record still produces no sentences at all', () => {
   // failing closed. A project with a title and nothing else is a real row.
   assert.deepEqual(run({ title: 'A PROJECT WITH NO RECORD BEHIND IT' }, null), [])
 })
+
+test('a project page names its source as a reader would, never by our import key', async () => {
+  // 505 AMRUT pages and 155 MoSPI pages printed "AMRUT_MoHUA" and "MOSPI_IPMD"
+  // under "Tracked from" and as the link under "What the record says". Those
+  // are the keys our importers file rows under, not the name of any document
+  // a reader could go and look for. The page now asks sourceDocs.js for the
+  // name, the same helper the story and the summary already use.
+  const { portalName } = await import('../../src/lib/sourceDocs.js')
+  assert.equal(portalName({ source_portal: 'MOSPI_IPMD' }), 'MoSPI flash report')
+  assert.equal(
+    portalName({ source_portal: 'AMRUT_MoHUA', description: 'Milestone as on 05.03.2026' }),
+    'AMRUT 2.0 status report, as on 05.03.2026')
+  // A portal we have no reader's name for is shown as the record gives it,
+  // because a hand-written seed portal ("PIB (Govt of India)") already is one.
+  assert.equal(portalName({ source_portal: 'PIB (Govt of India)' }), 'PIB (Govt of India)')
+
+  const detail = readFileSync(resolve(here, '../../src/pages/ProjectDetail.jsx'), 'utf8')
+  assert.doesNotMatch(detail, /\{project\.source_portal\}/, 'the page prints the raw import key as a link')
+  assert.doesNotMatch(detail, /v: project\.source_portal\b/, 'the facts list prints the raw import key')
+})
+
+test('a source gets the tier of what it publishes, the same way the backend decides it', async () => {
+  // Kept in step with source_tier() in backend/app/routers/project_register.py
+  // and its test, tests/test_source_tier.py, which uses these same addresses.
+  const { sourceTier } = await import('../../src/lib/sourceDocs.js')
+  const cases = [
+    ['https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf', 'gov'],
+    ['https://s3.ap-south-1.amazonaws.com/someone-else/apfinance.gov.in/fake.pdf', 'other'],
+    ['https://s3.ap-south-1.amazonaws.com/apfinance.gov.in.evil/x.pdf', 'other'],
+    ['https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2025-26/august/x.pdf', 'company'],
+    ['https://investor.gmraero.com/pdf/report.pdf', 'company'],
+    ['https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165', 'gov'],
+    ['https://www.business-standard.com/amp/markets/x.html', 'other'],
+  ]
+  for (const [url, want] of cases) assert.equal(sourceTier(url), want, url)
+})
