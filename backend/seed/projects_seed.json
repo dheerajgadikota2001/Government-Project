@@ -12,7 +12,7 @@
       "cost_source_url": "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2096022&reg=3&lang=2",
       "completion_percentage": null,
       "expected_completion": "2027-03",
-      "description": "National multipurpose irrigation project on the Godavari near Polavaram. The Union Cabinet approved Phase-1 on 28 August 2024 for storage up to +41.15 m at Rs 30,436.95 crore, with the balance central grant limited to Rs 12,157.53 crore; the earlier approved level was +45.72 m. The estimate has been revised repeatedly: Rs 10,151.04 crore (2005-06 price level, investment clearance 25 February 2009), Rs 16,010.45 crore (2010-11 price level, revised clearance 8 May 2017), Rs 55,548.87 crore accepted by the Ministry's Advisory Committee at its 141st meeting on 11 February 2019, and Rs 47,725.74 crore recommended by the Revised Cost Committee on 17 March 2020, which the CAG recorded as still unapproved as at March 2023. Andhra Pradesh gave revised State financial concurrence for Rs 55,548.87 crore in G.O.Ms.No.21 dated 10 February 2019. The CAG performance audit put physical progress at 82 per cent for works, 67 per cent for land acquisition and 11 per cent for rehabilitation and resettlement as at March 2023, with head works at 69 per cent, the Left Main Canal at 76.05 per cent, the Right Main Canal at 96.14 per cent and the hydro-electric project at 12 per cent. Expenditure from April 2014 to March 2023 was Rs 16,089.79 crore. PIB reported Rs 18,348.84 crore incurred as at 30 November 2024 since the project was declared a National Project, Rs 15,605.96 crore reimbursed by the Centre and a further Rs 2,348 crore released on 9 October 2024. No government source publishes a single overall completion percentage for the project after March 2023.",
+      "description": "National multipurpose irrigation project on the Godavari near Polavaram. The Union Cabinet approved Phase-1 on 28 August 2024 for storage up to +41.15 m at Rs 30,436.95 crore. It limited the balance central grant to Rs 12,157.53 crore. The project's full reservoir level is +45.72 m. The estimate has been revised repeatedly, and the Jal Shakti Ministry's project note gives the history. Rs 10,151.04 crore at the 2005-06 price level got investment clearance on 25 February 2009. Rs 16,010.45 crore at the 2010-11 price level got revised investment clearance on 8 May 2017. Rs 55,548.87 crore was accepted by the Ministry's Advisory Committee at its 141st meeting on 11 February 2019. The Revised Cost Committee recommended Rs 47,725.74 crore on 17 March 2020. The CAG's audit gives the first figure as Rs 10,151.05 crore and dates the investment clearance for Rs 16,010.45 crore to February 2017. It found the Revised Cost Committee's figure still not accepted by the Centre in March 2023. Andhra Pradesh gave revised State financial concurrence for Rs 55,548.87 crore in G.O.Ms.No.21 dated 10 February 2019. The CAG put physical progress in March 2023 at 82 per cent for the works, 67 per cent for land acquisition and 11 per cent for rehabilitation and resettlement. It gave 76.05 per cent for the Left Main Canal, 96.14 per cent for the Right Main Canal and 12 per cent for the hydro-electric project. Expenditure from April 2014 to March 2023 was Rs 16,089.79 crore. PIB reported, citing the state's Water Resources Department, Rs 18,348.84 crore spent up to 30 November 2024 since the project was declared a National Project. It said Rs 15,605.96 crore had been released by the Centre, and a further Rs 2,348 crore on 9 October 2024. Later progress figures come from other documents and are not measured the same way. For December 2024 the state's Socio-Economic Survey 2024-25 gives 77 per cent for the works and 53.47 per cent for the whole project. The Union Statistics Ministry's flash report for July 2026 gives 86.15 per cent physical progress.",
       "source_portal": "PIB · CAG of India · Ministry of Jal Shakti · AP Government Orders",
       "source_url": "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2096022&reg=3&lang=2",
       "citations": [
@@ -24,7 +24,7 @@
           "source_tier": "government"
         },
         {
-          "claim": "Cost estimate history and physical progress as at March 2023: works 82%, land acquisition 67%, R&R 11%; head works 69%, LMC 76.05%, RMC 96.14%, hydro-electric 12%; expenditure April 2014 to March 2023 Rs 16,089.79 crore",
+          "claim": "Cost estimate history and physical progress as at March 2023: works 82%, land acquisition 67%, R&R 11%;, LMC 76.05%, RMC 96.14%, hydro-electric 12%; expenditure April 2014 to March 2023 Rs 16,089.79 crore",
           "url": "https://cag.gov.in/webroot/uploads/download_audit_report/2025/PA-on-Polavaram-Irrigation-Project-069aaece202fa02.61046831.pdf",
           "publisher": "Comptroller and Auditor General of India, Report No. 4 of 2025 (Performance Audit)",
           "date": "2025-01-01",
@@ -57,6 +57,18 @@
           "publisher": "Government of Andhra Pradesh, Water Resources Department, G.O.Rt.No.319 dated 3 September 2024",
           "date": "2024-09-03",
           "source_tier": "government"
+        },
+        {
+          "claim": "December 2024 progress: 77 per cent for the works and 53.47 per cent for the whole project",
+          "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf",
+          "publisher": "Government of Andhra Pradesh, Planning Department (Socio-Economic Survey 2024-25)",
+          "date": "2025-02"
+        },
+        {
+          "claim": "Physical progress 86.15 per cent (Polavaram Irrigation Project)",
+          "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf",
+          "publisher": "Ministry of Statistics and Programme Implementation, flash report for July 2026",
+          "date": "2026-08"
         }
       ]
     },
@@ -68,22 +80,22 @@
       "department": "GMR Visakhapatnam International Airport Ltd / AP Airports Development Corporation",
       "estimated_cost_crore": 5640,
       "cost_source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165&reg=48&lang=1",
-      "completion_percentage": 100,
+      "completion_percentage": null,
       "expected_completion": "2026-08",
-      "description": "Greenfield international airport at Bhogapuram, Vizianagaram district, built and operated by GMR (GVIAL) under PPP — PIB states a project cost of over ₹5,640 crore and Phase-1 capacity of about 6 million passengers a year (earlier reporting cited ~₹4,750 crore for Phase-1 works). Inaugurated by the Prime Minister on 1 August 2026; scheduled commercial operations began 17 August 2026, when all Visakhapatnam (VTZ) services transferred here — Air India's first schedules included 14 weekly Delhi flights. State records showed readiness at 98.74% in June 2026.",
+      "description": "Greenfield international airport at Bhogapuram, Vizianagaram district, developed and run by GMR's airport company under a public-private partnership. The Prime Minister's Office put its cost at over ₹5,640 crore and said it is designed to handle 6 million passengers a year. The Prime Minister inaugurated it on 1 August 2026. GMR says commercial operations began on 17 August 2026. Air India said all its Visakhapatnam flights would move here from that day, including 14 weekly flights to Delhi. In June 2026 a Vizianagaram district notice quoted the state's Roads and Buildings minister putting the airport's readiness at 98.74%. Earlier government cost figures for the first phase differ: ₹4,592 crore from the Union Civil Aviation Ministry in May 2023, and ₹2,302.51 crore in the state's Socio-Economic Survey 2024-25. None of these documents explains why the figures differ.",
       "source_portal": "PIB (Govt of India)",
       "source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165&reg=48&lang=1",
       "citations": [
         {
           "claim": "PM to inaugurate the airport 1 Aug 2026; PPP project >₹5,640 crore; ~6M passengers/yr Phase 1",
           "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165&reg=48&lang=1",
-          "publisher": "PIB — Prime Minister's Office (official)",
+          "publisher": "PIB, Prime Minister's Office (official)",
           "date": "2026-07-31"
         },
         {
           "claim": "PM Modi inaugurates Alluri Sitarama Raju International Airport, 1 Aug 2026",
           "url": "https://newsonair.gov.in/pm-modi-inaugurates-alluri-sitarama-raju-international-airport-in-andhra-pradesh/",
-          "publisher": "News On Air — Prasar Bharati (government broadcaster)",
+          "publisher": "News On Air, Prasar Bharati (government broadcaster)",
           "date": "2026-08-01"
         },
         {
@@ -93,10 +105,10 @@
           "date": "2026-08-16"
         },
         {
-          "claim": "GMR subsidiary GVIAL commenced commercial operations 17 Aug 2026 (record of the listed company's announcement)",
-          "url": "https://www.business-standard.com/amp/markets/capital-market-news/gmr-airports-arm-begins-commercial-operations-at-bhogapuram-s-new-international-airport-126081800104_1.html",
-          "publisher": "Capital Market wire via Business Standard (reporting GMR's exchange announcement)",
-          "date": "2026-08-18"
+          "claim": "Commercial operations at the Bhogapuram airport began on 17 August 2026",
+          "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2025-26/august/Commencement%20of%20Operations%20at%20Bhogapuram%20International%20Airport%20%2B%2B17-August-2026%2B%2B.pdf",
+          "publisher": "GMR Airports Limited, filing to the stock exchanges (the company's own statement)",
+          "date": "2026-08-17"
         },
         {
           "claim": "Readiness 98.74% as of June 2026 (state R&B minister, district notice)",
@@ -105,10 +117,16 @@
           "date": "2026-06-15"
         },
         {
-          "claim": "Phase-1 development set in motion (historical)",
+          "claim": "Foundation stone for Phase 1; Phase 1 estimated cost ₹4,592 crore",
           "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1922036",
-          "publisher": "PIB — Ministry of Civil Aviation (official)",
+          "publisher": "PIB, Ministry of Civil Aviation (official)",
           "date": "2023-05-04"
+        },
+        {
+          "claim": "Phase 1 estimated cost ₹2,302.51 crore",
+          "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf",
+          "publisher": "Government of Andhra Pradesh, Planning Department (Socio-Economic Survey 2024-25)",
+          "date": "2025-02"
         }
       ]
     },
@@ -122,7 +140,7 @@
       "cost_source_url": "https://goir.ap.gov.in/",
       "completion_percentage": null,
       "expected_completion": null,
-      "description": "Light metro for Visakhapatnam. The government record starts in 2015, when the state paid the Delhi Metro Rail Corporation mobilisation and study fees for a Visakhapatnam metro, and continues through the declaration of the Greater Visakhapatnam Municipal Corporation area as a metropolitan area under the Metro Railways Acts in April 2018. In March 2020 the state commissioned a detailed project report for 79.91 km of light metro together with transaction advisory services, and on 29 December 2023 approved that DPR for delivery under a PPP viability-gap-funding model. After the change of government the model changed: on 2 December 2024 the state approved implementation of Phase-I and the submission of a revised proposal to the Government of India, and on 29 July 2025 it ordered implementation of Phase-I with three corridors at an estimated completion cost of Rs 11,498 crore under a 50:50 government joint venture. The Andhra Pradesh Metro Rail Corporation has received budget assistance every year across both governments, rising from Rs 2 crore in 2022-23 to Rs 48 crore in 2024-25 and Rs 50 crore in 2025-26. How to read this: every figure above is taken from a government order, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number — not that nothing is known.",
+      "description": "Light metro for Visakhapatnam. The government record starts in 2015, when the state paid the Delhi Metro Rail Corporation mobilisation and study fees for a Visakhapatnam metro, and continues through the declaration of the Greater Visakhapatnam Municipal Corporation area as a metropolitan area under the Metro Railways Acts in April 2018. In March 2020 the state commissioned a detailed project report for 79.91 km of light metro together with transaction advisory services, and on 29 December 2023 approved that DPR for delivery under a PPP viability-gap-funding model. After the change of government the model changed: on 2 December 2024 the state approved implementation of Phase-I and the submission of a revised proposal to the Government of India, and on 29 July 2025 it ordered implementation of Phase-I with three corridors at an estimated completion cost of Rs 11,498 crore under a 50:50 government joint venture. The Andhra Pradesh Metro Rail Corporation has received budget assistance every year across both governments, rising from Rs 2 crore in 2022-23 to Rs 48 crore in 2024-25 and Rs 50 crore in 2025-26. How to read this: every figure above is taken from a government order, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number, not that nothing is known.",
       "source_portal": "AP Government Orders · Municipal Administration & Urban Development",
       "source_url": "https://goir.ap.gov.in/",
       "citations": [
@@ -187,9 +205,9 @@
       },
       "completion_percentage": null,
       "expected_completion": null,
-      "description": "Construction of AP's greenfield capital resumed after the 2024 change of government. This is the thinnest record in the register, and it is thin because the government documents are not there to be had: unlike every other project here, no G.O. or CRDA resolution we could find states a cost, a scope or a completion date for the restart. The figures in circulation are press-reported. Tenders worth Rs 37,702 crore for trunk infrastructure, government complexes and housing were reported after the 45th CRDA meeting of 12 March 2025 by Deccan Herald, quoting a minister. World Bank and ADB commitments of about Rs 13,600 crore were reported by the same paper in December 2024. The Prime Minister laid foundations on 2 May 2025 for what Prasar Bharati's News On AIR put at about Rs 58,000 crore of projects — that one is on a government domain, and it is a launch announcement rather than a sanctioned cost. None of these are shown above as the project's cost. How to read this: a blank cost here means the government has not published one, not that the project is small or that nothing is happening.",
-      "source_portal": "News On AIR — Prasar Bharati",
-      "source_url": "https://www.newsonair.gov.in/pm-modi-to-visit-vijayawada-to-lay-foundation-for-amaravati-capital-revival-%E2%82%B958000-cr-infrastructure-projects",
+      "description": "This record covers the restart of work on Andhra Pradesh's greenfield capital. No G.O. or CRDA resolution we could find states a cost, a scope or a completion date for the restart, so no cost is shown above. On 2 May 2025 the Prime Minister laid foundation stones for capital works. The Press Information Bureau put them at over Rs 11,240 crore for the Legislative Assembly, High Court, Secretariat, other administrative buildings and homes, over Rs 17,400 crore for trunk infrastructure and flood control, and over Rs 20,400 crore for 1,281 km of land pooling roads. These are figures announced at a launch, not a sanctioned cost. Tenders worth Rs 37,702 crore for trunk infrastructure, government complexes and housing were reported after the 45th CRDA meeting of 12 March 2025 by Deccan Herald, quoting a minister. World Bank and ADB commitments of about Rs 13,600 crore were reported by the same paper in December 2024. How to read this: a blank cost here means the government has not published one, not that the project is small or that nothing is happening.",
+      "source_portal": "Press Information Bureau (PIB)",
+      "source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2126248",
       "citations": [
         {
           "claim": "Tenders worth Rs 37,702 crore approved at 45th CRDA meeting",
@@ -198,9 +216,9 @@
           "date": "2025-03-12"
         },
         {
-          "claim": "PM laid foundation 2 May 2025 for Rs 58,000 crore of projects",
-          "url": "https://www.newsonair.gov.in/pm-modi-to-visit-vijayawada-to-lay-foundation-for-amaravati-capital-revival-%E2%82%B958000-cr-infrastructure-projects",
-          "publisher": "News On AIR",
+          "claim": "PM laid foundation stones on 2 May 2025 for capital works: over Rs 11,240 crore (Legislative Assembly, High Court, Secretariat, other buildings, homes), over Rs 17,400 crore (trunk infrastructure, flood control), over Rs 20,400 crore (1,281 km of land pooling roads)",
+          "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2126248",
+          "publisher": "Press Information Bureau, Prime Minister's Office",
           "date": "2025-05-02"
         },
         {
@@ -220,7 +238,7 @@
       "estimated_cost_crore": null,
       "completion_percentage": null,
       "expected_completion": "2026-12",
-      "description": "Greenfield port at Ramayapatnam, Prakasam district, built on an EPC contract by a Navayuga Engineering Company and Aurobindo Realty joint venture. The government record runs as follows. The detailed project report was approved and administrative sanction accorded on 15 June 2020. The letter of acceptance went to the Navayuga-led joint venture on 27 April 2021. On 10 March 2022 the state guaranteed loans of Rs 8,741 crore for the three greenfield ports together — Ramayapatnam, Bhavanapadu and Machilipatnam — and on 30 March 2022 the AP Maritime Board took a Rs 1,500 crore term loan from SBI for the same three. On 16 February 2024 a revised DPR was approved and the state guarantee for Ramayapatnam alone was revised to Rs 3,938.10 crore against a Power Finance Corporation loan. Since the change of government the project has had a joint venture partner replaced and its PFC loan refinanced through Sagarmala (both 16 February 2026), a cost variation approved on 4 May 2026 for a change in the disposal location, an extension of time to 27 April 2026, and a second extension to 30 December 2026 granted on 10 July 2026. On 16 July 2026 the state sanctioned Rs 1,638.52 crore to acquire about 6,248.54 acres for Phase-II across Ramayapatnam, Machilipatnam and Mulapeta. No government order published in the register states a single total project cost, so none is shown here; the figure of Rs 4,923 crore that appears in press reports could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number — not that nothing is known.",
+      "description": "Greenfield port at Ramayapatnam, Prakasam district, built on an EPC contract by a Navayuga Engineering Company and Aurobindo Realty joint venture. The government record runs as follows. The detailed project report was approved and administrative sanction accorded on 15 June 2020. The letter of acceptance went to the Navayuga-led joint venture on 27 April 2021. On 10 March 2022 the state guaranteed loans of Rs 8,741 crore for the three greenfield ports together (Ramayapatnam, Bhavanapadu and Machilipatnam), and on 30 March 2022 the AP Maritime Board took a Rs 1,500 crore term loan from SBI for the same three. On 16 February 2024 a revised DPR was approved and the state guarantee for Ramayapatnam alone was revised to Rs 3,938.10 crore against a Power Finance Corporation loan. Since the change of government the project has had a joint venture partner replaced and its PFC loan refinanced through Sagarmala (both 16 February 2026), a cost variation approved on 4 May 2026 for a change in the disposal location, an extension of time to 27 April 2026, and a second extension to 30 December 2026 granted on 10 July 2026. On 16 July 2026 the state sanctioned Rs 1,638.52 crore to acquire about 6,248.54 acres for Phase-II across Ramayapatnam, Machilipatnam and Mulapeta. No government order published in the register states a single total project cost, so none is shown here; the figure of Rs 4,923 crore that appears in press reports could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number, not that nothing is known.",
       "source_portal": "AP Government Orders · Infrastructure & Investment Dept",
       "source_url": "https://goir.ap.gov.in/",
       "citations": [
@@ -277,7 +295,7 @@
       "estimated_cost_crore": null,
       "completion_percentage": null,
       "expected_completion": "2026-12",
-      "description": "Greenfield deep-water port at Manginapudi near Machilipatnam, Krishna district, built on an EPC contract by Megha Engineering and Infrastructures Ltd. The government record runs as follows. A detailed project report for a modified Phase-I Stage-I and a revised master plan were approved on 12 May 2016. In 2018 the state twice extended a guarantee for a Rs 1,092 crore loan raised by the Infrastructure Corporation of Andhra Pradesh for land acquisition and rail connectivity, and gave in-principle approval to amend the revised concession agreement of 7 June 2010. Rs 348.10 lakh was sanctioned on 26 May 2020 to prepare a fresh DPR for a greenfield port; that DPR was approved with administrative sanction on 9 November 2020 and a revised DPR on 17 August 2021. The letter of award went to Megha Engineering on 31 August 2022. Since the change of government, additional works of Rs 213.66 crore were permitted on 17 June 2025, an extension of time to 28 December 2026 was granted on 17 December 2025, and further variations in breakwaters, shore protection, dredging and navigational aids were approved on 6 March 2026. No government order in the register states a single total project cost, so none is shown here; the figure of Rs 5,155 crore that appears on the contractor's website could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number — not that nothing is known.",
+      "description": "Greenfield deep-water port at Manginapudi near Machilipatnam, Krishna district, built on an EPC contract by Megha Engineering and Infrastructures Ltd. The government record runs as follows. A detailed project report for a modified Phase-I Stage-I and a revised master plan were approved on 12 May 2016. In 2018 the state twice extended a guarantee for a Rs 1,092 crore loan raised by the Infrastructure Corporation of Andhra Pradesh for land acquisition and rail connectivity, and gave in-principle approval to amend the revised concession agreement of 7 June 2010. Rs 348.10 lakh was sanctioned on 26 May 2020 to prepare a fresh DPR for a greenfield port; that DPR was approved with administrative sanction on 9 November 2020 and a revised DPR on 17 August 2021. The letter of award went to Megha Engineering on 31 August 2022. Since the change of government, additional works of Rs 213.66 crore were permitted on 17 June 2025, an extension of time to 28 December 2026 was granted on 17 December 2025, and further variations in breakwaters, shore protection, dredging and navigational aids were approved on 6 March 2026. No government order in the register states a single total project cost, so none is shown here; the figure of Rs 5,155 crore that appears on the contractor's website could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number, not that nothing is known.",
       "source_portal": "AP Government Orders · Infrastructure & Investment Dept",
       "source_url": "https://goir.ap.gov.in/",
       "citations": [
@@ -341,7 +359,7 @@
       "estimated_cost_crore": null,
       "completion_percentage": null,
       "expected_completion": "2026-12",
-      "description": "Greenfield port at Mulapeta, formerly called Bhavanapadu, in Srikakulam district. The government record shows two different delivery models. On 12 February 2018 the port was awarded to Adani Ports and SEZ Ltd under a PPP design-build-finance-operate-transfer concession. That route was not pursued: on 25 August 2020 a detailed project report was approved with administrative sanction for state-led development, revised on 17 August 2021, and on 27 January 2022 the letter of acceptance went to a Vishwa Samudra Ports joint venture on an EPC basis. The port was covered by the Rs 8,741 crore state guarantee of 10 March 2022 for three greenfield ports, and on 18 July 2023 the state guaranteed a further Power Finance Corporation loan for Mulapeta specifically. Since the change of government a variation of Rs 213.28 crore was approved on 21 October 2025 for a change in the external road alignment from NH 16, a first extension of time was granted on 3 December 2025, and Rs 1,638.52 crore was sanctioned on 16 July 2026 for Phase-II land acquisition shared with Machilipatnam and Ramayapatnam. No government source publishes a completion percentage for this port, and no government order in the register states a single total project cost, so neither is shown here. The figures of about 70 per cent complete and Rs 4,362 crore come from ministerial statements reported in the press and could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number — not that nothing is known.",
+      "description": "Greenfield port at Mulapeta, formerly called Bhavanapadu, in Srikakulam district. The government record shows two different delivery models. On 12 February 2018 the port was awarded to Adani Ports and SEZ Ltd under a PPP design-build-finance-operate-transfer concession. That route was not pursued: on 25 August 2020 a detailed project report was approved with administrative sanction for state-led development, revised on 17 August 2021, and on 27 January 2022 the letter of acceptance went to a Vishwa Samudra Ports joint venture on an EPC basis. The port was covered by the Rs 8,741 crore state guarantee of 10 March 2022 for three greenfield ports, and on 18 July 2023 the state guaranteed a further Power Finance Corporation loan for Mulapeta specifically. Since the change of government a variation of Rs 213.28 crore was approved on 21 October 2025 for a change in the external road alignment from NH 16, a first extension of time was granted on 3 December 2025, and Rs 1,638.52 crore was sanctioned on 16 July 2026 for Phase-II land acquisition shared with Machilipatnam and Ramayapatnam. No government source publishes a completion percentage for this port, and no government order in the register states a single total project cost, so neither is shown here. The figures of about 70 per cent complete and Rs 4,362 crore come from ministerial statements reported in the press and could not be traced to a government document. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number, not that nothing is known.",
       "source_portal": "AP Government Orders · Infrastructure & Investment Dept",
       "source_url": "https://goir.ap.gov.in/",
       "citations": [
@@ -406,7 +424,7 @@
       "cost_source_url": "https://goir.ap.gov.in/",
       "completion_percentage": null,
       "expected_completion": null,
-      "description": "Integrated steel plant at Sunnapuralla Palle, Jammalamadugu mandal, YSR Kadapa district. The government record makes this a project both governments worked on. In December 2019 the state ordered the plant set up at Sunnapurallapalli and Peddanandluru villages and incorporated a state company, A.P. High Grade Steels Limited, later YSR Steel Corporation, to hold it. Between 2020 and 2024 the state sanctioned money against that company for a four-lane road from NH 67, a provisional power supply cost to AP Transco, land acquisition charges and other works. In December 2022 a special package under the AP Industrial Development Policy 2020-23 was extended to JSW Steel Limited to set up an integrated steel plant in the district under the mega industry category. On 27 July 2025 the present government issued the incentives order for JSW Rayalaseema Steel Plant Limited, which states Phase-1 of 1 MTPA capacity with an investment of Rs 4,500 crore and employment potential for 1,000 persons; a revised sanction of Rs 68 crore for the four-lane road from NH 67 followed on 3 July 2026. The cost shown above is that Phase-1 figure, because it is the only investment figure stated in a government order. The larger figure of Rs 16,350 crore that appears in press and industry reporting appears in no order of the Industries and Commerce Department, and is not used here. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number — not that nothing is known.",
+      "description": "Integrated steel plant at Sunnapuralla Palle, Jammalamadugu mandal, YSR Kadapa district. The government record makes this a project both governments worked on. In December 2019 the state ordered the plant set up at Sunnapurallapalli and Peddanandluru villages and incorporated a state company, A.P. High Grade Steels Limited, later YSR Steel Corporation, to hold it. Between 2020 and 2024 the state sanctioned money against that company for a four-lane road from NH 67, a provisional power supply cost to AP Transco, land acquisition charges and other works. In December 2022 a special package under the AP Industrial Development Policy 2020-23 was extended to JSW Steel Limited to set up an integrated steel plant in the district under the mega industry category. On 27 July 2025 the present government issued the incentives order for JSW Rayalaseema Steel Plant Limited, which states Phase-1 of 1 MTPA capacity with an investment of Rs 4,500 crore and employment potential for 1,000 persons; a revised sanction of Rs 68 crore for the four-lane road from NH 67 followed on 3 July 2026. The cost shown above is that Phase-1 figure, because it is the only investment figure stated in a government order. The larger figure of Rs 16,350 crore that appears in press and industry reporting appears in no order of the Industries and Commerce Department, and is not used here. How to read this: every figure above is taken from a government order or a central government publication, each one listed in the sources below. Where a number circulates in the press but no government document states it, this page leaves the field blank rather than print it. A blank means the government has not published that number, not that nothing is known.",
       "source_portal": "AP Government Orders · Industries & Commerce Dept",
       "source_url": "https://goir.ap.gov.in/",
       "citations": [

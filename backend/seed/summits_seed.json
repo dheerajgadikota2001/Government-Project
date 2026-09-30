@@ -392,10 +392,10 @@
     "key": "bhogapuram",
     "name": "Bhogapuram airport",
     "full_name": "Alluri Sitarama Raju International Airport, Vizianagaram district",
-    "announced_under": "ysrcp",
+    "announced_under": "tdp1",
     "opened_under": "tdp2",
     "cost_note": "Phase-1 cost stated as Rs 4,592 crore at the foundation stone in May 2023; Rs 5,640 crore at inauguration in August 2026.",
-    "source_quality": "No government source publishes a completion percentage for this airport at any date. The dated government record consists of orders of the Infrastructure & Investment Department, listed below. The percentages are GMR's own disclosures to its investors and the stock exchanges — the company describing its own project, not a government measurement. Every one of them is labelled, and none is treated as proof about either government.",
+    "source_quality": "We found no government document that gives a completion percentage for this airport. The dated government record consists of orders of the Infrastructure & Investment Department, listed below. The percentages are GMR's own disclosures to its investors and the stock exchanges: the company describing its own project, not a government measurement. Every one of them is labelled, and none is treated as proof about either government.",
     "readings": [
      {
       "date": "2015-05-20",
@@ -456,8 +456,8 @@
       "percent": null,
       "event": "Notice to proceed issued to the contractor. Effective start of construction",
       "tenure": "ysrcp",
-      "source_url": "https://investor.gmraero.com/pdf/GIL%20Investor%20Presentation%20-%20Q4FY24.pdf",
-      "publisher": "GMR Airports, company disclosure",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2024/q4-fy-2024/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q4FY24 investor presentation",
       "is_government": false
      },
      {
@@ -471,10 +471,10 @@
      },
      {
       "date": "2024-03-31",
-      "percent": 18.69,
-      "event": "Physical progress 18.69 per cent",
+      "percent": 18.7,
+      "event": "Physical progress 18.7 per cent",
       "tenure": "ysrcp",
-      "source_url": "https://investor.gmraero.com/pdf/GIL%20Investor%20Presentation%20-%20Q4FY24.pdf",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2024/q4-fy-2024/Financial%20Performance.pdf",
       "publisher": "GMR Airports, Q4FY24 investor presentation",
       "is_government": false
      },
@@ -488,6 +488,15 @@
       "is_government": false
      },
      {
+      "date": "2024-06-30",
+      "percent": 29.7,
+      "event": "Physical progress 29.7 per cent",
+      "tenure": "tdp2",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q1-fy-2025/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q1FY25 investor presentation",
+      "is_government": false
+     },
+     {
       "date": "2024-07-12",
       "percent": null,
       "event": "G.O.Rt.No.64: scope changed from 14 km of chain-link fencing to a 23 km perimeter wall under the Aircraft (Security) Rules, 2023",
@@ -498,11 +507,11 @@
      },
      {
       "date": "2024-09-30",
-      "percent": 42,
-      "event": "Physical progress about 42 per cent",
+      "percent": 41.8,
+      "event": "Physical progress 41.8 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q2FY25%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, Q2FY25 earnings call",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q2-fy-2025/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q2FY25 investor presentation",
       "is_government": false
      },
      {
@@ -510,8 +519,8 @@
       "percent": 55,
       "event": "Physical progress 55 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q3FY25%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, Q3FY25 earnings call",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q3-fy-2025/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q3FY25 investor presentation",
       "is_government": false
      },
      {
@@ -528,8 +537,8 @@
       "percent": 69,
       "event": "Physical progress 69 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q4FY25%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, Q4FY25 earnings call",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2025/q4-fy-2025/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q4FY25 investor presentation",
       "is_government": false
      },
      {
@@ -543,11 +552,11 @@
      },
      {
       "date": "2025-06-30",
-      "percent": 79.79,
-      "event": "Physical progress 79.79 per cent",
+      "percent": 80,
+      "event": "Physical progress 80 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q1FY26%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, annual report FY2024-25",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q1-fy-2026/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q1FY26 investor presentation",
       "is_government": false
      },
      {
@@ -555,8 +564,8 @@
       "percent": 87.5,
       "event": "Physical progress 87.5 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q2FY26%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, Q2FY26 earnings call",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q2-fy-2026/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q2FY26 investor presentation",
       "is_government": false
      },
      {
@@ -564,13 +573,22 @@
       "percent": 95.8,
       "event": "Physical progress 95.8 per cent",
       "tenure": "tdp2",
-      "source_url": "https://investor.gmraero.com/pdf/GMR%20Airports%20-Q3FY26%20Concall%20Transcript.pdf",
-      "publisher": "GMR Airports, Q3FY26 earnings call",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q3-fy-2026/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q3FY26 investor presentation",
+      "is_government": false
+     },
+     {
+      "date": "2026-03-31",
+      "percent": 98.7,
+      "event": "Physical progress 98.7 per cent",
+      "tenure": "tdp2",
+      "source_url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/investor-presentations-v1/fy-2026/q4-fy-2026/Financial%20Performance.pdf",
+      "publisher": "GMR Airports, Q4FY26 investor presentation",
       "is_government": false
      },
      {
       "date": "2026-08-01",
-      "percent": 100,
+      "percent": null,
       "event": "Inaugurated by the Prime Minister",
       "tenure": "tdp2",
       "source_url": "https://newsonair.gov.in/pm-modi-inaugurates-alluri-sitarama-raju-international-airport-in-andhra-pradesh/",
@@ -582,14 +600,14 @@
      "boundary_date": "2024-06-12",
      "last_before": {
       "date": "2024-03-31",
-      "percent": 18.69
+      "percent": 18.7
      },
      "first_after": {
-      "date": "2024-09-30",
-      "percent": 42
+      "date": "2024-06-30",
+      "percent": 29.7
      },
-     "statement": "No government figure exists on either side of the change of government, so this platform does not state a split. The developer's own disclosures put physical progress at 18.69 per cent at the end of March 2024 and about 42 per cent at the end of September 2024, which brackets the handover date — but those are company figures and are shown as such.",
-     "correction_note": "A claim circulates that Bhogapuram was about 80 per cent finished when the government changed in June 2024. No government source publishes a completion percentage for this airport at any date, so the platform can neither confirm nor refute that figure from the government record. What the record does show is that the state was still sanctioning money for balance land acquisition and rehabilitation in January 2024, and again in January 2025, and that the independent engineer who certifies construction was appointed in April 2023. If you have a government document that states a completion percentage on a date, send it and it will be added."
+     "statement": "No government figure exists on either side of the change of government, so this platform does not state a split. The developer's own disclosures put physical progress at 18.7 per cent at the end of March 2024 and 29.7 per cent at the end of June 2024, which brackets the handover date. Those are company figures and are shown as such.",
+     "correction_note": "A claim circulates that Bhogapuram was about 80 per cent finished when the government changed in June 2024. We found no government document that gives a completion percentage for this airport, so the platform can neither confirm nor refute that figure from the government record. What the record does show is that the state was still sanctioning money for balance land acquisition and rehabilitation in January 2024, and again in January 2025, and that the independent engineer who certifies construction was appointed in April 2023. If you have a government document that states a completion percentage on a date, send it and it will be added."
     }
    },
    {
