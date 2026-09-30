@@ -6,11 +6,13 @@ its rows show a bare "0.00" where July printed Polavaram's "(55548.87)"
 under the original "10151.04". Its own summary table on page 3 still gives
 Polavaram's revised cost as 55,549.
 
-Read the old way, that zero either became the cost (Rs 0 crore) or pushed
-the original cost into its place (Rs 10,151 crore for Polavaram). Of the 110
-Andhra Pradesh projects in both reports, a monthly import would have shown
-66 at a cost no report states, 5 of them at Rs 0 crore. These tests pin the rule: a zero is "not given", and a
-report that gives no cost never replaces the cost already held.
+Read the old way, that zero pushed the original cost into its place (Rs
+10,151 crore for Polavaram). With the three-line group totals of the same
+report (test_mospi_august_group_totals.py), which leaked a total's "0.00"
+into the first project of each group, 66 of the 110 Andhra Pradesh projects
+in both reports showed a cost no report states, 5 of them Rs 0 crore. These
+tests pin the rule: a zero is "not given", and a report that gives no cost
+never replaces the cost already held.
 """
 import asyncio
 import json

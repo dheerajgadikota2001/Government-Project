@@ -114,15 +114,63 @@ def _is_heading_text(text: str) -> bool:
     return bool(re.match(r"^(Ministry|Department|Cabinet|NITI|Prime Minister)", text))
 
 
+# How far a group total's own figures sit from its "Total (n)" line. In the
+# August 2026 report they print 5 or 6 points above and below it; a project's
+# lines are 11 points apart or more.
+TOTAL_FIGURE_GAP = 8
+
+
+def _total_figure_lines(lines: list[tuple[float, dict]]) -> set[int]:
+    """Indexes of lines that carry a group total's figures, not a project's.
+
+    Up to July 2026 a group closed on one line: "Total (8) ... 4039.12". The
+    August 2026 report splits it in three: the original cost total just above,
+    "Total (8)" with the expenditure, and the revised total just below
+    ("0.00", or "(880.76)" where it is printed). Read line by line, the figure
+    above landed in the last project's cost, and the one below opened an
+    empty block that then swallowed the next heading ("Water Resources") into
+    the next project's name. Every sector after the first few was lost, 98 of
+    113 Andhra Pradesh rows came out as "Real Estate", and the first project of
+    each group was renamed ("Water Resources Sardar Gouthu Latchanna
+    Thotapalli Barrage Project").
+
+    A line counts as the total's own when it sits within TOTAL_FIGURE_GAP of a
+    "Total (n)" line and holds nothing but money in the money columns.
+    """
+    out: set[int] = set()
+    for i, (top, cols) in enumerate(lines):
+        if not _is_group_total(cols.get("name", [])):
+            continue
+        for j in (i - 1, i + 1):
+            if not 0 <= j < len(lines):
+                continue
+            other_top, other = lines[j]
+            if (abs(other_top - top) <= TOTAL_FIGURE_GAP
+                    and set(other) <= {"cost", "exp", "prog"}
+                    and all(_MONEY.match(tok) for toks in other.values() for tok in toks)):
+                out.add(j)
+    return out
+
+
 def parse_page_words(words: Iterable[dict], header_bottom: float = HEADER_BOTTOM,
-                     ministry: Optional[str] = None, sector: Optional[str] = None) -> tuple[list[Block], str, str]:
+                     ministry: Optional[str] = None, sector: Optional[str] = None,
+                     totals: Optional[list[int]] = None) -> tuple[list[Block], str, str]:
     """
     Blocks on one page, plus the ministry and sector in force at its end
     (a group can run across pages, so the caller threads them through).
+
+    When `totals` is given, the count each "Total (n)" line prints is appended
+    to it, so the caller can check the groups against the rows it read
+    (check_groups).
     """
     lines = _lines(words, header_bottom)
+    total_figures = _total_figure_lines(lines)
     blocks: list[Block] = []
     cur: Optional[Block] = None
+
+    def count_total(tokens: list[str]) -> None:
+        if totals is not None:
+            totals.append(int(tokens[1].strip("()")))
 
     def close():
         nonlocal cur
@@ -131,12 +179,15 @@ def parse_page_words(words: Iterable[dict], header_bottom: float = HEADER_BOTTOM
         cur = None
 
     for i, (top, cols) in enumerate(lines):
+        if i in total_figures:
+            continue
         name_only = set(cols) == {"name"}
         name_tokens = cols.get("name", [])
 
         if name_only:
             text = " ".join(name_tokens)
             if _is_group_total(name_tokens):
+                count_total(name_tokens)
                 close()
                 continue
             if _is_paren_line(name_tokens):
@@ -171,6 +222,7 @@ def parse_page_words(words: Iterable[dict], header_bottom: float = HEADER_BOTTOM
         # first line already carries figures is opened here. A group's
         # "Total (8) 4039.12 1658.37" line is not a project and closes the group.
         if name_tokens and _is_group_total(name_tokens):
+            count_total(name_tokens)
             close()
             continue
         complete = cur is not None and cur.sl is not None and bool(cur.codes)
@@ -234,11 +286,13 @@ def _costs(tokens: list[str]) -> tuple[Optional[float], Optional[float], bool]:
     Polavaram "10151.04" over "(55548.87)". The August 2026 report prints that
     slot as a bare "0.00" on every one of its 1,731 rows, Polavaram included,
     while its own summary table on page 3 still gives Polavaram's revised cost
-    as 55,549. Read the old way, the bare zero became either the cost (Rs 0
-    crore) or pushed the original cost into its place (Rs 10,151 crore for
-    Polavaram). Of the 110 Andhra Pradesh projects in both the July and August
-    reports, 66 would have shown a cost the report does not state, 5 of them
-    Rs 0 crore.
+    as 55,549. Read the old way, the bare zero pushed the original cost into
+    the revised cost's place (Rs 10,151 crore for Polavaram). The three-line
+    group totals (_total_figure_lines) added 5 more at Rs 0 crore: a total's
+    own "0.00" leaked into the first project of the next group. Of the 110
+    Andhra Pradesh projects in both the July and August reports, 66 showed a
+    cost the report does not state when the old reader imported August on 30
+    September 2026.
 
     No project in this report costs nothing, so a zero in either slot means the
     figure was not given. The caller then keeps the cost it already holds, with
@@ -307,6 +361,34 @@ _REPORT_MONTH = re.compile(
     r"\b(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{4})\b",
     re.I,
 )
+
+
+def check_groups(rows: list[dict], totals: list[int]) -> Optional[str]:
+    """Why the groups read do not add up, or None when they do.
+
+    Every project in the table sits in a group that opens with a heading and
+    closes with "Total (n)". On a clean read two things hold: the counts the
+    totals print add up to the rows read, and the rows change heading exactly
+    once per group. The August 2026 misread kept the first and broke the
+    second (30 groups, 3 runs of headings). The row count still matched the
+    report's own, so nothing else caught it. Measured on the July and August
+    2026 reports: 31 and 30 groups, 1,775 and 1,731 rows, both checks true.
+    """
+    if not totals:
+        return "no group totals were read, so the section headings cannot be checked"
+    if sum(totals) != len(rows):
+        return f"the group totals add up to {sum(totals)} projects but {len(rows)} were read"
+    runs = 0
+    previous: object = object()
+    for r in rows:
+        label = (r.get("ministry"), r.get("sector"))
+        if label != previous:
+            runs += 1
+            previous = label
+    if runs != len(totals):
+        return (f"the report closes {len(totals)} groups but the rows carry {runs} run(s) of "
+                "section headings, so a heading was misread")
+    return None
 
 
 def report_month(cover_text: str) -> Optional[tuple[int, int]]:

@@ -59,7 +59,7 @@ from sqlalchemy import func, select
 from app.scrapers.base import BaseScraper
 from app.scrapers.mospi_editions import Edition, fetch_newest
 from app.scrapers.mospi_layout import (
-    TABLE_TITLE, extract as extract_block, month_end, overview_project_count,
+    TABLE_TITLE, check_groups, extract as extract_block, month_end, overview_project_count,
     parse_page_words, report_month,
 )
 from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
@@ -291,6 +291,8 @@ class MospiProjectsScraper(BaseScraper):
 
             pdf_path = await self._get_pdf(edition)
             rows, printed_total, cover_month = self._read_report(pdf_path)
+            if os.environ.get("MOSPI_FLASH_URL"):
+                self._check_pinned(cover_month)
             if cover_month and cover_month != (edition.year, edition.month):
                 self.note(f"the PDF cover says {cover_month[1]}/{cover_month[0]} but the listing "
                           f"called it {edition.month}/{edition.year}; the cover wins")
@@ -300,6 +302,12 @@ class MospiProjectsScraper(BaseScraper):
                 raise SanityAbort(
                     f"[{self.PORTAL_NAME}] parsed {len(rows)} ongoing projects but the report's "
                     f"overview page says {printed_total}. The table layout has moved; refusing to write."
+                )
+            problem = check_groups(rows, self.group_totals)
+            if problem:
+                raise SanityAbort(
+                    f"[{self.PORTAL_NAME}] {edition.label}: {problem}. The table layout has moved; "
+                    "refusing to write."
                 )
             ap = [r for r in rows if r["state"] and "andhra pradesh" in r["state"].lower()]
             multi = sum(1 for r in ap if r["state"].lower().startswith("multi"))
@@ -316,6 +324,31 @@ class MospiProjectsScraper(BaseScraper):
         finally:
             await self.close()
         return self.finish(saved, failure)
+
+    @staticmethod
+    def _check_pinned(cover_month: Optional[tuple[int, int]]) -> None:
+        """A pinned run imports only the month it was pinned to.
+
+        A pinned run reads backend/fetched/mospi_flash.pdf when that file
+        exists, and that file is whichever report was fetched last. Before
+        this check the cover's month simply won, so an August file read under
+        a July pin was written to the site as if July's URL had printed it.
+        The pin now has to say its month (MOSPI_FLASH_AS_OF) and the cover has
+        to agree.
+        """
+        if not os.environ.get("MOSPI_FLASH_AS_OF"):
+            raise SanityAbort(
+                "[MOSPI_IPMD] MOSPI_FLASH_URL is set without MOSPI_FLASH_AS_OF. Set it to the "
+                "report's date (for July 2026: 2026-07-31) so a stale local copy cannot be "
+                "imported under the wrong report's URL."
+            )
+        pinned = (REPORT_AS_OF.year, REPORT_AS_OF.month)
+        if cover_month and cover_month != pinned:
+            raise SanityAbort(
+                f"[MOSPI_IPMD] the run is pinned to {pinned[1]}/{pinned[0]} but the PDF it read "
+                f"({LOCAL_PDF} or the download) is the {cover_month[1]}/{cover_month[0]} report. "
+                "Refusing to write."
+            )
 
     async def _resolve_edition(self) -> Optional[Edition]:
         """The pinned edition when one is configured, else the newest listed."""
@@ -378,6 +411,8 @@ class MospiProjectsScraper(BaseScraper):
         printed_total = None
         cover_month = None
         ministry = sector = None
+        # Every "Total (n)" the table prints, for check_groups in scrape().
+        self.group_totals = []
         with pdfplumber.open(path) as pdf:
             for i, page in enumerate(pdf.pages):
                 text = page.extract_text() or ""
@@ -386,7 +421,8 @@ class MospiProjectsScraper(BaseScraper):
                 if printed_total is None and i < 8:
                     printed_total = overview_project_count(text)
                 if text[:40].startswith(TABLE_TITLE):
-                    blocks, ministry, sector = parse_page_words(page.extract_words(), ministry=ministry, sector=sector)
+                    blocks, ministry, sector = parse_page_words(page.extract_words(), ministry=ministry,
+                                                                sector=sector, totals=self.group_totals)
                     for b in blocks:
                         r = extract_block(b)
                         if r is None:
@@ -548,6 +584,29 @@ class MospiProjectsScraper(BaseScraper):
             "expenditure": expenditure, "progress": progress,
         }
 
+    # A project's sector almost never changes from one month to the next. When
+    # a fifth of the projects the site already tracks would change sector at
+    # once, the report was misread, not the country reorganised. The August
+    # 2026 misread moved 103 of 110 (most to "Real Estate").
+    SECTOR_DRIFT_SHARE = 0.2
+    SECTOR_DRIFT_MIN_ROWS = 10
+
+    def _check_sector_drift(self, matched: int, moved: list[str], edition: Edition) -> None:
+        """Refuse the edition, before anything is committed, when too many
+        tracked projects would change sector. MOSPI_ALLOW_SECTOR_CHANGES=1
+        lets a deliberate correction through (a repair re-import)."""
+        if matched < self.SECTOR_DRIFT_MIN_ROWS or len(moved) <= self.SECTOR_DRIFT_SHARE * matched:
+            return
+        if os.environ.get("MOSPI_ALLOW_SECTOR_CHANGES"):
+            self.note(f"{len(moved)} of {matched} tracked project(s) change sector in the {edition.label}; "
+                      "allowed by MOSPI_ALLOW_SECTOR_CHANGES")
+            return
+        raise SanityAbort(
+            f"[{self.PORTAL_NAME}] {edition.label}: {len(moved)} of {matched} tracked projects would change "
+            f"sector ({'; '.join(moved[:5])}{' ...' if len(moved) > 5 else ''}). That is a misread, not "
+            "a month's news; nothing was written. If the change is intended, set MOSPI_ALLOW_SECTOR_CHANGES=1."
+        )
+
     async def _find_existing(self, db, r: dict, by_title: dict[str, list[Project]]) -> tuple[Optional[Project], str]:
         """The row this report row updates, and how it was matched."""
         for code, how in ((r["code"], "code"), (r.get("legacy_code"), "legacy code"),
@@ -596,6 +655,9 @@ class MospiProjectsScraper(BaseScraper):
         rekeyed: list[str] = []
         mapped: list[str] = []
         claimed: set[int] = set()
+        moved_sector: list[str] = []
+        matched = 0
+        no_cost_kept = no_cost_new = 0
         async with get_db_context() as db:
             # This portal's rows by normalised title, read once. It is the
             # fallback match for rows that arrive under a code the site has
@@ -625,6 +687,10 @@ class MospiProjectsScraper(BaseScraper):
                     existing, how = None, "new"
                 if existing:
                     claimed.add(existing.id)
+                    matched += 1
+                    no_cost_kept += bool(r.get("cost_not_given"))
+                    if existing.department and sector and existing.department != sector:
+                        moved_sector.append(f"{r['code']} {existing.department} -> {sector}")
                     if existing.external_id != r["code"]:
                         rekeyed.append(f"{existing.external_id} -> {r['code']} ({r['name'][:60]})")
                         if how == "renumbering map":
@@ -668,6 +734,7 @@ class MospiProjectsScraper(BaseScraper):
                     )
                     db.add(project)
                     saved += 1
+                    no_cost_new += bool(r.get("cost_not_given"))
 
                 await db.flush()
                 outcome = await upsert_observation(
@@ -677,17 +744,19 @@ class MospiProjectsScraper(BaseScraper):
                 )
                 obs_added += outcome == 1
                 obs_fixed += outcome == 2
+            self._check_sector_drift(matched, moved_sector, edition)
             absent = await self._note_absent(db, edition)
             await db.commit()
         logger.info(f"[{self.PORTAL_NAME}] {edition.label}: {saved} new project row(s), {updated} refreshed, "
                     f"{absent} older row(s) marked as not listed in this edition")
-        no_cost = sum(1 for r in ap_rows if r.get("cost_not_given"))
-        if no_cost:
+        if no_cost_kept or no_cost_new:
             # Said on the updates page, not only in the log: a report that
             # stops printing a figure is a change in the source, and the owner
             # should see it without reading logs.
-            self.note(f"{no_cost} Andhra Pradesh row(s) in the {edition.label} print the revised cost as 0.00; "
-                      "their cost on record was kept, credited to the report that printed it")
+            self.note(f"{no_cost_kept + no_cost_new} Andhra Pradesh row(s) in the {edition.label} print the revised "
+                      f"cost as 0.00. {no_cost_kept} already tracked kept their cost, credited to the report "
+                      "that printed it"
+                      + (f"; {no_cost_new} new project(s) show the original cost the report prints" if no_cost_new else ""))
         if rekeyed:
             self.note(f"{len(rekeyed)} project(s) re-keyed to their PAIMANA code"
                       + (f" ({len(mapped)} through the reviewed renumbering map)" if mapped else "")
