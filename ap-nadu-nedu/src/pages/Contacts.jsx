@@ -349,7 +349,7 @@ export default function Contacts() {
       <EmergencyBand rows={data.emergency} t={t} />
 
       {/* ------------------------------------------------------- search */}
-      <div className="flex flex-col gap-2 sticky top-0 z-20 bg-surface/95 backdrop-blur py-3 -my-1">
+      <div className="flex flex-col gap-2 sticky top-0 lg:top-16 z-20 bg-surface/95 backdrop-blur py-3 -my-1">
         <label htmlFor="contacts-search" className="sr-only">{t('contacts.search.label')}</label>
         <div className="relative">
           <span className="material-symbols-outlined absolute start-3 top-1/2 -translate-y-1/2 text-[20px] text-on-surface-variant pointer-events-none">

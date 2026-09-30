@@ -15,6 +15,7 @@ import { SITE_ORIGIN, localizedPath } from '../lib/routes'
 import { loadStory } from '../lib/flagshipLoader'
 import { membersOf } from '../lib/sameWork'
 import { displayTitle } from '../lib/projectTitle'
+import { placeName } from '../lib/placeNames'
 import { croreAmount } from '../lib/money'
 import { useT, makeDateFmt } from '../i18n'
 import ProgressGallery from '../components/ProgressGallery'
@@ -254,10 +255,14 @@ export default function ProjectDetail() {
           <h1 className="text-headline-lg font-headline-lg font-bold text-on-surface max-w-3xl min-w-0">{displayTitle(project.title)}</h1>
           <span className={`text-label-md px-3 py-1 rounded-full ${statusCls} mt-2`}>{statusLabel(project.status) || t('projects.status.announced')}</span>
         </div>
+        {/* What and where, in the reader's language. The agency and the
+            department used to follow here too, but they are the register's own
+            English text and they repeat the line's other parts ("Srikakulam"
+            as district and agency, "Urban development" as type and department).
+            Both are already listed under their labels in the facts below, so
+            this line keeps only the two parts that translate. */}
         <p className="text-label-md text-on-surface-variant mt-1">
-          {typeLabel(project.project_type)} · {project.district || t('projects.statewide')}
-          {project.implementing_agency ? ` · ${project.implementing_agency}` : ''}
-          {project.department ? ` · ${project.department}` : ''}
+          {typeLabel(project.project_type)} · {placeName(project.district, lang) || t('projects.statewide')}
         </p>
       </div>
 

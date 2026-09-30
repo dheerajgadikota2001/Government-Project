@@ -504,7 +504,14 @@ export function seoForProject(project, ctx = activeLanguage()) {
     const facts = []
     const status = project.status && tr(`projects.status.${project.status}`)
     if (status) facts.push(status)
-    if (project.completion_percentage != null) facts.push(tr('seo.project.built', { pct: project.completion_percentage }))
+    // "Completed, 100% complete" says one thing twice, and in Telugu it prints
+    // the same word twice in a row. A completed record at 100% keeps only the
+    // status. Any other percentage stays, including a completed record below
+    // 100%, because that is what the record says and a reader should see it.
+    const saysDoneTwice = project.status === 'completed' && Number(project.completion_percentage) === 100
+    if (project.completion_percentage != null && !saysDoneTwice) {
+      facts.push(tr('seo.project.built', { pct: project.completion_percentage }))
+    }
     if (project.estimated_cost_crore != null && !Number.isNaN(Number(project.estimated_cost_crore))) {
       facts.push(tr('seo.project.cost', { cost: croreAmount(project.estimated_cost_crore) }))
     }
@@ -523,7 +530,8 @@ export function seoForProject(project, ctx = activeLanguage()) {
   const where = project.district || 'Andhra Pradesh'
   const facts = []
   if (project.status) facts.push(String(project.status).replace(/_/g, ' '))
-  if (project.completion_percentage != null) facts.push(`${project.completion_percentage}% built`)
+  const doneTwice = project.status === 'completed' && Number(project.completion_percentage) === 100
+  if (project.completion_percentage != null && !doneTwice) facts.push(`${project.completion_percentage}% built`)
   const cost = rupees(project.estimated_cost_crore)
   if (cost) facts.push(`published estimated cost ${cost}`)
 

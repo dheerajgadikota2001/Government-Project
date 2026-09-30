@@ -473,3 +473,27 @@ test('the app registers the page language before any page sets its head', () => 
   const fin = readFileSync(new URL('../../src/pages/Finances.jsx', import.meta.url), 'utf8')
   assert.match(fin, /seoForFinanceQuestion\(active\)/, 'a finances question sets an English head again')
 })
+
+test('a completed project at 100% says it is done once, in English and in Telugu', async () => {
+  // The snippet used to read "completed, 100% built", and in Telugu it
+  // printed the same word twice in a row ("పూర్తయింది, 100% పూర్తయింది").
+  // A completed record at exactly 100% now keeps only the status. Every other
+  // percentage stays, because it is what the record says.
+  const { seoForProject } = await import('../../src/lib/seo.js')
+  const t = await teTranslator()
+  const done = { title: 'X', district: 'Vizianagaram', status: 'completed', completion_percentage: 100 }
+
+  const en = seoForProject(done)
+  assert.match(en.description, /completed/)
+  assert.ok(!/100% built/.test(en.description), en.description)
+
+  const te = seoForProject(done, { t, lang: 'te' })
+  assert.equal((te.description.match(/పూర్తయింది/g) || []).length, 1, te.description)
+  assert.ok(!/100%/.test(te.description), te.description)
+
+  // A completed record below 100%, and 100% on a record not marked completed,
+  // both keep the percentage: the record says it, so the reader sees it.
+  assert.match(seoForProject({ ...done, completion_percentage: 80 }).description, /80% built/)
+  assert.match(seoForProject({ ...done, status: 'under_construction' }).description, /100% built/)
+  assert.match(seoForProject({ ...done, completion_percentage: 80 }, { t, lang: 'te' }).description, /80% పూర్తయింది/)
+})
