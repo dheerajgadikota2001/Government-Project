@@ -58,6 +58,33 @@
       "tier": "gov"
     },
     {
+      "id": "pib2026c",
+      "short": "PIB, 1 Apr 2026",
+      "title": "Historic Amendment to Establish Amaravati as Sole Capital; A Defining Step Towards Stability and Growth",
+      "publisher": "Press Information Bureau, Ministry of Communications",
+      "date": "2026-04-01",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2247683&reg=3&lang=2",
+      "tier": "gov"
+    },
+    {
+      "id": "noa2026c",
+      "short": "News On AIR, 2 Apr 2026",
+      "title": "Amaravati to now be permanent capital of Andhra Pradesh; Parliament passes Reorganisation Bill, 2026",
+      "publisher": "News On AIR, All India Radio, Prasar Bharati",
+      "date": "2026-04-02",
+      "url": "https://newsonair.gov.in/amaravati-to-now-be-permanent-capital-of-andhra-pradesh-parliament-passes-reorganisation-bill-2026/",
+      "tier": "gov"
+    },
+    {
+      "id": "noa2026d",
+      "short": "News On AIR, 7 Apr 2026",
+      "title": "President Droupadi Murmu Approves Bill Making Amaravati Sole Capital of Andhra Pradesh",
+      "publisher": "News On AIR, All India Radio, Prasar Bharati",
+      "date": "2026-04-07",
+      "url": "https://newsonair.gov.in/president-droupadi-murmu-approves-bill-making-amaravati-sole-capital-of-andhra-pradesh/",
+      "tier": "gov"
+    },
+    {
       "id": "pib2026a",
       "short": "PIB, 10 Jun 2026 (offices)",
       "title": "Cabinet approves construction of new Central Government General Pool Office Accommodation at the New Capital City, Amaravati, Andhra Pradesh",
@@ -488,6 +515,30 @@
     {
       "text": "2035 to 2050",
       "source": "cag2023"
+    },
+    {
+      "text": "April 2026",
+      "source": "noa2026c"
+    },
+    {
+      "text": "Andhra Pradesh Reorganisation (Amendment) Bill, 2026",
+      "source": "noa2026c"
+    },
+    {
+      "text": "1 April",
+      "source": "pib2026c"
+    },
+    {
+      "text": "2 April",
+      "source": "noa2026c"
+    },
+    {
+      "text": "7 April 2026",
+      "source": "noa2026d"
+    },
+    {
+      "text": "2 April 2026",
+      "source": "noa2026c"
     }
   ],
   "keyDates": [
@@ -746,8 +797,8 @@
         "te": "మళ్లీ ప్రారంభం"
       },
       "line": {
-        "en": "In December 2024 the World Bank and the Asian Development Bank approved loans for Amaravati. On 2 May 2025 the Prime Minister laid foundation stones for capital works.",
-        "te": "2024 డిసెంబర్‌లో ప్రపంచ బ్యాంకు, ఆసియా అభివృద్ధి బ్యాంకు అమరావతికి రుణాలను ఆమోదించాయి. 2025 మే 2న రాజధాని పనులకు ప్రధానమంత్రి శంకుస్థాపన చేశారు."
+        "en": "In December 2024 the World Bank and the Asian Development Bank approved loans for Amaravati. On 2 May 2025 the Prime Minister laid foundation stones for capital works. In April 2026 Parliament gave Amaravati statutory status as the sole capital.",
+        "te": "2024 డిసెంబర్‌లో ప్రపంచ బ్యాంకు, ఆసియా అభివృద్ధి బ్యాంకు అమరావతికి రుణాలను ఆమోదించాయి. 2025 మే 2న రాజధాని పనులకు ప్రధానమంత్రి శంకుస్థాపన చేశారు. 2026 ఏప్రిల్‌లో అమరావతికి ఏకైక రాజధానిగా పార్లమెంటు చట్టబద్ధ హోదా ఇచ్చింది."
       },
       "paras": [
         {
@@ -770,6 +821,15 @@
           "te": "2025 మే 2న ప్రధానమంత్రి నరేంద్ర మోదీ రాజధాని పనులకు శంకుస్థాపన చేశారు. ప్రధానమంత్రి కార్యాలయం ప్రకారం, వీటిలో శాసనసభ, హైకోర్టు, సచివాలయం, ఇతర పరిపాలనా భవనాలు, 5,200కు పైగా కుటుంబాలకు ఇళ్లు ఉన్నాయి. వీటి విలువ ₹11,240 కోట్లకు పైగా. భూగర్భ వసతులతో 320 కిలోమీటర్ల రవాణా నెట్‌వర్క్‌తో కూడిన ట్రంక్ మౌలిక వసతులు, వరద నియంత్రణ ప్రాజెక్టులు కూడా ఉన్నాయి. వీటి విలువ ₹17,400 కోట్లకు పైగా. ల్యాండ్ పూలింగ్ మౌలిక వసతుల ప్రాజెక్టుల కింద 1,281 కిలోమీటర్ల రోడ్లు వేస్తారు. వీటి విలువ ₹20,400 కోట్లకు పైగా.",
           "sources": [
             "pib2025b"
+          ]
+        },
+        {
+          "en": "In April 2026 Parliament passed the Andhra Pradesh Reorganisation (Amendment) Bill, 2026. The Lok Sabha passed it on 1 April and the Rajya Sabha on 2 April. News On AIR reported that it gives Amaravati statutory status as the sole capital of Andhra Pradesh. On 7 April 2026 it reported that the President had given her assent, citing a Law Ministry notification.",
+          "te": "2026 ఏప్రిల్‌లో ఆంధ్రప్రదేశ్ పునర్వ్యవస్థీకరణ (సవరణ) బిల్లు, 2026ను పార్లమెంటు ఆమోదించింది. లోక్‌సభ ఏప్రిల్ 1న, రాజ్యసభ ఏప్రిల్ 2న దాన్ని ఆమోదించాయి. ఇది అమరావతికి ఆంధ్రప్రదేశ్ ఏకైక రాజధానిగా చట్టబద్ధ హోదా ఇస్తుందని ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ తెలిపింది. న్యాయ మంత్రిత్వ శాఖ నోటిఫికేషన్‌ను ఉటంకిస్తూ, రాష్ట్రపతి ఆమోదం తెలిపారని 2026 ఏప్రిల్ 7న అది తెలిపింది.",
+          "sources": [
+            "pib2026c",
+            "noa2026c",
+            "noa2026d"
           ]
         },
         {
@@ -803,6 +863,20 @@
       },
       "sources": [
         "cag2023"
+      ]
+    },
+    {
+      "q": {
+        "en": "Is Amaravati the capital by law?",
+        "te": "చట్టప్రకారం అమరావతి రాజధానేనా?"
+      },
+      "a": {
+        "en": "Yes. Parliament passed the Andhra Pradesh Reorganisation (Amendment) Bill, 2026 by 2 April 2026, and News On AIR reported on 7 April 2026 that the President had given her assent. It reported that the law gives Amaravati statutory status as the sole capital of Andhra Pradesh.",
+        "te": "అవును. ఆంధ్రప్రదేశ్ పునర్వ్యవస్థీకరణ (సవరణ) బిల్లు, 2026ను 2026 ఏప్రిల్ 2 నాటికి పార్లమెంటు ఆమోదించింది. రాష్ట్రపతి ఆమోదం తెలిపారని 2026 ఏప్రిల్ 7న ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ తెలిపింది. ఈ చట్టం అమరావతికి ఆంధ్రప్రదేశ్ ఏకైక రాజధానిగా చట్టబద్ధ హోదా ఇస్తుందని అది పేర్కొంది."
+      },
+      "sources": [
+        "noa2026c",
+        "noa2026d"
       ]
     },
     {
@@ -860,8 +934,8 @@
     },
     {
       "q": {
-        "en": "Who is paying for Amaravati now?",
-        "te": "ఇప్పుడు అమరావతికి నిధులు ఎవరు ఇస్తున్నారు?"
+        "en": "Who is paying for the restart of Amaravati?",
+        "te": "అమరావతి పునఃప్రారంభానికి నిధులు ఎవరు ఇస్తున్నారు?"
       },
       "a": {
         "en": "In its July 2024 budget, the Centre said it would facilitate support through multilateral development agencies, with ₹15,000 crore to be arranged in 2024-25. In December 2024 the Asian Development Bank approved a $788.8 million loan to the state, and the World Bank an $800 million loan requested by the Government of India. These documents do not say who will repay the loans. On 10 June 2026 the Centre approved its own office complex and staff homes in the city, to be funded from its budget.",
@@ -893,6 +967,82 @@
         "wb2024",
         "adb2024"
       ]
+    }
+  ],
+  "stepsTitle": {
+    "en": "How Amaravati has moved",
+    "te": "అమరావతి ఇప్పటివరకు ఇలా సాగింది"
+  },
+  "steps": [
+    {
+      "date": "2015-10",
+      "precision": "month",
+      "icon": "event",
+      "source": "cag2023",
+      "text": {
+        "en": "The foundation stone for the capital was laid.",
+        "te": "రాజధానికి శంకుస్థాపన జరిగింది."
+      },
+      "short": {
+        "en": "Foundation stone",
+        "te": "శంకుస్థాపన"
+      }
+    },
+    {
+      "date": "2019-05",
+      "precision": "month",
+      "icon": "description",
+      "source": "cag2023",
+      "text": {
+        "en": "The state ordered works halted for a review.",
+        "te": "సమీక్ష కోసం పనులు ఆపాలని రాష్ట్రం ఆదేశించింది."
+      },
+      "short": {
+        "en": "Works halted",
+        "te": "పనుల నిలిపివేత"
+      }
+    },
+    {
+      "date": "2020-07",
+      "precision": "month",
+      "icon": "description",
+      "source": "cag2023",
+      "text": {
+        "en": "A state law provided for three capitals. The state repealed it in December 2021.",
+        "te": "మూడు రాజధానుల కోసం రాష్ట్రం ఒక చట్టం చేసింది. 2021 డిసెంబర్‌లో ఆ చట్టాన్ని రద్దు చేసింది."
+      },
+      "short": {
+        "en": "Three capitals law",
+        "te": "మూడు రాజధానుల చట్టం"
+      }
+    },
+    {
+      "date": "2025-05-02",
+      "precision": "day",
+      "icon": "construction",
+      "source": "pib2025b",
+      "text": {
+        "en": "The Prime Minister laid foundation stones for capital works.",
+        "te": "రాజధాని పనులకు ప్రధానమంత్రి శంకుస్థాపన చేశారు."
+      },
+      "short": {
+        "en": "Foundation stones",
+        "te": "శంకుస్థాపనలు"
+      }
+    },
+    {
+      "date": "2026-04",
+      "precision": "month",
+      "icon": "verified",
+      "source": "noa2026d",
+      "text": {
+        "en": "A law passed by Parliament gave Amaravati statutory status as the sole capital.",
+        "te": "పార్లమెంటు ఆమోదించిన చట్టం అమరావతికి ఏకైక రాజధానిగా చట్టబద్ధ హోదా ఇచ్చింది."
+      },
+      "short": {
+        "en": "Sole capital by law",
+        "te": "చట్టప్రకారం ఏకైక రాజధాని"
+      }
     }
   ]
 }

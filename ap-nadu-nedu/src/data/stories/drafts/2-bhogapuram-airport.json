@@ -40,15 +40,6 @@
       "tier": "company"
     },
     {
-      "id": "ses1819",
-      "short": "Socio-Economic Survey 2018-19",
-      "title": "Socio-Economic Survey 2018-19, Economic Infrastructure (airports)",
-      "publisher": "Government of Andhra Pradesh",
-      "date": "2019-07",
-      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf",
-      "tier": "gov"
-    },
-    {
       "id": "hans2019",
       "short": "The Hans India, 15 Feb 2019",
       "title": "CM Chandrababu Naidu lays foundation stone for Bhogapuram airport",
@@ -67,6 +58,15 @@
       "tier": "gov"
     },
     {
+      "id": "ses1819",
+      "short": "Socio-Economic Survey 2018-19",
+      "title": "Socio-Economic Survey 2018-19, Economic Infrastructure (airports)",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2019-07",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf",
+      "tier": "gov"
+    },
+    {
       "id": "gmr2020ca",
       "short": "GMR press release, 12 Jun 2020",
       "title": "GMR Visakhapatnam International Airport Limited (GVIAL) signs Concession Agreement (CA) for the development and operations of Bhogapuram Airport",
@@ -82,6 +82,15 @@
       "publisher": "Government of Andhra Pradesh",
       "date": "2021-05",
       "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "ses2122",
+      "short": "Socio-Economic Survey 2021-22",
+      "title": "Socio-Economic Survey 2021-22, Economic Infrastructure (airports), printed page 175",
+      "publisher": "Government of Andhra Pradesh",
+      "date": "2022-03",
+      "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2021-22.pdf",
       "tier": "gov"
     },
     {
@@ -238,6 +247,15 @@
       "tier": "gov"
     },
     {
+      "id": "gmrq1fy27",
+      "short": "GMR results release, Q1 FY27",
+      "title": "GMR Airports Limited, Q1FY27 performance and business highlights",
+      "publisher": "GMR Airports Limited",
+      "date": "2026-08",
+      "url": "https://www.gmraero.com/content/dam/aero-investor-pdf/latest-press-releases/gmr-airports-limited-q1fy27-performance-and-business-highlights.pdf",
+      "tier": "company"
+    },
+    {
       "id": "gmr2026ops",
       "short": "GMR filing, 17 Aug 2026",
       "title": "Commencement of Operations at Bhogapuram International Airport",
@@ -245,6 +263,15 @@
       "date": "2026-08-17",
       "url": "https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2025-26/august/Commencement%20of%20Operations%20at%20Bhogapuram%20International%20Airport%20%2B%2B17-August-2026%2B%2B.pdf",
       "tier": "company"
+    },
+    {
+      "id": "noa2026b",
+      "short": "News On AIR, 17 Aug 2026",
+      "title": "Air India shifts all Visakhapatnam flights to Bhogapuram airport from today",
+      "publisher": "News On AIR, All India Radio, Prasar Bharati",
+      "date": "2026-08-17",
+      "url": "https://newsonair.gov.in/air-india-shifts-all-visakhapatnam-flights-to-bhogapuram-airport-from-today/",
+      "tier": "gov"
     }
   ],
   "facts": [
@@ -543,6 +570,34 @@
     {
       "text": "17 August 2026",
       "source": "gmr2026ops"
+    },
+    {
+      "text": "Socio-Economic Survey 2021-22",
+      "source": "ses2122"
+    },
+    {
+      "text": "2,631.63 acres",
+      "source": "ses2122"
+    },
+    {
+      "text": "85%",
+      "source": "ses2122"
+    },
+    {
+      "text": "₹82.11 crore",
+      "source": "ses2122"
+    },
+    {
+      "text": "2015-16",
+      "source": "ses2122"
+    },
+    {
+      "text": "17 August 2026",
+      "source": "noa2026b"
+    },
+    {
+      "text": "2026-27",
+      "source": "gmrq1fy27"
     }
   ],
   "keyDates": [
@@ -841,6 +896,13 @@
           ]
         },
         {
+          "en": "The state's Socio-Economic Survey 2021-22 put the project's size at about 2,631.63 acres and said about 85% of the land had been acquired so far. It said the government had paid ₹82.11 crore to landholders in the villages around the airport since 2015-16.",
+          "te": "రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2021-22 ప్రాజెక్టు విస్తీర్ణాన్ని సుమారు 2,631.63 ఎకరాలుగా పేర్కొంది. అప్పటికి సుమారు 85% భూసేకరణ పూర్తయిందని చెప్పింది. విమానాశ్రయం చుట్టుపక్కల గ్రామాల భూయజమానులకు 2015-16 నుంచి ప్రభుత్వం ₹82.11 కోట్లు చెల్లించిందని కూడా అది తెలిపింది.",
+          "sources": [
+            "ses2122"
+          ]
+        },
+        {
           "en": "On 12 September 2022 the state signed a memorandum of understanding with the Airports Authority of India. Under it, regular commercial flights at the existing civilian airport at Visakhapatnam are to stop for 30 years from the day operations begin at Bhogapuram. That airport is at the naval airfield INS Dega.",
           "te": "2022 సెప్టెంబర్ 12న రాష్ట్రం ఎయిర్‌పోర్ట్స్ అథారిటీ ఆఫ్ ఇండియాతో అవగాహన ఒప్పందం చేసుకుంది. దాని ప్రకారం భోగాపురంలో కార్యకలాపాలు మొదలైన రోజు నుంచి 30 ఏళ్లపాటు విశాఖపట్నంలో అప్పటికే ఉన్న పౌర విమానాశ్రయంలో షెడ్యూల్ ప్రకారం నడిచే వాణిజ్య విమాన సర్వీసులు ఆగిపోవాలి. ఆ విమానాశ్రయం నౌకాదళ వైమానిక కేంద్రం ఐఎన్ఎస్ డేగాలో ఉంది.",
           "sources": [
@@ -893,8 +955,8 @@
         "te": "నిర్మాణం"
       },
       "line": {
-        "en": "By GMR's figures, reported to its investors, the work went from 18.7% in March 2024 to 98.7% in March 2026.",
-        "te": "పెట్టుబడిదారులకు జీఎంఆర్ ఇచ్చిన అంకెల ప్రకారం పనుల పురోగతి 2024 మార్చిలో 18.7% నుంచి 2026 మార్చిలో 98.7%కి చేరింది."
+        "en": "By GMR's figures, reported to its investors, the work went from 18.7% in March 2024 to 98.7% in March 2026. Its results release for the first quarter of 2026-27 said construction was complete.",
+        "te": "పెట్టుబడిదారులకు జీఎంఆర్ ఇచ్చిన అంకెల ప్రకారం పనుల పురోగతి 2024 మార్చిలో 18.7% నుంచి 2026 మార్చిలో 98.7%కి చేరింది. 2026-27 మొదటి త్రైమాసిక ఫలితాల ప్రకటనలో నిర్మాణం పూర్తయిందని జీఎంఆర్ చెప్పింది."
       },
       "paras": [
         {
@@ -922,6 +984,13 @@
             "pib2024",
             "gmrq4fy24",
             "gmrq1fy25"
+          ]
+        },
+        {
+          "en": "In its results release for the first quarter of 2026-27, GMR said construction had been completed ahead of schedule.",
+          "te": "2026-27 మొదటి త్రైమాసిక ఫలితాల ప్రకటనలో, నిర్మాణం గడువు కంటే ముందే పూర్తయిందని జీఎంఆర్ పేర్కొంది.",
+          "sources": [
+            "gmrq1fy27"
           ]
         }
       ]
@@ -987,8 +1056,8 @@
         "te": "విమానాశ్రయం ప్రారంభం"
       },
       "line": {
-        "en": "The Prime Minister inaugurated it on 1 August 2026. GMR says commercial flights began on 17 August 2026.",
-        "te": "2026 ఆగస్టు 1న ప్రధానమంత్రి దీన్ని ప్రారంభించారు. 2026 ఆగస్టు 17న వాణిజ్య విమాన సర్వీసులు మొదలయ్యాయని జీఎంఆర్ చెబుతోంది."
+        "en": "The Prime Minister inaugurated it on 1 August 2026. Commercial flights began on 17 August 2026.",
+        "te": "2026 ఆగస్టు 1న ప్రధానమంత్రి దీన్ని ప్రారంభించారు. 2026 ఆగస్టు 17న వాణిజ్య విమాన సర్వీసులు మొదలయ్యాయి."
       },
       "paras": [
         {
@@ -1003,6 +1072,13 @@
           "te": "విమానాశ్రయంలో 2026 ఆగస్టు 17న వాణిజ్య కార్యకలాపాలు మొదలయ్యాయని జీఎంఆర్ స్టాక్ ఎక్స్ఛేంజీలకు తెలిపింది. విమానాశ్రయాన్ని దశలవారీగా విస్తరించి ఏటా 40 మిలియన్లకు పైగా ప్రయాణికులకు సేవలు అందించేలా ప్రణాళిక వేశారని కూడా దాని పత్రికా ప్రకటన పేర్కొంది.",
           "sources": [
             "gmr2026ops"
+          ]
+        },
+        {
+          "en": "On 17 August 2026 News On AIR reported that Air India would run all its flights to and from Visakhapatnam from the new airport, starting that day.",
+          "te": "విశాఖపట్నానికి వచ్చే, వెళ్లే తన విమానాలన్నింటినీ అదే రోజు నుంచి ఎయిర్ ఇండియా కొత్త విమానాశ్రయం నుంచే నడుపుతుందని 2026 ఆగస్టు 17న ఆకాశవాణి న్యూస్ ఆన్ ఎయిర్ తెలిపింది.",
+          "sources": [
+            "noa2026b"
           ]
         },
         {

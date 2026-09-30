@@ -14,33 +14,6 @@
   ],
   "sources": [
     {
-      "id": "cag2025",
-      "short": "CAG report on Polavaram, tabled Mar 2026",
-      "title": "Report of the Comptroller and Auditor General of India on Polavaram Irrigation Project, Government of Andhra Pradesh, Report No. 4 of 2025 (Performance Audit, Civil)",
-      "publisher": "Comptroller and Auditor General of India",
-      "date": "2026-03-06",
-      "url": "https://cag.gov.in/uploads/download_audit_report/2025/PA-on-Polavaram-Irrigation-Project-069aaece202fa02.61046831.pdf",
-      "tier": "gov"
-    },
-    {
-      "id": "pib2025",
-      "short": "PIB, 25 Jan 2025",
-      "title": "Year End Review 2024: Department of Water Resources, River Development and Ganga Rejuvenation",
-      "publisher": "Press Information Bureau, Ministry of Jal Shakti",
-      "date": "2025-01-25",
-      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2096022",
-      "tier": "gov"
-    },
-    {
-      "id": "mospi2607",
-      "short": "MoSPI flash report, July 2026",
-      "title": "Flash Report, July 2026 (PAIMANA)",
-      "publisher": "Ministry of Statistics and Programme Implementation",
-      "date": "2026-08",
-      "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf",
-      "tier": "gov"
-    },
-    {
       "id": "ses1718",
       "short": "Socio-Economic Survey 2017-18",
       "title": "Socio-Economic Survey 2017-18, Economic Infrastructure (irrigation)",
@@ -95,12 +68,57 @@
       "tier": "gov"
     },
     {
+      "id": "pib2025",
+      "short": "PIB, 25 Jan 2025",
+      "title": "Year End Review 2024: Department of Water Resources, River Development and Ganga Rejuvenation",
+      "publisher": "Press Information Bureau, Ministry of Jal Shakti",
+      "date": "2025-01-25",
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2096022",
+      "tier": "gov"
+    },
+    {
       "id": "ses2425",
       "short": "Socio-Economic Survey 2024-25",
       "title": "Socio-Economic Survey 2024-25",
       "publisher": "Government of Andhra Pradesh",
       "date": "2025-02",
       "url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "cag2025",
+      "short": "CAG report on Polavaram, tabled Mar 2026",
+      "title": "Report of the Comptroller and Auditor General of India on Polavaram Irrigation Project, Government of Andhra Pradesh, Report No. 4 of 2025 (Performance Audit, Civil)",
+      "publisher": "Comptroller and Auditor General of India",
+      "date": "2026-03-06",
+      "url": "https://cag.gov.in/uploads/download_audit_report/2025/PA-on-Polavaram-Irrigation-Project-069aaece202fa02.61046831.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "mospi2607",
+      "short": "MoSPI flash report, July 2026",
+      "title": "Flash Report, July 2026 (PAIMANA)",
+      "publisher": "Ministry of Statistics and Programme Implementation",
+      "date": "2026-08",
+      "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "mospi2608",
+      "short": "MoSPI flash report, August 2026",
+      "title": "Flash Report, August 2026 (PAIMANA)",
+      "publisher": "Ministry of Statistics and Programme Implementation",
+      "date": "2026-09",
+      "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1790332216620_28c59057-0b69-44af-8989-d192bc3e65bf_FlashReport_August_2026.pdf",
+      "tier": "gov"
+    },
+    {
+      "id": "jsnote",
+      "short": "Jal Shakti Ministry note on Polavaram",
+      "title": "Polavaram Irrigation Project, Andhra Pradesh (project note)",
+      "publisher": "Ministry of Jal Shakti, Department of Water Resources, RD & GR",
+      "date": "2024-05",
+      "url": "https://www.jalshakti-dowr.gov.in/static/uploads/2024/05/POLAVARAM-IRRIGATION-PROJECT-ANDHRA-PRADESH.pdf",
       "tier": "gov"
     }
   ],
@@ -886,10 +904,6 @@
       "source": "cag2025"
     },
     {
-      "text": "86.15%",
-      "source": "mospi2607"
-    },
-    {
       "text": "December 2018",
       "source": "cag2025"
     },
@@ -948,6 +962,30 @@
     {
       "text": "March 2026",
       "source": "mospi2607"
+    },
+    {
+      "text": "August 2026",
+      "source": "mospi2608"
+    },
+    {
+      "text": "86.2%",
+      "source": "mospi2608"
+    },
+    {
+      "text": "June 2027",
+      "source": "mospi2608"
+    },
+    {
+      "text": "₹10,151.04 crore",
+      "source": "jsnote"
+    },
+    {
+      "text": "25 February 2009",
+      "source": "jsnote"
+    },
+    {
+      "text": "8 May 2017",
+      "source": "jsnote"
     }
   ],
   "keyDates": [
@@ -979,15 +1017,15 @@
     },
     {
       "label": {
-        "en": "Latest report",
-        "te": "తాజా నివేదిక"
+        "en": "Statistics Ministry report",
+        "te": "గణాంకాల శాఖ నివేదిక"
       },
-      "date": "2026-07",
+      "date": "2026-08",
       "precision": "month",
-      "source": "mospi2607",
+      "source": "mospi2608",
       "detail": {
-        "en": "86.15% physical progress, as reported to the Union Statistics Ministry",
-        "te": "కేంద్ర గణాంకాల మంత్రిత్వ శాఖకు నివేదించిన భౌతిక పురోగతి 86.15%"
+        "en": "86.2% physical progress, as reported to the Union Statistics Ministry",
+        "te": "కేంద్ర గణాంకాల మంత్రిత్వ శాఖకు నివేదించిన భౌతిక పురోగతి 86.2%"
       }
     }
   ],
@@ -1077,6 +1115,13 @@
           "te": "2011 జనవరిలో కేంద్ర సాంకేతిక కమిటీ 2010-11 ధరల ప్రకారం ₹16,010.45 కోట్ల సవరించిన అంచనాను ఆమోదించింది. 2017 ఫిబ్రవరిలో ఆ మొత్తానికి కేంద్రం పెట్టుబడి అనుమతి ఇచ్చింది.",
           "sources": [
             "cag2025"
+          ]
+        },
+        {
+          "en": "The Jal Shakti Ministry's own note on the project gives slightly different details. It puts the first estimate at ₹10,151.04 crore, with investment clearance on 25 February 2009. It dates the clearance for ₹16,010.45 crore to 8 May 2017.",
+          "te": "ప్రాజెక్టుపై కేంద్ర జలశక్తి మంత్రిత్వ శాఖ సొంత నోట్ కొన్ని వివరాలను కొంచెం భిన్నంగా ఇస్తోంది. మొదటి అంచనాను అది ₹10,151.04 కోట్లుగా చూపుతూ, 2009 ఫిబ్రవరి 25న పెట్టుబడి అనుమతి వచ్చిందని చెబుతోంది. ₹16,010.45 కోట్లకు అనుమతి 2017 మే 8న వచ్చిందని పేర్కొంది.",
+          "sources": [
+            "jsnote"
           ]
         },
         {
@@ -1463,10 +1508,10 @@
           ]
         },
         {
-          "en": "The Union Statistics Ministry's July 2026 report, which is built from what project agencies report to it, gives the physical progress as 86.15%.",
-          "te": "ప్రాజెక్టు సంస్థలు నివేదించిన వివరాలతో తయారయ్యే కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక భౌతిక పురోగతిని 86.15%గా చూపింది.",
+          "en": "The Union Statistics Ministry's August 2026 report, which is built from what project agencies report to it, gives the physical progress as 86.2%.",
+          "te": "ప్రాజెక్టు సంస్థలు నివేదించిన వివరాలతో తయారయ్యే కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 ఆగస్టు నివేదిక భౌతిక పురోగతిని 86.2%గా చూపింది.",
           "sources": [
-            "mospi2607"
+            "mospi2608"
           ]
         },
         {
@@ -1475,7 +1520,7 @@
           "sources": [
             "ses2425",
             "cag2025",
-            "mospi2607"
+            "mospi2608"
           ]
         }
       ]
@@ -1518,11 +1563,12 @@
           ]
         },
         {
-          "en": "The Socio-Economic Survey 2024-25 gives 2027. The Union Statistics Ministry's July 2026 report still gives March 2026 as the revised date. That date has passed.",
-          "te": "సామాజిక ఆర్థిక సర్వే 2024-25 గడువును 2027గా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక సవరించిన గడువుగా ఇంకా 2026 మార్చినే చూపుతోంది. ఆ తేదీ దాటిపోయింది.",
+          "en": "The Socio-Economic Survey 2024-25 gives 2027. The Union Statistics Ministry's July 2026 report still gave March 2026 as the revised date. Its August 2026 report gives June 2027.",
+          "te": "సామాజిక ఆర్థిక సర్వే 2024-25 గడువును 2027గా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక సవరించిన గడువుగా ఇంకా 2026 మార్చినే చూపింది. ఆ శాఖ 2026 ఆగస్టు నివేదిక 2027 జూన్‌ను చూపుతోంది.",
           "sources": [
             "ses2425",
-            "mospi2607"
+            "mospi2607",
+            "mospi2608"
           ]
         }
       ]
@@ -1590,13 +1636,14 @@
         "te": "పోలవరం ఎప్పుడు పూర్తవుతుంది?"
       },
       "a": {
-        "en": "The date has moved many times. In November 2024 the state told the CAG that the first phase was targeted for March 2026, with one more year allowed. The state's Socio-Economic Survey 2024-25 gives 2027. The Union Statistics Ministry's July 2026 report still lists March 2026, which has passed.",
-        "te": "గడువు చాలాసార్లు మారింది. మొదటి దశను 2026 మార్చి నాటికి పూర్తి చేయాలన్నది లక్ష్యమని, మరో ఏడాది పొడిగింపుకు అవకాశం ఉందని 2024 నవంబర్‌లో రాష్ట్రం కాగ్‌కు చెప్పింది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 గడువును 2027గా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక ఇంకా 2026 మార్చినే చూపుతోంది. ఆ తేదీ దాటిపోయింది."
+        "en": "The date has moved many times. In November 2024 the state told the CAG that the first phase was targeted for March 2026, with one more year allowed. The state's Socio-Economic Survey 2024-25 gives 2027. The Union Statistics Ministry's July 2026 report still listed March 2026. Its August 2026 report gives June 2027.",
+        "te": "గడువు చాలాసార్లు మారింది. మొదటి దశను 2026 మార్చి నాటికి పూర్తి చేయాలన్నది లక్ష్యమని, మరో ఏడాది పొడిగింపుకు అవకాశం ఉందని 2024 నవంబర్‌లో రాష్ట్రం కాగ్‌కు చెప్పింది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 గడువును 2027గా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక ఇంకా 2026 మార్చినే చూపింది. ఆ శాఖ 2026 ఆగస్టు నివేదిక 2027 జూన్‌ను చూపుతోంది."
       },
       "sources": [
         "cag2025",
         "ses2425",
-        "mospi2607"
+        "mospi2607",
+        "mospi2608"
       ]
     },
     {
@@ -1618,12 +1665,12 @@
         "te": "పోలవరం ఎంతవరకు పూర్తయింది?"
       },
       "a": {
-        "en": "It depends on what is counted. For December 2024 the state's Socio-Economic Survey 2024-25 gives 77% for the works, 23% for land acquisition and resettlement together, and 53.47% for the whole project. Elsewhere the same survey gives 78% and 78.64% for the works. The Union Statistics Ministry's July 2026 report gives 86.15% physical progress. These documents do not say how they measure progress, so their figures cannot be compared directly.",
-        "te": "ఏది లెక్కిస్తామన్న దానిపై ఆధారపడి ఉంటుంది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 ప్రకారం 2024 డిసెంబర్ నాటికి పనులు 77%, భూసేకరణ, పునరావాసం కలిపి 23%, మొత్తం ప్రాజెక్టు 53.47%. అదే సర్వే ఇతర చోట్ల పనులకు 78%, 78.64% అని కూడా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 జూలై నివేదిక భౌతిక పురోగతిని 86.15%గా చూపింది. ఈ పత్రాలు పురోగతిని ఎలా కొలిచాయో చెప్పలేదు. అందువల్ల వాటి అంకెలను నేరుగా పోల్చలేం."
+        "en": "It depends on what is counted. For December 2024 the state's Socio-Economic Survey 2024-25 gives 77% for the works, 23% for land acquisition and resettlement together, and 53.47% for the whole project. Elsewhere the same survey gives 78% and 78.64% for the works. The Union Statistics Ministry's August 2026 report gives 86.2% physical progress. These documents do not say how they measure progress, so their figures cannot be compared directly.",
+        "te": "ఏది లెక్కిస్తామన్న దానిపై ఆధారపడి ఉంటుంది. రాష్ట్ర సామాజిక ఆర్థిక సర్వే 2024-25 ప్రకారం 2024 డిసెంబర్ నాటికి పనులు 77%, భూసేకరణ, పునరావాసం కలిపి 23%, మొత్తం ప్రాజెక్టు 53.47%. అదే సర్వే ఇతర చోట్ల పనులకు 78%, 78.64% అని కూడా చూపింది. కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 ఆగస్టు నివేదిక భౌతిక పురోగతిని 86.2%గా చూపింది. ఈ పత్రాలు పురోగతిని ఎలా కొలిచాయో చెప్పలేదు. అందువల్ల వాటి అంకెలను నేరుగా పోల్చలేం."
       },
       "sources": [
         "ses2425",
-        "mospi2607"
+        "mospi2608"
       ]
     },
     {
@@ -1647,6 +1694,82 @@
         "ses2324",
         "ses2425"
       ]
+    }
+  ],
+  "stepsTitle": {
+    "en": "How Polavaram has moved",
+    "te": "పోలవరం ఇప్పటివరకు ఇలా సాగింది"
+  },
+  "steps": [
+    {
+      "date": "2009-01",
+      "precision": "month",
+      "icon": "verified",
+      "source": "cag2025",
+      "text": {
+        "en": "The Union Water Resources Ministry's technical committee cleared the project.",
+        "te": "కేంద్ర జలవనరుల మంత్రిత్వ శాఖ సాంకేతిక కమిటీ ప్రాజెక్టుకు అనుమతి ఇచ్చింది."
+      },
+      "short": {
+        "en": "Cleared",
+        "te": "అనుమతి"
+      }
+    },
+    {
+      "date": "2014-03",
+      "precision": "month",
+      "icon": "description",
+      "source": "cag2025",
+      "text": {
+        "en": "The Andhra Pradesh Reorganisation Act, 2014 made it a national project.",
+        "te": "ఆంధ్రప్రదేశ్ పునర్వ్యవస్థీకరణ చట్టం, 2014 దీన్ని జాతీయ ప్రాజెక్టుగా చేసింది."
+      },
+      "short": {
+        "en": "National project",
+        "te": "జాతీయ ప్రాజెక్టు"
+      }
+    },
+    {
+      "date": "2019-11",
+      "precision": "month",
+      "icon": "handshake",
+      "source": "cag2025",
+      "text": {
+        "en": "The remaining main dam work and the power house went to a new contractor through a reverse tender.",
+        "te": "మిగిలిన ప్రధాన డ్యామ్ పనులు, జల విద్యుత్ కేంద్రం పనులు రివర్స్ టెండర్ ద్వారా కొత్త కాంట్రాక్టర్‌కు వెళ్లాయి."
+      },
+      "short": {
+        "en": "New contract",
+        "te": "కొత్త కాంట్రాక్టు"
+      }
+    },
+    {
+      "date": "2024-08",
+      "precision": "month",
+      "icon": "event",
+      "source": "pib2025",
+      "text": {
+        "en": "The Union Cabinet limited the central grant still to be given to ₹12,157.53 crore.",
+        "te": "కేంద్రం ఇంకా ఇవ్వాల్సిన గ్రాంటును కేంద్ర కేబినెట్ ₹12,157.53 కోట్లకు పరిమితం చేసింది."
+      },
+      "short": {
+        "en": "Central grant fixed",
+        "te": "కేంద్ర గ్రాంటు ఖరారు"
+      }
+    },
+    {
+      "date": "2026-08",
+      "precision": "month",
+      "icon": "monitoring",
+      "source": "mospi2608",
+      "text": {
+        "en": "The Union Statistics Ministry's report put physical progress at 86.2%.",
+        "te": "కేంద్ర గణాంకాల మంత్రిత్వ శాఖ నివేదిక భౌతిక పురోగతిని 86.2%గా చూపింది."
+      },
+      "short": {
+        "en": "86.2% progress",
+        "te": "86.2% పురోగతి"
+      }
     }
   ]
 }
