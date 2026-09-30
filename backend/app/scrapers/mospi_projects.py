@@ -205,6 +205,22 @@ def _month_year(m: str, y: str) -> Optional[datetime]:
         return None
 
 
+def cost_on_record(current: Optional[float], row: dict, first_sighting: bool = False) -> Optional[float]:
+    """The cost a project should hold after one report row is read.
+
+    A row that prints a cost replaces the one held. A row that prints no
+    revised cost (the bare 0.00 of the August 2026 report) leaves the held
+    cost alone, so a page never swaps a printed figure for one the report did
+    not print. Only a project seen for the first time falls back to the
+    original cost, because that is the one cost the report does give for it.
+    """
+    if row.get("cost") is not None:
+        return row["cost"]
+    if first_sighting and current is None:
+        return row.get("cost_original")
+    return current
+
+
 async def upsert_observation(db, project_id, observed_date, *, progress, expenditure,
                              cost, portal, url, label) -> int:
     """
@@ -615,7 +631,11 @@ class MospiProjectsScraper(BaseScraper):
                             mapped.append(f"{existing.external_id} -> {r['code']}")
                         existing.external_id = r["code"]
                     existing.completion_percentage = r["progress"]
-                    existing.estimated_cost_crore = r["cost"]
+                    # A report that prints no revised cost says nothing about
+                    # the cost, so the cost already held stays, and the page
+                    # keeps crediting it to the report that printed it
+                    # (mospi_layout._costs explains the August 2026 zeros).
+                    existing.estimated_cost_crore = cost_on_record(existing.estimated_cost_crore, r)
                     existing.expected_completion = r["expected"]
                     existing.description = description
                     existing.title = r["name"]
@@ -634,7 +654,9 @@ class MospiProjectsScraper(BaseScraper):
                         project_type=ptype,
                         status=ProjectStatus.UNDER_CONSTRUCTION,   # the table is "All Ongoing Projects"
                         district=None,                              # the report is state-level; honest null
-                        estimated_cost_crore=r["cost"],
+                        # A first sighting with no revised cost printed takes
+                        # the original cost the report does print.
+                        estimated_cost_crore=cost_on_record(None, r, first_sighting=True),
                         completion_percentage=r["progress"],
                         announced_date=r["approval"],
                         expected_completion=r["expected"],
@@ -659,6 +681,13 @@ class MospiProjectsScraper(BaseScraper):
             await db.commit()
         logger.info(f"[{self.PORTAL_NAME}] {edition.label}: {saved} new project row(s), {updated} refreshed, "
                     f"{absent} older row(s) marked as not listed in this edition")
+        no_cost = sum(1 for r in ap_rows if r.get("cost_not_given"))
+        if no_cost:
+            # Said on the updates page, not only in the log: a report that
+            # stops printing a figure is a change in the source, and the owner
+            # should see it without reading logs.
+            self.note(f"{no_cost} Andhra Pradesh row(s) in the {edition.label} print the revised cost as 0.00; "
+                      "their cost on record was kept, credited to the report that printed it")
         if rekeyed:
             self.note(f"{len(rekeyed)} project(s) re-keyed to their PAIMANA code"
                       + (f" ({len(mapped)} through the reviewed renumbering map)" if mapped else "")

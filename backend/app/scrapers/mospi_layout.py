@@ -225,6 +225,33 @@ def _split(tokens: list[str]) -> tuple[Optional[str], Optional[str]]:
     return bare, paren
 
 
+def _costs(tokens: list[str]) -> tuple[Optional[float], Optional[float], bool]:
+    """(original cost, revised cost, revised slot printed as a bare zero).
+
+    WHY THIS EXISTS
+
+    Up to July 2026 the revised cost printed in brackets under the original:
+    Polavaram "10151.04" over "(55548.87)". The August 2026 report prints that
+    slot as a bare "0.00" on every one of its 1,731 rows, Polavaram included,
+    while its own summary table on page 3 still gives Polavaram's revised cost
+    as 55,549. Read the old way, the bare zero became either the cost (Rs 0
+    crore) or pushed the original cost into its place (Rs 10,151 crore for
+    Polavaram). Of the 110 Andhra Pradesh projects in both the July and August
+    reports, 66 would have shown a cost the report does not state, 5 of them
+    Rs 0 crore.
+
+    No project in this report costs nothing, so a zero in either slot means the
+    figure was not given. The caller then keeps the cost it already holds, with
+    the report that printed it, instead of taking a new one.
+    """
+    bare = [t for t in tokens if not t.startswith("(")]
+    paren = next((t for t in tokens if t.startswith("(")), None)
+    zero_slot = any(_money(t) == 0 for t in bare) or (paren is not None and _money(paren) == 0)
+    original = next((v for v in (_money(t) for t in bare) if v), None)
+    revised = _money(paren) if paren is not None and _money(paren) else None
+    return original, revised, zero_slot
+
+
 def extract(block: Block) -> Optional[dict]:
     """Clean fields from a block, or None when it is not a usable project row."""
     name = re.sub(r"\s+", " ", " ".join(block.name)).strip()
@@ -240,7 +267,7 @@ def extract(block: Block) -> Optional[dict]:
 
     approval, start = _split(block.approval)
     doc_orig, doc_rev = _split(block.doc)
-    cost_orig, cost_rev = _split(block.cost)
+    cost_orig, cost_rev, cost_zero_slot = _costs(block.cost)
     exp = _money(block.exp[0]) if block.exp else None
     prog = None
     if block.prog:
@@ -265,8 +292,12 @@ def extract(block: Block) -> Optional[dict]:
         "start": _month(start),
         "expected": _month(doc_rev) or _month(doc_orig),
         "expected_original": _month(doc_orig),
-        "cost": _money(cost_rev) if cost_rev else _money(cost_orig),
-        "cost_original": _money(cost_orig),
+        # The revised cost when the report prints one; the original when the
+        # report has no revised slot at all; None when the revised slot is a
+        # bare zero, because then this report does not say what it costs now.
+        "cost": cost_rev if cost_rev is not None else (None if cost_zero_slot else cost_orig),
+        "cost_original": cost_orig,
+        "cost_not_given": cost_rev is None and cost_zero_slot,
         "expenditure": exp,
         "progress": prog,
     }
