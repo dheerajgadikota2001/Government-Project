@@ -80,11 +80,22 @@ TENURES = [
 
 _GOV_SUFFIXES = (".gov.in", ".nic.in", ".gov", ".rbi.org.in")
 
+# Government files that live on a cloud bucket rather than on a government
+# host. The Finance Department publishes every Socio-Economic Survey from an S3
+# bucket named after its own domain, so a host check alone called the state's
+# own survey "press": all 60 survey projects lost their printed cost on the
+# register while their own pages, which already knew the bucket, showed it.
+# Matched on the full prefix, bucket included, never on the S3 host alone.
+_GOV_PREFIXES = ("https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/",)
+
 # First-party, named, and verifiable — but not government. A company's own
 # statement about its own project.
 _COMPANY_HOSTS = {
     "www.airindia.com", "airindia.com",
     "www.gmrgroup.in", "gmrgroup.in",
+    # GMR's investor documents: its presentations and exchange filings are
+    # served from this host.
+    "investor.gmraero.com", "publish-p168597-e1857439.adobeaemcloud.com",
     "www.bseindia.com", "www.nseindia.com",
     "www.jsw.in", "jsw.in",
     "www.adaniports.com", "adaniports.com",
@@ -100,6 +111,8 @@ def _host(url: str | None) -> str:
 
 def source_tier(url: str | None) -> str:
     """government | company | press — never guessed from the publisher name."""
+    if str(url or "").strip().startswith(_GOV_PREFIXES):
+        return "government"
     h = _host(url)
     if not h:
         return "press"
@@ -285,14 +298,23 @@ def _register_entry(p: dict) -> dict:
 # ---------------------------------------------------------------------------
 # TWO REPAIRS THE REGISTER MAKES AT READ TIME
 #
-# 1. WRAPPED WORDS. The AMRUT status PDF is a table, and its cells wrap
-#    mid-word: the importer stored "Visakhapatna m", "Machilipatna m",
-#    "REJUVENATI ON OF WATER BODY". A reader sees a typo and stops trusting
-#    the page. The real fix belongs in the importer's column handling; until
-#    that is re-run, districts are put back onto their canonical names here,
-#    and a title's split words are rejoined only where the split is
-#    unambiguous — a fragment of one or two lower-case letters hanging off
-#    the end of a longer word.
+# 1. DISTRICT NAMES. The AMRUT status PDF is a table, and its cells wrap
+#    mid-word, so the importer once stored "Visakhapatna m" and
+#    "Machilipatna m". Districts are put back onto their canonical names here.
+#
+#    Titles and descriptions are served exactly as stored. This file used to
+#    rejoin "a fragment of one or two lower-case letters hanging off a longer
+#    word" in them as well, on the theory that such a split was unambiguous.
+#    It is not. "of", "in", "at", "on" and "to" have exactly that shape, so
+#    "Restoration of Komatigunta Pond at 30th ward in Kandukur" reached
+#    readers as "Restorationof Komatigunta Pondat 30th wardin Kandukur": 493
+#    of the 727 titles in the live register and 715 of its descriptions,
+#    while the project pages, which never did this, showed the real words.
+#    Nor did the rule mend the splits that are real. On 2026-09-24 no stored
+#    text had a one or two letter split for it to join, while longer ones
+#    such as "Buchireddypa lem" were left as they were. Those belong in the
+#    importer's column handling, where the table's structure is known, not in
+#    a guess made at read time over every word of every record.
 #
 # 2. THE SAME PROJECT TWICE. MoSPI's central-sector list and our own
 #    hand-assembled record both contain Polavaram, with different costs
@@ -302,15 +324,6 @@ def _register_entry(p: dict) -> dict:
 #    itself. The hand-assembled record wins and the duplicate is dropped,
 #    because it is the one that shows the reader where each figure came from.
 # ---------------------------------------------------------------------------
-
-_WRAP = re.compile(r"\b([A-Za-z]{4,})\s([a-z]{1,2})\b")
-
-
-def _dewrap(text: str | None) -> str | None:
-    """Rejoin a word the source PDF broke across a line."""
-    if not text:
-        return text
-    return _WRAP.sub(lambda m: m.group(1) + m.group(2), text)
 
 def _norm(title: str | None) -> str:
     return re.sub(r"[^a-z0-9]+", "", (title or "").lower())
@@ -449,10 +462,10 @@ def _entry(row: Project, observations: list[ProgressObservation],
     entry = {
         "id": row.id,
         "external_id": row.external_id,
-        "title": _dewrap(row.title),
+        "title": row.title,
         "project_type": row.project_type.value if row.project_type else None,
         "status": row.status.value if row.status else None,
-        "district": normalise_district(row.district) or _dewrap(row.district),
+        "district": normalise_district(row.district) or row.district,
         "department": row.department or row.implementing_agency,
         "estimated_cost_crore": cost if cost_is_government else None,
         "has_published_cost": cost_is_government,
@@ -462,7 +475,7 @@ def _entry(row: Project, observations: list[ProgressObservation],
         "unverified_cost_source": reported_src if not cost_is_government else None,
         "completion_percentage": row.completion_percentage,
         "expected_completion": _iso(row.expected_completion),
-        "description": _dewrap(description),
+        "description": description,
         "source_portal": row.source_portal,
         "source_url": row.source_url,
         "dated_by": dated_by,
