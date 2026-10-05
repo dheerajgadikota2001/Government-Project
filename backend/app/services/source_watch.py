@@ -185,6 +185,18 @@ def _stable_signal(probe: dict) -> Optional[str]:
 # The run
 # --------------------------------------------------------------------------
 
+def new_watch_row(source: dict) -> SourceWatch:
+    """A row for a citation seen for the first time.
+
+    The column defaults (0, False, "ok") are applied by SQLAlchemy only when the
+    row is INSERTed, which happens at commit. Until then the attributes are None,
+    and the loop below reads and increments them straight away. A first run, where
+    every row is new, crashed on `None += 1` the first time a page failed to load.
+    So the starting values are set here, on the object, where the loop can see them.
+    """
+    return SourceWatch(**source, consecutive_failures=0, muted=False, state="ok")
+
+
 async def run_watch() -> dict:
     """Check every cited source. Returns a summary for the alert email."""
     sources = cited_sources()
@@ -203,7 +215,7 @@ async def run_watch() -> dict:
                 ident = (source["source_key"], source["seed_file"])
                 row = existing.get(ident)
                 if row is None:
-                    row = SourceWatch(**source)
+                    row = new_watch_row(source)
                     db.add(row)
                 else:
                     # The seed is the authority on what we cite; refresh the
