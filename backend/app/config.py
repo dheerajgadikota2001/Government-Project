@@ -96,6 +96,11 @@ class Settings(BaseSettings):
     voice_max_text_chars: int = 300        # TTS bills per character
     voice_max_audio_bytes: int = 1_048_576 # STT bills per 15 s; 1 MB is ~30 s of webm
     voice_per_minute: int = 5              # on top of the global limit
+    # The voice agent's brain (POST /voice/ask) bills Anthropic per request, so
+    # it has its own off switch, separate from the Google speech endpoints: the
+    # brain can be tried as text before any speech service is paid for.
+    voice_agent_enabled: bool = False
+    voice_agent_max_question_chars: int = 500
 
     @property
     def allowed_origins_list(self) -> List[str]:

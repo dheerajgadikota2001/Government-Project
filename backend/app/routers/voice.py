@@ -92,6 +92,37 @@ async def transcribe_audio(
     return {"transcription": transcription, "language": language, "detected_language": language}
 
 
+class AskRequest(BaseModel):
+    """One spoken question, already turned into text by the app or the browser."""
+    text: str = Field(min_length=1, max_length=settings.voice_agent_max_question_chars)
+    # Omit to keep the session's language (Telugu for a new session).
+    language: Optional[str] = Field(None, pattern="^(te|hi|en)$")
+    # Omit on the first question; send back the one returned so "yes, more"
+    # follows on from the last answer.
+    session_id: Optional[str] = Field(None, max_length=64, pattern="^[A-Za-z0-9_-]+$")
+
+
+class AskResponse(BaseModel):
+    answer: str
+    language: str
+    session_id: str
+    assistant_name: str
+
+
+@router.post("/ask", response_model=AskResponse)
+@limiter.limit(f"{settings.voice_per_minute}/minute")
+async def ask_agent(request: Request, payload: AskRequest):
+    """The voice agent's brain: a question in Telugu, Hindi or English in, a short
+    spoken-style answer out, every figure read from this platform's own record."""
+    if not settings.voice_agent_enabled:
+        raise HTTPException(status_code=503, detail="voice_agent_not_available")
+    from app.services.voice_agent import ask
+
+    reply = await ask(payload.text, session_id=payload.session_id, language=payload.language)
+    return AskResponse(answer=reply.answer, language=reply.language,
+                       session_id=reply.session_id, assistant_name=settings.voice_assistant_name)
+
+
 # The greeting is the same words every time. Synthesising it on every open
 # was a paid call for a constant; one per language per process is the ceiling.
 _GREETING_CACHE: dict[str, Tuple[str, Optional[str]]] = {}
