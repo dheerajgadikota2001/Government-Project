@@ -76,13 +76,43 @@ The honest quality architecture (we never promise what tech can't deliver):
 - **Feedback loop: "translation wrong? tell us" link on every translated block** — reported strings get human-fixed and cached so the same error never shows twice.
 - Telugu font rendering QA pass (Noto Sans Telugu), spacing/conjunct checks on real devices.
 
-## LATER — Mitra voice assistant
+## NOW — Voice agent for rural Andhra Pradesh (agreed 2026-10-05)
 
-- Voice router exists in backend (app/routers/voice.py) — currently scaffold.
-- Plan: Telugu + English speech → intent → answers grounded ONLY in our database
-  (projects/tenders/documents), always citing source. No open-ended generation.
-- Speech: Google Cloud STT/TTS (Telugu support) — keys already templated in .env.
-- Phase 1: text chat "Ask Mitra" grounded on DB; Phase 2: voice in/out; Phase 3: phone-friendly (low bandwidth).
+Who it is for: the ~40% of AP that lives in villages and does not use apps. They
+should be able to say "Hey <name>" to their phone, even while it is locked, and
+hear what is happening in Telugu (Hindi if they ask for it), as a short story
+first and in more detail only if they say yes. Same rule as the website: every
+figure comes from our database, never from the model's memory.
+
+One brain, several ways in. Build order:
+
+- [ ] **1. The brain (text first).** `app/services/voice_agent/` + `POST /api/v1/voice/ask`.
+      Claude with tools over our own API; Telugu default, Hindi on request; short
+      answer then "more detail?"; neutral; "not published" instead of guesses.
+      Eval set of rural-style questions in `tests/voice_agent_eval.json`.
+- [ ] **2. Name + wake-word spike.** 2-3 candidate names (3-4 syllables, unusual
+      sound, not an everyday Telugu word). Train on-device wake words (Porcupine or
+      openWakeWord), test on 2-3 cheap Android phones: false triggers against hours
+      of Telugu TV/street/temple audio, battery over a full day.
+- [ ] **3. Voice bake-off.** Telugu + Hindi speech-to-text and voices tested on real
+      recordings from coastal Andhra, Rayalaseema and Uttarandhra. Candidates:
+      Sarvam AI, Google Chirp, AI4Bharat open models. Rural listeners pick.
+- [ ] **4. Android app (native Kotlin).** Foreground microphone service with the
+      on-device wake word, answers spoken on the lock screen, restarts on boot,
+      "set as default assistant" so long-press power also works, one-time
+      battery-optimisation exemption. Play Store microphone disclosure.
+- [ ] **5. Website Mitra button** switches from keyword matching to the brain.
+- [ ] **6. Pilot in 1-2 districts**, installs done by village/ward secretariat staff.
+- [ ] **7. Phone line (checklist, later).** A toll-free / missed-call number for
+      keypad phones that cannot run apps; same brain over a normal call through an
+      Indian telephony provider.
+- [ ] WhatsApp voice notes (later).
+- [ ] Secretariat kiosk with the wake word (later).
+
+Must be true before real users: fresh data (MoSPI edition, news source),
+DPDP Act 2023 consent and no audio kept by default, election-period neutrality
+checks in the eval set. iPhone cannot run a third-party always-listening app;
+keypad phones are covered by the phone line.
 
 ## LATER — Growth & intelligence
 
