@@ -150,10 +150,11 @@ jobs:
         working-directory: web
         run: npm ci
 
-      # build runs tsc -b first, then vite build, then the budget check fails
+      # build runs tsc -b, vite build and the pre-renderer (one HTML file per
+      # page, in English and Telugu, plus sitemaps), then the budget check fails
       # the job if the first screen grows past 200 KB gzipped. That is the
       # guard that keeps the site usable on a village phone.
-      - name: Typecheck, build and check the size budget
+      - name: Typecheck, build, pre-render and check the size budget
         working-directory: web
         run: npm run build:check
 
@@ -162,3 +163,21 @@ jobs:
       - name: Test the 3D governor
         working-directory: web
         run: npm run test:3d
+
+      # Every address has its page in both languages, names itself, and every
+      # link inside a page lands on a page. There is no catch-all rewrite any
+      # more, so a missing page would be a real 404 for a reader.
+      - name: Test the pre-rendered pages
+        working-directory: web
+        run: npm run test:prerender
+
+      # The API client's promises: a read tried twice, a write once, no old
+      # copy kept for the community board, every page of a long list read.
+      - name: Test the API client
+        working-directory: web
+        run: npm run test:api
+
+      # A file nothing imports is either dead or parked by name (scripts/unused_files.mjs).
+      - name: No unused files
+        working-directory: web
+        run: npm run unused

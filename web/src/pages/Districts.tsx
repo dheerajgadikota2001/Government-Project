@@ -1,3 +1,4 @@
+import { districtTitle, useTitle } from '@/lib/titles'
 import * as React from 'react'
 import { Newspaper, ArrowRight, ArrowUpRight, Droplets, FileText, MapPin } from 'lucide-react'
 import { useLang } from '@/lib/i18n'
@@ -94,6 +95,7 @@ export function DistrictPage({ slug }: { slug: string }) {
   const [mine, setMine] = useMyDistrict()
   const none = slug === 'none'
   const d = districtBySlug.get(slug)
+  useTitle(d ? districtTitle(d) : null, lang)
   if (!d && !none) return <Page className="py-24"><Blank>{tr('No district has this name', 'ఈ పేరుతో జిల్లా లేదు')}</Blank></Page>
   const works = worksIn(none ? null : d!.name)
   const byType = new Map<string, typeof works>()

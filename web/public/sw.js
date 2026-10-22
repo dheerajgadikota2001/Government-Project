@@ -17,14 +17,15 @@
  * Emergency off switch: deploy a sw.js whose first line is `self.__KILL = true` (see bottom).
  * Every reader's phone then removes the worker and its caches on the next visit.
  */
-const VERSION = 'v1'
+const VERSION = 'v2'          // v2: every page is its own pre-rendered file now, so pages are saved one by one
 const ASSETS = `apfc-assets-${VERSION}`
 const PAGES = `apfc-pages-${VERSION}`
 const FONTS = `apfc-fonts-${VERSION}`
 const KEEP = [ASSETS, PAGES, FONTS]
 const MAX_ASSETS = 400          // a few rebuilds' worth; older fingerprints are dropped first
 const PAGE_TIMEOUT_MS = 3500
-const SHELL = '/index.html'     // every route serves the same page until pre-rendering (M3) lands
+const MAX_PAGES = 60            // the pages a reader opened most recently
+const SHELL = '/index.html'     // any saved page can stand in offline: the app draws the right one from the address
 
 self.addEventListener('install', () => self.skipWaiting())
 
@@ -59,14 +60,26 @@ async function cacheFirst(request, cacheName) {
   return res
 }
 
+async function latest(c) {
+  const keys = await c.keys()
+  return keys.length ? c.match(keys[keys.length - 1]) : undefined
+}
+
 async function page(event) {
   const c = await caches.open(PAGES)
-  const network = fetch(event.request).then(async (res) => {
-    if (res.ok && res.type === 'basic') await c.put(SHELL, res.clone())
+  const req = event.request
+  const network = fetch(req).then(async (res) => {
+    // Only real pages are kept: a 404 or a redirect is never saved as a page.
+    if (res.ok && res.type === 'basic' && !res.redirected) {
+      await c.put(req.url.split('#')[0], res.clone())
+      if (new URL(req.url).pathname === '/') await c.put(SHELL, res.clone())
+      trim(PAGES, MAX_PAGES)
+    }
     return res
   })
   event.waitUntil(network.catch(() => null))
-  const saved = await c.match(SHELL)
+  // This page as it was last saved; failing that, any saved page (the app shows the right one).
+  const saved = (await c.match(req.url.split('#')[0], { ignoreSearch: true })) || (await c.match(SHELL)) || (await latest(c))
   if (!saved) return network
   const timeout = new Promise((resolve) => setTimeout(() => resolve(saved), PAGE_TIMEOUT_MS))
   try {

@@ -1,3 +1,4 @@
+import { CLAIM_Q } from '@/lib/titles'
 import * as React from 'react'
 import { ArrowUpRight, Search, Send } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -50,7 +51,7 @@ type Check = {
 const C19 = 'ap-debt-31-march-2019', C24 = 'ap-debt-june-2024', C14 = 'ap-debt-june-2014'
 const CHECKS: Check[] = [
   {
-    slug: C19, te: '2019 మార్చి 31 నాటికి రాష్ట్రం అప్పు ఎంత?', q: { en: 'What was Andhra Pradesh’s debt on 31 March 2019?', te: '2019 మార్చి 31 నాటికి రాష్ట్రం అప్పు ఎంత?' }, status: 'two',
+    slug: C19, te: '2019 మార్చి 31 నాటికి రాష్ట్రం అప్పు ఎంత?', q: CLAIM_Q[C19], status: 'two',
     answer: {
       en: `Two white papers, five years apart, give ${crore(K(C19, 0), 0)} and ${crore(K(C19, 1), 0)} for the same day. RBI prints ${crore(R(C19, 0), 0)}, and the state’s audited accounts ${crore(R(C19, 1), 0)}. The difference is what each one counts.`,
       te: `ఐదేళ్ల తేడాతో వచ్చిన రెండు శ్వేతపత్రాలు ఒకే రోజుకు ${croreTe(K(C19, 0), 0)}, ${croreTe(K(C19, 1), 0)} అని చెప్పాయి. ఆర్బీఐ ${croreTe(R(C19, 0), 0)} అని, రాష్ట్ర ఆడిట్ లెక్కలు ${croreTe(R(C19, 1), 0)} అని ముద్రించాయి. తేడా ఒక్కొక్కరు ఏం లెక్కిస్తారన్న దానిలోనే.`,
@@ -66,7 +67,7 @@ const CHECKS: Check[] = [
     paperNote: { en: 'Both governments’ papers are set against the same two records.', te: 'రెండు ప్రభుత్వాల పత్రాలనూ అవే రెండు రికార్డులతో పోల్చాం.' },
   },
   {
-    slug: C24, te: 'జూన్ 2024లో రాష్ట్రం అప్పు ₹9,74,556 కోట్లా?', q: { en: 'Was Andhra Pradesh’s debt ₹9,74,556 crore in June 2024?', te: 'జూన్ 2024లో రాష్ట్రం అప్పు ₹9,74,556 కోట్లా?' }, status: 'definition',
+    slug: C24, te: 'జూన్ 2024లో రాష్ట్రం అప్పు ₹9,74,556 కోట్లా?', q: CLAIM_Q[C24], status: 'definition',
     answer: {
       en: `The 2024 white paper gives ${crore(K(C24, 0), 0)} for 12 June 2024. For 31 March 2024, RBI prints ${crore(R(C24, 0), 0)} and the state’s accounts ${crore(R(C24, 1), 0)}. The paper’s own breakup puts government debt at ₹4,38,278 crore; the rest is corporation borrowing and unpaid bills.`,
       te: `2024 శ్వేతపత్రం 2024 జూన్ 12కు ${croreTe(K(C24, 0), 0)} అని చెప్పింది. 2024 మార్చి 31కి ఆర్బీఐ ${croreTe(R(C24, 0), 0)}, రాష్ట్ర లెక్కలు ${croreTe(R(C24, 1), 0)} అని ముద్రించాయి. పత్రంలోని విభజన ప్రకారం ప్రభుత్వ అప్పు ₹4,38,278 కోట్లు; మిగతాది కార్పొరేషన్ల అప్పులు, చెల్లించని బిల్లులు.`,
@@ -81,7 +82,7 @@ const CHECKS: Check[] = [
     paperNote: { en: 'The figures in the claim are the paper’s own, read from the press record because the tabled copy is an image-only scan.', te: 'సభలో పెట్టిన ప్రతి స్కాన్ చేసిన బొమ్మ మాత్రమే; అందుకే చెప్పిన అంకెలను పత్రికా రికార్డు నుంచి చదివాం.' },
   },
   {
-    slug: C14, te: 'జూన్ 2014లో అప్పు సుమారు ₹97,000 కోట్లా?', q: { en: 'Was the debt about ₹97,000 crore in June 2014?', te: 'జూన్ 2014లో అప్పు సుమారు ₹97,000 కోట్లా?' }, status: 'unverifiable',
+    slug: C14, te: 'జూన్ 2014లో అప్పు సుమారు ₹97,000 కోట్లా?', q: CLAIM_Q[C14], status: 'unverifiable',
     answer: {
       en: `No auditor publishes a debt figure for June 2014. The first year-end figures, for 31 March 2015, are ${crore(R(C14, 0), 0)} (RBI) and ${crore(R(C14, 1), 0)} (the state’s accounts), and they include nine months of the new state’s own borrowing.`,
       te: `2014 జూన్‌కు ఏ ఆడిటరూ అప్పు సంఖ్య ప్రచురించలేదు. మొదటి ఏడాది ముగింపు సంఖ్యలు, 2015 మార్చి 31కి: ${croreTe(R(C14, 0), 0)} (ఆర్బీఐ), ${croreTe(R(C14, 1), 0)} (రాష్ట్ర లెక్కలు). వీటిలో కొత్త రాష్ట్రం తొమ్మిది నెలల్లో తీసుకున్న అప్పు కూడా ఉంది.`,

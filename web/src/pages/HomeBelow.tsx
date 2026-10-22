@@ -9,8 +9,10 @@ import { claims } from '@/lib/data-claims'
 import { facts } from '@/lib/data-facts'
 import { invest } from '@/lib/data-invest'
 import { money } from '@/lib/data-money'
-import { registerPapers, tenders, updates } from '@/lib/data-papers'
-import { clean, crore, croreTe, dateLong, dateShort, dateTe, istDay, num, TODAY } from '@/lib/format'
+import { registerPapers } from '@/lib/data-papers'
+import { useTenderSummary, useUpdates } from '@/lib/live'
+import { LiveGate } from '@/components/live-state'
+import { clean, crore, croreTe, dateLong, dateShort, dateTe, istDay, num } from '@/lib/format'
 import { ChartFrame, KindBadge, Section, StatusWord, Te } from '@/components/kit'
 import { CardWall } from '@/components/cards'
 import { Badge } from '@/components/ui/badge'
@@ -42,10 +44,19 @@ export default function HomeBelow() {
 /* ---------------------------------------------------- on the record today */
 function OnRecord() {
   const { tr, lang } = useLang()
-  const open = (tenders.items as any[]).filter((t) => istDay(t.bid_submission_end) >= TODAY).length
+  // Tenders change every day, so their count comes live from the server. The rest are counts of what
+  // this build of the site carries, dated by the build.
+  const ts = useTenderSummary()
+  const tenderRow: [string, React.ReactNode] = ts.status === 'ok'
+    ? [num(ts.data.total, 0), typeof ts.data.open_today === 'number'
+        ? tr(`tenders on record, ${ts.data.open_today} open today`, `టెండర్లు, ఈ రోజు ${ts.data.open_today} తెరిచి ఉన్నాయి`)
+        : tr('tenders on record', 'టెండర్లు రికార్డులో')]
+    : ts.status === 'loading'
+      ? ['…', tr('tenders on record, loading', 'టెండర్లు, లోడ్ అవుతోంది')]
+      : ['–', tr('tenders: the server did not answer', 'టెండర్లు: సర్వర్ స్పందించలేదు')]
   const rows: [string, React.ReactNode, string][] = [
     [num(projects.length, 0), tr('project records', 'ప్రాజెక్టు రికార్డులు'), 'projects'],
-    [num(tenders.summary.total, 0), tr(`tenders on record, ${open} open today`, `టెండర్లు, ఈ రోజు ${open} తెరిచి ఉన్నాయి`), 'tenders'],
+    [tenderRow[0], tenderRow[1], 'tenders'],
     [num(invest.mous.length, 0), tr('investment promise records', 'పెట్టుబడి హామీ రికార్డులు'), 'investments'],
     [num(registerPapers.items.length, 0), tr('government papers in the register', 'రిజిస్టర్‌లో ప్రభుత్వ పత్రాలు'), 'papers'],
     [num(facts.indicators.length, 0), tr('state indicators, year by year', 'రాష్ట్ర సూచికలు, ఏడాది వారీగా'), 'state-facts'],
@@ -211,20 +222,22 @@ function LatestClaim() {
 /* ------------------------------------------------------------ what's new */
 function WhatsNew() {
   const { tr, lang } = useLang()
-  const runs = updates.runs.filter((r: any) => r.records_new > 0).slice(0, 5)
+  const state = useUpdates()
   return (
     <Section eyebrow={tr("What's new", 'కొత్తగా ఏముంది')} title={tr('New in the record', 'కొత్తగా చేర్చినవి')} te={tr('కొత్తగా చేర్చినవి', undefined)}
       lede={tr('Each day the sources are checked automatically. Each check keeps its own date; checks are never added together.', 'ప్రతి రోజు మూలాలను ఆటోమేటిక్‌గా తనిఖీ చేస్తాం. ప్రతి తనిఖీకి దాని తేదీ ఉంటుంది; వాటిని కలిపి లెక్కించం.')}>
+      <LiveGate state={state} what={{ en: 'The refresh log', te: 'నవీకరణ లాగ్' }} rows={5}>{(u) => (
       <div className="divide-y divide-border rounded-xl border border-border bg-card">
-        {runs.map((r: any) => (
+        {u.runs.filter((r) => r.records_new > 0).slice(0, 5).map((r) => (
           <div key={r.run_id} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3">
             <span className="w-28 text-[13px] text-muted-foreground tnum">{lang === 'te' ? dateTe(istDay(r.started_at)) : dateShort(istDay(r.started_at))}</span>
             <span className="text-[15px] font-medium">{tr(`${r.records_new} new ${r.records_new === 1 ? 'record' : 'records'}`, `${r.records_new} కొత్త రికార్డులు`)}</span>
-            <span className="text-[13.5px] text-muted-foreground" lang="en">from {r.sources.filter((s: any) => s.records_new > 0).map((s: any) => s.source).join(', ')}</span>
+            <span className="text-[13.5px] text-muted-foreground" lang="en">from {r.sources.filter((s) => s.records_new > 0).map((s) => s.source).join(', ')}</span>
             <Badge variant="outline" className="ml-auto">{tr('Checked automatically', 'ఆటోమేటిక్ తనిఖీ')}</Badge>
           </div>
         ))}
       </div>
+      )}</LiveGate>
       <a href={href('updates')} className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium">{tr('Every check, day by day', 'ప్రతి తనిఖీ, రోజు వారీగా')}<ArrowRight className="size-4" /></a>
     </Section>
   )
