@@ -11,6 +11,9 @@ import { ListenButton, Te } from '@/components/kit'
 import { GridPattern } from '@/vendor/magicui/grid-pattern'
 import { FadeIn as BlurFade } from '@/components/fade-in'
 import type { CommandItem } from '@/vendor/kokonut/action-search-bar'
+import { warmEngine } from '@/three/engine'
+import { firstPosterBase, preloadFirstPoster } from '@/three/posters'
+import { Poster } from '@/three/Poster'
 
 // Home is the first screen, so this file holds only the hero: the title, the search box and
 // the voice place. The big works (3D models and their data) and every section below the hero
@@ -23,8 +26,26 @@ const DotPattern = React.lazy(() => import('@/vendor/magicui/dot-pattern').then(
 // Only the "ask" hero design uses this component; the default design never downloads it.
 const ActionSearchBar = React.lazy(() => import('@/vendor/kokonut/action-search-bar'))
 
+// Holds the big works' place with the first work's baked 3D picture, so the model is on screen from the
+// moment the hero is, while the big works' own file is still on its way. Same shape as the real card.
+function WorksPlaceholder() {
+  const base = firstPosterBase()
+  return (
+    <div className="min-h-[460px] min-w-0 md:min-h-[540px]" aria-hidden>
+      <div className="h-16" />
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-28px_rgba(0,0,0,.35)]">
+        <div className="relative h-[260px] bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-muted),transparent_70%)] sm:h-[320px] lg:h-[340px]">
+          {base ? <Poster base={base} eager className="absolute inset-0 size-full select-none object-cover" /> : null}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Home() {
   const { d } = useDesign()
+  // The big works open the page, so their picture and their engine start arriving right after the hero paints.
+  React.useEffect(() => { preloadFirstPoster(); warmEngine() }, [])
   return (
     <div>
       {d.hero === 'ask' ? <HeroAsk /> : d.hero === 'search' ? <HeroSearch /> : <HeroRecord />}
@@ -93,7 +114,7 @@ function HeroRecord() {
             <span className="text-[13px] text-muted-foreground">{tr('Ask aloud in Telugu or English. Coming with the voice assistant.', 'తెలుగులో లేదా ఇంగ్లీషులో అడగండి. వాయిస్ సహాయకుడితో వస్తుంది.')}</span>
           </div>
         </div>
-        <React.Suspense fallback={<div className="min-h-[460px] min-w-0 md:min-h-[540px]" aria-hidden />}>
+        <React.Suspense fallback={<WorksPlaceholder />}>
           <BigWorks />
         </React.Suspense>
       </Page>

@@ -78,4 +78,12 @@ changes = []; now += 5000
 gov = g.createGovernor({ start: 3, floor: 0, onChange: (l) => changes.push(l) })
 run(gov, 16.7, 100); run(gov, 400, 1); run(gov, 16.7, 400)
 expect('one hitch is forgiven', changes.length === 0)
+// 10. A laptop or desktop never rests, even when a slow mark was saved; a phone keeps it.
+store['apfc-3d-level'] = JSON.stringify({ level: 0, at: Date.now(), v: 1 })
+globalThis.window.matchMedia = () => ({ matches: false })
+const desktop = await import(pathToFileURL(out).href + '?desktop')
+expect('a desktop with a saved slow mark still starts at level 1', desktop.startLevel() === 1)
+globalThis.window.matchMedia = () => ({ matches: true })
+const phone = await import(pathToFileURL(out).href + '?phone')
+expect('a phone with a saved slow mark starts at rest', phone.startLevel() === 0)
 process.exit(ok ? 0 : 1)
