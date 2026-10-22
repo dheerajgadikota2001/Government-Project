@@ -560,16 +560,20 @@ async def get_register(db: AsyncSession = Depends(get_db)):
     # One project, one card. Where a scraped row and a hand-assembled record are
     # the same project, the hand-assembled one is kept — see the note above.
     documented_titles = {_norm(r.title) for r in rows if seeds.get(_norm(r.title))}
-    seen: set[str] = set()
+    seen: set = set()
     entries = []
     for r in rows:
         key = _norm(r.title)
         seed = seeds.get(key)
         if seed is None and key in documented_titles:
             continue
-        if key in seen:
+        # Two government line items can share a title (two AMRUT works with the same name and
+        # different ids and costs). Without a hand-built record they are two projects, so the
+        # identity is the portal's own id as well as the title.
+        ident = key if seed else (key, r.source_portal, r.external_id)
+        if ident in seen:
             continue
-        seen.add(key)
+        seen.add(ident)
         entries.append(_entry(r, grouped.get(r.id, []), seed, with_events=False))
     entries.sort(key=lambda e: (e["last_document"] or "", e["title"]), reverse=True)
 
