@@ -38,7 +38,7 @@ _SORT_COLUMNS = {
 @cache_response(ttl=300)  # Cache 5 minutes
 async def list_projects(
     q: Optional[str] = Query(None, description="Free text over title, description, department"),
-    district: Optional[str] = Query(None, description="Any of the 26 AP districts (name or slug)"),
+    district: Optional[str] = Query(None, description="Any of the 28 AP districts (name or slug)"),
     placement: Optional[str] = Query(
         None,
         description=(
@@ -205,7 +205,7 @@ async def list_projects(
 @cache_response(ttl=600)
 async def get_districts():
     """
-    All 26 AP districts for filter dropdowns.
+    All 28 AP districts for filter dropdowns.
 
     Returns name, slug and headquarters so the frontend never hardcodes its
     own list and can never drift from what the data actually uses.

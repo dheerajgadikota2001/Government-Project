@@ -25,6 +25,8 @@ responses become unreachable immediately. This middleware sets the timers; the
 stamp is the emergency brake.
 """
 
+import re
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
@@ -34,6 +36,12 @@ from starlette.responses import Response
 CACHE_RULES: dict[str, int] = {
     # Curated seed data. Changes only when load_seed_data.py is run by hand.
     "/api/v1/finances": 600,
+    "/api/v1/districts/measures": 600,
+    "/api/v1/districts/history": 600,
+    # District happenings: rows land once a day from the morning scrape.
+    "/api/v1/districts/happenings": 600,
+    # /facts/water/today changes once a day; the rest only when the seed is rebuilt.
+    "/api/v1/facts": 600,
     "/api/v1/governments": 600,
     "/api/v1/documents": 600,
     "/api/v1/school-education": 600,
@@ -59,7 +67,24 @@ CACHE_RULES: dict[str, int] = {
     # at all. Trading a minute of propagation for half a second on every page
     # view is the right way round.
     "/api/v1/meta/version": 15,
+    # Where and when we fetched an archived file. Grows when a file is found at a
+    # new address, so it gets an ordinary timer.
+    "/api/v1/archive": 600,
 }
+
+# Paths whose variable part sits in the middle, so no prefix can name them. Checked
+# after the prefixes. Keep these few and anchored: a loose pattern here is a way to
+# put a public cache header on a route nobody meant to cache.
+CACHE_PATTERNS: tuple[tuple[re.Pattern, int], ...] = (
+    (re.compile(r"^/api/v1/districts/[a-z0-9.-]+/happenings$"), 600),
+)
+
+# Fingerprinted files from the source archive. The path IS the SHA-256 of the
+# bytes, so the response behind it can never change: any cache may keep it for
+# a year without ever being wrong. This is what lets a 40 MB budget volume be
+# read by a lakh people while the origin unpacks it once.
+IMMUTABLE_PATTERN = re.compile(r"^/api/v1/archive/files/[0-9a-f]{64}$")
+IMMUTABLE = "public, max-age=31536000, s-maxage=31536000, immutable"
 
 # Paths that must NEVER carry a public cache header, whatever else matches.
 # Checked as substrings so nested routes cannot slip past.
@@ -113,6 +138,9 @@ def _shared_ttl(path: str) -> int | None:
     for prefix in sorted(CACHE_RULES, key=len, reverse=True):
         if path.startswith(prefix):
             return CACHE_RULES[prefix]
+    for pattern, ttl in CACHE_PATTERNS:
+        if pattern.match(path):
+            return ttl
     return None
 
 
@@ -148,6 +176,10 @@ class CacheControlMiddleware(BaseHTTPMiddleware):
         # and errors are transient and must not be pinned at an edge.
         if request.method not in ("GET", "HEAD") or not (200 <= response.status_code < 300):
             response.headers["Cache-Control"] = NO_STORE
+            return response
+
+        if IMMUTABLE_PATTERN.match(request.url.path):
+            response.headers["Cache-Control"] = IMMUTABLE
             return response
 
         ttl = _shared_ttl(request.url.path)

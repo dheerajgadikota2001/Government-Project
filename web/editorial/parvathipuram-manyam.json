@@ -1,0 +1,70 @@
+{
+ "district": "Parvathipuram Manyam",
+ "written_by": "Claude (fork), draft for Dheeraj's approval",
+ "lead": [
+  {
+   "id": "health-lab",
+   "kicker_en": "Health",
+   "kicker_te": "ఆరోగ్యం",
+   "head_en": "A public health lab opens at Seethampeta Area Hospital",
+   "head_te": "సీతంపేట ఏరియా ఆసుపత్రిలో ప్రజారోగ్య ల్యాబ్ ప్రారంభం",
+   "en": "On 12 September 2026 the Union Health Ministry opened 12 integrated public health laboratories in the state. One of them is at the Area Hospital in Seethampeta. Such a lab tests samples for many diseases in one place.",
+   "te": "కేంద్ర ఆరోగ్య శాఖ 12 సెప్టెంబర్ 2026న రాష్ట్రంలో 12 సమీకృత ప్రజారోగ్య ల్యాబ్‌లను ప్రారంభించింది. వాటిలో ఒకటి సీతంపేట ఏరియా ఆసుపత్రిలో ఉంది. ఎన్నో రకాల వ్యాధుల పరీక్షలు ఒకేచోట చేసే ల్యాబ్ ఇది.",
+   "date": "2026-09-12",
+   "source_en": "Press Information Bureau, Ministry of Health and Family Welfare, 12 September 2026",
+   "source_te": "పత్రికా సమాచార కార్యాలయం (PIB), కేంద్ర ఆరోగ్య శాఖ, 12 సెప్టెంబర్ 2026",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2309440",
+   "quote": "The 10 Critical Care Blocks inaugurated today are located at GMC Kadapa, ACSR GMC Nellore, GMC Srikakulam, AMC Visakhapatnam, GMC Ongole, District Hospital Anakapalli, GMC Rajamahendravaram, KMC Kurnool, District Hospital Hindupur and SMC Vijayawada, while the 12 Integrated Public Health Laboratories are located at Area Hospital Seethampeta, Area Hospital Guntakal, Area Hospital Palamaner, Area Hospital Aganampudi, Area Hospital Nandigama, Area Hospital Chirala, Area Hospital Araku, Area Hospital Narasaraopeta, Area Hospital Banaganapalli, Area Hospital Anaparthy, Area Hospital Tuni and Area Hospital Gudur.",
+   "quote_file": "pib/details.json"
+  },
+  {
+   "id": "salur-hospital",
+   "kicker_en": "Health",
+   "kicker_te": "ఆరోగ్యం",
+   "head_en": "₹17.00 crore to make Salur a 100-bed hospital",
+   "head_te": "సాలూరు ఆసుపత్రిని 100 పడకలకు పెంచేందుకు ₹17.00 కోట్లు",
+   "en": "Upgrading the community health centre at Salur from 30 to 100 beds, with NABARD funds, has an administrative sanction of ₹17.00 crore.",
+   "te": "నాబార్డ్ నిధులతో సాలూరు సామాజిక ఆరోగ్య కేంద్రాన్ని 30 నుంచి 100 పడకలకు పెంచే పనికి ₹17.00 కోట్ల పరిపాలనా అనుమతి ఉంది.",
+   "date": "2026-08-07",
+   "source_en": "Lok Sabha, question 3357, 7 August 2026 (table of NABARD-funded hospital works, ₹ crore, administrative sanction)",
+   "source_te": "లోక్‌సభ, ప్రశ్న 3357, 7 ఆగస్టు 2026 (నాబార్డ్ నిధుల ఆసుపత్రి పనుల పట్టిక, ₹ కోట్లలో, పరిపాలనా అనుమతి)",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3357_rYUSdG.pdf?source=lsapps",
+   "quote": "7 Parvathipuram Upgradation of 30 - 100 bedded CHC at Salur 17.00 Manyam",
+   "quote_file": "ls/pdf/LS18-8_U3357.txt",
+   "mean_en": "The answer gives the sanctioned amount, not how far the work has reached.",
+   "mean_te": "జవాబులో మంజూరైన మొత్తం మాత్రమే ఉంది; పని ఎంత వరకు వచ్చిందో లేదు."
+  },
+  {
+   "id": "farm-loans",
+   "kicker_en": "Farming",
+   "kicker_te": "వ్యవసాయం",
+   "head_en": "Farm infrastructure loans: ₹67.90 crore sanctioned for 162 projects",
+   "head_te": "వ్యవసాయ మౌలిక వసతుల రుణాలు: 162 ప్రాజెక్టులకు ₹67.90 కోట్లు",
+   "en": "As on 30th June 2026, 162 projects in our district had loans sanctioned under the Centre's farm infrastructure fund: ₹67.90 crore sanctioned and ₹41.51 crore paid out. 108 of these projects had received their full loan.",
+   "te": "30 జూన్ 2026 నాటికి కేంద్ర వ్యవసాయ మౌలిక వసతుల నిధి కింద మన జిల్లాలో 162 ప్రాజెక్టులకు ₹67.90 కోట్ల రుణాలు మంజూరయ్యాయి; అందులో ₹41.51 కోట్లు చేతికి అందాయి. 108 ప్రాజెక్టులకు పూర్తి రుణం అందింది.",
+   "date": "2026-08-04",
+   "source_en": "Lok Sabha, question 2676, 4 August 2026",
+   "source_te": "లోక్‌సభ, ప్రశ్న 2676, 4 ఆగస్టు 2026",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2676_oWoLV1.pdf?source=lsapps",
+   "quote": "District-wise details of loans sanctioned and disbursed under Agriculture Infrastructure Fund (AIF) in Andhra Pradesh as on 30th June, 2026. S. No. Project District No. of sanctioned Sanctioned Loan Disbursed No. of Fully projects amount Loan amount disbursed (in crore) (in crore) projects 1. Alluri Sitharama 43 18.19 1.69 8 Raju 2. Anakapalli 81 29.02 12.58 53 3. Ananthapuramu 370 166.05 73.86 207 4. Annamayya 49 10.83 4.74 38 5. Bapatla 217 109.14 68.57 123 6. Chittoor 79 73.87 54.14 41 7. Dr. B.R. Ambedkar 284 86.10 53.74 177 Konaseema 8. East Godavari 633 373.13 207.37 442 9. Eluru 341 193.54 122.44 251 10. Guntur 224 252.06 165.15 118 11. Kakinada 335 158.92 100.06 271 12. Krishna 367 201.92 79.15 137 13. Kurnool 268 131.65 66.79 146 14. Markapuram - - - - 15. Nandyal 554 223.50 130.11 395 16. Ntr 230 127.53 53.55 139 17. Palnadu 283 225.48 132.61 141 18. Parvathipuram 162 67.90 41.51 108 Manyam",
+   "quote_file": "ls/pdf/LS18-8_U2676.txt",
+   "mean_en": "These loans pay for things like storage and processing units close to the farm.",
+   "mean_te": "పొలాల దగ్గర నిల్వ, శుద్ధి యూనిట్ల వంటి వాటికి ఈ రుణాలు ఇస్తారు."
+  },
+  {
+   "id": "forest-produce",
+   "kicker_en": "Tribal areas",
+   "kicker_te": "గిరిజన ప్రాంతాలు",
+   "head_en": "54 forest produce centres sanctioned, all 54 working",
+   "head_te": "54 అటవీ ఉత్పత్తుల కేంద్రాలు మంజూరు, 54 పనిచేస్తున్నాయి",
+   "en": "Under the Centre's tribal livelihood scheme, 54 forest produce centres were sanctioned for the Parvathipuram tribal development agency area, and all 54 are working. At these centres tribal groups process and pack forest produce to sell.",
+   "te": "కేంద్ర గిరిజన జీవనోపాధి పథకం కింద పార్వతీపురం ఐటీడీఏ ప్రాంతానికి 54 అటవీ ఉత్పత్తుల కేంద్రాలు మంజూరయ్యాయి; 54 పనిచేస్తున్నాయి. ఈ కేంద్రాల్లో గిరిజన సంఘాలు అటవీ ఉత్పత్తులను శుద్ధి చేసి, ప్యాక్ చేసి అమ్ముతాయి.",
+   "date": "2026-07-23",
+   "source_en": "Lok Sabha, question 724, 23 July 2026",
+   "source_te": "లోక్‌సభ, ప్రశ్న 724, 23 జూలై 2026",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU724_dSHscC.pdf?source=lsapps",
+   "quote": "ITDA-wise details of VDVKs in the State of Andhra Pradesh is given at Annexure-II. (b): These Van Dhan Vikas Kendras (VDVKs) have undertaken processing and value addition activities based on the availability of Minor Forest Produce (MFP) and local demands. The products processed, inter alia, include.  Nannari Sharbat: 10,000 litres (multiple VDVKs)  Amla pulp: 300 kg; Amla candy  Millets: Sama Rice (50–850 kg), Samalu (300–550 kg), Korra (450 kg), Ragi Flour/Powder (50–1,471 kg), Millet Powder (190–800 kg)  Coffee Powder: 1,800 kg  Broomsticks/Hill Brooms: 115 to 150,000 bundles/pieces  Cashew Nuts: 120 kg to 2.5 tonnes (including direct sales of 1 MT)  Tamarind/Tamarind Cakes: 60 kg to 4 tonnes  Turmeric Powder: 105.2 kg to 16 tonnes  Chilli Powder: up to 1.6 tonnes  Bamboo Furniture/Products: up to 40 tonnes  Honey: up to 190 kg  Mahua Oil: up to 500 kg  Adda Leaf Plates/Bowls: up to 15,000 plates and 5,000 bowls  Annatto Seeds: up to 2 tonnes  Black Gram/Pulses/Maize: processed in varying quantities. (c): A total of 1,29,420 tribal beneficiaries, including Scheduled Tribe women, are actively participating in VDVKs established under PMJVM and PM-JANMAN in the state of Andhra Pradesh. The schemes have facilitated value addition and marketing of Minor Forest Produce (MFP) and other tribal products and these VDVKs have generated income of ₹508.80 lakh through sales for their tribal members. (d): Year-wise details of funds is given at Annexure-III. (e): Under VDVK Programme, Entrepreneurship Awareness Programmes (EAPs), Entrepreneurship Development Programmes (EDPs) and training programmes on sustainable collection, primary processing, value addition, grading, packaging, quality control, branding, entrepreneurship development and marketing of MFP have been conducted. A total of 1,20,237 tribal beneficiaries have been trained under the programme as on 30.06.2026. Marketing linkages have been established through TRIFED, State Implementing Agencies, Van Dhan outlets, exhibitions, fairs, buyer-seller meets, e-commerce platforms and other institutional marketing channels to facilitate the sale of value-added MFP products produced by VDVKs. (f) A multi-tier monitoring and accountability mechanism has been put in place for effective implementation of the Van Dhan Vikas Kendras (VDVKs), which includes geo- tagging, regular monitoring through review meetings, field visits and progress reports by the State Implementing Agency (GCC Ltd.), ITDAs, District-level officials and TRIFED, periodic inspections, financial monitoring through scrutiny of expenditure statements and Utilisation Certificates (UCs), and statutory/internal audits. Wherever delays or deficiencies are noticed, the concerned Implementing Agencies/ITDAs are instructed to expedite operationalisation, improve fund utilisation, submit pending Utilisation Certificates, strengthen value-addition activities, enhance marketing efforts, and ensure timely reporting and compliance. Annexure-I Annexure-I as referred to in reply to part (a) of LSUQ no. 724 for answer on 23.07.2026 regarding Van Dhan Vikas Kendras in Andhra Pradesh Year-wise details of VDVKs Sl. Year No. of VDVKs Amount Sanctioned Amount Released No. Sanctioned (Rs. in Lakhs) (Rs. in Lakhs) PMJVM PM-JANMAN PMJVM PM- PMJVM PM- JANMAN JANMAN 1. 2019- 75 - 1064 - 1064 - 20 2. 2020- 188 - 2818.90 - 1400 - 21 3. 2021- 152 - 2280 - 1140 - 22 4. 2022- - - - - - - 23 5. 2023- - 73 - 307.55 - 153.825 24 TOTAL 415 73 6162.90 307.55 3604 153.825 Annexure-II Annexure-II as referred to in reply to part (a) of LSUQ no. 724 for answer on 23.07.2026 regarding Van Dhan Vikas Kendras in Andhra Pradesh ITDA-wise details of VDVKs Sl. No. ITDA/Mentoring Organisation PMJVM PM-JANMAN Sanctioned Operational Sanctioned Operational 1. ITDA Seethampeta 68 68 53 53 2. ITDA Parvathipuram 54 54",
+   "quote_file": "ls/pdf/LS18-8_U724.txt"
+  }
+ ]
+}

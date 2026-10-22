@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     google_cloud_project: str = ""
     gcs_bucket_name: str = "ap-platform-documents"
 
+    # The source archive (app/services/archive.py): every cited government file,
+    # stored once by its SHA-256, losslessly compressed. "local" keeps it in a
+    # folder (tests, Dheeraj's PC); "gcs" uses the bucket in asia-south1.
+    archive_backend: str = "local"
+    archive_bucket: str = ""
+    archive_local_root: str = "archive"
+
     # Anthropic / Claude
     anthropic_api_key: str = ""
 

@@ -77,7 +77,9 @@ async def list_news(
     count_stmt = select(func.count()).select_from(stmt.subquery())
     total = (await db.execute(count_stmt)).scalar_one()
 
-    stmt = stmt.order_by(NewsArticle.published_at.desc()).offset((page - 1) * page_size).limit(page_size)
+    # Newest first, undated last, and the id ends the sort: articles that share a timestamp keep one
+    # order from page to page, so none repeats or goes missing (tests/test_paging_shows_every_row_once.py).
+    stmt = stmt.order_by(NewsArticle.published_at.desc().nulls_last(), NewsArticle.id.desc()).offset((page - 1) * page_size).limit(page_size)
     result = await db.execute(stmt)
     articles = result.scalars().all()
 

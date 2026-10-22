@@ -1,17 +1,30 @@
 """
 Canonical district list for Andhra Pradesh.
 
-AP was reorganised in April 2022 from 13 districts into 26. These are the
-settled official names — use ONLY this list anywhere a district appears
-(filters, dropdowns, validation, scraper normalisation) so the frontend,
-the API and the ingested data all agree.
+AP was reorganised on 4 April 2022 from 13 districts into 26, and again from
+1 January 2026 into 28: Markapuram was carved out of Prakasam (G.O.Ms.No.524)
+and Polavaram out of Alluri Sitharama Raju (G.O.Ms.No.517), both Revenue
+(Lands-IV) Department, 30 December 2025, as cited by RBI circular
+RBI/2026-27/09 of 10 April 2026. The Local Government Directory lists them as
+codes 790 (Markapuram) and 791 (Polavaram).
+
+Use ONLY this list anywhere a district appears (filters, dropdowns,
+validation, scraper normalisation) so the frontend, the API and the ingested
+data all agree.
+
+A paper written before 2026 that says "Prakasam" or "Alluri Sitharama Raju"
+means the district as drawn in 2022, which included today's Markapuram or
+Polavaram. Never split such a figure between the two; show it on the map it
+was published on (see app/services/project_places.py and `map_of`).
 """
 
 from typing import Iterable, Optional
 
-# All 26 districts, alphabetical. `code` is a stable slug for URLs and
-# query params; `name` is what a citizen sees.
-AP_DISTRICTS: list[dict[str, str]] = [
+# All 28 districts, alphabetical. `code` is a stable slug for URLs and
+# query params; `name` is what a citizen sees. `hq` is None where no official
+# paper we hold names the headquarters yet. `formed` and `carved_from` are set
+# only for the two districts of 2026.
+AP_DISTRICTS: list[dict] = [
     {"code": "alluri-sitharama-raju", "name": "Alluri Sitharama Raju", "hq": "Paderu"},
     {"code": "anakapalli", "name": "Anakapalli", "hq": "Anakapalli"},
     {"code": "ananthapuramu", "name": "Ananthapuramu", "hq": "Ananthapuramu"},
@@ -25,10 +38,14 @@ AP_DISTRICTS: list[dict[str, str]] = [
     {"code": "kakinada", "name": "Kakinada", "hq": "Kakinada"},
     {"code": "krishna", "name": "Krishna", "hq": "Machilipatnam"},
     {"code": "kurnool", "name": "Kurnool", "hq": "Kurnool"},
+    {"code": "markapuram", "name": "Markapuram", "hq": None, "formed": "2026-01-01", "carved_from": "Prakasam",
+     "order": "G.O.Ms.No.524, Revenue (Lands-IV), 30 Dec 2025", "lgd_code": 790},
     {"code": "nandyal", "name": "Nandyal", "hq": "Nandyal"},
     {"code": "ntr", "name": "NTR", "hq": "Vijayawada"},
     {"code": "palnadu", "name": "Palnadu", "hq": "Narasaraopet"},
     {"code": "parvathipuram-manyam", "name": "Parvathipuram Manyam", "hq": "Parvathipuram"},
+    {"code": "polavaram", "name": "Polavaram", "hq": None, "formed": "2026-01-01", "carved_from": "Alluri Sitharama Raju",
+     "order": "G.O.Ms.No.517, Revenue (Lands-IV), 30 Dec 2025", "lgd_code": 791},
     {"code": "prakasam", "name": "Prakasam", "hq": "Ongole"},
     {"code": "sri-potti-sriramulu-nellore", "name": "Sri Potti Sriramulu Nellore", "hq": "Nellore"},
     {"code": "sri-sathya-sai", "name": "Sri Sathya Sai", "hq": "Puttaparthi"},
@@ -41,6 +58,25 @@ AP_DISTRICTS: list[dict[str, str]] = [
 ]
 
 DISTRICT_NAMES: list[str] = [d["name"] for d in AP_DISTRICTS]
+
+# The two districts of 2026, and the two they were carved from.
+NEW_IN_2026: dict[str, str] = {d["name"]: d["carved_from"] for d in AP_DISTRICTS if d.get("formed") == "2026-01-01"}
+SPLIT_IN_2026: frozenset[str] = frozenset(NEW_IN_2026.values())
+
+# The 26 districts drawn on 4 April 2022, as every paper from 2022 to 2025 uses them.
+DISTRICT_NAMES_2022: list[str] = [n for n in DISTRICT_NAMES if n not in NEW_IN_2026]
+
+
+def map_of(date_iso: Optional[str]) -> str:
+    """Which district map a paper of this date was written on: "2026", "2022" or "before 2022".
+    Undated papers return "unknown"; callers must not guess."""
+    if not date_iso:
+        return "unknown"
+    if date_iso[:10] >= "2026-01-01":
+        return "2026"
+    if date_iso[:10] >= "2022-04-04":
+        return "2022"
+    return "before 2022"
 DISTRICT_CODES: list[str] = [d["code"] for d in AP_DISTRICTS]
 
 _BY_CODE = {d["code"]: d for d in AP_DISTRICTS}
@@ -90,17 +126,35 @@ LEGACY_ALIASES: dict[str, str] = {
 }
 
 
-def normalise_district(raw: Optional[str]) -> Optional[str]:
+def normalise_district(raw: Optional[str], as_of: Optional[str] = None) -> Optional[str]:
     """
     Map any scraped district string onto a canonical district name.
 
-    Handles the current 26 names, their slugs, and pre-2022 / colloquial
+    Handles the current 28 names, their slugs, and pre-2022 / colloquial
     variants. Returns None when nothing matches, so callers can decide
     whether to store NULL or flag the row for review.
+
+    The two districts of 2026 match only by their exact name or slug, never by
+    the substring fallback: "Polavaram" is also a mandal in Eluru district and
+    the name of the dam there, and "Markapuram" a town that was in Prakasam
+    until 2026. Text like "Polavaram project, West Godavari" must never fold
+    onto Polavaram district.
+
+    `as_of` is the date of the paper the string came from (ISO). When it is
+    given and falls before 2026, the two new names return None: no paper of
+    that time could mean a district that did not exist yet, so the string is a
+    town, a mandal or a project. Ingestion code that knows the paper's date
+    should always pass it.
     """
     if not raw:
         return None
+    name = _normalise(raw)
+    if name in NEW_IN_2026 and as_of and map_of(as_of) != "2026":
+        return None
+    return name
 
+
+def _normalise(raw: str) -> Optional[str]:
     key = " ".join(raw.strip().lower().split())
 
     if key in _BY_NAME_LOWER:
@@ -113,10 +167,16 @@ def normalise_district(raw: Optional[str]) -> Optional[str]:
     if key in LEGACY_ALIASES:
         return LEGACY_ALIASES[key]
 
+    # "Markapuram District", "Prakasam district": the word itself names nothing.
+    if key.endswith(" district") and key[: -len(" district")] in _BY_NAME_LOWER:
+        return _BY_NAME_LOWER[key[: -len(" district")]]["name"]
+
     # Scraped PDFs sometimes break a name across a line, leaving a stray space
     # inside it ("Visakhapatna m"). Compare with all spaces removed.
     squashed = key.replace(" ", "")
     for d in AP_DISTRICTS:
+        if d["name"] in NEW_IN_2026:
+            continue
         if d["name"].lower().replace(" ", "") == squashed:
             return d["name"]
     for alias, canonical in LEGACY_ALIASES.items():
@@ -124,7 +184,7 @@ def normalise_district(raw: Optional[str]) -> Optional[str]:
             return canonical
 
     # Last resort: unique substring match ("guntur district" -> "Guntur")
-    hits = [d["name"] for d in AP_DISTRICTS if d["name"].lower() in key]
+    hits = [d["name"] for d in AP_DISTRICTS if d["name"] not in NEW_IN_2026 and d["name"].lower() in key]
     if len(hits) == 1:
         return hits[0]
 
@@ -167,5 +227,5 @@ def spellings_folding_to(canonical: str, candidates: Iterable[Optional[str]]) ->
 
 
 def is_valid_district(name: Optional[str]) -> bool:
-    """True only for one of the 26 canonical names."""
+    """True only for one of the 28 canonical names."""
     return bool(name) and name in DISTRICT_NAMES

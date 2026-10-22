@@ -45,6 +45,7 @@ elasticsearch[async]==8.13.0
 
 # Storage
 google-cloud-storage==2.16.0
+zstandard==0.23.0   # lossless compression for the source archive (app/services/archive.py)
 
 # Utilities
 python-dotenv==1.0.1

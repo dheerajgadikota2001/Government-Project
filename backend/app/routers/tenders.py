@@ -46,7 +46,8 @@ async def list_tenders(
     count_stmt = select(func.count()).select_from(stmt.subquery())
     total = (await db.execute(count_stmt)).scalar_one()
 
-    stmt = stmt.order_by(Tender.bid_submission_end.asc(), Tender.created_at.desc())
+    # The id ends the sort, so tenders closing the same day keep one order from page to page.
+    stmt = stmt.order_by(Tender.bid_submission_end.asc(), Tender.created_at.desc(), Tender.id.desc())
     stmt = stmt.offset((page - 1) * page_size).limit(page_size)
     result = await db.execute(stmt)
     tenders = result.scalars().all()
