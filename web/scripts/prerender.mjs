@@ -47,7 +47,10 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const SITE = { en: 'AP Fact Check', te: 'ఏపీ ఫ్యాక్ట్ చెక్' }
 const full = (t, lang) => (t[lang].startsWith(SITE[lang]) ? t[lang] : `${t[lang]} | ${SITE[lang]}`)
 
-const template = readFileSync(TEMPLATE, 'utf8')
+// Line endings are made LF here. On Windows git checks index.html out with CRLF, and the browser hashes the
+// inline script exactly as served: a CRLF script has a different hash from the one in the CSP
+// (firebase.web.json), so the theme script would be blocked. The pages are always written with LF.
+const template = readFileSync(TEMPLATE, 'utf8').replace(/\r\n?/g, '\n')
 if (!template.includes('<title>AP Fact Check</title>') || !template.includes('<div id="root"></div>')) {
   console.error('dist/index.html does not have the expected <title> and empty root. Nothing written.')
   process.exit(1)

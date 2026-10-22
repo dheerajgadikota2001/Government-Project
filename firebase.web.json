@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "web/dist",
+    "predeploy": ["node web/scripts/check_dist.mjs"],
     "ignore": [
       "**/.*",
       "**/node_modules/**",
