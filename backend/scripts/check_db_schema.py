@@ -30,7 +30,21 @@ MIGRATION_TABLES = {
     "0008": ["archived_files", "archived_file_sources"],
     "0009": ["live_readings"],
     "0010": ["district_happenings"],
+    "0011": [],   # two tender indexes, no table
+    "0012": [],   # refresh-log enum labels, no table
+    "0013": ["district_editions"],
 }
+
+
+def _column_lists(insp, table):
+    """Every index, unique constraint and the primary key of a table, as tuples of column names.
+    The same index often exists under a different name than the model gives it, so a name match
+    would report gaps that are not gaps. A model index is covered when some real index starts with
+    the same columns."""
+    have = [tuple(i["column_names"]) for i in insp.get_indexes(table)]
+    have += [tuple(u["column_names"]) for u in insp.get_unique_constraints(table)]
+    have.append(tuple(insp.get_pk_constraint(table)["constrained_columns"]))
+    return have
 
 
 def main() -> int:
@@ -63,7 +77,7 @@ def main() -> int:
         print()
 
         print("Row counts (names and numbers only):")
-        for t in ["projects", "project_districts", "data_updates", "district_happenings", "archived_files", "live_readings"]:
+        for t in ["projects", "project_districts", "data_updates", "district_happenings", "district_editions", "archived_files", "live_readings"]:
             if t in tables:
                 n = c.execute(sa.text(f'SELECT count(*) FROM "{t}"')).scalar()
                 print(f"  {t:24} {n}")
@@ -90,7 +104,7 @@ def main() -> int:
                     with eng.connect() as c2:
                         insp2 = sa.inspect(c2)
                         cols = {x["name"] for x in insp2.get_columns(name)}
-                        have_ix = {x["name"] for x in insp2.get_indexes(name)}
+                        have_ix = _column_lists(insp2, name)
                     break
                 except sa.exc.OperationalError:
                     cols, have_ix = None, None
@@ -101,9 +115,27 @@ def main() -> int:
                 if col.name not in cols:
                     problems.append(f"column missing: {name}.{col.name}")
             for ix in table.indexes:
-                if ix.name and ix.name not in have_ix:
-                    problems.append(f"index missing: {name}.{ix.name}")
-    print("Tables from migrations 0005 to 0010, compared with the code's models:")
+                cols_of_ix = tuple(c.name for c in ix.columns)
+                if not any(h[:len(cols_of_ix)] == cols_of_ix for h in have_ix):
+                    problems.append(f"index missing: {name} on {', '.join(cols_of_ix)}  (the model calls it {ix.name})")
+    # Indexes of tables older than these migrations are compared too, by columns.
+    for name, table in Base.metadata.tables.items():
+        if name in tables and name not in [n for ns in MIGRATION_TABLES.values() for n in ns]:
+            for attempt in (1, 2, 3):
+                try:
+                    with eng.connect() as c3:
+                        have_ix = _column_lists(sa.inspect(c3), name)
+                    break
+                except sa.exc.OperationalError:
+                    have_ix = None
+            if have_ix is None:
+                problems.append(f"could not read {name} (connection dropped three times)")
+                continue
+            for ix in table.indexes:
+                cols_of_ix = tuple(c.name for c in ix.columns)
+                if not any(h[:len(cols_of_ix)] == cols_of_ix for h in have_ix):
+                    problems.append(f"index missing: {name} on {', '.join(cols_of_ix)}  (the model calls it {ix.name})")
+    print("Tables, columns and indexes, compared with the code's models:")
     if problems:
         for p in problems:
             print("  " + p)
