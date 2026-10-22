@@ -15,3 +15,7 @@ _to_delete*
 *.bak*
 neva_*
 sources_status.json
+
+# a database dump and a Windows binary have no place in a public image
+*.dump
+*.exe

@@ -7,6 +7,10 @@
 # platform prefers; binaries are declared so git never touches them.
 * text=auto
 
+# The page template carries an inline script whose hash is in the CSP (firebase.web.json). The hash is of the
+# exact bytes, so a CRLF checkout on Windows broke it and the pre-render step refused to run.
+web/index.html text eol=lf
+
 # Shell scripts must stay LF even on Windows: a CRLF shebang is not a shebang,
 # and the Cloud Run image runs these.
 *.sh   text eol=lf

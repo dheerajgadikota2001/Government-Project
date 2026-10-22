@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
-import { applySeo } from '../lib/seo'
+import { applySeo, seoForDepartment } from '../lib/seo'
 import { useT } from '../i18n'
 import { croreAmount } from '../lib/money'
 import {
@@ -61,10 +61,14 @@ export default function Department() {
 
   useEffect(() => {
     if (!department) return
-    applySeo(departmentPath(department.department), {
-      title: t('finances.dept.heading', { department: department.department }).slice(0, 70),
-      description: lead.slice(0, 2).join(' ').slice(0, 200),
-    })
+    // Shared with the prerenderer: a hand-written .slice(0, 70) here and a
+    // different clip there used to give one page two titles, both cut mid-word.
+    applySeo(departmentPath(department.department), seoForDepartment({
+      department: department.department,
+      heading: t('finances.dept.heading', { department: department.department }),
+      headingShort: t('finances.dept.headingShort', { department: department.department }),
+      lead: lead.slice(0, 2),
+    }))
   }, [department?.department, lead.length])
 
   if (error) {

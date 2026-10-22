@@ -10,8 +10,9 @@
 // by this script. Use --json for a machine-readable list.
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const ROOT = path.resolve(import.meta.dirname, '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')   // import.meta.dirname needs Node 20.11+
 const SRC = path.join(ROOT, 'src')
 // src/lib/seo.ts is an entry too: the pre-renderer (scripts/prerender.mjs) runs it at build time.
 const ENTRIES = ['src/main.tsx', 'src/lib/seo.ts'].map((p) => path.join(ROOT, p))

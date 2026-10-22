@@ -13,6 +13,7 @@ import { applySeo, seoForDistrict } from '../lib/seo'
 import { croreAmount } from '../lib/money'
 import { districtSummary } from '../lib/districtSummary'
 import { districtSlug, districtPath } from '../lib/routes'
+import { displayTitle } from '../lib/projectTitle'
 const fmtTenureCr = (t, v) => (v == null || v === 0 ? null : v >= 100000
   ? `₹${(v / 100000).toFixed(2)} ${t('unit.lakhCrore')}`
   : `₹${croreAmount(v)} ${t('unit.crore')}`)
@@ -731,7 +732,7 @@ export default function Projects() {
                       <div className="relative h-44 bg-surface-container-highest overflow-hidden">
                         <img
                           src={cover.thumbnail_url || cover.url}
-                          alt={cover.caption || project.title}
+                          alt={cover.caption || displayTitle(project.title)}
                           loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -755,7 +756,7 @@ export default function Projects() {
                           <span className="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
                             {typeLabel(project.project_type)}
                           </span>
-                          <h3 className="text-headline-sm font-headline-sm text-on-surface line-clamp-2">{project.title}</h3>
+                          <h3 className="text-headline-sm font-headline-sm text-on-surface line-clamp-2">{displayTitle(project.title)}</h3>
                         </div>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${colors.badge} shrink-0 max-w-[45%] text-center leading-snug`}>
                           {statusLabel(project.status)}

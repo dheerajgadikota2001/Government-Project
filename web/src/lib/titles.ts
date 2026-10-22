@@ -127,15 +127,17 @@ export function useTitle(t: Bi | null | undefined, lang: 'en' | 'te') {
 }
 
 /* ------------------------------------------------------------------ one record's words */
-type ProjectLike = { t: string; st: string }
+type ProjectLike = { t: string; st: string; dn?: string }
 const bare = (t: string) => t.replace(/\s*\(.*?\)\s*$/, '')
 
 /** A project page asks the reader's question about the work: has it started, or is it finished? */
 export function projectQuestion(p: ProjectLike) {
-  return p.st === 'tendered' || p.st === 'approved' ? `Has work on ${bare(p.t)} started?` : `Is ${bare(p.t)} finished?`
+  const tag = p.dn ? ` (${p.dn})` : ''
+  return p.st === 'tendered' || p.st === 'approved' ? `Has work on ${bare(p.t)} started?${tag}` : `Is ${bare(p.t)} finished?${tag}`
 }
 export function projectQuestionTe(p: ProjectLike) {
-  return p.st === 'tendered' || p.st === 'approved' ? `${bare(p.t)}: పనులు మొదలయ్యాయా?` : `${bare(p.t)}: పూర్తయిందా?`
+  const tag = p.dn ? ` (${p.dn})` : ''
+  return p.st === 'tendered' || p.st === 'approved' ? `${bare(p.t)}: పనులు మొదలయ్యాయా?${tag}` : `${bare(p.t)}: పూర్తయిందా?${tag}`
 }
 export const districtTitle = (d: { name: string; te: string }): Bi =>
   ({ en: `What is happening in ${d.name} district?`, te: `${d.te} జిల్లాలో ఏం జరుగుతోంది?` })

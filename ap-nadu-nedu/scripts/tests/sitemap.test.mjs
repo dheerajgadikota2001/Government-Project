@@ -4,7 +4,8 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
-import { STATIC_ROUTES, SITE_ORIGIN, LANG_CODES, PREFIXED_LANGS, localizedPath, splitLangPath } from '../../src/lib/routes.js'
+import { STATIC_ROUTES, SITE_ORIGIN, LANG_CODES, PREFIXED_LANGS, INDEXED_LANGS, localizedPath, splitLangPath } from '../../src/lib/routes.js'
+import { robotsFor } from '../../src/lib/seo.js'
 
 /**
  * WHY THIS TEST EXISTS
@@ -20,12 +21,37 @@ import { STATIC_ROUTES, SITE_ORIGIN, LANG_CODES, PREFIXED_LANGS, localizedPath, 
  */
 
 const here = dirname(fileURLToPath(import.meta.url))
-const XML = readFileSync(resolve(here, '../../public/sitemap.xml'), 'utf8')
+const PUBLIC_DIR = resolve(here, '../../public')
+
+// sitemap.xml is an index; the pages are in one file per indexed language.
+// Every rule below reads the pages from all of them together.
+const INDEX = readFileSync(resolve(PUBLIC_DIR, 'sitemap.xml'), 'utf8')
+const CHILD_FILES = [...INDEX.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].split('/').pop())
+const CHILDREN = Object.fromEntries(CHILD_FILES.map(f => [f, readFileSync(resolve(PUBLIC_DIR, f), 'utf8')]))
+const XML = Object.values(CHILDREN).join('\n')
 const locs = [...XML.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1])
 
 test('the sitemap is generated, not hand-edited', () => {
-  assert.match(XML, /GENERATED FILE/,
-    'public/sitemap.xml looks hand-written. Run: npm run sitemap')
+  for (const [name, text] of [['sitemap.xml', INDEX], ...Object.entries(CHILDREN)]) {
+    assert.match(text, /GENERATED FILE/, `public/${name} looks hand-written. Run: npm run sitemap`)
+  }
+})
+
+test('sitemap.xml is an index of one file per indexed language, each holding only its language', () => {
+  // Search Console reports coverage per submitted sitemap. One file per
+  // language is what shows whether Telugu is being indexed, instead of one
+  // number for everything.
+  assert.match(INDEX, /<sitemapindex[\s>]/, 'sitemap.xml is not an index. Run: npm run sitemap')
+  assert.deepEqual(CHILD_FILES, INDEXED_LANGS.map(c => `sitemap-${c}.xml`))
+  for (const loc of INDEX.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+    assert.ok(loc[1].startsWith(`${SITE_ORIGIN}/sitemap-`), `the index points off the site: ${loc[1]}`)
+  }
+  for (const code of INDEXED_LANGS) {
+    const mine = [...CHILDREN[`sitemap-${code}.xml`].matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1])
+    assert.ok(mine.length > 500, `sitemap-${code}.xml lists only ${mine.length} pages`)
+    const stray = mine.filter(l => splitLangPath(l.replace(SITE_ORIGIN, '')).lang !== code)
+    assert.deepEqual(stray.slice(0, 3), [], `sitemap-${code}.xml lists pages in another language`)
+  }
 })
 
 test('every static route is published', () => {
@@ -63,8 +89,8 @@ test('district pages are published, since each one is a subject people search', 
   // be prerendered. This asserted the old form for a while after the move,
   // which is how a stale test reads: it fails on correct output.
   const districts = locs.filter(l => /\/districts\/[a-z0-9-]+$/.test(l))
-  assert.ok(districts.length >= 20 * 6,
-    `only ${districts.length} district pages listed. There are 26 in 6 languages. Run: npm run sitemap`)
+  assert.ok(districts.length >= 20 * INDEXED_LANGS.length,
+    `only ${districts.length} district pages listed. There are 26 per indexed language. Run: npm run sitemap`)
 })
 
 test('no filter other than district is published', () => {
@@ -106,27 +132,52 @@ test('every district URL names a real district', () => {
 
 const urlBlocks = [...XML.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => m[1])
 
-test('every page is published in every language', () => {
-  const byLang = {}
-  for (const code of LANG_CODES) byLang[code] = 0
-  for (const loc of locs) byLang[splitLangPath(loc.replace(SITE_ORIGIN, '')).lang]++
-
-  const english = byLang.en
-  assert.ok(english > 700, `only ${english} English URLs, the register should be larger`)
-  for (const code of LANG_CODES) {
-    assert.equal(byLang[code], english,
-      `${code} has ${byLang[code]} URLs but English has ${english}`)
+/*
+ * UPDATE, September 2026. The five translated trees were listed here and
+ * Google fetched almost none of them: 4,300 URLs sat in "Discovered, currently
+ * not indexed", and the ones it did fetch were rejected, because the project
+ * names in them are untranslated English inside translated sentences. Only
+ * INDEXED_LANGS are listed now. The rules below are written against that list,
+ * so adding a language to it brings its URLs and its reciprocal hreflang back
+ * and the tests hold them to the same standard as before.
+ */
+test('a page is listed in exactly the languages it is indexed in', () => {
+  // Page by page, because an indexed language can still hold a page that is
+  // noindex in it: a Telugu fact check is English text. robotsFor is the rule
+  // the page's own head uses, so the two cannot disagree.
+  const english = locs.filter(l => splitLangPath(l.replace(SITE_ORIGIN, '')).lang === 'en')
+  assert.ok(english.length > 700, `only ${english.length} English URLs, the register should be larger`)
+  const listed = new Set(locs)
+  for (const loc of english) {
+    const path = loc.replace(SITE_ORIGIN, '') || '/'
+    for (const code of LANG_CODES) {
+      const url = SITE_ORIGIN + localizedPath(code, path)
+      const want = robotsFor(localizedPath(code, path)) === null
+      assert.equal(listed.has(url), want,
+        `${url} ${want ? 'is indexed but missing' : 'is listed but its page says noindex'}. Run: npm run sitemap`)
+    }
   }
-  assert.equal(locs.length, english * LANG_CODES.length)
+  assert.equal(new Set(locs).size, locs.length, 'a URL is listed twice')
 })
 
-test('every URL carries the full reciprocal hreflang set', () => {
+test('no URL in the sitemap asks not to be indexed', () => {
+  // A sitemap is the list of pages we ask Google to index. Listing a noindex
+  // page is a contradiction Search Console reports and does not resolve.
+  for (const loc of locs) {
+    const path = loc.replace(SITE_ORIGIN, '').replace(/&amp;/g, '&') || '/'
+    assert.equal(robotsFor(path), null, `${loc} is in the sitemap but its page says noindex`)
+  }
+})
+
+test('every URL carries exactly the hreflang set its page declares', async () => {
   // Spot-checking a few would pass while the tail was broken, and the tail is
-  // where a generated file goes wrong.
+  // where a generated file goes wrong. The set is the page's own, from the
+  // function that writes the page head, so a pair always names each other.
+  const { alternatesFor } = await import('../../src/lib/seo.js')
   for (const block of urlBlocks) {
-    const tags = [...block.matchAll(/hreflang="([^"]+)"/g)].map(m => m[1])
-    assert.deepEqual(tags, [...LANG_CODES, 'x-default'],
-      `incomplete hreflang set on ${block.match(/<loc>([^<]+)</)?.[1]}`)
+    const loc = block.match(/<loc>([^<]+)</)[1]
+    const got = [...block.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)].map(m => [m[1], m[2]])
+    assert.deepEqual(got, alternatesFor(loc.replace(SITE_ORIGIN, '') || '/'), `wrong hreflang set on ${loc}`)
   }
 })
 
@@ -145,7 +196,9 @@ test('an alternate points at the same page, not a different one', () => {
 test('x-default sends an unpublished language to English', () => {
   const sample = urlBlocks.slice(0, 50)
   for (const block of sample) {
-    const xd = block.match(/hreflang="x-default" href="([^"]+)"/)[1]
+    const found = block.match(/hreflang="x-default" href="([^"]+)"/)
+    if (!found) continue            // no hreflang at all while one language is indexed
+    const xd = found[1]
     for (const code of PREFIXED_LANGS) {
       assert.ok(!xd.includes(`/${code}/`) && !xd.endsWith(`/${code}`),
         `x-default points at ${code}, which is not a fallback anyone can read`)
@@ -153,16 +206,23 @@ test('x-default sends an unpublished language to English', () => {
   }
 })
 
-test('the sitemap declares the xhtml namespace its alternates need', () => {
-  // Without this the xhtml:link elements are not valid and Google ignores
-  // every one of them, silently, while still reporting the sitemap as fine.
-  assert.match(XML, /xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/)
+test('each sitemap declares the xhtml namespace exactly when it has alternates', () => {
+  // Without it the xhtml:link elements are not valid and Google ignores every
+  // one of them, silently, while still reporting the sitemap as fine.
+  for (const [name, text] of Object.entries(CHILDREN)) {
+    if (/<xhtml:link/.test(text)) assert.match(text, /xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/, name)
+    else assert.ok(!/xmlns:xhtml/.test(text), `${name} declares a namespace for alternates that are not there`)
+  }
 })
 
 test('the sitemap stays inside what a search engine will accept', () => {
-  assert.ok(locs.length <= 50000, `${locs.length} URLs exceeds the 50,000 limit`)
-  const megabytes = Buffer.byteLength(XML) / (1024 * 1024)
-  assert.ok(megabytes <= 50, `sitemap is ${megabytes.toFixed(1)} MB, over the 50 MB limit`)
+  // The limits are per file.
+  for (const [name, text] of Object.entries(CHILDREN)) {
+    const n = (text.match(/<loc>/g) || []).length
+    assert.ok(n <= 50000, `${name}: ${n} URLs exceeds the 50,000 limit`)
+    const megabytes = Buffer.byteLength(text) / (1024 * 1024)
+    assert.ok(megabytes <= 50, `${name} is ${megabytes.toFixed(1)} MB, over the 50 MB limit`)
+  }
 })
 
 test('every URL carries a lastmod, and it is a real date', () => {
@@ -189,8 +249,8 @@ test('districts are published at their own path, not as a query', () => {
   // A query string cannot be prerendered, so while districts lived at
   // ?district= they were visible only to crawlers that run JavaScript.
   const districts = locs.filter(l => /\/districts\//.test(l))
-  assert.ok(districts.length >= 26 * 6,
-    `only ${districts.length} district URLs; expected 26 in each of 6 languages`)
+  assert.ok(districts.length >= 26 * INDEXED_LANGS.length,
+    `only ${districts.length} district URLs; expected 26 in each indexed language`)
   assert.equal(locs.filter(l => /[?&]district=/.test(l)).length, 0,
     'the old query-string district URLs are still being published')
   for (const l of districts.slice(0, 30)) {
@@ -198,19 +258,24 @@ test('districts are published at their own path, not as a query', () => {
   }
 })
 
-test('each finances question has a URL, in every language', () => {
+test('each finances question has a URL, in every indexed language', () => {
   const questions = locs.filter(l => /\/finances\/[a-z0-9-]+$/.test(l) && !/\/finances\/departments\//.test(l))
-  assert.equal(questions.length, 9 * 6, `${questions.length} question URLs; expected 9 in each of 6 languages`)
-  assert.ok(questions.some(l => l.endsWith('/finances/whose-number-is-right')))
-  assert.ok(questions.some(l => l.endsWith('/te/finances/whose-number-is-right')))
+  assert.equal(questions.length, 9 * INDEXED_LANGS.length,
+    `${questions.length} question URLs; expected 9 in each indexed language`)
+  for (const code of INDEXED_LANGS) {
+    const want = localizedPath(code, '/finances/whose-number-is-right')
+    assert.ok(questions.some(l => l.endsWith(want)), `no ${want}`)
+  }
 })
 
 test('the forty voted demands each have a URL', () => {
   // Thirteen years of budget volumes per department, already collected and
   // already cited, and until now with no address at all.
   const depts = locs.filter(l => /\/finances\/departments\//.test(l))
-  assert.ok(depts.length >= 40 * 6,
-    `only ${depts.length} department URLs; expected 40 in each of 6 languages`)
+  // English only while their text is English (seo.js ENGLISH_CONTENT_PATTERNS);
+  // the rule that keeps them out of the Telugu file is tested above.
+  const english = depts.filter(l => splitLangPath(l.replace(SITE_ORIGIN, '')).lang === 'en')
+  assert.ok(english.length >= 40, `only ${english.length} English department URLs; expected 40`)
   for (const l of depts.slice(0, 40)) {
     assert.match(l, /\/finances\/departments\/[a-z0-9-]+$/, `not a clean slug: ${l}`)
   }

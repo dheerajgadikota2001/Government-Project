@@ -200,6 +200,11 @@ class AmrutProjectsScraper(BaseScraper):
         with pdfplumber.open(path) as pdf:
             for page in pdf.pages:
                 tables.extend(page.extract_tables())
+                # Keep the cells, drop the page. pdfplumber caches every object
+                # it decoded on the Page that produced it, so without this the
+                # whole document stays in memory long after we have the only
+                # thing we want from it. See the same note in mospi_projects.
+                page.flush_cache()
         joined, solo = build_vocabulary(
             [c for table in tables for raw in table for c in raw if c]
         )

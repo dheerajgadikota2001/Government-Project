@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiGet } from '../lib/api'
 import { districtPath } from '../lib/routes'
+import { displayTitle } from '../lib/projectTitle'
 import { useT } from '../i18n'
 
 /**
@@ -86,7 +87,7 @@ export default function RelatedProjects({ project, typeLabel }) {
               to={`/projects/${p.id}`}
               className="text-primary text-body-md hover:underline break-words"
             >
-              {p.title}
+              {displayTitle(p.title)}
             </Link>
           </li>
         ))}

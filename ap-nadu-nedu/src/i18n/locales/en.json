@@ -59,6 +59,12 @@
         "title": "Children",
         "p1": "This site collects no personal information from anyone, at any age, and it has no accounts. So there is nothing here that would treat a student's visit differently from anyone else's. School and college students are among the readers this platform is most for."
       },
+      "reports": {
+        "title": "Corrections and board posts",
+        "p1": "The correction form sends us the page you name, what you write, and a way to reach you if you choose to give one. It goes only to the maintainer. It is never shown on the site and never sent to analytics.",
+        "p2": "A post on the community board is public, under the name you choose. You can delete your own post from the browser you wrote it in.",
+        "p3": "For both, we keep a scrambled form of your internet address, made with a secret key, only to stop spam and repeated abuse. The address itself is never stored. We keep correction reports so we can show what was fixed and why. To have your report, your contact detail or your post removed, send a correction request that says which one, and we will delete it."
+      },
       "changes": {
         "title": "If this changes",
         "p1": "This page describes what the code actually does. It gets updated in the same change as the code, not afterwards. The date at the top is the date it last changed. If anything here is unclear, or looks wrong to you, tell us. Being wrong about our own data handling would be the most serious mistake this platform could make."
@@ -287,9 +293,9 @@
   "footer": {
     "tagline": "ప్రజల పాలన · People's Governance",
     "disclaimer": "An independent, citizen-run transparency initiative. We are not affiliated with, endorsed by, or connected to the Government of Andhra Pradesh or any of its departments. All information is mirrored from publicly available official government portals, with a source link and collection date on every item.",
-    "disclaimerTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
+    "disclaimerTe": "ఆంధ్రప్రదేశ్ ఫ్యాక్ట్ చెక్ ఒక స్వతంత్ర పౌర పారదర్శకత వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి సంబంధించినది కాదు.",
     "copyright": "© 2026 Andhra Pradesh Fact Check · Built by citizens, for citizens · Not an official government website",
-    "copyrightAct": "Government documents reproduced under Section 52, Copyright Act 1957",
+    "copyrightAct": "Some public records reproduced under Section 52(1)(q), Copyright Act 1957",
     "links": {
       "about": "About · Why we exist",
       "sources": "Data Sources",
@@ -417,7 +423,8 @@
       "heading": "Government projects in {district} district",
       "count": "{count} tracked government projects in {district} district, Andhra Pradesh.",
       "cost": "Their combined published estimated cost is ₹{amount} {unit}.",
-      "method": "A project that spans districts is counted in each district it touches, and its published cost is never divided between them."
+      "method": "A project that spans districts is counted in each district it touches, and its published cost is never divided between them.",
+      "none": "No government project in {district} district is tracked here yet. When one is published in a document we cite, it appears on this page."
     }
   },
   "projectDetail": {
@@ -427,13 +434,7 @@
     "loading": "Loading the cited record…",
     "whatRecordSays": "What the record says",
     "primarySource": "Primary source:",
-    "correctionNote": "Found a figure that doesn't match its source, or a document we're missing? Tell us and we correct it — that promise is the foundation of this platform.",
-    "tenures": {
-      "pre": "Before bifurcation (undivided AP)",
-      "tdp1": "TDP (Naidu) 2014–19",
-      "ysrcp": "YSRCP (Jagan) 2019–24",
-      "tdp2": "TDP-led NDA (Naidu) 2024–"
-    },
+    "correctionNote": "Found a figure that doesn't match its source, or a document we're missing? Tell us and we correct it. That promise is the foundation of this platform.",
     "tiles": {
       "estimatedCost": "Estimated cost",
       "physicalProgress": "Physical progress",
@@ -453,62 +454,14 @@
     },
     "facts": {
       "projectCode": "Project code",
-      "projectCodeHint": "find this code inside the source document — your independent check on us",
+      "projectCodeHint": "search for this code inside the source document to check us yourself",
       "implementingAgency": "Implementing agency",
       "department": "Department / ministry",
       "mandal": "Mandal",
       "constituency": "Constituency",
       "trackedFrom": "Tracked from",
-      "registeredSince": "In our register since"
-    },
-    "datedRecord": {
-      "title": "Dated record",
-      "note": "Only dates and figures from official/cited publications. Progress points name the document they came from; the list grows as new reports are imported. A gap means \"no published figure for that period\" — never zero work, and never our estimate."
-    },
-    "span": {
-      "fromAnnouncement": "Announcement",
-      "fromStart": "Start",
-      "toCompletion": "completion",
-      "toExpected": "expected completion",
-      "years": {
-        "one": "{count} year",
-        "other": "{count} years"
-      },
-      "months": {
-        "one": "{count} month",
-        "other": "{count} months"
-      },
-      "text": "{from} to {to}: about {duration} between the recorded dates."
-    },
-    "milestone": {
-      "announced": "Announced / approved (as recorded)",
-      "started": "Works began (as recorded)",
-      "expectedAsRecorded": "Expected completion (as recorded)",
-      "expectedLatestCited": "Expected completion (latest cited)",
-      "completed": "Completed (as recorded)"
-    },
-    "timeline": {
-      "physicalProgress": "Physical progress {pct}%",
-      "progressObservation": "Progress observation",
-      "cumulativeSpend": "cumulative spend ₹{amount} {unit}"
-    },
-    "band": {
-      "title": "Which government, how much — as far as the record says",
-      "intro": "Progress between two published figures is credited to a government only when both dates fall inside its tenure. Where a stretch crosses a handover, the official reports don't say how much happened under each — so we show it striped and say exactly that, instead of guessing.",
-      "chartLabel": "Progress split by government tenure, where attributable",
-      "worksBegan": "works began",
-      "announced": "announced",
-      "publishedFigure": "published figure",
-      "completed": "completed",
-      "segmentTip": "{pct}% under {tenure} ({from} → {to})",
-      "segmentTipSpanned": "{pct}% across a change of government — record cannot split it",
-      "notReported": "not yet reported as done",
-      "attributed": "under {tenure} — from {fromPct}% ({fromDate}, {fromLabel}) to {toPct}% ({toDate}, {toLabel})",
-      "spanned": "between {from} and {to} — this stretch crosses a change of government ({tenures}); the published record does not split it, so neither do we",
-      "remaining": "The remaining {pct}% has no published completion figure yet.",
-      "sharpens": "This section sharpens as more dated reports are imported — every new official figure adds a split point.",
-      "beforeRecord": "{pct}% was already complete at the first published figure ({date}) — the record does not say when it happened, or under whom.",
-      "beforeRecordTip": "{pct}% already complete before the first published figure"
+      "registeredSince": "In our register since",
+      "projectCodeHintNumber": "search the source document for the number {number} to check us yourself"
     },
     "news": {
       "title": "News that mentions this project",
@@ -516,9 +469,9 @@
         "one": "{count} article",
         "other": "{count} articles"
       },
-      "matchedOn": "matched automatically on \"{words}\" — not our endorsement of their accuracy",
+      "matchedOn": "matched automatically on \"{words}\", not our endorsement of their accuracy",
       "matchedWords": "matched on \"{words}\"",
-      "note": "Articles are listed because their text contains this project's name — nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
+      "note": "Articles are listed because their text contains this project's name, nothing more. Official figures on this page never come from these articles; they are context, and the official documents above are the record."
     },
     "summary": {
       "spendVsCost": "As of {date}, ₹{spent} {unit} had been spent on {name}, against a published estimated cost of ₹{cost} {unit}.",
@@ -536,6 +489,180 @@
       "seeDistrict": "See all tracked projects in {district}",
       "seeRegister": "See the whole register",
       "note": "Same district, same register, same sources. Nothing here is a recommendation."
+    },
+    "q": {
+      "what": "What is {name}?",
+      "cost": "How much does {name} cost?",
+      "stage": "What stage is {name} at?",
+      "when": "When is {name} due to be completed?",
+      "where": "Where is {name}?",
+      "who": "Who is responsible for {name}?",
+      "source": "Where do these figures come from?",
+      "differ": "Why do government sources give different figures for {name}?",
+      "late": "Is {name} running late?",
+      "handover": "Where did {name} stand when the government changed in {date}?"
+    },
+    "a": {
+      "place": "{name} is recorded in {district} district.",
+      "placeMandal": "{name} is recorded in {mandal} mandal, {district} district.",
+      "stage": "Its latest recorded status is {status}.",
+      "stageType": "It is recorded as {type} work. Its latest recorded status is {status}.",
+      "runBy": "It is listed under {department}.",
+      "runByAgency": "It is listed under {department}, and {agency} is recorded as the implementing agency.",
+      "code": "The source gives it project code {code}. Look for that code inside the document to check this page against it.",
+      "differ": "It is recorded in {count} government documents, and they do not agree. One publishes {low}, another publishes {high}. Both are official. This site does not decide which is right; every figure and the document it came from are set out below.",
+      "codeNumber": "The source lists it as project {code}. Search the document for the number {number} to check this page against it."
+    },
+    "sources": {
+      "heading": "What each government source says",
+      "note": "The same work appears in more than one government record. Every record is shown here as it was published, with the document it came from.",
+      "column": "Source document"
+    },
+    "story": {
+      "heading": "The story so far",
+      "autoNote": "Built only from this project's own record. Nothing is added, and each part names the document it comes from.",
+      "flagshipNote": "Written from the documents named under each part. Checked on {date}.",
+      "draftNote": "Draft. Not checked yet, so readers do not see it.",
+      "questionsHeading": "Questions people ask",
+      "open": "Open the document",
+      "listSep": ", ",
+      "tier": {
+        "company": "the company's own report",
+        "other": "not a government document",
+        "lender": "a lender's document"
+      },
+      "keyDates": {
+        "title": "Key dates",
+        "approved": "Approved",
+        "began": "Works began",
+        "firstReport": "First report",
+        "latestReport": "Latest report",
+        "due": "Due",
+        "completed": "Completed",
+        "passed": "This date has passed",
+        "pctDone": "{pct}% done"
+      },
+      "chart": {
+        "title": "Progress over time",
+        "aria": "Physical progress, as printed in {count} reports",
+        "note": "Each dot is a figure a report printed. The line only joins the dots; it is not a measurement. It breaks where the government changed, because this record has no figure for that day.",
+        "hollow": "A hollow dot is not a government figure.",
+        "undated": "A survey that prints no date is placed at the end of its survey year.",
+        "changed": "Government changed",
+        "done": "Completed"
+      },
+      "start": {
+        "title": "How it started",
+        "lineBoth": "Approved in {approved}. Works began in {began}.",
+        "lineApproved": "Approved in {approved}.",
+        "lineBegan": "Works began in {began}.",
+        "approved": "The record gives {date} as the date it was approved. That is the approval date, not the day the idea was first announced.",
+        "began": "The record says works began in {date}.",
+        "beforeDivision": "That was before Andhra Pradesh was divided on 2 June 2014."
+      },
+      "money": {
+        "title": "The money",
+        "lineCostSpent": "Estimated cost ₹{cost} crore. ₹{spent} crore spent as of {when}.",
+        "lineCost": "Estimated cost ₹{cost} crore.",
+        "lineSpent": "₹{spent} crore spent as of {when}.",
+        "lineActual": "Actual cost ₹{actual} crore.",
+        "cost": "The estimated cost on record is ₹{cost} crore.",
+        "costHistory": "The estimated cost printed in each report:",
+        "costItem": "₹{cost} crore.",
+        "spentOne": "The only spending figure on record is ₹{spent} crore ({doc}).",
+        "spentHistory": "Money spent so far, as each report printed it:",
+        "spentItem": "₹{spent} crore.",
+        "actual": "The actual cost recorded when it was completed is ₹{actual} crore."
+      },
+      "years": {
+        "title": "Year by year",
+        "linePct": "From {from}% to {to}% across {count} reports.",
+        "lineOnePct": "One report so far, with {pct}% done.",
+        "lineCount": {
+          "one": "One report on record.",
+          "other": "{count} reports on record."
+        },
+        "entry": "{facts}.",
+        "pct": "{pct}% done",
+        "spent": "₹{spent} crore spent so far",
+        "cost": "estimated cost ₹{cost} crore",
+        "noFigure": "No figure, only a note.",
+        "lower": "This is lower than the figure before it. It is shown as printed.",
+        "note": "Note with this entry: “{note}”",
+        "changed": "{date}: the government changed. This record has no figure for that day."
+      },
+      "delays": {
+        "title": "Delays and changes",
+        "lineDueBefore": "The completion date on record, {due}, is earlier than the latest report.",
+        "lineDuePassed": "The completion date on record, {due}, has passed.",
+        "lineCostUp": "The estimated cost went up between reports.",
+        "lineCostDown": "The estimated cost went down between reports.",
+        "lineFell": "A later report printed lower progress than an earlier one.",
+        "lineSpentDown": "A later report printed lower spending than an earlier one.",
+        "lineStatus": "Status on the latest record: {status}.",
+        "dueBefore": "The completion date on record is {due}. The latest report ({doc}) comes after that date, and it still lists the work as {status}.",
+        "duePassedEarlierReport": "The completion date on record, {due}, has now passed. The latest report is from {reportDate}, before that date, so it cannot say whether the work finished on time.",
+        "duePassed": "The completion date on record, {due}, has now passed. The record does not say whether the work has finished.",
+        "costUp": "The estimated cost went up: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}).",
+        "costDown": "The estimated cost went down: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}).",
+        "fell": "Progress went down: {from}% ({docFrom}), then {to}% ({docTo}). Both figures are shown as printed.",
+        "spentDown": "The spending figure went down: ₹{from} crore ({docFrom}), then ₹{to} crore ({docTo}). Both figures are shown as printed.",
+        "status": "Status on the latest record: {status}.",
+        "noReason": "The record does not give a reason."
+      },
+      "now": {
+        "title": "Where it stands now",
+        "lineCompleted": "Completed in {date}.",
+        "lineListedCompleted": "Listed as completed.",
+        "lineStatus": "{status}.",
+        "linePct": "{pct}% done.",
+        "lineDue": "Due {due}.",
+        "completed": "It was completed in {date}.",
+        "listedCompleted": "The record lists it as completed, but gives no completion date.",
+        "status": "Status on the latest record: {status}.",
+        "pct": "Physical progress in the latest report: {pct}% ({doc}).",
+        "pctRecord": "Physical progress on record: {pct}%.",
+        "due": "The completion date on record is {due}."
+      },
+      "gaps": {
+        "title": "What the record does not say",
+        "line": "Not on record: {list}.",
+        "intro": "The record does not give:",
+        "item": {
+          "start": "start date",
+          "progress": "progress figure",
+          "spend": "money spent",
+          "due": "completion date",
+          "district": "district"
+        },
+        "blank": "A blank means the source did not publish it. It does not mean nothing happened."
+      },
+      "handover": {
+        "changed": "The government changed on {date}.",
+        "pct": "The last progress figure in this record before that is {before}% ({docBefore}). The first after it is {after}% ({docAfter}).",
+        "spend": "The last spending figure before that is ₹{before} crore ({docBefore}). The first after it is ₹{after} crore ({docAfter}).",
+        "noDay": "This record has no figure for the day itself."
+      },
+      "steps": {
+        "title": "How this project has moved",
+        "sub": "{count} steps. Each one names the paper it comes from.",
+        "approved": "Approved",
+        "built": "{pct}% built",
+        "spent": "₹{amount} crore spent",
+        "cost": "Cost put at ₹{amount} crore",
+        "due": "Due to finish",
+        "completed": "Completed",
+        "lower": "Lower than the report before",
+        "paper": "Paper",
+        "readFull": "Read the full story",
+        "share": "Share as picture",
+        "preparing": "Getting the picture ready",
+        "send": "Send the picture",
+        "download": "Download picture",
+        "copyLink": "Copy link",
+        "copied": "Link copied",
+        "pictureFoot": "Every step with its paper"
+      }
     }
   },
   "gallery": {
@@ -643,7 +770,7 @@
       "projected": "Projected",
       "foreignInvestors": "Foreign Investors",
       "nonDomestic": "Non-domestic",
-      "committedAnnounced": "Committed investment, as announced"
+      "committedAnnounced": "Live commitments, as announced"
     },
     "filters": {
       "searchLabel": "Search MoUs",
@@ -688,7 +815,13 @@
         "press": "Press report",
         "unlabelled": "Source not labelled"
       },
-      "undated": "No reliable signing date published"
+      "undated": "No reliable signing date published",
+      "statusBy": "{status} · {source}",
+      "saysWho": {
+        "company": "company says",
+        "press": "press reports",
+        "unlabelled": "source not labelled"
+      }
     },
     "provenance": {
       "title": "What that total is made of",
@@ -696,7 +829,8 @@
       "detail": "{n} agreements · {pct}% of the total",
       "footnote": "Of the {total} crore announced, {gov} crore appears in a government record. The rest is what companies and newspapers have stated. Every agreement below is labelled with which of the three it came from.",
       "compact": "Who says these numbers: {gov}% from government records · {company}% from company statements · {press}% from press reports.",
-      "seeBreakdown": "See the full breakdown"
+      "seeBreakdown": "See the full breakdown",
+      "notLive": "Not counted in the total: {cancelled} cancelled ({cancelledCr} crore) and {stalled} stalled ({stalledCr} crore). They are still listed below with their status."
     },
     "tabs": {
       "aria": "Which view of investments to show",
@@ -706,6 +840,20 @@
     },
     "sources": {
       "intro": "Every figure on this page names the document it came from. This tab shows who stands behind the headline total, and where the official record disagrees with itself."
+    },
+    "register": {
+      "heading": "Every commitment on record",
+      "summary": "{n} live commitments, {total} announced in total. Who says these figures: {gov}% from government records, {company}% from company statements, {press}% from press reports.",
+      "col": {
+        "company": "Company",
+        "sector": "Sector",
+        "district": "District",
+        "amount": "Announced amount",
+        "status": "Status",
+        "source": "Kind of source",
+        "signed": "Signed"
+      },
+      "amountUnknown": "No amount published"
     }
   },
   "summits": {
@@ -1272,7 +1420,8 @@
       "stageRE": "Revised estimate",
       "stageActual": "Audited actual",
       "allDepartments": "All forty demands",
-      "demandLabel": "Demand"
+      "demandLabel": "Demand",
+      "headingShort": "{department} budget, year by year"
     }
   },
   "governments": {
@@ -1821,9 +1970,9 @@
       "line2": "Finding it shouldn't be a full-time job."
     },
     "why": {
-      "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere — a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
-      "p2": "Andhra Pradesh Fact Check does one thing: it gathers what the government has already published into a single place and organises it — by project, by district, by department — so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
-      "p3": "We create nothing. We add nothing. We show existing public records, link every one back to where the government published it, and make it accessible to everyone — in English and in Telugu, free, with no login."
+      "p1": "Everything a citizen of Andhra Pradesh might want to know about their government's work is already published somewhere: a tender on one portal, the sanction order on a second, the budget release on a third, the audit report on a fourth, and the progress announcement in a press meeting covered by the newspapers. All of it public. Almost none of it findable.",
+      "p2": "Andhra Pradesh Fact Check does one thing. It gathers what the government has already published into a single place and organises it by project, by district and by department, so that anyone can follow the work being done in their name without needing to know which of a dozen portals to search.",
+      "p3": "We show existing public records, link every one back to where the government published it, and make it accessible to everyone: in English and in Telugu, free, with no login."
     },
     "principles": {
       "title": "How we keep it trustworthy",
@@ -1837,11 +1986,11 @@
       },
       "dated": {
         "title": "Dated, not \"current\"",
-        "body": "Government data changes, and our copy can lag the original. So nothing here claims to be live — every figure carries the date it was last collected, and the original portal is always one click away for the latest version."
+        "body": "Government data changes, and our copy can lag the original. So nothing here claims to be live. Every figure carries the date it was last collected, and the original portal is always one click away for the latest version."
       },
       "noSide": {
         "title": "No side to take",
-        "body": "The platform tracks work, not parties. The same project keeps its page and its history through every change of government. What was promised, what was sanctioned, what was built — the record speaks for itself."
+        "body": "The platform tracks work, not parties. The same project keeps its page and its history through every change of government. What was promised, what was sanctioned, what was built: the record speaks for itself."
       }
     },
     "sources": {
@@ -1851,7 +2000,7 @@
       "list": {
         "eProcurement": {
           "name": "AP e-Procurement Portal",
-          "what": "Tenders — notices, deadlines, awards"
+          "what": "Tenders: notices, deadlines, awards"
         },
         "goir": {
           "name": "Government Orders Issue Register (GOIR)",
@@ -1862,7 +2011,7 @@
           "what": "Budgets, fund releases, expenditure statements"
         },
         "cag": {
-          "name": "CAG — AG (Audit) Andhra Pradesh",
+          "name": "CAG, AG (Audit) Andhra Pradesh",
           "what": "Audit reports and state finance reports"
         },
         "openData": {
@@ -1879,7 +2028,7 @@
         },
         "press": {
           "name": "Published news reports",
-          "what": "Sakshi, Eenadu, The Hans India, Deccan Chronicle and others — always linked, never republished"
+          "what": "Sakshi, Eenadu, The Hans India, Deccan Chronicle and others. Always linked, never republished."
         }
       }
     },
@@ -1887,7 +2036,7 @@
       "title": "Independent, and accountable for it",
       "bodyBefore": "Andhra Pradesh Fact Check is a citizen-run initiative with no affiliation to the Government of Andhra Pradesh, the Government of India, or any political party. Nobody pays us to show or hide anything. And because mistakes are possible in any mirror of a moving source, we commit to this: if anything displayed here is inaccurate or outdated,",
       "tellUs": "tell us",
-      "bodyAfter": "and we will review it within 48 hours — correcting, updating, or removing it, and saying so."
+      "bodyAfter": "and we will review it within 48 hours. We correct, update or remove it, and we say so."
     },
     "cta": {
       "disclaimer": "Read the full disclaimer",
@@ -1897,12 +2046,12 @@
   "disclaimer": {
     "eyebrow": "Legal",
     "title": "Disclaimer",
-    "lead": "The short version: we are an independent citizen platform mirroring public government records, with a source link and timestamp on everything — and if something here is wrong, we fix it within 48 hours of being told.",
+    "lead": "The short version: we are an independent citizen platform that shows public government records, with a source link and a timestamp on everything. If something here is wrong, we fix it within 48 hours of being told.",
     "lastUpdated": "Last updated: {month} {year}",
     "tocAria": "Sections",
     "sections": {
       "whoWeAre": {
-        "title": "Who we are — and who we are not",
+        "title": "Who we are, and who we are not",
         "p1": "Andhra Pradesh Fact Check is an independent, non-governmental transparency platform built and maintained by private citizens. We are NOT affiliated with, endorsed by, or connected to the Government of Andhra Pradesh, the Government of India, any government department, or any political party.",
         "p2": "This website is not an official government website. Nothing here constitutes an official government communication. For official information, always refer to the government portals we link to."
       },
@@ -1920,22 +2069,27 @@
       },
       "copyright": {
         "title": "Copyright and content",
-        "p1": "Government Orders, Acts, notifications, reports, and similar public records are reproduced in accordance with the exemptions provided under Section 52 of the Copyright Act, 1957, which permits the reproduction of government works of this nature.",
+        "p1": "Some public records are reproduced here under Section 52(1)(q) of the Copyright Act, 1957. That clause covers matter published in the Official Gazette, Acts of a legislature published with commentary, reports of government committees laid before the Legislature, and judgments and orders of courts. For every other government document, we report the facts and figures it states and link to the original file on the government portal.",
         "p2": "News content: we display only headlines, source attributions, and short AI-generated summaries clearly labeled as such. Full articles remain on the publishers' websites, and every headline links to the original publisher. We do not host or republish full news articles.",
         "p3": "Documents in our library link to the original file on the government portal wherever possible. Where we hold a cached copy for reliability, the original source link is always displayed alongside it, together with the date of retrieval."
       },
       "ai": {
         "title": "AI-generated summaries",
-        "p1": "Summaries marked \"AI Summary\" are generated automatically to make long articles and documents easier to scan. They may contain errors and are not a substitute for the original text. The original is always linked — read it before relying on any detail."
+        "p1": "Summaries marked \"AI Summary\" are generated automatically to make long articles and documents easier to scan. They may contain errors and are not a substitute for the original text. The original is always linked. Read it before relying on any detail."
       },
       "corrections": {
         "title": "Corrections and takedown requests",
-        "p1": "If you believe any information displayed here is inaccurate, outdated, defamatory, or should not be displayed, write to us with a link to the specific item. We review every request within 48 hours and will correct, update, annotate, or remove content where warranted — and note that we did so.",
+        "p1": "If you believe any information displayed here is inaccurate, outdated, defamatory, or should not be displayed, write to us with a link to the specific item. We review every request within 48 hours. Where it is warranted we correct, update, annotate or remove the content, and we note that we did so.",
         "p2": "This applies to everyone: citizens, officials, contractors, and companies named in public records alike. We show public records as published; if the record itself is wrong, we will link to any official correction once one is published."
+      },
+      "grievance": {
+        "title": "Grievance officer",
+        "p1": "The grievance officer for this platform, including the community board, is {name}. Write to {email}. This is the contact the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021 ask a platform to publish.",
+        "p2": "We acknowledge every complaint within 24 hours and resolve it within 15 days. A request to remove content is acted on within 72 hours, and a correction to a figure within the 48 hours promised above."
       },
       "branding": {
         "title": "Emblems and official marks",
-        "p1": "This platform deliberately does not use the State Emblem of Andhra Pradesh, the State Emblem of India, or any official government seal, logo, or insignia — their use by private entities is restricted under the State Emblem of India (Prohibition of Improper Use) Act, 2005, and using them would wrongly suggest official status. Our logo and branding are original marks."
+        "p1": "This platform deliberately does not use the State Emblem of Andhra Pradesh, the State Emblem of India, or any official government seal, logo, or insignia. Their use by private entities is restricted under the State Emblem of India (Prohibition of Improper Use) Act, 2005, and using them would wrongly suggest official status. Our logo and branding are original marks."
       },
       "liability": {
         "title": "Limitation of liability",
@@ -1951,7 +2105,7 @@
     },
     "summary": {
       "titleTe": "సంక్షిప్తంగా",
-      "bodyTe": "ఏపీ నాడు–నేడు ఒక స్వతంత్ర పౌర వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి గానీ, ఏ రాజకీయ పార్టీకి గానీ సంబంధించినది కాదు. ఇక్కడి సమాచారం అంతా అధికారిక ప్రభుత్వ పోర్టళ్ల నుండి సేకరించబడింది — ప్రతి అంశానికీ మూలం లింక్ మరియు సేకరించిన తేదీ ఉంటాయి. ఏదైనా తప్పుగా ఉంటే మాకు తెలియజేయండి; 48 గంటల్లో సరిచేస్తాము."
+      "bodyTe": "ఆంధ్రప్రదేశ్ ఫ్యాక్ట్ చెక్ ఒక స్వతంత్ర పౌర వేదిక. ఇది ఆంధ్రప్రదేశ్ ప్రభుత్వానికి గానీ, ఏ రాజకీయ పార్టీకి గానీ సంబంధించినది కాదు. ఇక్కడి సమాచారం అంతా అధికారిక ప్రభుత్వ పోర్టళ్ల నుండి సేకరించబడింది. ప్రతి అంశానికీ మూలం లింకు, సేకరించిన తేదీ ఉంటాయి. ఏదైనా తప్పుగా ఉంటే మాకు తెలియజేయండి; 48 గంటల్లో సరిచేస్తాము."
     }
   },
   "sourceDocs": {
@@ -2679,5 +2833,44 @@
     },
     "allChecks": "All fact checks",
     "documentNote": "About this source"
+  },
+  "share": {
+    "built": "built",
+    "status": "status",
+    "estimatedCost": "estimated cost",
+    "spent": "spent so far",
+    "projectsTracked": "projects tracked",
+    "combinedCost": "combined estimated cost",
+    "source": "Source: {source}",
+    "sourceGeneric": "Every figure from a government document",
+    "district": "{district} district",
+    "statewide": "Andhra Pradesh",
+    "siteTitle": "Andhra Pradesh projects, budget and debt, from the official record",
+    "tagline": "Every figure is taken from a government document, and the document is linked beside it.",
+    "kind": {
+      "district": "District",
+      "factcheck": "Fact check",
+      "finances": "State finances",
+      "department": "Department budget",
+      "section": "Andhra Pradesh Fact Check"
+    },
+    "districtsCovered": "districts",
+    "departmentBudgets": "department budgets",
+    "cta": {
+      "project": "See the documents",
+      "district": "See all {count}",
+      "factcheck": "Read the check",
+      "finances": "See the figures",
+      "department": "See the budget",
+      "section": "Read more",
+      "site": "Open the site"
+    }
+  },
+  "related": {
+    "factChecks": "Fact checks on the same record",
+    "financeQuestions": "Questions about the state's money",
+    "districts": "Government projects by district",
+    "districtName": "{district}",
+    "note": "Pages about the same record, chosen by hand. Nothing here is a recommendation."
   }
 }

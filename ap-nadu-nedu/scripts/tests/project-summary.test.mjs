@@ -65,7 +65,7 @@ test('a full record produces the answer someone would search for', () => {
   assert.ok(!/₹₹/.test(text), `doubled rupee sign: ${text}`)
   assert.match(text, /(^|[^₹])₹23,776 crore/)
   assert.match(text, /₹55,549 crore/)
-  assert.match(text, /POLAVARAM IRRIGATION PROJECT/)
+  assert.match(text, /Polavaram Irrigation Project/)
   assert.match(text, /76%/)
   assert.match(text, /MoSPI flash report, June 2025/)
 })
@@ -236,4 +236,93 @@ test('the aggregate pages are deliberately left rounding', () => {
     const src = readFileSync(resolve(here, '../../', file), 'utf8')
     assert.match(src, /Math\.round/, `${file} no longer rounds; was that intended?`)
   }
+})
+
+/**
+ * Status and project type sat in the database from the first import and were
+ * never once printed. status is a NOT NULL column, so every project in the
+ * register carries one: 673 pages in six languages gained a sentence from data
+ * that was already in the row and needed no scraping at all.
+ *
+ * The risk in printing an enum is printing the enum. "under_construction" in
+ * the middle of a Telugu paragraph is worse than saying nothing.
+ */
+test('status and type are said in words, in every language, or not at all', () => {
+  for (const code of LOCALES) {
+    const out = run({ ...POLAVARAM, status: 'under_construction', project_type: 'irrigation' }, null, code).join(' ')
+    assert.ok(!/under_construction|urban_development|it_tech/.test(out),
+      `${code} leaked a database token into the paragraph: ${out}`)
+    assert.ok(out.length > 40, `${code} produced almost nothing`)
+  }
+
+  // A status this build has no label for drops the clause rather than
+  // printing the token. A new enum value added to the backend must not reach
+  // the page before its translation does.
+  const unknown = run({ ...POLAVARAM, status: 'repurposed' }, null).join(' ')
+  assert.ok(!/repurposed/.test(unknown), 'an untranslated status was printed raw')
+})
+
+test('"other" is a type worth saying nothing about', () => {
+  // Every unclassified project would otherwise carry "It is recorded as Other
+  // work", which informs nobody and would be identical on hundreds of pages.
+  const out = run({ ...POLAVARAM, status: 'completed', project_type: 'other' }, null).join(' ')
+  assert.ok(!/Other/.test(out), `the filler type reached the page: ${out}`)
+  assert.match(out, /Completed/, 'dropping the type also dropped the status')
+})
+
+test('the district is in the paragraph, not only in a labelled box', () => {
+  // "projects in Guntur district" is a search people type. 527 project pages
+  // held the answer in a definition list, which matches none of it.
+  const out = run({ ...POLAVARAM, district: 'Eluru' }, null).join(' ')
+  assert.match(out, /Eluru district/)
+
+  const withMandal = run({ ...POLAVARAM, district: 'Eluru', mandal: 'Polavaram' }, null).join(' ')
+  assert.match(withMandal, /Polavaram mandal/)
+  assert.match(withMandal, /Eluru district/)
+
+  // And no district means no sentence about a district.
+  const nowhere = run({ ...POLAVARAM, district: null }, null).join(' ')
+  assert.ok(!/district/.test(nowhere), `it invented a location: ${nowhere}`)
+})
+
+test('an empty record still produces no sentences at all', () => {
+  // The guard that matters most: every new clause added above must keep
+  // failing closed. A project with a title and nothing else is a real row.
+  assert.deepEqual(run({ title: 'A PROJECT WITH NO RECORD BEHIND IT' }, null), [])
+})
+
+test('a project page names its source as a reader would, never by our import key', async () => {
+  // 505 AMRUT pages and 155 MoSPI pages printed "AMRUT_MoHUA" and "MOSPI_IPMD"
+  // under "Tracked from" and as the link under "What the record says". Those
+  // are the keys our importers file rows under, not the name of any document
+  // a reader could go and look for. The page now asks sourceDocs.js for the
+  // name, the same helper the story and the summary already use.
+  const { portalName } = await import('../../src/lib/sourceDocs.js')
+  assert.equal(portalName({ source_portal: 'MOSPI_IPMD' }), 'MoSPI flash report')
+  assert.equal(
+    portalName({ source_portal: 'AMRUT_MoHUA', description: 'Milestone as on 05.03.2026' }),
+    'AMRUT 2.0 status report, as on 05.03.2026')
+  // A portal we have no reader's name for is shown as the record gives it,
+  // because a hand-written seed portal ("PIB (Govt of India)") already is one.
+  assert.equal(portalName({ source_portal: 'PIB (Govt of India)' }), 'PIB (Govt of India)')
+
+  const detail = readFileSync(resolve(here, '../../src/pages/ProjectDetail.jsx'), 'utf8')
+  assert.doesNotMatch(detail, /\{project\.source_portal\}/, 'the page prints the raw import key as a link')
+  assert.doesNotMatch(detail, /v: project\.source_portal\b/, 'the facts list prints the raw import key')
+})
+
+test('a source gets the tier of what it publishes, the same way the backend decides it', async () => {
+  // Kept in step with source_tier() in backend/app/routers/project_register.py
+  // and its test, tests/test_source_tier.py, which uses these same addresses.
+  const { sourceTier } = await import('../../src/lib/sourceDocs.js')
+  const cases = [
+    ['https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf', 'gov'],
+    ['https://s3.ap-south-1.amazonaws.com/someone-else/apfinance.gov.in/fake.pdf', 'other'],
+    ['https://s3.ap-south-1.amazonaws.com/apfinance.gov.in.evil/x.pdf', 'other'],
+    ['https://publish-p168597-e1857439.adobeaemcloud.com/content/dam/aero-investor-pdf/corporate-announcements/fy-2025-26/august/x.pdf', 'company'],
+    ['https://investor.gmraero.com/pdf/report.pdf', 'company'],
+    ['https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165', 'gov'],
+    ['https://www.business-standard.com/amp/markets/x.html', 'other'],
+  ]
+  for (const [url, want] of cases) assert.equal(sourceTier(url), want, url)
 })

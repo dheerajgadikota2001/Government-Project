@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useT } from '../i18n'
+import { GRIEVANCE, grievanceReady } from '../lib/legal'
 
 /**
  * The legal backbone of the platform, written to be read by humans.
@@ -18,12 +19,30 @@ const SECTIONS = [
   { id: 'copyright', key: 'copyright', icon: 'copyright', paras: 3 },
   { id: 'ai', key: 'ai', icon: 'auto_awesome', paras: 1 },
   { id: 'corrections', key: 'corrections', icon: 'published_with_changes', paras: 2 },
+  // Shown only once src/lib/legal.js names a person and an address: a
+  // grievance officer with a blank name is worse than no section.
+  { id: 'grievance', key: 'grievance', icon: 'mail', paras: 2, when: grievanceReady },
   { id: 'branding', key: 'branding', icon: 'verified', paras: 1 },
   { id: 'liability', key: 'liability', icon: 'gavel', paras: 1 },
 ]
 
+/** The grievance officer's address as a link, inside the sentence that names it. */
+function withEmail(text, email) {
+  const at = text.indexOf(email)
+  if (!email || at < 0) return text
+  return (
+    <>
+      {text.slice(0, at)}
+      <a href={`mailto:${email}`} className="text-primary font-semibold hover:underline">{email}</a>
+      {text.slice(at + email.length)}
+    </>
+  )
+}
+
 export default function Disclaimer() {
   const { t } = useT()
+  const sections = SECTIONS.filter(s => !s.when || s.when())
+  const vars = { name: GRIEVANCE.name.trim(), email: GRIEVANCE.email.trim() }
 
   return (
     <div className="w-full px-4 md:px-8 max-w-[860px] mx-auto py-12 flex flex-col gap-10">
@@ -33,12 +52,12 @@ export default function Disclaimer() {
         <p className="text-body-lg font-body-lg text-on-surface-variant max-w-[65ch]">
           {t('disclaimer.lead')}
         </p>
-        <p className="text-label-md text-outline">{t('disclaimer.lastUpdated', { month: t('month.aug'), year: '2026' })}</p>
+        <p className="text-label-md text-outline">{t('disclaimer.lastUpdated', { month: t('month.sep'), year: '2026' })}</p>
       </header>
 
       {/* Table of contents */}
       <nav aria-label={t('disclaimer.tocAria')} className="flex flex-wrap gap-2">
-        {SECTIONS.map(s => (
+        {sections.map(s => (
           <a
             key={s.id}
             href={`#${s.id}`}
@@ -50,7 +69,7 @@ export default function Disclaimer() {
       </nav>
 
       <div className="flex flex-col gap-8">
-        {SECTIONS.map(s => (
+        {sections.map(s => (
           <section key={s.id} id={s.id} className="flex flex-col gap-3 scroll-mt-24">
             <h2 className="text-headline-sm font-headline-sm text-on-surface font-bold flex items-center gap-2">
               <span className="material-symbols-outlined text-secondary-container">{s.icon}</span>
@@ -58,7 +77,7 @@ export default function Disclaimer() {
             </h2>
             {Array.from({ length: s.paras }, (_, i) => (
               <p key={i} className="text-body-md font-body-md text-on-surface-variant leading-relaxed max-w-[70ch]">
-                {t(`disclaimer.sections.${s.key}.p${i + 1}`)}
+                {withEmail(t(`disclaimer.sections.${s.key}.p${i + 1}`, vars), vars.email)}
               </p>
             ))}
           </section>
