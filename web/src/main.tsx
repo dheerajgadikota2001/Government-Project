@@ -2,8 +2,14 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App'
+import { keepPrerendered } from '@/lib/prerendered'
 
-createRoot(document.getElementById('root')!).render(
+// The pre-rendered facts (scripts/prerender.mjs) stay on screen until this page's own code has
+// arrived, instead of flashing to a loading mark on a slow connection.
+const root = document.getElementById('root')!
+keepPrerendered(root)
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>,

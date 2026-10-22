@@ -1,7 +1,9 @@
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { LangProvider } from '@/lib/i18n'
+import { LangProvider, useLang } from '@/lib/i18n'
+import { CLAIM_Q, PAGE_WORDS, useTitle } from '@/lib/titles'
 import { DesignProvider } from '@/lib/design'
 import { useRoute } from '@/lib/route'
+import { prerenderedHere } from '@/lib/prerendered'
 import { AppShell } from '@/components/shell'
 import * as React from 'react'
 
@@ -31,15 +33,22 @@ const Privacy = lazy(() => import('@/pages/More'), (m) => m.Privacy)
 const Sources = lazy(() => import('@/pages/More'), (m) => m.Sources)
 const Words = lazy(() => import('@/pages/More'), (m) => m.Words)
 const Paper = lazy(() => import('@/pages/Paper'), (m) => m.default)
+const NotFound = lazy(() => import('@/pages/More'), (m) => m.NotFound)
 const CardsFeed = lazy(() => import('@/components/cards'), (m) => m.CardsFeed)
 
 /** A quiet placeholder while a page's code arrives; it never flashes for a cached page. */
 function Wait() {
+  // On the first load, the facts the server wrote for this address stay up until the page arrives.
+  const pre = prerenderedHere()
+  if (pre) return <div aria-busy="true" dangerouslySetInnerHTML={{ __html: pre }} />
   return <div className="mx-auto max-w-6xl px-4 py-24 text-center text-[13.5px] text-muted-foreground" aria-busy="true">…</div>
 }
 
 function Router() {
   const r = useRoute()
+  const { lang } = useLang()
+  // Pages about one record (a project, a district, a district paper) set their own title from the record.
+  useTitle(r.page === 'claim' ? CLAIM_Q[r.arg ?? ''] : PAGE_WORDS[r.page]?.title, lang)
   let body: React.ReactNode
   switch (r.page) {
     case 'cards': body = <CardsFeed />; break
@@ -66,6 +75,7 @@ function Router() {
     case 'about': body = <About />; break
     case 'disclaimer': body = <Disclaimer />; break
     case 'privacy': body = <Privacy />; break
+    case 'notfound': body = <NotFound />; break
     default: body = <Home />
   }
   return <AppShell route={r}><React.Suspense fallback={<Wait />}>{body}</React.Suspense></AppShell>

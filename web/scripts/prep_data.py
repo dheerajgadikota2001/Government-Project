@@ -439,13 +439,8 @@ for c in claims:
 dump('claims', claims)
 lib = load(f'{LIVE}/library.json')
 dump('papers', {'documents': lib['documents'], 'doc_types': lib['doc_types'], 'sectors': lib['sectors'], 'updated': lib['updated']})
-ten = load(f'{LIVE}/tenders.json')
-# Closed notices travel only as the two fields the counts need.
-closed = [{'tender_type': t.get('tender_type'), 'department': t.get('department')} for t in ten.get('closed', [])]
-dump('tenders', {'items': ten['items'], 'closed': closed, 'summary': load(f'{LIVE}/tenders_summary.json')})
-runs = [{**{k: r.get(k) for k in ('run_id', 'started_at', 'records_new', 'sources_ok', 'sources_failed')},
-         'sources': [{k: s.get(k) for k in ('source', 'records_new', 'status')} for s in (r.get('sources') or [])]} for r in updates['runs']]
-dump('updates', {'runs': runs, 'sources': updates['sources'], 'generated_at': updates['generated_at']})
+# Tenders, the refresh log and the community board are not baked into the site any more: the pages
+# read them live from the API (src/lib/live.ts), so a copy here could only ever be out of date.
 dump('meta', meta)
 
 # ================================================================ added 18 Oct 2026
@@ -571,9 +566,6 @@ for i in gov['rankings']['indices']:
 awards = [{k: a.get(k) for k in ('date', 'text', 'url', 'publisher')} for a in gov['awards']['items']]
 dump('periods', {'periods': periods, 'unattributed': tp['unattributed_count'], 'pre_division': tp['pre_bifurcation_count'],
                  'series': series, 'events': events, 'rankings': rankings, 'awards': awards})
-
-# ---------------------------------------------------------------- community
-dump('community', load(f'{LIVE}/community.json'))
 
 # ---------------------------------------------------------------- trust pages, from the live site's own words
 REPO = f'{S}/repo/dev/ap-nadu-nedu/src/i18n/locales'

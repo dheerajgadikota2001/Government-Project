@@ -1,18 +1,18 @@
 import * as React from 'react'
-import { ArrowRight, Check, CircleDashed, FileText, MessagesSquare, Send, TriangleAlert } from 'lucide-react'
+import { ArrowRight, Check, CircleDashed, FileText, MessagesSquare, TriangleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n'
 import { href } from '@/lib/route'
 import { meta } from '@/lib/data'
-import { updates } from '@/lib/data-papers'
-import { community, legal } from '@/lib/data-site'
+import { legal } from '@/lib/data-site'
+import { apiGet } from '@/lib/api'
+import { useLive, useUpdates, type UpdateSource } from '@/lib/live'
 import { dateLong, dateTe, istDay, istTime } from '@/lib/format'
 import { Page, PageHead } from '@/components/shell'
 import { ExampleBox, Section } from '@/components/kit'
+import { LiveGate } from '@/components/live-state'
+import { CorrectionForm, Thread } from '@/components/community'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 
 const paras = (o: Record<string, any>) => Object.keys(o).filter((k) => /^p\d+$/.test(k)).sort().map((k) => o[k] as string)
 
@@ -91,9 +91,9 @@ const STATUS_WORD: Record<string, { en: string; te: string }> = {
   skipped: { en: 'Skipped by our safety check', te: 'మా భద్రతా తనిఖీ ఆపింది' },
 }
 
-export function SourceHealth() {
+export function SourceHealth({ sources }: { sources: UpdateSource[] }) {
   const { lang, tr } = useLang()
-  const rows = [...(updates.sources as any[])].sort((a, b) => String(b.last_run).localeCompare(String(a.last_run)))
+  const rows = [...sources].sort((a, b) => String(b.last_run).localeCompare(String(a.last_run)))
   const when = (s: string) => (lang === 'te' ? `${dateTe(istDay(s))}, ${istTime(s)}` : `${dateLong(istDay(s))}, ${istTime(s)}`)
   return (
     <div className="overflow-x-auto rounded-2xl border border-border bg-card">
@@ -121,6 +121,12 @@ export function SourceHealth() {
       </table>
     </div>
   )
+}
+
+/** The same table, fetching the refresh log itself for pages that show it on their own. */
+export function SourceHealthLive() {
+  const state = useUpdates()
+  return <LiveGate state={state} what={{ en: 'The refresh log', te: 'నవీకరణ లాగ్' }} rows={5}>{(u) => <SourceHealth sources={u.sources} />}</LiveGate>
 }
 
 export function Sources() {
@@ -153,7 +159,7 @@ export function Sources() {
       <Section className="mt-16" eyebrow={tr('Source health', 'మూలాల స్థితి')} title={tr('When did each source last update?', 'ప్రతి మూలం చివరిగా ఎప్పుడు నవీకరించబడింది?')}
         lede={tr('One line per source: when our reader last ran, when it last worked, and how that run went. Three sources are read by hand on purpose: older MoSPI reports behind a browser check, the yearly Socio-Economic Survey volumes, and the figures inside budget books.',
           'ప్రతి మూలానికి ఒక వరుస: మా రీడర్ చివరిగా ఎప్పుడు నడిచింది, చివరిగా ఎప్పుడు పని చేసింది, ఆ పరుగు ఎలా సాగింది. మూడు మూలాలను కావాలనే చేతితో చదువుతాం: బ్రౌజర్ తనిఖీ వెనుక ఉన్న పాత ఎంఓఎస్‌పీఐ నివేదికలు, ఏటా వచ్చే సామాజిక ఆర్థిక సర్వే సంపుటాలు, బడ్జెట్ పుస్తకాల లోపలి అంకెలు.')}>
-        <SourceHealth />
+        <SourceHealthLive />
         <div className="mt-4 flex flex-wrap gap-4">
           <a href={href('papers')} className="inline-flex items-center gap-1.5 text-[15px] font-medium">{tr('Every paper we read', 'మేము చదివే ప్రతి పత్రం')}<ArrowRight className="size-4" /></a>
           <a href={href('updates')} className="inline-flex items-center gap-1.5 text-[15px] font-medium">{tr('What each check added, day by day', 'ప్రతి తనిఖీ ఏం చేర్చింది, రోజు వారీగా')}<ArrowRight className="size-4" /></a>
@@ -164,40 +170,56 @@ export function Sources() {
 }
 
 /* ------------------------------------------------------------ community */
+type Topic = { key: string; post_count: number; last_post_at: string | null }
+
 export function Community() {
   const { lang, tr } = useLang()
   const C = legal.community[lang] ?? legal.community.en
-  const [sent, setSent] = React.useState(false)
+  // The counts on the topic cards are read again after each post, so they never lag the board below.
+  const [posted, setPosted] = React.useState(0)
+  const topics = useLive(() => apiGet<Topic[]>('/community/topics'), `topics-${posted}`, { refresh: true })
+  const [open, setOpen] = React.useState<string>('general')
+  const panel = React.useRef<HTMLDivElement>(null)
+  // On a phone the board sits below six topic cards, so opening one brings it into view.
+  const pick = (key: string) => {
+    setOpen(key)
+    requestAnimationFrame(() => {
+      const r = panel.current?.getBoundingClientRect()
+      if (r && r.top > window.innerHeight * 0.6) panel.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
   return (
     <Page className="pt-10 md:pt-14">
       <PageHead eyebrow={C.eyebrow} q={{ en: legal.community.en.title, te: legal.community.te.title }} lede={C.sub} />
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-        <section aria-labelledby="boards">
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <section aria-labelledby="boards" className="min-w-0">
           <h2 id="boards" className="text-[13px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{C.topicsLabel}</h2>
-          <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
-            {community.map((t: any) => (
-              <li key={t.key} className="rounded-xl border border-border bg-card p-4">
-                <div className="flex items-center gap-2 text-[16px] font-semibold"><MessagesSquare className="size-4 text-muted-foreground" />{C.topics[t.key] ?? t.key}</div>
-                <div className="mt-1 text-[13.5px] text-muted-foreground">{t.post_count
-                  ? tr(`${t.post_count} ${t.post_count === 1 ? 'post' : 'posts'}, the latest on ${dateLong(istDay(t.last_post_at))}`, `${t.post_count} పోస్టులు, చివరిది ${dateTe(istDay(t.last_post_at))}న`)
-                  : C.empty}</div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 rounded-xl border border-dashed border-foreground/25 px-4 py-3 text-[14px] leading-relaxed text-muted-foreground">{C.rules}</p>
-          <p className="mt-3 text-[13px] text-muted-foreground">{tr('In this preview the boards are shown, not opened; posting works on the live site.', 'ఈ ప్రివ్యూలో బోర్డులను చూపుతున్నాం, తెరవడం లేదు; పోస్టు చేయడం లైవ్ సైట్‌లో పనిచేస్తుంది.')}</p>
+          <LiveGate state={topics} what={{ en: 'The discussion boards', te: 'చర్చా బోర్డులు' }} rows={3}>
+            {(list) => (
+              <ul className="mt-3 grid gap-2.5 sm:grid-cols-2" role="tablist" aria-label={C.topicsLabel}>
+                {list.map((t) => (
+                  <li key={t.key}>
+                    <button type="button" role="tab" aria-selected={open === t.key} onClick={() => pick(t.key)}
+                      className={cn('w-full rounded-xl border bg-card p-4 text-left transition-colors', open === t.key ? 'border-foreground' : 'border-border hover:border-foreground/40')}>
+                      <span className="flex items-center gap-2 text-[16px] font-semibold"><MessagesSquare className="size-4 text-muted-foreground" aria-hidden />{C.topics[t.key] ?? t.key}</span>
+                      <span className="mt-1 block text-[13.5px] text-muted-foreground">{t.post_count && t.last_post_at
+                        ? tr(`${t.post_count} ${t.post_count === 1 ? 'post' : 'posts'}, the latest on ${dateLong(istDay(t.last_post_at))}`, `${t.post_count} పోస్టులు, చివరిది ${dateTe(istDay(t.last_post_at))}న`)
+                        : C.empty}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </LiveGate>
+          <div ref={panel} className="mt-6 scroll-mt-20 rounded-2xl border border-border bg-card p-5" role="tabpanel">
+            <h3 className="mb-4 text-[20px] font-semibold">{C.topics[open] ?? open}</h3>
+            <Thread key={open} topic={open} onPosted={() => setPosted((n) => n + 1)} />
+          </div>
         </section>
-        <section aria-labelledby="corr" className="rounded-2xl border border-border bg-card p-5">
+        <section aria-labelledby="corr" className="h-fit min-w-0 rounded-2xl border border-border bg-card p-5">
           <h2 id="corr" className="text-[20px] font-semibold">{C.correction.title}</h2>
-          <p className="mt-1 text-[14px] leading-relaxed text-muted-foreground">{C.correction.sub}</p>
-          <form className="mt-4 grid gap-3" onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
-            <div className="grid gap-1.5"><Label htmlFor="cw">{C.correction.where}</Label><Input id="cw" /></div>
-            <div className="grid gap-1.5"><Label htmlFor="cwhat">{C.correction.what}</Label><Textarea id="cwhat" rows={4} /></div>
-            <div className="grid gap-1.5"><Label htmlFor="cc">{C.correction.contact}</Label><Input id="cc" /></div>
-            <div className="flex flex-wrap items-center gap-3"><Button type="submit" className="gap-1.5"><Send className="size-4" />{C.correction.send}</Button>
-              {sent ? <span className="text-[13.5px] text-muted-foreground">{tr('Preview: not sent. The real form connects when this design goes live.', 'ప్రివ్యూ: పంపలేదు. ఈ డిజైన్ లైవ్‌కు వచ్చినప్పుడు అసలు ఫారం కలుస్తుంది.')}</span> : null}</div>
-            <p className="text-[12.5px] text-muted-foreground">{C.correction.privacy}</p>
-          </form>
+          <p className="mb-4 mt-1 text-[14px] leading-relaxed text-muted-foreground">{C.correction.sub}</p>
+          <CorrectionForm />
         </section>
       </div>
     </Page>
@@ -307,5 +329,27 @@ export function Privacy() {
         <p className="mt-2 text-[13px] text-muted-foreground">{ch.scope}</p>
       </section>
     } />
+  )
+}
+
+/* ------------------------------------------------------------ an address the site does not have */
+export function NotFound() {
+  const { tr } = useLang()
+  const links: [string, string, string][] = [
+    ['projects', 'Projects', 'పనులు'], ['districts', 'My district', 'మా జిల్లా'], ['money', 'Money', 'డబ్బు'],
+    ['claims', 'Check a claim', 'నిజమేనా?'], ['papers', 'Government papers', 'ప్రభుత్వ పత్రాలు'],
+  ]
+  return (
+    <Page className="py-16 md:py-24">
+      <div className="max-w-2xl">
+        <div className="text-[12px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">404</div>
+        <h1 className="mt-2 text-[32px] font-semibold leading-tight tracking-tight [text-wrap:balance]">{tr('This page is not here', 'ఈ పేజీ ఇక్కడ లేదు')}</h1>
+        <p className="mt-3 text-[16.5px] leading-relaxed text-foreground/85">{tr('The address may be mistyped, or the page may have moved. Nothing on this site is removed quietly: if a record you saw before is gone, tell us and we will say why.', 'చిరునామా తప్పుగా ఉండవచ్చు, లేదా పేజీ మారి ఉండవచ్చు. ఈ సైట్‌లో ఏదీ చెప్పకుండా తీసేయం: మీరు ముందు చూసిన రికార్డు కనిపించకపోతే మాకు చెప్పండి, ఎందుకో చెబుతాం.')}</p>
+        <ul className="mt-6 flex flex-wrap gap-2">
+          {links.map(([k, en, te]) => <li key={k}><a href={href(k)} className="inline-flex h-10 items-center gap-1.5 rounded-full border border-border px-4 text-[14.5px] font-medium hover:border-foreground/40">{tr(en, te)}<ArrowRight className="size-4" aria-hidden /></a></li>)}
+          <li><a href={href('community')} className="inline-flex h-10 items-center rounded-full px-4 text-[14.5px] font-medium underline underline-offset-4">{tr('Tell us', 'మాకు చెప్పండి')}</a></li>
+        </ul>
+      </div>
+    </Page>
   )
 }

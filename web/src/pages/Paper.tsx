@@ -1,3 +1,4 @@
+import { paperTitle, useTitle } from '@/lib/titles'
 import * as React from 'react'
 import { ArrowUpRight, ChevronDown, CloudRain, Droplets, Factory, HandHeart, HardHat, Info, Pause, ShowerHead, Volume2, Waves } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -392,6 +393,7 @@ export default function Paper({ slug }: { slug: string }) {
   const te = lang === 'te'
   const L = te ? 'te' : undefined
   const d = districtBySlug.get(slug) ?? districts[0]
+  useTitle(paperTitle(d), lang)
   const h = useHappen(d.slug)
   const all = React.useMemo(() => [...(ED.districts[d.name] ?? []), ...siteItems(d.name)], [d.name])
   const { taps, water, money } = React.useMemo(() => ({

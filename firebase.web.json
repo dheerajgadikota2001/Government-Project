@@ -14,10 +14,6 @@
           "serviceId": "apnn-api",
           "region": "asia-south1"
         }
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
       }
     ],
     "headers": [
@@ -45,8 +41,12 @@
             "value": "camera=(), geolocation=(), microphone=(self), payment=(), usb=()"
           },
           {
-            "key": "Content-Security-Policy-Report-Only",
-            "value": "default-src 'self'; script-src 'self' 'sha256-oRuLqfx8DNwqzll53xcrKXFRrs7YHleFfmS+sSpH0eI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/v1/meta/csp-report"
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'sha256-oRuLqfx8DNwqzll53xcrKXFRrs7YHleFfmS+sSpH0eI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/v1/meta/csp-report"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
           }
         ]
       },
@@ -56,15 +56,6 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "/index.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
           }
         ]
       },
@@ -89,8 +80,109 @@
             "value": "/"
           }
         ]
+      },
+      {
+        "source": "/@(sitemap.xml|sitemap-en.xml|sitemap-te.xml|robots.txt)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
+        ]
       }
     ],
-    "trailingSlash": false
+    "trailingSlash": false,
+    "redirects": [
+      {
+        "regex": "^/(?:hi|ur|ta|or)$",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "regex": "^/(?:hi|ur|ta|or)/(?P<rest>.+)$",
+        "destination": "/:rest",
+        "type": 301
+      },
+      {
+        "regex": "^/polavaram$",
+        "destination": "/projects/613",
+        "type": 301
+      },
+      {
+        "regex": "^/te/polavaram$",
+        "destination": "/te/projects/613",
+        "type": 301
+      },
+      {
+        "regex": "^/projects/1$",
+        "destination": "/projects/613",
+        "type": 301
+      },
+      {
+        "regex": "^/te/projects/1$",
+        "destination": "/te/projects/613",
+        "type": 301
+      },
+      {
+        "regex": "^/finances/departments/[^/]+$",
+        "destination": "/finances/departments",
+        "type": 301
+      },
+      {
+        "regex": "^/te/finances/departments/[^/]+$",
+        "destination": "/te/finances/departments",
+        "type": 301
+      },
+      {
+        "regex": "^/finances/(?:whose-number-is-right|which-departments|where-does-the-money-go-first|what-the-governments-claim|what-is-the-debt-made-of|what-is-not-in-the-debt-figure|was-the-voted-money-spent|is-the-debt-too-big|does-the-state-earn-enough)$",
+        "destination": "/finances",
+        "type": 301
+      },
+      {
+        "regex": "^/te/finances/(?:whose-number-is-right|which-departments|where-does-the-money-go-first|what-the-governments-claim|what-is-the-debt-made-of|what-is-not-in-the-debt-figure|was-the-voted-money-spent|is-the-debt-too-big|does-the-state-earn-enough)$",
+        "destination": "/te/finances",
+        "type": 301
+      },
+      {
+        "regex": "^/school-education$",
+        "destination": "/finances/departments",
+        "type": 301
+      },
+      {
+        "regex": "^/te/school-education$",
+        "destination": "/te/finances/departments",
+        "type": 301
+      },
+      {
+        "regex": "^/(?:projects|investments)/tenure/[^/]+$",
+        "destination": "/governments",
+        "type": 301
+      },
+      {
+        "regex": "^/te/(?:projects|investments)/tenure/[^/]+$",
+        "destination": "/te/governments",
+        "type": 301
+      },
+      {
+        "regex": "^/search$",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "regex": "^/te/search$",
+        "destination": "/te",
+        "type": 301
+      },
+      {
+        "regex": "^/news(?:/[^/]+)?$",
+        "destination": "/",
+        "type": 302
+      },
+      {
+        "regex": "^/te/news(?:/[^/]+)?$",
+        "destination": "/te",
+        "type": 302
+      }
+    ]
   }
 }

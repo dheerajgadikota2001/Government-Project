@@ -566,3 +566,13 @@ body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; }
 }
 .apfc-fade-in { animation: apfc-fade-in var(--fade-dur, 0.4s) ease-out var(--fade-delay, 0.04s) both; }
 @media (prefers-reduced-motion: reduce) { .apfc-fade-in { animation: none; } }
+
+/* The pre-rendered page (scripts/prerender.mjs): what a reader sees before the app's script has run,
+   and what link previews and answer engines read. Plain, readable, in the site's own colours. */
+.pre { max-width: 44rem; margin: 0 auto; padding: 2rem max(16px, env(safe-area-inset-left, 0px)) 3rem; color: var(--foreground); }
+.pre h1 { font-size: 1.75rem; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; margin: 0.75rem 0 0.5rem; text-wrap: balance; }
+.pre a { text-decoration: underline; text-underline-offset: 3px; }
+.pre ul { margin: 1.25rem 0; padding-left: 1.1rem; list-style: disc; display: grid; gap: 0.45rem; }
+.pre .pre-site, .pre .pre-note, .pre .pre-nav { font-size: 0.875rem; color: var(--muted-foreground); }
+.pre .pre-lede { font-size: 1.05rem; line-height: 1.55; color: var(--muted-foreground); }
+.pre .pre-nav { margin-top: 1.5rem; line-height: 2; }

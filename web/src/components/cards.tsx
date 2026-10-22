@@ -9,6 +9,7 @@ import { helplines } from '@/lib/data-helplines'
 import { dateLong, dateTe } from '@/lib/format'
 import { CardsLangSwitch, DistrictSelect, InShort, useCardsLang, useMyDistrict, W, type ShortItem } from '@/components/card-bits'
 import { todaysCards, type BiS, type FactCard } from '@/lib/cards'
+import { useTenderSummary } from '@/lib/live'
 import { Dam } from '@/graphics/Dam'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -396,9 +397,13 @@ export function CardWall({ className }: { className?: string }) {
   const [lang, setLang] = useCardsLang()
   const [district, setDistrict] = useMyDistrict()
   const [share, setShare] = React.useState<FactCard | null>(null)
-  const all = React.useMemo(() => todaysCards(district), [district])
+  const ts = useTenderSummary()
+  const sum = ts.status === 'ok' ? ts.data : null
+  const all = React.useMemo(() => todaysCards(district, sum), [district, sum])
   const pick = ['polavaram', 'tenders', 'claim-2024', 'income', 'schools', 'district']
   const cards = pick.map((id) => all.find((c) => c.id === id)).filter(Boolean) as FactCard[]
+  // The tenders card is live. While it is on its way a plain placeholder holds its place, so the wall does not jump.
+  const waiting = ts.status === 'loading'
   const te = lang === 'te'
   return (
     <section className={cn('min-w-0', className)} aria-labelledby="wall-title">
@@ -414,8 +419,9 @@ export function CardWall({ className }: { className?: string }) {
         </div>
       </div>
       <div className="relative -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
-        {cards.map((c) => (
-          <div key={c.id} className="flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col gap-2 md:w-auto md:max-w-none">
+        {waiting ? <div aria-hidden className="order-2 flex min-h-[260px] w-[82vw] max-w-[340px] shrink-0 animate-pulse rounded-2xl border border-border bg-muted/50 md:w-auto md:max-w-none" /> : null}
+        {cards.map((c, k) => (
+          <div key={c.id} style={{ order: k < 1 ? 1 : 3 }} className="flex w-[82vw] max-w-[340px] shrink-0 snap-start flex-col gap-2 md:w-auto md:max-w-none">
             <FactCardView card={c} lang={lang} onPickDistrict={setDistrict} className="flex-1" />
             <div className="flex justify-end gap-1.5">
               <button type="button" onClick={() => setShare(c)} className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-medium text-muted-foreground hover:bg-accent hover:text-foreground" lang={te ? 'te' : 'en'}>
@@ -435,7 +441,9 @@ export function CardsFeed() {
   const [lang, setLang] = useCardsLang()
   const [district, setDistrict] = useMyDistrict()
   const [share, setShare] = React.useState<FactCard | null>(null)
-  const cards = React.useMemo(() => todaysCards(district), [district])
+  const ts = useTenderSummary()
+  const sum = ts.status === 'ok' ? ts.data : null
+  const cards = React.useMemo(() => todaysCards(district, sum), [district, sum])
   const [i, setI] = React.useState(0)
   const scroller = React.useRef<HTMLDivElement>(null)
   const te = lang === 'te'
