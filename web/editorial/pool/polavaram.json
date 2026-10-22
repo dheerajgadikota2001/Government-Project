@@ -1,0 +1,227 @@
+{
+ "district": "Polavaram",
+ "slug": "polavaram",
+ "te": "పోలవరం",
+ "ls_text": [
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3357: NABARD Funded Hospital Project",
+   "summary": "Answer text as printed: 'Gajapathinagaram 6 Upgradation of 50 - 100 bedded CHC at S-Kota 12.60 7 Parvathipuram Upgradation of 30 - 100 bedded CHC at Salur 17.00 Manyam 8 Anakapalli Strengthening of 100 bedded AH at Narsipatnam 8.85 9 ASR Upgradation of 50 - 100 bedded CHC at 12.60 Rampachodavaram 10 Upgradation of 30 - 50 bedded CHC at Chintapalli 3.00 11 Upgradation of 50 - 100 bedded CHC at Chintapalli 22.00 12 Visakhapatnam Upgradation of 50 - 100 bedded CHC at Aganampudi 16.50 13 Kakinada Strengthening of 100 bedded AH at Tuni 10.20 14 Konaseema'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3357_rYUSdG.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-31",
+   "title": "Unstarred Q.No.2173: Scientific Documentation of Traditional Healing Practices",
+   "summary": "Named only in the question, as printed: '(b) if so, the details thereof along with field research and ethnographic surveys successfully conducted in the Rampachodavaram agency tracts during the financial year 2025-26; (c) whether the Government has provided specific financial support to local tribal healers to standardize their indigenous herbal formulations for broader public utility and if so, the details thereof;'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2173_e0eA7R.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-23",
+   "title": "Unstarred Q.No.724: Van Dhan Vikas Kendras in Andhra Pradesh",
+   "summary": "Answer text as printed: 'ITDA Chinturu 56 52 4 4 7.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU724_dSHscC.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  }
+ ],
+ "ls_table": [
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3363: Tele-Law Consultations and Nyaya Bandhu Registrations",
+   "summary": "District row as printed: '28 Polavaram 1 0 0 0 0 0 0'. Table header lines as printed: three years. | Sr. Districts No. of 2023-24 2024-25 2025-26 | No. CSCs CR AG CR AG CR AG | 1 Alluri Sitharama 430 6,989 6,943 9,984 9,882 266 249 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3363_OUEa8i.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1,
+     "unit": "as printed",
+     "as_printed": "1"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Unstarred Q.No.1169: Implementation of PM-ONOS Scheme",
+   "summary": "District row as printed: '19. Polavaram 2 0'. Table header lines as printed: District-wise details of institutions based in Andhra Pradesh yet to be onboarded under | ONOS | Institutions Institutions yet to be | Sl. No. District onboarded under onboarded under | ONOS ONOS",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1169_uPiefB.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 2,
+     "unit": "as printed",
+     "as_printed": "2"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.385: Action Plans under SMAM",
+   "summary": "District row as printed: '19 Polavaram 0 147'. Table header lines as printed: “Financial assistance to farmers for procurement of farm machinery and | equipments on individual ownership basis” component of SMAM for 2024-25 & | 2025-26 | S. No. District No. of beneficiaries | 2024-25 2025-26",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU385_E0WC5N.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 147,
+     "unit": "as printed",
+     "as_printed": "147"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.133: Financial Assistance to Scheduled Castes in Andhra Pradesh",
+   "summary": "District row as printed: '19 Polavaram 0 0 0 0 24%'. Table header lines as printed: Application %Recover | ns %NPA | Recieved Rate | Rejected | Accnts Amount Accnts Amount",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU133_Alo3To.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 24,
+     "unit": "as printed",
+     "as_printed": "24"
+    }
+   ],
+   "map": "28"
+  }
+ ],
+ "pib": [],
+ "site": [
+  {
+   "date": "2026-08-22",
+   "title": "TENDER NOTIFICATION(2nd Call) District Water Management Agency -Polavaram District Tender Notification No: 01/2026/EGS/DWMA, dt: 21-08-2026.",
+   "summary": null,
+   "url": "https://polavaram.ap.gov.in/notice/tender-notification2nd-call-district-water-management-agency-polavaram-district-tender-notification-no-01-2026-egs-dwma-dt-21-08-2026/",
+   "figures": [],
+   "map": null,
+   "category": "tender"
+  },
+  {
+   "date": "2026-07-08",
+   "title": "DCHS, E.G. District – Requesting for Display Notification for the post of CIVIL ASSISTANT SURGEON SPECIALISTS on Contract basis under the control of DCHS, Erstwhile, E.G. District through Walk – in – Interview ,Notification No:04/2026",
+   "summary": "Walk-in recruitment notification No.04/2026 for 19 Civil Assistant Surgeon specialist posts (contract) in hospitals of erstwhile East Godavari district.",
+   "url": "https://polavaram.ap.gov.in/notice/dchs-e-g-district-requesting-for-display-notification-for-the-post-of-civil-assistant-surgeon-specialists-on-contract-basis-under-the-control-of-dchs-erstwhile-e-g-district-through-walk/",
+   "figures": [
+    {
+     "label": "Posts: CAS Anesthesia",
+     "value": 1,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS Gynecology",
+     "value": 4,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS General Surgery",
+     "value": 1,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS Pediatrics",
+     "value": 2,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS Radiology",
+     "value": 1,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS Pathology",
+     "value": 1,
+     "unit": "posts"
+    },
+    {
+     "label": "Posts: CAS Dermatology",
+     "value": 1,
+     "unit": "posts"
+    },
+    {
+     "label": "Total posts as printed",
+     "value": 19,
+     "unit": "posts"
+    }
+   ],
+   "map": null,
+   "category": "recruitment"
+  }
+ ]
+}

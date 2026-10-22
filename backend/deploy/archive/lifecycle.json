@@ -1,0 +1,12 @@
+{
+  "rule": [
+    {
+      "action": {"type": "SetStorageClass", "storageClass": "COLDLINE"},
+      "condition": {"age": 90, "matchesStorageClass": ["STANDARD"], "matchesPrefix": ["v1/sha256/"]}
+    },
+    {
+      "action": {"type": "SetStorageClass", "storageClass": "ARCHIVE"},
+      "condition": {"age": 365, "matchesStorageClass": ["COLDLINE"], "matchesPrefix": ["v1/sha256/"]}
+    }
+  ]
+}

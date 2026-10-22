@@ -60,6 +60,7 @@ WATCHED_SEEDS = (
     "governments_seed.json",
     "finances_seed.json",
     "state_facts_seed.json",
+    "jobs_prices_seed.json",
 )
 
 DOC_LINK = re.compile(r"\.(pdf|xlsx?|docx?|csv)(\?|$)", re.I)

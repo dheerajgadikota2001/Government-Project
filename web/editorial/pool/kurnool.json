@@ -1,0 +1,1578 @@
+{
+ "district": "Kurnool",
+ "slug": "kurnool",
+ "te": "కర్నూలు",
+ "ls_text": [
+  {
+   "date": "2026-08-12",
+   "title": "Starred Q.No.350: Stoppages of Express Trains at Koilakuntla and Panyam Railway Stations",
+   "summary": "Answer text as printed: '& Name 1 17227 Dhone -Guntur Express 2 17228 Guntur -Dhone Express 3 17329 Hubballi -Vijayawada Express 4 17330 Vijayawada - Hubballi Express 5 57407 Guntakal -Markapur Road Passenger 6 57408 Markapur Road-Guntakal Passenger 7 77209 Kurnool City-Nandyal DMU 8 77210 Nandyal-Kurnool City DMU 17441/17442 Tirupati-Charlapalli Express, 17443/17444 Tirupati-Charlapalli Express, 17251/17252 Guntur-Kacheguda Express and 17253/17254 Guntur- Chhatrapati Sambhaji Nagar Express have scheduled stoppage at Nandyal.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS350_3DeYvT.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-12",
+   "title": "Unstarred Q.No.3959: Chips to Startup Programme",
+   "summary": "Answer text as printed: 'Sr No Name of Institution 1 Indian Institute of Technology Tirupati 2 Indian Institute of Information Technology Design and Manufacturing Kurnool 3 National Institute of Technology Andhra Pradesh 4 Shri Vishnu Engineering College for Women, Bhimavaram 5 Vignan's Foundation for Science Technology and Research, Guntur 6 Vellore Institute of Technology (VIT-AP) University, Amaravati, AP 7 SRM University,'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3959_kAN7c2.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3357: NABARD Funded Hospital Project",
+   "summary": "Answer text as printed: 'of 30-100 bedded CHC at Rayadurgam 17.00 41 Strengthening of 100 bedded AH at Guntakal 13.35 42 Upgradation of 50-100 bedded CHC at Tadipatri 24.00 43 Kurnool Upgradation of 50 - 100 bedded CHC at Yemmiganur 12.60 44 Strengthening of 100 bedded AH at Adoni 10.48 45 Nandyal Upgradation of 50 - 100 bedded CHC at Banaganapalli 22.00 46 Construction of 100 bedded AH at Dhone 26.00 *****'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3357_rYUSdG.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3277: Working Women Hostels in Andhra Pradesh",
+   "summary": "Answer text as printed: 'Eluru, Eluru 534006 15 Thirupati Working Women Hostel , D.No:1-5-599, 50 Revenue Ward -1, Balagi Nagar, 16 Visakhapatnam - 50-8-41, Near Eenadu Raitubhazar, 50 2 Visakhapathanm 17 Visakhapatnam 50-8-41, Near Eenadu Raitubhazar, 75 –1 Visakhapathanm 18 Kurnool Working Women Hostel, D,No: 50-706-D, Near 60 Silverjublee College, B-Camp, Kurnool 19 NTR Kamala Nehru Working Womens Hostel, D.NO-29-16-3, 60 Opp.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3277_rsLKuT.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-06",
+   "title": "Unstarred Q.No.3114: Expressway Projects under Bharatmala Pariyojana",
+   "summary": "Answer text as printed: '100 23 Prades Four lane PS from Kurnool to Mandlem secti 30.6 415.78 Completed.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3114_baMEWt.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-06",
+   "title": "Unstarred Q.No.3027: Implementation of MSE-CDP",
+   "summary": "Answer text as printed: 'Kurnool 1994-95 328 131 65.5 Completed Nandial Distt.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3027_1xWgZI.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-05",
+   "title": "Unstarred Q.No.2964: Promotion of Semiconductor Ecosystem",
+   "summary": "Answer text as printed: 'Indian Institute of Information Technology Design and Manufacturing Kurnool 3.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2964_XVfghK.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-05",
+   "title": "Unstarred Q.No.2816: Expansion of Mobile Tower Connections in Andhra Pradesh",
+   "summary": "Answer text as printed: '3221 969 5094 Andhra Andhra Krishna 368 122 0 231 0 4 0 0 0 666 166 0 1214 401 225 0 510 0 Pradesh Pradesh 721 4 2447 735 3907 Andhra Andhra NTR 486 199 0 309 0 0 0 0 0 969 248 0 1690 577 331 0 738 0 Pradesh Pradesh 994 0 3484 1069 5547 Andhra Andhra Kurnool 443 165 0 243 0 10 0 0 0 789 198 0 1708 387 241 0 650 0 Pradesh Pradesh 851 10 3082 891 4834 Andhra Andhra NANDYAL 383 150 0 205 0 9 0 0 0 624 169 0 1321 305 184 0 476 0 Pradesh Pradesh 738 9 2419 660 3826 Andhra Andhra Sri Potti Sriramulu 577 250 0'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2816_fyfSft.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-04",
+   "title": "Unstarred Q.No.2653: Sugarcane Cultivation",
+   "summary": "Answer text as printed: 'Guntur 0.16 0.15 0.08 0.08 0.04 14.45 14.58 5.85 5.57 3.16 91456 95268 71317 73263 82789 Kakinada 0.68 0.68 0.34 60.38 48.01 28.78 89049 70284 84312 Krishna 4.46 4.38 3.26 2.18 1.95 403.34 441.64 353.33 239.27 235.08 90497 100807 108551 109797 120279 Kurnool 0.19 0.13 0.16 0.10 0.09 20.40 14.30 15.37 9.73 9.36 109661 111750 96081 95412 102451 Nandyal 0.02 0.01 0.00 1.75 1.05 0.19 96944 95273 97000 Nandamuri Taraka 0.64 0.43 0.34 46.17 32.67 29.01 72027 75796 85242 Rama Rao Palnadu 0.05 0.01 0.00 3.08 0.88'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2653_uenrHv.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-08-04",
+   "title": "Unstarred Q.No.2649: NICDP",
+   "summary": "Answer text as printed: 'Punjab IMC at Rajpura 3 Maharashtra Dighi Port Industrial Area 4 Kerala Palakkad Industrial Area 5 Rajasthan Jodhpur Pali Marwar Industrial Area 6 Haryana IMC at Hisar 7 Uttar Pradesh IMC at Agra 8 IMC at Prayagraj 9 Bihar IMC at Gaya 10 Andhra Pradesh Orvakal Industrial Area 11 Kopparthy Industrial Area 12 Telangana Zaheerabad Industrial Area ******** ANNEXURE-II ANNEXURE REFERRED TO IN REPLY TO PART (b) OF THE LOK SABHA UNSTARRED QUESTION NO.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2649_CHOAGM.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-30",
+   "title": "Unstarred Q.No.1905: Air Passenger Traffic under UDAN Scheme",
+   "summary": "Answer text as printed: 'Under the Regional Connectivity Scheme - Ude Desh Ka Aam Nagrik (RCS-UDAN), Kadapa and Kurnool airports have been operationalised in the State of Andhra Pradesh.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1905_1SFSvf.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-29",
+   "title": "Unstarred Q.No.1723: Semiconductor Fabrication and OSAT Potential in Andhra Pradesh",
+   "summary": "Answer text as printed: 'Indian Institute of Information Technology Design and Manufacturing Kurnool 3.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1723_D5hDFF.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-28",
+   "title": "Starred Q.No.130: Projects under PM Gati Shakti National Master Plan",
+   "summary": "Answer text as printed: 'NICDC, Department for Promotion Development Orvakal Industrial Area (OIA) of Industry & Internal Trade under Hyderabad Bengaluru Industrial Corridor (HBIC) 16.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS130_w3s4DU.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-28",
+   "title": "Unstarred Q.No.1555: SVEP Clusters in Andhra Pradesh",
+   "summary": "Answer text as printed: 'of Proposal/s Guntur Pickle 1 Chirala Handloom 1 Yemmiganur Handloom 1 Page 3 of 6 ANNEXURE-II ANNEXURE REFERRED TO IN REPLY OF PART (d) OF LOK SABHA UNSTARRED QUESTION NO.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1555_6purrE.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Starred Q.No.101: EPFO/ESIC Coverage in Nandyal",
+   "summary": "Answer text as printed: 'EPFO services for Rayalaseema region including Nandyal district are managed through Regional Office, Kadapa and three District Offices (located in Kurnool town, Anantapur town, Tirupati town).'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS101_23oNnE.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-23",
+   "title": "Unstarred Q.No.770: MSMEs Shut Down in Andhra Pradesh",
+   "summary": "Named only in the question, as printed: '(c) whether the Ministry has assessed the specific vulnerabilities of granite polishing units, aquaculture processors and handloom cooperatives in Anantapur and Kurnool districts of Andhra Pradesh and if so, the details thereof; and (d) whether the Ministry is considering any central relief package or a special Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)-backed restructuring facility to support'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU770_7lYZC3.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-23",
+   "title": "Unstarred Q.No.751: PNG Connections to Households of Andhra Pradesh",
+   "summary": "Answer text as printed: '6,010 Limited District 10 10.02 Sri Potti AGP City Gas Private Sri Potti Sriramulu 3,086 Sriramulu Nellore Limited Nellore District District 11 10.03 Chittoor, Kolar AGP City Gas Private Chittoor District 3,932 and Vellore Limited Districts 12 11.01 Kurnool, Guntur, Indian Oil Guntur District - and Prakasam Corporation Limited 13 districts Indian Oil Kurnool District - Corporation Limited 14 Indian Oil Prakasam District - Corporation Limited 15 99.06 Vijaywada Bhagyanagar Gas Krishna District 57,608 Limited Total 2,75,517 (source: PNGRB) *****'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU751_CAfUb2.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-22",
+   "title": "Starred Q.No.45: Railway Projects in Andhra Pradesh",
+   "summary": "Answer text as printed: 'of Name of Stations Stations Andhra 74 Adoni, Anakapalle, Anantapur, Anaparthi, Araku, Pradesh Bapatla, Bhimavaram Town, Bobbili Jn, Chipurupalli, Chirala, Chittoor, Cuddapah, Cumbum, Dharmavaram, Dhone, Donakonda, Duvvada, Elamanchili, Eluru, Giddalur, Gooty, Gudivada , Gudur, Gunadala, Guntur,'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS45_mfFCQ3.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-22",
+   "title": "Unstarred Q.No.628: Expansion of Mobile Tower Connections in Andhra Pradesh",
+   "summary": "Answer text as printed: 'Andhr Andhra a 23 40 Krishna 368 122 0 0 4 0 0 0 666 166 0 1214 225 0 510 0 Pradesh Prades 1 1 h 721 4 2447 735 3907 Andhr Andhra a 30 57 NTR 486 199 0 0 0 0 0 0 969 248 0 1690 331 0 738 0 Pradesh Prades 9 7 h 994 0 3484 1069 5547 Andhr Andhra a 24 38 Kurnool 443 165 0 0 10 0 0 0 789 198 0 1708 241 0 650 0 Pradesh Prades 3 7 h 851 10 3082 891 4834 Andhr Andhra a 20 30 NANDYAL 383 150 0 0 9 0 0 0 624 169 0 1321 184 0 476 0 Pradesh Prades 5 5 h 738 9 2419 660 3826 Andhr Sri Potti Andhra a 29 102 48 Sriramulu'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU628_SsH2hu.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.379: Preparedness for El Nino",
+   "summary": "Answer text as printed: 'The State is also giving special focus to Kurnool, Anantapur, and Sri Sathya Sai districts.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU379_psHzzq.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.275: Investment Realisation and Employment Generation",
+   "summary": "Answer text as printed: 'India’s first Drone City is being developed at Orvakal in Kurnool district, marking a major milestone in advancing India’s capabilities in next-generation aerospace and unmanned systems.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU275_f5fpWz.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.211: Navodaya Vidyalayas in Andhra Pradesh",
+   "summary": "Answer text as printed: 'NV Kurnool 7.'",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU211_b281Et.pdf?source=lsapps",
+   "figures": [],
+   "map": null
+  }
+ ],
+ "ls_table": [
+  {
+   "date": "2026-08-12",
+   "title": "Unstarred Q.No.3981: District Mineral Foundation Funds and Beneficiaries in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 7 5'. Table header lines as printed: District | o n n t n n t n n t | Alluri 0.00 0.00 0.00 0.00 0.00 0.00 1.23 0.00 0.00 | Sitharama | 1 Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3981_nd9GnH.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 7,
+     "unit": "as printed",
+     "as_printed": "7"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 5,
+     "unit": "as printed",
+     "as_printed": "5"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-10",
+   "title": "Unstarred Q.No.3589: Skill India Programme in Andhra Pradesh",
+   "summary": "District row as printed: 'Kurnool 1 5,141 2,920'. Table header lines as printed: The district-wise details of candidates trained and certified in Andhra Pradesh along with | number of operational centres (as on 30.06.2026) under PMKVY 4.0 is as under: | District Operational Centres Trained Certified | Alluri Sitharama Raju - 65 11 | Anakapalli - 887 588",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3589_S5wCAl.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1,
+     "unit": "as printed",
+     "as_printed": "1"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 5141,
+     "unit": "as printed",
+     "as_printed": "5,141"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 2920,
+     "unit": "as printed",
+     "as_printed": "2,920"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3379: Saksham Anganwadi Centres in Andhra Pradesh",
+   "summary": "District row as printed: 'Kurnool 0 27 119'. Table header lines as printed: UNSTARRED QUESTION NO. 3379 TO BE ANSWERED ON 07.08.2026 | REGARDING “SAKSHAM ANGANWADI CENTRES IN ANDHRA PRADESH” | District wise details of AWCs approved for upgradation to Saksham AWCs in the State of | Andhra Pradesh | District 2022-23 2023-24 2024-25",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3379_j9Tygi.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 27,
+     "unit": "as printed",
+     "as_printed": "27"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 119,
+     "unit": "as printed",
+     "as_printed": "119"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-07",
+   "title": "Unstarred Q.No.3363: Tele-Law Consultations and Nyaya Bandhu Registrations",
+   "summary": "District row as printed: '13 Kurnool 484 26,996 27,037 10,865 10,822 738 691'. Table header lines as printed: three years. | Sr. Districts No. of 2023-24 2024-25 2025-26 | No. CSCs CR AG CR AG CR AG | 1 Alluri Sitharama 430 6,989 6,943 9,984 9,882 266 249 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3363_OUEa8i.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 484,
+     "unit": "as printed",
+     "as_printed": "484"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 26996,
+     "unit": "as printed",
+     "as_printed": "26,996"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 27037,
+     "unit": "as printed",
+     "as_printed": "27,037"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 10865,
+     "unit": "as printed",
+     "as_printed": "10,865"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 10822,
+     "unit": "as printed",
+     "as_printed": "10,822"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 738,
+     "unit": "as printed",
+     "as_printed": "738"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 691,
+     "unit": "as printed",
+     "as_printed": "691"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-08-06",
+   "title": "Unstarred Q.No.3171: Cashless Treatment for Road Accident Victims",
+   "summary": "District row as printed: '3 Kurnool 18 42 60'. Table header lines as printed: Discharged from Scheme | post no response from | S.No. District Approved Total | Police within prescribed | timelines",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3171_BZzjhS.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 18,
+     "unit": "as printed",
+     "as_printed": "18"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 42,
+     "unit": "as printed",
+     "as_printed": "42"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 60,
+     "unit": "as printed",
+     "as_printed": "60"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-06",
+   "title": "Unstarred Q.No.3082: Beneficiaries under PMEGP and PM Vishwakarma Scheme",
+   "summary": "District row as printed: '15 Kurnool 68 156 130 80 149 152 162 78 111'. Table header lines as printed: District | No. 18 19 20 21 22 23 24 25 26 | Alluri Sitharama | 1 0 0 0 0 0 28 58 30 65 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU3082_9h3QBT.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 68,
+     "unit": "as printed",
+     "as_printed": "68"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 156,
+     "unit": "as printed",
+     "as_printed": "156"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 130,
+     "unit": "as printed",
+     "as_printed": "130"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 80,
+     "unit": "as printed",
+     "as_printed": "80"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 149,
+     "unit": "as printed",
+     "as_printed": "149"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 152,
+     "unit": "as printed",
+     "as_printed": "152"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 162,
+     "unit": "as printed",
+     "as_printed": "162"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 78,
+     "unit": "as printed",
+     "as_printed": "78"
+    },
+    {
+     "label": "value 9 in the district row (see header)",
+     "value": 111,
+     "unit": "as printed",
+     "as_printed": "111"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-05",
+   "title": "Unstarred Q.No.2834: Vendors empanelled under PM-SGMBY in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 638 189 189 1.01 3,569 1,597 1,597 10.5 25,487 7,606 7,745 40.77'. Table header lines as printed: ation tion holds d ation tion lds Amount tion ation holds Amount | benefit Amount benefitte (in Cr) benefit (in Cr) | ted (in Cr) d ted | Alluri | 1 Sitharama Raju 46 3 3 0.01 177 25 25 0.12 19,213 4,738 4,738 14.9",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2834_fK7qqu.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 638,
+     "unit": "as printed",
+     "as_printed": "638"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 189,
+     "unit": "as printed",
+     "as_printed": "189"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 189,
+     "unit": "as printed",
+     "as_printed": "189"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 1.01,
+     "unit": "as printed",
+     "as_printed": "1.01"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 3569,
+     "unit": "as printed",
+     "as_printed": "3,569"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 1597,
+     "unit": "as printed",
+     "as_printed": "1,597"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 1597,
+     "unit": "as printed",
+     "as_printed": "1,597"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 10.5,
+     "unit": "as printed",
+     "as_printed": "10.5"
+    },
+    {
+     "label": "value 9 in the district row (see header)",
+     "value": 25487,
+     "unit": "as printed",
+     "as_printed": "25,487"
+    },
+    {
+     "label": "value 10 in the district row (see header)",
+     "value": 7606,
+     "unit": "as printed",
+     "as_printed": "7,606"
+    },
+    {
+     "label": "value 11 in the district row (see header)",
+     "value": 7745,
+     "unit": "as printed",
+     "as_printed": "7,745"
+    },
+    {
+     "label": "value 12 in the district row (see header)",
+     "value": 40.77,
+     "unit": "as printed",
+     "as_printed": "40.77"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-04",
+   "title": "Unstarred Q.No.2676: Projects Sanctioned for Andhra Pradesh under AIF Scheme",
+   "summary": "District row as printed: '13. Kurnool 268 131.65 66.79 146'. Table header lines as printed: projects amount Loan amount disbursed | (in crore) (in crore) projects | 1. Alluri Sitharama | 43 18.19 1.69 8 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2676_oWoLV1.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 268,
+     "unit": "as printed",
+     "as_printed": "268"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 131.65,
+     "unit": "as printed",
+     "as_printed": "131.65"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 66.79,
+     "unit": "as printed",
+     "as_printed": "66.79"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 146,
+     "unit": "as printed",
+     "as_printed": "146"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-03",
+   "title": "Unstarred Q.No.2406: Establishment of Technical Education Institutions in Andhra Pradesh",
+   "summary": "District row as printed: '7. Kurnool 42'. Table header lines as printed: ASKED BY SHRI BASTIPATI NAGARAJU, HON’BLE M.P. | District-wise details of AICTE-approved technical institutions in Andhra Pradesh (2026-27) | S. No. No. of Approved | District | Institutions",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2406_j6FijY.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 42,
+     "unit": "as printed",
+     "as_printed": "42"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-03",
+   "title": "Unstarred Q.No.2396: PM POSHAN Scheme in Andhra Pradesh",
+   "summary": "District row as printed: '25 Kurnool 1417 2'. Table header lines as printed: REGARDING PM POSHAN SCHEME IN ANDHRA PRADESH | District-wise number of schools & Meetings in the State of Andhra Pradesh | Number of meetings held | S. No. Name of district Total no. of schools by the district SMC | (2025-26)",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2396_I4XTOc.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1417,
+     "unit": "as printed",
+     "as_printed": "1417"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 2,
+     "unit": "as printed",
+     "as_printed": "2"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-03",
+   "title": "Unstarred Q.No.2384: Implementation of Pradhan Mantri Vidyalaxmi Scheme in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 18 66386'. Table header lines as printed: ANDHRA PRADESH STATE - DISTRICT-WISE INTEREST SUBVENTION CLAIMS OF LOANS SANCTIONED | UNDER PM-VL SCHEME (Claim Year 2024-25) | Sr. No DISTRICT NAME NO. OF CLAIMS NET SUBSIDY AMOUNT | CLAIMED (in ₹)",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2384_sn6le8.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 18,
+     "unit": "as printed",
+     "as_printed": "18"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 66386,
+     "unit": "as printed",
+     "as_printed": "66386"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-08-03",
+   "title": "Unstarred Q.No.2368: Foundational Literacy and Numeracy Assessment Test in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 27,208 25,257 1,53,578 1,53,538'. Table header lines as printed: under ULLAS – Nav Bharat Saaksharta Karyakram. | FY 2024-25 FY 2025-26 | SI. No. District Learners Learners Learners Learners | Appeared Passed Appeared Passed | 1 Alluri Sitharama Raj 8,583 5,762 42,121 40,582",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2368_3d5ojf.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 27208,
+     "unit": "as printed",
+     "as_printed": "27,208"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 25257,
+     "unit": "as printed",
+     "as_printed": "25,257"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 153578,
+     "unit": "as printed",
+     "as_printed": "1,53,578"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 153538,
+     "unit": "as printed",
+     "as_printed": "1,53,538"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-31",
+   "title": "Unstarred Q.No.2116: PM-CARES Scheme for Children",
+   "summary": "District row as printed: '6 Kurnool 16'. Table header lines as printed: ANNEXURE REFERRED TO IN REPLY TO PART (A) & (B) OF THE LOK SABHA | UNSTARRED QUESTION NO.2116 FOR ANSWER ON 31.07.2026 BY SHRI P V | MIDHUN REDDY REGARDING PM-CARES SCHEME FOR CHILDREN | Details of the Beneficiaries in the State of Andhra Pradesh | S. No. District Total Beneficiaries",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU2116_38KP9B.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 16,
+     "unit": "as printed",
+     "as_printed": "16"
+    }
+   ],
+   "map": "13"
+  },
+  {
+   "date": "2026-07-30",
+   "title": "Unstarred Q.No.1914: MSME Parks in Andhra Pradesh",
+   "summary": "District row as printed: 'KURNOOL 88 3.15 792'. Table header lines as printed: owned Micro | Name of the District MM Subsidy (Rs. Cr.) Employment | Enterprises | Generated | Assisted",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1914_gLKx7M.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 88,
+     "unit": "as printed",
+     "as_printed": "88"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 3.15,
+     "unit": "as printed",
+     "as_printed": "3.15"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 792,
+     "unit": "as printed",
+     "as_printed": "792"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-30",
+   "title": "Unstarred Q.No.1900: Greywater Management under SBM-G",
+   "summary": "District row as printed: '13 KURNOOL 543 492 492 0'. Table header lines as printed: Water | management | systems available | 1 ALLURI SITHARAMA 492 462 462 0 | RAJU",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1900_xJEqFN.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 543,
+     "unit": "as printed",
+     "as_printed": "543"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 492,
+     "unit": "as printed",
+     "as_printed": "492"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 492,
+     "unit": "as printed",
+     "as_printed": "492"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 0,
+     "unit": "as printed",
+     "as_printed": "0"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-28",
+   "title": "Unstarred Q.No.1530: Beneficiaries under RSETIs",
+   "summary": "District row as printed: '7 Kurnool 0.00 107.80 104.05 0.00 0.00 106.36'. Table header lines as printed: years (till 24th July 2026) for the State of Andhra Pradesh: | (₹ in lakhs) | Sl. 2021- 2024- 2025- | District Name 2022-23 2023-24 2026-27 | No. 22 25 26",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1530_JzUOis.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 0.0,
+     "unit": "as printed",
+     "as_printed": "0.00"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 107.8,
+     "unit": "as printed",
+     "as_printed": "107.80"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 104.05,
+     "unit": "as printed",
+     "as_printed": "104.05"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 0.0,
+     "unit": "as printed",
+     "as_printed": "0.00"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 0.0,
+     "unit": "as printed",
+     "as_printed": "0.00"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 106.36,
+     "unit": "as printed",
+     "as_printed": "106.36"
+    }
+   ],
+   "map": "13"
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Unstarred Q.No.1316: Backward Region Grants for Rayalaseema, Prakasam and North Coastal Andhra",
+   "summary": "District row as printed: 'Kurnool 19.96 19.96 70.18 70.18 38.12 38.12 128.25 128.25'. Table header lines as printed: Details of Sector wise Central Share Transferred Under CSS (Rs. in Crore) | 2024-25 2025-26 2026-27 Grand Total | District Sector Amount Amount Amount Amount Amount Amount Amount | Amount Utilised | Sanctioned Utilised Sanctioned Utilised Sanctioned Utilised Sanctioned",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1316_fnlsTq.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 19.96,
+     "unit": "as printed",
+     "as_printed": "19.96"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 19.96,
+     "unit": "as printed",
+     "as_printed": "19.96"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 70.18,
+     "unit": "as printed",
+     "as_printed": "70.18"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 70.18,
+     "unit": "as printed",
+     "as_printed": "70.18"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 38.12,
+     "unit": "as printed",
+     "as_printed": "38.12"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 38.12,
+     "unit": "as printed",
+     "as_printed": "38.12"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 128.25,
+     "unit": "as printed",
+     "as_printed": "128.25"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 128.25,
+     "unit": "as printed",
+     "as_printed": "128.25"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Unstarred Q.No.1261: NAPS in Andhra Pradesh",
+   "summary": "District row as printed: '13. Kurnool 165 304 1.24 1.29'. Table header lines as printed: under NAPS-2 to the State of Andhra Pradesh is as under: | S Number of apprentices Stipend disbursed through | No District engaged under NAPS DBT (Rs in Crore) | . FY 2024-25 FY 2025-26 FY 2024-25* FY 2025-26* | 1. Alluri Sitharama Raju - 6 0.1 0.14",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1261_MvI1EZ.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 165,
+     "unit": "as printed",
+     "as_printed": "165"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 304,
+     "unit": "as printed",
+     "as_printed": "304"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 1.24,
+     "unit": "as printed",
+     "as_printed": "1.24"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 1.29,
+     "unit": "as printed",
+     "as_printed": "1.29"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Unstarred Q.No.1169: Implementation of PM-ONOS Scheme",
+   "summary": "District row as printed: '13. Kurnool 14 5'. Table header lines as printed: District-wise details of institutions based in Andhra Pradesh yet to be onboarded under | ONOS | Institutions Institutions yet to be | Sl. No. District onboarded under onboarded under | ONOS ONOS",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1169_uPiefB.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 14,
+     "unit": "as printed",
+     "as_printed": "14"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 5,
+     "unit": "as printed",
+     "as_printed": "5"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-27",
+   "title": "Unstarred Q.No.1152: Kisan Credit Cards in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 3,30,282 5,056 5,51,817 5,833 5,79,123 7,066 5,12,343 6,700 2,84,665 3,560'. Table header lines as printed: 2021-22 2022-23 2023-24 2024-25 2025-26 | S.No District | A/Cs Amt. A/Cs Amt. A/Cs Amt. A/Cs Amt. A/Cs Amt. | 1 Alluri Sitharama Raju These Districts were formed in 39,069 289 29,673 353 47,478 265 9,174 58 | 2 Anakapalli April, 2022 1,21,742 1,473 1,78,075 1,946 1,90,893 1,547 1,85,609 1,633",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1152_Xu8LpW.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 330282,
+     "unit": "as printed",
+     "as_printed": "3,30,282"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 5056,
+     "unit": "as printed",
+     "as_printed": "5,056"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 551817,
+     "unit": "as printed",
+     "as_printed": "5,51,817"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 5833,
+     "unit": "as printed",
+     "as_printed": "5,833"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 579123,
+     "unit": "as printed",
+     "as_printed": "5,79,123"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 7066,
+     "unit": "as printed",
+     "as_printed": "7,066"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 512343,
+     "unit": "as printed",
+     "as_printed": "5,12,343"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 6700,
+     "unit": "as printed",
+     "as_printed": "6,700"
+    },
+    {
+     "label": "value 9 in the district row (see header)",
+     "value": 284665,
+     "unit": "as printed",
+     "as_printed": "2,84,665"
+    },
+    {
+     "label": "value 10 in the district row (see header)",
+     "value": 3560,
+     "unit": "as printed",
+     "as_printed": "3,560"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-24",
+   "title": "Unstarred Q.No.1045: Upgradation of Ayushman Arogya Mandirs",
+   "summary": "District row as printed: '11. Kurnool 495'. Table header lines as printed: 2 | Annexure-II | District-wise details of AAMs operationalised in Andhra Pradesh, as on 30.06.2026: | S.N. District No. of AAMs operationalised",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU1045_7KyFpU.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 495,
+     "unit": "as printed",
+     "as_printed": "495"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-24",
+   "title": "Unstarred Q.No.997: District Court Infrastructure in Andhra Pradesh",
+   "summary": "District row as printed: '7. Kurnool 76 19'. Table header lines as printed: (d): The district-wise details regarding total number of judicial vacancies in the courts across | Andhra Pradesh as received from High Court of Andhra Pradesh are as under (As on 31.05.2026): | Sr. No. Name of the Judicial Sanctioned Strength Vacancy | District*",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU997_WSSPMc.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 76,
+     "unit": "as printed",
+     "as_printed": "76"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 19,
+     "unit": "as printed",
+     "as_printed": "19"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-24",
+   "title": "Unstarred Q.No.932: Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana",
+   "summary": "District row as printed: 'Kurnool 1.32 3 6.39'. Table header lines as printed: empanelled | (in lakh) (in lakh) | Alluri Sitharama | 1.03 3 3.49 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU932_rqqLzM.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1.32,
+     "unit": "as printed",
+     "as_printed": "1.32"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 3,
+     "unit": "as printed",
+     "as_printed": "3"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 6.39,
+     "unit": "as printed",
+     "as_printed": "6.39"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-23",
+   "title": "Unstarred Q.No.693: PM Vishwakarma in Andhra Pradesh",
+   "summary": "District row as printed: 'Kurnool 14,987 13,202 3,695 2,492.25 9,683'. Table header lines as printed: Registration Sanctioned Amount Delivered | completed | (Rs. in Lakh) | Alluri Sitharama | Raju 834 387 80 66.95 86",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU693_WAJCyZ.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 14987,
+     "unit": "as printed",
+     "as_printed": "14,987"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 13202,
+     "unit": "as printed",
+     "as_printed": "13,202"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 3695,
+     "unit": "as printed",
+     "as_printed": "3,695"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 2492.25,
+     "unit": "as printed",
+     "as_printed": "2,492.25"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 9683,
+     "unit": "as printed",
+     "as_printed": "9,683"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-22",
+   "title": "Starred Q.No.47: Study on Potential of Agrivoltaics",
+   "summary": "District row as printed: '10 Kurnool 1262.9'. Table header lines as printed: 37 Other-NABARD 45.01 45.01 | Total 9319.17 2205.96 828.40 1557.65 13911.18 | Annexure II | District wise details installed solar capacity in the State of Andhra Pradesh | Sr.No. District Capacity (MW)",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS47_Vp3e5K.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1262.9,
+     "unit": "as printed",
+     "as_printed": "1262.9"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.440: Credit Support for Acquisition of Long-term Agricultural Assets",
+   "summary": "District row as printed: '13 Kurnool 8 3.26 34 15.77 95 21.97 137 41'. Table header lines as printed: aries aries es Amount | nt | Alluri Sitharama | 1 Raju | - - 1 0.11 6 0.96 7 1.07",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU440_Atf6vx.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 8,
+     "unit": "as printed",
+     "as_printed": "8"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 3.26,
+     "unit": "as printed",
+     "as_printed": "3.26"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 34,
+     "unit": "as printed",
+     "as_printed": "34"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 15.77,
+     "unit": "as printed",
+     "as_printed": "15.77"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 95,
+     "unit": "as printed",
+     "as_printed": "95"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 21.97,
+     "unit": "as printed",
+     "as_printed": "21.97"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 137,
+     "unit": "as printed",
+     "as_printed": "137"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 41,
+     "unit": "as printed",
+     "as_printed": "41"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.385: Action Plans under SMAM",
+   "summary": "District row as printed: '13 Kurnool 1125 1921'. Table header lines as printed: “Financial assistance to farmers for procurement of farm machinery and | equipments on individual ownership basis” component of SMAM for 2024-25 & | 2025-26 | S. No. District No. of beneficiaries | 2024-25 2025-26",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU385_E0WC5N.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1125,
+     "unit": "as printed",
+     "as_printed": "1125"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 1921,
+     "unit": "as printed",
+     "as_printed": "1921"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.382: Niramaya Health Insurance Scheme for Divyangjan",
+   "summary": "District row as printed: 'Kurnool 62'. Table header lines as printed: North and Middle | Andaman 1 | Port Blair 14 | South Andaman 1 | Andhra Pradesh 466",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU382_mMRJQ3.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 62,
+     "unit": "as printed",
+     "as_printed": "62"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.353: FFPOs under PMMSY",
+   "summary": "District row as printed: '19 Kurnool 3 12.54 9.24 467'. Table header lines as printed: Statement referred to in reply to part (a) to (f) the Lok Sabha Unstarred Question No. 353 due for answer on 21st July, 2026 | regarding FFPOs under PMMSY- District-wise details of existing Primary Fisheries Cooperative Societies(PFCSs) formed | as Fish Farmers Producer Organizations (FFPOs) under PMMSY in the State of Andhra Pradesh | Sl. District FFPO (Nos) Management Cost Released (Rs Equity Grant Released (Rs lakh) No. of Members | No. lakh)",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU353_qqdc2o.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 3,
+     "unit": "as printed",
+     "as_printed": "3"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 12.54,
+     "unit": "as printed",
+     "as_printed": "12.54"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 9.24,
+     "unit": "as printed",
+     "as_printed": "9.24"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 467,
+     "unit": "as printed",
+     "as_printed": "467"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-21",
+   "title": "Unstarred Q.No.261: PACS Services in Andhra Pradesh",
+   "summary": "District row as printed: '11 Kurnool 98 92 6'. Table header lines as printed: Status of PACS functioning as CSCs in Andhra Pradesh | PACS Onboarded as PACS Active as Inactive | S. No. District | CSC CSC PACS",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU261_L4xwCR.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 98,
+     "unit": "as printed",
+     "as_printed": "98"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 92,
+     "unit": "as printed",
+     "as_printed": "92"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 6,
+     "unit": "as printed",
+     "as_printed": "6"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Starred Q.No.11: SDS 2.0 and PRASHAD Schemes",
+   "summary": "District row as printed: 'Kurnool District 2023 39,57,032'. Table header lines as printed: Amaralingeswara Swamy temple 2024 6,28,149 | 2025 6,25,126 | 2026 3,45,126 | (Up to June) | 2 Development of Srisailam Temple in 2022 39,77,510",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AS11_9xOQpK.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 2023,
+     "unit": "as printed",
+     "as_printed": "2023"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 3957032,
+     "unit": "as printed",
+     "as_printed": "39,57,032"
+    }
+   ],
+   "map": "13"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.224: Status of Labour Welfare Scheme in Andhra Pradesh",
+   "summary": "District row as printed: 'Kurnool 17724'. Table header lines as printed: Annexure-II | Annexure referred to in reply to part (a) to (d) of Lok Sabha unstarred question no. 224 | to be answered on 20/07/2026 | Name of the District Details of beneficiaries covered under the Labour Welfare | Scheme in Andhra Pradesh",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU224_jbTUdU.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 17724,
+     "unit": "as printed",
+     "as_printed": "17724"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.134: NAPS 2.0 in Andhra Pradesh",
+   "summary": "District row as printed: '13. Kurnool 1,306 208 165 304 91 2,074'. Table header lines as printed: 24 25 26 | 30.06.2026) | Alluri Sitharama | 1. 0 0 0 6 4 10 | Raju",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU134_B7XYzE.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 1306,
+     "unit": "as printed",
+     "as_printed": "1,306"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 208,
+     "unit": "as printed",
+     "as_printed": "208"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 165,
+     "unit": "as printed",
+     "as_printed": "165"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 304,
+     "unit": "as printed",
+     "as_printed": "304"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 91,
+     "unit": "as printed",
+     "as_printed": "91"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 2074,
+     "unit": "as printed",
+     "as_printed": "2,074"
+    }
+   ],
+   "map": "26"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.133: Financial Assistance to Scheduled Castes in Andhra Pradesh",
+   "summary": "District row as printed: '13 Kurnool 527 439 87.70 439 87.70 88 4% 96%'. Table header lines as printed: Application %Recover | ns %NPA | Recieved Rate | Rejected | Accnts Amount Accnts Amount",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU133_Alo3To.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 527,
+     "unit": "as printed",
+     "as_printed": "527"
+    },
+    {
+     "label": "value 2 in the district row (see header)",
+     "value": 439,
+     "unit": "as printed",
+     "as_printed": "439"
+    },
+    {
+     "label": "value 3 in the district row (see header)",
+     "value": 87.7,
+     "unit": "as printed",
+     "as_printed": "87.70"
+    },
+    {
+     "label": "value 4 in the district row (see header)",
+     "value": 439,
+     "unit": "as printed",
+     "as_printed": "439"
+    },
+    {
+     "label": "value 5 in the district row (see header)",
+     "value": 87.7,
+     "unit": "as printed",
+     "as_printed": "87.70"
+    },
+    {
+     "label": "value 6 in the district row (see header)",
+     "value": 88,
+     "unit": "as printed",
+     "as_printed": "88"
+    },
+    {
+     "label": "value 7 in the district row (see header)",
+     "value": 4,
+     "unit": "as printed",
+     "as_printed": "4"
+    },
+    {
+     "label": "value 8 in the district row (see header)",
+     "value": 96,
+     "unit": "as printed",
+     "as_printed": "96"
+    }
+   ],
+   "map": "28"
+  },
+  {
+   "date": "2026-07-20",
+   "title": "Unstarred Q.No.109: Status of Cultural Mapping under NMCMR",
+   "summary": "District row as printed: '6. Kurnool 942'. Table header lines as printed: Annexure referred to in reply to part (b) of Lok Sabha Unstarred Question No. 109 | asked on 20 July, 2026 regarding ‘Status of cultural mapping under NMCMR’ | District-wise Distribution of Number of Villages of Andhra Pradesh*Mappedon MGMD | S. Covered Districts of Andhra Pradesh Number of Villages Mapped | No. on MGMD",
+   "url": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/188/AU109_WsN1Wz.pdf?source=lsapps",
+   "figures": [
+    {
+     "label": "value 1 in the district row (see header)",
+     "value": 942,
+     "unit": "as printed",
+     "as_printed": "942"
+    }
+   ],
+   "map": "13"
+  }
+ ],
+ "pib": [
+  {
+   "date": "2026-09-28",
+   "title": "Indian Railways Approves New Tri-Weekly Train Between Machilipatnam and Kurnool City via Vijayawada of South Coast Railway",
+   "summary": "Release text as printed (first sentence): 'In a major relief to the commuters of Andhra Pradesh, the Indian Railways has approved a new tri-weekly train service between Machilipatnam and Kurnool City via Vijayawada of South Coast Railway, providing an additional rail connectivity option between coastal and central parts of Andhra Pradesh'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2316070",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Railways",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 9
+  },
+  {
+   "date": "2026-09-26",
+   "title": "Union Minister for Civil Aviation Shri. Kinjarapu Rammohan Naidu Inaugurates OFAA’s Kurnool Base, Andhra Pradesh’s First Flying Training Organisation",
+   "summary": "Release text as printed (first sentence): 'Orient Flights Aviation Academy (OFAA), a DGCA-approved Flight Training Organisation (FTO) and a unit of Orient Flights Pvt'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2315438",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Civil Aviation",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Vijayawada",
+   "places_named_in_release": 2
+  },
+  {
+   "date": "2026-09-12",
+   "title": "Union Health Minister Shri J P Nadda Inaugurates Critical Care Blocks and Integrated Public Health Laboratories in Andhra Pradesh",
+   "summary": "Release text as printed (first sentence): 'Union Minister for Health & Family Welfare, Shri Jagat Prakash Nadda today inaugurated 10 Critical Care Blocks (CCBs) and 12 Integrated Public Health Laboratories (IPHLs) in Andhra Pradesh in the presence of Chief Minister of Andhra Pradesh Shri N. Chandrababu Naidu and Minister for Health, Family Welfare & Medical Education, Government of Andhra Pradesh Shri Satya Kumar Yadav, along with Members of Parliament, Members of the Legislative Assembly and Legislative Council, senior officers, doctors'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2309440",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Health and Family Welfare",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 27
+  },
+  {
+   "date": "2026-08-04",
+   "title": "Government Develops Industrial Townships Under NICDP Through Centre-State Partnership Model",
+   "summary": "Release text as printed (first sentence): 'Government of India has undertaken development of industrial townships under the National Industrial Corridor Development Programme (NICDP), through Special Purpose Vehicles formed jointly with the State Government'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2294231",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Commerce & Industry",
+   "places_as_printed": [
+    "Orvakal"
+   ],
+   "pib_office": "PIB Vijayawada",
+   "places_named_in_release": 3
+  },
+  {
+   "date": "2026-07-31",
+   "title": "PM to visit Andhra Pradesh and Karnataka on 1 August",
+   "summary": "Release text as printed (first sentence): 'Prime Minister Shri Narendra Modi will visit Andhra Pradesh and Karnataka on 1 August 2026. At around 11 AM, the Prime Minister will undertake a walk-through of the passenger terminal building of Alluri Sitarama Raju International Airport at Bhogapuram in Vizianagaram district, Andhra Pradesh'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165",
+   "figures": [],
+   "map": null,
+   "ministry": "Prime Minister's Office",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 8
+  },
+  {
+   "date": "2026-07-25",
+   "title": "Centre Continues Support for Judicial Infrastructure Development in Andhra Pradesh Under Centrally Sponsored Scheme.",
+   "summary": "Release text as printed (first sentence): 'The primary responsibility for development of infrastructure facilities for District and Subordinate Courts rests with the State Governments/UTs'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2289469",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Law and Justice",
+   "places_as_printed": [
+    "Adoni",
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 23
+  },
+  {
+   "date": "2026-07-24",
+   "title": "Accelerated Railway Projects in Andhra Pradesh: Budget Allocation Increased to Rs. 10,134 Crore for FY 2026-27",
+   "summary": "Release text as printed (first sentence): 'Union Minister for Railways and Information & Broadcasting Shri Ashwini Vaishnaw replied in Parliament to questions raised by Rajya Sabha Member Shri Bhashyam Rama Krishna regarding the progress of ongoing and pending railway projects, ROB/RUB constructions, and station redevelopment works in Andhra Pradesh'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2288987",
+   "figures": [
+    {
+     "label": "Amount stated in the release title",
+     "value": 10134,
+     "unit": "Rs crore",
+     "as_printed": "Rs. 10,134 Crore"
+    }
+   ],
+   "map": null,
+   "ministry": "Ministry of Railways",
+   "places_as_printed": [
+    "Adoni",
+    "Kurnool"
+   ],
+   "pib_office": "PIB Vijayawada",
+   "places_named_in_release": 55
+  },
+  {
+   "date": "2026-07-22",
+   "title": "Centre Gives Top Priority to Railway Infrastructure Development in Andhra Pradesh: Rs. 10,134 Crore Allocated for 2026-27",
+   "summary": "Release text as printed (first sentence): 'Union Minister for Railways and Information & Broadcasting Shri Ashwini Vaishnaw replied in Parliament to questions raised by Lok Sabha Members Shri Y.S. Avinash Reddy and Shri P.V. Mithun Reddy regarding the progress and allocations for various railway projects being undertaken in Andhra Pradesh'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2288192",
+   "figures": [
+    {
+     "label": "Amount stated in the release title",
+     "value": 10134,
+     "unit": "Rs crore",
+     "as_printed": "Rs. 10,134 Crore"
+    }
+   ],
+   "map": null,
+   "ministry": "Ministry of Railways",
+   "places_as_printed": [
+    "Adoni",
+    "Kurnool"
+   ],
+   "pib_office": "PIB Vijayawada",
+   "places_named_in_release": 56
+  },
+  {
+   "date": "2026-07-21",
+   "title": "PACS Services in Andhra Pradesh",
+   "summary": "Release text as printed (first sentence): 'The Ministry of Cooperation, in collaboration with CSC e-Governance Services India Limited (CSC SPV), is facilitating the functioning of eligible Primary Agricultural Credit Societies (PACS) as Common Service Centres (CSCs) to enable them to provide a wide range of digital and citizen-centric services in rural areas including Andhra Pradesh'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2287171",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Cooperation",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 16
+  },
+  {
+   "date": "2026-07-02",
+   "title": "TRAI Assesses Mobile Network Quality Across Hindupur to Hyderabad   Highway Route and Hyderabad to Hindupur Railway Route",
+   "summary": "Release text as printed (first sentence): 'TRAI Assesses Mobile Network Quality Across Highway Route- Hindupur to Hyderabad passing through Anantapur, Dhone, Kurnool and Jadcherla etc'",
+   "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2280453",
+   "figures": [],
+   "map": null,
+   "ministry": "Ministry of Communications",
+   "places_as_printed": [
+    "Kurnool"
+   ],
+   "pib_office": "PIB Delhi",
+   "places_named_in_release": 4
+  }
+ ],
+ "site": [
+  {
+   "date": "2026-10-05",
+   "title": "One stop centre Adoni Notification of DW&CW&EO KURNOOL",
+   "summary": "One Stop Centre, Adoni: recruitment notification. The listed file is the application form and checklist; it gives no post numbers.",
+   "url": "https://kurnool.ap.gov.in/notice/one-stop-centre-adoni-notification-of-dwcweo-kurnool/",
+   "figures": [],
+   "map": null,
+   "category": "recruitment"
+  },
+  {
+   "date": "2026-09-09",
+   "title": "Supply of School Children Spectacles to DBCS, office, Kurnool",
+   "summary": null,
+   "url": "https://kurnool.ap.gov.in/notice/supply-of-school-children-spectacles-to-dbcs-office-kurnool-2/",
+   "figures": [],
+   "map": null,
+   "category": "tender"
+  },
+  {
+   "date": "2026-09-01",
+   "title": "WD&CW Department – Schemes – Mission Shakti – Sambal – One Stop Centre Scheme – Recruitment to fill up vacant Human Resource posts in the existing One Stop Centres at Adoni and Kurnool – Notification",
+   "summary": "One Stop Centre recruitment, Kurnool district. The listed file is the application form and checklist; it gives no post numbers.",
+   "url": "https://kurnool.ap.gov.in/notice/wdcw-department-schemes-mission-shakti-sambal-one-stop-centre-scheme-recruitment-to-fill-up-vacant-human-resource-posts-in-the-existing-one-stop-cent/",
+   "figures": [],
+   "map": null,
+   "category": "recruitment"
+  },
+  {
+   "date": "2026-08-21",
+   "title": "HM&FW Dept.- Uploading of Notification of CAS Specialists and CAS General in DSH Hospitals on contract basis in Kurnool District (erstwhile)",
+   "summary": "Notification for Civil Assistant Surgeon specialist and general posts in district hospitals (Kurnool). The listed PDF is a nearly empty one-page file; no details could be read.",
+   "url": "https://kurnool.ap.gov.in/notice/hmfw-dept-uploading-of-notification-of-cas-specialists-and-cas-general-in-dsh-hospitals-on-contract-basis-in-kurnool-district-erstwhile-2/",
+   "figures": [],
+   "map": null,
+   "category": "recruitment"
+  },
+  {
+   "date": "2026-07-31",
+   "title": "HM&FW Dept.- Uploading of Notification of CAS Specialists and CAS General in DSH Hospitals on contract basis in Kurnool District (erstwhile)",
+   "summary": "Notification for Civil Assistant Surgeon specialist and general posts in district hospitals (Kurnool). The listed PDF is a nearly empty one-page file; no details could be read.",
+   "url": "https://kurnool.ap.gov.in/notice/hmfw-dept-uploading-of-notification-of-cas-specialists-and-cas-general-in-dsh-hospitals-on-contract-basis-in-kurnool-district-erstwhile/",
+   "figures": [],
+   "map": null,
+   "category": "recruitment"
+  },
+  {
+   "date": "2026-07-22",
+   "title": "Sealed tenders are invited for supply of medical equipments to Kurnool Medical College, Kurnool, from 25.07.2026 to 05.08.2026",
+   "summary": null,
+   "url": "https://kurnool.ap.gov.in/notice/sealed-tenders-are-invited-for-supply-of-medical-equipments-to-kurnool-medical-college-kurnool-from-25-07-2026-to-05-08-2026/",
+   "figures": [],
+   "map": null,
+   "category": "tender"
+  },
+  {
+   "date": "2026-07-11",
+   "title": "HM&FW Dept. Uploading of Notification of Recruitment of Paramedical & Supporting Staff in DSH Hospitals in Website Kurnool District",
+   "summary": "Applications invited from 13.07.2026 to 20.07.2026 for paramedical and supporting staff posts in district hospitals (DSH) of Kurnool.",
+   "url": "https://kurnool.ap.gov.in/notice/hmfw-dept-uploading-of-notification-of-recruitment-of-paramedical-supporting-staff-in-dsh-hospitals-in-website-kurnool-district/",
+   "figures": [
+    {
+     "label": "Posts: General Duty Attendant",
+     "value": 6,
+     "unit": "posts"
+    }
+   ],
+   "map": null,
+   "category": "recruitment"
+  },
+  {
+   "date": "2026-07-09",
+   "title": "ICPS (Mission Vatsalya) Notification",
+   "summary": "Applications invited for 2 Ayah posts (contract) at the children's home under the child protection scheme, Kurnool district.",
+   "url": "https://kurnool.ap.gov.in/notice/icps-mission-vatsalya-notification/",
+   "figures": [
+    {
+     "label": "Posts: Ayah",
+     "value": 2,
+     "unit": "posts"
+    },
+    {
+     "label": "Total posts as printed",
+     "value": 2,
+     "unit": "posts"
+    }
+   ],
+   "map": null,
+   "category": "recruitment"
+  }
+ ]
+}

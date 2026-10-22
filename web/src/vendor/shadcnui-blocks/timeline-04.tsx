@@ -1,0 +1,65 @@
+const steps = [
+  {
+    title: "Research",
+    description:
+      "Gather information and analyze requirements to understand the problem and define objectives.",
+  },
+  {
+    title: "Planning",
+    description:
+      "Create a roadmap, define the scope, and outline the necessary steps to achieve the goal.",
+  },
+  {
+    title: "Design",
+    description:
+      "Develop wireframes, mockups, and prototypes to visualize the structure and user experience.",
+  },
+  {
+    title: "Development",
+    description:
+      "Write code, integrate features, and build the core functionality of the application.",
+  },
+  {
+    title: "Testing",
+    description:
+      "Perform quality assurance, fix bugs, and optimize performance before release.",
+  },
+  {
+    title: "Deployment",
+    description:
+      "Launch the project in a live environment and ensure smooth deployment.",
+  },
+  {
+    title: "Maintenance",
+    description:
+      "Monitor performance, update features, and provide ongoing support and improvements.",
+  },
+];
+
+export default function Timeline() {
+  return (
+    <div className="mx-auto max-w-(--breakpoint-sm) px-6 py-12 md:py-20">
+      <div className="relative ml-6">
+        {/* Timeline line */}
+        <div className="absolute inset-y-0 left-0 border-l" />
+
+        {steps.map(({ title, description }, index) => (
+          <div className="relative pb-10 pl-10 last:pb-0" key={index}>
+            {/* Timeline Icon */}
+            <div className="absolute left-px flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-muted-foreground/40 bg-accent ring-8 ring-background">
+              <span className="font-medium text-lg">{index + 1}</span>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-1.5 pt-1">
+              <h3 className="font-medium text-xl tracking-[-0.01em]">
+                {title}
+              </h3>
+              <p className="text-lg text-muted-foreground">{description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
