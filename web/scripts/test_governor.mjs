@@ -4,8 +4,9 @@
 import { build } from 'esbuild'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 const out = join(tmpdir(), `governor-${process.pid}.mjs`)
-await build({ entryPoints: [new URL('../src/three/governor.ts', import.meta.url).pathname], format: 'esm', outfile: out, logLevel: 'warning' })
+await build({ entryPoints: [fileURLToPath(new URL('../src/three/governor.ts', import.meta.url))], format: 'esm', outfile: out, logLevel: 'warning' })
 let now = 0
 Object.defineProperty(globalThis, 'performance', { value: { now: () => now }, configurable: true })
 globalThis.window = { devicePixelRatio: 2, matchMedia: () => ({ matches: true }) }
@@ -15,7 +16,7 @@ const store = {}
 globalThis.localStorage = { getItem: (k) => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }
 globalThis.sessionStorage = { getItem: () => null, setItem() {}, removeItem() {} }
 globalThis.document = { createElement: () => ({ getContext: () => null }) }
-const g = await import(out)
+const g = await import(pathToFileURL(out).href)
 const run = (gov, gap, n) => { for (let i = 0; i < n; i++) { now += gap; gov.sample(now) } }
 const log = []
 let ok = true

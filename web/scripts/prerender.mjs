@@ -17,8 +17,11 @@
 import { build } from 'esbuild'
 import { mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { createHash } from 'node:crypto'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const WEB = new URL('..', import.meta.url).pathname
+// fileURLToPath, not URL.pathname: on Windows .pathname is "/C:/...", which no file call understands.
+const WEB = fileURLToPath(new URL('..', import.meta.url))
 const DIST = join(WEB, process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : 'dist')
 const TEMPLATE = join(DIST, 'index.html')
 if (!existsSync(TEMPLATE)) { console.error('No dist/index.html. Run vite build first.'); process.exit(1) }
@@ -30,7 +33,7 @@ await build({
   alias: { '@': join(WEB, 'src') }, external: ['react'], logLevel: 'warning',
   define: { 'import.meta.env.VITE_ROUTES': '"path"', 'import.meta.env.VITE_API_URL': 'undefined' },
 })
-const seo = await import(mod)
+const seo = await import(pathToFileURL(mod).href)   // a bare C:\\ path is not an import specifier on Windows
 rmSync(mod, { force: true })
 
 const pages = seo.allPages()
@@ -48,6 +51,20 @@ const template = readFileSync(TEMPLATE, 'utf8')
 if (!template.includes('<title>AP Fact Check</title>') || !template.includes('<div id="root"></div>')) {
   console.error('dist/index.html does not have the expected <title> and empty root. Nothing written.')
   process.exit(1)
+}
+
+// The CSP is enforced: an inline script whose hash is not in firebase.web.json does not run in the
+// browser (the theme would flash, silently). Checked here, on the machine that builds, so a changed
+// index.html or a line-ending change fails the build instead of the live site.
+{
+  const fb = readFileSync(join(WEB, '..', 'firebase.web.json'), 'utf8')
+  const missing = [...template.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => 'sha256-' + createHash('sha256').update(m[1]).digest('base64'))
+    .filter((h) => !fb.includes(`'${h}'`))
+  if (missing.length) {
+    console.error(`An inline script in index.html is not allowed by the CSP in firebase.web.json: ${missing.join(', ')}. Add the hash there. Nothing written.`)
+    process.exit(1)
+  }
 }
 
 function head(p, lang, { noindex = false } = {}) {

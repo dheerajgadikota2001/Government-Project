@@ -3,10 +3,11 @@
 // file that exists (with no catch-all rewrite any more, a broken link would be a real 404), and the
 // sitemaps list exactly the pages written. Run: npm run test:prerender
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, relative, sep } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
 
-const DIST = new URL('../dist/', import.meta.url).pathname
+const DIST = fileURLToPath(new URL('../dist/', import.meta.url))
 const ORIGIN = 'https://apfactcheck.dheeco.com'
 let ok = true
 const expect = (name, cond, extra = '') => { console.log((cond ? 'PASS ' : 'FAIL ') + name + (cond || !extra ? '' : `  [${extra}]`)); if (!cond) ok = false }
@@ -19,7 +20,8 @@ const pages = []
     if (statSync(p).isDirectory()) { if (n !== 'assets') walk(p) } else if (n === 'index.html') pages.push(p)
   }
 })(DIST)
-const addr = (f) => '/' + f.slice(DIST.length).replace(/\/?index\.html$/, '')
+// Forward slashes whatever the platform, so Windows paths compare like addresses.
+const addr = (f) => '/' + relative(DIST, f).split(sep).join('/').replace(/\/?index\.html$/, '')
 const all = pages.map((f) => ({ f, path: addr(f) === '/' ? '/' : addr(f).replace(/\/$/, ''), html: readFileSync(f, 'utf8') }))
 
 const isTe = (path) => path === '/te' || path.startsWith('/te/')     // not '/tenders'
