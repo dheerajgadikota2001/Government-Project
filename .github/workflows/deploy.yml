@@ -114,6 +114,17 @@ jobs:
         working-directory: ap-nadu-nedu
         run: npm ci
 
+      # Build comes before the tests on purpose. The prerender tests read
+      # dist/, so run before a build they fail with "No dist/index.html" even
+      # though nothing is wrong. They passed on a laptop that already had a
+      # dist folder, which hid it. prebuild rebuilds the icon subset font and
+      # postbuild runs the CSP hash check and the prerender, so this step also
+      # catches a missing glyph or a drifted inline script hash here rather
+      # than in front of readers.
+      - name: Build
+        working-directory: ap-nadu-nedu
+        run: npm run build
+
       # Includes the consent guard. The site once shipped with analytics
       # storage denied everywhere, which silently sent Google hits it refused
       # to count. Nothing failed, and the only symptom was an empty dashboard.
@@ -121,9 +132,33 @@ jobs:
         working-directory: ap-nadu-nedu
         run: npm run test:unit
 
-      # prebuild rebuilds the icon subset font and build runs the CSP hash
-      # check, so this catches a missing glyph or a drifted inline script hash
-      # here rather than in front of readers.
-      - name: Build
-        working-directory: ap-nadu-nedu
-        run: npm run build
+  web:
+    name: New site (web/) typecheck, build and speed gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      # build runs tsc -b first, then vite build, then the budget check fails
+      # the job if the first screen grows past 200 KB gzipped. That is the
+      # guard that keeps the site usable on a village phone.
+      - name: Typecheck, build and check the size budget
+        working-directory: web
+        run: npm run build:check
+
+      # The adaptive 3D rules: when a phone steps down, when it freezes, when
+      # it may step back up. A change that breaks them fails here.
+      - name: Test the 3D governor
+        working-directory: web
+        run: npm run test:3d
