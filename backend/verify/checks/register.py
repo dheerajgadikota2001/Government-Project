@@ -31,8 +31,10 @@ SEED = "projects_seed.json"
 # decides, not the publisher string: the publisher string is written by hand and
 # "News On AIR" and "Deccan Herald" look equally official to a tired reader.
 _GOV_SUFFIXES = (".gov.in", ".nic.in", ".gov", ".rbi.org.in")
+_GOV_PREFIXES = ("https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/",)
 _COMPANY_HOSTS = {
     "www.airindia.com", "airindia.com", "www.gmrgroup.in", "gmrgroup.in",
+    "investor.gmraero.com", "publish-p168597-e1857439.adobeaemcloud.com",
     "www.bseindia.com", "www.nseindia.com", "www.jsw.in", "jsw.in",
     "www.adaniports.com", "adaniports.com",
 }
@@ -44,6 +46,8 @@ def _host(url) -> str:
 
 
 def tier(url) -> str:
+    if str(url or "").strip().startswith(_GOV_PREFIXES):
+        return "government"
     h = _host(url)
     if not h:
         return "press"

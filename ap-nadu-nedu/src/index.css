@@ -150,8 +150,17 @@ html:not([lang='en']) .uppercase {
    rather than relying on every call site getting it right.
    ============================================================ */
 
-/* Nothing may push the page sideways, in any language. */
+/* Nothing may push the page sideways, in any language.
+   "hidden" did that, but it also turns html and body into scroll containers,
+   and a sticky element only sticks inside the box that scrolls: the header,
+   the Contacts and State Facts search bars and the Finances question menu all
+   quietly stopped sticking. "clip" cuts the overflow the same way without
+   making a scroll container. Browsers too old for "clip" keep "hidden", so
+   they lose only the sticking, never the no-sideways-scroll guarantee. */
 html, body { overflow-x: hidden; }
+@supports (overflow: clip) {
+  html, body { overflow-x: clip; }
+}
 
 /* Long unbroken tokens (URLs, transliterated names) wrap instead of
    stretching their container. */

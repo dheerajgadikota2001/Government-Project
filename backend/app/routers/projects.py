@@ -34,9 +34,26 @@ _SORT_COLUMNS = {
 }
 
 
-@router.get("/", response_model=PaginatedResponse[ProjectListOut])
+@router.get(
+    "/",
+    response_model=PaginatedResponse[ProjectListOut],
+    # Unset fields are dropped, not sent as null. That is what keeps full=true
+    # from costing the app anything: without it, every card in the register
+    # would carry eleven null keys it has no use for.
+    response_model_exclude_unset=True,
+)
 @cache_response(ttl=300)  # Cache 5 minutes
 async def list_projects(
+    full: bool = Query(
+        False,
+        description=(
+            "Include the fields a whole project page needs and a card does not: "
+            "description, project code, implementing agency, mandal, constituency, "
+            "approval and completion dates, actual cost and the source document. "
+            "Used by the prerenderer, which builds every static page from this "
+            "endpoint. Off by default so the register stays light on a phone."
+        ),
+    ),
     q: Optional[str] = Query(None, description="Free text over title, description, department"),
     district: Optional[str] = Query(None, description="Any of the 28 AP districts (name or slug)"),
     placement: Optional[str] = Query(
@@ -194,7 +211,7 @@ async def list_projects(
     projects = (await db.execute(stmt)).scalars().unique().all()
 
     return PaginatedResponse.build(
-        items=[ProjectListOut.from_project(p) for p in projects],
+        items=[ProjectListOut.from_project(p, full=full) for p in projects],
         total=total,
         page=page,
         page_size=page_size,

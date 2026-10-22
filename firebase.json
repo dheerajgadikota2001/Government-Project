@@ -68,6 +68,15 @@
         ]
       },
       {
+        "source": "/og/steps/index.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(woff2|woff|ttf)",
         "headers": [
           {

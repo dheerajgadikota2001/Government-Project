@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { apiGet } from '../lib/api'
-import { applySeo } from '../lib/seo'
+import { applySeo, seoForFinanceQuestion } from '../lib/seo'
 import { findFinanceQuestion, FINANCE_QUESTIONS, financeQuestionPath } from '../lib/financeQuestions'
 import FinanceQuestionMenu from '../components/FinanceQuestionMenu'
 import { VizSection, StatTiles, useChartTip, fmtIN, SEQ, HBarChart } from '../components/advanced/ChartPrimitives'
@@ -283,7 +283,7 @@ export default function Finances() {
   // is mounted before the routes), so this is the title that stays.
   useEffect(() => {
     if (unknownSlug) return
-    if (slug) applySeo(financeQuestionPath(active.slug), { title: active.title, description: active.description })
+    if (slug) applySeo(financeQuestionPath(active.slug), seoForFinanceQuestion(active))
     else applySeo('/finances')
   }, [slug, active, unknownSlug])
 

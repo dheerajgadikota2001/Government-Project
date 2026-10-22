@@ -70,6 +70,38 @@ def _check_lengths(entries, label):
         )
 
 
+def project_fields(e, now):
+    """The columns one seed entry sets on its project row.
+
+    The responsible government body and the organisation doing the work are
+    two different facts. The seed used to put a private company in
+    "department" ("GMR ... / AP Airports Development Corporation"), which told
+    readers a company was a government department. The company now sits in
+    implementing_agency.
+
+    implementing_agency is set only when the entry carries the key. Before
+    this, the loader never touched that column, so a row whose entry does not
+    name an agency keeps whatever it holds today instead of being blanked.
+    """
+    fields = dict(
+        title=e["title"],
+        project_type=ProjectType(e["project_type"]),
+        status=ProjectStatus(e["status"]),
+        district=e.get("district"),
+        department=e.get("department"),
+        estimated_cost_crore=e.get("estimated_cost_crore"),
+        completion_percentage=e.get("completion_percentage"),
+        expected_completion=parse_month(e.get("expected_completion")),
+        description=e.get("description"),
+        source_portal=e.get("source_portal") or "Curated (cited)",
+        source_url=e.get("source_url"),
+        last_scraped_at=now,
+    )
+    if "implementing_agency" in e:
+        fields["implementing_agency"] = e["implementing_agency"]
+    return fields
+
+
 async def load_projects():
     path = os.path.join(SEED_DIR, "projects_seed.json")
     with open(path, encoding="utf-8") as f:
@@ -83,20 +115,7 @@ async def load_projects():
                 await db.execute(select(Project).where(Project.title == e["title"]))
             ).scalar_one_or_none()
 
-            fields = dict(
-                title=e["title"],
-                project_type=ProjectType(e["project_type"]),
-                status=ProjectStatus(e["status"]),
-                district=e.get("district"),
-                department=e.get("department"),
-                estimated_cost_crore=e.get("estimated_cost_crore"),
-                completion_percentage=e.get("completion_percentage"),
-                expected_completion=parse_month(e.get("expected_completion")),
-                description=e.get("description"),
-                source_portal=e.get("source_portal") or "Curated (cited)",
-                source_url=e.get("source_url"),
-                last_scraped_at=datetime.now(timezone.utc),
-            )
+            fields = project_fields(e, datetime.now(timezone.utc))
 
             if existing:
                 for k, v in fields.items():

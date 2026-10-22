@@ -38,6 +38,13 @@ import { croreAmount } from './money.js'
 export function districtSummary({ district, total, row, t, fmtNum }) {
   if (!district || total == null) return []
 
+  // A district with nothing tracked in it is a real answer, not an error, and
+  // "0 tracked government projects in X district" is not a sentence anybody
+  // writes. Alluri Sitharama Raju is that district today. It was in the
+  // sitemap and had no page, so the six URLs behind it served crawlers the
+  // empty app shell.
+  if (total === 0) return [t('projects.district.none', { district })]
+
   const out = [t('projects.district.count', { count: total, district })]
 
   // The cost is only printed when the aggregate still describes the same set

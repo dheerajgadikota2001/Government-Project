@@ -25,6 +25,8 @@
  * at all, which was the position before.
  */
 
+import { canonicalDistrict } from './districts.js'
+
 export const SITE_ORIGIN = 'https://apfactcheck.dheeco.com'
 
 export const SITE_NAME = 'Andhra Pradesh Fact Check'
@@ -34,17 +36,27 @@ export const SITE_NAME = 'Andhra Pradesh Fact Check'
  *
  *   pattern      matches App.jsx exactly, ':' segments are parameters
  *   title        the browser tab and the search result headline
+ *   heading      the page's <h1>, when it differs from the title
  *   description  the search result snippet, kept under about 155 characters
  *   index        false keeps the page out of search results but still followed
  *   static       false for pages whose address contains a parameter, so the
  *                sitemap generator knows not to publish the literal ':id'
  */
 export const ROUTES = [
+  // title and description are held to 60 and 160 characters by
+  // scripts/tests/seo-lengths.test.mjs. The site name is added to a title by
+  // seo.js titleFor when it fits, so it is not written here.
+  // heading, where given, is the page's <h1>; otherwise the title is.
   {
     pattern: '/',
-    title: 'Andhra Pradesh Fact Check | ఏపీ నిజ నిర్ధారణ',
+    // The site's name first, then the three things people search for. The
+    // old title was the name alone, in two scripts, which ranks for nothing
+    // but the name, and nobody searches a name they have not heard yet.
+    title: 'Andhra Pradesh Fact Check: AP projects, budget and debt',
+    // The same words the reader sees in the hero (home.hero.titleLine1/2).
+    heading: 'Track Andhra Pradesh Government Work',
     description:
-      'Andhra Pradesh Fact Check is an independent, no-login transparency platform. Every project, budget and commitment figure is taken from a government document and cited, in six languages.',
+      'Projects, budget, debt and investment MoUs of Andhra Pradesh, every figure taken from a government document and cited. Independent, free, no login.',
   },
   {
     pattern: '/projects',
@@ -77,7 +89,7 @@ export const ROUTES = [
     pattern: '/investments',
     title: 'Investment MoUs signed by Andhra Pradesh',
     description:
-      'Investment memorandums announced by the Andhra Pradesh government, by sector and value, with the announcement each figure came from. An MoU is a promise, not money spent.',
+      'Investment MoUs announced by the Andhra Pradesh government, by sector and value, each with its source. An MoU is a promise, not money spent.',
   },
   {
     pattern: '/investments/tenure/:key',
@@ -88,7 +100,7 @@ export const ROUTES = [
   },
   {
     pattern: '/news',
-    title: 'Andhra Pradesh government news, collected from official sources',
+    title: 'Andhra Pradesh government news from official sources',
     description:
       'Announcements and updates collected from Andhra Pradesh government portals, each linked back to where it was published.',
   },
@@ -101,7 +113,7 @@ export const ROUTES = [
   },
   {
     pattern: '/documents',
-    title: 'Andhra Pradesh government documents, free to read and download',
+    title: 'Andhra Pradesh government documents, free to download',
     description:
       'A library of official Andhra Pradesh government documents: budget papers, CAG reports, project registers and orders. Free to read, free to download, no login.',
   },
@@ -131,13 +143,13 @@ export const ROUTES = [
     static: false,
     title: 'Andhra Pradesh department budgets, year by year',
     description:
-      'What one Andhra Pradesh department was budgeted each year since 2014-15, and where the audited accounts exist, what was actually spent, with the budget volume behind every figure.',
+      'What one Andhra Pradesh department was budgeted each year since 2014-15, and what the audited accounts say it spent, with the budget volume cited.',
   },
   {
     pattern: '/factcheck',
-    title: 'Fact checks: official claims beside the official record | Andhra Pradesh Fact Check',
+    title: 'Fact checks: official claims beside the official record',
     description:
-      'Claims made in Andhra Pradesh government white papers and budget documents, set beside what RBI, CAG and the state accounts record for the same date. Both governments, same rules.',
+      'Claims from Andhra Pradesh white papers and budgets, set beside what RBI, CAG and the state accounts record for the same date. Both governments, same rules.',
   },
   {
     pattern: '/factcheck/:slug',
@@ -154,7 +166,7 @@ export const ROUTES = [
   },
   {
     pattern: '/school-education',
-    title: 'School education in Andhra Pradesh, by the official statistics',
+    title: 'School education in Andhra Pradesh, official statistics',
     description:
       'Enrolment, schools, teachers and infrastructure in Andhra Pradesh, taken from published government education statistics.',
   },
@@ -247,6 +259,40 @@ export const LANG_CODES = ['en', 'te', 'hi', 'ur', 'ta', 'or']
 /** The five that carry a path prefix. English is the bare path. */
 export const PREFIXED_LANGS = LANG_CODES.filter(code => code !== 'en')
 
+/**
+ * The languages we ask search engines to index. Today, English only.
+ *
+ * WHY
+ *
+ * Every page exists in six languages for the reader who picks one. Only the
+ * English text is written by hand; the other five are templated sentences
+ * around an untranslated project name, so an Odia page reads "Providing Water
+ * Supply Facilities in Badvel Municipalityର ପ୍ରକାଶିତ ଆନୁମାନିକ ବ୍ୟୟ". Submitting
+ * that to Google five times over is what put 4,300 URLs in "Discovered,
+ * currently not indexed" and 72 of the 97 in "Crawled, currently not indexed".
+ * Google judged the whole site by its weakest pages.
+ *
+ * So the language pages stay, for readers, and step out of search:
+ * noindex, follow on the page, no hreflang, not in the sitemap, and no link
+ * to them from an English page, so crawl time goes to pages that can rank.
+ *
+ * WHEN A LANGUAGE IS PROPERLY TRANSLATED, ADD IT HERE. That one line brings
+ * back its sitemap entries, its reciprocal hreflang and its indexing, and the
+ * tests hold every one of those to this list.
+ *
+ * Telugu is back, because it is the language of the people this site is for
+ * and because it now earns it: every sentence in the catalogue is Telugu,
+ * every district has its Telugu name (placeNames.js), and every page title
+ * and search snippet is written in Telugu (the "seo" block in te.json). A
+ * page whose substance is still English, a fact check or a department's
+ * budget volume, stays out of the Telugu index page by page; see
+ * ENGLISH_CONTENT_PATTERNS in seo.js.
+ */
+export const INDEXED_LANGS = ['en', 'te']
+
+/** True when pages in this language should be offered to search engines. */
+export const isIndexedLang = code => INDEXED_LANGS.includes(code)
+
 const PREFIX_SET = new Set(PREFIXED_LANGS)
 
 /**
@@ -304,7 +350,25 @@ export function localizedPath(lang, pathname) {
  * close to zero today and real in three months. The old query URL still works
  * and canonicalises here, so nothing that was shared or indexed breaks.
  */
-export const districtSlug = name => String(name || '')
+/**
+ * The address form of a district name.
+ *
+ * Folded through canonicalDistrict first, and that is the whole point. The
+ * register keeps each source document's own spelling, so the same district
+ * arrives as "Tirupathi" from one table and "Tirupati" from another. Slugging
+ * the raw string gave each spelling its own address, and only one of those
+ * addresses was ever built. Forty two project pages linked to a page that did
+ * not exist, and the projects behind them were missing from the district page
+ * where a reader would look for them.
+ *
+ * Folding here rather than at each call site is deliberate: the sitemap, the
+ * prerenderer, the register filter and the related-projects card all ask this
+ * one function, so they cannot disagree about where a district lives.
+ *
+ * An unknown name still slugs as written. That keeps a district we have not
+ * catalogued reachable instead of silently redirecting it to the register.
+ */
+export const districtSlug = name => String(canonicalDistrict(name) || name || '')
   .toLowerCase()
   .normalize('NFKD')
   .replace(/[^a-z0-9]+/g, '-')

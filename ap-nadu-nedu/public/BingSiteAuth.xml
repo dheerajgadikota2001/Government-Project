@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  Bing Webmaster Tools ownership proof for apfactcheck.dheeco.com.
+
+  The file form, not the <meta name="msvalidate.01"> form. Bing's own note
+  beside the meta tag says it must stay on the page forever, and that page is
+  the single index.html every one of the 4,620 prerendered files is built
+  from. One verification token would have shipped in the head of every page on
+  the site, in six languages, to prove one thing to one crawler.
+
+  Vite copies public/ to the root of dist/, so Firebase serves this at
+  https://apfactcheck.dheeco.com/BingSiteAuth.xml, which is where Bing looks.
+  It has to survive every deploy: deleting it un-verifies the site.
+-->
+<users>
+  <user>5626E3365C10732C580E1831FDD743BB</user>
+</users>

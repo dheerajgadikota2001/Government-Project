@@ -4,6 +4,7 @@ import { apDistrictHq, apDistrictCode } from '../constants/apDistricts'
 import shapes from '../constants/apDistrictShapes.json'
 import { apiGet } from '../lib/api'
 import { useT } from '../i18n'
+import { placeName } from '../lib/placeNames.js'
 import { EVENTS, track } from '../lib/analytics'
 
 /**
@@ -61,7 +62,7 @@ export default function APMap({
   totalMapped,
 }) {
   const loading = byDistrict == null
-  const { t } = useT()
+  const { t, lang } = useT()
   const [hot, setHot] = useState(null)      // under the cursor
   const [open, setOpen] = useState(null)    // clicked: its projects are showing
   const [rows, setRows] = useState(null)    // the open district's projects
@@ -216,7 +217,7 @@ export default function APMap({
                   tabIndex={0}
                   role="button"
                   aria-pressed={isOpen}
-                  aria-label={rec ? t('map.a11y.district', { name: d.name, n: rec.count }) : d.name}
+                  aria-label={rec ? t('map.a11y.district', { name: placeName(d.name, lang), n: rec.count }) : placeName(d.name, lang)}
                 >
                   <title>{d.name}</title>
                 </path>
@@ -357,7 +358,7 @@ export default function APMap({
           <div
             role="dialog"
             aria-modal="true"
-            aria-label={t('map.drawer.aria', { name: open })}
+            aria-label={t('map.drawer.aria', { name: placeName(open, lang) })}
             className={[
               // z-[70]: above the voice FAB, which is fixed at z-50 and was
               // covering a project row inside the sheet. A modal that something
@@ -433,7 +434,7 @@ export default function APMap({
               ))}
               <Link to={districtLink(open)}
                 className="mt-1 text-center bg-primary text-on-primary rounded-xl min-h-[44px] flex items-center justify-center text-label-lg font-bold">
-                {t('map.drawer.openAll', { n: fmtIN(openRec?.count || 0), name: open })}
+                {t('map.drawer.openAll', { n: fmtIN(openRec?.count || 0), name: placeName(open, lang) })}
               </Link>
             </div>
           </div>
