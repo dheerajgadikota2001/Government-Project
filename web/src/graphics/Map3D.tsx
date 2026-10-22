@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { drawnDistricts as districts, mapViewBox, worksIn } from '@/lib/data'
+import { drawnDistricts as districts, mapViewBox } from '@/lib/data'
+import { worksIn } from '@/lib/data-projects'
 import { useThemeTick } from '@/lib/design'
 import { useLang } from '@/lib/i18n'
 import { readTokens, brighter, darker, mix } from './tokens'

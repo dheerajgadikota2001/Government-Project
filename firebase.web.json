@@ -2,10 +2,10 @@
   "hosting": {
     "public": "web/dist",
     "ignore": [
-      "firebase.json",
-      "firebase.web.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "firebase.json",
+      "firebase.web.json"
     ],
     "rewrites": [
       {
@@ -74,6 +74,19 @@
           {
             "key": "Cache-Control",
             "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          },
+          {
+            "key": "Service-Worker-Allowed",
+            "value": "/"
           }
         ]
       }

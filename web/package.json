@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:check": "npm run build && node scripts/check_bundle_budget.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:3d": "node scripts/test_governor.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

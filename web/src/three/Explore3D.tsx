@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { useLang } from '@/lib/i18n'
 import type { Builder, SceneHandle } from './View3D'
+import { createGovernor, settle, startLevel, type Level } from './governor'
 import { createLabelPlacer } from './labels'
 import { exploring } from './explore-state'
 
@@ -66,7 +67,8 @@ export default function Explore3D<P>({ build, params, label, children, onClose }
       let stage: import('./core').Stage
       let handle: SceneHandle
       try {
-        stage = engine.createStage(canvas, engine.pickQuality(), 'explore')
+        // The reader asked for this view, so it never drops to a still picture; it only gets lighter.
+        stage = engine.createStage(canvas, Math.max(1, startLevel()) as Level, 'explore')
         handle = mod.default(stage, params, engine)
       } catch (err) {
         console.error('[3D] could not open the model full screen:', err)
@@ -118,13 +120,21 @@ export default function Explore3D<P>({ build, params, label, children, onClose }
       }
 
       const placer = createLabelPlacer(THREE, el, () => overlay.current, !!REDUCED)
-      const ro = new ResizeObserver(size)
+      const gov = createGovernor({ start: stage.level, floor: 1, onChange: (lv) => { settle(lv); stage.setLevel(lv) } })
+      // Full speed while the reader is turning or zooming; 30 frames a second while the model only
+      // animates on its own. Half the work on a phone, and nobody can see the difference at rest.
+      let touchedAt = 0
+      controls.addEventListener('change', () => { touchedAt = performance.now() })
+      const ro = new ResizeObserver(() => { size(); gov.reset() })
       ro.observe(el)
       try { await stage.renderer.compileAsync(stage.scene, stage.camera) } catch { /* compile on first draw */ }
       if (disposed) { controls.dispose(); handle.dispose?.(); stage.dispose(); canvas.remove(); ro.disconnect(); return }
       let t0 = performance.now(), last = t0
       const frame = (now: number) => {
         raf = requestAnimationFrame(frame)
+        if (document.hidden) { gov.reset(600); return }
+        gov.sample(now)
+        if (now - touchedAt > 1000 && now - last < 1000 / 31) { controls.update(); return }
         const t = (now - t0) / 1000, dt = Math.min(0.05, (now - last) / 1000)
         last = now
         controls.update()

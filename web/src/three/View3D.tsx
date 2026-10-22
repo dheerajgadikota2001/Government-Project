@@ -5,11 +5,15 @@ import { useLang } from '@/lib/i18n'
 import { Rotate3d } from 'lucide-react'
 import { createLabelPlacer, type Place } from './labels'
 import { exploring, LayerDepth } from './explore-state'
+import { createGovernor, pageQuiet, perfMeter, settle, startLevel, type Level } from './governor'
 
 const Explore3D = React.lazy(() => import('./Explore3D'))
 
 // The one React door into the 3D models.
-//  - The model library loads only when a model comes near the screen.
+//  - The model library loads only when a model comes near the screen, and only after the page has
+//    finished loading and the browser is quiet, so a model never slows down the text around it.
+//  - A governor (governor.ts) watches real frame times and steps the model down when a phone
+//    struggles: fewer pixels, cheaper shadows, then a still picture with "Tap to see in 3D".
 //  - A model animates only while it is on screen, and never when the reader has asked for less motion.
 //  - Phones keep at most two live models; a model that leaves keeps a still picture of itself.
 //  - With no WebGL, or before the library arrives, the reader sees the flat version (`fallback`).
@@ -42,7 +46,7 @@ let nextId = 1
 let enginePromise: Promise<Engine> | null = null
 const loadEngine = () => (enginePromise ??= import('./core'))
 
-type ViewState = 'idle' | 'loading' | 'live' | 'still' | 'flat'
+type ViewState = 'idle' | 'loading' | 'live' | 'still' | 'flat' | 'resting'
 
 export function View3D<P>({ build, params, className, style, fallback, label, children, interactive, onReady, aspect, explorable, paused }: {
   build: () => Promise<{ default: Builder<P> }>
@@ -77,6 +81,9 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
   // Bumped when a model that gave its place up comes back on screen, so it comes back to life.
   const [wake, setWake] = React.useState(0)
   const visibleRef = React.useRef(false)
+  // Set when the reader taps "See in 3D" on a model the governor put to rest: from then on it may
+  // go down to the lightest live level but never back to a still picture on its own.
+  const askedRef = React.useRef(false)
   const paramsRef = React.useRef(params)
   const handleRef = React.useRef<SceneHandle | null>(null)
   // asks a still model (less motion asked for) to draw again: new params, new labels, a new size
@@ -120,7 +127,13 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
     let cancelled = false
     let cleanup: (() => void) | null = null
     const run = async () => {
+      const start = startLevel()
+      // This device or this visit has shown it cannot keep a live model smooth: hold a still or the
+      // flat drawing and let the reader ask for the model, instead of making the page stutter.
+      if (start === 0 && !askedRef.current) { setState('resting'); return }
       setState((s) => (s === 'live' ? s : 'loading'))
+      await pageQuiet()
+      if (cancelled) return
       const [engine, mod] = await Promise.all([loadEngine(), build()])
       if (cancelled) return
       if (!engine.canUseWebGL()) { setState('flat'); return }
@@ -138,9 +151,16 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
       place.appendChild(canvas)
       let stage: import('./core').Stage | null = null
       let handle: SceneHandle
+      // Timings land in the browser's performance panel as 3d:stage, 3d:build and 3d:compile, so a
+      // slow phone can be diagnosed from a trace instead of guessed at.
+      const mark = (name: string, from: number) => { try { performance.measure(name, { start: from, end: performance.now() }) } catch { /* old browsers */ } }
+      const tStage = performance.now()
       try {
-        stage = engine.createStage(canvas, engine.pickQuality())
+        stage = engine.createStage(canvas, Math.max(1, start) as Level)
+        mark('3d:stage', tStage)
+        const tBuild = performance.now()
         handle = mod.default(stage, paramsRef.current, engine)
+        mark('3d:build', tBuild)
       } catch (err) {
         // a model that cannot be built must say why in the console, then fall back to the flat version
         console.error('[3D] could not build the model:', err)
@@ -152,7 +172,9 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
       handleRef.current = handle
       // Compile every shader before the first frame, in parallel where the GPU allows it, so a
       // detailed model does not freeze the page while it appears.
+      const tCompile = performance.now()
       try { handle.frame?.(0, 0); await stage.renderer.compileAsync(stage.scene, stage.camera) } catch { /* older browsers compile on first draw */ }
+      mark('3d:compile', tCompile)
       if (cancelled || !stage) { try { handle.dispose?.(); stage?.dispose() } catch { /* ignore */ } canvas.remove(); return }
       const id = nextId++
       let raf = 0
@@ -177,7 +199,9 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
       let dirty = 2
       const kick = () => { dirty = Math.max(dirty, 2) }
       kickRef.current = kick
-      const ro = new ResizeObserver(() => { size(); kick() })
+      // eslint-disable-next-line prefer-const
+      let gov: ReturnType<typeof createGovernor>
+      const ro = new ResizeObserver(() => { size(); kick(); gov?.reset() })
       const stop = () => {
         if (stopped) return
         stopped = true
@@ -191,14 +215,35 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
         if (kickRef.current === kick) kickRef.current = null
         const i = live.findIndex((l) => l.id === id)
         if (i >= 0) live.splice(i, 1)
-        setState('still')
+        perfMeter.update({ live: live.length })
+        setState((s) => (s === 'resting' ? s : 'still'))
       }
       const release = () => {
-        // keep a still picture so the place never goes blank
+        // Keep a still picture so the place never goes blank. The drawing buffer is not preserved,
+        // so the picture is read in the same task as a fresh render, before the browser clears it.
         try { stage?.render(); setStill(canvas.toDataURL('image/webp', 0.86)) } catch { /* ignore */ }
         stop()
       }
+      gov = createGovernor({
+        start: stage.level,
+        floor: askedRef.current ? 1 : 0,
+        onChange: (lv) => {
+          settle(lv)
+          if (lv === 0) { release(); setState('resting'); return }
+          stage?.setLevel(lv)
+          kick()
+        },
+      })
+      // A phone can take the GPU back (memory pressure, a background app). Then the model rests
+      // and the device starts one level lower next time, instead of showing a black box.
+      canvas.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault()
+        settle(Math.max(0, (stage?.level ?? 1) - 1) as Level)
+        stop()
+        setState('resting')
+      }, { once: true })
       live.push({ id, visible: () => visibleRef.current, release })
+      perfMeter.update({ live: live.length })
       // A rebuild (the theme changed) keeps the current picture up until the new model is ready,
       // so the box never flashes empty in between.
       cleanup = () => (leaving.current ? stop() : release())
@@ -207,9 +252,10 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
         ro.observe(box)
         const frame = (now: number) => {
           raf = requestAnimationFrame(frame)
-          if (!visibleRef.current || pausedRef.current || document.hidden || exploring.n > depthRef.current) return
+          if (!visibleRef.current || pausedRef.current || document.hidden || exploring.n > depthRef.current) { gov.reset(600); return }
           // with less motion asked for, the model holds still and is drawn again only when something changed
           if (REDUCED) { if (dirty > 0) { dirty--; draw(now) } return }
+          gov.sample(now)
           // 30 frames a second is plenty for slow model motion and kinder to phone batteries
           if (now - last < 1000 / 31) return
           draw(now)
@@ -241,8 +287,9 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
 
   // The flat drawing is only for a reader who cannot get the 3D model. Shown while the model loads,
   // it read as an old picture swapped for a new one a moment later, so a quiet placeholder holds the place instead.
-  const showFlat = state === 'flat'
-  const showWait = !showFlat && state !== 'live' && !still
+  const resting = state === 'resting'
+  const showFlat = state === 'flat' || (resting && !still)
+  const showWait = !showFlat && !resting && state !== 'live' && !still
   const canExplore = explorable && state !== 'flat'
   return (
     <>
@@ -265,6 +312,12 @@ export function View3D<P>({ build, params, className, style, fallback, label, ch
       <div ref={overlay} className={cn('pointer-events-none absolute inset-0 transition-opacity duration-500', state === 'live' ? 'opacity-100' : 'opacity-0')}>
         {children}
       </div>
+      {resting ? (
+        <button type="button" onClick={(e) => { e.stopPropagation(); askedRef.current = true; setState('idle'); setWake((n) => n + 1) }}
+          className="absolute left-2.5 top-2.5 z-[2] inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border bg-background/90 px-3 py-1.5 text-[12.5px] font-semibold shadow-sm backdrop-blur hover:bg-accent">
+          <Rotate3d className="size-4" aria-hidden />{tr('Tap to see in 3D', '3Dలో చూడటానికి నొక్కండి')}
+        </button>
+      ) : null}
       {canExplore ? (
         <button type="button" onClick={(e) => { e.stopPropagation(); setOpen(true) }}
           className="absolute bottom-2.5 right-2.5 z-[2] inline-flex items-center gap-1.5 rounded-full border border-border bg-background/90 px-3 py-1.5 text-[12.5px] font-semibold shadow-sm backdrop-blur hover:bg-accent">

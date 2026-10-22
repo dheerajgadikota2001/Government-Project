@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Check, Copy, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { CHOICES, useDesign, type DesignState } from '@/lib/design'
+import { CHOICES, loadAllPickerFonts, useDesign, type DesignState } from '@/lib/design'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
@@ -17,6 +17,7 @@ const WHERE: Partial<Record<keyof DesignState, string>> = {
 export function DesignPicker({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const { d, set, reset } = useDesign()
   const [copied, setCopied] = React.useState(false)
+  React.useEffect(() => { if (open) loadAllPickerFonts() }, [open])
   const [text, setText] = React.useState<string | null>(null)
   const summary = () => CHOICES.map((c) => `${c.title}: ${c.options.find((o) => o.id === d[c.key])?.label ?? d[c.key]}`).join('\n')
   const copy = async () => {

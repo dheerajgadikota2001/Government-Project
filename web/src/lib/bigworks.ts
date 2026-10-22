@@ -1,4 +1,6 @@
-import { byId, events, pol } from './data'
+import { byId } from '@/lib/data-projects'
+import { events } from '@/lib/data-events'
+import { pol } from '@/lib/data-polavaram'
 import type { WorkKind } from '@/three/scenes/works'
 
 // The big works on the first screen: the eight flagships we follow closely, and every other

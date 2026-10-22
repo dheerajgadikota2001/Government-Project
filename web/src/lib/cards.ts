@@ -5,7 +5,14 @@
 // card travels alone (forwarded on WhatsApp) and the source must travel with it.
 // Telugu and English are built from the same value in one place.
 
-import { claims, districts, facts, invest, meta, money, pol, projects, MERGED, registerPapers, tenders } from '@/lib/data'
+import { districts, meta } from '@/lib/data'
+import { projects } from '@/lib/data-projects'
+import { pol } from '@/lib/data-polavaram'
+import { money } from '@/lib/data-money'
+import { facts } from '@/lib/data-facts'
+import { invest } from '@/lib/data-invest'
+import { claims } from '@/lib/data-claims'
+import { registerPapers, tenders } from '@/lib/data-papers'
 import { crore, croreTe, dateLong, dateTe, istDay, num } from '@/lib/format'
 
 export type BiS = { en: string; te: string }
@@ -264,12 +271,5 @@ export function todaysCards(district: string | null): FactCard[] {
   ].filter(Boolean) as FactCard[]
 }
 
-/** The facts behind the "In short" rows, so a row and a card never disagree. */
-export const shortFacts = {
-  projects: () => ({
-    records: projects.length,
-    works: projects.filter((p) => !MERGED[p.id]).length,
-    done: projects.filter((p) => p.st === 'completed').length,
-    building: projects.filter((p) => p.st === 'under_construction').length,
-  }),
-}
+/** The facts behind the "In short" rows now live with the projects data, so a page can use them without the deck. */
+export { shortFacts } from '@/lib/data-projects'

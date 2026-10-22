@@ -9,7 +9,7 @@ import { PaperChip, StatusWord, Te } from '@/components/kit'
 import { View3D, Pin } from '@/three/View3D'
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
 import { Dam } from '@/graphics/Dam'
-import { pol } from '@/lib/data'
+import { pol } from '@/lib/data-polavaram'
 
 // The first screen's big works: one model at a time, chips to jump, swipe on phones.
 // Only the work on screen runs its model; the others wait until they are swiped in.

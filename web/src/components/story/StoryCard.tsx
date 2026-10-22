@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ArrowRight, Play } from 'lucide-react'
 import { useLang } from '@/lib/i18n'
-import { pol } from '@/lib/data'
+import { pol } from '@/lib/data-polavaram'
 import { dateLong, dateTe, num } from '@/lib/format'
 import { Dam } from '@/graphics/Dam'
 import type { Bi, Story } from '@/data/stories/polavaram'
