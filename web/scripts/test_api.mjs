@@ -5,17 +5,19 @@
 // It also checks the one rule for "open" tenders (src/lib/live.ts). Run: npm run test:api
 import { build } from 'esbuild'
 import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { rmSync } from 'node:fs'
 
-const src = (p) => new URL(`../src/${p}`, import.meta.url).pathname
+const SRC = fileURLToPath(new URL('../src/', import.meta.url))
+const src = (p) => join(SRC, p)
 // Built inside node_modules/.cache so the bundle can find react the normal way.
-const cache = new URL('../node_modules/.cache/', import.meta.url).pathname
+const cache = fileURLToPath(new URL('../node_modules/.cache/', import.meta.url))
 const out = join(cache, `api-${process.pid}.mjs`)
 const outLive = join(cache, `live-${process.pid}.mjs`)
 const common = {
   format: 'esm', bundle: true, platform: 'neutral', logLevel: 'warning',
   define: { 'import.meta.env.VITE_API_URL': 'undefined' },
-  alias: { '@': src('').replace(/\/$/, '') },
+  alias: { '@': SRC.replace(/[\\/]$/, '') },
   external: ['react'],
 }
 await build({ ...common, entryPoints: [src('lib/api.ts')], outfile: out })
@@ -40,7 +42,7 @@ const reads = (path) => calls.filter((c) => c.url.pathname === '/api/v1' + path)
 
 let ok = true
 const expect = (name, cond) => { console.log((cond ? 'PASS ' : 'FAIL ') + name); if (!cond) ok = false }
-const api = await import(out)
+const api = await import(pathToFileURL(out).href)
 
 // 1. Every read carries the data-version stamp.
 answer = () => ({ status: 200, body: { n: 1 } })
@@ -120,7 +122,7 @@ expect('all 250 rows arrive, each once', all.items.length === 250 && new Set(all
 expect('three pages of 100 were asked for', reads('/tenders/').length === 3 && reads('/tenders/').every((c) => c.url.searchParams.get('status') === 'active'))
 
 // 10. Open means the last day to bid has not passed, in India time.
-const live = await import(outLive)
+const live = await import(pathToFileURL(outLive).href)
 const t = (end) => ({ bid_submission_end: end })
 expect('closing 23:30 India time today is open', live.isOpen(t('2026-10-22T18:00:00Z'), '2026-10-22'))
 expect('closing 23:59 India time yesterday is not open', !live.isOpen(t('2026-10-21T18:29:00Z'), '2026-10-22'))
