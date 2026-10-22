@@ -68,7 +68,10 @@ def main() -> int:
         print("Each migration, and whether its tables are already in the database:")
         for rev, names in MIGRATION_TABLES.items():
             have = [n for n in names if n in tables]
-            state = "ALL PRESENT" if len(have) == len(names) else ("PARTLY" if have else "absent")
+            if not names:
+                state = "no tables"   # this migration adds indexes or fixes labels; the check below covers it
+            else:
+                state = "ALL PRESENT" if len(have) == len(names) else ("PARTLY" if have else "absent")
             print(f"  {rev}  {state:12} {', '.join(names)}")
         print()
 

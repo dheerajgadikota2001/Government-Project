@@ -1,0 +1,532 @@
+{
+  "_readme": "Real register rows and their dated readings, copied from the live API on 24 September 2026, for scripts/tests/project-story.test.mjs. Chosen to cover every kind of story: a MoSPI project past its date (613), a survey project whose figures fall and a press note (622), a cost that rose and a spend that fell (546), an AMRUT scheme with no readings (311), a curated record with survey readings (1), a curated record with none (2), a 0% reading (537), 100% done but still listed (518), a suspended scheme (632) and a pre-closed one (621). Do not edit a figure here to make a test pass: the point is that they are real.",
+  "records": [
+    {
+      "project": {
+        "id": 613,
+        "external_id": "701415",
+        "title": "Polavaram Irrigation Project",
+        "description": "Central-sector project (Water Resources, Water Resources-AP) tracked in the MoSPI flash report, July 2026 as ongoing. Cumulative expenditure Rs 27,961.55 Cr; physical progress 86.15% as of 31 July 2026.",
+        "project_type": "irrigation",
+        "status": "under_construction",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 55548.87,
+        "actual_cost_crore": null,
+        "department": "Water Resources",
+        "implementing_agency": "Water Resources-AP",
+        "announced_date": "2009-02-01T00:00:00Z",
+        "start_date": null,
+        "expected_completion": "2026-03-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": 86.15,
+        "source_portal": "MOSPI_IPMD",
+        "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2024-05-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": 21095.31,
+          "estimated_cost_crore": 55548.87,
+          "status_note": null,
+          "source_label": "MoSPI flash report, May 2024",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FlashReport_May_2024.pdf"
+        },
+        {
+          "observed_date": "2025-06-30T00:00:00+00:00",
+          "completion_percentage": 76.0,
+          "cumulative_expenditure_crore": 23775.68,
+          "estimated_cost_crore": 55548.87,
+          "status_note": null,
+          "source_label": "MoSPI flash report, June 2025",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FR_JUNE_2025.pdf"
+        },
+        {
+          "observed_date": "2026-07-31T00:00:00+00:00",
+          "completion_percentage": 86.15,
+          "cumulative_expenditure_crore": 27961.55,
+          "estimated_cost_crore": 55548.87,
+          "status_note": null,
+          "source_label": "MoSPI flash report, July 2026",
+          "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 622,
+        "external_id": "SES-IRR-VELIGONDA",
+        "title": "Poola Subbaiah Veligonda Project",
+        "description": "Veligonda — flood-water diversion of 43.50 TMC from the Krishna (Kollam Vagu/Srisailam foreshore) by gravity to the drought-prone, fluoride-affected uplands of Prakasam, Nellore and Kadapa districts (30 mandals); contemplated irrigation for about 4.47 lakh acres and drinking water for 15.25 lakh people. The government's own record moves backwards: SES 2017-18 says 'Overall, 81% work is completed… entire project by December 2018'; SES 2018-19 prints 74% (admin approval Rs 6,017.99 Cr, target 12/2020); SES 2020-21 and 2021-22 print 78% (target 2023); SES 2024-25 prints 75% (target 2026). Each figure is kept exactly as printed. On 1 September 2026 the Chief Minister inaugurated Phase-1 at Gantavanipalli (Prakasam), releasing water from the 18.8 km twin tunnels into the 21.8 km feeder canal towards Nallamala Sagar; press reports put Phase-1 at 19,000 acres and drinking water for about 4 lakh people, with Rs 5,662 crore spent against a project cost reported as 'over Rs 10,200 crore' (The Hans India, 1-2 Sep 2026 — press figures, no government order on record yet). The project as a whole remains ongoing.",
+        "project_type": "irrigation",
+        "status": "under_construction",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 6017.99,
+        "actual_cost_crore": null,
+        "department": "Water Resources Department, Government of Andhra Pradesh",
+        "implementing_agency": null,
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": null,
+        "actual_completion": null,
+        "completion_percentage": 75.0,
+        "source_portal": "AP Socio-Economic Survey (Planning Dept)",
+        "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2018-03-31T00:00:00+00:00",
+          "completion_percentage": 81.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Prose: reservoir work completed, canals nearing completion; 'Overall, 81% work is completed'; one tunnel by Kharif 2018, entire project by December 2018",
+          "source_label": "Socio-Economic Survey 2017-18, ch.7 (prose; survey published with Budget 2018; no as-on date printed)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2017-18.pdf"
+        },
+        {
+          "observed_date": "2019-03-31T00:00:00+00:00",
+          "completion_percentage": 74.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": 6017.99,
+          "status_note": "Admin approval Rs 6,017.99 Cr; IP contemplated 447,300 ac; target 12/2020",
+          "source_label": "Socio-Economic Survey 2018-19, ch.7 Tables 7.3-7.5 (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf"
+        },
+        {
+          "observed_date": "2021-03-31T00:00:00+00:00",
+          "completion_percentage": 78.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2023; 425,600 new + 14,700 stab",
+          "source_label": "Socio-Economic Survey 2020-21, ch.7 ongoing-projects table (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf"
+        },
+        {
+          "observed_date": "2021-12-31T00:00:00+00:00",
+          "completion_percentage": 78.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2023; 425,100 new + 14,700 stab",
+          "source_label": "Socio-Economic Survey 2021-22, Table 7.2 (chapter states figures as of December 2021)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2021-22.pdf"
+        },
+        {
+          "observed_date": "2024-12-31T00:00:00+00:00",
+          "completion_percentage": 75.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2026; 424,100 new + 14,800 stab — lower than the 78% printed in 2020-21/2021-22 and the 81% claimed in 2017-18",
+          "source_label": "Socio-Economic Survey 2024-25, Annexure 7.2 (annexures state cutoff upto 31.12.2024)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+        },
+        {
+          "observed_date": "2026-09-01T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Phase-1 inaugurated at Gantavanipalli: water released from 18.8 km twin tunnels into 21.8 km feeder canal towards Nallamala Sagar. Press: Phase-1 irrigates 19,000 ac, drinking water for ~4 lakh; Rs 5,662 Cr spent, cost 'over Rs 10,200 Cr'. Full project (4.47 lakh ac) still ongoing.",
+          "source_label": "The Hans India, 1 Sep 2026 (press report — no government order on record yet)",
+          "source_url": "https://www.thehansindia.com/news/cities/kurnool/cm-naidu-dedicates-veligonda-to-nation-1116236"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 546,
+        "external_id": "618476",
+        "title": "Bangalore Chennai Expressway Phase-II Pkg-III from km.127.000 to Km 156.000 Bangarupalem to Gudipala section",
+        "description": "Central-sector project (Roads & Highways, NHAI) tracked in the MoSPI flash report, July 2026 as ongoing. Cumulative expenditure Rs 868.62 Cr; physical progress 99.46% as of 31 July 2026.",
+        "project_type": "roads",
+        "status": "under_construction",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 1407.33,
+        "actual_cost_crore": null,
+        "department": "Roads & Highways",
+        "implementing_agency": "NHAI",
+        "announced_date": "2020-11-01T00:00:00Z",
+        "start_date": null,
+        "expected_completion": "2026-08-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": 99.46,
+        "source_portal": "MOSPI_IPMD",
+        "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2024-05-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": 760.64,
+          "estimated_cost_crore": 1289.0,
+          "status_note": null,
+          "source_label": "MoSPI flash report, May 2024",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FlashReport_May_2024.pdf"
+        },
+        {
+          "observed_date": "2025-06-30T00:00:00+00:00",
+          "completion_percentage": 97.43,
+          "cumulative_expenditure_crore": 1256.44,
+          "estimated_cost_crore": 1289.0,
+          "status_note": null,
+          "source_label": "MoSPI flash report, June 2025",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FR_JUNE_2025.pdf"
+        },
+        {
+          "observed_date": "2026-07-31T00:00:00+00:00",
+          "completion_percentage": 99.46,
+          "cumulative_expenditure_crore": 868.62,
+          "estimated_cost_crore": 1407.33,
+          "status_note": null,
+          "source_label": "MoSPI flash report, July 2026",
+          "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 311,
+        "external_id": "AP-PONNUR-8747",
+        "title": "Rejuvenation of Nagula cheruvu in cabinpeta Ponnur municipality",
+        "description": "AMRUT 2.0 approved project (Water Body Rejuvenation) in Ponnur, Guntur district. Milestone in the official MoHUA status PDF (as on 05.03.2026): Ongoing; scheduled/revised completion Sep-26.",
+        "project_type": "urban_development",
+        "status": "under_construction",
+        "district": "Guntur",
+        "mandal": null,
+        "estimated_cost_crore": 3.04,
+        "actual_cost_crore": null,
+        "department": "Urban Development — AMRUT 2.0 (MoHUA)",
+        "implementing_agency": "Ponnur",
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": "2026-09-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": null,
+        "source_portal": "AMRUT_MoHUA",
+        "source_url": "https://amrut.mohua.gov.in/assets/Status-of-Approved-Projects-under-AMRUT-2-in-Andhra-Pradesh-as-on-05-03-2026.pdf"
+      },
+      "observations": []
+    },
+    {
+      "project": {
+        "id": 1,
+        "external_id": null,
+        "title": "Polavaram Irrigation Project (Phase 1)",
+        "description": "National multipurpose irrigation project on the Godavari near Polavaram. The Union Cabinet approved Phase-1 on 28 August 2024 for storage up to +41.15 m at Rs 30,436.95 crore, with the balance central grant limited to Rs 12,157.53 crore; the earlier approved level was +45.72 m. The estimate has been revised repeatedly: Rs 10,151.04 crore (2005-06 price level, investment clearance 25 February 2009), Rs 16,010.45 crore (2010-11 price level, revised clearance 8 May 2017), Rs 55,548.87 crore accepted by the Ministry's Advisory Committee at its 141st meeting on 11 February 2019, and Rs 47,725.74 crore recommended by the Revised Cost Committee on 17 March 2020, which the CAG recorded as still unapproved as at March 2023. Andhra Pradesh gave revised State financial concurrence for Rs 55,548.87 crore in G.O.Ms.No.21 dated 10 February 2019. The CAG performance audit put physical progress at 82 per cent for works, 67 per cent for land acquisition and 11 per cent for rehabilitation and resettlement as at March 2023, with head works at 69 per cent, the Left Main Canal at 76.05 per cent, the Right Main Canal at 96.14 per cent and the hydro-electric project at 12 per cent. Expenditure from April 2014 to March 2023 was Rs 16,089.79 crore. PIB reported Rs 18,348.84 crore incurred as at 30 November 2024 since the project was declared a National Project, Rs 15,605.96 crore reimbursed by the Centre and a further Rs 2,348 crore released on 9 October 2024. No government source publishes a single overall completion percentage for the project after March 2023.",
+        "project_type": "irrigation",
+        "status": "under_construction",
+        "district": "Eluru",
+        "mandal": null,
+        "estimated_cost_crore": 30436.95,
+        "actual_cost_crore": null,
+        "department": "AP Water Resources Department / Polavaram Project Authority",
+        "implementing_agency": null,
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": "2027-03-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": null,
+        "source_portal": "PIB · CAG of India · Ministry of Jal Shakti · AP Government Orders",
+        "source_url": "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2096022&reg=3&lang=2"
+      },
+      "observations": [
+        {
+          "observed_date": "2018-03-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": 12564.49,
+          "estimated_cost_crore": 16010.45,
+          "status_note": "Prose: total cost Rs 16,010.45 Cr (2010-11 PL), expenditure to date Rs 12,564.49 Cr, GoI reimbursed Rs 4,329.06 Cr; completion scheduled June 2019",
+          "source_label": "Socio-Economic Survey 2017-18, ch.7 (prose; survey published with Budget 2018; no as-on date printed)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2017-18.pdf"
+        },
+        {
+          "observed_date": "2019-03-31T00:00:00+00:00",
+          "completion_percentage": 71.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": 55548.87,
+          "status_note": "Table 7.3: admin approval Rs 55,548.87 Cr, 71%; contemplated 720,000 new + 23.5 lakh stab; target 06/2021",
+          "source_label": "Socio-Economic Survey 2018-19, ch.7 Tables 7.3-7.5 (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf"
+        },
+        {
+          "observed_date": "2021-03-31T00:00:00+00:00",
+          "completion_percentage": 71.46,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Excluding power house; target 2021; 436,185 new + 1,569 stab",
+          "source_label": "Socio-Economic Survey 2020-21, ch.7 ongoing-projects table (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf"
+        },
+        {
+          "observed_date": "2021-12-31T00:00:00+00:00",
+          "completion_percentage": 77.66,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Table 7.2: 77.66%, target 2023. Ch.7 prose (as of Dec 2021): overall 77.91%, LA&R&R 20.19%, RMC 92.57%, LMC 71.24%, head works 75.75%, total incl. LA&R&R up to EL+45.72m 42.56%",
+          "source_label": "Socio-Economic Survey 2021-22, Table 7.2 (chapter states figures as of December 2021)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2021-22.pdf"
+        },
+        {
+          "observed_date": "2024-12-31T00:00:00+00:00",
+          "completion_percentage": 78.64,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2027; 720,000 ac new",
+          "source_label": "Socio-Economic Survey 2024-25, Annexure 7.2 (annexures state cutoff upto 31.12.2024)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 2,
+        "external_id": null,
+        "title": "Alluri Sitarama Raju International Airport, Bhogapuram",
+        "description": "Greenfield international airport at Bhogapuram, Vizianagaram district, built and operated by GMR (GVIAL) under PPP — PIB states a project cost of over ₹5,640 crore and Phase-1 capacity of about 6 million passengers a year (earlier reporting cited ~₹4,750 crore for Phase-1 works). Inaugurated by the Prime Minister on 1 August 2026; scheduled commercial operations began 17 August 2026, when all Visakhapatnam (VTZ) services transferred here — Air India's first schedules included 14 weekly Delhi flights. State records showed readiness at 98.74% in June 2026.",
+        "project_type": "airports",
+        "status": "completed",
+        "district": "Vizianagaram",
+        "mandal": null,
+        "estimated_cost_crore": 5640.0,
+        "actual_cost_crore": null,
+        "department": "GMR Visakhapatnam International Airport Ltd / AP Airports Development Corporation",
+        "implementing_agency": null,
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": "2026-08-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": 100.0,
+        "source_portal": "PIB (Govt of India)",
+        "source_url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2292165&reg=48&lang=1"
+      },
+      "observations": []
+    },
+    {
+      "project": {
+        "id": 537,
+        "external_id": "611752",
+        "title": "Doubling between Gooty-Pendakallu 29.225 km PB73/2023-24/NR",
+        "description": "Central-sector project (Railways, CAO/C/SCoR SCoR mor) tracked in the MoSPI flash report, July 2026 as ongoing. Cumulative expenditure Rs 149.34 Cr; physical progress 0.00% as of 31 July 2026.",
+        "project_type": "railways",
+        "status": "under_construction",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 351.83,
+        "actual_cost_crore": null,
+        "department": "Railways",
+        "implementing_agency": "CAO/C/SCoR SCoR mor",
+        "announced_date": "2023-03-01T00:00:00Z",
+        "start_date": null,
+        "expected_completion": "2027-03-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": 0.0,
+        "source_portal": "MOSPI_IPMD",
+        "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2024-05-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": 351.83,
+          "status_note": null,
+          "source_label": "MoSPI flash report, May 2024",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FlashReport_May_2024.pdf"
+        },
+        {
+          "observed_date": "2025-06-30T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": 0.0,
+          "estimated_cost_crore": 351.83,
+          "status_note": null,
+          "source_label": "MoSPI flash report, June 2025",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FR_JUNE_2025.pdf"
+        },
+        {
+          "observed_date": "2026-07-31T00:00:00+00:00",
+          "completion_percentage": 0.0,
+          "cumulative_expenditure_crore": 149.34,
+          "estimated_cost_crore": 351.83,
+          "status_note": null,
+          "source_label": "MoSPI flash report, July 2026",
+          "source_url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1787656864174_db1695c9-b038-4c20-964f-8cf5f2cdda5f_FlashReport_July_2026_.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 518,
+        "external_id": "N42000007",
+        "title": "CONSTRUCTION OF PERMANENT CAMPUS FOR IISER AT JANGALAPALLI VILLAGE, YERPEDU MANDAL, CHITTOOR DISTRIC",
+        "description": "Central-sector project (Department Of Higher Education, CPWD EDUCATION) tracked in the MoSPI flash report, June 2025 as ongoing. Cumulative expenditure Rs 630.55 Cr; physical progress 100.00% as of 30 June 2025. Not listed among ongoing projects in the MoSPI flash report, July 2026.",
+        "project_type": "education",
+        "status": "under_construction",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 656.39,
+        "actual_cost_crore": null,
+        "department": "Department Of Higher Education",
+        "implementing_agency": "CPWD EDUCATION",
+        "announced_date": "2019-09-01T00:00:00Z",
+        "start_date": null,
+        "expected_completion": "2024-06-01T00:00:00Z",
+        "actual_completion": null,
+        "completion_percentage": 100.0,
+        "source_portal": "MOSPI_IPMD",
+        "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FR_JUNE_2025.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2024-05-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": 631.07,
+          "estimated_cost_crore": 588.72,
+          "status_note": null,
+          "source_label": "MoSPI flash report, May 2024",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FlashReport_May_2024.pdf"
+        },
+        {
+          "observed_date": "2025-06-30T00:00:00+00:00",
+          "completion_percentage": 100.0,
+          "cumulative_expenditure_crore": 630.55,
+          "estimated_cost_crore": 656.39,
+          "status_note": null,
+          "source_label": "MoSPI flash report, June 2025",
+          "source_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/FR_JUNE_2025.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 632,
+        "external_id": "SES-IRR-MYLAVARAM",
+        "title": "Mylavaram Modernization",
+        "description": "Modernization of Mylavaram system, Kadapa region. SES 2018-19 (Table 7.4): sanction Rs 145.45 Cr, expenditure Rs 123.11 Cr, 81%, remark 'stopped the work Since 2013'. SES 2024-25: Package 90 at 95.28%, Package 91 at 66.65%, 'Contract Pre-closed'.",
+        "project_type": "irrigation",
+        "status": "suspended",
+        "district": null,
+        "mandal": null,
+        "estimated_cost_crore": 145.45,
+        "actual_cost_crore": null,
+        "department": "Water Resources Department, Government of Andhra Pradesh",
+        "implementing_agency": null,
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": null,
+        "actual_completion": null,
+        "completion_percentage": 95.28,
+        "source_portal": "AP Socio-Economic Survey (Planning Dept)",
+        "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2019-03-31T00:00:00+00:00",
+          "completion_percentage": 81.0,
+          "cumulative_expenditure_crore": 123.11,
+          "estimated_cost_crore": 145.45,
+          "status_note": "Sanction Rs 145.45 Cr, exp Rs 123.11 Cr; 75,000 ac stab (73,046 created); remark: 'stopped the work Since 2013'",
+          "source_label": "Socio-Economic Survey 2018-19, ch.7 Tables 7.3-7.5 (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf"
+        },
+        {
+          "observed_date": "2021-03-31T00:00:00+00:00",
+          "completion_percentage": 81.17,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2021; 1,954 ac stab",
+          "source_label": "Socio-Economic Survey 2020-21, ch.7 ongoing-projects table (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf"
+        },
+        {
+          "observed_date": "2021-12-31T00:00:00+00:00",
+          "completion_percentage": 95.28,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Package No.90 95.28% (Contract Pre-closed); second package printed 66.65%; 1,954 ac stab",
+          "source_label": "Socio-Economic Survey 2021-22, Table 7.2 (chapter states figures as of December 2021)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2021-22.pdf"
+        },
+        {
+          "observed_date": "2024-12-31T00:00:00+00:00",
+          "completion_percentage": 95.28,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Package No.90 95.28%, Package No.91 66.65%; Contract Pre-closed; 4,413 ac stab",
+          "source_label": "Socio-Economic Survey 2024-25, Annexure 7.2 (annexures state cutoff upto 31.12.2024)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+        }
+      ]
+    },
+    {
+      "project": {
+        "id": 621,
+        "external_id": "SES-IRR-GUNDLAKAMMA",
+        "title": "Kandula Obul Reddy Gundlakamma Reservoir Project",
+        "description": "Gundlakamma Reservoir, Prakasam district. SES 2017-18: partially completed, 60,000 acres created, remaining distributory network due Kharif 2018. SES 2018-19 (Table 7.4): sanction Rs 753.83 Cr, expenditure Rs 627.85 Cr, 98%, target 12/2019. SES 2024-25: 98%, 'Pre-closed and balance works are taken under CADWM and it is in progress'.",
+        "project_type": "irrigation",
+        "status": "under_construction",
+        "district": "Prakasam",
+        "mandal": null,
+        "estimated_cost_crore": 753.83,
+        "actual_cost_crore": null,
+        "department": "Water Resources Department, Government of Andhra Pradesh",
+        "implementing_agency": null,
+        "announced_date": null,
+        "start_date": null,
+        "expected_completion": null,
+        "actual_completion": null,
+        "completion_percentage": 98.0,
+        "source_portal": "AP Socio-Economic Survey (Planning Dept)",
+        "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+      },
+      "observations": [
+        {
+          "observed_date": "2018-03-31T00:00:00+00:00",
+          "completion_percentage": null,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Prose: partially completed; 60,000 ac created; remaining distributory network programmed for Kharif 2018; +20,000 ac to be added",
+          "source_label": "Socio-Economic Survey 2017-18, ch.7 (prose; survey published with Budget 2018; no as-on date printed)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2017-18.pdf"
+        },
+        {
+          "observed_date": "2019-03-31T00:00:00+00:00",
+          "completion_percentage": 98.0,
+          "cumulative_expenditure_crore": 627.85,
+          "estimated_cost_crore": 753.83,
+          "status_note": "Sanction Rs 753.83 Cr, exp Rs 627.85 Cr; contemplated 80,060 ac; created 68,977 ac; target 12/2019",
+          "source_label": "Socio-Economic Survey 2018-19, ch.7 Tables 7.3-7.5 (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/SocioEconomicalSurvey2018-19.pdf"
+        },
+        {
+          "observed_date": "2021-03-31T00:00:00+00:00",
+          "completion_percentage": 94.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Target 2021; 13,063 ac",
+          "source_label": "Socio-Economic Survey 2020-21, ch.7 ongoing-projects table (no as-on date printed; survey year end used)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2020-21.pdf"
+        },
+        {
+          "observed_date": "2021-12-31T00:00:00+00:00",
+          "completion_percentage": 98.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Pre-closed; balance works under CADWM, in progress; 13,063 ac",
+          "source_label": "Socio-Economic Survey 2021-22, Table 7.2 (chapter states figures as of December 2021)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/Socio_Economic_Survey_2021-22.pdf"
+        },
+        {
+          "observed_date": "2024-12-31T00:00:00+00:00",
+          "completion_percentage": 98.0,
+          "cumulative_expenditure_crore": null,
+          "estimated_cost_crore": null,
+          "status_note": "Pre-closed; balance works under CADWM, in progress; 8,825 new + 5,050 stab",
+          "source_label": "Socio-Economic Survey 2024-25, Annexure 7.2 (annexures state cutoff upto 31.12.2024)",
+          "source_url": "https://s3.ap-south-1.amazonaws.com/apfinance.gov.in/uploads/index-docs/AP_Socio_Economic_Survey_2024_25.pdf"
+        }
+      ]
+    }
+  ]
+}

@@ -17,8 +17,11 @@
 import { build } from 'esbuild'
 import { mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { createHash } from 'node:crypto'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const WEB = new URL('..', import.meta.url).pathname
+// fileURLToPath, not URL.pathname: on Windows .pathname is "/C:/...", which no file call understands.
+const WEB = fileURLToPath(new URL('..', import.meta.url))
 const DIST = join(WEB, process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : 'dist')
 const TEMPLATE = join(DIST, 'index.html')
 if (!existsSync(TEMPLATE)) { console.error('No dist/index.html. Run vite build first.'); process.exit(1) }
@@ -30,7 +33,7 @@ await build({
   alias: { '@': join(WEB, 'src') }, external: ['react'], logLevel: 'warning',
   define: { 'import.meta.env.VITE_ROUTES': '"path"', 'import.meta.env.VITE_API_URL': 'undefined' },
 })
-const seo = await import(mod)
+const seo = await import(pathToFileURL(mod).href)   // a bare C:\\ path is not an import specifier on Windows
 rmSync(mod, { force: true })
 
 const pages = seo.allPages()
@@ -44,11 +47,42 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const SITE = { en: 'AP Fact Check', te: 'ఏపీ ఫ్యాక్ట్ చెక్' }
 const full = (t, lang) => (t[lang].startsWith(SITE[lang]) ? t[lang] : `${t[lang]} | ${SITE[lang]}`)
 
-const template = readFileSync(TEMPLATE, 'utf8')
+// Line endings are made LF here. On Windows git checks index.html out with CRLF, and the browser hashes the
+// inline script exactly as served: a CRLF script has a different hash from the one in the CSP
+// (firebase.web.json), so the theme script would be blocked. The pages are always written with LF.
+const template = readFileSync(TEMPLATE, 'utf8').replace(/\r\n?/g, '\n')
 if (!template.includes('<title>AP Fact Check</title>') || !template.includes('<div id="root"></div>')) {
   console.error('dist/index.html does not have the expected <title> and empty root. Nothing written.')
   process.exit(1)
 }
+
+// The CSP is enforced: an inline script whose hash is not in firebase.web.json does not run in the
+// browser (the theme would flash, silently). Checked here, on the machine that builds, so a changed
+// index.html or a line-ending change fails the build instead of the live site.
+{
+  const fb = readFileSync(join(WEB, '..', 'firebase.web.json'), 'utf8')
+  const missing = [...template.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => 'sha256-' + createHash('sha256').update(m[1]).digest('base64'))
+    .filter((h) => !fb.includes(`'${h}'`))
+  if (missing.length) {
+    console.error(`An inline script in index.html is not allowed by the CSP in firebase.web.json: ${missing.join(', ')}. Add the hash there. Nothing written.`)
+    process.exit(1)
+  }
+}
+
+// Home opens on the first big work's 3D picture. Telling the browser about it in the HTML lets it
+// fetch the picture while the script is still arriving (see src/three/posters.ts). The hint covers the
+// two shapes (phone, desktop) in the viewer's system theme; a reader who chose a theme by hand gets
+// the right picture a moment later, from the script.
+const posterHints = (() => {
+  const gen = readFileSync(join(WEB, 'src/three/posters.gen.ts'), 'utf8')
+  const rev = /POSTER_REV = (\d+)/.exec(gen)?.[1]
+  const first = /w(\d+): '([^']+)'/.exec(gen)
+  if (!rev || !first) return []
+  const base = `/3d/r${rev}/w${first[1]}-${first[2]}`
+  return [['light', 'l'], ['dark', 'd']].flatMap(([scheme, t]) => [['(max-width: 525px)', 'n'], ['(min-width: 526px)', 'w']].map(([w, shape]) =>
+    `<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${base}-${t}${shape}.webp" media="(prefers-color-scheme: ${scheme}) and ${w}">`))
+})()
 
 function head(p, lang, { noindex = false } = {}) {
   const url = ORIGIN + at(p.path, lang)
@@ -67,6 +101,7 @@ function head(p, lang, { noindex = false } = {}) {
     `<meta property="og:locale" content="${lang === 'te' ? 'te_IN' : 'en_IN'}">`,
     noindex ? '' : `<meta property="og:url" content="${url}">`,
     `<meta name="twitter:card" content="summary">`,
+    ...(p.path === '/' && !noindex ? posterHints : []),
   ].filter(Boolean)
   if (!noindex) {
     const crumbs = [{ name: lang === 'te' ? 'హోమ్' : 'Home', path: '/' }, ...(p.trail ?? []).map((t) => ({ name: t.name[lang], path: t.path })), { name: p.title[lang], path: p.path }]

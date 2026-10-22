@@ -80,6 +80,13 @@ export function validateFactCheck(check) {
   need(typeof check.question === 'string' && check.question.trim().endsWith('?'), 'question must be a question')
   need(typeof check.summary === 'string' && check.summary.length > 40, 'summary is missing or too short')
   need(typeof check.explanation === 'string' && check.explanation.length > 120, 'explanation is missing or too short')
+  // The search result. A question longer than 60 characters, or a summary
+  // longer than 160, is cut off by Google, so each then needs its own short
+  // form (seoTitle, seoDescription), written to fit rather than clipped.
+  const seoTitle = check.seoTitle || check.question || ''
+  const seoDescription = check.seoDescription || check.summary || ''
+  need(seoTitle.length <= 60, `search title is ${seoTitle.length} characters; add a seoTitle of 60 or fewer`)
+  need(seoDescription.length <= 160, `search description is ${seoDescription.length} characters; add a seoDescription of 160 or fewer`)
   need(Array.isArray(check.claims) && check.claims.length > 0, 'at least one claim')
   need(Array.isArray(check.record) && check.record.length > 0, 'at least one record row')
 

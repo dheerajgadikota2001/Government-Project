@@ -4,8 +4,9 @@
 import { build } from 'esbuild'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 const out = join(tmpdir(), `governor-${process.pid}.mjs`)
-await build({ entryPoints: [new URL('../src/three/governor.ts', import.meta.url).pathname], format: 'esm', outfile: out, logLevel: 'warning' })
+await build({ entryPoints: [fileURLToPath(new URL('../src/three/governor.ts', import.meta.url))], format: 'esm', outfile: out, logLevel: 'warning' })
 let now = 0
 Object.defineProperty(globalThis, 'performance', { value: { now: () => now }, configurable: true })
 globalThis.window = { devicePixelRatio: 2, matchMedia: () => ({ matches: true }) }
@@ -15,7 +16,7 @@ const store = {}
 globalThis.localStorage = { getItem: (k) => store[k] ?? null, setItem: (k, v) => { store[k] = String(v) } }
 globalThis.sessionStorage = { getItem: () => null, setItem() {}, removeItem() {} }
 globalThis.document = { createElement: () => ({ getContext: () => null }) }
-const g = await import(out)
+const g = await import(pathToFileURL(out).href)
 const run = (gov, gap, n) => { for (let i = 0; i < n; i++) { now += gap; gov.sample(now) } }
 const log = []
 let ok = true
@@ -77,4 +78,12 @@ changes = []; now += 5000
 gov = g.createGovernor({ start: 3, floor: 0, onChange: (l) => changes.push(l) })
 run(gov, 16.7, 100); run(gov, 400, 1); run(gov, 16.7, 400)
 expect('one hitch is forgiven', changes.length === 0)
+// 10. A laptop or desktop never rests, even when a slow mark was saved; a phone keeps it.
+store['apfc-3d-level'] = JSON.stringify({ level: 0, at: Date.now(), v: 1 })
+globalThis.window.matchMedia = () => ({ matches: false })
+const desktop = await import(pathToFileURL(out).href + '?desktop')
+expect('a desktop with a saved slow mark still starts at level 1', desktop.startLevel() === 1)
+globalThis.window.matchMedia = () => ({ matches: true })
+const phone = await import(pathToFileURL(out).href + '?phone')
+expect('a phone with a saved slow mark starts at rest', phone.startLevel() === 0)
 process.exit(ok ? 0 : 1)

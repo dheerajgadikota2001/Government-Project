@@ -295,7 +295,7 @@ export default function StateFacts() {
       </header>
 
       {/* ------------------------------------------------------- controls */}
-      <div className="flex flex-col gap-3 sticky top-0 z-20 bg-surface/95 backdrop-blur py-3">
+      <div className="flex flex-col gap-3 sticky top-0 lg:top-16 z-20 bg-surface/95 backdrop-blur py-3">
         <div className="relative">
           <span className="material-symbols-outlined absolute start-3 top-1/2 -translate-y-1/2 text-[20px] text-on-surface-variant pointer-events-none">search</span>
           <input type="search" value={q} onChange={e => setQ(e.target.value)}

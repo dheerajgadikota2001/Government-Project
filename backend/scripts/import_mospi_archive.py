@@ -14,7 +14,9 @@ Usage:
 
 Notes:
   - Writes ONLY progress_observations for projects already known by their
-    official code (external_id). It never changes a project's current state.
+    official code (external_id), or by the PAIMANA code that replaced it
+    (app/scrapers/mospi_renumbering.json). It never changes a project's
+    current state.
   - Reports before the 2025 PAIMANA redesign use older layouts. The script
     checks the parse looks sane (hundreds of national rows, AP present) and
     refuses loudly instead of importing garbage — if that happens, send the
@@ -33,7 +35,7 @@ from sqlalchemy import select
 
 from app.database import get_db_context
 from app.models.project import Project
-from app.scrapers.mospi_projects import MospiProjectsScraper, upsert_observation
+from app.scrapers.mospi_projects import MospiProjectsScraper, new_code_for, upsert_observation
 from app.utils.logger import logger
 
 
@@ -78,29 +80,35 @@ async def main() -> None:
         )
         sys.exit(1)
 
-    added = matched = unmatched = 0
+    added = fixed = matched = unmatched = 0
     async with get_db_context() as db:
         for raw in ap_rows:
             r = MospiProjectsScraper._extract(raw) if layout == "table7" else raw
             if r is None:
                 continue
+            # An archived report prints the pre-PAIMANA code. The register
+            # row may already carry the PAIMANA code it was re-keyed to, so
+            # both spellings are tried (mospi_renumbering.json).
+            codes = [c for c in (r["code"], new_code_for(r["code"])) if c]
             project_id = (await db.execute(
-                select(Project.id).where(Project.external_id == r["code"]).limit(1)
+                select(Project.id).where(Project.source_portal == "MOSPI_IPMD", Project.external_id.in_(codes)).limit(1)
             )).scalars().first()
             if project_id is None:
                 unmatched += 1
                 continue
             matched += 1
-            added += await upsert_observation(
+            outcome = await upsert_observation(
                 db, project_id, observed,
                 progress=r["progress"], expenditure=r["expenditure"], cost=r["cost"],
                 portal="MOSPI_IPMD", url=args.url, label=args.label,
             )
+            added += outcome == 1
+            fixed += outcome == 2
         await db.commit()
 
     logger.info(
-        f"Done: {matched} projects matched by code, {added} observations added "
-        f"({matched - added} already recorded), {unmatched} rows not in our register "
+        f"Done: {matched} projects matched by code, {added} observations added, {fixed} corrected "
+        f"({matched - added - fixed} already recorded exactly so), {unmatched} rows not in our register "
         f"(projects that finished or were dropped before our current import — tracked for later)."
     )
 

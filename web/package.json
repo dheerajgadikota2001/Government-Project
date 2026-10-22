@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test:3d": "node scripts/test_governor.mjs",
+    "test:posters": "node scripts/test_posters.mjs",
     "test:api": "node scripts/test_api.mjs",
     "unused": "node scripts/unused_files.mjs --fail",
     "test:prerender": "node scripts/test_prerender.mjs"

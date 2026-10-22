@@ -63,7 +63,10 @@ function readSaved(): Saved | null {
 let session: Level | null = null
 /** Where a new model starts on this page view. */
 export function startLevel(): Level {
-  if (session != null) return session
+  // A laptop or desktop never rests: one stutter on a busy machine (many tabs, a video call) must not
+  // switch its 3D off for a fortnight. Only phones and tablets may go down to a still picture.
+  const floor: Level = coarse() ? 0 : 1
+  if (session != null) return Math.max(floor, session) as Level
   const ceil = ceilingLevel()
   const saved = readSaved()
   let start: Level = ceil
@@ -71,6 +74,7 @@ export function startLevel(): Level {
     const probe = Date.now() - saved.at > PROBE_AFTER_MS
     start = Math.min(ceil, probe ? Math.min(3, saved.level + 1) : saved.level) as Level
   }
+  start = Math.max(floor, start) as Level
   session = start
   return start
 }

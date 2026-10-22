@@ -16,6 +16,8 @@ export type Project = {
   id: number; t: string; ty: string; st: string; d: string | null; dept: string | null
   c: number | null; cu: string | null; ct: string | null; p: number | null; due: string | null
   sp: string; su: string | null; f: string | null; l: string | null; n: number
+  /** Only when another project has the same title: what tells the two apart (the cost as printed). */
+  dn?: string
 }
 export type Event = { date: string; pre: boolean; title: string; doc: string; url: string; tier: string; kind: string }
 export type District = {

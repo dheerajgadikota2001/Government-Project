@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "layout-audit": "node scripts/layout-audit.mjs",
     "test:unit": "node --test scripts/tests/*.test.mjs",
-    "prerender": "node scripts/prerender.mjs"
+    "prerender": "node scripts/prerender.mjs",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

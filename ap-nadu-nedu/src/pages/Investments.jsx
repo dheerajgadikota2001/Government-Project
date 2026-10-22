@@ -100,6 +100,23 @@ const PAGE_SIZE = 20
 const EMPTY = { q: '', sector: '', status: '', district: '', tenure: '', year: '', sort: 'investment', order: 'desc' }
 
 const label = v => (v ? v.replaceAll('_', ' ').replace(/\b\w/g, c => c.toUpperCase()) : v)
+
+/**
+ * A status with its authority attached.
+ *
+ * "Investment started" is a strong claim, and on this register 63 per cent
+ * of the money carrying it rests on a company statement or a newspaper, not
+ * a government record. The badge said "Investment Started" for all three
+ * alike. Now the status and who says so travel together, so a reader
+ * scanning cards cannot take a press report for a confirmed fact. A
+ * government-recorded status is shown bare: that is the one the site can
+ * stand behind on its own.
+ */
+function statusWithAuthority(mou, t) {
+  const status = label(mou.status)
+  if (!mou.source_tier || mou.source_tier === 'government') return status
+  return t('investments.card.statusBy', { status, source: t(`investments.card.saysWho.${mou.source_tier}`) })
+}
 const fmtAmount = n => (n == null ? '—' : `₹${n.toLocaleString('en-IN')}`)
 
 /* ------------------------------------------- what the total is made of */
@@ -149,6 +166,20 @@ function ProvenanceStrip({ stats, t }) {
           </div>
         ))}
       </div>
+
+      {/* What the headline leaves out, said next to it. A cancelled MoU used
+          to be summed into "promised"; now it is named here with its amount,
+          so the total is smaller and nothing has been hidden to make it so. */}
+      {stats.not_live && (stats.not_live.cancelled?.mous || stats.not_live.stalled?.mous) ? (
+        <p className="text-label-sm text-on-surface-variant leading-relaxed max-w-[90ch]">
+          {t('investments.provenance.notLive', {
+            cancelled: stats.not_live.cancelled?.mous || 0,
+            cancelledCr: fmtAmount(stats.not_live.cancelled?.investment_crore || 0),
+            stalled: stats.not_live.stalled?.mous || 0,
+            stalledCr: fmtAmount(stats.not_live.stalled?.investment_crore || 0),
+          })}
+        </p>
+      ) : null}
 
       <p className="text-label-sm text-outline leading-relaxed max-w-[90ch] border-t border-dashed border-outline-variant pt-3">
         {t('investments.provenance.footnote', {
@@ -247,7 +278,7 @@ function MouDetail({ id, onClose }) {
             </div>
 
             <div>
-              <span className={`text-label-md px-3 py-1 rounded-full border ${(STATUS_STYLES[mou.status] || STATUS_STYLES.signed).badge}`}>{label(mou.status)}</span>
+              <span className={`text-label-md px-3 py-1 rounded-full border ${(STATUS_STYLES[mou.status] || STATUS_STYLES.signed).badge}`}>{statusWithAuthority(mou, t)}</span>
               <p className="text-label-sm text-on-surface-variant mt-2 max-w-xl">
                 {STATUS_EXPLAIN[mou.status] ? t(STATUS_EXPLAIN[mou.status]) : ''}
               </p>
@@ -698,8 +729,8 @@ export default function Investments() {
                             )}
                           </div>
                         </div>
-                        <div className={`text-label-sm font-label-sm px-2.5 py-1 rounded-full border whitespace-nowrap ${style.badge}`} data-nowrap-en>
-                          {label(mou.status)}
+                        <div className={`text-label-sm font-label-sm px-2.5 py-1 rounded-full border ${style.badge}`}>
+                          {statusWithAuthority(mou, t)}
                         </div>
                       </div>
 

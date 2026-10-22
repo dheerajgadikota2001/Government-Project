@@ -1,0 +1,223 @@
+<!doctype html>
+<!--
+  The story-in-steps picture: a square a reader can forward in a WhatsApp
+  group or post as a Status. scripts/share-cards.mjs loads this once per
+  browser page, calls drawSteps(picture) for each project and takes a
+  1080x1080 screenshot. Fonts are injected as data URLs, the same four faces
+  as the link card, so nothing here reaches the network.
+
+  It is the same cloth as the link card (card.html): ink black border,
+  cotton cream field, mango motifs, one strong colour, plum. The colour rules
+  written in card.html's header hold here too. Change a colour only against
+  that list.
+
+  WHY THE LINK IS PRINTED ON THE PICTURE
+
+  A picture shared from the page travels with a caption holding the link, but
+  the app it is shared to may drop the caption, and a picture forwarded twice
+  has usually lost it. So the picture carries the page's own address, short
+  enough to type, and still says where every step comes from.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  /* __FONTS__ */
+  :root {
+    --ground: #1c1917;
+    --line: #e9dcc0;
+    --tan: #b98a6a;
+    --canvas: #f5ecd9;
+    --paper: #fffaf0;
+    --ink: #1c1917;
+    --plum: #6b2d5c;
+    --muted: #5c5048;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; }
+  body {
+    position: relative;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: 'Card Latin', 'Card Telugu', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #border { position: absolute; left: 0; top: 0; }
+
+  .field {
+    position: absolute; left: 76px; top: 76px; width: 928px; height: 928px;
+    display: flex; flex-direction: column;
+    padding: 40px 46px 34px;
+    /* Plain cotton, without the link card's dotted ground: the square is
+       mostly field, and the dots cost a third of its weight for nothing a
+       reader sees at the size a phone shows it. */
+    background: var(--canvas);
+  }
+  /* Nothing in the column may shrink: a box that shrinks with its words in
+     it hides them and still passes an overlap check (see card.html). The
+     road takes what is left, and fits() reads its overflow. */
+  .field > * { flex-shrink: 0; }
+  .field > .road { flex: 1 1 auto; min-height: 0; }
+
+  .eyebrow { font-weight: 700; font-size: 34px; line-height: 1.35; color: var(--muted); }
+  .eyebrow:empty { display: none; }
+  .title { margin-top: 6px; font-weight: 800; font-size: 56px; line-height: 1.22; color: var(--plum); overflow: hidden; }
+  .title[lang="te"] { line-height: 1.4; }
+
+  .road { position: relative; display: flex; flex-direction: column; justify-content: safe center; gap: 14px; margin-top: 22px; }
+  /* The dashed path runs through the middle of the date chips, which all take
+     the width of the widest one. */
+  .road::before { content: ''; position: absolute; left: calc(var(--chip, 184px) / 2 - 4px); top: 46px; bottom: 46px; border-left: 8px dashed var(--tan); }
+  .step { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; }
+  .chip { display: grid; place-items: center; height: 92px; padding: 0 18px; border-radius: 22px;
+    background: var(--paper); border: 5px solid var(--ink); font-weight: 800; font-size: 48px; white-space: nowrap; }
+  .words { min-width: 0; }
+  .label { font-weight: 700; font-size: 54px; line-height: 1.2; }
+  .label[lang="te"] { line-height: 1.45; }
+  .note { margin-top: 2px; font-weight: 600; font-size: 34px; line-height: 1.3; color: var(--muted); }
+  .note:empty { display: none; }
+
+  .foot { margin-top: 20px; display: flex; flex-direction: column; gap: 4px; }
+  .foot .line { font-weight: 700; font-size: 40px; line-height: 1.35; }
+  .foot .link { font-family: 'Card Latin'; font-weight: 700; font-size: 38px; line-height: 1.3; color: var(--plum); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <svg id="border" width="1080" height="1080" aria-hidden="true"></svg>
+  <div class="field" id="field">
+    <div class="eyebrow" id="eyebrow"></div>
+    <div class="title" id="title"></div>
+    <div class="road" id="road"></div>
+    <div class="foot"><div class="line" id="footLine"></div><div class="link" id="link"></div></div>
+  </div>
+<script>
+  // ------------------------------------------------------------- the cloth
+  // The link card's border, drawn for a square. Kept in step with card.html.
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+  const C = { ground: css('--ground'), line: css('--line'), tan: css('--tan') }
+  const MANGO = 'M0 -70 C 30 -40 70 0 60 40 C 52 76 10 92 -22 78 C -52 64 -58 28 -34 10 C -14 -4 8 8 4 26 C 0 40 -18 38 -16 28'
+  function mango(x, y, s, rot, flip, body, dot) {
+    return `<g transform="translate(${x.toFixed(1)} ${y}) rotate(${rot}) scale(${flip ? -s : s} ${s})">` +
+      `<path d="${MANGO}" fill="${body}" stroke="${C.ground}" stroke-width="${(3.5 / Math.max(s, 0.5)).toFixed(2)}"/>` +
+      `<path d="M6 -40 C 26 -18 44 10 38 36 C 33 58 8 66 -12 58" fill="none" stroke="${C.ground}" stroke-width="${s < 0.5 ? 7 : 5}"/>` +
+      `<circle cx="14" cy="40" r="8" fill="${dot}" stroke="${C.ground}" stroke-width="${(2 / Math.max(s, 0.5)).toFixed(2)}"/></g>`
+  }
+  function border() {
+    const out = [
+      `<rect x="12" y="12" width="1056" height="1056" rx="4" fill="none" stroke="${C.line}" stroke-width="2"/>`,
+      `<rect x="64" y="64" width="952" height="952" fill="none" stroke="${C.line}" stroke-width="2"/>`,
+    ]
+    const n = 16, step = (1080 - 2 * 76) / (n - 1)
+    for (let i = 0; i < n; i++) {
+      const x = 76 + i * step
+      const body = i % 2 ? C.tan : C.line, dot = i % 2 ? C.line : C.tan
+      out.push(mango(x, 38, 0.27, 90, i % 2, body, dot), mango(x, 1042, 0.27, -90, i % 2, body, dot))
+      if (i < n - 1) out.push(`<circle cx="${(x + step / 2).toFixed(1)}" cy="38" r="4" fill="${C.line}"/><circle cx="${(x + step / 2).toFixed(1)}" cy="1042" r="4" fill="${C.line}"/>`)
+    }
+    return out.join('')
+  }
+  document.getElementById('border').innerHTML = border()
+
+  // ------------------------------------------------------------- the words
+  const TELUGU = /[ఀ-౿]/
+  const $ = id => document.getElementById(id)
+  const langOf = s => (TELUGU.test(s || '') ? 'te' : 'en')
+
+  /** The road fits when the column does not overflow and no box hides words. */
+  const fits = () => {
+    const f = $('field'), road = $('road')
+    return f.scrollHeight <= f.clientHeight + 1 && road.scrollHeight <= road.clientHeight + 1 && hidden().length === 0
+  }
+
+  /** Text boxes whose words are cut inside them, and chips too narrow for their date. */
+  function hidden() {
+    const out = []
+    const t = $('title')
+    if (!t.style.webkitLineClamp && t.scrollHeight - t.clientHeight > parseFloat(getComputedStyle(t).fontSize) * 0.3) out.push('title')
+    document.querySelectorAll('.chip').forEach((c, i) => { if (c.scrollWidth > c.clientWidth + 1) out.push(`chip${i + 1}`) })
+    document.querySelectorAll('.label').forEach((l, i) => { if (l.scrollWidth > l.clientWidth + 1) out.push(`label${i + 1}`) })
+    if ($('link').scrollWidth > $('link').clientWidth + 1) out.push('link')
+    return out
+  }
+
+  window.drawSteps = function drawSteps(pic) {
+    const set = (id, text) => { const el = $(id); el.textContent = text || ''; el.removeAttribute('style'); el.setAttribute('lang', langOf(text)); return el }
+    set('eyebrow', pic.eyebrow)
+    const title = set('title', pic.title)
+    set('footLine', pic.foot)
+    set('link', pic.link)
+    const road = $('road')
+    road.innerHTML = ''
+    for (const s of pic.steps) {
+      const row = document.createElement('div'); row.className = 'step'
+      const chip = document.createElement('div'); chip.className = 'chip'; chip.textContent = s.chip; chip.setAttribute('lang', langOf(s.chip))
+      const words = document.createElement('div'); words.className = 'words'
+      const label = document.createElement('div'); label.className = 'label'; label.textContent = s.label; label.setAttribute('lang', langOf(s.label))
+      const note = document.createElement('div'); note.className = 'note'; note.textContent = s.note || ''; note.setAttribute('lang', langOf(s.note))
+      words.append(label, note); row.append(chip, words); road.append(row)
+    }
+    const chips = [...road.querySelectorAll('.chip')]
+    // The steps are the story, so they keep the largest size that fits, and
+    // the title takes the largest size it can beside them, in at most four
+    // lines. A step must stay readable on a phone that shows this picture
+    // 300 px wide; the title gives up size for the steps, never the reverse.
+    const TITLE = [56, 52, 48, 44, 40], LABEL = [54, 50, 46, 42, 38]
+    const labels = [...road.querySelectorAll('.label')], notes = [...road.querySelectorAll('.note')]
+    // The date chips grow and shrink with the steps they belong to, all as
+    // wide as the widest, so the dashed path runs through their middles.
+    const setLabels = ls => {
+      labels.forEach(l => { l.style.fontSize = ls + 'px' })
+      notes.forEach(n => { n.style.fontSize = Math.round(ls * 0.64) + 'px' })
+      chips.forEach(c => {
+        c.style.width = ''
+        c.style.height = Math.round(ls * 1.7) + 'px'
+        c.style.fontSize = Math.round(ls * (c.getAttribute('lang') === 'te' ? 0.74 : 0.89)) + 'px'
+      })
+      const widest = Math.ceil(Math.max(ls * 3.4, ...chips.map(c => c.getBoundingClientRect().width)))
+      chips.forEach(c => { c.style.width = widest + 'px' })
+      road.style.setProperty('--chip', widest + 'px')
+    }
+    for (const ls of LABEL) {
+      setLabels(ls)
+      for (const ts of TITLE) {
+        title.style.fontSize = ts + 'px'
+        const lh = parseFloat(getComputedStyle(title).lineHeight)
+        if (Math.round(title.scrollHeight / lh) <= 4 && fits()) return { titleSize: ts, labelSize: ls, clamped: false }
+      }
+    }
+    // A name too long for four lines at the smallest size ends in an
+    // ellipsis, and the steps again take the largest size that fits beside
+    // it. The title gives up lines only when the steps cannot fit at all.
+    title.style.fontSize = TITLE[TITLE.length - 1] + 'px'
+    const lh = parseFloat(getComputedStyle(title).lineHeight)
+    for (let lines = 4; lines >= 1; lines--) {
+      title.style.maxHeight = (Math.ceil(lh * lines) + 6) + 'px'
+      title.style.display = '-webkit-box'; title.style.webkitBoxOrient = 'vertical'; title.style.webkitLineClamp = String(lines)
+      for (const ls of LABEL) {
+        setLabels(ls)
+        if (fits()) return { titleSize: TITLE[TITLE.length - 1], labelSize: ls, clamped: true }
+      }
+    }
+    return { titleSize: parseFloat(title.style.fontSize), labelSize: parseFloat(labels[0]?.style.fontSize || 0), clamped: true }
+  }
+
+  /** What a test and the build ask after drawing. share-cards.mjs refuses a picture that fails. */
+  window.auditSteps = function auditSteps() {
+    const f = $('field').getBoundingClientRect()
+    const box = el => { const r = el.getBoundingClientRect(); return r.width && r.height ? r : null }
+    const parts = [['eyebrow', $('eyebrow')], ['title', $('title')], ['foot', document.querySelector('.foot')],
+      ...[...document.querySelectorAll('.step')].map((el, i) => [`step${i + 1}`, el])]
+      .map(([n, el]) => [n, el && !el.hidden && el.getClientRects().length ? box(el) : null]).filter(([, b]) => b)
+    const outside = parts.filter(([, b]) => b.left < f.left - 0.5 || b.top < f.top - 0.5 || b.right > f.right + 0.5 || b.bottom > f.bottom + 0.5).map(([n]) => n)
+    const overlaps = []
+    for (let i = 0; i < parts.length; i++) for (let j = i + 1; j < parts.length; j++) {
+      const [an, a] = parts[i], [bn, b] = parts[j]
+      if (a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5) overlaps.push(`${an}/${bn}`)
+    }
+    return { outside, overlaps, clipped: hidden(), titleClamped: !!$('title').style.webkitLineClamp,
+      titleSize: parseFloat(getComputedStyle($('title')).fontSize),
+      labelSize: parseFloat(getComputedStyle(document.querySelector('.label') || $('title')).fontSize) }
+  }
+</script>
+</body>
+</html>
