@@ -1,5 +1,5 @@
 """
-District collectorate documents scraper — all 26 AP districts.
+District collectorate documents scraper: 27 of the 28 AP districts.
 
 Source: the NIC S3WaaS district network (https://<district>.ap.gov.in/documents/).
 All 26 sites share one identical WordPress template, verified against the
@@ -55,6 +55,10 @@ DISTRICT_SITES = {
     "Kakinada": "https://kakinada.ap.gov.in",
     "Krishna": "https://krishna.ap.gov.in",
     "Kurnool": "https://kurnool.ap.gov.in",
+    # Formed 1 Jan 2026. The site is indexed on the same S3WaaS template; it times out
+    # from outside India like the other 26, so the first run is read from India.
+    "Markapuram": "https://markapuram.ap.gov.in",
+    # Polavaram (formed 1 Jan 2026) is not listed: no official site address confirmed yet.
     "Nandyal": "https://nandyal.ap.gov.in",
     "NTR": "https://ntr.ap.gov.in",
     "Palnadu": "https://palnadu.ap.gov.in",
@@ -87,13 +91,30 @@ ELECTORAL_PATTERNS = [
     r"(draft|final|mother|supplementary)\s+roll",
     r"special\s+(intensive|summary)\s+revision|\bsir\s*20\d\d",
     r"\bform\s*(9|10|11a?|20)\b",
+    # The August and September 2026 runs let 232 roll parts through in four shapes the
+    # words above never meet. Each shape below is one of them, seen on the live register.
+    r"\bac\b[\s\-\u2013]*(part[\s\-\u2013]*)?\d+",     # "13-SALUR-AC 222", "12 PARVATHIPURAM AC 203"
+    r"\bp\.?\s?s\.?\s*no\.?\s*\d+",                     # "02 Palasa - PS. No. 297 Gunupalli"
+    r"no\s*mapping",                                     # "22- VSP SOUTH(NO MAPPING)": roll revision wording
+    r"^\s*\d{1,3}\s*[-\u2013]\s*[a-z][a-z .()]*$",       # "23-VSP North": a constituency number and name, nothing else
 ]
 _ELECTORAL_RE = re.compile("|".join(ELECTORAL_PATTERNS), re.IGNORECASE)
 
+# One shape needs capitals to be told apart from an ordinary "Part 2" in a report title:
+# roll parts are listed as the constituency in capitals, then "Part" and a number.
+ELECTORAL_PATTERNS_CASED = [
+    r"^\s*(\d{1,3}\s*[-\u2013]?\s*)?[A-Z][A-Z.]+(\s+[A-Z][A-Z.]+)*\s+Part\s*[-\u2013]?\s*\d+",  # "PATHAPATNAM Part 216 Tamaraguda Althi"
+]
+_ELECTORAL_CASED_RE = re.compile("|".join(ELECTORAL_PATTERNS_CASED))
+
 
 def is_electoral_document(title: str) -> bool:
-    """True for voter-roll / election-office documents we refuse to index."""
-    return bool(_ELECTORAL_RE.search(title))
+    """True for voter-roll / election-office documents we refuse to index.
+
+    Acres are written "Ac.90.76" in land notices; the dot keeps them out of the
+    "AC 222" shape, and the tests hold real land notices to prove it.
+    """
+    return bool(_ELECTORAL_RE.search(title) or _ELECTORAL_CASED_RE.search(title))
 
 
 def classify(title: str) -> DocumentType:
