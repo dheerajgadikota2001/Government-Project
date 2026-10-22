@@ -10,6 +10,9 @@ import { View3D, Pin } from '@/three/View3D'
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel'
 import { Dam } from '@/graphics/Dam'
 import { pol } from '@/lib/data-polavaram'
+import { Poster } from '@/three/Poster'
+import { workPoster } from '@/three/posters'
+import { pageQuiet } from '@/three/governor'
 
 // The first screen's big works: one model at a time, chips to jump, swipe on phones.
 // Only the work on screen runs its model; the others wait until they are swiped in.
@@ -31,8 +34,37 @@ export function modelNote(w: BigWork, long = false): { en: string; te: string } 
     : { en: 'Model, not to scale. Solid: the share built. Faint: still to build.', te: 'నమూనా చిత్రం. ఘనం: కట్టింది. లేత: ఇంకా కట్టాలి.' }
 }
 
+/** A work that is not on screen yet: its baked picture (or its name until the picture arrives), so a swipe never lands on an empty box. */
+function WorkStill({ w, near }: { w: BigWork; near: boolean }) {
+  const { lang } = useLang()
+  const poster = workPoster(w.id, w.drawPct)
+  const [ok, setOk] = React.useState(false)
+  // The other works' pictures wait for the first model: they must not delay the page's own load or
+  // compete with the first model for a slow connection and processor. A reader on data
+  // saver gets pictures only for the work in front of them.
+  const [quiet, setQuiet] = React.useState(false)
+  React.useEffect(() => {
+    const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
+    if (saver) return
+    // after the work in front is live (measured: decoding pictures while it builds delays it on a slow
+    // phone), or a few seconds after the page is quiet when it cannot go live
+    let t = 0
+    const go = () => setQuiet(true)
+    window.addEventListener('apfc-3d-live', go, { once: true })
+    pageQuiet().then(() => { t = window.setTimeout(go, 6000) })
+    return () => { window.removeEventListener('apfc-3d-live', go); clearTimeout(t) }
+  }, [])
+  return (
+    <div className="relative size-full">
+      {ok ? null : <div className="grid size-full place-items-center text-[13px] text-muted-foreground">{lang === 'te' ? w.te : w.name}</div>}
+      {poster && quiet ? <Poster base={poster} eager={near} onStatus={(s) => setOk(s === 'ok')} className={cn('absolute inset-0 size-full select-none object-cover', ok ? 'opacity-100' : 'opacity-0')} /> : null}
+    </div>
+  )
+}
+
 export function BigWorkModel({ w, compact }: { w: BigWork; compact?: boolean }) {
   const { tr, lang } = useLang()
+  const poster = workPoster(w.id, w.drawPct)
   const planned = w.drawPct == null
   const label = lang === 'te'
     ? `${w.te}: ${planned ? 'పని శాతం ముద్రించలేదు; నమూనా ప్రణాళికను చూపుతుంది' : `పనిలో ${num(w.drawPct!)}% గట్టిగా గీశాం`}`
@@ -47,7 +79,7 @@ export function BigWorkModel({ w, compact }: { w: BigWork; compact?: boolean }) 
   if (w.id === 2) {
     // Bhogapuram: hand-made from AAI's published aerodrome data (see three/scenes/bhogapuram.ts)
     return (
-      <View3D explorable build={loadBhogapuram} params={{ compact }} label={lang === 'te'
+      <View3D explorable poster={poster} build={loadBhogapuram} params={{ compact }} label={lang === 'te'
         ? `${w.te}: మొదటి దశ, ఏఏఐ ప్రచురించిన కొలతల ప్రకారం గీసిన నమూనా`
         : `${w.name}: Phase 1, drawn from the Airports Authority of India's published layout`} className="size-full"
         fallback={<div className="grid size-full place-items-center text-[13px] text-muted-foreground">{lang === 'te' ? w.te : w.name}</div>}>
@@ -61,14 +93,14 @@ export function BigWorkModel({ w, compact }: { w: BigWork; compact?: boolean }) 
   }
   if (w.kind === 'dam') {
     return (
-      <View3D explorable build={loadDam} params={{ pct: w.drawPct, compact }} label={label} className="size-full"
+      <View3D explorable poster={poster} build={loadDam} params={{ pct: w.drawPct, compact }} label={label} className="size-full"
         fallback={<div className="grid size-full place-items-center p-6"><Dam readings={pol.readings} index={pol.readings.length - 1} notes={false} /></div>}>
         {pins}
       </View3D>
     )
   }
   return (
-    <View3D explorable build={loadWorks} params={{ kind: w.kind, pct: w.drawPct, compact, seed: w.id % 7 }} label={label} className="size-full"
+    <View3D explorable poster={poster} build={loadWorks} params={{ kind: w.kind, pct: w.drawPct, compact, seed: w.id % 7 }} label={label} className="size-full"
       fallback={<div className="grid size-full place-items-center text-[13px] text-muted-foreground">{lang === 'te' ? w.te : w.name}</div>}>
       {pins}
     </View3D>
@@ -163,9 +195,9 @@ export function BigWorks({ className }: { className?: string }) {
         <CarouselContent>
           {bigWorks.map((w, i) => (
             <CarouselItem key={w.id}>
-              <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-28px_rgba(0,0,0,.35)]" aria-roledescription="slide" aria-label={lang === 'te' ? `${bigWorks.length}లో ${i + 1}: ${w.te}` : `${i + 1} of ${bigWorks.length}: ${w.name}`}>
+              <article data-work={w.id} data-pct={w.drawPct ?? 'plan'} className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-28px_rgba(0,0,0,.35)]" aria-roledescription="slide" aria-label={lang === 'te' ? `${bigWorks.length}లో ${i + 1}: ${w.te}` : `${i + 1} of ${bigWorks.length}: ${w.name}`}>
                 <div className="relative h-[260px] bg-[radial-gradient(120%_90%_at_50%_0%,var(--color-muted),transparent_70%)] sm:h-[320px] lg:h-[340px]">
-                  {Math.abs(i - active) <= 0 ? <BigWorkModel w={w} /> : <div className="grid size-full place-items-center text-[13px] text-muted-foreground">{lang === 'te' ? w.te : w.name}</div>}
+                  {Math.abs(i - active) <= 0 ? <BigWorkModel w={w} /> : <WorkStill w={w} near={Math.abs(i - active) <= 1} />}
                   <div className="pointer-events-none absolute bottom-2.5 left-3 right-[9.75rem] text-[11px] leading-snug text-muted-foreground">{tr(modelNote(w).en, modelNote(w).te)}</div>
                 </div>
                 <div className="p-5 md:p-6"><Reading w={w} /></div>

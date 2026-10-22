@@ -67,6 +67,20 @@ if (!template.includes('<title>AP Fact Check</title>') || !template.includes('<d
   }
 }
 
+// Home opens on the first big work's 3D picture. Telling the browser about it in the HTML lets it
+// fetch the picture while the script is still arriving (see src/three/posters.ts). The hint covers the
+// two shapes (phone, desktop) in the viewer's system theme; a reader who chose a theme by hand gets
+// the right picture a moment later, from the script.
+const posterHints = (() => {
+  const gen = readFileSync(join(WEB, 'src/three/posters.gen.ts'), 'utf8')
+  const rev = /POSTER_REV = (\d+)/.exec(gen)?.[1]
+  const first = /w(\d+): '([^']+)'/.exec(gen)
+  if (!rev || !first) return []
+  const base = `/3d/r${rev}/w${first[1]}-${first[2]}`
+  return [['light', 'l'], ['dark', 'd']].flatMap(([scheme, t]) => [['(max-width: 525px)', 'n'], ['(min-width: 526px)', 'w']].map(([w, shape]) =>
+    `<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${base}-${t}${shape}.webp" media="(prefers-color-scheme: ${scheme}) and ${w}">`))
+})()
+
 function head(p, lang, { noindex = false } = {}) {
   const url = ORIGIN + at(p.path, lang)
   const tags = [
@@ -84,6 +98,7 @@ function head(p, lang, { noindex = false } = {}) {
     `<meta property="og:locale" content="${lang === 'te' ? 'te_IN' : 'en_IN'}">`,
     noindex ? '' : `<meta property="og:url" content="${url}">`,
     `<meta name="twitter:card" content="summary">`,
+    ...(p.path === '/' && !noindex ? posterHints : []),
   ].filter(Boolean)
   if (!noindex) {
     const crumbs = [{ name: lang === 'te' ? 'హోమ్' : 'Home', path: '/' }, ...(p.trail ?? []).map((t) => ({ name: t.name[lang], path: t.path })), { name: p.title[lang], path: p.path }]
