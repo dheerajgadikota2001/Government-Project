@@ -39,6 +39,9 @@ const Community = lazy(() => import('./pages/Community'))
 const StateFacts = lazy(() => import('./pages/StateFacts'))
 const Contacts = lazy(() => import('./pages/Contacts'))
 const Updates = lazy(() => import('./pages/Updates'))
+// Lazy, because it carries the fact check and finance question lists (about
+// 20 KB), which only nine section pages show and the homepage never does.
+const RelatedLinks = lazy(() => import('./components/RelatedLinks'))
 
 // Route fallback: a quiet page-shaped placeholder instead of a blank screen.
 function PageSkeleton() {
@@ -176,6 +179,9 @@ export default function App() {
             <Route path="/contacts" element={<Contacts />} />
           </Routes>
           </Suspense>
+          {/* Pages about the same record, for the section pages listed in
+              src/lib/related.js. Renders nothing everywhere else. */}
+          <Suspense fallback={null}><RelatedLinks /></Suspense>
           </ChunkReloadBoundary>
         </main>
         <Footer />

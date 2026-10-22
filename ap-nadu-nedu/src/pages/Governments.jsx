@@ -975,7 +975,7 @@ export default function Governments() {
         </p>
       </header>
 
-      <nav className="border-b border-surface-variant sticky top-16 z-30 bg-surface -mx-4 px-4 lg:static lg:mx-0 lg:px-0 relative" aria-label={t('governments.views.aria')}>
+      <nav className="border-b border-surface-variant sticky top-0 z-30 bg-surface -mx-4 px-4 lg:static lg:mx-0 lg:px-0 relative" aria-label={t('governments.views.aria')}>
         {/* fade hint: the fourth tab sits off-screen on phones */}
         <div className="lg:hidden pointer-events-none absolute inset-y-0 end-0 w-10 bg-gradient-to-l from-surface to-transparent" aria-hidden="true" />
         <div className="flex gap-1 overflow-x-auto">

@@ -76,7 +76,7 @@ export default function FinanceQuestionMenu({ active, children }) {
 
       <div className="lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8 lg:items-start flex flex-col gap-4">
         {/* Wide screens: every group, every question, sticky beside the answer. */}
-        <nav aria-label={t('finances.menu.navAria')} className="hidden lg:block lg:sticky lg:top-5 bg-surface-container-lowest border border-outline-variant rounded-xl p-2">
+        <nav aria-label={t('finances.menu.navAria')} className="hidden lg:block lg:sticky lg:top-20 bg-surface-container-lowest border border-outline-variant rounded-xl p-2">
           {FINANCE_GROUPS.map(g => (
             <div key={g.key} className="flex flex-col gap-0.5 pb-1">
               <p className="text-label-sm uppercase tracking-wide text-on-surface-variant font-semibold px-3 pt-3 pb-1">{t(g.labelKey)}</p>

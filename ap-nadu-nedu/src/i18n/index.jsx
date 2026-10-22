@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { localiseVars } from '../lib/placeNames.js'
 
 import en from './locales/en.json'
 import { EVENTS, track } from '../lib/analytics'
@@ -233,7 +234,9 @@ export function LanguageProvider({ children, lang: langProp, onChangeLang }) {
         if (import.meta.env.DEV) console.warn(`[i18n] missing key: ${key}`)
         return key.split('.').pop()
       }
-      return interpolate(hit, vars)
+      // A {district} slot gets the district's name in this language, so a
+      // Telugu sentence does not carry an English place name in its middle.
+      return interpolate(hit, localiseVars(vars, lang))
     }
 
     /** Plural helper: t('x.one') / t('x.other') chosen by n. */

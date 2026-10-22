@@ -1,0 +1,402 @@
+<!doctype html>
+<!--
+  The share card template. scripts/share-cards.mjs loads this once per browser
+  page, then calls drawCard(card) for each card and takes a 1200x630
+  screenshot. The fonts are injected as data URLs by the script, so a card
+  drawn on a laptop in Guntur and one drawn in a cloud build are identical:
+  nothing here reaches the network.
+
+  THE LOOK
+
+  A Kalamkari panel: the hand-painted cloth of Srikalahasti and Machilipatnam.
+  Ink black border, cotton cream field, a row of mango (paisley) motifs. A
+  reader in Andhra knows the pattern before reading a word, and it looks like
+  a printed record, not an advert.
+
+  THE COLOURS ARE CHOSEN TO SAY NOTHING
+
+  A card is forwarded into groups where every colour is read as a side. The
+  first yellow design was taken as TDP. So no party's colour appears here:
+  not yellow (TDP), not red with white (Janasena), not blue with green
+  (YSRCP), not saffron with green (BJP), not the tricolour (Congress), not
+  plain red (the Left). The one strong colour is plum. There is no flower
+  either, because an open flower in outline is read as a lotus. The only
+  motif is the mango, which belongs to nobody. Change a colour here only
+  against that list.
+
+  WhatsApp crops the preview to a square in a chat list. The title and the
+  figures sit in the middle band so they survive the crop.
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  /* __FONTS__ */
+  :root {
+    --ground: #1c1917;    /* the border: iron-black dye */
+    --line: #e9dcc0;      /* fine rules and pale motifs */
+    --tan: #b98a6a;       /* second motif colour, beads, the source marker */
+    --canvas: #f5ecd9;    /* unbleached cotton */
+    --ink: #1c1917;
+    --plum: #6b2d5c;      /* the one strong colour */
+    --muted: #5c5048;
+    --dots: rgba(28, 25, 23, 0.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: 'Card Latin', 'Card Telugu', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #border { position: absolute; left: 0; top: 0; }
+
+  .canvas {
+    position: absolute; left: 60px; top: 60px; width: 1080px; height: 510px;
+    display: flex; flex-direction: column;
+    padding: 30px 42px 26px;
+    background: var(--canvas);
+    background-image: radial-gradient(var(--dots) 1.5px, transparent 1.6px);
+    background-size: 14px 14px;
+    border: 3px solid var(--ink); border-radius: 3px;
+  }
+  /* Nothing but the middle band may shrink. A flex child shrinks by default,
+     and a title that shrinks inside overflow:hidden is a title quietly cut in
+     half under the figures while every overflow check still passes. */
+  .canvas > * { flex-shrink: 0; }
+  .canvas > .main { flex: 1 1 auto; min-height: 0; }
+  /* The same one level down. The words stand in a column inside the middle
+     band, and a flex item with overflow:hidden has no minimum height, so a
+     name that did not fit used to shrink its own box and hide its last line:
+     the box cleared the bar and every check passed. In September 2026 that
+     hid the end of the name on the cards of 466 of the 728 projects, in both
+     languages, and cut the bottom off the Telugu district line, where Telugu
+     writes letters under the line. Now the words keep their height, the band
+     overflows where fits() can see it, and fit() takes a smaller size. */
+  .text > * { flex-shrink: 0; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 52px; }
+  .brand { display: flex; align-items: center; gap: 12px; white-space: nowrap;
+    font-family: 'Card Serif', 'Card Telugu Display', serif; font-weight: 800; font-size: 22px; }
+  .brand .te { font-family: 'Card Telugu Display', 'Card Telugu'; font-weight: 400; font-size: 21px; color: var(--plum); }
+  .brand .sep { width: 6px; height: 6px; border-radius: 50%; background: var(--tan); }
+  .cta { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 22px; white-space: nowrap;
+    background: var(--plum); color: var(--canvas); border: 3px solid var(--ink); border-radius: 999px;
+    font-weight: 800; font-size: 21px; }
+  .cta[lang="te"] { font-family: 'Card Telugu', 'Card Latin'; font-weight: 700; }
+  .cta[hidden] { display: none; }
+
+  .main { display: flex; gap: 24px; margin-top: 22px; }
+  .text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .card.plain .main { align-items: center; }
+  .card.plain .text { justify-content: center; }
+  .eyebrow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-weight: 800; font-size: 20px; color: var(--plum); letter-spacing: 0.08em; text-transform: uppercase; }
+  .eyebrow[lang="te"] { font-family: 'Card Telugu', 'Card Latin'; font-weight: 700; font-size: 21px; letter-spacing: 0; text-transform: none; }
+  .eyebrow:empty { display: none; }
+  .title { margin-top: 10px; overflow: hidden;
+    font-family: 'Card Serif', 'Card Telugu Display', serif; font-weight: 800; font-size: 60px; line-height: 1.04; letter-spacing: -0.01em; }
+  .eyebrow:empty + .title { margin-top: 0; }
+  .title[lang="te"] { font-family: 'Card Telugu Display', 'Card Serif'; font-weight: 400; line-height: 1.3; letter-spacing: 0; }
+  .subtitle { margin-top: 14px; overflow: hidden; font-size: 24px; line-height: 1.4; font-weight: 500; color: var(--muted); }
+  .subtitle[lang="te"] { line-height: 1.6; }
+  .subtitle:empty { display: none; }
+  .motif { flex: none; width: 240px; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .motif svg { height: 100%; max-height: 250px; width: auto; max-width: 240px; }
+  .motif[hidden] { display: none; }
+
+  .bar { margin-top: 14px; height: 18px; overflow: hidden;
+    background: var(--canvas); border: 2.5px solid var(--ink); border-radius: 9px; }
+  .bar[hidden] { display: none; }
+  .bar > i { display: block; height: 100%; background: var(--plum); border-right: 2.5px solid var(--ink);
+    background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.22) 0 5px, transparent 5px 11px); }
+
+  .stats { margin-top: 16px; display: flex; align-items: flex-end; gap: 44px; }
+  .stats:empty { display: none; }
+  .stat .value { white-space: nowrap; line-height: 1; color: var(--plum);
+    font-family: 'Card Serif', 'Card Telugu Display', serif; font-weight: 800; font-size: 40px; }
+  /* The first figure leads, but only when it is a number. "Under
+     construction" at hero size shouts a status louder than the facts. */
+  .stat.hero .value { color: var(--ink); }
+  .stat.word .value { color: var(--ink); }
+  .stat .label { margin-top: 6px; white-space: nowrap; font-weight: 700; font-size: 19px; color: var(--muted); }
+
+  .source { margin-top: 14px; display: flex; align-items: center; gap: 10px; white-space: nowrap; overflow: hidden;
+    font-size: 17px; font-weight: 600; font-style: italic; color: var(--muted); }
+  .source > span { overflow: hidden; text-overflow: ellipsis; }
+  .source::before { content: ''; flex: none; width: 8px; height: 8px; transform: rotate(45deg);
+    background: var(--tan); border: 1.5px solid var(--ink); }
+</style>
+</head>
+<body>
+  <svg id="border" width="1200" height="630" aria-hidden="true"></svg>
+  <div class="card canvas">
+    <div class="top">
+      <div class="brand"><span>AP Fact Check</span><span class="sep"></span><span class="te" lang="te">ఏపీ నిజ నిర్ధారణ</span></div>
+      <div class="cta" id="cta"><span id="ctaText"></span><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+    </div>
+    <div class="main" id="main">
+      <div class="text">
+        <div class="eyebrow" id="eyebrow"></div>
+        <div class="title" id="title"></div>
+        <div class="subtitle" id="subtitle"></div>
+      </div>
+      <div class="motif" id="motif"></div>
+    </div>
+    <div class="bar" id="bar" hidden><i id="fill"></i></div>
+    <div class="stats" id="stats"></div>
+    <div class="source" id="source"><span id="sourceText"></span></div>
+  </div>
+<script>
+  // ------------------------------------------------------------- the drawing
+  // Built once when the page loads. Both are fixed: the card's words change,
+  // the cloth does not.
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+  const C = { ground: css('--ground'), line: css('--line'), tan: css('--tan'), canvas: css('--canvas'), ink: css('--ink'), plum: css('--plum') }
+
+  // The mango motif, one path at any size.
+  const MANGO = 'M0 -70 C 30 -40 70 0 60 40 C 52 76 10 92 -22 78 C -52 64 -58 28 -34 10 C -14 -4 8 8 4 26 C 0 40 -18 38 -16 28'
+  function mango(x, y, s, rot, flip, body, line, dot, stroke) {
+    return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${flip ? -s : s} ${s})">` +
+      `<path d="${MANGO}" fill="${body}" stroke="${stroke}" stroke-width="${3.5 / Math.max(s, 0.5)}"/>` +
+      `<path d="M6 -40 C 26 -18 44 10 38 36 C 33 58 8 66 -12 58" fill="none" stroke="${line}" stroke-width="${s < 0.5 ? 7 : 5}"/>` +
+      `<circle cx="14" cy="40" r="8" fill="${dot}" stroke="${stroke}" stroke-width="${2 / Math.max(s, 0.5)}"/></g>`
+  }
+
+  function border() {
+    const out = [
+      // Two fine rules, the way a block-printed border is framed.
+      `<rect x="9" y="9" width="1182" height="612" rx="4" fill="none" stroke="${C.line}" stroke-width="2"/>`,
+      `<rect x="49" y="49" width="1102" height="532" fill="none" stroke="${C.line}" stroke-width="2"/>`,
+    ]
+    // Mangoes nose to tail, two colours taking turns, a bead between each.
+    const body = i => (i % 2 ? C.tan : C.line)
+    const dot = i => (i % 2 ? C.line : C.tan)
+    for (let i = 0; i < 17; i++) {
+      const x = 96 + i * 63
+      out.push(mango(x, 30, 0.25, 90, i % 2, body(i), C.ground, dot(i), C.ground))
+      out.push(mango(x, 600, 0.25, -90, i % 2, body(i), C.ground, dot(i), C.ground))
+      if (i < 16) out.push(`<circle cx="${x + 31.5}" cy="30" r="3.5" fill="${C.line}"/><circle cx="${x + 31.5}" cy="600" r="3.5" fill="${C.line}"/>`)
+    }
+    for (let i = 0; i < 7; i++) {
+      const y = 126 + i * 63
+      out.push(mango(30, y, 0.25, 180, i % 2, body(i), C.ground, dot(i), C.ground))
+      out.push(mango(1170, y, 0.25, 0, i % 2, body(i), C.ground, dot(i), C.ground))
+    }
+    // A row of fine dots inside the band, as on printed cloth.
+    for (let x = 60; x <= 1140; x += 12) out.push(`<circle cx="${x}" cy="55.5" r="1.6" fill="${C.line}" opacity=".7"/><circle cx="${x}" cy="574.5" r="1.6" fill="${C.line}" opacity=".7"/>`)
+    for (let y = 66; y <= 564; y += 12) out.push(`<circle cx="55.5" cy="${y}" r="1.6" fill="${C.line}" opacity=".7"/><circle cx="1144.5" cy="${y}" r="1.6" fill="${C.line}" opacity=".7"/>`)
+    // Corners: a diamond, not a flower.
+    for (const [x, y] of [[30, 30], [1170, 30], [30, 600], [1170, 600]]) {
+      out.push(`<rect x="${x - 13}" y="${y - 13}" width="26" height="26" transform="rotate(45 ${x} ${y})" fill="${C.tan}" stroke="${C.line}" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="4" fill="${C.line}"/>`)
+    }
+    return out.join('')
+  }
+
+  // Two mangoes and a vine of buds. No flower.
+  function motif() {
+    const leaf = (x, y, r) => `<ellipse cx="${x}" cy="${y}" rx="11" ry="5" transform="rotate(${r} ${x} ${y})" fill="${C.tan}" stroke="${C.ink}" stroke-width="2"/>`
+    return `<svg viewBox="28 0 212 246" width="240" height="250" aria-hidden="true">` +
+      `<path d="M40 232 C 70 190 60 140 110 110 C 150 86 170 60 176 20" fill="none" stroke="${C.ink}" stroke-width="3"/>` +
+      leaf(62, 196, -60) + leaf(78, 160, 30) + leaf(128, 104, -30) + leaf(160, 70, 40) + leaf(172, 36, -70) +
+      `<circle cx="176" cy="16" r="6" fill="${C.tan}" stroke="${C.ink}" stroke-width="2"/>` +
+      mango(92, 150, 0.92, -18, 0, C.plum, C.canvas, C.tan, C.ink) +
+      mango(176, 168, 0.7, 24, 1, C.plum, C.canvas, C.tan, C.ink) +
+      `</svg>`
+  }
+
+  document.getElementById('border').innerHTML = border()
+  document.getElementById('motif').innerHTML = motif()
+
+  // ------------------------------------------------------------- the words
+  const TELUGU = /[ఀ-౿]/
+  const $ = id => document.getElementById(id)
+  const canvas = document.querySelector('.canvas')
+  const motifBox = document.getElementById('motif')
+
+  /** Nothing spills: not the card, not the middle band. */
+  const fits = () => canvas.scrollHeight <= canvas.clientHeight + 1 && $('main').scrollHeight <= $('main').clientHeight + 1
+
+  // Fits text by shrinking, never by cutting: a name that needs three lines at
+  // 48px gets three lines at 48px rather than two lines and an ellipsis. Only
+  // past the smallest size does the last line give way. Lines are counted by
+  // rounding, because a serif's descenders make the box a few pixels taller
+  // than lines x line-height and a strict test would reject every size.
+  function fit(el, sizes, maxLines) {
+    if (!el.textContent.trim()) return null
+    for (const size of sizes) {
+      el.style.fontSize = size + 'px'
+      const lh = parseFloat(getComputedStyle(el).lineHeight)
+      if (Math.round(el.scrollHeight / lh) <= maxLines && fits()) return size
+    }
+    const size = sizes[sizes.length - 1]
+    el.style.fontSize = size + 'px'
+    // As many lines as the space holds, never more than asked for. The last
+    // one ends in an ellipsis, so a reader can see the words go on.
+    for (let lines = maxLines; lines >= 1; lines--) {
+      clamp(el, lines)
+      if (fits()) break
+    }
+    return size
+  }
+
+  /** Shows the first `lines` lines of a box, the last ending in an ellipsis. */
+  function clamp(el, lines) {
+    const lh = parseFloat(getComputedStyle(el).lineHeight)
+    // A few pixels over the line budget keeps the last line's descenders.
+    el.style.maxHeight = (Math.ceil(lh * lines) + 6) + 'px'
+    el.style.display = '-webkit-box'
+    el.style.webkitBoxOrient = 'vertical'
+    el.style.webkitLineClamp = String(lines)
+  }
+
+  window.drawCard = function drawCard(card) {
+    // One page draws many cards, so every drawing starts from nothing.
+    const set = (id, text) => {
+      const el = $(id)
+      el.textContent = text || ''
+      el.removeAttribute('style')
+      el.setAttribute('lang', TELUGU.test(text || '') ? 'te' : 'en')
+      return el
+    }
+    set('eyebrow', card.eyebrow)
+    const title = set('title', card.title)
+    const subtitle = set('subtitle', card.subtitle)
+    set('sourceText', card.source)
+    set('ctaText', card.cta)
+    $('cta').hidden = !card.cta
+    $('cta').setAttribute('lang', TELUGU.test(card.cta || '') ? 'te' : 'en')
+
+    const stats = $('stats')
+    stats.innerHTML = ''
+    for (const s of card.stats || []) {
+      const box = document.createElement('div')
+      // A figure leads only when it is a number; a status is a word.
+      box.className = 'stat ' + (/\d/.test(s.value) ? 'figure' : 'word')
+      const v = document.createElement('div'); v.className = 'value'; v.textContent = s.value
+      const l = document.createElement('div'); l.className = 'label'; l.textContent = s.label
+      box.append(v, l)
+      stats.append(box)
+    }
+    const first = stats.firstElementChild
+    if (first && first.classList.contains('figure')) first.classList.add('hero')
+
+    const bar = $('bar')
+    if (card.progress == null) bar.hidden = true
+    else { bar.hidden = false; $('fill').style.width = Math.max(0, Math.min(100, card.progress)) + '%' }
+
+    const hasStats = (card.stats || []).length > 0
+    canvas.classList.toggle('plain', !hasStats)
+
+    // Figures first, because they must sit on one line. They step down
+    // together, so no figure looks more important than another just because
+    // it happened to be shorter.
+    const values = [...stats.querySelectorAll('.value')]
+    for (const k of [1, 0.94, 0.88, 0.82, 0.76, 0.7, 0.64]) {
+      values.forEach(v => { v.style.fontSize = ((v.parentElement.classList.contains('hero') ? 76 : 40) * k) + 'px' })
+      if (stats.scrollWidth <= stats.clientWidth + 1) break
+    }
+
+    // Then the words, in the space the figures left. The title is what the
+    // card is about, so it is fitted first, against the subtitle at its
+    // smallest. The subtitle then grows into whatever room is left, and if a
+    // line has to go, it is the subtitle's, never the title's.
+    const subSizes = hasStats ? [24, 22] : [26, 24, 22]
+    const titleSizes = hasStats ? [60, 54, 48, 44, 40] : [58, 52, 48, 44, 40]
+    // Four lines when the space is there; fits() is what stops a fourth line
+    // from pushing the figures off the card.
+    const titleLines = 4
+    const subLines = hasStats ? 2 : 3
+    const fitTitle = keep => {
+      title.removeAttribute('style'); subtitle.removeAttribute('style')
+      if (subtitle.textContent.trim()) {
+        subtitle.style.fontSize = subSizes[subSizes.length - 1] + 'px'
+        clamp(subtitle, keep)
+      }
+      return fit(title, titleSizes, titleLines)
+    }
+    const fitWords = () => {
+      // Against the most the subtitle may show, so both keep every line when
+      // they can. Only if that would cut the title is it fitted again against
+      // the one line the subtitle always keeps, and the subtitle gives up the
+      // rest. (Before the words kept their height, the subtitle's box took
+      // this loss by hiding lines with no mark; now it ends in an ellipsis.)
+      let size = fitTitle(subLines)
+      if (title.style.webkitLineClamp && subtitle.textContent.trim()) size = fitTitle(1)
+      subtitle.removeAttribute('style')
+      fit(subtitle, subSizes, subLines)
+      return { size, cut: !!title.style.webkitLineClamp }
+    }
+    // A long name gets the motif's column. Scheme works are filed under names
+    // like "Replacement of old 300 mm dia AC/CI Pipelines with Providing 300 mm
+    // and 150 mm dia DI K9 ...", and on the live register about one card in
+    // four could not show its whole name beside the mangoes. The border still
+    // carries the pattern; the name is the thing a reader came for.
+    motifBox.hidden = false
+    const withMotif = fitWords()
+    if (withMotif.cut || withMotif.size < 48) {
+      motifBox.hidden = true
+      const without = fitWords()
+      if (!(without.size > withMotif.size || (withMotif.cut && !without.cut))) {
+        motifBox.hidden = false
+        fitWords()
+      }
+    }
+  }
+
+  /**
+   * What a test asks after drawing: every box that must not touch another, and
+   * anything that had to be cut. share-cards.mjs refuses a card that fails.
+   */
+  window.auditCard = function auditCard() {
+    const box = el => {
+      if (!el || el.hidden || !el.getClientRects().length) return null
+      const r = el.getBoundingClientRect()
+      return r.width && r.height ? { x: r.left, y: r.top, r: r.right, b: r.bottom } : null
+    }
+    const named = [
+      ['brand', document.querySelector('.brand')], ['cta', $('cta')], ['eyebrow', $('eyebrow')],
+      ['title', $('title')], ['subtitle', $('subtitle')], ['motif', $('motif').firstElementChild], ['bar', $('bar')],
+      ...[...document.querySelectorAll('.stat')].map((el, i) => [`stat${i + 1}`, el]),
+      ['source', $('sourceText')],
+    ].map(([name, el]) => [name, box(el)]).filter(([, b]) => b)
+    const c = canvas.getBoundingClientRect()
+    const inner = { x: c.left + 3, y: c.top + 3, r: c.right - 3, b: c.bottom - 3 }
+    const overlaps = []
+    const outside = []
+    for (const [name, b] of named) {
+      if (b.x < inner.x - 0.5 || b.y < inner.y - 0.5 || b.r > inner.r + 0.5 || b.b > inner.b + 0.5) outside.push(name)
+    }
+    for (let i = 0; i < named.length; i++) {
+      for (let j = i + 1; j < named.length; j++) {
+        const [an, a] = named[i]; const [bn, b] = named[j]
+        if (a.x < b.r - 0.5 && b.x < a.r - 0.5 && a.y < b.b - 0.5 && b.y < a.b - 0.5) overlaps.push(`${an}/${bn}`)
+      }
+    }
+    // Words hidden inside their own box. The overlap test above cannot see
+    // this: a box that shrank with the words still in it clears everything.
+    // A name cut on purpose ends in an ellipsis and is titleClamped instead.
+    // The place line is one line in a box its own height, so any hidden pixel
+    // is a squeeze (in Telugu it takes the letters written under the line).
+    // A title's box ends a little above the font's own spacing below its last
+    // line (5px of 62 in the serif, 18px of 78 in the Telugu display face), so
+    // there a quarter of a line counts.
+    const clipped = ['eyebrow', 'title', 'subtitle'].filter(id => {
+      const el = $(id)
+      if (!el.textContent.trim() || !el.getClientRects().length || el.style.webkitLineClamp) return false
+      const style = getComputedStyle(el)
+      const lh = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.2
+      return el.scrollHeight - el.clientHeight > (id === 'eyebrow' ? 1 : Math.max(2, lh * 0.25))
+    })
+    return {
+      overlaps, outside, clipped,
+      figuresOverflow: $('stats').scrollWidth > $('stats').clientWidth + 1,
+      titleClamped: !!$('title').style.webkitLineClamp,
+      titleSize: parseFloat(getComputedStyle($('title')).fontSize),
+    }
+  }
+</script>
+</body>
+</html>

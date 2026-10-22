@@ -32,6 +32,7 @@ const SECTIONS = [
   { id: 'cookies', key: 'cookies', icon: 'database', paras: 3 },
   { id: 'google', key: 'google', icon: 'public', paras: 4 },
   { id: 'children', key: 'children', icon: 'menu_book', paras: 1 },
+  { id: 'corrections-and-posts', key: 'reports', icon: 'forum', paras: 3 },
   { id: 'changes', key: 'changes', icon: 'published_with_changes', paras: 1 },
 ]
 

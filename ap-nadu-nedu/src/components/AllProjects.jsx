@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { apiGet } from '../lib/api'
+import { placeName } from '../lib/placeNames.js'
 import { useT } from '../i18n'
 import { TENURE_COLOR, TENURE_HATCHED } from '../lib/tenure'
 import TenurePicture from './TenurePicture'
@@ -128,6 +129,7 @@ function Timeline({ p, t }) {
 /* --------------------------------------------------------------- one card */
 
 function ProjectCard({ p, q, t, open, onToggle, detail, detailError }) {
+  const { lang } = useT()
   const bands = p.spans.length ? p.spans : ['tdp2']
   return (
     <article className="border border-surface-variant rounded-xl bg-surface-container-lowest overflow-hidden">
@@ -145,7 +147,7 @@ function ProjectCard({ p, q, t, open, onToggle, detail, detailError }) {
                 </span>
               )}
               {p.district && (
-                <span className="text-label-sm px-2 py-0.5 rounded-full border border-surface-variant text-on-surface-variant">{p.district}</span>
+                <span className="text-label-sm px-2 py-0.5 rounded-full border border-surface-variant text-on-surface-variant">{placeName(p.district, lang)}</span>
               )}
               <span className="text-label-sm px-2 py-0.5 rounded-full border border-surface-variant text-on-surface-variant">
                 {/* Only say "government documents" when all of them are. Where a
@@ -264,7 +266,7 @@ function ProjectCard({ p, q, t, open, onToggle, detail, detailError }) {
 /* ================================================================= the tab */
 
 export default function AllProjects({ district = '', onClearDistrict }) {
-  const { t } = useT()
+  const { t, lang } = useT()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [q, setQ] = useState('')
@@ -359,7 +361,7 @@ export default function AllProjects({ district = '', onClearDistrict }) {
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-label-sm uppercase tracking-wide text-on-surface-variant me-1">{t('register.filter.district')}</span>
             <span className="inline-flex items-center gap-2 rounded-full bg-primary text-on-primary ps-3 pe-2 py-1 text-label-md font-bold">
-              {district}
+              {placeName(district, lang)}
               {onClearDistrict && (
                 <button type="button" onClick={onClearDistrict}
                   aria-label={t('register.filter.clearDistrict', { name: district })}

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { applySeo } from '../lib/seo'
+import { applySeo, seoForFactCheck } from '../lib/seo'
 import { useT, makeDateFmt } from '../i18n'
 import { croreAmount } from '../lib/money'
 import { findFactCheck, factCheckPath, factChecksNewestFirst, STATUS_RATING, STATUSES } from '../lib/factcheck'
@@ -26,9 +26,10 @@ export default function FactCheckDetail() {
 
   useEffect(() => {
     if (!check) return
+    // The same builder the prerendered head used, so the title a crawler read
+    // and the one the page writes after load are the same string.
     applySeo(factCheckPath(check.slug), {
-      title: check.question.slice(0, 70),
-      description: check.summary.slice(0, 200),
+      ...seoForFactCheck(check),
       factCheck: {
         check,
         ratings: STATUS_RATING,
