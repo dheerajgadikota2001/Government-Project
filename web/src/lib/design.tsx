@@ -140,6 +140,7 @@ export function DesignProvider({ children }: { children: React.ReactNode }) {
     attr('data-sans', d.sans, 'preset')
     attr('data-head', d.head, 'preset')
     el.setAttribute('data-te', d.te)
+    loadPickerFonts(d)
     try { localStorage.setItem('apfc-design', JSON.stringify({ ...d, v: 2 })) } catch { /* fine without storage */ }
     window.dispatchEvent(new Event('apfc-theme'))
   }, [d, dark])
@@ -156,6 +157,40 @@ export function useDesign() {
   const c = React.useContext(DesignContext)
   if (!c) throw new Error('useDesign outside DesignProvider')
   return c
+}
+
+// Fonts beyond the default design load only when a design choice needs them. index.html loads
+// the four the default design uses; the picker's other families (about 140 KB of CSS and font
+// files) would otherwise be fetched by every reader for a review tool most never open.
+const FONT_QUERY: Record<string, string> = {
+  Inter: 'Inter:opsz,wght@14..32,400..800',
+  'IBM Plex Sans': 'IBM+Plex+Sans:wght@400;500;600;700',
+  'DM Sans': 'DM+Sans:opsz,wght@9..40,400..800',
+  'Libre Baskerville': 'Libre+Baskerville:wght@400;700',
+  'Instrument Serif': 'Instrument+Serif',
+  'Hind Guntur': 'Hind+Guntur:wght@400;500;600;700',
+  'Anek Telugu': 'Anek+Telugu:wght@400..700',
+}
+const PRESET_FONTS: Record<string, string[]> = {
+  graphite: ['Inter'], 'modern-minimal': ['Inter'], 'starry-night': ['Inter', 'Libre Baskerville'], caffeine: ['DM Sans'],
+}
+const PICK_FONTS: Record<string, string> = { inter: 'Inter', plex: 'IBM Plex Sans', dm: 'DM Sans', instrument: 'Instrument Serif', baskerville: 'Libre Baskerville', hind: 'Hind Guntur', anek: 'Anek Telugu' }
+const loadedFonts = new Set<string>()
+function loadFonts(families: (string | undefined)[]) {
+  const want = families.filter((f): f is string => !!f && !!FONT_QUERY[f] && !loadedFonts.has(f))
+  if (!want.length) return
+  want.forEach((f) => loadedFonts.add(f))
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = `https://fonts.googleapis.com/css2?${want.map((f) => 'family=' + FONT_QUERY[f]).join('&')}&display=swap`
+  document.head.appendChild(link)
+}
+function loadPickerFonts(d: { preset: string; sans: string; head: string; te: string }) {
+  loadFonts([...(PRESET_FONTS[d.preset] ?? []), PICK_FONTS[d.sans], PICK_FONTS[d.head], PICK_FONTS[d.te]])
+}
+/** The picker previews every option in its own font, so opening it loads them all. */
+export function loadAllPickerFonts() {
+  loadFonts(Object.keys(FONT_QUERY))
 }
 
 /** Re-render graphics when the theme or preset changes, so SVG colours follow. */

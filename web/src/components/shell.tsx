@@ -9,7 +9,6 @@ import { href, type Route } from '@/lib/route'
 import { meta } from '@/lib/data'
 import { dateLong, dateTe } from '@/lib/format'
 import { SearchDialog, SearchTrigger } from './search'
-import { DesignPicker } from './picker'
 import { AnimatedThemeToggler } from '@/vendor/magicui/animated-theme-toggler'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
@@ -87,12 +86,18 @@ function ThemeSwitch() {
 
 const isActive = (route: Route, match: readonly string[]) => match.includes(route.page)
 
+// The design picker is a review tool for the owner; readers almost never open it, so its code
+// arrives only on the first open.
+const DesignPicker = React.lazy(() => import('./picker').then((m) => ({ default: m.DesignPicker })))
+
 export const ShellContext = React.createContext<{ openSearch: () => void; openDesign: () => void }>({ openSearch: () => {}, openDesign: () => {} })
 
 export function AppShell({ route, children }: { route: Route; children: React.ReactNode }) {
   const { d } = useDesign()
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [pickerOpen, setPickerOpen] = React.useState(false)
+  const [pickerEver, setPickerEver] = React.useState(false)
+  if (pickerOpen && !pickerEver) setPickerEver(true)
   const ctx = React.useMemo(() => ({ openSearch: () => setSearchOpen(true), openDesign: () => setPickerOpen(true) }), [])
   const feed = route.page === 'cards'
   return (
@@ -102,7 +107,7 @@ export function AppShell({ route, children }: { route: Route; children: React.Re
         : <TopShell route={route} onSearch={() => setSearchOpen(true)} feed={feed}>{children}</TopShell>}
       <BottomBar route={route} onSearch={() => setSearchOpen(true)} />
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
-      <DesignPicker open={pickerOpen} onOpenChange={setPickerOpen} />
+      {pickerEver ? <React.Suspense fallback={null}><DesignPicker open={pickerOpen} onOpenChange={setPickerOpen} /></React.Suspense> : null}
     </ShellContext.Provider>
   )
 }

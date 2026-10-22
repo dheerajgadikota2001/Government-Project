@@ -8,3 +8,18 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+// The service worker (public/sw.js) keeps the site's code on the reader's phone after the first
+// visit. Only the real site registers it: not the dev server, and not the one-file preview, which
+// uses hash addresses and cannot host a worker. It is registered after the page has loaded, so it
+// never competes with the first paint. `?nosw=1` removes it on one phone, for support cases.
+if (import.meta.env.PROD && import.meta.env.VITE_ROUTES === 'path' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const off = new URLSearchParams(location.search).get('nosw') === '1'
+    if (off) {
+      navigator.serviceWorker.getRegistrations().then((rs) => rs.forEach((r) => r.unregister())).catch(() => {})
+      return
+    }
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => console.warn('[sw] not registered:', err))
+  }, { once: true })
+}

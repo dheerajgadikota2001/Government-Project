@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n'
-import { pol } from '@/lib/data'
+import { pol } from '@/lib/data-polavaram'
 import { PaperChip } from '@/components/kit'
 import type { Story } from '@/data/stories/polavaram'
 

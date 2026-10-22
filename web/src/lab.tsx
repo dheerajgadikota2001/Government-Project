@@ -4,7 +4,10 @@ import './index.css'
 import { DesignProvider } from '@/lib/design'
 import { LangProvider } from '@/lib/i18n'
 import { View3D, Pin } from '@/three/View3D'
-import { money, claims, districts, drawnDistricts, mapViewBox, projects, MERGED } from '@/lib/data'
+import { districts, drawnDistricts, mapViewBox, MERGED } from '@/lib/data'
+import { projects } from '@/lib/data-projects'
+import { money } from '@/lib/data-money'
+import { claims } from '@/lib/data-claims'
 import { lakhCrore } from '@/lib/format'
 
 // A bare page for looking at one model at a time while building it. Not part of the site.

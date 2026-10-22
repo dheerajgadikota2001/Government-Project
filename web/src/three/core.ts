@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { settingsFor, wantAntialias, type Level } from './governor'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 export { THREE }
 
@@ -7,27 +8,19 @@ export { THREE }
 // neutral clay colours (no party colours), and one accent colour that means "built".
 
 export type Quality = 'high' | 'low'
-
-/** Only a phone that asks to save data, or has very little memory, gets the lighter look.
- *  Core counts are not used: Safari reports a small number on every iPhone, which made the
- *  models soft on the sharpest screens. Sharpness is now governed by a pixel budget instead. */
-export function pickQuality(): Quality {
-  const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } }
-  if (nav.connection?.saveData) return 'low'
-  if (nav.deviceMemory != null && nav.deviceMemory <= 2) return 'low'
-  return 'high'
-}
-
-/** How many device pixels to draw per CSS pixel. Small canvases get the screen's full sharpness;
- *  very large ones are held to a budget so a phone never draws more than it can keep smooth. */
 export type Mode = 'inline' | 'explore'
-// Explore draws at the screen's full sharpness up to about 7 million pixels (a 2560 x 1440 laptop
-// at 1.4x, a phone at 3x), because the whole point of exploring is to zoom in and read detail.
-const BUDGET: Record<Mode, number> = { inline: 1.7e6, explore: 7.2e6 }
-export function pixelRatioFor(w: number, h: number, mode: Mode, quality: Quality) {
+export type { Level }
+
+/** Kept for scenes that ask for a coarse quality: level 3 is "high", anything lower is "low". */
+export const qualityOf = (level: Level): Quality => (level >= 3 ? 'high' : 'low')
+
+/** How many device pixels to draw per CSS pixel. Small canvases get the screen's full sharpness up to
+ *  the level's cap; large ones are held to the level's pixel budget so a phone never draws more than
+ *  it can keep smooth. Explore allows more, because the point of exploring is to zoom in and read detail. */
+export function pixelRatioFor(w: number, h: number, mode: Mode, level: Level) {
+  const { budget, cap } = settingsFor(Math.max(1, level) as Level, mode)
   const dpr = window.devicePixelRatio || 1
-  const cap = quality === 'low' ? 1.5 : mode === 'explore' ? 3 : 2
-  const byBudget = Math.sqrt(BUDGET[mode] / Math.max(1, w * h))
+  const byBudget = Math.sqrt(budget / Math.max(1, w * h))
   return Math.max(1, Math.min(dpr, cap, byBudget))
 }
 
@@ -78,7 +71,10 @@ export type Stage = {
   sun: THREE.DirectionalLight
   palette: Palette
   quality: Quality
+  level: Level
   mode: Mode
+  /** Move to another level without rebuilding the model: sharpness and shadows change in place. */
+  setLevel: (level: Level) => void
   /** When the reader is turning the model by hand, scenes must not move the camera. */
   locked: boolean
   /** Where the scene last framed the camera: the point it looks at, and the model's bounds. */
@@ -91,9 +87,12 @@ export type Stage = {
   dispose: () => void
 }
 
-export function createStage(canvas: HTMLCanvasElement, quality: Quality, mode: Mode = 'inline'): Stage {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: true })
-  renderer.setPixelRatio(pixelRatioFor(canvas.clientWidth || 300, canvas.clientHeight || 300, mode, quality))
+export function createStage(canvas: HTMLCanvasElement, startLevel: Level, mode: Mode = 'inline'): Stage {
+  let level: Level = Math.max(1, startLevel) as Level
+  // preserveDrawingBuffer stays off: keeping every frame costs memory bandwidth on phones. The still
+  // picture is taken right after a render, in the same task, when the buffer is still intact.
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: wantAntialias(level), alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: false })
+  renderer.setPixelRatio(pixelRatioFor(canvas.clientWidth || 300, canvas.clientHeight || 300, mode, level))
   // Planes that cut a model are how the built share of a work grows and shrinks without rebuilding it.
   renderer.localClippingEnabled = true
   renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -117,9 +116,9 @@ export function createStage(canvas: HTMLCanvasElement, quality: Quality, mode: M
   const sun = new THREE.DirectionalLight(0xfffdf9, 3.1)
   sun.position.set(-18, 26, 14)
   sun.castShadow = true
-  const shadowSize = quality === 'high' ? (mode === 'explore' ? 4096 : 2048) : 1024
+  const shadowSize = settingsFor(level, mode).shadow
   sun.shadow.mapSize.set(shadowSize, shadowSize)
-  sun.shadow.radius = quality === 'high' ? 4 : 2
+  sun.shadow.radius = level >= 3 ? 4 : 2
   sun.shadow.bias = -0.0004
   sun.shadow.normalBias = 0.02
   const sc = sun.shadow.camera as THREE.OrthographicCamera
@@ -130,13 +129,41 @@ export function createStage(canvas: HTMLCanvasElement, quality: Quality, mode: M
   const palette = readPalette()
   const onFrame = new Set<(t: number, dt: number) => void>()
 
+  let size = { w: canvas.clientWidth || 300, h: canvas.clientHeight || 300 }
   const resize = (w: number, h: number) => {
-    renderer.setPixelRatio(pixelRatioFor(w, h, mode, quality))
+    size = { w, h }
+    renderer.setPixelRatio(pixelRatioFor(w, h, mode, level))
     renderer.setSize(w, h, false)
     camera.aspect = w / Math.max(1, h)
     camera.updateProjectionMatrix()
+    renderer.shadowMap.needsUpdate = true
   }
-  const render = () => renderer.render(scene, camera)
+  // At level 1 the shadow is redrawn every eighth frame instead of every frame. The models move
+  // slowly, so a shadow a quarter of a second old is invisible, and the shadow pass is the second
+  // most expensive thing a phone draws after the pixels themselves.
+  let frameNo = 0
+  const render = () => {
+    if (level < 2) renderer.shadowMap.needsUpdate = frameNo++ % 8 === 0
+    renderer.render(scene, camera)
+  }
+  const setLevel = (to: Level) => {
+    const next = Math.max(1, to) as Level
+    if (next === level) return
+    level = next
+    stage.level = level
+    stage.quality = qualityOf(level)
+    const s = settingsFor(level, mode)
+    if (sun.shadow.mapSize.x !== s.shadow) {
+      sun.shadow.mapSize.set(s.shadow, s.shadow)
+      sun.shadow.map?.dispose()
+      sun.shadow.map = null   // three makes a new map of the new size on the next render
+    }
+    sun.shadow.radius = level >= 3 ? 4 : 2
+    renderer.shadowMap.autoUpdate = s.shadowEveryFrame
+    renderer.shadowMap.needsUpdate = true
+    resize(size.w, size.h)
+  }
+  renderer.shadowMap.autoUpdate = settingsFor(level, mode).shadowEveryFrame
   const dispose = () => {
     onFrame.clear()
     scene.traverse((o) => {
@@ -152,7 +179,8 @@ export function createStage(canvas: HTMLCanvasElement, quality: Quality, mode: M
     renderer.dispose()
     renderer.forceContextLoss()
   }
-  return { renderer, scene, camera, sun, palette, quality, mode, locked: false, fitTarget: null, fitBounds: null, onFrame, resize, render, dispose }
+  const stage: Stage = { renderer, scene, camera, sun, palette, quality: qualityOf(level), level, mode, setLevel, locked: false, fitTarget: null, fitBounds: null, onFrame, resize, render, dispose }
+  return stage
 }
 
 function disposeMaterial(m: THREE.Material) {
