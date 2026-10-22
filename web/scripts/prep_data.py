@@ -90,6 +90,17 @@ for p in register['projects']:
     }
     projects.append(row)
 
+# Two government line items can share a title (two AMRUT works with the same name). Their page
+# titles must differ, or a search result and a browser tab cannot tell them apart. The tag is the
+# cost as printed, or the id when there is none, and only the projects that share a title get one.
+_by_title = {}
+for row in projects:
+    _by_title.setdefault(re.sub(r'[^a-z0-9]+', '', row['t'].lower()), []).append(row)
+for group in _by_title.values():
+    if len(group) > 1:
+        for row in group:
+            row['dn'] = f"₹{row['c']:g} Cr" if row['c'] is not None else f"no. {row['id']}"
+
 meta = {
     'asof': ASOF,
     'register_updated': updates['generated_at'][:10],
