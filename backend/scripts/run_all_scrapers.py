@@ -34,6 +34,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.scrapers.amrut_projects import AmrutProjectsScraper
+from app.scrapers.apwrims_water import ApwrimsWaterScraper
 from app.scrapers.ap_finance_budget import APFinanceBudgetScraper
 from app.scrapers.ap_legislature_bills import APLegislatureBillsScraper
 from app.scrapers.apsdps_publications import APSDPSPublicationsScraper
@@ -41,8 +42,10 @@ from app.scrapers.cse_statistics import CSEStatisticsScraper
 from app.scrapers.cag_documents import CAGDocumentsScraper
 from app.scrapers.crda_tenders import CrdaTendersScraper
 from app.scrapers.district_documents import DistrictDocumentsScraper
+from app.scrapers.district_notices import DistrictNoticesScraper
 from app.scrapers.mospi_projects import MospiProjectsScraper
 from app.scrapers.neva_notices import NevaNoticesScraper
+from app.scrapers.pib_ap import PibApScraper
 from app.scrapers.ppa_reports import PPAReportsScraper
 from app.models.data_update import RunTrigger
 from app.services.run_recorder import new_run_id, track
@@ -55,9 +58,16 @@ SCRAPERS = [
     ("daily", "NeVA assembly notice board", NevaNoticesScraper),
     ("daily", "CAG audit reports", CAGDocumentsScraper),
     ("daily", "AP Finance budget volumes", APFinanceBudgetScraper),
-    ("daily", "District collectorates (26 districts)", DistrictDocumentsScraper),
+    ("daily", "District collectorates (27 of 28 districts)", DistrictDocumentsScraper),
     ("daily", "AMRUT 2.0 urban projects (MoHUA)", AmrutProjectsScraper),
     ("daily", "Central-sector projects (MoSPI flash report)", MospiProjectsScraper),
+    # Live dashboard: today's reservoirs, season rainfall, tanks and (monthly) groundwater.
+    ("daily", "Reservoirs, rainfall and groundwater (APWRIMS)", ApwrimsWaterScraper),
+    # What each district is doing: collectorate notices (28 sites) and PIB releases
+    # that name an AP place. Both feed the district paper. Lok Sabha answers come per
+    # session through scripts/import_lok_sabha_session.py, not from here.
+    ("daily", "District notices (28 collectorate sites)", DistrictNoticesScraper),
+    ("daily", "PIB releases naming AP places", PibApScraper),
     ("tenders", "AP CRDA tenders", CrdaTendersScraper),
     # Document registers. These publish a few times a month at most, so they
     # sit in their own group rather than being re-walked every morning

@@ -9,6 +9,7 @@ coverage while training its reader to ignore it.
 
 from app.services.source_watch import (
     _document_links, _latest_edition, _newer_than_citation, _stable_signal, cited_sources,
+    new_watch_row,
 )
 
 PAGE = """
@@ -94,3 +95,13 @@ def test_every_watched_citation_carries_a_url():
     assert len(sources) > 100
     assert all(s["url"].startswith("http") for s in sources)
     assert all(s["source_key"] and s["seed_file"] for s in sources)
+
+
+def test_a_first_seen_citation_can_count_a_failure_before_it_is_saved():
+    """The first run crashed on `None += 1`: column defaults only apply at INSERT,
+    and the loop increments the failure counter before the row is ever saved."""
+    row = new_watch_row(cited_sources()[0])
+    row.consecutive_failures += 1
+    assert row.consecutive_failures == 1
+    assert row.muted is False
+    assert row.state == "ok"

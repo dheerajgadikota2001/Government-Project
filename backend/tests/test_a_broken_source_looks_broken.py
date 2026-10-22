@@ -186,17 +186,17 @@ class Districts(DistrictDocumentsScraper):
 
 
 def test_most_district_sites_down_is_a_failure():
-    dead = list(DISTRICT_SITES.values())[:12]       # 12 of 26
+    dead = list(DISTRICT_SITES.values())[:12]       # 12 of the listed sites
     with pytest.raises(ScrapeIncomplete) as caught:
         asyncio.run(Districts(dead).scrape())
-    assert "12 of 26" in caught.value.detail
+    assert f"12 of {len(DISTRICT_SITES)}" in caught.value.detail
 
 
 def test_a_couple_of_district_sites_down_is_a_note_not_a_failure():
-    """One collectorate being down is weather, and 24 districts still count."""
+    """One collectorate being down is weather, and the rest still count."""
     scraper = Districts(list(DISTRICT_SITES.values())[:2])
     assert asyncio.run(scraper.scrape()) == 0
-    assert any("2 of 26" in note for note in scraper.notes)
+    assert any(f"2 of {len(DISTRICT_SITES)}" in note for note in scraper.notes)
 
 
 # ---------------------------------------------------------------- the runner
@@ -367,7 +367,7 @@ def test_most_districts_refusing_blocks_the_whole_source():
     scraper = RefusingDistricts(list(DISTRICT_SITES)[:12])
     with pytest.raises(SanityAbort) as caught:
         asyncio.run(scraper.scrape())
-    assert "12 of 26" in str(caught.value)
+    assert f"12 of {len(DISTRICT_SITES)}" in str(caught.value)
 
 
 def test_a_thin_district_page_is_not_measured_against_the_busiest_district():

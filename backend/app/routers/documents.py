@@ -96,7 +96,10 @@ async def list_documents(
 
     col = SORTABLE[sort]
     ordered = col.asc().nulls_last() if order == "asc" else col.desc().nulls_last()
-    stmt = stmt.order_by(ordered, Document.created_at.desc())
+    # The id ends the sort. Rows saved in one refresh share created_at, and rows that tie
+    # on every sort key come back in any order, so paging repeated some papers and skipped
+    # others (tests/test_paging_shows_every_row_once.py).
+    stmt = stmt.order_by(ordered, Document.created_at.desc(), Document.id.desc())
     stmt = stmt.offset((page - 1) * page_size).limit(page_size)
     result = await db.execute(stmt)
     docs = result.scalars().all()

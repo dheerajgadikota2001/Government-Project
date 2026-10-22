@@ -1,0 +1,104 @@
+{
+ "topics": [
+  {
+   "topic": "water",
+   "title_en": "Andhra Pradesh water position: reservoirs, rain, groundwater and village tanks",
+   "title_te": "ఆంధ్రప్రదేశ్ నీటి పరిస్థితి: జలాశయాలు, వర్షం, భూగర్భ జలం, ఊరి చెరువులు",
+   "why_it_matters_en": "People hear that dams are full or empty, that rain failed, or that groundwater went up. These are the state water department's own daily and monthly numbers, with dates, so anyone can check.",
+   "why_it_matters_te": "ప్రాజెక్టులు నిండాయి, ఖాళీ అయ్యాయి, వర్షం పడలేదు, భూగర్భ జలం పెరిగింది అనే మాటలు వింటాం. ఇవి రాష్ట్ర జల వనరుల శాఖ స్వంత లెక్కలు, తేదీలతో. ఎవరైనా సరిచూసుకోవచ్చు.",
+   "series": 12,
+   "points": 539,
+   "sources": 67
+  },
+  {
+   "topic": "power",
+   "title_en": "Electricity in Andhra Pradesh: plants, power made, tariffs and subsidy",
+   "title_te": "ఆంధ్రప్రదేశ్‌లో విద్యుత్: ప్లాంట్లు, ఉత్పత్తి, కరెంటు ధరలు, సబ్సిడీ",
+   "why_it_matters_en": "People often hear that power charges went up, that the government stopped or raised the power subsidy, or that state plants were shut down. These official figures show the household rate per unit each year, the subsidy the government agreed to pay, and how much the state plants actually produced.",
+   "why_it_matters_te": "కరెంటు ఛార్జీలు పెరిగాయని, ప్రభుత్వం సబ్సిడీ ఆపిందని లేదా పెంచిందని, ప్రభుత్వ ప్లాంట్లు మూతపడ్డాయని తరచూ వింటాం. ప్రతి ఏడాది ఇంటి యూనిట్ ధర, ప్రభుత్వం ఇస్తానన్న సబ్సిడీ, ప్రభుత్వ ప్లాంట్లు నిజంగా ఎంత ఉత్పత్తి చేశాయో ఈ అధికారిక గణాంకాలు చూపిస్తాయి.",
+   "series": 18,
+   "points": 114,
+   "sources": 30
+  },
+  {
+   "topic": "ports",
+   "title_en": "Cargo handled at Andhra Pradesh ports, 2014-15 to 2025-26",
+   "title_te": "ఆంధ్రప్రదేశ్ ఓడరేవుల్లో ఏడాదికి ఎంత సరుకు వచ్చింది, వెళ్లింది (2014-15 నుంచి 2025-26)",
+   "why_it_matters_en": "People hear that AP ports are booming or that cargo has fallen. These official tables show port by port, year by year, how much cargo was actually handled, and how far the new ports have been built.",
+   "why_it_matters_te": "ఏపీ ఓడరేవులు బాగా పెరిగాయని, లేదా సరుకు తగ్గిందని వింటుంటాం. ప్రతి ఓడరేవులో ప్రతి ఏడాది నిజంగా ఎంత సరుకు వచ్చిందో, కొత్త ఓడరేవుల పని ఎంతవరకు వచ్చిందో ఈ ప్రభుత్వ లెక్కలు చూపిస్తాయి.",
+   "series": 12,
+   "points": 121,
+   "sources": 12
+  },
+  {
+   "topic": "homes_taps",
+   "title_en": "Houses built and tap water at home",
+   "title_te": "కట్టిన ఇళ్లు, ఇంటికి నల్లా నీళ్లు",
+   "why_it_matters_en": "People hear big claims about how many houses were built for the poor in towns and how many village homes now get tap water. These official counts show sanctioned, started and finished houses, and how many rural homes had a tap in 2019 versus today, district by district.",
+   "why_it_matters_te": "పేదలకు ఎన్ని ఇళ్లు కట్టారు, ఎన్ని గ్రామ ఇళ్లకు నల్లా నీళ్లు వచ్చాయి అని పెద్ద మాటలు వింటాం. ఈ ప్రభుత్వ లెక్కలు మంజూరైన, మొదలైన, పూర్తైన ఇళ్లను, 2019 లో ఎన్ని ఇళ్లకు నల్లా ఉంది, ఇప్పుడు ఎన్నింటికి ఉంది అనేది జిల్లాల వారీగా చూపిస్తాయి.",
+   "series": 29,
+   "points": 97,
+   "sources": 6
+  },
+  {
+   "topic": "births_deaths",
+   "title_en": "Births and deaths in Andhra Pradesh",
+   "title_te": "ఆంధ్రప్రదేశ్‌లో జననాలు, మరణాలు",
+   "why_it_matters_en": "People hear claims that more mothers and babies are dying, or that deaths were hidden in some year. This shows the registered births and deaths, district by district, next to the national survey rates for infant and maternal deaths.",
+   "why_it_matters_te": "తల్లులు, పిల్లల మరణాలు పెరిగాయని లేదా ఒక సంవత్సరంలో మరణాలు దాచారని వింటుంటాం. నమోదైన జననాలు, మరణాలు జిల్లాల వారీగా, జాతీయ సర్వే రేట్లతో పాటు ఇక్కడ చూడవచ్చు.",
+   "series": 26,
+   "points": 213,
+   "sources": 26
+  },
+  {
+   "topic": "money_flows",
+   "title_en": "Money flows: AP borrowing, central tax share and GST",
+   "title_te": "డబ్బు ప్రవాహం: ఏపీ అప్పులు, కేంద్ర పన్నుల వాటా, జీఎస్టీ",
+   "why_it_matters_en": "People hear that the Centre \"gave nothing\" or \"gave record funds\", and that the state is \"borrowing every week\". These official tables show, year by year and auction by auction, what AP borrowed, what the Centre shared from taxes, and what GST AP collected and kept.",
+   "why_it_matters_te": "\"కేంద్రం ఏమీ ఇవ్వలేదు\", \"రికార్డు నిధులు ఇచ్చింది\", \"రాష్ట్రం ప్రతి వారం అప్పు చేస్తోంది\" అని వింటాం. ఏపీ ఎంత అప్పు తీసుకుందో, కేంద్ర పన్నుల్లో ఎంత వాటా వచ్చిందో, ఎంత జీఎస్టీ వసూలై రాష్ట్రానికి దక్కిందో ఈ అధికారిక పట్టికలు సంవత్సరం వారీగా, వేలం వారీగా చూపిస్తాయి.",
+   "series": 32,
+   "points": 525,
+   "sources": 156
+  },
+  {
+   "topic": "rural_work_food",
+   "title_en": "Rural jobs, ration food and paddy buying in Andhra Pradesh",
+   "title_te": "ఆంధ్రప్రదేశ్‌లో ఉపాధి హామీ పని, రేషన్ బియ్యం, ధాన్యం కొనుగోలు",
+   "why_it_matters_en": "People often hear that rural job work, ration rice or paddy buying in Andhra Pradesh went up or down sharply under one government or another. These are the official yearly counts from the Union ministries, so anyone can check such claims year by year.",
+   "why_it_matters_te": "ఉపాధి హామీ పని, రేషన్ బియ్యం, ధాన్యం కొనుగోలు ఒక ప్రభుత్వ కాలంలో బాగా పెరిగాయి లేదా తగ్గాయి అని తరచూ వింటాం. ఇవి కేంద్ర మంత్రిత్వ శాఖల అధికారిక ఏడాదివారీ లెక్కలు. ఎవరైనా ఏ సంవత్సరం ఎంత అని స్వయంగా చూసుకోవచ్చు.",
+   "series": 27,
+   "points": 185,
+   "sources": 53
+  },
+  {
+   "topic": "district_economy",
+   "title_en": "How big is each district's economy? (GSDP, district GVA and per capita income)",
+   "title_te": "మన జిల్లా ఆర్థిక వ్యవస్థ ఎంత? (రాష్ట్ర ఉత్పత్తి, జిల్లా ఉత్పత్తి, తలసరి ఆదాయం)",
+   "why_it_matters_en": "People hear claims like \"our district has grown the most\" or \"the state economy doubled\". These are the official DES estimates of what each sector and each district produces, year by year, so a claim can be checked against the printed number and its estimate stage.",
+   "why_it_matters_te": "\"మన జిల్లా బాగా ఎదిగింది\", \"రాష్ట్ర ఆర్థిక వ్యవస్థ రెట్టింపైంది\" అనే మాటలు వింటాం. ఇవి ప్రతి రంగం, ప్రతి జిల్లా ఏటా ఎంత ఉత్పత్తి చేసిందో చెప్పే అధికారిక అంచనాలు. ఏ మాటైనా ఈ ముద్రిత అంకెతో సరిచూసుకోవచ్చు.",
+   "series": 184,
+   "points": 538,
+   "sources": 5
+  },
+  {
+   "topic": "district_sites",
+   "title_en": "District at a glance: what each district's own official books and pages say",
+   "title_te": "జిల్లా ఒక చూపులో: ప్రతి జిల్లా సొంత ప్రభుత్వ పుస్తకాలు, పేజీలు ఏమి చెబుతున్నాయి",
+   "why_it_matters_en": "People hear claims like 'our district has the most schools' or 'this many villages were left behind'. These are the counts each district's own Collectorate publishes, with the page you can open and check.",
+   "why_it_matters_te": "'మా జిల్లాలో ఎక్కువ బడులు ఉన్నాయి', 'ఇన్ని గ్రామాలు వెనుకబడ్డాయి' అని వింటుంటాం. ప్రతి జిల్లా కలెక్టరేట్ తానే ప్రచురించిన లెక్కలు ఇవి. పేజీ తెరిచి మీరే చూసుకోవచ్చు.",
+   "series": 143,
+   "points": 2001,
+   "sources": 31
+  },
+  {
+   "topic": "more_platforms",
+   "title_en": "More official platforms: forests, roads, accidents, colleges, minerals, investment, vehicles, crime, rural doctors, schools",
+   "title_te": "మరిన్ని అధికారిక వేదికలు: అడవులు, రోడ్లు, ప్రమాదాలు, కళాశాలలు, ఖనిజాలు, పెట్టుబడులు, వాహనాలు, నేరాలు, గ్రామీణ వైద్యులు, పాఠశాలలు",
+   "why_it_matters_en": "Each sub-topic answers a common claim with the figure the central government or RBI printed for AP. See each topic file for its own explanation.",
+   "why_it_matters_te": "ప్రతి ఉప అంశం ఒక సాధారణ వాదనకు కేంద్ర ప్రభుత్వం లేదా ఆర్‌బీఐ ముద్రించిన అంకెతో సమాధానం ఇస్తుంది.",
+   "series": 55,
+   "points": 341,
+   "sources": 41
+  }
+ ]
+}

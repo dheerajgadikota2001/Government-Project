@@ -135,7 +135,8 @@ async def list_posts(
     stmt = stmt.where(ForumPost.topic == topic) if topic else stmt.where(ForumPost.page_key == page_key)
 
     total = (await db.execute(select(func.count()).select_from(stmt.subquery()))).scalar_one()
-    stmt = stmt.order_by(ForumPost.created_at.desc()).offset((page - 1) * page_size).limit(page_size)
+    # The id ends the sort, so posts saved in the same instant keep one order from page to page.
+    stmt = stmt.order_by(ForumPost.created_at.desc(), ForumPost.id.desc()).offset((page - 1) * page_size).limit(page_size)
     posts = (await db.execute(stmt)).scalars().all()
     return PaginatedResponse.build(
         items=[PostOut.model_validate(p) for p in posts],

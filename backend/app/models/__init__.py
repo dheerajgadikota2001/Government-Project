@@ -14,9 +14,16 @@ from app.models.community import ForumPost, CorrectionReport, PostStatus, Correc
 from app.models.data_update import DataUpdate, RunStatus, RunTrigger
 from app.models.scrape_stat import ScrapeStat
 from app.models.source_watch import SourceWatch
+from app.models.archive import ArchivedFile, ArchivedFileSource
+from app.models.live_reading import LiveReading
+from app.models.district_happening import DistrictHappening
 
 __all__ = [
     "Base",
+    "ArchivedFile",
+    "ArchivedFileSource",
+    "LiveReading",
+    "DistrictHappening",
     "ForumPost",
     "CorrectionReport",
     "PostStatus",

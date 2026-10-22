@@ -21,8 +21,13 @@ from app.utils.logger import logger
 
 # Import all routers
 from app.routers import (
+    ap_facts,
+    archive,
     community,
     contacts,
+    district_happenings,
+    district_history,
+    district_measures,
     meta,
     projects,
     project_register,
@@ -36,6 +41,7 @@ from app.routers import (
     voice,
     finances,
     governments,
+    jobs_prices,
 )
 
 
@@ -134,7 +140,13 @@ app.include_router(community.router, prefix=API_V1)
 app.include_router(meta.router, prefix=API_V1)
 app.include_router(school_education.router, prefix=API_V1)
 app.include_router(state_facts.router, prefix=API_V1)
+app.include_router(jobs_prices.router, prefix=API_V1)
 app.include_router(contacts.router, prefix=API_V1)
+app.include_router(archive.router, prefix=API_V1)
+app.include_router(district_measures.router, prefix=API_V1)
+app.include_router(district_history.router, prefix=API_V1)
+app.include_router(ap_facts.router, prefix=API_V1)
+app.include_router(district_happenings.router, prefix=API_V1)
 
 # ── Health & Info Endpoints ──────────────────────────────────────────────────
 

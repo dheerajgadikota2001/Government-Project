@@ -66,3 +66,4 @@ cloud-sql-proxy.exe
 
 # Working notes for the AI assistant. Local context only, never committed.
 CLAUDE.md
+backend/voice_eval_results.json

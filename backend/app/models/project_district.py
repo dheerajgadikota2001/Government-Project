@@ -30,6 +30,7 @@ just harder to spot later.
     submergence   land here goes under water
     canal         a canal or distributary network reaches here
     ayacut        this district's land is irrigated by it
+    served        the source says this district benefits (water, power, trains)
     stated        the source named this district and said no more
 
 WHY projects.district STAYS
@@ -63,9 +64,10 @@ class DistrictRole:
     SUBMERGENCE = "submergence"
     CANAL = "canal"
     AYACUT = "ayacut"
+    SERVED = "served"
     STATED = "stated"
 
-    ALL = (PRIMARY, SPANS, SUBMERGENCE, CANAL, AYACUT, STATED)
+    ALL = (PRIMARY, SPANS, SUBMERGENCE, CANAL, AYACUT, SERVED, STATED)
 
 
 class ProjectDistrict(Base):

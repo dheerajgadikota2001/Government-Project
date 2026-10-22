@@ -46,6 +46,7 @@ from app.database import get_db
 from app.models.project import Project
 from app.models.progress_observation import ProgressObservation
 from app.services.cache import cache_response
+from app.services.project_places import cached_readings, summary as place_summary
 
 router = APIRouter(prefix="/projects", tags=["Projects"])
 
@@ -469,8 +470,13 @@ def _entry(row: Project, observations: list[ProgressObservation],
         "has_documents": bool(seed),
     }
     entry.update(_summarise(events))
+    # Where other official papers place the project, read as printed with today's district
+    # beside it where that can be shown (see app/services/project_places.py).
+    readings = cached_readings().get((row.source_portal, row.external_id)) or []
+    entry["places"] = place_summary(readings) if readings else None
     if with_events:
         entry["events"] = events
+        entry["place_readings"] = readings
     return entry
 
 

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>AP Fact Check</title>
+    <meta name="claude:viewport-fit-sides" content="cover">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Only the default design's fonts load here: Geist, Geist Mono, Source Serif 4 and Noto Sans Telugu.
+         The design picker's other families load on demand (src/lib/design.tsx, loadPickerFonts). -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&family=Source+Serif+4:opsz,wght@8..60,400..700&family=Noto+Sans+Telugu:wght@400..700&display=swap">
+    <script>
+      // Paint the right theme before the app loads: a saved choice first, then the viewer's setting.
+      (function () {
+        var d = document.documentElement, s = {};
+        try { s = JSON.parse(localStorage.getItem('apfc-design') || '{}') || {}; } catch (e) {}
+        var attr = d.getAttribute('data-theme');
+        var mode = s.mode && s.mode !== 'system' ? s.mode : (attr === 'dark' || attr === 'light' ? attr : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        d.classList.add(mode === 'dark' ? 'dark' : 'light');
+        if (s.preset) d.setAttribute('data-preset', s.preset);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
