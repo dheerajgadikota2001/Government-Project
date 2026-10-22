@@ -1,6 +1,8 @@
 """Tenders API — browse active and historical government tenders."""
 
+from datetime import timedelta
 from typing import Optional
+from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -131,10 +133,43 @@ async def register_summary(db: AsyncSession = Depends(get_db)):
         select(func.min(Tender.published_date), func.max(Tender.published_date))
     )).one()
 
+    # Open means the last day to bid has not passed, in India time. The portal's
+    # own "active" flag can lag behind the date, so the date decides; the site's
+    # pages use the same rule. Counting here means Home can say how many are open
+    # without downloading the whole register.
+    today, start = _ist_today()
+    open_today = (await db.execute(
+        select(func.count()).where(Tender.bid_submission_end >= start)
+    )).scalar_one()
+
+    # How many close on each of the next seven India days, today included.
+    ist_day = func.date(func.timezone(IST_NAME, Tender.bid_submission_end))
+    week = await db.execute(
+        select(ist_day, func.count())
+        .where(Tender.bid_submission_end >= start, Tender.bid_submission_end < start + timedelta(days=7))
+        .group_by(ist_day)
+        .order_by(ist_day)
+    )
+
     return {
         "total": sum(by_status.values()),
         "by_status": by_status,
         "portals": portal_rows,
         "earliest_published": span[0],
         "latest_published": span[1],
+        "read_on": today.isoformat(),
+        "open_today": int(open_today or 0),
+        "closing_next_7_days": [{"day": d.isoformat(), "count": int(n)} for d, n in week.all()],
     }
+
+
+IST_NAME = "Asia/Kolkata"
+
+
+def _ist_today():
+    """Today's date in India, and the moment it began, as an aware UTC datetime."""
+    from datetime import datetime, timezone as tz
+    ist = ZoneInfo(IST_NAME)
+    today = datetime.now(ist).date()
+    start = datetime(today.year, today.month, today.day, tzinfo=ist).astimezone(tz.utc)
+    return today, start

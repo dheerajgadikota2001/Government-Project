@@ -4,8 +4,10 @@ import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n'
 import { href } from '@/lib/route'
 import { meta } from '@/lib/data'
-import { papers, registerPapers, tenders, updates } from '@/lib/data-papers'
-import { clean, dateLong, dateShort, dateTe, istDay, num, TODAY } from '@/lib/format'
+import { papers, registerPapers } from '@/lib/data-papers'
+import { useTenders, useUpdates, type TenderRegister, type Tender, type Updates } from '@/lib/live'
+import { LiveGate } from '@/components/live-state'
+import { clean, dateLong, dateShort, dateTe, istDay, num } from '@/lib/format'
 import { Page, PageHead } from '@/components/shell'
 import { Blank, ChartFrame, ListenButton, PaperChip, Section } from '@/components/kit'
 import { CountBars, YearColumns } from '@/graphics/Counts'
@@ -195,8 +197,6 @@ export default function Papers() {
 }
 
 /* ================================================================ tenders */
-const OPEN = (tenders.items as any[]).filter((t) => istDay(t.bid_submission_end) >= TODAY).sort((a, b) => String(a.bid_submission_end).localeCompare(String(b.bid_submission_end)))
-const ALL_T = [...(tenders.items as any[]), ...(tenders.closed as any[])]
 const TKIND: Record<string, { en: string; te: string }> = {
   works: { en: 'Works', te: 'పనులు' }, rfp: { en: 'Request for proposal', te: 'ప్రతిపాదనల అభ్యర్థన' },
   eoi: { en: 'Expression of interest', te: 'ఆసక్తి వ్యక్తీకరణ' }, other: { en: 'Other notices', te: 'ఇతర ప్రకటనలు' },
@@ -205,16 +205,25 @@ const tTitle = (t: string) => clean(t.replace(/^"|"$/g, '').replace(/"-\s*Estima
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const DAYS_TE = ['ఆది', 'సోమ', 'మంగళ', 'బుధ', 'గురు', 'శుక్ర', 'శని']
 
+const TENDERS_WHAT = { en: 'The tender list', te: 'టెండర్ల జాబితా' }
+
+/** The open notices, soonest first. Reads the live register; shows the loading look or an honest error instead of an old copy. */
 export function TendersList({ limit }: { limit?: number }) {
+  const state = useTenders()
+  return <LiveGate state={state} what={TENDERS_WHAT} rows={limit ?? 5}>{(reg) => <TendersRows open={reg.open} limit={limit} />}</LiveGate>
+}
+
+function TendersRows({ open, limit }: { open: Tender[]; limit?: number }) {
   const { lang, tr } = useLang()
+  if (!open.length) return <Blank kind="notPublished">{tr('No notice is open for bids right now.', 'ఇప్పుడు బిడ్లకు తెరిచి ఉన్న నోటీసులేమీ లేవు.')}</Blank>
   return (
     <div className="divide-y divide-border rounded-xl border border-border bg-card">
-      {OPEN.slice(0, limit ?? 999).map((t) => (
+      {open.slice(0, limit ?? 999).map((t) => (
         <div key={t.id} className="grid gap-1 px-4 py-3.5 md:grid-cols-[1fr_auto] md:items-center md:gap-6">
           <div className="min-w-0">
             <div className="line-clamp-2 text-[15px] font-medium leading-snug" lang="en">{tTitle(t.title)}</div>
             {t.title_telugu ? <div lang="te" className="text-[14px] text-muted-foreground">{t.title_telugu}</div> : null}
-            <div className="mt-1 text-[12.5px] text-muted-foreground">{(TKIND[t.tender_type] ?? TKIND.other)[lang]} · <span lang="en">{t.department}</span> · {tr('notice', 'నోటీసు')} <span lang="en">{t.tender_id}</span></div>
+            <div className="mt-1 text-[12.5px] text-muted-foreground">{(TKIND[t.tender_type ?? 'other'] ?? TKIND.other)[lang]} · <span lang="en">{t.department}</span> · {tr('notice', 'నోటీసు')} <span lang="en">{t.tender_id}</span></div>
           </div>
           <div className="flex items-center gap-2 md:flex-col md:items-end">
             <Badge>{tr('Open', 'తెరిచి ఉంది')}</Badge>
@@ -228,10 +237,26 @@ export function TendersList({ limit }: { limit?: number }) {
 }
 
 export function Tenders() {
+  const { tr } = useLang()
+  const state = useTenders()
+  if (state.status === 'ok') return <TendersBody reg={state.data} />
+  return (
+    <Page className="pt-10 md:pt-14">
+      <PageHead eyebrow={tr('Tenders', 'టెండర్లు')} q={{ en: 'Which works are out for bids?', te: 'ఏ పనులకు టెండర్లు పిలిచారు?' }}
+        lede={tr('A tender notice is often the first public sign that a work is about to start. This page is read live from our server.', 'టెండర్ నోటీసు తరచూ ఒక పని మొదలవబోతోందన్న తొలి బహిరంగ సూచన. ఈ పేజీ మా సర్వర్ నుంచి నేరుగా చదువుతుంది.')} />
+      <div className="mt-8"><LiveGate state={state} what={TENDERS_WHAT} rows={6}>{() => null}</LiveGate></div>
+    </Page>
+  )
+}
+
+function TendersBody({ reg }: { reg: TenderRegister }) {
   const { lang, tr } = useLang()
+  const OPEN = reg.open, ALL_T = reg.all, TODAY = reg.readOn
+  const tenders = { summary: reg.summary }
+  const portals = reg.summary.portals
   const closed = ALL_T.length - OPEN.length
   const kinds = count(ALL_T, (t) => t.tender_type ?? 'other')
-  const depts = count(ALL_T, (t) => t.department)
+  const depts = count(ALL_T.filter((t) => t.department), (t) => t.department as string)
   const byDay = count(OPEN, (t) => istDay(t.bid_submission_end)).sort((a, b) => a[0].localeCompare(b[0]))
   const [busy, busyN] = [...byDay].sort((a, b) => b[1] - a[1])[0] ?? ['', 0]
   const busyVillages = OPEN.filter((t) => istDay(t.bid_submission_end) === busy && t.tender_type === 'works' && /village/i.test(t.title)).length
@@ -245,8 +270,8 @@ export function Tenders() {
   return (
     <Page className="pt-10 md:pt-14">
       <PageHead eyebrow={tr('Tenders', 'టెండర్లు')} q={{ en: 'Which works are out for bids?', te: 'ఏ పనులకు టెండర్లు పిలిచారు?' }}
-        lede={tr(`A tender notice is often the first public sign that a work is about to start. We read AP CRDA’s portal every day: ${tenders.summary.total} notices so far, published from ${dateLong(first)} to ${dateLong(last)}. Every date here is India time.`,
-          `టెండర్ నోటీసు తరచూ ఒక పని మొదలవబోతోందన్న తొలి బహిరంగ సూచన. ఏపీ సీఆర్డీఏ పోర్టల్‌ను రోజూ చదువుతాం: ఇప్పటివరకు ${tenders.summary.total} నోటీసులు, ${dateTe(first)} నుంచి ${dateTe(last)} మధ్య ప్రచురితమైనవి. ఇక్కడి ప్రతి తేదీ భారత కాలమానంలోనే.`)}>
+        lede={tr(`A tender notice is often the first public sign that a work is about to start. We read ${portals.length === 1 ? `${portals[0].portal}’s portal` : `${portals.length} tender portals`} every day: ${tenders.summary.total} notices so far, published from ${dateLong(first)} to ${dateLong(last)}. Every date here is India time.`,
+          `టెండర్ నోటీసు తరచూ ఒక పని మొదలవబోతోందన్న తొలి బహిరంగ సూచన. ${portals.length === 1 ? `${portals[0].portal} పోర్టల్‌ను` : `${portals.length} టెండర్ పోర్టళ్లను`} రోజూ చదువుతాం: ఇప్పటివరకు ${tenders.summary.total} నోటీసులు, ${dateTe(first)} నుంచి ${dateTe(last)} మధ్య ప్రచురితమైనవి. ఇక్కడి ప్రతి తేదీ భారత కాలమానంలోనే.`)}>
         <div className="mt-5"><ListenButton /></div>
       </PageHead>
       <dl className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -297,10 +322,14 @@ export function Tenders() {
       </ChartFrame>
 
       <Section className="mt-14" eyebrow={tr('Open notices', 'తెరిచి ఉన్న నోటీసులు')} title={tr('Closing first', 'ముందు ముగిసేవి ముందు')} lede={tr('Titles exactly as the portal prints them.', 'శీర్షికలు పోర్టల్ ముద్రించినట్లే.')}>
-        <TendersList />
+        <TendersRows open={OPEN} />
       </Section>
       <div className="mt-8 max-w-3xl rounded-xl border border-dashed border-foreground/30 bg-card px-4 py-3 text-[14px] leading-relaxed text-muted-foreground">
-        <b className="text-foreground">{tr('Only one portal so far. ', 'ఇప్పటివరకు ఒకే పోర్టల్. ')}</b>{tr('All notices come from AP CRDA, so this is Amaravati’s buying, not the whole state’s. The state’s e-procurement portal times out from outside India, so our daily reader cannot open it yet.', 'అన్ని నోటీసులు ఏపీ సీఆర్డీఏ నుంచే; అంటే ఇది అమరావతి కొనుగోళ్లు మాత్రమే, రాష్ట్రమంతటివి కాదు. రాష్ట్ర ఈ-ప్రొక్యూర్‌మెంట్ పోర్టల్ భారతదేశం బయటి నుంచి స్పందించదు; అందుకే మా రోజువారీ రీడర్ దాన్ని ఇంకా తెరవలేదు.')}
+        {portals.length === 1 && /CRDA/i.test(portals[0].portal) ? (
+          <><b className="text-foreground">{tr('Only one portal so far. ', 'ఇప్పటివరకు ఒకే పోర్టల్. ')}</b>{tr('All notices come from AP CRDA, so this is Amaravati’s buying, not the whole state’s. The state’s e-procurement portal times out from outside India, so our daily reader cannot open it yet.', 'అన్ని నోటీసులు ఏపీ సీఆర్డీఏ నుంచే; అంటే ఇది అమరావతి కొనుగోళ్లు మాత్రమే, రాష్ట్రమంతటివి కాదు. రాష్ట్ర ఈ-ప్రొక్యూర్‌మెంట్ పోర్టల్ భారతదేశం బయటి నుంచి స్పందించదు; అందుకే మా రోజువారీ రీడర్ దాన్ని ఇంకా తెరవలేదు.')}</>
+        ) : (
+          <><b className="text-foreground">{tr('Where these come from. ', 'ఇవి ఎక్కడి నుంచి. ')}</b>{portals.map((p, i) => <span key={p.portal}>{i ? ', ' : ''}<span lang="en">{p.portal}</span> ({p.total})</span>)}. {tr('This is what those portals publish, not every tender in the state.', 'ఈ పోర్టల్‌లు ప్రచురించినవి ఇవి; రాష్ట్రంలోని ప్రతి టెండర్ కాదు.')}</>
+        )}
       </div>
     </Page>
   )
@@ -308,14 +337,24 @@ export function Tenders() {
 
 /* ================================================================ what's new */
 export function Updates() {
-  const { lang, tr } = useLang()
-  const runs = (updates.runs as any[]).slice(0, 30)
+  const { tr } = useLang()
+  const state = useUpdates()
   return (
     <Page className="pt-10 md:pt-14">
       <PageHead eyebrow={tr("What's new", 'కొత్తగా ఏముంది')} q={{ en: 'When did each source last update?', te: 'ప్రతి మూలం చివరిగా ఎప్పుడు నవీకరించబడింది?' }}
         lede={tr('Our readers check the government sources on their own. One line per source says when it last ran, when it last worked and how it went. Each check below keeps its own date; checks are never added together.',
           'మా రీడర్లు ప్రభుత్వ మూలాలను తామే తనిఖీ చేస్తాయి. ప్రతి మూలానికి ఒక వరుస: చివరిగా ఎప్పుడు నడిచింది, ఎప్పుడు పని చేసింది, ఎలా సాగింది. కింద ప్రతి తనిఖీకి దాని తేదీ ఉంటుంది; వాటిని కలిపి లెక్కించం.')} />
-      <div className="mt-8"><SourceHealth /></div>
+      <LiveGate state={state} what={{ en: 'The refresh log', te: 'నవీకరణ లాగ్' }} rows={6}>{(u) => <UpdatesBody updates={u} />}</LiveGate>
+    </Page>
+  )
+}
+
+function UpdatesBody({ updates }: { updates: Updates }) {
+  const { lang, tr } = useLang()
+  const runs = updates.runs.slice(0, 30)
+  return (
+    <>
+      <div className="mt-8"><SourceHealth sources={updates.sources} /></div>
       <Section className="mt-14" eyebrow={tr('Day by day', 'రోజు వారీగా')} title={tr('Each time we checked the sources', 'ఎప్పుడెప్పుడు తనిఖీ చేశాం')}>
         <div className="divide-y divide-border rounded-xl border border-border bg-card">
           {runs.map((r) => (
@@ -330,6 +369,6 @@ export function Updates() {
         <a href={href('sources')} className="mt-4 inline-flex text-[15px] font-medium underline underline-offset-4">{tr('How we read the sources', 'మూలాలను ఎలా చదువుతాం')}</a>
       </Section>
       <div className="hidden"><PaperChip label="" /></div>
-    </Page>
+    </>
   )
 }

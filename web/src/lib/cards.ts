@@ -12,8 +12,9 @@ import { money } from '@/lib/data-money'
 import { facts } from '@/lib/data-facts'
 import { invest } from '@/lib/data-invest'
 import { claims } from '@/lib/data-claims'
-import { registerPapers, tenders } from '@/lib/data-papers'
-import { crore, croreTe, dateLong, dateTe, istDay, num } from '@/lib/format'
+import { registerPapers } from '@/lib/data-papers'
+import type { TenderSummary } from '@/lib/live'
+import { crore, croreTe, dateLong, dateTe, num } from '@/lib/format'
 
 export type BiS = { en: string; te: string }
 export type CardKind = 'number' | 'picture' | 'thenNow' | 'claim' | 'district' | 'week' | 'word'
@@ -59,21 +60,20 @@ function polavaramCard(): FactCard {
 }
 
 /* --------------------------------------------------- tenders this week */
-function tendersCard(): FactCard | null {
-  const today = meta.asof as string
-  const end = new Date(Date.parse(today + 'T00:00:00Z') + 7 * 86400_000).toISOString().slice(0, 10)
-  const soon = (tenders.items as any[]).filter((t) => { const d = istDay(t.bid_submission_end); return d >= today && d <= end })
-  if (!soon.length) return null
-  const byDay = new Map<string, number>()
-  soon.forEach((t) => { const d = istDay(t.bid_submission_end); byDay.set(d, (byDay.get(d) ?? 0) + 1) })
-  const [day, n] = [...byDay.entries()].sort((a, b) => b[1] - a[1])[0]
+// Live: built from the server's tender summary. Until that answer arrives, or if it cannot, the card is
+// left out rather than filled from an old copy.
+function tendersCard(sum: TenderSummary | null | undefined): FactCard | null {
+  if (!sum?.closing_next_7_days?.length || !sum.read_on) return null
+  const today = sum.read_on
+  const { day, count: n } = [...sum.closing_next_7_days].sort((a, b) => b.count - a.count || a.day.localeCompare(b.day))[0]
+  const one = sum.portals.length === 1 ? sum.portals[0].portal : null
   return {
     id: 'tenders', kind: 'week',
     topic: bi('This week', 'ఈ వారం'),
     title: bi('Tenders closing', 'గడువు ముగుస్తున్న టెండర్లు'),
     value: bi(String(n), String(n)),
-    line: bi(`AP CRDA tender notices close on ${dateLong(day)}, India time.`, `ఏపీ సీఆర్డీఏ టెండర్లు ${dateTe(day)}న ముగుస్తాయి.`),
-    paper: { label: 'AP CRDA tenders portal', date: bi(`read ${dateLong(today)}`, `${dateTe(today)}న చదివాం`) },
+    line: bi(`${one ? `${one} tender notices` : 'Tender notices'} close on ${dateLong(day)}, India time.`, `${one ? `${one} ` : ''}టెండర్లు ${dateTe(day)}న ముగుస్తాయి.`),
+    paper: { label: one ? `${one} tenders portal` : 'State tender portals', date: bi(`read ${dateLong(today)}`, `${dateTe(today)}న చదివాం`) },
     href: 'tenders', hrefLabel: bi('See them', 'అవి చూడండి'),
   }
 }
@@ -257,10 +257,10 @@ export function districtCard(name: string | null): FactCard {
 }
 
 /** Today's set, in the order a reader meets them. */
-export function todaysCards(district: string | null): FactCard[] {
+export function todaysCards(district: string | null, tenders?: TenderSummary | null): FactCard[] {
   return [
     polavaramCard(),
-    tendersCard(),
+    tendersCard(tenders),
     schoolsCard(),
     ...claimCards(),
     incomeCard(),

@@ -9,11 +9,19 @@ import { viteSingleFile } from "vite-plugin-singlefile"
 //  - SINGLE=1: everything inlined into one HTML file with hash addresses, for the preview artifact
 const single = process.env.SINGLE === "1"
 
+// In production the site and the API share one address: Firebase forwards /api/** to Cloud Run.
+// Locally, `npm run dev` and `npm run preview` forward /api the same way, to the live API by default
+// or to a local backend with API_TARGET=http://127.0.0.1:8000 npm run dev.
+const apiTarget = process.env.API_TARGET || "https://apfactcheck.dheeco.com"
+const apiProxy = { "/api": { target: apiTarget, changeOrigin: true, secure: true } }
+
 export default defineConfig({
   base: single ? "./" : "/",
   define: { "import.meta.env.VITE_ROUTES": JSON.stringify(single ? "hash" : "path") },
   plugins: [react(), tailwindcss(), ...(single ? [viteSingleFile()] : [])],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  server: { proxy: apiProxy },
+  preview: { proxy: apiProxy },
   build: {
     chunkSizeWarningLimit: single ? 6000 : 600,
     outDir: single ? "dist-single" : "dist",
@@ -22,7 +30,7 @@ export default defineConfig({
         // libraries that several pages share get their own long-lived files
         manualChunks(id) {
           // Every compiled data file is its own file, named after it. A daily rebuild that
-          // changes tenders.json then changes only that file's name, so returning readers keep
+          // changes one data file then changes only that file's name, so returning readers keep
           // the 450 KB register and the 410 KB projects list from their cache. (The happenings
           // files are already one per district through import.meta.glob.)
           const data = id.match(/\/src\/data\/([a-z_]+)\.json$/)

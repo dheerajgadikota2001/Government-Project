@@ -17,6 +17,7 @@ from app.models.source_watch import SourceWatch
 from app.models.archive import ArchivedFile, ArchivedFileSource
 from app.models.live_reading import LiveReading
 from app.models.district_happening import DistrictHappening
+from app.models.district_edition import DistrictEdition
 
 __all__ = [
     "Base",
@@ -24,6 +25,7 @@ __all__ = [
     "ArchivedFileSource",
     "LiveReading",
     "DistrictHappening",
+    "DistrictEdition",
     "ForumPost",
     "CorrectionReport",
     "PostStatus",

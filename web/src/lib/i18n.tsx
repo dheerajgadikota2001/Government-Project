@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { HASH, setLinkLang, urlLang } from '@/lib/route'
 
 // Interface words in English and Telugu. The Telugu is a first draft for the
 // native editor; nothing here is a translation of a paper's own words.
@@ -61,10 +62,18 @@ type Ctx = {
 const LangContext = React.createContext<Ctx | null>(null)
 
 export function LangProvider({ children }: { children: React.ReactNode }) {
+  // A /te address opens in Telugu and remembers it. Otherwise the reader's saved choice decides, and the
+  // address is rewritten to match, so what is in the bar is always the page as the reader sees it.
   const [lang, setLangState] = React.useState<Lang>(() => {
-    try { return (localStorage.getItem('apfc-lang') as Lang) || 'en' } catch { return 'en' }
+    const fromUrl = !HASH && typeof location !== 'undefined' ? urlLang(location.pathname) : null
+    let l: Lang = 'en'
+    try { l = fromUrl ?? ((localStorage.getItem('apfc-lang') as Lang) || 'en') } catch { l = fromUrl ?? 'en' }
+    if (fromUrl) { try { localStorage.setItem('apfc-lang', fromUrl) } catch { /* private mode */ } }
+    setLinkLang(l)
+    return l
   })
   const setLang = React.useCallback((l: Lang) => {
+    setLinkLang(l)
     setLangState(l)
     try { localStorage.setItem('apfc-lang', l) } catch { /* private mode: keep it in memory */ }
   }, [])

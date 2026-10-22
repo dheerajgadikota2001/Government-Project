@@ -16,11 +16,14 @@ import { RoadBlock, Tiles, type Tile } from '@/components/project-parts'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 import { Badge } from '@/components/ui/badge'
 import Polavaram from './Polavaram'
+import { projectQuestion as question, projectQuestionTe as questionTe, useTitle } from '@/lib/titles'
 
 export default function ProjectPage({ id }: { id: number }) {
   const real = MERGED[id] ?? id
-  if (real === 613) return <Polavaram />
   const p = byId.get(real)
+  const { lang } = useLang()
+  useTitle(p ? { en: question(p), te: questionTe(p) } : null, lang)
+  if (real === 613) return <Polavaram />
   if (!p) return <Page className="py-24"><Blank kind="notRead">No project record has this number</Blank></Page>
   return <GenericProject p={p} />
 }
@@ -31,15 +34,6 @@ const SPENT = /₹([\d,]+(?:\.\d+)?) crore spent/
 const COST = /cost then stated as ₹([\d,]+(?:\.\d+)?) crore/
 const paperName = (doc: string) => (doc in PORTAL_WORDS ? PORTAL_WORDS[doc] : clean(doc))
 const toNum = (s: string) => Number(s.replace(/,/g, ''))
-
-function question(p: Project) {
-  const name = p.t.replace(/\s*\(.*?\)\s*$/, '')
-  return p.st === 'tendered' || p.st === 'approved' ? `Has work on ${name} started?` : `Is ${name} finished?`
-}
-function questionTe(p: Project) {
-  const name = p.t.replace(/\s*\(.*?\)\s*$/, '')
-  return p.st === 'tendered' || p.st === 'approved' ? `${name}: పనులు మొదలయ్యాయా?` : `${name}: పూర్తయిందా?`
-}
 
 // Words a project page may use, shown only when the page uses them.
 const PROJECT_WORDS: { test: (p: Project) => boolean; en: string; te: string; plain: { en: string; te: string } }[] = [

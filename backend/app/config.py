@@ -45,6 +45,15 @@ class Settings(BaseSettings):
     # Anthropic / Claude
     anthropic_api_key: str = ""
 
+    # District paper story drafts (app/services/story_drafter.py). Off by default: with
+    # story_model_enabled false the daily job uses the free stand-in drafter, which only
+    # restates titles as printed. Turning the model on costs money per run, so it is a
+    # deliberate switch (STORY_MODEL_ENABLED=true), never a default. Every draft, from
+    # either drafter, still waits for a person's approval before readers see it.
+    story_model_enabled: bool = False
+    story_model: str = "claude-haiku-4-5"
+    story_max_items: int = 12          # gathered items offered to the model per district per run
+
     # Firebase
     firebase_credentials_path: str = ""
 
