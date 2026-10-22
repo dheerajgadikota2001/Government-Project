@@ -25,6 +25,7 @@ from app.routers import (
     archive,
     community,
     contacts,
+    district_editions,
     district_happenings,
     district_history,
     district_measures,
@@ -147,6 +148,8 @@ app.include_router(district_measures.router, prefix=API_V1)
 app.include_router(district_history.router, prefix=API_V1)
 app.include_router(ap_facts.router, prefix=API_V1)
 app.include_router(district_happenings.router, prefix=API_V1)
+app.include_router(district_editions.public_router, prefix=API_V1)
+app.include_router(district_editions.admin_router, prefix=API_V1)
 
 # ── Health & Info Endpoints ──────────────────────────────────────────────────
 
