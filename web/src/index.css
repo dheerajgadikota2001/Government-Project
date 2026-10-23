@@ -576,3 +576,8 @@ body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; }
 .pre .pre-site, .pre .pre-note, .pre .pre-nav { font-size: 0.875rem; color: var(--muted-foreground); }
 .pre .pre-lede { font-size: 1.05rem; line-height: 1.55; color: var(--muted-foreground); }
 .pre .pre-nav { margin-top: 1.5rem; line-height: 2; }
+/* A project page's plain version has the same heading as the app's page (Project.tsx: text-[32px] leading-[1.08]
+   tracking-tight, md:text-[46px]), so the phone paints the big heading once. Keep the numbers equal to the app's;
+   scripts/test_prerender.mjs fails if the two drift apart. */
+.pre[data-kind="project"] h1 { font-size: 32px; line-height: 1.08; letter-spacing: -0.025em; margin-top: 1rem; }
+@media (min-width: 768px) { .pre[data-kind="project"] h1 { font-size: 46px; } }

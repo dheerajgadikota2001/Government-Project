@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 dist-single
+# share pictures drawn by scripts/make_cards.py (made, not written; npm run cards)
+/.cache
 # local builds for scripts/make_posters.py and scripts/check_3d_live.py
 /dist-posters
 /dist-check

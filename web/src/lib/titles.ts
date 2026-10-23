@@ -139,6 +139,41 @@ export function projectQuestionTe(p: ProjectLike) {
   const tag = p.dn ? ` (${p.dn})` : ''
   return p.st === 'tendered' || p.st === 'approved' ? `${bare(p.t)}: పనులు మొదలయ్యాయా?${tag}` : `${bare(p.t)}: పూర్తయిందా?${tag}`
 }
+/** Longest project name that goes into a tab title or a search result, in characters.
+ *  A result shows about 60 characters in English; Telugu letters are wider, so fewer fit. */
+export const TAB_NAME_MAX = { en: 34, te: 26 }
+
+/** A long name cut to fit a search result. The start and the end of the name stay (the end of a
+ *  government work's name is usually its place) and the middle becomes "…". Never cuts inside a word. */
+export function shortName(name: string, max: number): string {
+  const text = name.replace(/\s+/g, ' ').trim()
+  if (text.length <= max) return text
+  const words = text.split(' ')
+  const headMax = Math.ceil(max * 0.5)
+  const tailMax = max - headMax - 3
+  let head = ''
+  for (const w of words) { const next = head ? `${head} ${w}` : w; if (next.length > headMax) break; head = next }
+  let tail = ''
+  for (let i = words.length - 1; i >= 0; i--) { const next = tail ? `${words[i]} ${tail}` : words[i]; if (next.length > tailMax) break; tail = next }
+  head = head.replace(/[\s,;:\-–—]+$/, '')
+  tail = tail.replace(/^[\s,;:\-–—]+/, '')
+  if (!head) return tail ? `… ${tail}` : `${text.slice(0, max - 1).trimEnd()}…`
+  return tail ? `${head} … ${tail}` : `${head} …`
+}
+
+/** The project page's tab and search-result title: the same question as its heading, with the name shortened.
+ *  Two projects can still end up with the same words; project-title.ts tells them apart. */
+export function projectTabBase(p: ProjectLike, max: { en: number; te: number } = TAB_NAME_MAX): Bi {
+  const started = p.st === 'tendered' || p.st === 'approved'
+  const en = shortName(bare(p.t), max.en)
+  const te = shortName(bare(p.t), max.te)
+  return {
+    en: started ? `Has work on ${en} started?` : `Is ${en} finished?`,
+    te: started ? `${te}: పనులు మొదలయ్యాయా?` : `${te}: పూర్తయిందా?`,
+  }
+}
+/** The question on a share picture: roomier than a tab title, still cut (head and tail kept) for the longest government names. */
+export const CARD_NAME_MAX = { en: 90, te: 70 }
 export const districtTitle = (d: { name: string; te: string }): Bi =>
   ({ en: `What is happening in ${d.name} district?`, te: `${d.te} జిల్లాలో ఏం జరుగుతోంది?` })
 export const paperTitle = (d: { name: string; te: string }): Bi =>
