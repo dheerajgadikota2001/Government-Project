@@ -32,6 +32,8 @@ const Disclaimer = lazy(() => import('@/pages/More'), (m) => m.Disclaimer)
 const Privacy = lazy(() => import('@/pages/More'), (m) => m.Privacy)
 const Sources = lazy(() => import('@/pages/More'), (m) => m.Sources)
 const Words = lazy(() => import('@/pages/More'), (m) => m.Words)
+const DocPage = lazy(() => import('@/pages/Docs'), (m) => m.DocPage)
+const SummitPage = lazy(() => import('@/pages/Docs'), (m) => m.SummitPage)
 const Paper = lazy(() => import('@/pages/Paper'), (m) => m.default)
 const NotFound = lazy(() => import('@/pages/More'), (m) => m.NotFound)
 const CardsFeed = lazy(() => import('@/components/cards'), (m) => m.CardsFeed)
@@ -57,6 +59,8 @@ function Router() {
     case 'tenders': body = <Tenders />; break
     case 'districts': body = <Districts />; break
     case 'district': body = <DistrictPage slug={r.arg!} />; break
+    case 'doc': body = <DocPage slug={r.arg!} />; break
+    case 'summit': body = <SummitPage slug={r.arg!} />; break
     case 'paper': body = <Paper slug={r.arg!} />; break
     case 'money': body = <MoneyPage />; break
     case 'money-departments': body = <Departments />; break

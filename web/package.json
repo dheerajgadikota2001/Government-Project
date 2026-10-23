@@ -15,6 +15,7 @@
     "unused": "node scripts/unused_files.mjs --fail",
     "test:prerender": "node scripts/test_prerender.mjs",
     "test:lastmod": "node scripts/test_lastmod.mjs",
+    "test:docs": "node scripts/test_docs.mjs",
     "test:share": "node scripts/test_share_spec.mjs",
     "cards": "node scripts/share_specs.mjs && python scripts/make_cards.py"
   },

@@ -53,11 +53,11 @@ const PATHS: Record<string, string> = {
 }
 const PAGES: Record<string, string> = Object.fromEntries(Object.entries(PATHS).map(([k, v]) => [v, k]))
 // pages with an argument: token prefix -> path prefix
-const ARG: Record<string, string> = { project: '/projects/', district: '/districts/', claim: '/factcheck/', paper: '/paper/' }
+const ARG: Record<string, string> = { project: '/projects/', district: '/districts/', claim: '/factcheck/', paper: '/paper/', doc: '/documents/', summit: '/investments/' }
 
 export function parseToken(s: string): Route {
   if (!s) return { page: 'home' }
-  const m = s.match(/^(project|district|claim|paper)-(.+)$/)
+  const m = s.match(/^(project|district|claim|paper|doc|summit)-(.+)$/)
   if (m) return { page: m[1], arg: m[2] }
   return { page: s }
 }
