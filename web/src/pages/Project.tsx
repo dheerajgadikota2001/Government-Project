@@ -17,12 +17,13 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Badge } from '@/components/ui/badge'
 import Polavaram from './Polavaram'
 import { projectQuestion as question, projectQuestionTe as questionTe, useTitle } from '@/lib/titles'
+import { projectTab } from '@/lib/project-title'
 
 export default function ProjectPage({ id }: { id: number }) {
   const real = MERGED[id] ?? id
   const p = byId.get(real)
   const { lang } = useLang()
-  useTitle(p ? { en: question(p), te: questionTe(p) } : null, lang)
+  useTitle(p ? projectTab(p) : null, lang)
   if (real === 613) return <Polavaram />
   if (!p) return <Page className="py-24"><Blank kind="notRead">No project record has this number</Blank></Page>
   return <GenericProject p={p} />

@@ -14,11 +14,13 @@
 //
 // It refuses to write anything when the register looks empty, because hundreds of empty pages
 // published with confidence are worse than none.
-import { build } from 'esbuild'
-import { mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
+import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { createHash } from 'node:crypto'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { applyLastmod, serialise } from './lastmod.mjs'
+import { loadSeo } from './load-seo.mjs'
+import { CARD_DIR, cardsFor } from './share-spec.mjs'
 
 // fileURLToPath, not URL.pathname: on Windows .pathname is "/C:/...", which no file call understands.
 const WEB = fileURLToPath(new URL('..', import.meta.url))
@@ -26,17 +28,19 @@ const DIST = join(WEB, process.argv.includes('--out') ? process.argv[process.arg
 const TEMPLATE = join(DIST, 'index.html')
 if (!existsSync(TEMPLATE)) { console.error('No dist/index.html. Run vite build first.'); process.exit(1) }
 
-// The page list is TypeScript that imports the site's data; esbuild turns it into one module.
-const mod = join(WEB, 'node_modules/.cache', `seo-${process.pid}.mjs`)
-await build({
-  entryPoints: [join(WEB, 'src/lib/seo.ts')], outfile: mod, bundle: true, format: 'esm', platform: 'node',
-  alias: { '@': join(WEB, 'src') }, external: ['react'], logLevel: 'warning',
-  define: { 'import.meta.env.VITE_ROUTES': '"path"', 'import.meta.env.VITE_API_URL': 'undefined' },
-})
-const seo = await import(pathToFileURL(mod).href)   // a bare C:\\ path is not an import specifier on Windows
-rmSync(mod, { force: true })
+// The page list is TypeScript that imports the site's data (scripts/load-seo.mjs turns it into one module).
+const seo = await loadSeo(WEB)
 
-const pages = seo.allPages()
+// Dates: a page's "last changed" moves only when what it shows moves (see scripts/lastmod.mjs). The state file
+// is committed with the code, so every machine that builds gives the same dates.
+const STATE = join(WEB, 'seo-lastmod.json')
+const lastState = existsSync(STATE) ? JSON.parse(readFileSync(STATE, 'utf8')) : {}
+const dated = applyLastmod(seo.allPages(), lastState, seo.TODAY)
+const pages = dated.pages
+{
+  const text = serialise(dated.next)
+  if (!existsSync(STATE) || readFileSync(STATE, 'utf8').replace(/\r\n?/g, '\n') !== text) writeFileSync(STATE, text)
+}
 const projects = pages.filter((p) => p.path.startsWith('/projects/'))
 if (projects.length < 100) { console.error(`Only ${projects.length} project pages: the register looks empty. Nothing written.`); process.exit(1) }
 
@@ -45,6 +49,7 @@ const LANGS = ['en', 'te']
 const at = (path, lang) => (lang === 'te' ? (path === '/' ? '/te' : '/te' + path) : path)
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const SITE = { en: 'AP Fact Check', te: 'ఏపీ ఫ్యాక్ట్ చెక్' }
+const SHARE_ALT = { en: 'AP Fact Check: Andhra Pradesh, from its own papers', te: 'ఏపీ ఫ్యాక్ట్ చెక్: ఆంధ్రప్రదేశ్, ప్రభుత్వ పత్రాల్లోనే' }
 const full = (t, lang) => (t[lang].startsWith(SITE[lang]) ? t[lang] : `${t[lang]} | ${SITE[lang]}`)
 
 // Line endings are made LF here. On Windows git checks index.html out with CRLF, and the browser hashes the
@@ -84,11 +89,51 @@ const posterHints = (() => {
     `<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="${base}-${t}${shape}.webp" media="(prefers-color-scheme: ${scheme}) and ${w}">`))
 })()
 
+// Who the site is, for the search engines and answer engines that read the home page. Only what is true and
+// already public on the site: its name, address, logo and languages. No social profiles are claimed.
+function siteNodes(lang) {
+  return [
+    {
+      '@type': 'WebSite', '@id': ORIGIN + '/#website', url: ORIGIN + '/', name: SITE.en,
+      alternateName: [SITE.te], inLanguage: ['en', 'te'], publisher: { '@id': ORIGIN + '/#org' },
+    },
+    {
+      '@type': 'Organization', '@id': ORIGIN + '/#org', name: SITE.en, alternateName: SITE.te, url: ORIGIN + '/',
+      logo: { '@type': 'ImageObject', url: ORIGIN + '/icon-512.png', width: 512, height: 512 },
+      description: seo.siteDescription[lang],
+    },
+  ]
+}
+
+// Share pictures: each page with a card gets its own picture when it has been drawn (scripts/make_cards.py, npm run cards);
+// otherwise it shows the site's default picture and the build says how many did. Only the pictures the pages name are
+// copied into dist, so a stale one in the cache is never published.
+const cardOf = new Map()   // "path|lang" -> { file, title } for pictures that exist
+let cardsWanted = 0
+{
+  mkdirSync(join(DIST, 'share'), { recursive: true })
+  for (const c of cardsFor(pages, WEB)) {
+    cardsWanted++
+    const from = join(CARD_DIR(WEB), c.file)
+    if (!existsSync(from)) continue
+    copyFileSync(from, join(DIST, 'share', c.file))
+    cardOf.set(`${c.path}|${c.lang}`, { file: c.file, title: c.spec.title })
+  }
+}
+const imageOf = (p, lang) => {
+  const c = cardOf.get(`${p.path}|${lang}`)
+  return c ? { src: `${ORIGIN}/share/${c.file}`, alt: `${c.title}. ${SITE[lang]}` } : { src: `${ORIGIN}/share/default.png`, alt: SHARE_ALT[lang] }
+}
+
 function head(p, lang, { noindex = false } = {}) {
+  const img = imageOf(p, lang)
   const url = ORIGIN + at(p.path, lang)
+  const tab = (p.tabTitle ?? p.title)[lang]   // short enough for a search result; the heading keeps the full words
   const tags = [
     `<meta name="description" content="${esc(p.description[lang])}">`,
-    noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${url}">`,
+    // max-image-preview:large lets Google show the share picture at full size (Discover, rich results).
+    noindex ? '<meta name="robots" content="noindex">' : '<meta name="robots" content="max-image-preview:large">',
+    ...(noindex ? [] : [`<link rel="canonical" href="${url}">`]),
     ...(noindex ? [] : [
       `<link rel="alternate" hreflang="en" href="${ORIGIN + at(p.path, 'en')}">`,
       `<link rel="alternate" hreflang="te" href="${ORIGIN + at(p.path, 'te')}">`,
@@ -96,19 +141,28 @@ function head(p, lang, { noindex = false } = {}) {
     ]),
     `<meta property="og:type" content="website">`,
     `<meta property="og:site_name" content="${esc(SITE[lang])}">`,
-    `<meta property="og:title" content="${esc(p.title[lang])}">`,
+    `<meta property="og:title" content="${esc(tab)}">`,
     `<meta property="og:description" content="${esc(p.description[lang])}">`,
     `<meta property="og:locale" content="${lang === 'te' ? 'te_IN' : 'en_IN'}">`,
     noindex ? '' : `<meta property="og:url" content="${url}">`,
-    `<meta name="twitter:card" content="summary">`,
+    // A page with figures of its own has its own picture; every other page, and any whose picture is not drawn yet,
+    // shows the site's default, so a shared link never appears as bare text.
+    `<meta property="og:image" content="${img.src}">`,
+    `<meta property="og:image:width" content="1200">`,
+    `<meta property="og:image:height" content="630">`,
+    `<meta property="og:image:alt" content="${esc(img.alt)}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:image" content="${img.src}">`,
     ...(p.path === '/' && !noindex ? posterHints : []),
   ].filter(Boolean)
   if (!noindex) {
-    const crumbs = [{ name: lang === 'te' ? 'హోమ్' : 'Home', path: '/' }, ...(p.trail ?? []).map((t) => ({ name: t.name[lang], path: t.path })), { name: p.title[lang], path: p.path }]
+    const crumbs = [{ name: lang === 'te' ? 'హోమ్' : 'Home', path: '/' }, ...(p.trail ?? []).map((t) => ({ name: t.name[lang], path: t.path })), { name: tab, path: p.path }]
     const ld = {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'WebPage', '@id': url, url, name: p.title[lang], description: p.description[lang], inLanguage: lang, dateModified: p.lastmod, isPartOf: { '@type': 'WebSite', name: SITE.en, url: ORIGIN + '/' } },
+        { '@type': 'WebPage', '@id': url, url, name: tab, description: p.description[lang], inLanguage: lang, dateModified: p.lastmod, isPartOf: { '@type': 'WebSite', name: SITE.en, url: ORIGIN + '/' } },
+        ...(p.path === '/' ? siteNodes(lang) : []),
+        ...(p.ld ?? []),
         ...(p.path === '/' ? [] : [{ '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: ORIGIN + at(c.path, lang) })) }]),
       ],
     }
@@ -128,7 +182,12 @@ function line(l, lang) {
 function body(p, lang) {
   const other = lang === 'te' ? 'en' : 'te'
   const nav = seo.footerLinks.map((l) => `<a href="${at(l.href, lang)}">${esc(l.text[lang])}</a>`).join(' · ')
-  return `<main class="pre" lang="${lang}">
+  // A project page's plain version gets the same heading size as the app's page (see index.css), so a phone does not
+  // see a small heading replaced by a bigger one: that second, bigger paint is what Google counts as the load time.
+  // Measured on 10 project pages (4G phone, slow CPU): the load time stays at the first paint, 1.2 to 2.3 s, instead of 4.3 s.
+  // Other pages are left alone: their app content differs from this text, so matching one heading did not help.
+  const kind = /^\/projects\/\d+$/.test(p.path) ? ' data-kind="project"' : ''
+  return `<main class="pre"${kind} lang="${lang}">
       <p class="pre-site"><a href="${at('/', lang)}">${esc(SITE[lang])}</a> · <a href="${at(p.path, other)}" lang="${other}" hreflang="${other}">${other === 'te' ? 'తెలుగు' : 'English'}</a></p>
       <h1>${esc(p.title[lang])}</h1>
       <p class="pre-lede">${esc(p.description[lang])}</p>
@@ -141,7 +200,7 @@ function body(p, lang) {
 function render(p, lang, opts) {
   return template
     .replace('<html lang="en">', `<html lang="${lang}">`)
-    .replace('<title>AP Fact Check</title>', `<title>${esc(full(p.title, lang))}</title>\n    ${head(p, lang, opts)}`)
+    .replace('<title>AP Fact Check</title>', `<title>${esc(full(p.tabTitle ?? p.title, lang))}</title>\n    ${head(p, lang, opts)}`)
     .replace('<div id="root"></div>', `<div id="root">${body(p, lang)}</div>`)
 }
 
@@ -184,4 +243,5 @@ Allow: /
 Sitemap: ${ORIGIN}/sitemap.xml
 `)
 
+console.log(`Share pictures: ${cardOf.size} of ${cardsWanted} pages with figures have their own picture${cardOf.size < cardsWanted ? `; the other ${cardsWanted - cardOf.size} show the default. Run: npm run cards` : ''}.`)
 console.log(`Pre-rendered ${files} pages (${pages.length} addresses in English and Telugu), 404.html, sitemaps and robots.txt.`)

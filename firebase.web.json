@@ -99,6 +99,37 @@
             "value": "public, max-age=3600"
           }
         ]
+      },
+      {
+        "source": "/@(favicon.ico|favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png|share/default.png)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "/share/@(projects|districts|paper)-*.png",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/manifest.webmanifest",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/manifest+json; charset=utf-8"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
       }
     ],
     "trailingSlash": false,
