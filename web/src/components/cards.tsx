@@ -26,22 +26,26 @@ export { CardsLangSwitch, DistrictSelect, InShort, useCardsLang, useMyDistrict, 
 /* ------------------------------------------------------------- the card */
 const EMERGENCY = ['112', '108'].map((n) => (helplines.emergency as any[]).find((e) => e.number === n)).filter(Boolean)
 
-export function FactCardView({ card, lang, className, onPickDistrict, footer = true }: {
-  card: FactCard; lang: Lang; className?: string; onPickDistrict?: (name: string | null) => void; footer?: boolean
+// fit is for the one-card-a-screen phone feed, where the card has a fixed height.
+// The top and the footer keep their size, the middle gives way (the dam shrinks first,
+// then the text scrolls), so nothing can be drawn on top of the paper line. Elsewhere
+// the card is as tall as its content, as before.
+export function FactCardView({ card, lang, className, onPickDistrict, footer = true, fit = false }: {
+  card: FactCard; lang: Lang; className?: string; onPickDistrict?: (name: string | null) => void; footer?: boolean; fit?: boolean
 }) {
   const L = (b?: BiS | null) => (b ? b[lang] : '')
   const te = lang === 'te'
   return (
-    <article lang={te ? 'te' : 'en'} className={cn('flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 text-card-foreground', className)}>
-      <div className="flex items-center justify-between gap-2">
+    <article lang={te ? 'te' : 'en'} className={cn('flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 text-card-foreground', fit && 'overflow-hidden p-4 [@media(max-height:700px)]:p-3.5', className)}>
+      <div className="flex shrink-0 items-center justify-between gap-2">
         <span className="rounded-full bg-secondary px-2.5 py-0.5 text-[12px] font-semibold text-ink2">{L(card.topic)}</span>
       </div>
-      <h3 className="mt-3 text-[17px] font-semibold leading-snug tracking-tight [text-wrap:balance]">{L(card.title)}</h3>
-      <div className="mt-3 min-h-0 flex-1">
-        <CardBody card={card} lang={lang} onPickDistrict={onPickDistrict} />
+      <h3 className={cn('mt-3 text-[17px] font-semibold leading-snug tracking-tight [text-wrap:balance]', fit && 'mt-2.5 shrink-0')}>{L(card.title)}</h3>
+      <div className={cn('mt-3 min-h-0 flex-1', fit && 'mt-2.5 overflow-y-auto overscroll-contain [container-type:size] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden')}>
+        <CardBody card={card} lang={lang} onPickDistrict={onPickDistrict} fit={fit} />
       </div>
       {footer ? (
-        <footer className="mt-4 flex flex-wrap items-end justify-between gap-x-3 gap-y-2 border-t border-border pt-3">
+        <footer className={cn('mt-4 flex shrink-0 flex-wrap items-end justify-between gap-x-3 gap-y-2 border-t border-border pt-3', fit && 'mt-3')}>
           <span className="flex min-w-0 flex-1 basis-[11rem] items-start gap-1.5 text-[12.5px] leading-snug text-muted-foreground">
             <FileText className="mt-px size-3.5 shrink-0 opacity-70" aria-hidden />
             <span className="min-w-0">{typeof card.paper.label === 'string' ? <span lang="en">{card.paper.label}</span> : <span>{L(card.paper.label)}</span>}{card.paper.date ? <span>, {L(card.paper.date)}</span> : null}</span>
@@ -55,7 +59,7 @@ export function FactCardView({ card, lang, className, onPickDistrict, footer = t
   )
 }
 
-function CardBody({ card, lang, onPickDistrict }: { card: FactCard; lang: Lang; onPickDistrict?: (name: string | null) => void }) {
+function CardBody({ card, lang, onPickDistrict, fit = false }: { card: FactCard; lang: Lang; onPickDistrict?: (name: string | null) => void; fit?: boolean }) {
   const L = (b?: BiS | null) => (b ? b[lang] : '')
   const te = lang === 'te'
   switch (card.kind) {
@@ -158,7 +162,7 @@ function CardBody({ card, lang, onPickDistrict }: { card: FactCard; lang: Lang; 
       return (
         <div>
           {card.img === 'dam' ? (
-            <div className="pointer-events-none mx-auto mb-2 w-full max-w-[230px]" aria-hidden>
+            <div className={cn('pointer-events-none mx-auto mb-2 w-full max-w-[230px]', fit && 'max-w-[clamp(96px,calc((100cqh-96px)*1.14),230px)]')} aria-hidden>
               <Dam readings={pol.readings} index={pol.readings.length - 1} gauge={false} notes={false} />
             </div>
           ) : null}
@@ -460,15 +464,15 @@ export function CardsFeed() {
   }
   const head = (
     <div className="min-w-0">
-      <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-muted-foreground" lang={te ? 'te' : 'en'}>{te ? dateTe(meta.asof) : dateLong(meta.asof)}</div>
-      <h1 lang={te ? 'te' : 'en'} className="text-[24px] font-semibold leading-tight tracking-tight md:text-[40px]">{te ? 'నేటి కార్డులు' : "Today's cards"}</h1>
+      <div className="text-[12px] font-semibold uppercase tracking-[0.1em] text-muted-foreground max-md:[@media(max-height:640px)]:hidden" lang={te ? 'te' : 'en'}>{te ? dateTe(meta.asof) : dateLong(meta.asof)}</div>
+      <h1 lang={te ? 'te' : 'en'} className="text-[24px] font-semibold leading-tight tracking-tight max-md:[@media(max-height:640px)]:text-[20px] md:text-[40px]">{te ? 'నేటి కార్డులు' : "Today's cards"}</h1>
     </div>
   )
   return (
     <div>
       {/* Phones: one card a screen, swipe up for the next, like a status */}
       <div className="flex flex-col md:hidden" style={{ height: 'calc(100dvh - 8rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))', paddingLeft: 'max(16px, env(safe-area-inset-left, 0px))', paddingRight: 'max(16px, env(safe-area-inset-right, 0px))' }}>
-        <div className="pt-3">
+        <div className="pt-3 [@media(max-height:640px)]:pt-1.5">
           <div className="flex items-end justify-between gap-3">
             {head}
             <div className="flex items-center gap-2 pb-0.5">
@@ -476,14 +480,14 @@ export function CardsFeed() {
               <CardsLangSwitch value={lang} onChange={setLang} />
             </div>
           </div>
-          <div className="mt-2.5 flex gap-1" aria-hidden>
+          <div className="mt-2.5 [@media(max-height:640px)]:mt-1.5 flex gap-1" aria-hidden>
             {cards.map((c, k) => <button key={c.id} type="button" tabIndex={-1} onClick={() => go(k)} className={cn('h-1 flex-1 rounded-full transition-colors', k <= i ? 'bg-foreground' : 'bg-foreground/15')} />)}
           </div>
         </div>
         <div ref={scroller} onScroll={onScroll} data-feed="cards" className="mt-2 min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={te ? 'కార్డులు' : 'Cards'}>
           {cards.map((c) => (
-            <div key={c.id} className="flex h-full snap-start snap-always flex-col gap-2.5 py-2">
-              <FactCardView card={c} lang={lang} onPickDistrict={setDistrict} className="min-h-0 flex-1 overflow-y-auto" />
+            <div key={c.id} className="flex h-full snap-start snap-always flex-col gap-2.5 py-2 [@media(max-height:700px)]:gap-2 [@media(max-height:700px)]:py-1">
+              <FactCardView card={c} lang={lang} onPickDistrict={setDistrict} className="min-h-0 flex-1" fit />
               <CardActions card={c} lang={lang} onShare={setShare} />
             </div>
           ))}
