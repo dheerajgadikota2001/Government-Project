@@ -20,19 +20,50 @@ import { byId, largest, paperOf, placeText, projects, worksIn } from '@/lib/data
 import claimsRaw from '@/data/claims.json'
 import { crore, croreTe, dateLong, dateTe, num, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
 import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
-import { CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectQuestionTe, type Bi } from '@/lib/titles'
+import { projectTab } from '@/lib/project-title'
+import { bigWorks } from '@/lib/bigworks'
+import { workPoster } from '@/three/posters'
+import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectQuestionTe, projectTabBase, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
+export { TODAY }
 
 /** One line of the pre-rendered body: plain text, or text with a link. */
 export type Line = { text: Bi; href?: string; external?: boolean }
+/** What a page's share picture shows (the picture WhatsApp, Facebook and X put under a link). The build draws one picture
+ *  per page and language from this: scripts/share-spec.mjs names the files, scripts/make_cards.py draws them. Every figure
+ *  here is one the page's own lines already print, in the same words; a picture never says more than its page. */
+export type Card =
+  | {
+      kind: 'project'
+      /** The small label in the corner: the question the page answers. */
+      tag: Bi
+      title: Bi
+      status: Bi
+      /** Physical progress as printed, already formatted ("86.2"), or null when the paper prints none. */
+      progress: string | null
+      cost: Bi | null
+      due: Bi | null
+      place: Bi
+      source: Bi
+      /** The baked 3D picture of the work, when one exists for its current figures (no file extension, no -lw suffix). */
+      poster: string | null
+    }
+  | { kind: 'place'; tag: Bi; title: Bi; line: Bi; source: Bi }
+
 export type PageOut = {
   /** The English address. The Telugu one is the same with /te in front. */
   path: string
   title: Bi
+  /** The title in the tab, a search result and a link preview, when the heading is too long for those. */
+  tabTitle?: Bi
   description: Bi
+  /** Extra structured data nodes for this page (schema.org), beyond the page and breadcrumb ones. */
+  ld?: object[]
   /** A few facts or links under the heading, in the order a reader needs them. */
   lines: Line[]
+  /** The page's own share picture. Pages without one use the site's default picture. */
+  card?: Card
   /** Breadcrumb trail above this page, for the structured data. */
   trail?: { name: Bi; path: string }[]
   /** Last change of what the page shows, for the sitemap. */
@@ -52,6 +83,7 @@ const NAV: Line[] = [
   { text: { en: 'Tenders', te: 'టెండర్లు' }, href: P('tenders') },
 ]
 export const footerLinks = NAV
+export const siteDescription: Bi = PAGE_WORDS.about.description
 
 function staticPage(token: string, lines: Line[] = []): PageOut {
   const w = PAGE_WORDS[token]
@@ -77,9 +109,26 @@ function projectPage(p: Project): PageOut {
   lines.push({ text: { en: `Paper: ${paperOf(p)}`, te: `పత్రం: ${paperOf(p)}` }, href: p.su ?? undefined, external: true })
   if (p.f && p.l) lines.push({ text: { en: `Papers on record from ${dateLong(p.f)} to ${dateLong(p.l)}`, te: `${dateTe(p.f)} నుంచి ${dateTe(p.l)} వరకు పత్రాలు రికార్డులో ఉన్నాయి` } })
   const st2 = st ? `${st.en.toLowerCase()}` : p.st
+  const started = p.st === 'tendered' || p.st === 'approved'
+  const bw = bigWorks.find((w) => w.id === p.id)
+  const card: Card = {
+    kind: 'project',
+    tag: started ? { en: 'Has work started?', te: 'పనులు మొదలయ్యాయా?' } : { en: 'Is it finished?', te: 'పూర్తయిందా?' },
+    // no bracket at the end (that tells two records of one name apart on the page), and the longest names are cut in the middle
+    title: projectTabBase(p, CARD_NAME_MAX),
+    status: st ?? same(p.st),
+    progress: p.p != null ? num(p.p, 1) : null,
+    cost: p.c != null ? { en: crore(p.c), te: croreTe(p.c) } : null,
+    due: p.due ? { en: dateLong(p.due), te: dateTe(p.due) } : null,
+    place: { en: placeText(p, 'en'), te: placeText(p, 'te') },
+    source: same(paperOf(p)),
+    poster: bw ? workPoster(bw.id, bw.drawPct) ?? null : null,
+  }
   return {
+    card,
     path: P('project', String(p.id)),
     title: { en: projectQuestion(p), te: projectQuestionTe(p) },
+    tabTitle: projectTab(p),
     description: {
       en: `${p.t}: ${st2}, ${placeText(p, 'en')}.${p.c != null ? ` Cost as printed ${crore(p.c)}.` : ''} From ${paperOf(p)}, with the paper linked.`.slice(0, 300),
       te: `${p.t}: ${st?.te ?? p.st}, ${placeText(p, 'te')}.${p.c != null ? ` ముద్రించిన వ్యయం ${croreTe(p.c)}.` : ''} ఆధారం: ${paperOf(p)}.`.slice(0, 300),
@@ -100,6 +149,13 @@ function districtPage(d: (typeof districts)[number]): PageOut {
   for (const p of works.slice(0, 12)) lines.push({ text: { en: `${p.t} (${STATUS_WORDS[p.st]?.en ?? p.st})`, te: `${p.t} (${STATUS_WORDS[p.st]?.te ?? p.st})` }, href: P('project', String(p.id)) })
   lines.push({ text: { en: `${d.name} district paper`, te: `${d.te} జిల్లా పత్రిక` }, href: P('paper', d.slug) })
   return {
+    card: {
+      kind: 'place', tag: { en: 'District', te: 'జిల్లా' }, title: districtTitle(d),
+      line: works.length
+        ? { en: `${works.length} project records name this district.`, te: `ఈ జిల్లా పేరున్న పనుల రికార్డులు: ${works.length}.` }
+        : { en: 'Facts and official notices for this district.', te: 'ఈ జిల్లా గణాంకాలు, అధికారిక నోటీసులు.' },
+      source: { en: 'Government papers, each one linked', te: 'ప్రభుత్వ పత్రాలు, ప్రతిదీ లింక్‌తో' },
+    },
     path: P('district', d.slug),
     title: districtTitle(d),
     description: {
@@ -114,6 +170,11 @@ function districtPage(d: (typeof districts)[number]): PageOut {
 
 function paperPage(d: (typeof districts)[number]): PageOut {
   return {
+    card: {
+      kind: 'place', tag: { en: 'Daily district page', te: 'రోజువారీ జిల్లా పేజీ' }, title: paperTitle(d),
+      line: { en: 'Official notices, water, works and welfare, each with its source.', te: 'అధికారిక నోటీసులు, నీరు, పనులు, సంక్షేమం, ప్రతిదీ మూలంతో.' },
+      source: { en: 'Government notices, each one linked', te: 'ప్రభుత్వ నోటీసులు, ప్రతిదీ లింక్‌తో' },
+    },
     path: P('paper', d.slug),
     title: paperTitle(d),
     description: {
@@ -152,6 +213,29 @@ function claimPage(c: Claim): PageOut {
   }
 }
 
+/* ------------------------------------------------------------------ the project register as a dataset */
+const withLd = (page: PageOut, ...ld: object[]): PageOut => ({ ...page, ld })
+
+/** The register of project records, described for Google Dataset Search. It says only what the register is:
+ *  no licence and no download are claimed, because neither exists. */
+function datasetNode(): object {
+  const live = projects.filter((p) => !MERGED[p.id])
+  const first = live.map((p) => p.f).filter(Boolean).sort()[0]?.slice(0, 10)
+  const last = live.map((p) => p.l).filter((d): d is string => !!d && d <= TODAY).sort().at(-1)?.slice(0, 10)
+  return {
+    '@type': 'Dataset',
+    name: 'Andhra Pradesh government project records',
+    description: `${live.length} government project records for Andhra Pradesh, each with its status, cost as printed, physical progress and expected completion where a paper prints them, and the government paper every figure came from, linked. Compiled from MoSPI reports, AMRUT lists, state orders and other official papers.`,
+    url: ORIGIN + P('projects'),
+    isAccessibleForFree: true,
+    inLanguage: ['en', 'te'],
+    spatialCoverage: { '@type': 'Place', name: 'Andhra Pradesh, India' },
+    ...(first && last ? { temporalCoverage: `${first}/${last}` } : {}),
+    variableMeasured: ['Status in the record', 'Cost as printed (crore rupees)', 'Physical progress as printed (percent)', 'Expected completion as printed', 'District', 'Department', 'Source paper'],
+    creator: { '@id': ORIGIN + '/#org' },
+  }
+}
+
 /* ------------------------------------------------------------------ all of them */
 export function allPages(): PageOut[] {
   const big = largest(12).map((p): Line => ({ text: { en: `${p.t}: ${crore(p.c)} as printed`, te: `${p.t}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) }))
@@ -160,7 +244,7 @@ export function allPages(): PageOut[] {
   const out: PageOut[] = [
     staticPage('home', [...NAV]),
     staticPage('cards'),
-    staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big]),
+    withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big]), datasetNode()),
     staticPage('districts', dlinks),
     staticPage('money'), staticPage('money-departments'), staticPage('money-states'), staticPage('state-facts'),
     staticPage('investments'), staticPage('governments'),

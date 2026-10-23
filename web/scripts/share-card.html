@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- The share picture's template: drawn once per page and language by scripts/make_cards.py, which calls draw(spec).
+     1200 x 630, the size WhatsApp, Facebook, X and Google use. Fonts are the site's own. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Noto+Sans+Telugu:wght@400..800&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{font-family:'Geist','Noto Sans Telugu',sans-serif;color:#111114;background:#F4F3EF;position:relative}
+body.te{font-family:'Noto Sans Telugu','Geist',sans-serif}
+body.te *{letter-spacing:0!important;text-transform:none!important}
+.serif{font-family:'Source Serif 4','Noto Sans Telugu',serif}
+body.te .serif{font-family:'Noto Sans Telugu','Source Serif 4',serif}
+.mono{font-family:'Geist Mono','Noto Sans Telugu',monospace}
+.grid{position:absolute;inset:0;background-image:linear-gradient(#E6E4DE 1px,transparent 1px),linear-gradient(90deg,#E6E4DE 1px,transparent 1px);background-size:40px 40px;opacity:.55}
+.brand{position:absolute;left:64px;top:48px;display:flex;align-items:center;gap:14px;font-weight:700;font-size:26px;letter-spacing:-.01em;z-index:3}
+.mark{width:38px;height:38px;border-radius:10px;background:#2453D6;display:grid;place-items:center}
+.mark svg{width:24px;height:24px}
+.tag{position:absolute;right:64px;top:54px;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:#5F5F69;font-weight:500;z-index:3}
+body.te .tag{font-size:22px}
+.foot{position:absolute;left:64px;right:64px;bottom:44px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;font-size:22px;color:#3F3F48;z-index:3;border-top:2px solid #111114;padding-top:16px}
+.foot b{color:#111114;font-weight:700}
+.foot .src{min-width:0;font-size:20px;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.foot .url{font-weight:600;color:#2453D6;white-space:nowrap}
+.chip{display:inline-block;padding:7px 16px;border-radius:999px;font-size:22px;font-weight:600;border:2px solid #111114;margin:0 10px 10px 0;max-width:100%}
+.chip.fill{background:#2453D6;border-color:#2453D6;color:#fff}
+/* the project card */
+#proj{position:absolute;left:64px;right:64px;top:112px;height:394px;display:flex;gap:40px}
+#left{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:16px}
+#q{flex:1 1 0;min-height:0;overflow:hidden;padding-bottom:.14em;font-weight:700;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+body.te #q{line-height:1.3}
+body.te #big{line-height:1.5}
+#st{font-size:32px;line-height:1.3;color:#3F3F48}
+#st b{color:#2453D6}
+#chips{flex:none}
+#right{flex:none;width:500px;position:relative}
+#poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(17,17,20,.18))}
+#panel{position:absolute;inset:0;border:3px solid #111114;border-radius:20px;background:#fff;padding:24px 32px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+#panel .lab{font-size:19px;letter-spacing:.14em;color:#2453D6;text-transform:uppercase}
+#big{max-height:200px;font-weight:700;letter-spacing:-.04em;line-height:1.25;color:#2453D6;white-space:nowrap}
+#bigsub{font-size:24px;font-weight:600;line-height:1.3;margin-top:6px}
+#bar{height:22px;border-radius:11px;background:#E6E4DE;overflow:hidden;border:2px solid #111114;margin-top:14px}
+#bar i{display:block;height:100%;background:#2453D6}
+#where{font-size:21px;line-height:1.35;color:#3F3F48}
+#where .pl{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+#where .stl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#where b{color:#111114}
+/* the place card */
+#place{position:absolute;left:64px;right:64px;top:112px;height:394px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+#pt{flex:none;height:290px;display:flex;align-items:flex-end;overflow:hidden;padding-bottom:.14em;font-weight:700;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+body.te #pt{line-height:1.3}
+#pl{font-size:38px;line-height:1.3;color:#3F3F48;flex:none}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="brand"><div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></div><span id="brand"></span></div>
+<div class="tag" id="tag"></div>
+
+<div id="proj" hidden>
+  <div id="left">
+    <div id="q"></div>
+    <div id="st" class="serif"></div>
+    <div id="chips"></div>
+  </div>
+  <div id="right">
+    <img id="poster" alt="" hidden>
+    <div id="panel" hidden>
+      <div class="lab mono" id="plab"></div>
+      <div>
+        <div id="big"></div>
+        <div id="bigsub"></div>
+        <div id="bar" hidden><i></i></div>
+      </div>
+      <div id="where"></div>
+    </div>
+  </div>
+</div>
+
+<div id="place" hidden>
+  <div id="pt"></div>
+  <div id="pl" class="serif"></div>
+</div>
+
+<div class="foot"><span class="src" id="src"></span><span class="url">apfactcheck.dheeco.com</span></div>
+
+<script>
+const WORDS = {
+  en: { brand: 'AP Fact Check', paper: 'The paper says', progress: 'physical progress as printed', progressCap: 'Physical progress as printed', status: 'Status in the record', place: 'Place', due: 'Expected', cost: 'Cost as printed', src: 'Figures as printed. Source: ', stat: 'Status in the record' },
+  te: { brand: 'ఏపీ ఫ్యాక్ట్ చెక్', paper: 'పత్రం ప్రకారం', progress: 'ముద్రించిన భౌతిక పురోగతి', progressCap: 'ముద్రించిన భౌతిక పురోగతి', status: 'రికార్డులో స్థితి', place: 'ప్రాంతం', due: 'గడువు', cost: 'ముద్రించిన వ్యయం', src: 'అంకెలు పత్రంలో ముద్రించినట్టే. ఆధారం: ', stat: 'రికార్డులో స్థితి' },
+}
+const $ = (id) => document.getElementById(id)
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+// Shrink a text box's font until its text fits the box. Returns false when even the smallest size does not fit
+// (the text is then cut with an ellipsis, and the caller is told, so a cut headline is never a surprise).
+function fit(el, max, min, css = {}) {
+  let s = max
+  el.removeAttribute('style')   // nothing from the picture drawn before may carry over
+  Object.assign(el.style, css)
+  el.style.fontSize = s + 'px'
+  const over = () => el.scrollHeight > el.clientHeight + Math.max(3, s * 0.08) || el.scrollWidth > el.clientWidth + 6
+  while (over() && s > min) { s -= 2; el.style.fontSize = s + 'px' }
+  if (!over()) return true
+  const lh = parseFloat(getComputedStyle(el).lineHeight)
+  const lines = Math.max(1, Math.floor(el.clientHeight / lh))
+  el.style.display = '-webkit-box'; el.style.webkitBoxOrient = 'vertical'; el.style.webkitLineClamp = String(lines)
+  return false
+}
+
+// spec: one entry of specs.json (a card in one language); poster: a data: URL of the baked 3D picture, or null.
+window.draw = function (spec, poster) {
+  const w = WORDS[spec.lang]
+  document.body.className = spec.lang
+  document.documentElement.lang = spec.lang
+  $('brand').textContent = w.brand
+  $('tag').textContent = spec.tag
+  $('src').innerHTML = esc(w.src) + '<b>' + esc(spec.source) + '</b>'
+  $('proj').hidden = spec.kind !== 'project'
+  $('place').hidden = spec.kind !== 'place'
+  const ok = []
+  if (spec.kind === 'place') {
+    $('pt').textContent = spec.title
+    $('pl').textContent = spec.line
+    ok.push(fit($('pt'), 92, 36))
+  } else {
+    $('q').textContent = spec.title
+    const hasPoster = !!poster
+    const chips = []
+    if (spec.due) chips.push(`<span class="chip fill">${esc(w.due)}: ${esc(spec.due)}</span>`)
+    if (spec.cost) chips.push(`<span class="chip">${esc(w.cost)}: ${esc(spec.cost)}</span>`)
+    $('chips').innerHTML = chips.join('')
+    $('poster').hidden = !hasPoster
+    $('panel').hidden = hasPoster
+    if (hasPoster) {
+      $('poster').src = poster
+      // with the picture on the right, the status and the figure sit under the headline
+      $('st').hidden = false
+      $('st').innerHTML = esc(w.status) + ': <b>' + esc(spec.status) + '</b>.' + (spec.progress != null ? '<br>' + esc(w.progressCap) + ': <b>' + esc(spec.progress) + '%</b>' : '')
+    } else {
+      $('st').hidden = true
+      $('plab').textContent = w.paper
+      if (spec.progress != null) {
+        $('big').innerHTML = esc(spec.progress) + '<span style="font-size:.55em">%</span>'
+        $('bigsub').textContent = w.progress
+        $('bar').hidden = false
+        $('bar').firstElementChild.style.width = Math.max(0, Math.min(100, Number(spec.progress))) + '%'
+      } else {
+        $('big').textContent = spec.status
+        $('bigsub').textContent = w.status
+        $('bar').hidden = true
+      }
+      // a place that already starts with its own label ("District: still being checked ...") is shown as it is
+      const own = /^(District|జిల్లా):/.test(spec.place)
+      $('where').innerHTML = (spec.progress != null ? '<div class="stl">' + esc(w.status) + ': <b>' + esc(spec.status) + '</b></div>' : '') + '<div class="pl">' + (own ? '<b>' + esc(spec.place) + '</b>' : esc(w.place) + ': <b>' + esc(spec.place) + '</b>') + '</div>'
+      ok.push(fit($('big'), spec.progress != null ? 104 : 64, 36, { whiteSpace: spec.progress != null ? 'nowrap' : 'normal' }))
+    }
+    ok.push(fit($('q'), 76, 30))
+  }
+  return { fitted: ok.every(Boolean) }
+}
+</script>
+</body>
+</html>
