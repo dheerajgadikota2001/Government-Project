@@ -145,6 +145,14 @@ export function Dam({ readings, index, gauge = true, notes = true, className }: 
       notesG.selectAll('*').remove()
       if (notes && pct == null) {
         const [bx, by] = iso(L * 0.3, t, 0)
+        // The note sits to the left of the wall. On a narrow screen there is no room, and the text ran off the edge
+        // and printed over itself. The caption under the drawing already says the same in words, so the note is
+        // left out when it does not fit.
+        const one = te ? 'ఈ నివేదిక పని శాతం ముద్రించలేదు' : 'This report printed no share of work done'
+        const two = te ? 'ముద్రించిన ఖర్చు: ' + croreTe(r.spent) : 'It printed money spent: ' + crore(r.spent)
+        const need = Math.max(one.length * 12.4, two.length * 11.8) * (te ? 0.85 : 0.6) + 16
+        const room = (bx - 66 - minX) / k
+        if (room < need) return
         notesG.append('circle').attr('cx', bx).attr('cy', by).attr('r', 3).attr('fill', C.ink2)
         notesG.append('path').attr('d', `M${bx},${by}L${bx - 30},${by + 70}L${bx - 60},${by + 70}`).attr('stroke', C.ink2).attr('fill', 'none')
         text(notesG.append('text').attr('x', bx - 66).attr('y', by + 66).attr('text-anchor', 'end'), 20, 700, C.fg).text(te ? 'ఈ నివేదిక పని శాతం ముద్రించలేదు' : 'This report printed no share of work done')

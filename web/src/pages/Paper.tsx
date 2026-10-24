@@ -1,5 +1,6 @@
 import { paperTitle, useTitle } from '@/lib/titles'
 import * as React from 'react'
+import { PREVIEW } from '@/lib/preview'
 import { ArrowUpRight, ChevronDown, CloudRain, Droplets, Factory, HandHeart, HardHat, Info, Pause, ShowerHead, Volume2, Waves } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n'
@@ -450,8 +451,11 @@ export default function Paper({ slug }: { slug: string }) {
     <div className="mx-auto max-w-3xl px-4 pb-32 pt-6 md:pt-10">
       {ED.status === 'draft' ? (
         <p className="mb-4 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-[13.5px] leading-snug text-amber-900 dark:text-amber-200" lang={L}>
-          {tr('Draft edition, waiting for approval. It is shown here so the owner can check it. Readers will see it only after it is approved.',
-            'ఇది ముసాయిదా సంచిక; ఆమోదం కోసం వేచి ఉంది. యజమాని పరిశీలించడానికి మాత్రమే ఇక్కడ చూపుతున్నాం. ఆమోదించాకే పాఠకులకు కనిపిస్తుంది.')}
+          {PREVIEW
+            ? tr('Draft edition, waiting for approval. It is shown here so the owner can check it. Readers will see it only after it is approved.',
+              'ఇది ముసాయిదా సంచిక; ఆమోదం కోసం వేచి ఉంది. యజమాని పరిశీలించడానికి మాత్రమే ఇక్కడ చూపుతున్నాం. ఆమోదించాకే పాఠకులకు కనిపిస్తుంది.')
+            : tr('A person has not yet checked this edition line by line. Every item names its official source.',
+              'ఈ సంచికను ఇంకా ఒక వ్యక్తి లైన్ లైన్‌గా సరిచూడలేదు. ప్రతి అంశం తన అధికారిక మూలాన్ని చూపుతుంది.')}
         </p>
       ) : null}
 

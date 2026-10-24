@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { PREVIEW } from '@/lib/preview'
 import {
   Building2, ChevronDown, FileText, HandCoins, Home, Landmark, Languages, Layers, MapPin, Menu, Phone, Scale, Search, CalendarRange,
 } from 'lucide-react'
@@ -304,9 +305,9 @@ function Footer() {
           <p className="text-[14px] leading-relaxed text-muted-foreground">{tr('An independent, free site. We collect what the government’s own papers say and show them so anyone can check a claim. We are not a government site and we take no side.',
             'స్వతంత్ర, ఉచిత సైట్. ప్రభుత్వ పత్రాలు ఏం చెబుతున్నాయో సేకరించి, ఎవరైనా ఒక మాటను సరిచూసుకునేలా చూపిస్తాం. ఇది ప్రభుత్వ సైట్ కాదు; మేము ఏ పక్షమూ వహించం.')}</p>
           <p className="text-[12.5px] text-muted-foreground">{lang === 'te'
-            ? <span lang="te">ప్రాజెక్టు రికార్డు {dateTe(meta.register_updated)}న నవీకరించాం. ఇది డిజైన్ సమీక్ష కోసం ప్రివ్యూ, {dateTe(meta.asof)} నాటి లైవ్ రికార్డుపై నిర్మించాం.</span>
-            : <>Project record updated {dateLong(meta.register_updated)}. A preview for design review, built on the live record of {dateLong(meta.asof)}.</>}</p>
-          <button type="button" onClick={openDesign} className="text-[12.5px] font-medium text-muted-foreground underline underline-offset-4 hover:text-foreground">{tr('For review: the design options', 'సమీక్ష కోసం: డిజైన్ ఎంపికలు')}</button>
+            ? <span lang="te">ప్రాజెక్టు రికార్డు {dateTe(meta.register_updated)}న నవీకరించాం.{PREVIEW ? ` ఇది డిజైన్ సమీక్ష కోసం ప్రివ్యూ, ${dateTe(meta.asof)} నాటి లైవ్ రికార్డుపై నిర్మించాం.` : ''}</span>
+            : <>Project record updated {dateLong(meta.register_updated)}.{PREVIEW ? ` A preview for design review, built on the live record of ${dateLong(meta.asof)}.` : ''}</>}</p>
+          {PREVIEW ? <button type="button" onClick={openDesign} className="text-[12.5px] font-medium text-muted-foreground underline underline-offset-4 hover:text-foreground">{tr('For review: the design options', 'సమీక్ష కోసం: డిజైన్ ఎంపికలు')}</button> : null}
         </div>
         <div className="grid gap-8 sm:grid-cols-3">
           {groups.map((g) => (
