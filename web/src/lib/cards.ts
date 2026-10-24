@@ -82,22 +82,23 @@ function tendersCard(sum: TenderSummary | null | undefined): FactCard | null {
 function schoolsCard(): FactCard | null {
   const dep = (money.departments as any[]).find((d) => d.no === 'XII')
   if (!dep) return null
-  const years = [...new Set(dep.rows.map((r: any) => r.year))] as string[]
-  const get = (y: string, s: string) => dep.rows.find((r: any) => r.year === y && r.stage === s)
-  const y = [...years].reverse().find((yy) => get(yy, 'Actual') && get(yy, 'BE'))
+  // rows are compact: y year, s stage ('BE', 'RE', 'A'), t gross total (see scripts/prep_departments.py)
+  const years = ([...new Set(dep.rows.map((r: any) => r.y))] as string[]).sort()
+  const get = (y: string, s: string) => dep.rows.find((r: any) => r.y === y && r.s === s)
+  const y = [...years].reverse().find((yy) => get(yy, 'A')?.t != null && get(yy, 'BE')?.t != null)
   if (!y) return null
-  const be = get(y, 'BE').total_crore as number
-  const a = get(y, 'Actual')
+  const be = get(y, 'BE').t as number
+  const a = get(y, 'A')
   return {
     id: 'schools', kind: 'picture',
     topic: bi('Money', 'డబ్బు'),
     title: bi(`School Education, ${y}`, `పాఠశాల విద్య, ${y}`),
     picture: [
       { label: bi('Planned', 'ప్రణాళిక'), value: be, text: bi(crore(be), croreTe(be)), style: 'plan' },
-      { label: bi('Spent', 'ఖర్చు'), value: a.total_crore, text: bi(crore(a.total_crore), croreTe(a.total_crore)), style: 'spent' },
+      { label: bi('Spent', 'ఖర్చు'), value: a.t, text: bi(crore(a.t), croreTe(a.t)), style: 'spent' },
     ],
     line: bi('Both bars on one scale.', 'రెండూ ఒకే కొలతపై.'),
-    paper: { label: 'AP budget books, Demand XII', url: a.source_url },
+    paper: { label: 'AP budget books, Demand XII', url: (money.dept_books as Record<string, string>)?.[a.src] },
     href: 'money-departments',
   }
 }

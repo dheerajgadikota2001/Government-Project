@@ -374,12 +374,12 @@ finsrc = {k: {kk: v.get(kk) for kk in ('label', 'title', 'publisher', 'url', 'da
 three = fin['composition']['cag_three_way']
 money_page = {'series': series, 'sources': finsrc,
               'cag_parts': {'label': 'Audited parts of the debt, as the CAG prints them', 'years': three['years']}}
+# Department rows go out compact, each paper's address once (scripts/prep_departments.py).
+from prep_departments import compact as compact_departments
 dept = load(f'{LIVE}/departments.json')
-departments = []
-for d in dept['departments']:
-    rows = [{k: r.get(k) for k in ('year', 'stage', 'total_crore', 'source_url', 'page')} for r in d['rows']]
-    departments.append({'no': d['demand_no'], 'name': d['department'], 'rows': rows})
+departments, dept_books = compact_departments(dept['departments'])
 money_page['departments'] = departments
+money_page['dept_books'] = dict(sorted(dept_books.items()))
 money_page['states'] = old['states']
 # What the state earns and what interest takes (Form F-1), and what the Assembly voted against what was spent
 # (Appropriation Accounts). Printed amounts only: the API's own shares (interest_pct_of_revenue, pct_spent) stay out.
