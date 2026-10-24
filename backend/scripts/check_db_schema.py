@@ -33,6 +33,8 @@ MIGRATION_TABLES = {
     "0011": [],   # two tender indexes, no table
     "0012": [],   # refresh-log enum labels, no table
     "0013": ["district_editions"],
+    "0014": [],   # moves CAG file links to CAG's new file store, no table
+    "0015": [],   # adds the STATE_ACCOUNTS and LAW document kinds, no table
 }
 
 

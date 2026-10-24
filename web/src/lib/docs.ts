@@ -39,6 +39,8 @@ const KINDS: Record<string, Kind> = {
   policy: { en: 'Policy', te: 'విధానం', what: { en: 'A policy sets out what the government says it will do and offer in one sector. It states an intention. It is not a record of results.', te: 'ఒక రంగంలో ప్రభుత్వం ఏం చేస్తామని, ఏం అందిస్తామని చెబుతున్నదో విధానం తెలుపుతుంది. అది ఉద్దేశం మాత్రమే, ఫలితాల రికార్డు కాదు.' } },
   annual_report: { en: 'Annual report or survey', te: 'వార్షిక నివేదిక లేదా సర్వే', what: { en: 'A yearly report or survey published by the state, with its official figures for the year.', te: 'రాష్ట్రం ప్రచురించే వార్షిక నివేదిక లేదా సర్వే; ఆ ఏడాది అధికారిక అంకెలు ఉంటాయి.' } },
   white_paper: { en: 'White paper', te: 'శ్వేతపత్రం', what: { en: 'A white paper is a government document that sets out the facts, or the government’s position, on one subject.', te: 'ఒక అంశంపై వాస్తవాలను లేదా ప్రభుత్వ వైఖరిని తెలిపే ప్రభుత్వ పత్రం శ్వేతపత్రం.' } },
+  state_accounts: { en: 'State accounts (CAG)', te: 'రాష్ట్ర ఖాతాలు (కాగ్)', what: { en: 'The state government’s accounts, compiled and certified by the Comptroller and Auditor General of India (CAG). They record the money actually received and spent, not plans.', te: 'కంప్ట్రోలర్ అండ్ ఆడిటర్ జనరల్ ఆఫ్ ఇండియా (కాగ్) తయారు చేసి ధ్రువీకరించిన రాష్ట్ర ప్రభుత్వ ఖాతాలు. ఇవి ప్రణాళికలు కావు; నిజంగా వచ్చిన, ఖర్చయిన డబ్బును నమోదు చేస్తాయి.' } },
+  law: { en: 'Law or rules', te: 'చట్టం లేదా నియమాలు', what: { en: 'An Act passed by the legislature, or the rules made under it. It sets what the government must do.', te: 'శాసనసభ ఆమోదించిన చట్టం, లేదా దాని కింద చేసిన నియమాలు. ప్రభుత్వం ఏం చేయాలో అది నిర్దేశిస్తుంది.' } },
   government_order: { en: 'Government order', te: 'ప్రభుత్వ ఉత్తర్వు', what: { en: 'A Government Order (GO) is a written order issued by a department of the state.', te: 'ప్రభుత్వ ఉత్తర్వు (జీఓ) అంటే రాష్ట్రంలోని ఒక శాఖ జారీ చేసే లిఖితపూర్వక ఉత్తర్వు.' } },
   // from our own list of papers (papers.json)
   'Demands for Grants': { en: 'Demands for Grants', te: 'గ్రాంట్ల డిమాండ్లు', what: { en: 'Demands for Grants list, department by department, the money the government asks the Assembly to approve for the year.', te: 'గ్రాంట్ల డిమాండ్లు శాఖల వారీగా, ఆ ఏడాదికి శాసనసభ ఆమోదం కోసం ప్రభుత్వం కోరే మొత్తాలను చూపుతాయి.' } },
@@ -60,7 +62,7 @@ const KINDS: Record<string, Kind> = {
 }
 
 /** The register kinds that get a page of their own. */
-export const REGISTER_KINDS_WITH_PAGE = ['budget', 'audit_report', 'policy', 'annual_report', 'white_paper', 'government_order']
+export const REGISTER_KINDS_WITH_PAGE = ['budget', 'audit_report', 'state_accounts', 'law', 'policy', 'annual_report', 'white_paper', 'government_order']
 
 /* ------------------------------------------------------------------ the records */
 export type DocRec = {
