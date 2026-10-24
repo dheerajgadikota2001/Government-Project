@@ -23,7 +23,8 @@ import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
 import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
-import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectQuestionTe, projectTabBase, type Bi } from '@/lib/titles'
+import { docDescription, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
+import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectQuestionTe, projectTabBase, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
 export { TODAY }
@@ -213,6 +214,58 @@ function claimPage(c: Claim): PageOut {
   }
 }
 
+/* ------------------------------------------------------------------ one government paper, one investment summit */
+const factLines = (facts: ReturnType<typeof docFacts>): Line[] =>
+  facts.map((f) => ({ text: { en: `${f.label.en}: ${f.value.en}`, te: `${f.label.te}: ${f.value.te}` }, href: f.href, external: f.external }))
+
+function docPage(d: DocRec): PageOut {
+  const k = kindOf(d)
+  const lines: Line[] = [...factLines(docFacts(d)), { text: k.what }]
+  for (const s of docSiblings(d)) lines.push({ text: same(s.title), href: P('doc', s.slug) })
+  const t = docTitle(d)
+  return {
+    card: {
+      kind: 'place', tag: { en: k.en, te: k.te }, title: same(shortName(d.title, 52)),
+      line: { en: d.period ? `${d.publisher || 'Government paper'}, ${d.period}.` : `${d.publisher || 'Government paper'}.`, te: d.period ? `${d.publisher || 'ప్రభుత్వ పత్రం'}, ${d.period}.` : `${d.publisher || 'ప్రభుత్వ పత్రం'}.` },
+      source: same(d.publisher || 'Government of Andhra Pradesh'),
+    },
+    path: P('doc', d.slug),
+    title: t,
+    tabTitle: docTab(d),
+    description: docDescription(d),
+    ld: [{
+      '@type': 'Report',
+      name: t.en,
+      url: ORIGIN + P('doc', d.slug),
+      sameAs: d.url,
+      about: 'Andhra Pradesh',
+      ...(d.publisher ? { publisher: { '@type': 'Organization', name: d.publisher } } : {}),
+      ...(d.date ? { datePublished: d.date } : {}),
+      inLanguage: d.language === 'Telugu' ? 'te' : 'en',
+    }],
+    lines,
+    trail: [{ name: PAGE_WORDS.papers.title, path: P('papers') }],
+    lastmod: d.checked && d.checked <= TODAY ? d.checked.slice(0, 10) : d.date && d.date <= TODAY ? d.date.slice(0, 10) : TODAY,
+  }
+}
+
+function summitPage(s: (typeof summits)[number]): PageOut {
+  const t = summitTitle(s)
+  return {
+    card: {
+      kind: 'place', tag: { en: 'Investment summit', te: 'పెట్టుబడుల సదస్సు' }, title: summitName(s),
+      line: { en: `${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} announced. A promise, not money spent.`, te: `${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} ప్రకటించారు. హామీ మాత్రమే, ఖర్చు కాదు.` },
+      source: { en: 'The state’s own paper is linked', te: 'రాష్ట్ర పత్రం లింక్ చేశాం' },
+    },
+    path: P('summit', s.key),
+    title: t,
+    description: summitDescription(s),
+    lines: factLines(summitFacts(s)),
+    trail: [{ name: PAGE_WORDS.investments.title, path: P('investments') }],
+    lastmod: s.end_date <= TODAY ? s.end_date.slice(0, 10) : TODAY,
+  }
+}
+
 /* ------------------------------------------------------------------ the project register as a dataset */
 const withLd = (page: PageOut, ...ld: object[]): PageOut => ({ ...page, ld })
 
@@ -241,20 +294,24 @@ export function allPages(): PageOut[] {
   const big = largest(12).map((p): Line => ({ text: { en: `${p.t}: ${crore(p.c)} as printed`, te: `${p.t}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) }))
   const dlinks = districts.map((d): Line => ({ text: { en: d.name, te: d.te }, href: P('district', d.slug) }))
   const clinks = claims.map((c): Line => ({ text: CLAIM_Q[c.slug] ?? same(c.question), href: P('claim', c.slug) }))
+  const paperLinks = [...docRecs.filter((d) => d.src === 'paper'), ...docRecs.filter((d) => d.src === 'register').sort((a, b) => (b.year ?? 0) - (a.year ?? 0)).slice(0, 40)]
+    .map((d): Line => ({ text: docTab(d), href: P('doc', d.slug) }))
   const out: PageOut[] = [
     staticPage('home', [...NAV]),
     staticPage('cards'),
     withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big]), datasetNode()),
     staticPage('districts', dlinks),
     staticPage('money'), staticPage('money-departments'), staticPage('money-states'), staticPage('state-facts'),
-    staticPage('investments'), staticPage('governments'),
+    staticPage('investments', summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))), staticPage('governments'),
     staticPage('claims', clinks),
-    staticPage('papers'), staticPage('tenders'), staticPage('updates'), staticPage('helplines'), staticPage('words'),
+    staticPage('papers', paperLinks), staticPage('tenders'), staticPage('updates'), staticPage('helplines'), staticPage('words'),
     staticPage('community'), staticPage('sources'), staticPage('about'), staticPage('disclaimer'), staticPage('privacy'),
   ]
   for (const p of projects) if (!MERGED[p.id]) out.push(projectPage(p))
   for (const d of districts) { out.push(districtPage(d)); out.push(paperPage(d)) }
   for (const c of claims) out.push(claimPage(c))
+  for (const d of docRecs) out.push(docPage(d))
+  for (const s of summits) out.push(summitPage(s))
   return out
 }
 
