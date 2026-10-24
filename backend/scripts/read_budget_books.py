@@ -15,8 +15,11 @@ gives the revised estimate of Y-1 and the spending (Accounts) of Y-2. The 2016-1
 book prints no Accounts column, so the spending of 2014-15 comes from CAG's
 Appropriation Accounts for 2014-15, which print it by section.
 
-The same Appropriation Accounts, for every year whose text layer is readable, are
-an independent check on the Accounts column of the books.
+The same Appropriation Accounts are an independent check on the Accounts column
+of the books. Two of them, 2016-17 and 2021-22, print correctly but carry no text
+a program can read. Those are read from a copy whose fonts were given their
+letters back from a glyph map checked by eye (app/scrapers/font_repair.py, maps
+in app/scrapers/glyph_maps/). Their rows pass the same checks as every other year.
 
 WHAT COUNTS AS VERIFIED
 
@@ -53,6 +56,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from app.scrapers.appropriation_accounts import read_summary, readable  # noqa: E402
+from app.scrapers import font_repair, positional_text  # noqa: E402
 from app.scrapers.budget_demands import page_texts, read_volume  # noqa: E402
 
 SEED = ROOT / "seed" / "departments_seed.json"
@@ -81,6 +85,16 @@ AA_FILES = {
     "2023-24": "account-report-Appropriation-accounts-2023-24-06734a2d242ea69-40544853.pdf",
     "2024-25": "account-report-Appropriation-Accounts-2024-25-069aadb2aa51e12-42366863.pdf",
 }
+# CAG books whose text layer cannot be read: the glyph map that gives their fonts their letters
+# back, and how the page text is then made. The 2016-17 fonts declare every glyph one em wide,
+# so their word gaps are found from where each glyph sits (positional_text); the 2021-22 fonts
+# have true widths, and pdftotext reads the repaired copy as it reads any other year.
+REPAIRED = {
+    "2016-17": ("AA_2016-17.json", "positions"),
+    "2021-22": ("AA_2021-22.json", "pdftotext"),
+}
+READ_FROM_REPAIR = ("CAG's file carries no readable text, so it was read from a copy whose fonts were given "
+                    "their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.")
 CHECK_WORDS = {
     "A": "gross total minus recoveries equals the net total",
     "B": "charged plus voted equals the total",
@@ -165,8 +179,17 @@ def read(cache: Path):
             problems += p
         print(b, "sections", sum(1 for s in sections if s["book"] == b), "%.0fs" % (time.time() - t0), flush=True)
     for y in AA_FILES:
-        texts = page_texts(cache / "cag" / ("AA_%s.pdf" % y))
-        aa[y] = {"readable": readable(texts), "rows": read_summary(texts, y) if readable(texts) else []}
+        src = cache / "cag" / ("AA_%s.pdf" % y)
+        if y in REPAIRED:
+            name, how = REPAIRED[y]
+            fixed = cache / "cag" / ("AA_%s.repaired.pdf" % y)
+            if not fixed.exists():
+                font_repair.repair(src, fixed, font_repair.load_map(name))
+            texts = positional_text.page_texts(fixed) if how == "positions" else page_texts(fixed)
+        else:
+            texts = page_texts(src)
+        aa[y] = {"readable": readable(texts), "rows": read_summary(texts, y) if readable(texts) else [],
+                 "repaired": y in REPAIRED}
         print("CAG", y, "rows", len(aa[y]["rows"]), "" if aa[y]["readable"] else "(text layer not readable)", flush=True)
     out = {"sections": sections, "problems": problems, "appropriation_accounts": aa}
     (cache / "readings.json").write_text(json.dumps(out, indent=1))
@@ -427,10 +450,11 @@ def cag_check(dem, year, gross_lakh, aa_ok, aa_tot, aa_rows):
     if dem == "IX":
         return {"result": "not compared", "why": "this demand carries public debt, which the two papers treat differently", "url": url}
     rows = aa_rows.get((year, dem), [])
+    how = {"how": READ_FROM_REPAIR} if year in REPAIRED else {}
     if not rows or any(r["attribution"] == "not confirmed" for r in rows):
-        return {"result": "not compared", "why": "CAG's rows for this grant could not all be confirmed", "url": url}
+        return {"result": "not compared", "why": "CAG's rows for this grant could not all be confirmed", "url": url, **how}
     a = aa_tot[(year, dem)]
-    res = {"cag_lakh": str(a), "url": url, "pdf_page": rows[0]["pdf_page"]}
+    res = {"cag_lakh": str(a), "url": url, "pdf_page": rows[0]["pdf_page"], **how}
     if abs(a - gross_lakh) <= D("0.10"):
         res["result"] = "matches"
     else:
@@ -465,7 +489,6 @@ def fix_be(dem, row, checked):
     if not res or "gross" not in res:
         return
     be = res["gross"]["columns"][-1]["lakh"]
-    exact = D(be) / 100
     if same_as_site(be, row["total_crore"]):
         rounded = crore(be)
         if rounded != row["total_crore"]:
@@ -511,8 +534,9 @@ CAVEATS = [
              "Most match to within Rs 10,000, and some more agree to within 0.1 per cent. Where they differ by more, the difference "
              "often comes in pairs: money shown under one demand "
              "in CAG's accounts and under a related demand in the later book, which restates old accounts in its own demand "
-             "structure. Both figures are shown. CAG's files for 2016-17 and 2021-22 have no readable text, so those two years "
-             "are not compared, and Demand IX is not compared because the two papers treat public debt differently."},
+             "structure. Both figures are shown. CAG's files for 2016-17 and 2021-22 print correctly but carry no readable text; "
+             "they were read from copies whose fonts were given their letters back, and their rows pass the same checks. "
+             "Demand IX is not compared because the two papers treat public debt differently."},
 ]
 
 SOURCES = [

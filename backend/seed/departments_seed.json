@@ -499,8 +499,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "11158.06",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -7.95,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 109.15,
+        "printed": "1,09,15,11"
+       },
+       {
+        "label": "Revenue, charged",
+        "crore": 2.43,
+        "printed": "2,42,95"
+       }
+      ]
      }
     },
     {
@@ -920,8 +936,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "10299.25",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -1470,8 +1489,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "2006.56",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -1632,23 +1654,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "3024.76",
+      "cag_lakh": "2071.58",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 10,
-      "result": "differs",
-      "difference_crore": -9.53,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 20.72,
-        "printed": "20,71,58"
-       },
-       {
-        "label": "Revenue, charged",
-        "crore": 9.53,
-        "printed": "9,53,18"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -1897,8 +1906,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "3958.30",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -2477,8 +2489,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "61094.00",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -23.67,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 587.15,
+        "printed": "5,87,14,63"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 23.79,
+        "printed": "23,79,37"
+       }
+      ]
      }
     },
     {
@@ -2933,8 +2961,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "78420.30",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -3506,8 +3537,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "27317.03",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -3975,8 +4009,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "79493.42",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -4602,8 +4639,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "361216.13",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -4783,11 +4823,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "442782.62",
+      "cag_lakh": "442781.62",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 10,
       "result": "close",
-      "difference_crore": 0.15,
+      "difference_crore": 0.16,
       "parts": [
        {
         "label": "Revenue, voted",
@@ -4796,8 +4836,8 @@
        },
        {
         "label": "Revenue, charged",
-        "crore": 0.01,
-        "printed": "1,00"
+        "crore": 0.0,
+        "printed": "…"
        },
        {
         "label": "Capital, voted",
@@ -5088,8 +5128,34 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "560335.93",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 19.74,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 4237.88,
+        "printed": "42,37,88,22"
+       },
+       {
+        "label": "Revenue, charged",
+        "crore": 4.39,
+        "printed": "4,39,30"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 361.08,
+        "printed": "3,61,08,41"
+       },
+       {
+        "label": "Loans, voted",
+        "crore": 1000.0,
+        "printed": "10,00,00,00"
+       }
+      ]
      }
     },
     {
@@ -5705,8 +5771,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "30784.50",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -6111,8 +6180,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "11374.94",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -6669,8 +6741,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "32138.19",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -7067,8 +7142,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "33836.37",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -7617,8 +7695,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "12474.30",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -8013,8 +8094,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "14746.99",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 10,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -8586,7 +8670,8 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
+      "result": "not compared",
+      "why": "this demand carries public debt, which the two papers treat differently",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
      }
     },
@@ -8991,7 +9076,8 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
+      "result": "not compared",
+      "why": "this demand carries public debt, which the two papers treat differently",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
      }
     },
@@ -9571,8 +9657,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "472651.91",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -10051,8 +10140,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "702177.19",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -10684,8 +10776,39 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "377391.94",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 23.67,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 1284.2,
+        "printed": "12,84,20,32"
+       },
+       {
+        "label": "Revenue, charged",
+        "crore": 0.0,
+        "printed": "..."
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 2328.16,
+        "printed": "23,28,15,91"
+       },
+       {
+        "label": "Capital, charged",
+        "crore": 0.42,
+        "printed": "41,71"
+       },
+       {
+        "label": "Loans, voted",
+        "crore": 161.14,
+        "printed": "1,61,14,00"
+       }
+      ]
      }
     },
     {
@@ -10875,33 +10998,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "282958.44",
+      "cag_lakh": "282953.44",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 11,
-      "result": "close",
-      "difference_crore": -0.05,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 1741.18,
-        "printed": "17,41,18,37"
-       },
-       {
-        "label": "Revenue, charged",
-        "crore": 0.05,
-        "printed": "5,00"
-       },
-       {
-        "label": "Capital, voted",
-        "crore": 1087.6,
-        "printed": "10,87,60,22"
-       },
-       {
-        "label": "Capital, charged",
-        "crore": 0.75,
-        "printed": "74,85"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -11178,8 +11278,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "557784.08",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -11779,8 +11882,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "1499537.61",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -12209,8 +12315,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "2351375.18",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -12791,8 +12900,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "180670.36",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -13216,8 +13328,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "192934.83",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -13779,8 +13894,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "65861.68",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -14189,8 +14307,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "58187.86",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 11,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -14774,8 +14895,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "28511.76",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -15163,8 +15287,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "9713.69",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -15782,8 +15909,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "633163.16",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -16239,8 +16369,29 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "1157503.73",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": 0.24,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 10427.13,
+        "printed": "1,04,27,13,00"
+       },
+       {
+        "label": "Revenue, charged",
+        "crore": 0.01,
+        "printed": "1,18"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 1147.9,
+        "printed": "11,47,89,55"
+       }
+      ]
      }
     },
     {
@@ -16900,8 +17051,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "507321.34",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -17315,8 +17469,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "611888.00",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -17907,8 +18064,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "58913.02",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -18316,8 +18476,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "300628.56",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -18870,8 +19033,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "12585.94",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -19028,23 +19194,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "18715.33",
+      "cag_lakh": "18415.33",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 12,
-      "result": "differs",
-      "difference_crore": -3.0,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 184.15,
-        "printed": "1,84,15,33"
-       },
-       {
-        "label": "Capital, voted",
-        "crore": 3.0,
-        "printed": "3,00,00"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -19278,8 +19431,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "22076.29",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -19829,8 +19985,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "30440.44",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -20265,8 +20424,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "30755.72",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -20841,8 +21003,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "253142.27",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -5.5,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 2336.98,
+        "printed": "23,36,98,09"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 194.44,
+        "printed": "1,94,44,18"
+       }
+      ]
      }
     },
     {
@@ -21279,8 +21457,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "445854.02",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": 0.02,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 4393.71,
+        "printed": "43,93,70,63"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 64.83,
+        "printed": "64,83,39"
+       }
+      ]
      }
     },
     {
@@ -21894,8 +22088,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "121985.39",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -22292,8 +22489,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "199931.81",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 12,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -22857,8 +23057,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "411767.66",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -23281,8 +23484,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "1591944.52",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 35.04,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 15894.12,
+        "printed": "1,58,94,12,05"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 25.32,
+        "printed": "25,32,47"
+       }
+      ]
      }
     },
     {
@@ -23866,8 +24085,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "63533.37",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 5.5,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 635.33,
+        "printed": "6,35,33,37"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 0.0,
+        "printed": "..."
+       }
+      ]
      }
     },
     {
@@ -24316,8 +24551,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "104827.94",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": 0.19,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 1047.08,
+        "printed": "10,47,07,96"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 1.2,
+        "printed": "1,19,98"
+       }
+      ]
      }
     },
     {
@@ -24920,8 +25171,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "155114.96",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -25091,9 +25345,23 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "not compared",
-      "why": "CAG's rows for this grant could not all be confirmed",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf"
+      "cag_lakh": "205992.08",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
+      "pdf_page": 13,
+      "result": "close",
+      "difference_crore": 0.0,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 2010.81,
+        "printed": "20,10,81,37"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 49.11,
+        "printed": "49,10,71"
+       }
+      ]
      }
     },
     {
@@ -25356,8 +25624,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "322591.46",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": -0.21,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 3204.12,
+        "printed": "32,04,12,01"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 21.79,
+        "printed": "21,79,45"
+       }
+      ]
      }
     },
     {
@@ -25898,8 +26182,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "17648.47",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -26057,9 +26344,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "not compared",
-      "why": "CAG's rows for this grant could not all be confirmed",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf"
+      "cag_lakh": "14281",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
+      "pdf_page": 13,
+      "result": "matches"
      }
     },
     {
@@ -26304,8 +26592,19 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "11066.9",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -35.04,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 110.67,
+        "printed": "1,10,66,90"
+       }
+      ]
      }
     },
     {
@@ -26872,8 +27171,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "660135.68",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": 1.43,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 6515.44,
+        "printed": "65,15,43,75"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 85.92,
+        "printed": "85,91,93"
+       }
+      ]
      }
     },
     {
@@ -27310,8 +27625,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "765360.69",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 37.92,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 7449.36,
+        "printed": "74,49,35,51"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 204.25,
+        "printed": "2,04,25,18"
+       }
+      ]
      }
     },
     {
@@ -27921,8 +28252,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "123572.77",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -28321,8 +28655,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "99625.65",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -28899,8 +29236,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "30529.58",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -23.37,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 303.9,
+        "printed": "3,03,89,56"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 1.4,
+        "printed": "1,40,02"
+       }
+      ]
      }
     },
     {
@@ -29312,8 +29665,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "40523.17",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -29864,8 +30220,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "12624.3",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -30022,28 +30381,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "23348.28",
+      "cag_lakh": "18952.86",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 14,
-      "result": "differs",
-      "difference_crore": -43.95,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 187.44,
-        "printed": "1,87,43,75"
-       },
-       {
-        "label": "Capital, voted",
-        "crore": 2.09,
-        "printed": "2,09,11"
-       },
-       {
-        "label": "Loans, voted",
-        "crore": 43.95,
-        "printed": "43,95,42"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -30280,8 +30621,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "52246.13",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 13,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -30866,8 +31210,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "580231.48",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -31332,8 +31679,24 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "898217.67",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -19.74,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 7094.61,
+        "printed": "70,94,60,74"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 1887.57,
+        "printed": "18,87,56,93"
+       }
+      ]
      }
     },
     {
@@ -31964,8 +32327,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "1283215.5",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -32375,8 +32741,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "484550.02",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -32982,8 +33351,29 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "886451.17",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "close",
+      "difference_crore": 1.0,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 578.31,
+        "printed": "5,78,30,57"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 8260.19,
+        "printed": "82,60,18,80"
+       },
+       {
+        "label": "Capital, charged",
+        "crore": 26.02,
+        "printed": "26,01,80"
+       }
+      ]
      }
     },
     {
@@ -33437,8 +33827,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "767153.51",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -34046,8 +34439,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "180175.53",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -34226,28 +34622,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "282394.59",
+      "cag_lakh": "282264.73",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 14,
-      "result": "close",
-      "difference_crore": -1.3,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 94.43,
-        "printed": "94,43,46"
-       },
-       {
-        "label": "Capital, voted",
-        "crore": 2728.21,
-        "printed": "27,28,21,27"
-       },
-       {
-        "label": "Capital, charged",
-        "crore": 1.3,
-        "printed": "1,29,86"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -34490,8 +34868,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "44187.59",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -35090,8 +35471,29 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "1184180.33",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 14.0,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 11605.43,
+        "printed": "1,16,05,43,05"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 119.94,
+        "printed": "1,19,94,30"
+       },
+       {
+        "label": "Loans, voted",
+        "crore": 116.43,
+        "printed": "1,16,42,98"
+       }
+      ]
      }
     },
     {
@@ -35556,8 +35958,29 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "1173156.85",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": -153.24,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 10903.4,
+        "printed": "1,09,03,39,58"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 92.73,
+        "printed": "92,73,41"
+       },
+       {
+        "label": "Loans, voted",
+        "crore": 735.44,
+        "printed": "7,35,43,86"
+       }
+      ]
      }
     },
     {
@@ -36175,8 +36598,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "71134.46",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -36654,8 +37080,29 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "133348.43",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "differs",
+      "difference_crore": 119.7,
+      "parts": [
+       {
+        "label": "Revenue, voted",
+        "crore": 972.38,
+        "printed": "9,72,37,90"
+       },
+       {
+        "label": "Capital, voted",
+        "crore": 188.34,
+        "printed": "1,88,34,05"
+       },
+       {
+        "label": "Loans, voted",
+        "crore": 172.76,
+        "printed": "1,72,76,48"
+       }
+      ]
      }
     },
     {
@@ -37296,8 +37743,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "11143.50",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -37694,8 +38144,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "11394.91",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 14,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -38260,8 +38713,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "260452.94",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -38419,23 +38875,10 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "cag_lakh": "69770.94",
+      "cag_lakh": "69768.94",
       "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-897-05fc9e2d600d7b6-90510120.pdf",
       "pdf_page": 15,
-      "result": "close",
-      "difference_crore": -0.02,
-      "parts": [
-       {
-        "label": "Revenue, voted",
-        "crore": 697.69,
-        "printed": "6,97,68,94"
-       },
-       {
-        "label": "Capital, voted",
-        "crore": 0.02,
-        "printed": "2,00"
-       }
-      ]
+      "result": "matches"
      }
     },
     {
@@ -38672,8 +39115,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "79024.21",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -39223,8 +39669,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "33033.92",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -39614,8 +40063,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "10683.11",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -40170,8 +40622,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF"
+      "cag_lakh": "153.21",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/AP_Appropriation_Accounts_2016_17.PDF",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -40559,8 +41014,11 @@
       "the book's budget estimate on the same row equals Volume I/2"
      ],
      "cag_check": {
-      "result": "CAG's file has no readable text",
-      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf"
+      "cag_lakh": "111.25",
+      "url": "https://d1jmc0u14z2tmp.cloudfront.net/uploads/state_accounts_report/account-report-Appropriation-Accounts-2021-22-0641db220000320-07132641.pdf",
+      "pdf_page": 15,
+      "how": "CAG's file carries no readable text, so it was read from a copy whose fonts were given their letters back, glyph by glyph, from a map checked by eye. Nothing printed was changed.",
+      "result": "matches"
      }
     },
     {
@@ -40897,6 +41355,22 @@
   {
    "title": "Spending is checked against CAG",
    "body": "Each year's Accounts in the budget books are compared with CAG's Appropriation Accounts for the same grant. Most match to within Rs 10,000, and some more agree to within 0.1 per cent. Where they differ by more, the difference often comes in pairs: money shown under one demand in CAG's accounts and under a related demand in the later book, which restates old accounts in its own demand structure. Both figures are shown. CAG's files for 2016-17 and 2021-22 have no readable text, so those two years are not compared, and Demand IX is not compared because the two papers treat public debt differently."
+  },
+  {
+   "title": "Every figure is the gross total, as printed",
+   "body": "The budget estimates come from Volume I/2, which prints each demand's gross total. Revised estimates and spending come from Volume III, which prints gross, recoveries and net. Gross is shown everywhere so the three can be compared; the net figure is kept beside it."
+  },
+  {
+   "title": "Two printed parts are not added up",
+   "body": "The books of 2015-16 and 2016-17 print each demand's Non-Plan and Plan figures on separate pages and give no total. Spending in 2014-15 is printed by CAG section by section, for the undivided state's 1 April to 1 June 2014 and the new state's 2 June 2014 to 31 March 2015 together. Those years show the printed parts side by side."
+  },
+  {
+   "title": "Books presented after an election",
+   "body": "The 2019-20 book was presented in July 2019 and the 2024-25 book in November 2024, after the year before had ended. Their revised estimates for 2018-19 and 2023-24 are close to the final accounts: for 2023-24 they are the same figure for 38 of the 40 demands."
+  },
+  {
+   "title": "Spending is checked against CAG",
+   "body": "Each year's Accounts in the budget books are compared with CAG's Appropriation Accounts for the same grant. Most match to within Rs 10,000, and some more agree to within 0.1 per cent. Where they differ by more, the difference often comes in pairs: money shown under one demand in CAG's accounts and under a related demand in the later book, which restates old accounts in its own demand structure. Both figures are shown. CAG's files for 2016-17 and 2021-22 print correctly but carry no readable text; they were read from copies whose fonts were given their letters back, and their rows pass the same checks. Demand IX is not compared because the two papers treat public debt differently."
   }
  ],
  "sources": [

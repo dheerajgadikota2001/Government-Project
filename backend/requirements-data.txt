@@ -1,0 +1,6 @@
+# Tools for reading government papers offline (scripts/read_budget_books.py and
+# scripts/repair_cag_fonts.py). The API does not need them, so they are kept out of
+# requirements.txt and the Docker image.
+#   pip install -r requirements.txt -r requirements-data.txt
+pikepdf==10.13.0.post1   # adds ToUnicode maps to CAG's unreadable fonts (app/scrapers/font_repair.py)
+fonttools==4.65.0        # reads the glyph outlines inside those fonts
