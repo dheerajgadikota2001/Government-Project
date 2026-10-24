@@ -347,31 +347,72 @@ function MoneyPapers() {
 /* ============================================================ departments */
 const CUR_FY_END = 2027 // the year running on the day the data was read (2026-27)
 
+// One row per figure, compact (see web/scripts/prep_departments.py for the keys).
+type DeptRow = {
+  y: string; s: 'BE' | 'RE' | 'A'; t: number | null; n?: number; src: string; pp?: number
+  parts?: [string, number, number?][]; np1?: 1; late?: 1; p2?: 1
+  cag?: 'm' | 'c' | 'd' | 'u' | 'x'; cagp?: [string, number][]; cagsrc?: string; cagpp?: number
+  alt?: { t: number; src: string; pp?: number }
+}
+const DEPT_BOOKS = (money.dept_books ?? {}) as Record<string, string>
+
+// Telugu for the labels the papers print, in the books' own words
+const PART_TE: Record<string, string> = {
+  'Non-Plan': 'ప్రణాళికేతర భాగం', Plan: 'ప్రణాళిక భాగం',
+  'Revenue, voted': 'రెవెన్యూ, ఓటు చేసినది', 'Revenue, charged': 'రెవెన్యూ, చార్జి చేసినది',
+  'Capital, voted': 'పెట్టుబడి, ఓటు చేసినది', 'Capital, charged': 'పెట్టుబడి, చార్జి చేసినది',
+  'Loans, voted': 'రుణాలు, ఓటు చేసినది', 'Loans, charged': 'రుణాలు, చార్జి చేసినది',
+}
+
+/** Where a figure is printed, in plain words: the paper, and the page of its PDF. */
+function paperName(src: string, pp: number | undefined, te: boolean) {
+  const [kind, year, part] = src.split('/')
+  const page = pp ? (te ? `, పేజీ ${pp}` : `, page ${pp}`) : ''
+  if (kind === 'v12') return (te ? `బడ్జెట్ ${year}, సంపుటం I/2` : `Budget ${year}, Volume I/2`) + page
+  if (kind === 'v3') return (te ? `బడ్జెట్ ${year}, సంపుటం III/${part}` : `Budget ${year}, Volume III/${part}`) + page
+  if (kind === 'cag') return (te ? `కాగ్ అప్రోప్రియేషన్ అకౌంట్స్ ${year}` : `CAG Appropriation Accounts ${year}`) + page
+  return te ? 'ప్రభుత్వ పత్రం' : 'Government paper'
+}
+
 export function Departments() {
   const { lang, tr } = useLang()
-  const C = (v: number) => (lang === 'te' ? croreTe(v) : crore(v))
+  const te = lang === 'te'
+  const C = (v: number) => (te ? croreTe(v) : crore(v))
+  const partName = (p: string) => (te ? PART_TE[p] ?? p : p)
+  const partsText = (ps: [string, number, number?][]) => ps.map((p) => `${partName(p[0])} ${C(p[1])}`).join('; ')
   const [no, setNo] = React.useState('XII')
   const dep = money.departments.find((d: any) => d.no === no) ?? money.departments[0]
-  const years = [...new Set(dep.rows.map((r: any) => r.year))] as string[]
+  const all = dep.rows as DeptRow[]
+  const years = [...new Set(all.map((r) => r.y))].sort()
   const rows = years.map((y) => {
-    const g = (s: string) => dep.rows.find((r: any) => r.year === y && r.stage === s)?.total_crore as number | undefined
-    return { year: y, end: Number(y.slice(0, 4)) + 1, BE: g('BE'), RE: g('RE'), A: g('Actual'), url: dep.rows.find((r: any) => r.year === y)?.source_url as string | undefined }
+    const g = (s: DeptRow['s']) => all.find((r) => r.y === y && r.s === s)
+    const BE = g('BE'), RE = g('RE'), A = g('A')
+    return { year: y, end: Number(y.slice(0, 4)) + 1, BE, RE, A }
   })
-  const max = Math.max(...rows.flatMap((r) => [r.BE ?? 0, r.RE ?? 0, r.A ?? 0]))
-  const lastA = [...rows].reverse().find((r) => r.A != null && r.BE != null)
-  const note = (r: typeof rows[number]) => r.A != null ? '' : r.end >= CUR_FY_END ? tr('The year is still running.', 'ఏడాది ఇంకా నడుస్తోంది.') : r.end === CUR_FY_END - 1 ? tr('Spending not out yet.', 'ఖర్చు లెక్కలు ఇంకా రాలేదు.') : tr('Spending not read yet.', 'ఖర్చు ఇంకా చదవలేదు.')
+  // The scale for drawing only: a bar of printed parts is drawn part after part, so its
+  // length is their sum. No sum is ever printed as a figure.
+  const len = (r?: DeptRow) => (r == null ? 0 : r.t != null ? r.t : (r.parts ?? []).reduce((a, p) => a + p[1], 0))
+  const max = Math.max(1, ...rows.flatMap((r) => [len(r.BE), len(r.RE), len(r.A)]))
+  const lastA = [...rows].reverse().find((r) => r.A?.t != null && r.BE?.t != null)
+  const spentYears = rows.filter((r) => r.A)
+  const cagM = rows.filter((r) => r.A?.cag === 'm').length
+  const cagC = rows.filter((r) => r.A?.cag === 'c').length
+  const cagD = rows.filter((r) => r.A?.cag === 'd').length
+  const note = (r: typeof rows[number]) => r.end >= CUR_FY_END ? tr('The year is still running.', 'ఏడాది ఇంకా నడుస్తోంది.') : tr('Spending not out yet.', 'ఖర్చు లెక్కలు ఇంకా రాలేదు.')
   const words = [
     { en: 'Budget estimate', te: 'బడ్జెట్ అంచనా', p: { en: 'The plan the government makes before the year begins: how much it means to spend.', te: 'ఏడాది మొదలవక ముందు ప్రభుత్వం వేసే ప్రణాళిక: ఎంత ఖర్చు చేయాలనుకుంటోంది.' } },
     { en: 'Revised estimate', te: 'సవరించిన అంచనా', p: { en: 'The same plan, changed during the year, when the government sees how the year is going.', te: 'అదే ప్రణాళిక, ఏడాది ఎలా సాగుతోందో చూసి మధ్యలో మార్చినది.' } },
-    { en: 'Accounts', te: 'లెక్కలు', p: { en: 'What was actually spent, from the audited accounts. They reach the budget book two years later.', te: 'నిజంగా ఖర్చయినది, ఆడిట్ అయిన లెక్కల నుంచి. రెండేళ్ల తర్వాత బడ్జెట్ పుస్తకంలో వస్తాయి.' } },
+    { en: 'Accounts', te: 'లెక్కలు', p: { en: 'What was actually spent, from the accounts. They reach the budget book two years later.', te: 'నిజంగా ఖర్చయినది, లెక్కల నుంచి. రెండేళ్ల తర్వాత బడ్జెట్ పుస్తకంలో వస్తాయి.' } },
     { en: 'Demand for grants', te: 'గ్రాంట్ల డిమాండ్', p: { en: 'Each department’s money comes to the Assembly as one numbered demand. School Education is Demand XII.', te: 'ప్రతి శాఖ డబ్బు ఒక సంఖ్యగల డిమాండ్‌గా శాసనసభకు వస్తుంది. పాఠశాల విద్య డిమాండ్ XII.' } },
   ]
+  const paperCell = (r?: DeptRow) => (r ? <a className="underline decoration-foreground/30 underline-offset-2 hover:decoration-foreground" href={DEPT_BOOKS[r.src]} target="_blank" rel="noopener noreferrer" lang="en">{paperName(r.src, r.pp, te)}</a> : '')
+  const figure = (r: DeptRow | undefined, missing: string) => (r == null ? missing : r.t != null ? C(r.t) : tr(`In parts: ${partsText(r.parts ?? [])}`, `భాగాలుగా: ${partsText(r.parts ?? [])}`))
   return (
     <Page className="pt-10 md:pt-14">
       <PageHead eyebrow={tr('Money · Departments', 'డబ్బు · శాఖలు')} q={{ en: 'What was planned, and what was spent?', te: 'ఏం ప్రణాళిక వేశారు, ఎంత ఖర్చు చేశారు?' }}>
         <div className="mt-5 max-w-md">
           <label htmlFor="dept-pick" className="block text-[15px] font-semibold">{tr('Choose a department', 'శాఖను ఎంచుకోండి')}</label>
-          <p className="mt-0.5 text-[13.5px] text-muted-foreground">{tr(`The budget has ${money.departments.length} demands, most of them one department each. Each shows its plan for every year, and its spending where we have read it.`, `బడ్జెట్‌లో ${money.departments.length} డిమాండ్లు ఉన్నాయి; చాలావరకు ఒక్కొక్కటి ఒక శాఖ. ప్రతిదానికీ ప్రతి ఏడాది ప్రణాళిక, మేము చదివిన చోట ఖర్చు కనిపిస్తాయి.`)}</p>
+          <p className="mt-0.5 text-[13.5px] text-muted-foreground">{tr(`The budget has ${money.departments.length} demands, most of them one department each. Each shows its plan, its changed plan and its spending for every year since 2014-15, each figure with the page it is printed on.`, `బడ్జెట్‌లో ${money.departments.length} డిమాండ్లు ఉన్నాయి; చాలావరకు ఒక్కొక్కటి ఒక శాఖ. ప్రతిదానికీ 2014-15 నుంచి ప్రతి ఏడాది ప్రణాళిక, మార్చిన ప్రణాళిక, ఖర్చు కనిపిస్తాయి; ప్రతి సంఖ్య పక్కన అది ముద్రించిన పేజీ ఉంటుంది.`)}</p>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-3">
           <Select value={no} onValueChange={setNo}>
@@ -383,16 +424,24 @@ export function Departments() {
       </PageHead>
       <ChartFrame className="mt-8"
         q={{ en: `How much did the state plan to spend on ${dep.name}, and how much did it spend?`, te: `${dep.name}కు ఎంత ఖర్చు చేయాలనుకున్నారు, ఎంత ఖర్చు చేశారు?` }}
-        answer={lastA ? tr(<>In {lastA.year}, the newest year with accounts, the plan was <b>{crore(lastA.BE)}</b>.{lastA.RE != null ? <> It was {lastA.RE < lastA.BE! ? 'lowered' : 'raised'} during the year to {crore(lastA.RE)}</> : null}{lastA.RE != null ? ', and' : ''} <b>{crore(lastA.A)}</b> was spent.</>,
-          <>లెక్కలు ఉన్న తాజా ఏడాది {lastA.year}లో ప్రణాళిక <b>{croreTe(lastA.BE)}</b>.{lastA.RE != null ? <> ఏడాది మధ్యలో దాన్ని {croreTe(lastA.RE)}కు {lastA.RE < lastA.BE! ? 'తగ్గించారు' : 'పెంచారు'};</> : null} <b>{croreTe(lastA.A)}</b> ఖర్చయింది.</>)
-          : tr(<>For this department we have read only the plans so far. Its spending is printed in the same budget books; we have not read it yet.</>, <>ఈ శాఖకు ఇప్పటివరకు ప్రణాళికలే చదివాం. దాని ఖర్చు అవే బడ్జెట్ పుస్తకాల్లో ఉంది; ఇంకా చదవలేదు.</>)}
-        how={tr('Each row is one year. The outlined box is the plan made before the year began. The blue bar inside it is what was actually spent. The brown tick is the plan as changed during the year. When the blue bar is shorter than its box, less was spent than first planned.',
-          'ప్రతి వరుస ఒక ఏడాది. బయటి పెట్టె ఏడాది మొదలవక ముందు వేసిన ప్రణాళిక. లోపలి నీలి బార్ నిజంగా ఖర్చయినది. గోధుమ గీత ఏడాది మధ్యలో మార్చిన ప్రణాళిక. నీలి బార్ పెట్టె కంటే చిన్నదైతే, మొదట అనుకున్న దానికంటే తక్కువ ఖర్చయింది.')}
+        answer={lastA ? tr(<>In {lastA.year}, the newest year with accounts, the plan was <b>{crore(lastA.BE!.t)}</b>.{lastA.RE?.t != null ? <> It was {lastA.RE.t < lastA.BE!.t! ? 'lowered' : 'raised'} during the year to {crore(lastA.RE.t)}</> : null}{lastA.RE?.t != null ? ', and' : ''} <b>{crore(lastA.A!.t)}</b> was spent.</>,
+          <>లెక్కలు ఉన్న తాజా ఏడాది {lastA.year}లో ప్రణాళిక <b>{croreTe(lastA.BE!.t)}</b>.{lastA.RE?.t != null ? <> ఏడాది మధ్యలో దాన్ని {croreTe(lastA.RE.t)}కు {lastA.RE.t < lastA.BE!.t! ? 'తగ్గించారు' : 'పెంచారు'};</> : null} <b>{croreTe(lastA.A!.t)}</b> ఖర్చయింది.</>)
+          : null}
+        how={tr('Each row is one year. The outlined box is the plan made before the year began. The blue bar inside it is what was actually spent. The brown tick is the plan as changed during the year. When the blue bar is shorter than its box, less was spent than first planned. A bar in two shades is a figure the paper prints in parts, drawn part after part.',
+          'ప్రతి వరుస ఒక ఏడాది. బయటి పెట్టె ఏడాది మొదలవక ముందు వేసిన ప్రణాళిక. లోపలి నీలి బార్ నిజంగా ఖర్చయినది. గోధుమ గీత ఏడాది మధ్యలో మార్చిన ప్రణాళిక. నీలి బార్ పెట్టె కంటే చిన్నదైతే, మొదట అనుకున్న దానికంటే తక్కువ ఖర్చయింది. రెండు రంగుల బార్ అంటే పత్రం భాగాలుగా ముద్రించిన సంఖ్య, ఒక భాగం తర్వాత మరొకటి గీసినది.')}
         example={tr('A family plans ₹10,000 for school costs in June, lowers the plan to ₹8,000 in December, and by March has spent ₹9,000. On this chart the box would be the ₹10,000, the brown tick the ₹8,000 and the blue bar the ₹9,000.',
           'ఒక కుటుంబం జూన్‌లో పిల్లల చదువుకు ₹10,000 అనుకుంది, డిసెంబర్‌లో దాన్ని ₹8,000కి తగ్గించింది, మార్చి నాటికి ₹9,000 ఖర్చు చేసింది. ఈ చార్టులో పెట్టె ₹10,000, గోధుమ గీత ₹8,000, నీలి బార్ ₹9,000.')}
+        note={tr(<>Every figure is the demand’s gross total, as the book prints it; the net figure after recoveries is in the table. Up to 2016-17 the books printed each demand in two parts, Non-Plan and Plan, with no single total, so those years show the two parts. Spending in 2014-15 is from CAG’s audited accounts, which print it section by section.</>,
+          <>ప్రతి సంఖ్య పుస్తకం ముద్రించిన డిమాండ్ మొత్తం (వసూళ్లు తీసివేయక ముందు); వసూళ్లు తీసివేసిన నికర సంఖ్య పట్టికలో ఉంది. 2016-17 వరకు పుస్తకాలు ప్రతి డిమాండ్‌ను ప్రణాళికేతర, ప్రణాళిక అని రెండు భాగాలుగా ముద్రించాయి, ఒకే మొత్తం ఇవ్వలేదు; ఆ ఏళ్లలో రెండు భాగాలు కనిపిస్తాయి. 2014-15 ఖర్చు కాగ్ ఆడిట్ లెక్కల నుంచి; అవి విభాగాల వారీగా ముద్రిస్తాయి.</>)}
         limits={tr('whether the money reached the people on time, or what it bought. The books give one total for the whole demand, not place by place.', 'డబ్బు సమయానికి ప్రజలకు చేరిందో, దానితో ఏం కొన్నారో. పుస్తకాలు మొత్తం డిమాండ్‌కు ఒకే సంఖ్య ఇస్తాయి, ఊరు ఊరుకు కాదు.')}
-        sources={[{ label: tr(`Demand ${dep.no} in each year’s AP budget book; spending from the “Accounts” column two years later`, `ప్రతి ఏడాది AP బడ్జెట్ పుస్తకంలో డిమాండ్ ${dep.no}; ఖర్చు రెండేళ్ల తర్వాతి “లెక్కలు” కాలమ్ నుంచి`), url: dep.rows[0]?.source_url }]}
-        table={<NumTable head={[tr('Year', 'సంవత్సరం'), tr('Plan before the year', 'ముందు ప్రణాళిక'), tr('Plan changed in the year', 'మార్చిన ప్రణాళిక'), tr('Spent', 'ఖర్చు')]} rows={rows.map((r) => [r.year, r.BE != null ? C(r.BE) : tr('Not printed', 'ముద్రించలేదు'), r.RE != null ? C(r.RE) : tr('Not printed', 'ముద్రించలేదు'), r.A != null ? C(r.A) : note(r).replace(/\.$/, '')])} />}>
+        sources={[
+          { label: tr(`AP budget books, Demand ${dep.no}: Volume I/2 for the plan, Volume III for the changed plan and the accounts`, `AP బడ్జెట్ పుస్తకాలు, డిమాండ్ ${dep.no}: ప్రణాళికకు సంపుటం I/2, మార్చిన ప్రణాళిక, లెక్కలకు సంపుటం III`), url: 'https://apfinance.gov.in/budget.html' },
+          { label: tr('CAG, Appropriation Accounts of Andhra Pradesh', 'కాగ్, ఆంధ్రప్రదేశ్ అప్రోప్రియేషన్ అకౌంట్స్'), url: 'https://cag.gov.in/ae/andhra-pradesh/en/state-accounts-report?defuat_account_report_type=358' },
+        ]}
+        table={<NumTable head={[tr('Year', 'సంవత్సరం'), tr('Plan before the year', 'ముందు ప్రణాళిక'), tr('Plan changed in the year', 'మార్చిన ప్రణాళిక'), tr('Spent', 'ఖర్చు'), tr('Net spent, after recoveries', 'నికర ఖర్చు, వసూళ్ల తర్వాత'), tr('Where each is printed', 'ఎక్కడ ముద్రించారు')]}
+          rows={rows.map((r) => [r.year, figure(r.BE, tr('Not printed', 'ముద్రించలేదు')), figure(r.RE, tr('Not printed', 'ముద్రించలేదు')), r.A ? figure(r.A, '') : note(r).replace(/\.$/, ''),
+            r.A?.t != null ? C(r.A.n ?? r.A.t) : '',
+            <span key="p" className="flex flex-col items-end gap-0.5 text-[12.5px]">{paperCell(r.BE)}{paperCell(r.RE)}{paperCell(r.A)}</span>])} />}>
         <div className="mb-3 flex flex-wrap gap-x-5 gap-y-1.5 text-[12.5px] text-muted-foreground">
           <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3.5 w-6 rounded-[3px] border-[1.5px] border-ink2 bg-secondary" />{tr('Plan made before the year (budget)', 'ముందు ప్రణాళిక (బడ్జెట్)')}</span>
           <span className="inline-flex items-center gap-1.5"><span className="inline-block h-2 w-6 rounded-[2px] bg-[var(--chart-1)]" />{tr('Spent, from the accounts', 'ఖర్చు, లెక్కల నుంచి')}</span>
@@ -404,14 +453,25 @@ export function Departments() {
               <div className="text-[13.5px] font-semibold tnum">{r.year}</div>
               <div className="min-w-0">
                 <div className="relative h-[34px]">
-                  {r.BE != null ? <span className="absolute left-0 top-[7px] h-[20px] rounded-[3px] border-[1.5px] border-ink2 bg-secondary" style={{ width: `${(r.BE / max) * 100}%` }} /> : null}
-                  {r.A != null ? <span className="absolute left-0 top-[12.5px] h-[9px] rounded-[2px] bg-[var(--chart-1)]" style={{ width: `${(r.A / max) * 100}%` }} /> : null}
-                  {r.RE != null ? <span className="absolute top-[3px] -ml-[2px] h-[28px] w-[4px] rounded-[2px] bg-[var(--chart-3)]" style={{ left: `${(r.RE / max) * 100}%` }} /> : null}
+                  {r.BE?.t != null ? <span className="absolute left-0 top-[7px] h-[20px] rounded-[3px] border-[1.5px] border-ink2 bg-secondary" style={{ width: `${(r.BE.t / max) * 100}%` }} /> : null}
+                  {r.A?.t != null ? <span className="absolute left-0 top-[12.5px] h-[9px] rounded-[2px] bg-[var(--chart-1)]" style={{ width: `${(r.A.t / max) * 100}%` }} /> : null}
+                  {r.A?.t == null && r.A?.parts ? (
+                    <span className="absolute left-0 top-[12.5px] flex h-[9px]" style={{ width: `${(len(r.A) / max) * 100}%` }} aria-hidden>
+                      {r.A.parts.map((p, i) => <span key={i} className="h-full first:rounded-l-[2px] last:rounded-r-[2px] bg-[var(--chart-1)]" style={{ width: `${(p[1] / len(r.A)) * 100}%`, opacity: i % 2 ? 0.55 : 1 }} />)}
+                    </span>) : null}
+                  {r.RE?.t != null ? <span className="absolute top-[3px] -ml-[2px] h-[28px] w-[4px] rounded-[2px] bg-[var(--chart-3)]" style={{ left: `${(r.RE.t / max) * 100}%` }} /> : null}
                 </div>
                 <div className="text-[12.5px] leading-snug">
-                  {r.A != null ? <><b className="text-brand">{tr('Spent ', 'ఖర్చు ')}{C(r.A)}</b><span className="text-muted-foreground">{r.BE != null ? tr(` · plan ${crore(r.BE)}`, ` · ప్రణాళిక ${croreTe(r.BE)}`) : ''}{r.RE != null ? tr(` · revised ${crore(r.RE)}`, ` · సవరించినది ${croreTe(r.RE)}`) : ''}</span></>
-                    : <><b>{tr('Plan ', 'ప్రణాళిక ')}{r.BE != null ? C(r.BE) : tr('not printed', 'ముద్రించలేదు')}</b><span className="text-muted-foreground">{r.RE != null ? tr(` · revised ${crore(r.RE)}`, ` · సవరించినది ${croreTe(r.RE)}`) : ''}</span> <i className="text-muted-foreground">{note(r)}</i></>}
+                  {r.A ? <>
+                    <b className="text-brand">{r.A.t != null ? tr('Spent ', 'ఖర్చు ') + C(r.A.t) : tr(`Spent, as CAG prints it by section: ${partsText(r.A.parts ?? [])}`, `ఖర్చు, కాగ్ విభాగాల వారీగా: ${partsText(r.A.parts ?? [])}`)}</b>
+                    <span className="text-muted-foreground">{r.BE?.t != null ? tr(` · plan ${crore(r.BE.t)}`, ` · ప్రణాళిక ${croreTe(r.BE.t)}`) : ''}{r.RE ? (r.RE.t != null ? tr(` · revised ${crore(r.RE.t)}`, ` · సవరించినది ${croreTe(r.RE.t)}`) : tr(` · revised, in two parts: ${partsText(r.RE.parts ?? [])}`, ` · సవరించినది, రెండు భాగాలుగా: ${partsText(r.RE.parts ?? [])}`)) : ''}</span></>
+                    : <><b>{tr('Plan ', 'ప్రణాళిక ')}{r.BE?.t != null ? C(r.BE.t) : tr('not printed', 'ముద్రించలేదు')}</b><span className="text-muted-foreground">{r.RE?.t != null ? tr(` · revised ${crore(r.RE.t)}`, ` · సవరించినది ${croreTe(r.RE.t)}`) : ''}</span> <i className="text-muted-foreground">{note(r)}</i></>}
                 </div>
+                {r.A?.cag === 'd' ? <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{tr(`CAG’s audited accounts print this grant as: ${partsText((r.A.cagp ?? []) as [string, number][])}.`, `కాగ్ ఆడిట్ లెక్కల్లో ఈ గ్రాంట్: ${partsText((r.A.cagp ?? []) as [string, number][])}.`)}{' '}{r.A.cagsrc ? <a className="underline underline-offset-2" href={DEPT_BOOKS[r.A.cagsrc]} target="_blank" rel="noopener noreferrer" lang="en">{paperName(r.A.cagsrc, r.A.cagpp, te)}</a> : null}</div> : null}
+                {r.A?.cag === 'c' ? <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{tr('Agrees with CAG’s audited accounts to within 0.1 per cent.', 'కాగ్ ఆడిట్ లెక్కలతో 0.1 శాతం లోపు సరిపోలింది.')}</div> : null}
+                {r.A?.p2 ? <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{tr('CAG’s book for 2014-15 covers two periods together: the undivided state from 1 April to 1 June 2014, and the new state from 2 June 2014 to 31 March 2015.', '2014-15 కాగ్ పుస్తకం రెండు కాలాలను కలిపి చూపుతుంది: 2014 ఏప్రిల్ 1 నుంచి జూన్ 1 వరకు ఉమ్మడి రాష్ట్రం, 2014 జూన్ 2 నుంచి 2015 మార్చి 31 వరకు కొత్త రాష్ట్రం.')}</div> : null}
+                {r.RE?.late ? <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{tr('This changed plan was printed after the year had ended, so it is close to the final spending.', 'ఈ మార్చిన ప్రణాళిక ఏడాది ముగిసిన తర్వాత ముద్రించారు; అందుకే ఇది తుది ఖర్చుకు దగ్గరగా ఉంటుంది.')}</div> : null}
+                {r.BE?.alt ? <div className="mt-0.5 text-[12px] leading-snug text-muted-foreground">{tr(`Volume III of the same budget prints this plan as ${crore(r.BE.alt.t)}. Both are official papers; both are shown.`, `అదే బడ్జెట్ సంపుటం IIIలో ఈ ప్రణాళిక ${croreTe(r.BE.alt.t)}. రెండూ అధికారిక పత్రాలే; రెండూ చూపాం.`)}{' '}<a className="underline underline-offset-2" href={DEPT_BOOKS[r.BE.alt.src]} target="_blank" rel="noopener noreferrer" lang="en">{paperName(r.BE.alt.src, r.BE.alt.pp, te)}</a></div> : null}
               </div>
             </li>
           ))}
@@ -421,12 +481,13 @@ export function Departments() {
         <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {words.map((w) => (
             <div key={w.en} className="rounded-xl border border-border bg-card p-4">
-              <dt><span className="block text-[15.5px] font-semibold" lang={lang === 'te' ? 'te' : undefined}>{lang === 'te' ? w.te : w.en}</span><span className="block text-[13px] text-muted-foreground" lang={lang === 'te' ? 'en' : 'te'}>{lang === 'te' ? w.en : w.te}</span></dt>
+              <dt><span className="block text-[15.5px] font-semibold" lang={te ? 'te' : undefined}>{te ? w.te : w.en}</span><span className="block text-[13px] text-muted-foreground" lang={te ? 'en' : 'te'}>{te ? w.en : w.te}</span></dt>
               <dd className="mt-1.5 text-[13.5px] leading-snug text-muted-foreground">{w.p[lang]}</dd>
             </div>
           ))}
         </dl>
-        <p className="mt-4 text-[13.5px] text-muted-foreground">{tr(`So far spending is read for School Education and Medical and Health. The other ${money.departments.length - 2} demands show their plans, marked “spending not read yet”.`, `ఇప్పటివరకు పాఠశాల విద్య, వైద్యం-ఆరోగ్యం ఖర్చులే చదివాం. మిగతా ${money.departments.length - 2} డిమాండ్లు ప్రణాళికలనే చూపుతాయి, “ఖర్చు ఇంకా చదవలేదు” అని.`)}</p>
+        <p className="mt-4 text-[13.5px] text-muted-foreground">{tr(`Spending is shown for ${spentYears.length} years and checked against CAG’s audited Appropriation Accounts for the same grant. For ${dep.name}, of ${cagM + cagC + cagD} years compared, ${cagM} match to within ₹10,000, ${cagC} agree to within 0.1 per cent and ${cagD} differ by more; where they differ, both are shown. CAG’s files for 2016-17 and 2021-22 have no readable text, so those years are not compared.`,
+          `${spentYears.length} ఏళ్ల ఖర్చు చూపాం; అదే గ్రాంట్‌కు కాగ్ ఆడిట్ చేసిన అప్రోప్రియేషన్ అకౌంట్స్‌తో పోల్చాం. ${dep.name}కు పోల్చిన ${cagM + cagC + cagD} ఏళ్లలో ${cagM} ఏళ్లు ₹10,000 లోపు సరిపోలాయి, ${cagC} ఏళ్లు 0.1 శాతం లోపు సరిపోలాయి, ${cagD} ఏళ్లు అంతకు మించి తేడా ఉంది; తేడా ఉన్నచోట రెండూ చూపాం. 2016-17, 2021-22 కాగ్ ఫైళ్లలో చదవగలిగే అక్షరాలు లేవు, అందుకే ఆ ఏళ్లు పోల్చలేదు.`)}</p>
       </Section>
       <Section className="mt-14" eyebrow={tr('All demands', 'అన్ని డిమాండ్లు')} title={tr(`All ${money.departments.length} demands`, `మొత్తం ${money.departments.length} డిమాండ్లు`)}>
         <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
