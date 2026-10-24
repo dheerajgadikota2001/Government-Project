@@ -39,7 +39,9 @@ from app.scrapers.ap_finance_budget import APFinanceBudgetScraper
 from app.scrapers.ap_legislature_bills import APLegislatureBillsScraper
 from app.scrapers.apsdps_publications import APSDPSPublicationsScraper
 from app.scrapers.cse_statistics import CSEStatisticsScraper
+from app.scrapers.ap_finance_library import APFinanceLibraryScraper
 from app.scrapers.cag_documents import CAGDocumentsScraper
+from app.scrapers.cag_state_accounts import CAGStateAccountsScraper
 from app.scrapers.crda_tenders import CrdaTendersScraper
 from app.scrapers.district_documents import DistrictDocumentsScraper
 from app.scrapers.district_notices import DistrictNoticesScraper
@@ -76,6 +78,9 @@ SCRAPERS = [
     ("documents", "AP Economics & Statistics publications", APSDPSPublicationsScraper),
     ("documents", "AP School Education statistics", CSEStatisticsScraper),
     ("documents", "Polavaram Project Authority reports", PPAReportsScraper),
+    # Added 24 Oct 2026 by the coverage check: papers the publishers list that the register lacked.
+    ("documents", "CAG state accounts (Finance and Appropriation Accounts, monthly key indicators)", CAGStateAccountsScraper),
+    ("documents", "AP Finance FRBM reports and earlier budget speeches", APFinanceLibraryScraper),
 ]
 
 GROUPS = sorted({group for group, _, _ in SCRAPERS})

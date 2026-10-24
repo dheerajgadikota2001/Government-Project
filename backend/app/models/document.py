@@ -28,6 +28,8 @@ class DocumentType(str, enum.Enum):
     PRESS_RELEASE = "press_release"
     MOU_DOCUMENT = "mou_document"
     PROJECT_REPORT = "project_report"
+    LAW = "law"                          # an Act or the rules made under it (the FRBM Act and Rules)
+    STATE_ACCOUNTS = "state_accounts"    # CAG's Finance and Appropriation Accounts, Accounts at a Glance, Monthly Key Indicators
     OTHER = "other"
 
 
