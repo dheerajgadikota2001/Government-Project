@@ -3,6 +3,7 @@ import { ArrowUpRight, CheckCircle2, ChevronLeft, ChevronRight, CircleDashed, Fi
 import { cn } from '@/lib/utils'
 import { useLang } from '@/lib/i18n'
 import { href } from '@/lib/route'
+import { PREVIEW } from '@/lib/preview'
 import { meta } from '@/lib/data'
 import { papers, registerPapers } from '@/lib/data-papers'
 import { useTenders, useUpdates, type TenderRegister, type Tender, type Updates } from '@/lib/live'
@@ -28,6 +29,8 @@ const KIND: Record<string, { en: string; te: string }> = {
   assembly_bill: { en: 'Assembly bills', te: 'శాసనసభ బిల్లులు' },
   other: { en: 'Other papers (mostly district collectorates)', te: 'ఇతర పత్రాలు (ఎక్కువగా జిల్లా కలెక్టరేట్లు)' },
   audit_report: { en: 'Audit reports', te: 'ఆడిట్ నివేదికలు' },
+  state_accounts: { en: 'State accounts (CAG)', te: 'రాష్ట్ర ఖాతాలు (కాగ్)' },
+  law: { en: 'Laws and rules', te: 'చట్టాలు, నియమాలు' },
   policy: { en: 'Policies', te: 'విధానాలు' },
   annual_report: { en: 'Annual reports', te: 'వార్షిక నివేదికలు' },
   press_release: { en: 'Press releases', te: 'పత్రికా ప్రకటనలు' },
@@ -81,10 +84,12 @@ export default function Papers() {
       <PageHead eyebrow={tr('Government papers', 'ప్రభుత్వ పత్రాలు')} q={{ en: 'Every government paper we hold, in one place', te: 'మా దగ్గర ఉన్న ప్రతి ప్రభుత్వ పత్రం, ఒకే చోట' }}
         lede={tr(`${num(REG.length, 0)} papers from ${OFFICES.length} offices. Each one links to the government page it came from. Search by what a paper is about, then narrow by kind, year and office.`,
           `${OFFICES.length} కార్యాలయాల నుంచి ${num(REG.length, 0)} పత్రాలు. ప్రతిదీ అది వచ్చిన ప్రభుత్వ పేజీకి లింకు. పత్రం దేని గురించో వెతకండి, తర్వాత రకం, సంవత్సరం, కార్యాలయంతో తగ్గించండి.`)} />
+      {PREVIEW ? (
       <div className="mt-6 max-w-3xl rounded-xl border border-dashed border-foreground/35 bg-card px-4 py-3 text-[14px] leading-relaxed">
         <b>{tr('Preview note: ', 'ప్రివ్యూ గమనిక: ')}</b>{tr(`the live register holds ${num(registerPapers.total_live, 0)} papers. This preview leaves out ${LEFT.roll_like} that look like voter-roll parts (from the ${joinAnd(LEFT.roll_like_offices.map((o) => o.replace(/ District Collectorate$/, '')))} collectorates) and ${LEFT.name_lists} lists that name private people, as the plan recommends. They stay on the live site until you say “go remove”.`,
           `లైవ్ రిజిస్టర్‌లో ${num(registerPapers.total_live, 0)} పత్రాలు ఉన్నాయి. ప్రణాళిక సూచించినట్లు, ఓటర్ల జాబితా భాగాల్లా కనిపించే ${LEFT.roll_like} పత్రాలను, వ్యక్తుల పేర్లున్న ${LEFT.name_lists} జాబితాలను ఈ ప్రివ్యూ చూపదు. మీరు “తీసేయండి” అనే వరకు అవి లైవ్ సైట్‌లో ఉంటాయి.`)}
       </div>
+      ) : null}
 
       {/* find a paper */}
       <section className="mt-10" aria-labelledby="find">
