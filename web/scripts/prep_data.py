@@ -18,9 +18,20 @@ def load(p):
 _fetched = open(f'{LIVE}/FETCHED').read().strip()
 ASOF = (datetime.datetime.fromisoformat(_fetched.replace('Z', '+00:00')) + datetime.timedelta(hours=5, minutes=30)).date().isoformat()
 
+# CAG moved its report files to a new host in October 2026 and kept the names; the old addresses answer
+# "not found". Migration 0014 moves the database rows, but a dump taken before it ran still has the old
+# ones, so every file written here gets the current address. Same rule as backend/app/scrapers/cag_address.py.
+CAG_OLD = 'https://cag.gov.in/webroot/uploads/'
+CAG_NEW = 'https://d1jmc0u14z2tmp.cloudfront.net/uploads/'
+
 def dump(name, obj):
+    text = json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+    moved = text.count(CAG_OLD)
+    if moved:
+        text = text.replace(CAG_OLD, CAG_NEW)
+        print(f'{name}: {moved} CAG file address(es) moved to the current file store')
     with open(f'{OUT}/{name}.json', 'w', encoding='utf-8') as f:
-        json.dump(obj, f, ensure_ascii=False, separators=(',', ':'))
+        f.write(text)
     print(name, os.path.getsize(f'{OUT}/{name}.json') // 1024, 'KB')
 
 # Record 705 (a Ladakh tunnel road) arrived through the MoSPI import and is not

@@ -22,6 +22,7 @@ import re
 from bs4 import BeautifulSoup
 
 from app.scrapers.base import BaseScraper
+from app.scrapers.cag_address import current, legacy
 from app.scrapers.sanity import FieldRule, SanityAbort, SanitySpec
 from app.database import get_db_context
 from app.models.document import Document, DocumentType
@@ -132,7 +133,9 @@ class CAGDocumentsScraper(BaseScraper):
 
             pdf_block = card.find("div", class_="pdfBottomReport")
             pdf_link = pdf_block.find("a") if pdf_block else None
-            pdf_url = self._absolute(pdf_link["href"]) if pdf_link and pdf_link.get("href") else None
+            # current(): CAG moved its files to a new host in October 2026 and kept the names.
+            # The listing already points there, but an older cached page or a mirror may not.
+            pdf_url = current(self._absolute(pdf_link["href"])) if pdf_link and pdf_link.get("href") else None
 
             if not title or not pdf_url:
                 # Without a real PDF link, this isn't a usable document row —
@@ -204,6 +207,20 @@ class CAGDocumentsScraper(BaseScraper):
                     )
                     if existing.scalar_one_or_none():
                         continue  # Already have this exact PDF
+
+                    # The same report saved before CAG moved its files: same file name, old host.
+                    # Move that row to the new address rather than save the report twice. Its id,
+                    # translations and links stay as they are.
+                    old_url = legacy(e["pdf_url"])
+                    if old_url:
+                        moved = (await db.execute(
+                            select(Document).where(Document.source_url == old_url)
+                        )).scalar_one_or_none()
+                        if moved:
+                            moved.source_url = e["pdf_url"]
+                            moved.last_scraped_at = now
+                            logger.info(f"[{PORTAL_NAME}] file moved by CAG: {old_url} -> {e['pdf_url']}")
+                            continue
 
                     doc = Document(
                         title=e["title"],
