@@ -605,6 +605,12 @@ legal['about']['en']['principles']['createNothing']['body'] += ' The plain expla
 te_cn = legal['about']['te'].get('principles', {}).get('createNothing')
 if te_cn:
     te_cn['body'] += ' అంకెల చుట్టూ ఉండే సులభమైన వివరణలు, ఉదాహరణలు మావి; అవి అలా స్పష్టంగా గుర్తించబడతాయి.'
+# The old site offered six languages; this one offers two. The privacy page says which (28 Oct 2026).
+legal['privacy']['en']['sections']['measure']['p1'] = legal['privacy']['en']['sections']['measure']['p1'].replace(
+    'in which of the six languages', 'in English or Telugu')
+te_m = legal['privacy']['te'].get('sections', {}).get('measure')
+if te_m:
+    te_m['p1'] = te_m['p1'].replace('ఆరు భాషల్లో ఏ భాషలో', 'ఇంగ్లీషులోనా తెలుగులోనా')
 # The house style has no long dashes: the live wording keeps its words, with a comma in their place.
 def undash(o):
     if isinstance(o, str):

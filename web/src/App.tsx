@@ -5,6 +5,7 @@ import { DesignProvider } from '@/lib/design'
 import { useRoute } from '@/lib/route'
 import { prerenderedHere } from '@/lib/prerendered'
 import { AppShell } from '@/components/shell'
+import { Measure } from '@/components/measure'
 import * as React from 'react'
 
 // Each page and its data arrive only when a reader opens it, so the first screen stays small.
@@ -82,7 +83,12 @@ function Router() {
     case 'notfound': body = <NotFound />; break
     default: body = <Home />
   }
-  return <AppShell route={r}><React.Suspense fallback={<Wait />}>{body}</React.Suspense></AppShell>
+  return (
+    <>
+      <Measure route={r} lang={lang} />
+      <AppShell route={r}><React.Suspense fallback={<Wait />}>{body}</React.Suspense></AppShell>
+    </>
+  )
 }
 
 export default function App() {

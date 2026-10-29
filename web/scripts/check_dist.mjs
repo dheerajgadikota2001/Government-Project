@@ -53,6 +53,24 @@ else {
     else if (plain) console.warn(`Note: ${plain} pages show the default share picture (SHARE_CARDS_OPTIONAL is set).`)
   }
   if (statSync(join(dist, 'index.html')).size < 5000) problems.push('the home page is only the empty shell')
+  // Visitor counting. The redesign shipped without it and nobody noticed for weeks (28 Oct 2026): the old
+  // site's tag lived in a folder the new site does not build, and the new security policy blocked Google's
+  // hosts besides. So a deploy now needs both: the measurement id and Google's tag address in the built
+  // code, and a security policy in firebase.web.json that lets the tag load and send.
+  {
+    const id = (/MEASUREMENT_ID[^'"]*['"](G-[A-Z0-9]{6,})['"]/.exec(readFileSync(join(root, 'src/lib/analytics.ts'), 'utf8')) ?? [])[1]
+    const js = existsSync(join(dist, 'assets')) ? readdirSync(join(dist, 'assets')).filter((f) => f.endsWith('.js')).map((f) => readFileSync(join(dist, 'assets', f), 'utf8')).join('\n') : ''
+    if (!process.env.ANALYTICS_OFF) {
+      if (!id) problems.push('src/lib/analytics.ts names no measurement id (G-...)')
+      else if (!js.includes(id)) problems.push(`the built code does not carry the measurement id ${id}: visitors would not be counted. (A build with VITE_GA_MEASUREMENT_ID set to empty does this; to deploy without counting on purpose, set ANALYTICS_OFF=1.)`)
+      if (!js.includes('googletagmanager.com/gtag/js')) problems.push('the built code does not load Google\'s tag: visitors would not be counted')
+      const hosting = JSON.parse(readFileSync(join(root, '..', 'firebase.web.json'), 'utf8')).hosting
+      const csp = (hosting.headers ?? []).flatMap((h) => h.headers ?? []).find((h) => h.key === 'Content-Security-Policy')?.value ?? ''
+      const dir = (name) => (new RegExp(`(?:^|;)\\s*${name}\\s+([^;]*)`).exec(csp) ?? [, ''])[1]
+      if (!dir('script-src').includes('googletagmanager.com')) problems.push('firebase.web.json: script-src does not allow googletagmanager.com, so the tag would be blocked')
+      if (!dir('connect-src').includes('google-analytics.com')) problems.push('firebase.web.json: connect-src does not allow google-analytics.com, so nothing counted would reach Google')
+    }
+  }
 }
 if (problems.length) {
   console.error('\nDo not deploy this build:\n - ' + problems.join('\n - ') + '\n')

@@ -7,6 +7,7 @@ import { papers } from '@/lib/data-papers'
 import { go } from '@/lib/route'
 import { useLang } from '@/lib/i18n'
 import { clean, crore, STATUS_WORDS } from '@/lib/format'
+import { EVENTS, track } from '@/lib/analytics'
 
 // One box for English or Telugu: works, districts, papers and the parts of the site.
 // This file carries the works register and the papers list it searches, so it is loaded only when
@@ -37,15 +38,29 @@ export default function SearchDialogBody({ open, onOpenChange }: { open: boolean
     return projects.filter((p) => !MERGED[p.id] && (p.t.toLowerCase().includes(ql) || (p.d ?? '').toLowerCase().includes(ql))).slice(0, 12)
   }, [ql])
   const docs = React.useMemo(() => (ql.length < 2 ? [] : papers.documents.filter((d: any) => (d.title + ' ' + d.publisher).toLowerCase().includes(ql)).slice(0, 6)), [ql])
-  const pick = (token: string) => { onOpenChange(false); setQ(''); go(token) }
+  const districtHits = districts.filter((d) => !ql || d.name.toLowerCase().includes(ql) || d.te.includes(q.trim()))
+  const pageHits = PAGES.filter((p) => !ql || p.en.toLowerCase().includes(ql) || p.te.includes(q.trim()) || ql.split(/\s+/).some((w) => w.length > 2 && p.words.includes(w)))
+  // Counted, never recorded: that a search happened and whether it found anything. The words themselves
+  // never leave this component (lib/analytics.ts, "what is never sent"). Sent once, when the box closes
+  // by any route (Escape, the shortcut again, a tap outside, a result), for the last thing typed, so a
+  // reader typing a word letter by letter is one search, not seven.
+  const last = React.useRef<{ typed: boolean; found: boolean }>({ typed: false, found: false })
+  if (ql.length >= 2) last.current = { typed: true, found: works.length + docs.length + districtHits.length + pageHits.length > 0 }
+  React.useEffect(() => {
+    if (open || !last.current.typed) return
+    track(EVENTS.SEARCH_PERFORMED, { had_results: last.current.found })
+    last.current = { typed: false, found: false }
+  }, [open])
+  const close = (o: boolean) => onOpenChange(o)
+  const pick = (token: string, kind: string) => { track(EVENTS.SEARCH_RESULT_CLICK, { result_type: kind }); close(false); setQ(''); go(token) }
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange} title="Search" description="Search works, districts and papers">
+    <CommandDialog open={open} onOpenChange={close} title="Search" description="Search works, districts and papers">
       <CommandInput placeholder={lang === 'te' ? 'పని, జిల్లా లేదా పత్రం వెతకండి' : 'Search a work, a district or a paper'} value={q} onValueChange={setQ} />
       <CommandList className="max-h-[60vh]">
         <CommandEmpty>Nothing matches. Try a district name, or a word like "dam" or "road".</CommandEmpty>
         <CommandGroup heading={ql.length < 2 ? 'Works people look up' : 'Works'}>
           {works.map((p) => (
-            <CommandItem key={p.id} value={`work ${p.id} ${p.t} ${p.d ?? ''}`} onSelect={() => pick(`project-${p.id}`)}>
+            <CommandItem key={p.id} value={`work ${p.id} ${p.t} ${p.d ?? ''}`} onSelect={() => pick(`project-${p.id}`, 'work')}>
               <Building2 className="text-muted-foreground" />
               <div className="min-w-0 flex-1">
                 <div className="truncate">{clean(p.t)}</div>
@@ -55,8 +70,8 @@ export default function SearchDialogBody({ open, onOpenChange }: { open: boolean
           ))}
         </CommandGroup>
         <CommandGroup heading="Districts">
-          {districts.filter((d) => !ql || d.name.toLowerCase().includes(ql) || d.te.includes(q.trim())).slice(0, ql ? 8 : 6).map((d) => (
-            <CommandItem key={d.slug} value={`district ${d.name} ${d.te}`} onSelect={() => pick(`district-${d.slug}`)}>
+          {districtHits.slice(0, ql ? 8 : 6).map((d) => (
+            <CommandItem key={d.slug} value={`district ${d.name} ${d.te}`} onSelect={() => pick(`district-${d.slug}`, 'district')}>
               <MapPin className="text-muted-foreground" />{d.name}<span lang="te" className="ml-2 text-muted-foreground">{d.te}</span>
             </CommandItem>
           ))}
@@ -64,7 +79,7 @@ export default function SearchDialogBody({ open, onOpenChange }: { open: boolean
         {docs.length ? (
           <CommandGroup heading="Papers">
             {docs.map((d: any) => (
-              <CommandItem key={d.id} value={`paper ${d.title} ${d.publisher}`} onSelect={() => { onOpenChange(false); window.open(d.url, '_blank', 'noopener') }}>
+              <CommandItem key={d.id} value={`paper ${d.title} ${d.publisher}`} onSelect={() => { track(EVENTS.SEARCH_RESULT_CLICK, { result_type: 'paper' }); close(false); window.open(d.url, '_blank', 'noopener') }}>
                 <FileText className="text-muted-foreground" />
                 <div className="min-w-0 flex-1"><div className="truncate">{clean(d.title)}</div><div className="text-[12px] text-muted-foreground">{d.publisher}</div></div>
               </CommandItem>
@@ -72,8 +87,8 @@ export default function SearchDialogBody({ open, onOpenChange }: { open: boolean
           </CommandGroup>
         ) : null}
         <CommandGroup heading="Parts of the site">
-          {PAGES.filter((p) => !ql || p.en.toLowerCase().includes(ql) || p.te.includes(q.trim()) || ql.split(/\s+/).some((w) => w.length > 2 && p.words.includes(w))).map((p) => (
-            <CommandItem key={p.token} value={`page ${p.en} ${p.te} ${p.words}`} onSelect={() => pick(p.token)}>
+          {pageHits.map((p) => (
+            <CommandItem key={p.token} value={`page ${p.en} ${p.te} ${p.words}`} onSelect={() => pick(p.token, 'page')}>
               <p.icon className="text-muted-foreground" />{lang === 'te' ? <span lang="te">{p.te}</span> : p.en}
             </CommandItem>
           ))}
