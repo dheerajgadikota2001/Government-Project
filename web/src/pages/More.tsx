@@ -13,6 +13,7 @@ import { ExampleBox, Section } from '@/components/kit'
 import { LiveGate } from '@/components/live-state'
 import { CorrectionForm, Thread } from '@/components/community'
 import { Button } from '@/components/ui/button'
+import { isOptedOut, isOptedOutByBrowser, isPublicSite, setOptedOut } from '@/lib/analytics'
 
 const paras = (o: Record<string, any>) => Object.keys(o).filter((k) => /^p\d+$/.test(k)).sort().map((k) => o[k] as string)
 
@@ -314,7 +315,7 @@ export function Disclaimer() {
 }
 
 export function Privacy() {
-  const { lang, tr } = useLang()
+  const { lang } = useLang()
   const D = legal.privacy[lang] ?? legal.privacy.en
   const ch = D.choice
   return (
@@ -322,13 +323,41 @@ export function Privacy() {
       <section className="rounded-2xl border border-border bg-card p-5">
         <h2 className="text-[19px] font-semibold">{ch.title}</h2>
         <p className="mt-1 text-[15px] leading-relaxed text-foreground/85">{ch.lead}</p>
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <Button variant="outline" disabled className="gap-1.5"><CircleDashed className="size-4" />{ch.optOutBtn}</Button>
-          <span className="text-[13px] text-muted-foreground">{tr('This preview counts nothing, so the switch works only on the live site.', 'ఈ ప్రివ్యూ ఏమీ లెక్కించదు; ఈ స్విచ్ లైవ్ సైట్‌లోనే పనిచేస్తుంది.')}</span>
-        </div>
+        <CountingSwitch ch={ch} />
         <p className="mt-2 text-[13px] text-muted-foreground">{ch.scope}</p>
       </section>
     } />
+  )
+}
+
+/** The reader's switch for the counting. It shows the real state (lib/analytics.ts decides it), works the
+ *  moment it is pressed, and says so plainly when the browser has already decided or cannot remember. */
+function CountingSwitch({ ch }: { ch: Record<string, string> }) {
+  const { tr } = useLang()
+  const [off, setOff] = React.useState(isOptedOut)
+  const [unsaved, setUnsaved] = React.useState(false)
+  if (!isPublicSite()) {
+    return (
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <Button variant="outline" disabled className="gap-1.5"><CircleDashed className="size-4" />{ch.optOutBtn}</Button>
+        <span className="text-[13px] text-muted-foreground">{tr('This preview counts nothing, so the switch works only on the live site.', 'ఈ ప్రివ్యూ ఏమీ లెక్కించదు; ఈ స్విచ్ లైవ్ సైట్‌లోనే పనిచేస్తుంది.')}</span>
+      </div>
+    )
+  }
+  if (isOptedOutByBrowser()) return <p className="mt-3 text-[14px] leading-relaxed">{ch.gpc}</p>
+  const flip = () => {
+    const next = !off
+    setUnsaved(!setOptedOut(next))
+    setOff(next)
+  }
+  return (
+    <div className="mt-3 space-y-2">
+      <p className="text-[14px] font-medium" role="status">{off ? ch.statusOff : ch.statusOn}</p>
+      <Button variant="outline" onClick={flip} className="gap-1.5">
+        {off ? <Check className="size-4" /> : <CircleDashed className="size-4" />}{off ? ch.optInBtn : ch.optOutBtn}
+      </Button>
+      {unsaved && off ? <p className="text-[13px] text-muted-foreground">{ch.noStorage}</p> : null}
+    </div>
   )
 }
 

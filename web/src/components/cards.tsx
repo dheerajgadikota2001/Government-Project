@@ -9,6 +9,7 @@ import { helplines } from '@/lib/data-helplines'
 import { dateLong, dateTe } from '@/lib/format'
 import { CardsLangSwitch, DistrictSelect, InShort, useCardsLang, useMyDistrict, W, type ShortItem } from '@/components/card-bits'
 import { todaysCards, type BiS, type FactCard } from '@/lib/cards'
+import { EVENTS, track } from '@/lib/analytics'
 import { useTenderSummary } from '@/lib/live'
 import { Dam } from '@/graphics/Dam'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -358,10 +359,14 @@ export function ShareDialog({ card, lang, onOpenChange }: { card: FactCard | nul
   const [src, setSrc] = React.useState<string | null>(null)
   const [copied, setCopied] = React.useState(false)
   const textRef = React.useRef<HTMLTextAreaElement>(null)
+  const counted = React.useRef<string | null>(null)
   const te = lang === 'te'
   React.useEffect(() => {
     setSrc(null); setCopied(false)
-    if (!card) return
+    if (!card) { counted.current = null; return }
+    // The share picture exists so the record can travel in WhatsApp groups. If this stays near zero, it is not.
+    // Once per opening: switching the card's language redraws the picture but is not a second share.
+    if (counted.current !== card.id) { counted.current = card.id; track(EVENTS.SHARE_OPENED, { card_id: card.id, card_kind: card.kind, site_language: lang }) }
     let live = true
     drawSharePicture(card, lang).then((u) => { if (live) setSrc(u) }).catch(() => { if (live) setSrc('') })
     return () => { live = false }
@@ -369,6 +374,7 @@ export function ShareDialog({ card, lang, onOpenChange }: { card: FactCard | nul
   const text = card ? cardText(card, lang) : ''
   const copy = () => {
     const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2400) }
+    if (card) track(EVENTS.SHARE_TEXT_COPIED, { card_id: card.id, card_kind: card.kind, site_language: lang })
     try {
       navigator.clipboard.writeText(text).then(done, () => { textRef.current?.select(); done() })
     } catch { textRef.current?.select(); done() }
