@@ -19,6 +19,8 @@
     "test:share": "node scripts/test_share_spec.mjs",
     "test:analytics": "node scripts/test_analytics.mjs",
     "test:analytics:browser": "node scripts/test_analytics_browser.mjs",
+    "test:seo-extras": "node scripts/test_seo_extras.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "cards": "node scripts/share_specs.mjs && python scripts/make_cards.py"
   },
   "dependencies": {

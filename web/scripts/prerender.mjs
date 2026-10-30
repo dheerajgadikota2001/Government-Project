@@ -160,7 +160,7 @@ function head(p, lang, { noindex = false } = {}) {
     const ld = {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'WebPage', '@id': url, url, name: tab, description: p.description[lang], inLanguage: lang, dateModified: p.lastmod, isPartOf: { '@type': 'WebSite', name: SITE.en, url: ORIGIN + '/' } },
+        { '@type': 'WebPage', '@id': url, url, name: tab, description: p.description[lang], inLanguage: lang, dateModified: p.lastmod, isPartOf: { '@type': 'WebSite', name: SITE.en, url: ORIGIN + '/' }, ...(p.about ? { about: p.about } : {}) },
         ...(p.path === '/' ? siteNodes(lang) : []),
         ...(p.ld ?? []),
         ...(p.path === '/' ? [] : [{ '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: ORIGIN + at(c.path, lang) })) }]),
@@ -243,5 +243,41 @@ Allow: /
 Sitemap: ${ORIGIN}/sitemap.xml
 `)
 
+// llms.txt: a plain map of the site for the AI assistants that read it (the llmstxt.org format). It
+// carries no figures, only what the site is, the rules every page keeps, and where the main pages are, so
+// nothing here can go out of date against the data. Counts are taken from the page list of this build.
+{
+  const count = (prefix) => pages.filter((p) => p.path.startsWith(prefix)).length
+  const link = (path, name, note) => `- [${name}](${ORIGIN}${path}): ${note}`
+  writeFileSync(join(DIST, 'llms.txt'), `# ${SITE.en} (${SITE.te})
+
+> ${seo.siteDescription.en}
+
+Every figure on this site is taken from a government paper (state budget books, CAG reports and accounts, RBI, MoSPI, Parliament answers, Press Information Bureau releases, district collectorate sites) and is shown with that paper's name, date and link. Newspapers appear only as a labelled claim, never as the source of a figure. Figures are shown as printed: the site adds no totals, shares or rankings of its own. When two official papers disagree, both are shown. Every page exists in English and in Telugu (the Telugu address adds /te in front).
+
+## Main pages
+
+${[
+  link('/projects', 'Projects', `${count('/projects/')} government project records, each with status, cost and progress as printed and the paper behind each figure`),
+  link('/districts', 'Districts', `${count('/districts/')} district pages for the 28 districts of Andhra Pradesh`),
+  link('/finances', 'State debt and finances', 'debt, deficits, income and interest by year, as RBI, the CAG and the budget papers print them'),
+  link('/finances/departments', 'Department spending', 'budget estimate, revised estimate and actual figure for every demand for grants'),
+  link('/state-facts', 'State facts', 'Reserve Bank of India indicators for Andhra Pradesh'),
+  link('/investments', 'Investment promises', 'investment summit MoUs and what the state reported as grounded'),
+  link('/documents', 'Government papers', `${count('/documents/')} official papers, each with its own page and its official link`),
+  link('/factcheck', 'Claims', 'statements checked against the papers'),
+].join('\n')}
+
+## About
+
+${[
+  link('/about', 'About', 'why the site exists and the rules it keeps'),
+  link('/sources', 'Sources and method', 'where the figures come from and how they are read'),
+].join('\n')}
+
+Sitemap: ${ORIGIN}/sitemap.xml
+`)
+}
+
 console.log(`Share pictures: ${cardOf.size} of ${cardsWanted} pages with figures have their own picture${cardOf.size < cardsWanted ? `; the other ${cardsWanted - cardOf.size} show the default. Run: npm run cards` : ''}.`)
-console.log(`Pre-rendered ${files} pages (${pages.length} addresses in English and Telugu), 404.html, sitemaps and robots.txt.`)
+console.log(`Pre-rendered ${files} pages (${pages.length} addresses in English and Telugu), 404.html, sitemaps, robots.txt and llms.txt.`)
