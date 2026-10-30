@@ -53,6 +53,9 @@ else {
     else if (plain) console.warn(`Note: ${plain} pages show the default share picture (SHARE_CARDS_OPTIONAL is set).`)
   }
   if (statSync(join(dist, 'index.html')).size < 5000) problems.push('the home page is only the empty shell')
+  // Bing and AI search: the IndexNow key file and llms.txt must ship with the pages.
+  if (!readdirSync(dist).some((f) => /^[0-9a-f]{32}\.txt$/.test(f))) problems.push('the IndexNow key file is missing from dist (it lives in web/public)')
+  if (!existsSync(join(dist, 'llms.txt'))) problems.push('llms.txt is missing: the pre-render step did not finish')
   // Visitor counting. The redesign shipped without it and nobody noticed for weeks (28 Oct 2026): the old
   // site's tag lived in a folder the new site does not build, and the new security policy blocked Google's
   // hosts besides. So a deploy now needs both: the measurement id and Google's tag address in the built

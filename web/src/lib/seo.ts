@@ -18,6 +18,8 @@
 import { districts, MERGED, type Project } from '@/lib/data'
 import { byId, largest, paperOf, placeText, projects, worksIn } from '@/lib/data-projects'
 import claimsRaw from '@/data/claims.json'
+import moneyRaw from '@/data/money.json'
+import factsRaw from '@/data/statefacts.json'
 import { crore, croreTe, dateLong, dateTe, num, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
 import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
 import { projectTab } from '@/lib/project-title'
@@ -61,6 +63,8 @@ export type PageOut = {
   description: Bi
   /** Extra structured data nodes for this page (schema.org), beyond the page and breadcrumb ones. */
   ld?: object[]
+  /** What the page is about (a place, for a district page): added to the page's own WebPage node. */
+  about?: object
   /** A few facts or links under the heading, in the order a reader needs them. */
   lines: Line[]
   /** The page's own share picture. Pages without one use the site's default picture. */
@@ -289,8 +293,59 @@ function datasetNode(): object {
   }
 }
 
+/* ------------------------------------------------------------------ the money and facts tables as datasets */
+// Google Dataset Search lists pages whose tables are described this way. Every value below is read from
+// the same data files the pages show, so the description cannot claim a year or a table the page lacks.
+// No licence and no download are claimed, because neither exists.
+type MoneyData = { series: { indicator: string; points: { fy_end: number }[] }[]; departments: { rows: { y: string; s: string }[] }[] }
+type FactsData = { indicators: { points: { fy_end: number }[] }[] }
+const money = moneyRaw as unknown as MoneyData
+const facts = factsRaw as unknown as FactsData
+/** A financial year that ends in March of `end` runs from April of the year before. */
+const fyCoverage = (firstEnd: number, lastEnd: number) => `${firstEnd - 1}-04-01/${lastEnd}-03-31`
+const fyEnd = (label: string) => Number(label.slice(0, 4)) + 1   // "2014-15" ends in 2015
+
+function moneyDatasetNodes(): Record<string, object> {
+  const base = { isAccessibleForFree: true, inLanguage: ['en', 'te'], spatialCoverage: { '@type': 'Place', name: 'Andhra Pradesh, India' }, creator: { '@id': ORIGIN + '/#org' } }
+  const debtEnds = money.series.flatMap((x) => x.points.map((p) => p.fy_end))
+  const deptYears = money.departments.flatMap((d) => d.rows.map((r) => fyEnd(r.y)))
+  const factEnds = facts.indicators.flatMap((i) => i.points.map((p) => p.fy_end))
+  return {
+    money: {
+      '@type': 'Dataset', ...base,
+      name: 'Andhra Pradesh state debt and deficits, year by year',
+      description: 'Andhra Pradesh state government outstanding liabilities, off-budget borrowings, guarantees, gross state domestic product, fiscal deficit and revenue deficit by financial year, each figure as printed by the Reserve Bank of India, the Comptroller and Auditor General of India or the Government of Andhra Pradesh budget papers, with the paper linked.',
+      url: ORIGIN + P('money'),
+      temporalCoverage: fyCoverage(Math.min(...debtEnds), Math.max(...debtEnds)),
+      variableMeasured: ['Outstanding liabilities (crore rupees)', 'Off-budget borrowings (crore rupees)', 'Guarantees (crore rupees)', 'Gross state domestic product (crore rupees)', 'Fiscal deficit (crore rupees)', 'Revenue deficit (crore rupees)'],
+    },
+    'money-departments': {
+      '@type': 'Dataset', ...base,
+      name: 'Andhra Pradesh department spending: budget estimates, revised estimates and actuals',
+      description: `Budget estimate, revised estimate and actual figure for each of the ${money.departments.length} demands for grants of the Government of Andhra Pradesh, by financial year, where the state budget books print them, with the audited spending in the CAG Appropriation Accounts beside them. Figures as printed, with the book and page linked.`,
+      url: ORIGIN + P('money-departments'),
+      temporalCoverage: fyCoverage(Math.min(...deptYears), Math.max(...deptYears)),
+      variableMeasured: ['Budget estimate (crore rupees)', 'Revised estimate (crore rupees)', 'Actual figure (crore rupees)'],
+    },
+    'state-facts': {
+      '@type': 'Dataset', ...base,
+      name: 'Andhra Pradesh state indicators from the Reserve Bank of India',
+      description: `${facts.indicators.length} indicators for Andhra Pradesh on the economy, state finances, social sectors, industry and infrastructure, banking, agriculture, employment and prices, by year, as printed in the Reserve Bank of India's Handbook of Statistics on Indian States and State Finances: A Study of Budgets, each with its table named.`,
+      url: ORIGIN + P('state-facts'),
+      temporalCoverage: fyCoverage(Math.min(...factEnds), Math.max(...factEnds)),
+    },
+  }
+}
+
+/** A district page is about a place. Saying so lets search engines tie the page to the district itself. */
+const districtPlace = (d: (typeof districts)[number]): object => ({
+  '@type': 'AdministrativeArea', name: `${d.name} district`, alternateName: `${d.te} జిల్లా`,
+  containedInPlace: { '@type': 'State', name: 'Andhra Pradesh', containedInPlace: { '@type': 'Country', name: 'India' } },
+})
+
 /* ------------------------------------------------------------------ all of them */
 export function allPages(): PageOut[] {
+  const moneyDatasets = moneyDatasetNodes()
   const big = largest(12).map((p): Line => ({ text: { en: `${p.t}: ${crore(p.c)} as printed`, te: `${p.t}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) }))
   const dlinks = districts.map((d): Line => ({ text: { en: d.name, te: d.te }, href: P('district', d.slug) }))
   const clinks = claims.map((c): Line => ({ text: CLAIM_Q[c.slug] ?? same(c.question), href: P('claim', c.slug) }))
@@ -301,14 +356,15 @@ export function allPages(): PageOut[] {
     staticPage('cards'),
     withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big]), datasetNode()),
     staticPage('districts', dlinks),
-    staticPage('money'), staticPage('money-departments'), staticPage('money-states'), staticPage('state-facts'),
+    withLd(staticPage('money'), moneyDatasets.money), withLd(staticPage('money-departments'), moneyDatasets['money-departments']),
+    staticPage('money-states'), withLd(staticPage('state-facts'), moneyDatasets['state-facts']),
     staticPage('investments', summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))), staticPage('governments'),
     staticPage('claims', clinks),
     staticPage('papers', paperLinks), staticPage('tenders'), staticPage('updates'), staticPage('helplines'), staticPage('words'),
     staticPage('community'), staticPage('sources'), staticPage('about'), staticPage('disclaimer'), staticPage('privacy'),
   ]
   for (const p of projects) if (!MERGED[p.id]) out.push(projectPage(p))
-  for (const d of districts) { out.push(districtPage(d)); out.push(paperPage(d)) }
+  for (const d of districts) { out.push({ ...districtPage(d), about: districtPlace(d) }); out.push(paperPage(d)) }
   for (const c of claims) out.push(claimPage(c))
   for (const d of docRecs) out.push(docPage(d))
   for (const s of summits) out.push(summitPage(s))
