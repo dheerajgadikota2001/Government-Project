@@ -129,3 +129,38 @@ def test_advice_follows_from_the_error_not_a_fixed_guess():
     assert "cloud addresses" in mod._advice("403 Forbidden")
     assert "certificate" in mod._advice("SSL: CERTIFICATE_VERIFY_FAILED")
     assert "moved" not in mod._advice("ReadTimeout")   # the old text, now wrong for a timeout
+
+
+# ---------------------------------------------------------------------------
+# A run that covers one group must not vouch for the others.
+# For a month the tenders job (GitHub Actions) emailed "every source is current"
+# while the daily group had not run once. These pin the wording that replaced it.
+# ---------------------------------------------------------------------------
+
+PARTIAL = {**CLEAN, "groups": ["tenders"], "quiet": [], "changed": [{"source": "AP CRDA tenders", "count": 4}],
+           "not_run": ["NeVA", "CAG", "MoSPI"]}
+
+
+def test_a_one_group_run_says_so_in_the_subject():
+    subject, _ = build_body(PARTIAL)
+    assert subject == "[AP FactCheck] All clear for the tenders group: 1 of 4 sources, 4 new records"
+
+
+def test_a_one_group_run_never_claims_every_source_is_current():
+    _, body = build_body(PARTIAL)
+    assert "Every source is current" not in body
+    assert "3 source(s) in other groups were not part of this run" in body
+    assert "/updates" in body
+
+
+def test_a_full_run_keeps_the_plain_all_clear():
+    subject, body = build_body({**CLEAN, "groups": ["daily", "documents", "tenders"], "not_run": []})
+    assert subject.startswith("[AP FactCheck] All clear: 2 sources")
+    assert "Every source is current" in body
+
+
+def test_group_words_read_as_english():
+    from app.services.alerts import _group_words
+    assert _group_words(["tenders"]) == "the tenders group"
+    assert _group_words(["daily", "documents"]) == "the daily and documents groups"
+    assert _group_words([]) == "this run"

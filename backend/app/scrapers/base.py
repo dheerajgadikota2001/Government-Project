@@ -231,6 +231,7 @@ class BaseScraper(ABC):
         name = type(self).__name__
 
         baseline: list[dict] = []
+        refusals: list[dict] = []
         try:
             async with get_db_context() as db:
                 previous = (await db.execute(
@@ -240,12 +241,26 @@ class BaseScraper(ABC):
                     .limit(5)
                 )).scalars().all()
                 baseline = [row.stats for row in previous if row.stats]
+                # The shape refusals since the last accepted run, newest first. An
+                # aborted row keeps the parsed count in `rejected`. The list stops at
+                # the first accepted run, so only an unbroken streak counts.
+                last_ok = previous[0].created_at if previous else None
+                refused = (await db.execute(
+                    select(ScrapeStat)
+                    .where(ScrapeStat.scraper == name, ScrapeStat.aborted.is_(True),
+                           *( [ScrapeStat.created_at > last_ok] if last_ok else [] ))
+                    .order_by(ScrapeStat.created_at.desc())
+                    .limit(20)
+                )).scalars().all()
+                refusals = [{"count": row.rejected, "at": row.created_at}
+                            for row in refused if (row.abort_reason or "").find("recent best") >= 0]
         except Exception as exc:                     # noqa: BLE001
             # No baseline means layer 3 is skipped for this run. That is a
             # weaker check, not a reason to abandon the scrape.
             logger.warning(f"[{self.PORTAL_NAME}] could not read drift baseline: {exc}")
+            refusals = []
 
-        gate = SanityGate(name, spec, baseline)
+        gate = SanityGate(name, spec, baseline, refusals)
         try:
             result = gate.run(rows)
         except SanityAbort as abort:
@@ -255,6 +270,15 @@ class BaseScraper(ABC):
             )
             raise
 
+        if gate.rebased:
+            old_best, new_size = gate.rebased
+            # Remembered with the batch, so the next run's floor starts from here.
+            result.stats["rebased_from"] = old_best
+            self.note(
+                f"row floor re-based: {len(refusals)} runs in a row parsed a smaller board "
+                f"({new_size} rows this run) against an earlier best of {old_best}; accepted as the "
+                "board's new size. If the portal was redesigned, this is the run to check."
+            )
         await self._record_stats(
             name, run_id, rows=len(result.rows), stats=result.stats,
             rejected=len(result.rejected), reason=result.rejected_summary or None,

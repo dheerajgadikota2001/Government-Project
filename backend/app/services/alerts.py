@@ -61,6 +61,15 @@ def _ist(when: Optional[datetime] = None) -> str:
 # Body
 # --------------------------------------------------------------------------
 
+def _group_words(groups: list[str]) -> str:
+    """'the tenders group' or 'the daily and documents groups'."""
+    if not groups:
+        return "this run"
+    if len(groups) == 1:
+        return f"the {groups[0]} group"
+    return f"the {', '.join(groups[:-1])} and {groups[-1]} groups"
+
+
 def build_body(report: dict) -> tuple[str, str]:
     """Render (subject, plain-text body) from one refresh + watch cycle.
 
@@ -71,11 +80,15 @@ def build_body(report: dict) -> tuple[str, str]:
         quiet        [source, ...]
         still_failing [{title, detail}]   failed last run too; heartbeat only
         recovered    [source, ...]       failed last run, fine now
+        groups       [group, ...]        the scraper groups this run covered
+        not_run      [source, ...]       sources in other groups, not part of this run
         notes        [{source, note}]    true, worth knowing, not a failure
         dead         [{source_key, publisher, title, url}]
         run_id, started_at, duration_s, heartbeat (bool)
     """
     needs = report.get("needs_you") or []
+    groups = report.get("groups") or []
+    not_run = report.get("not_run") or []
     blocked = report.get("blocked") or []
     changed = report.get("changed") or []
     quiet = report.get("quiet") or []
@@ -97,7 +110,13 @@ def build_body(report: dict) -> tuple[str, str]:
         subject = f"[AP FactCheck] {len(still)} source(s) still failing, nothing new"
     else:
         total = sum(item.get("count", 0) for item in changed)
-        subject = f"[AP FactCheck] All clear: {len(changed) + len(quiet)} sources, {total} new records"
+        covered = len(changed) + len(quiet)
+        subject = f"[AP FactCheck] All clear: {covered} sources, {total} new records"
+        if not_run:
+            # "All clear" from a one-group run once read as "the whole platform is
+            # fresh" for a month. The subject now says how much of it this run saw.
+            subject = (f"[AP FactCheck] All clear for {_group_words(groups)}: "
+                       f"{covered} of {covered + len(not_run)} sources, {total} new records")
 
     lines: list[str] = []
 
@@ -120,6 +139,11 @@ def build_body(report: dict) -> tuple[str, str]:
         lines += ["NEEDS YOU (0)", RULE,
                   f"Nothing new. {len(still)} source(s) reported earlier are still broken; "
                   "the weekly heartbeat lists them.", ""]
+    elif not_run:
+        lines += ["NEEDS YOU (0)", RULE,
+                  f"Nothing in the {len(changed) + len(quiet)} source(s) this run covered ({_group_words(groups)}).",
+                  f"{len(not_run)} source(s) in other groups were not part of this run and are not "
+                  f"vouched for here; their last runs are on {settings.alert_site_url}/updates.", ""]
     else:
         lines += ["NEEDS YOU (0)", RULE, "Nothing. Every source is current and every scraper is working.", ""]
 

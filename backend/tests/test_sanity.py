@@ -199,3 +199,72 @@ async def test_track_still_records_a_real_crash_as_failed():
     assert slot.get("failed")
     assert not slot.get("blocked")
     assert recorded.await_args.kwargs["status"] is RunStatus.FAILED
+
+
+# ---------------------------------------------------------------------------
+# A smaller board that stays small is a smaller board, not a redesign.
+# The CRDA tender board held 7 to 11 rows for nine days against a remembered
+# best of 26 and was refused every day, and nothing could ever bring the
+# remembered best down because refused runs are not "good" runs.
+# ---------------------------------------------------------------------------
+
+from datetime import datetime, timedelta, timezone
+
+
+def _refusals(counts, days_apart=1.0):
+    now = datetime(2026, 10, 31, 10, tzinfo=timezone.utc)
+    return [{"count": c, "at": now - timedelta(days=i * days_apart)} for i, c in enumerate(counts)]
+
+
+def _rows(n):
+    return rows(n)
+
+
+REBASE = SanitySpec(**{**SPEC.__dict__, "rebase_after_refusals": 5, "rebase_after_days": 3.0})
+
+
+def test_a_single_small_run_is_still_refused():
+    gate = SanityGate("crda", REBASE, [{"rows": 26}], refusals=[])
+    with pytest.raises(SanityAbort, match="recent best of 26"):
+        gate.run(_rows(8))
+
+
+def test_a_steady_small_board_is_accepted_after_enough_refusals():
+    gate = SanityGate("crda", REBASE, [{"rows": 26}], refusals=_refusals([8, 7, 7, 8, 8, 8, 11, 10, 10]))
+    result = gate.run(_rows(8))
+    assert len(result.rows) == 8
+    assert gate.rebased == (26, 8)
+
+
+def test_a_board_that_jumps_about_is_not_a_steady_board():
+    """A truncated response gives a different count each time; that stays refused."""
+    gate = SanityGate("crda", REBASE, [{"rows": 26}], refusals=_refusals([3, 11, 4, 12, 3, 10]))
+    with pytest.raises(SanityAbort):
+        gate.run(_rows(8))
+
+
+def test_refusals_inside_one_day_are_not_enough():
+    """Five retries in an afternoon prove nothing about the board."""
+    gate = SanityGate("crda", REBASE, [{"rows": 26}], refusals=_refusals([8, 8, 8, 8, 8], days_apart=0.1))
+    with pytest.raises(SanityAbort):
+        gate.run(_rows(8))
+
+
+def test_too_few_refusals_are_not_enough():
+    gate = SanityGate("crda", REBASE, [{"rows": 26}], refusals=_refusals([8, 8, 8, 8]))
+    with pytest.raises(SanityAbort):
+        gate.run(_rows(8))
+
+
+def test_after_a_rebase_the_old_best_no_longer_sets_the_floor():
+    """The run after a re-base must pass on its own, or the board is refused all over again."""
+    baseline = [{"rows": 8, "rebased_from": 26}, {"rows": 26}, {"rows": 25}, {"rows": 26}]
+    result = SanityGate("crda", REBASE, baseline, refusals=[]).run(_rows(7))
+    assert len(result.rows) == 7
+
+
+def test_rebase_is_off_unless_a_scraper_opts_in():
+    """A register whose parser lost half its rows must stay refused, however steady."""
+    gate = SanityGate("bills", SPEC, [{"rows": 195}], refusals=_refusals([86, 86, 86, 86, 86, 86]))
+    with pytest.raises(SanityAbort, match="recent best of 195"):
+        gate.run(_rows(86))
