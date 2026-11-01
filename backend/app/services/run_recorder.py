@@ -157,6 +157,24 @@ async def previous_status(source: str, before_run_id: str) -> Optional[RunStatus
     return row
 
 
+async def last_run_at(source: str) -> Optional[datetime]:
+    """When this source last ran at all, whatever the outcome. None if never.
+
+    The alert for a run that covers one group needs to know how long the other
+    groups have gone without a run. A source that broke is recorded as a failure
+    and reported; a source that nobody started leaves no row at all, and that
+    silence used to read as health. This is the one query that tells the two apart.
+    """
+    async with get_db_context() as db:
+        row = (await db.execute(
+            select(DataUpdate.started_at)
+            .where(DataUpdate.source == source)
+            .order_by(DataUpdate.started_at.desc())
+            .limit(1)
+        )).scalar_one_or_none()
+    return row
+
+
 ESCALATE_AFTER_DAYS = (3, 7, 14, 30, 60)
 
 

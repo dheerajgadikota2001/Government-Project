@@ -27,6 +27,7 @@ carries on: one dead portal must never cost us the other five.
 
 import argparse
 from datetime import datetime, timezone
+from typing import Optional
 import asyncio
 import os
 import sys
@@ -84,6 +85,12 @@ SCRAPERS = [
 ]
 
 GROUPS = sorted({group for group, _, _ in SCRAPERS})
+
+# How long a group may go without a run before the email treats the silence as a
+# failure. The tenders job (GitHub Actions) ran every day for a month while the
+# daily group never ran at all, and every one of its emails said "every source is
+# current". A run that covers one group now looks at the dates of the others.
+STALE_AFTER_DAYS = {"daily": 2, "tenders": 2, "documents": 14}
 
 
 async def main(groups: list[str], trigger: RunTrigger) -> int:
@@ -149,7 +156,8 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
     # A non-zero exit is what makes Cloud Scheduler mark the run failed and
     # trigger the alert, so a run where every source broke must not look fine.
     ok_sources = [name for name, outcome in summary if not outcome.startswith(("FAILED", "BLOCKED"))]
-    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes)
+    not_run = [(group, name) for group, name, _ in SCRAPERS if group not in groups]
+    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes, groups, not_run)
 
     failed = [item["source"] for item in broke]
     if failed:
@@ -185,7 +193,8 @@ def _advice(error: str) -> str:
     return "Read the error above; re-probe the portal before changing the parser."
 
 
-async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes=None) -> None:
+async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes=None,
+                 groups=None, not_run=None) -> None:
     """Assemble the run into the alert report and hand it to the sender.
 
     Never raises. An email that cannot be sent is a nuisance; a refresh run that
@@ -193,6 +202,7 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, no
     """
     try:
         from app.services import alerts
+        from app.services.run_recorder import last_run_at
 
         # Change, not state. A source that failed last time too goes in the
         # heartbeat's STILL FAILING list rather than back into NEEDS YOU; a
@@ -244,6 +254,37 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, no
         for name in ok_sources:
             if await previous_status(name, run_id) == RunStatus.FAILED:
                 recovered.append(name)
+
+        # Sources outside this run's groups. Each group that has gone past its
+        # allowance without any run becomes one NEEDS YOU line, every run, until
+        # it runs: silence is the one failure no scraper can report about itself.
+        # One line per group, not per source, so the daily nag stays readable.
+        not_run = not_run or []
+        stale_groups: dict[str, list[tuple[str, Optional[datetime]]]] = {}
+        for group, name in not_run:
+            last = await last_run_at(name)
+            allowed = STALE_AFTER_DAYS.get(group, 2)
+            if last is None or (now - last).total_seconds() > allowed * 86400:
+                stale_groups.setdefault(group, []).append((name, last))
+        for group, members in sorted(stale_groups.items()):
+            never = [n for n, last in members if last is None]
+            dated = [(n, last) for n, last in members if last is not None]
+            oldest = min((last for _, last in dated), default=None)
+            if oldest is not None:
+                days = (now - oldest).total_seconds() / 86400
+                title = f"'{group}' group not run for {days:.0f} days ({len(members)} sources)"
+            else:
+                title = f"'{group}' group has never run in this database ({len(members)} sources)"
+            detail_lines = [f"{n}: last run {last.date().isoformat()}" for n, last in dated]
+            detail_lines += [f"{n}: never run" for n in never]
+            needs_you.append({
+                "kind": "not refreshed",
+                "title": title,
+                "detail": "\n".join(detail_lines),
+                "action": (f"Check the schedule for this group, or run it: "
+                           f"python scripts/run_all_scrapers.py --only {group} --trigger manual"),
+            })
+
         report = {
             "run_id": run_id,
             "started_at": started,
@@ -257,6 +298,8 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, no
             "notes": notes or [],
             "dead": [],
             "heartbeat": alerts.is_heartbeat_day(),
+            "groups": sorted(groups or []),
+            "not_run": [name for _, name in not_run],
         }
         result = await alerts.send(report)
         logger.info(f"[alerts] {result}")

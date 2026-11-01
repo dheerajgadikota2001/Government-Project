@@ -165,6 +165,21 @@ class SanitySpec:
 
     # Layer 1 — a batch smaller than this is never legitimate for this source.
     min_rows: int = 1
+    # A board that genuinely shrinks (notifications expire, a register is
+    # archived) can never pass the floor on its own: refused runs are not
+    # counted as "good", so the remembered best never comes down. The CRDA
+    # tender board sat at 7 to 11 rows for nine days against a remembered best
+    # of 26 and was refused every day. After this many consecutive refusals of
+    # the same shape, spread over at least rebase_after_days, with counts that
+    # stay within a factor of two of each other, the gate accepts the batch and
+    # takes its size as the new normal. A truncated response varies from run to
+    # run and a redesign breaks the headers first; a steady small count is a
+    # smaller board. Off (None) unless a scraper opts in: a register whose
+    # parser quietly lost half its rows would otherwise be accepted after a
+    # week, and that is the one mistake this gate exists to stop. Opt in only
+    # where the page's own headers are checked before the count is.
+    rebase_after_refusals: Optional[int] = None
+    rebase_after_days: float = 3.0
     # ...and a batch under this fraction of the last known-good run is treated
     # as a redesign. 0.5 is deliberately loose: registers genuinely shrink when
     # a portal archives old entries, and a gate that fires on ordinary variation
@@ -278,11 +293,17 @@ class GateResult:
 class SanityGate:
     """Runs the four layers over one batch. Raises SanityAbort to refuse it."""
 
-    def __init__(self, scraper_name: str, spec: SanitySpec, baseline: Sequence[dict] = ()):
+    def __init__(self, scraper_name: str, spec: SanitySpec, baseline: Sequence[dict] = (),
+                 refusals: Sequence[dict] = ()):
         self.scraper_name = scraper_name
         self.spec = spec
         # Most recent first; the summaries of previous successful runs.
         self.baseline = list(baseline)
+        # Most recent first; the shape refusals since the last accepted run, each
+        # {"count": rows parsed, "at": datetime}. Only the shape layer reads them.
+        self.refusals = list(refusals)
+        # Set when the floor was re-based on this run: (old best, new size).
+        self.rebased: Optional[tuple[int, int]] = None
 
     # -- layer 1 ----------------------------------------------------------
     def check_shape(self, row_count: int) -> None:
@@ -294,14 +315,47 @@ class SanityGate:
                 "we think it is. Nothing written."
             )
         if self.baseline:
-            last_good = max(b.get("rows", 0) for b in self.baseline)
+            # The remembered best stops at the last re-base: once the gate has
+            # accepted a smaller board, the older, larger runs no longer set the floor.
+            recent: list[int] = []
+            for b in self.baseline:
+                recent.append(b.get("rows", 0))
+                if b.get("rebased_from"):
+                    break
+            last_good = max(recent)
             floor = last_good * spec.row_floor_ratio
             if last_good and row_count < floor:
+                if self._steady_small_board(row_count):
+                    self.rebased = (last_good, row_count)
+                    logger.warning(
+                        f"[{self.scraper_name}] row floor re-based: {len(self.refusals)} consecutive "
+                        f"refusals parsed {min(r['count'] for r in self.refusals)} to "
+                        f"{max(r['count'] for r in self.refusals)} rows against a best of {last_good}; "
+                        f"accepting {row_count} rows as the board's new size."
+                    )
+                    return
                 raise SanityAbort(
                     f"{self.scraper_name}: parsed {row_count} rows against a recent "
                     f"best of {last_good} (floor {floor:.0f}). That is a redesign or a "
                     "truncated response, not a quiet week. Nothing written."
                 )
+
+    def _steady_small_board(self, row_count: int) -> bool:
+        """True when the refusals before this run show a steady, smaller board."""
+        spec = self.spec
+        if not spec.rebase_after_refusals:
+            return False
+        shape = [r for r in self.refusals if r.get("count", 0) >= spec.min_rows]
+        if len(shape) < spec.rebase_after_refusals or len(shape) != len(self.refusals):
+            return False
+        counts = [r["count"] for r in shape] + [row_count]
+        if max(counts) > 2 * min(counts):
+            return False
+        times = [r["at"] for r in shape if r.get("at") is not None]
+        if len(times) < 2:
+            return False
+        span_days = (max(times) - min(times)).total_seconds() / 86400
+        return span_days >= spec.rebase_after_days
 
     # -- layer 2 ----------------------------------------------------------
     def filter_rows(self, rows: Iterable[dict]) -> tuple[list[dict], list[tuple[dict, str]]]:

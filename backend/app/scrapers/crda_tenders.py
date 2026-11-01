@@ -89,6 +89,12 @@ class CrdaTendersScraper(BaseScraper):
     # declared in one place rather than buried in _parse_grid.
     SANITY = SanitySpec(
         min_rows=3,
+        # The board shrinks when notifications expire: 26 rows in September 2026,
+        # 7 to 11 through late October, refused for nine days straight. The grid
+        # and its six headers are checked before any count, so a steady small
+        # count here is a smaller board. Five refusals over three days re-base it.
+        rebase_after_refusals=5,
+        rebase_after_days=3.0,
         fields={
             "nit": FieldRule(required=True, min_len=3, max_len=200),
             "description": FieldRule(required=True, min_len=8, max_len=1000),
