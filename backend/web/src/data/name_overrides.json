@@ -1,0 +1,59 @@
+{
+ "_about": "Hand-set reader words for works the rules cannot shorten safely. Every value is the start of the printed name or two place names the name itself holds; nothing is reworded except where marked. A null removes the automatic value. The printed name is never changed. Proposed by Claude for the owner to approve.",
+ "724": {
+  "hc": "Mobile connectivity in LWE areas"
+ },
+ "725": {
+  "hc": "Mobile connectivity in LWE areas"
+ },
+ "609": {
+  "rt": "Thimmapuram to Gurajanapalli",
+  "hc": null
+ },
+ "657": {
+  "hc": "Inter-linking of Nagavali River with Champavati"
+ },
+ "658": {
+  "hc": "Inter-linking of Vamsadhara and Bahuda Rivers"
+ },
+ "656": {
+  "hc": "Inter-linking of Vamsadhara and Nagavali Rivers"
+ },
+ "659": {
+  "hc": "Vissannapeta - Chanubanda Lift Irrigation Scheme"
+ },
+ "668": {
+  "rt": "Jeedipalli Reservoir to Bhairavanithippa Project",
+  "hc": null
+ },
+ "585": {
+  "hc": "Construction of 1 Nos ROB, 2 Nos VUPS"
+ },
+ "676": {
+  "hc": "ESR - 8 nos., distribution system - 216 Km"
+ },
+ "726": {
+  "hc": "Provision of 4G based mobile services"
+ },
+ "693": {
+  "hc": "Doubling between Motumari Vishnupuram"
+ },
+ "678": {
+  "hc": "Provision of four bitumen tanks"
+ },
+ "524": {
+  "hc": "Construction of Aviation Fuel Farm Facilities"
+ },
+ "170": {
+  "cn": "Tanuku Jagananna colony"
+ },
+ "177": {
+  "cn": "Tadepalligudem Jagananna colony"
+ },
+ "124": {
+  "cn": "APTIDCO - Providing Internal Water Supply facilities at Rajamahendravaram (Dowaleswaram (Vaddedara Colony), Morampudi (D-Block)), Rajamahendravaram Phase-II (Bommuru, Namavaram, Simhachalana gar), ULB, Rajahmundry"
+ },
+ "75": {
+  "cn": "Construction of 1000 KL Sump at Yendada Section office in Zone-II area, GVMC"
+ }
+}

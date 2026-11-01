@@ -1,0 +1,195 @@
+# The gate that decides whether main is safe.
+#
+# It used to run only the backend tests against an empty database, then poke a
+# Render deploy hook for a service this project does not use any more. So it was
+# red on every commit, and a permanently red pipeline tells you nothing: nobody
+# reads a signal that is always the same colour.
+#
+# It is now two honest jobs. Backend: migrate, lint for undefined names, test.
+# Frontend: install, test, build. Deployment stays manual, to Cloud Run and
+# Firebase, because a deploy that fires without someone watching is not what
+# this project needs yet.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A second push to the same branch makes the first run pointless. Cancel it
+# rather than paying for both.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend tests
+    runs-on: ubuntu-latest
+
+    env:
+      APP_ENV: testing
+      DATABASE_URL: postgresql+asyncpg://postgres:password@localhost:5432/applatform_test
+      REDIS_URL: redis://localhost:6379/0
+      SECRET_KEY: test-secret-key
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: applatform_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          pip install -r requirements.txt
+          pip install ruff
+
+      # Without this the database is up but empty, every query hits a table
+      # that does not exist, and the API tests fail on a schema problem that
+      # has nothing to do with the change being reviewed. Running the
+      # migrations here also means a broken migration is caught before it is
+      # ever pointed at the real database.
+      - name: Run migrations
+        working-directory: backend
+        run: alembic upgrade head
+
+      # F821 is undefined-name. A missing import took the live API down once,
+      # returning 500 for every district, and nothing in this pipeline noticed.
+      # This is the cheapest possible guard against a repeat.
+      - name: Lint for undefined names
+        working-directory: backend
+        run: ruff check app --select F821
+
+      - name: Run tests
+        working-directory: backend
+        run: pytest tests/ -q
+
+  frontend:
+    name: Frontend tests and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: ap-nadu-nedu/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ap-nadu-nedu
+        run: npm ci
+
+      # Build comes before the tests on purpose. The prerender tests read
+      # dist/, so run before a build they fail with "No dist/index.html" even
+      # though nothing is wrong. They passed on a laptop that already had a
+      # dist folder, which hid it. prebuild rebuilds the icon subset font and
+      # postbuild runs the CSP hash check and the prerender, so this step also
+      # catches a missing glyph or a drifted inline script hash here rather
+      # than in front of readers.
+      - name: Build
+        working-directory: ap-nadu-nedu
+        run: npm run build
+
+      # Includes the consent guard. The site once shipped with analytics
+      # storage denied everywhere, which silently sent Google hits it refused
+      # to count. Nothing failed, and the only symptom was an empty dashboard.
+      - name: Run tests
+        working-directory: ap-nadu-nedu
+        run: npm run test:unit
+
+  web:
+    name: New site (web/) typecheck, build and speed gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      # build runs tsc -b, vite build and the pre-renderer (one HTML file per
+      # page, in English and Telugu, plus sitemaps), then the budget check fails
+      # the job if the first screen grows past 200 KB gzipped. That is the
+      # guard that keeps the site usable on a village phone.
+      - name: Typecheck, build, pre-render and check the size budget
+        working-directory: web
+        run: npm run build:check
+
+      # The adaptive 3D rules: when a phone steps down, when it freezes, when
+      # it may step back up. A change that breaks them fails here.
+      - name: Test the 3D governor
+        working-directory: web
+        run: npm run test:3d
+
+      # Every address has its page in both languages, names itself, and every
+      # link inside a page lands on a page. There is no catch-all rewrite any
+      # more, so a missing page would be a real 404 for a reader.
+      - name: Test the pre-rendered pages
+        working-directory: web
+        run: npm run test:prerender
+
+      # Nothing a reader sees first (tab title, heading, description, link preview)
+      # prints a placeholder, a split word, a run of capitals or a cut name.
+      - name: No visible mistakes on project pages
+        working-directory: web
+        run: npm run test:visible
+
+      # The printed names are untouched, every Telugu place is an approved one,
+      # and no two project pages share a title in either language.
+      - name: Test project titles
+        working-directory: web
+        run: npm run test:titles
+
+      # The API client's promises: a read tried twice, a write once, no old
+      # copy kept for the community board, every page of a long list read.
+      - name: Test the API client
+        working-directory: web
+        run: npm run test:api
+
+      # A file nothing imports is either dead or parked by name (scripts/unused_files.mjs).
+      - name: No unused files
+        working-directory: web
+        run: npm run unused
