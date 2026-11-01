@@ -103,7 +103,10 @@ function GenericProject({ p }: { p: Project }) {
         </div>
         <h1 className="mt-4 text-[32px] font-semibold leading-[1.08] tracking-tight [text-wrap:balance] md:text-[46px]" lang={te ? 'te' : undefined}>{te ? questionTe(p) : question(p)}</h1>
         <p className="mt-2 text-[17px] text-muted-foreground" lang={te ? 'en' : 'te'}>{te ? question(p) : questionTe(p)}</p>
-        <p className="mt-3 text-[15.5px] text-foreground/80" lang="en">{clean(p.t)}{p.dept ? <span className="text-muted-foreground"> · {clean(p.dept)}</span> : null}</p>
+        <p className="mt-3 text-[15.5px] text-foreground/80" lang="en">{p.cn ?? clean(p.t)}{p.dept ? <span className="text-muted-foreground"> · {clean(p.dept)}</span> : null}</p>
+        {p.cn && p.cn !== clean(p.t) ? (
+          <p className="mt-1 text-[13.5px] text-muted-foreground">{te ? <Te>పత్రంలో ముద్రించిన పేరు:</Te> : 'Name as printed in the paper:'} <span lang="en">{clean(p.t)}</span></p>
+        ) : null}
         <AnswerBox className="mt-6">
           {te ? (<>
             <p><b>{statusTe}.</b> {paper} దీన్ని ఇలాగే చూపుతోంది{p.l ? <> ({dateTe(p.l)} నాటి పత్రం)</> : null}.</p>

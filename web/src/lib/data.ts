@@ -18,6 +18,11 @@ export type Project = {
   sp: string; su: string | null; f: string | null; l: string | null; n: number
   /** Only when another project has the same title: what tells the two apart (the cost as printed). */
   dn?: string
+  /** Reader-facing words worked out from the printed name by scripts/name_fields.py. `t` is never changed.
+   *  cn: the name with spacing, capitals and split words fixed. pl / plt: the place a reader would search with, in English and
+   *  in Telugu (Telugu only from the lists the owner approved). wk: a plain word for the kind of work. rt: the two ends of a
+   *  road with no town. hc: the start of the name, for works with no place. */
+  cn?: string; pl?: string; plt?: string; wk?: string; rt?: string; hc?: string; sb?: string; rd?: string
 }
 export type Event = { date: string; pre: boolean; title: string; doc: string; url: string; tier: string; kind: string }
 export type District = {

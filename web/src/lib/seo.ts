@@ -26,7 +26,7 @@ import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
 import { docDescription, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
-import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectQuestionTe, projectTabBase, shortName, type Bi } from '@/lib/titles'
+import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
 export { TODAY }
@@ -98,8 +98,10 @@ function staticPage(token: string, lines: Line[] = []): PageOut {
 /* ------------------------------------------------------------------ one project */
 function projectPage(p: Project): PageOut {
   const ty = TYPE_WORDS[p.ty], st = STATUS_WORDS[p.st]
+  const shownName = p.cn ?? p.t
   const lines: Line[] = [
-    { text: same(p.t) },
+    { text: same(shownName) },
+    ...(p.cn && p.cn !== p.t ? [{ text: { en: `Name as printed in the paper: ${p.t}`, te: `పత్రంలో ముద్రించిన పేరు: ${p.t}` } }] : []),
     { text: { en: `Kind of work: ${ty?.en ?? p.ty}`, te: `పని రకం: ${ty?.te ?? p.ty}` } },
     { text: { en: `Status in the record: ${st?.en ?? p.st}`, te: `రికార్డులో స్థితి: ${st?.te ?? p.st}` } },
     { text: { en: `Place: ${placeText(p, 'en')}`, te: `ప్రాంతం: ${placeText(p, 'te')}` } },
@@ -120,7 +122,7 @@ function projectPage(p: Project): PageOut {
     kind: 'project',
     tag: started ? { en: 'Has work started?', te: 'పనులు మొదలయ్యాయా?' } : { en: 'Is it finished?', te: 'పూర్తయిందా?' },
     // no bracket at the end (that tells two records of one name apart on the page), and the longest names are cut in the middle
-    title: projectTabBase(p, CARD_NAME_MAX),
+    title: projectCardBase(p, CARD_NAME_MAX),
     status: st ?? same(p.st),
     progress: p.p != null ? num(p.p, 1) : null,
     cost: p.c != null ? { en: crore(p.c), te: croreTe(p.c) } : null,
@@ -135,8 +137,8 @@ function projectPage(p: Project): PageOut {
     title: { en: projectQuestion(p), te: projectQuestionTe(p) },
     tabTitle: projectTab(p),
     description: {
-      en: `${p.t}: ${st2}, ${placeText(p, 'en')}.${p.c != null ? ` Cost as printed ${crore(p.c)}.` : ''} From ${paperOf(p)}, with the paper linked.`.slice(0, 300),
-      te: `${p.t}: ${st?.te ?? p.st}, ${placeText(p, 'te')}.${p.c != null ? ` ముద్రించిన వ్యయం ${croreTe(p.c)}.` : ''} ఆధారం: ${paperOf(p)}.`.slice(0, 300),
+      en: `${shownName}: ${st2}, ${placeText(p, 'en')}.${p.c != null ? ` Cost as printed ${crore(p.c)}.` : ''} From ${paperOf(p)}, with the paper linked.`.slice(0, 300),
+      te: `${shownName}: ${st?.te ?? p.st}, ${placeText(p, 'te')}.${p.c != null ? ` ముద్రించిన వ్యయం ${croreTe(p.c)}.` : ''} ఆధారం: ${paperOf(p)}.`.slice(0, 300),
     },
     lines,
     trail: [{ name: PAGE_WORDS.projects.title, path: P('projects') }],

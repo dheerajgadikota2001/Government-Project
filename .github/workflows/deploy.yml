@@ -171,6 +171,18 @@ jobs:
         working-directory: web
         run: npm run test:prerender
 
+      # Nothing a reader sees first (tab title, heading, description, link preview)
+      # prints a placeholder, a split word, a run of capitals or a cut name.
+      - name: No visible mistakes on project pages
+        working-directory: web
+        run: npm run test:visible
+
+      # The printed names are untouched, every Telugu place is an approved one,
+      # and no two project pages share a title in either language.
+      - name: Test project titles
+        working-directory: web
+        run: npm run test:titles
+
       # The API client's promises: a read tried twice, a write once, no old
       # copy kept for the community board, every page of a long list read.
       - name: Test the API client

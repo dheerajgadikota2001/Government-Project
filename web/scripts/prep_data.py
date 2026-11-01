@@ -622,3 +622,11 @@ def undash(o):
     return o
 legal = undash(legal)
 dump('legal', legal)
+
+# Reader names go on top of the printed names: the clean name, the place and its approved Telugu.
+# They live in projects.json beside the paper's own words, so they are made again after every dump,
+# or a fresh data run would quietly bring back the raw capitals and split words.
+import sys  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import name_fields  # noqa: E402
+name_fields.main()

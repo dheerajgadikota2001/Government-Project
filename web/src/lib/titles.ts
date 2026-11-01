@@ -127,21 +127,23 @@ export function useTitle(t: Bi | null | undefined, lang: 'en' | 'te') {
 }
 
 /* ------------------------------------------------------------------ one record's words */
-type ProjectLike = { t: string; st: string; dn?: string }
+type ProjectLike = { t: string; st: string; dn?: string; cn?: string; pl?: string; plt?: string; wk?: string; rt?: string; hc?: string; sb?: string; rd?: string }
 const bare = (t: string) => t.replace(/\s*\(.*?\)\s*$/, '')
+/** The name to show: the cleaned one when the build made it, else the printed one. */
+const shown = (p: ProjectLike) => p.cn ?? bare(p.t)
 
 /** A project page asks the reader's question about the work: has it started, or is it finished? */
 export function projectQuestion(p: ProjectLike) {
   const tag = p.dn ? ` (${p.dn})` : ''
-  return p.st === 'tendered' || p.st === 'approved' ? `Has work on ${bare(p.t)} started?${tag}` : `Is ${bare(p.t)} finished?${tag}`
+  return p.st === 'tendered' || p.st === 'approved' ? `Has work on ${shown(p)} started?${tag}` : `Is ${shown(p)} finished?${tag}`
 }
 export function projectQuestionTe(p: ProjectLike) {
   const tag = p.dn ? ` (${p.dn})` : ''
-  return p.st === 'tendered' || p.st === 'approved' ? `${bare(p.t)}: పనులు మొదలయ్యాయా?${tag}` : `${bare(p.t)}: పూర్తయిందా?${tag}`
+  return p.st === 'tendered' || p.st === 'approved' ? `${shown(p)}: పనులు మొదలయ్యాయా?${tag}` : `${shown(p)}: పూర్తయిందా?${tag}`
 }
-/** Longest project name that goes into a tab title or a search result, in characters.
+/** Longest key phrase that goes into a tab title or a search result, in characters.
  *  A result shows about 60 characters in English; Telugu letters are wider, so fewer fit. */
-export const TAB_NAME_MAX = { en: 34, te: 26 }
+export const TAB_NAME_MAX = { en: 50, te: 28 }
 
 /** A long name cut to fit a search result. The start and the end of the name stay (the end of a
  *  government work's name is usually its place) and the middle becomes "…". Never cuts inside a word. */
@@ -161,19 +163,46 @@ export function shortName(name: string, max: number): string {
   return tail ? `${head} … ${tail}` : `${head} …`
 }
 
-/** The project page's tab and search-result title: the same question as its heading, with the name shortened.
+/** The words a reader would type, first. A town (or a road's two ends) leads, then a plain word for the work, or the name of a
+ *  named pond or tank: "Puttur water supply", "Dornala to Kunta Junction road works". A work with no place keeps the start of
+ *  its name. Telugu: the Telugu place leads when the owner has approved one; the work word stays English until the Telugu
+ *  work words are approved (scripts/name_fields.py lists them). */
+export function projectKey(p: ProjectLike, max: { en: number; te: number } = TAB_NAME_MAX): Bi {
+  const lead = p.pl ?? p.rt ?? p.rd
+  const what = p.sb ?? p.wk ?? ''
+  // a long route drops the work word before it is ever cut, so a name is never broken in the middle
+  const fit = (lead0: string | undefined, limit: number, roomy: number) => {
+    // no place: the start of the name, roomier than a place plus a work word (Telugu has no approved work words to spare)
+    if (!lead0) return shortName(p.hc ?? shown(p), Math.max(limit, roomy))
+    const full = `${lead0} ${what}`.trim()
+    return full.length <= limit ? full : lead0.length <= limit ? lead0 : shortName(lead0, Math.max(limit, roomy))
+  }
+  // the Telugu tab ends in longer words, so its cut of an English name is shorter
+  return { en: fit(lead, max.en, max.en), te: fit(p.plt ?? p.rt ?? p.pl ?? p.rd, max.te, 38) }
+}
+
+/** The project page's tab and search-result title: keywords first, then the same question as its heading.
  *  Two projects can still end up with the same words; project-title.ts tells them apart. */
 export function projectTabBase(p: ProjectLike, max: { en: number; te: number } = TAB_NAME_MAX): Bi {
   const started = p.st === 'tendered' || p.st === 'approved'
-  const en = shortName(bare(p.t), max.en)
-  const te = shortName(bare(p.t), max.te)
+  const k = projectKey(p, max)
+  return {
+    en: started ? `${k.en}: work started?` : `${k.en}: finished?`,
+    te: started ? `${k.te}: పనులు మొదలయ్యాయా?` : `${k.te}: పూర్తయిందా?`,
+  }
+}
+/** The question on a share picture: roomier than a tab title, still cut (head and tail kept) for the longest government names. */
+export const CARD_NAME_MAX = { en: 90, te: 70 }
+/** The share picture keeps the whole (cleaned) name, cut only when it is very long: the picture has room, and the
+ *  keyword form above is for tabs and search results. */
+export function projectCardBase(p: ProjectLike, max: { en: number; te: number } = CARD_NAME_MAX): Bi {
+  const started = p.st === 'tendered' || p.st === 'approved'
+  const en = shortName(shown(p), max.en), te = shortName(shown(p), max.te)
   return {
     en: started ? `Has work on ${en} started?` : `Is ${en} finished?`,
     te: started ? `${te}: పనులు మొదలయ్యాయా?` : `${te}: పూర్తయిందా?`,
   }
 }
-/** The question on a share picture: roomier than a tab title, still cut (head and tail kept) for the longest government names. */
-export const CARD_NAME_MAX = { en: 90, te: 70 }
 export const districtTitle = (d: { name: string; te: string }): Bi =>
   ({ en: `What is happening in ${d.name} district?`, te: `${d.te} జిల్లాలో ఏం జరుగుతోంది?` })
 export const paperTitle = (d: { name: string; te: string }): Bi =>
