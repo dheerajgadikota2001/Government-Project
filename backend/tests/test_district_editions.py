@@ -178,12 +178,17 @@ def test_audio_reads_only_what_was_approved():
 async def test_stand_in_drafts_new_items_only_and_passes_the_gate(seeded):
     async with get_db_context() as db:
         rep = await draft_district(db, DISTRICT, StandInDrafter())
-    assert rep.edition_id and rep.items_offered == 3 and rep.stories_kept == 3 and not rep.dropped, rep
+    # The drafter reads every recent Nandyal item in the database, not only the
+    # three this test planted, so a developer's copy that holds real Nandyal
+    # happenings offers more than three. The rule under test is that the three
+    # planted items are drafted, the merit list is not, and nothing is dropped.
+    assert rep.edition_id and rep.items_offered >= 3 and rep.stories_kept == rep.items_offered and not rep.dropped, rep
     async with get_db_context() as db:
         ed = await db.get(DistrictEdition, rep.edition_id)
         assert ed.status == "draft" and ed.written_by.startswith("stand-in")
-        ids = {s["id"] for s in ed.content["lead"]}
-        roads = next(s for s in ed.content["lead"] if s["url"].endswith("/2"))
+        ours = [s for s in ed.content["lead"] if s["url"].startswith(MARK)]
+        ids = {s["id"] for s in ours}
+        roads = next(s for s in ours if s["url"].endswith("/2"))
         assert "–" not in roads["head_en"] and roads["quote"] == "Notice on rural roads – 45 km sanctioned"
         assert all("Merit" not in s["head_en"] for s in ed.content["lead"])
     assert len(ids) == 3
