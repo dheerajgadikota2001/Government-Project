@@ -47,7 +47,11 @@ export function placeText(p: Project, lang: 'en' | 'te'): string {
   const today = todayDistricts(p)
   if (today.length) return today.map((n) => (te ? districtByName.get(n)?.te ?? n : n)).join(', ')
   const pl = placesOf(p.id)
-  if (pl) return te ? `${pl.summary.as_printed.join(', ')} (పాత పత్రంలో పేరు)` : `${pl.summary.as_printed.join(', ')} (as an older paper names it)`
+  if (pl) {
+    // older papers print district names in capitals; shown here as names
+    const printed = pl.summary.as_printed.map((n) => (n === n.toUpperCase() ? n.toLowerCase().replace(/(^|[\s.-])([a-z])/g, (_m, a: string, b: string) => a + b.toUpperCase()) : n)).join(', ')
+    return te ? `${printed} (పాత పత్రంలో పేరు)` : `${printed} (as an older paper names it)`
+  }
   return te ? 'జిల్లా: అధికారిక పత్రాల్లో ఇంకా సరిచూస్తున్నాం' : 'District: still being checked in official papers'
 }
 

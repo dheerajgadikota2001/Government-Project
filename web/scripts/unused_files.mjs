@@ -90,6 +90,10 @@ const PARKED = new Set([
   'src/three/scenes/cityworks.ts',
   'src/three/scenes/glasses.ts',
   'src/three/scenes/skyline.ts',
+  // Read by scripts, not by the app: scripts/name_fields.py writes their values into projects.json,
+  // and scripts/test_titles.mjs checks every Telugu place against them.
+  'src/data/towns_te.json',
+  'src/data/name_overrides.json',
 ])
 const rel = (p) => path.relative(ROOT, p).split(path.sep).join('/')
 const unused = all.filter((a) => !seen.has(a) && a !== path.join(SRC, 'vite-env.d.ts')).map(rel).filter((p) => !PARKED.has(p)).sort()

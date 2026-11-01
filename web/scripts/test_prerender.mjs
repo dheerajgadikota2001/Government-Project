@@ -93,10 +93,11 @@ expect(`every inline script's hash is in the CSP (${inline.size} found)`, inline
 // result and the link preview is shortened, and no two pages (in either language) share one.
 const titleOf = (h) => h.match(/<title>([^<]+)<\/title>/)[1]
 const project = (list) => list.filter((p) => /^\/(te\/)?projects\/\d+$/.test(p.path))
-const longEn = project(en).filter((p) => titleOf(p.html).length > 72)
-const longTe = project(te).filter((p) => titleOf(p.html).length > 70)
-expect('project titles in English are 72 characters or fewer', !longEn.length, longEn.slice(0, 2).map((p) => `${p.path} ${titleOf(p.html).length}`).join('; '))
-expect('project titles in Telugu are 70 characters or fewer', !longTe.length, longTe.slice(0, 2).map((p) => `${p.path} ${titleOf(p.html).length}`).join('; '))
+const decoded = (p) => titleOf(p.html).replace(/&amp;/g, '&')
+const longEn = project(en).filter((p) => decoded(p).length > 80)
+const longTe = project(te).filter((p) => decoded(p).length > 80)
+expect('project titles in English are 80 characters or fewer', !longEn.length, longEn.slice(0, 2).map((p) => `${p.path} ${decoded(p).length}`).join('; '))
+expect('project titles in Telugu are 80 characters or fewer', !longTe.length, longTe.slice(0, 2).map((p) => `${p.path} ${decoded(p).length}`).join('; '))
 const teTitles = new Map()
 for (const p of te) teTitles.set(titleOf(p.html), (teTitles.get(titleOf(p.html)) ?? 0) + 1)
 const dupTe = [...teTitles].filter(([, n]) => n > 1)

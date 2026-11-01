@@ -21,7 +21,9 @@
     "test:analytics:browser": "node scripts/test_analytics_browser.mjs",
     "test:seo-extras": "node scripts/test_seo_extras.mjs",
     "indexnow": "node scripts/indexnow.mjs",
-    "cards": "node scripts/share_specs.mjs && python scripts/make_cards.py"
+    "cards": "node scripts/share_specs.mjs && python scripts/make_cards.py",
+    "test:visible": "node scripts/check_visible.mjs",
+    "test:titles": "node scripts/test_titles.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
