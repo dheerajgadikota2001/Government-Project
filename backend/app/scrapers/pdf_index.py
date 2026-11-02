@@ -102,15 +102,26 @@ class PdfIndexScraper(BaseScraper):
         seen: set[str] = set()      # within-run dedupe: index pages overlap
         failure: BaseException | None = None
         try:
+            # Walk every index page first, then check and save the whole run as
+            # one batch. Saving page by page sent each page's links through the
+            # sanity gate on their own, against a remembered best taken from the
+            # biggest page. A home page that lists three recent documents then
+            # looked like a collapsed register, and the run was refused at the
+            # first page every time (APSDPS: "parsed 3 rows against a recent best
+            # of 20", 1 Nov 2026). The register is the union of the pages, so the
+            # union is what the gate must judge.
+            batch: list[dict] = []
             for page in self.INDEX_PAGES:
                 found = await self._walk(page, seen)
                 if not found:
                     logger.warning(f"[{self.PORTAL_NAME}] No documents on {page}")
                     continue
-                links_found += len(found)
-                saved = await self._save(found)
-                total += saved
-                logger.info(f"[{self.PORTAL_NAME}] {page}: {len(found)} links, {saved} new")
+                logger.info(f"[{self.PORTAL_NAME}] {page}: {len(found)} links")
+                batch.extend(found)
+            links_found = len(batch)
+            if batch:
+                total = await self._save(batch)
+                logger.info(f"[{self.PORTAL_NAME}] {links_found} links across the index pages, {total} new")
         except SanityAbort:
             # A deliberate refusal. It has to reach the recorder as BLOCKED, not
             # be flattened into a crash here.

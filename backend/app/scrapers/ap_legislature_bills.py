@@ -129,6 +129,15 @@ class APLegislatureBillsScraper(BaseScraper):
                 # second Assembly's bills would be a false record — so say so.
                 signature = tuple(sorted(r["title"] for r in rows))
                 if signature in seen_signatures:
+                    _, ended = self._term_years(label)
+                    if ended is not None and ended < datetime.now(timezone.utc).year:
+                        # A closed Assembly's bill list no longer changes and is
+                        # already stored from a run where the switch worked. The
+                        # portal served the current term instead, which it does
+                        # from outside a browser session; worth knowing, not a failure.
+                        self.note(f"Term {label} was not re-read (the portal served the current term "
+                                  "instead). It is a closed term, already stored; nothing is missing.")
+                        continue
                     logger.warning(
                         f"[{self.PORTAL_NAME}] Term {label} returned exactly the rows of an "
                         f"earlier term — the term switch is not taking effect. Skipping; "
@@ -351,7 +360,9 @@ class APLegislatureBillsScraper(BaseScraper):
         return re.split(r"[\s(]", squash(label), 1)[0] or squash(label)
 
     async def _save(self, rows: list[dict], term: str, start_year: int, end_year: int) -> int:
-        rows = await self.gate(rows)
+        # Each Assembly term is remembered on its own (see BaseScraper.gate):
+        # a new term starts small and must not be judged against a full one.
+        rows = await self.gate(rows, part=f"term-{term}")
         saved = 0
         now = datetime.now(timezone.utc)
         async with get_db_context() as db:
