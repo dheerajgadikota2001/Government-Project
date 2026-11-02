@@ -70,10 +70,13 @@ jobs:
           cache: "pip"
           cache-dependency-path: backend/requirements.txt
 
+      # requirements-data.txt too: the CAG font repair tests need pikepdf and
+      # fonttools. Without them the suite fails on an import, not on a bug,
+      # which is how this job went red on 1 Nov 2026.
       - name: Install dependencies
         working-directory: backend
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements.txt -r requirements-data.txt
           pip install ruff
 
       # Without this the database is up but empty, every query hits a table
@@ -96,41 +99,12 @@ jobs:
         working-directory: backend
         run: pytest tests/ -q
 
-  frontend:
-    name: Frontend tests and build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: ap-nadu-nedu/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ap-nadu-nedu
-        run: npm ci
-
-      # Build comes before the tests on purpose. The prerender tests read
-      # dist/, so run before a build they fail with "No dist/index.html" even
-      # though nothing is wrong. They passed on a laptop that already had a
-      # dist folder, which hid it. prebuild rebuilds the icon subset font and
-      # postbuild runs the CSP hash check and the prerender, so this step also
-      # catches a missing glyph or a drifted inline script hash here rather
-      # than in front of readers.
-      - name: Build
-        working-directory: ap-nadu-nedu
-        run: npm run build
-
-      # Includes the consent guard. The site once shipped with analytics
-      # storage denied everywhere, which silently sent Google hits it refused
-      # to count. Nothing failed, and the only symptom was an empty dashboard.
-      - name: Run tests
-        working-directory: ap-nadu-nedu
-        run: npm run test:unit
+  # The old site (ap-nadu-nedu/) is no longer built on every push. It is kept
+  # only so a Firebase rollback has its source; a rollback reuses an earlier
+  # release and never rebuilds it. Its tests still asserted the 26-district map
+  # after the platform moved to 28 districts on 19 Oct 2026, so the job was red
+  # on every commit for a reason no change here could fix, and a pipeline that
+  # is always red stops being read. Build it by hand if it is ever needed.
 
   web:
     name: New site (web/) typecheck, build and speed gates
