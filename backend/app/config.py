@@ -67,6 +67,9 @@ class Settings(BaseSettings):
 
     # Rate limiting
     rate_limit_per_minute: int = 100
+    # Comma-separated CIDRs of the CDN edge in front of the API. Empty means the
+    # bundled list in app/data/edge_cidrs.json. See app/client_address.py.
+    trusted_edge_cidrs: str = ""
 
     # Maintainer key for community moderation endpoints (X-Admin-Key header)
     admin_key: str = ""
@@ -125,6 +128,26 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.app_env == "production"
+
+    def production_misconfigurations(self) -> list[str]:
+        """Settings that are fine on a laptop and dangerous on the live service.
+
+        The defaults exist so a developer can start the API with no .env. In
+        production each of them is a hole: the default secret makes every stored
+        IP hash reversible by anyone who reads this file, and localhost origins
+        tell browsers the API expects to be called from a developer's machine.
+        main.py refuses to start when this list is not empty.
+        """
+        problems: list[str] = []
+        if not self.is_production:
+            return problems
+        if self.secret_key == "change-this-in-production" or len(self.secret_key) < 32:
+            problems.append("SECRET_KEY is the default or shorter than 32 characters")
+        if any("localhost" in o or "127.0.0.1" in o for o in self.allowed_origins_list):
+            problems.append("ALLOWED_ORIGINS still lists a localhost address")
+        if not self.admin_key or len(self.admin_key) < 24:
+            problems.append("ADMIN_KEY is empty or shorter than 24 characters")
+        return problems
 
     @property
     def elasticsearch_projects_index(self) -> str:

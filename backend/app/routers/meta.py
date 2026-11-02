@@ -117,9 +117,10 @@ async def whoami(
     expected = settings.admin_key
     if not expected or not x_admin_key or not secrets.compare_digest(x_admin_key, expected):
         raise HTTPException(status_code=403, detail="admin_key_required")
-    from slowapi.util import get_remote_address
+    from app.client_address import client_address, explain
     return {
-        "limiter_sees": get_remote_address(request),
+        "limiter_sees": client_address(request),
+        "why": explain(request),
         "client_host": request.client.host if request.client else None,
         "x_forwarded_for": request.headers.get("x-forwarded-for"),
         "x_real_ip": request.headers.get("x-real-ip"),
