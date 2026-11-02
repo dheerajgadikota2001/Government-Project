@@ -151,6 +151,13 @@ jobs:
         working-directory: web
         run: npm run test:visible
 
+      # What a crawler without JavaScript gets: hubs with their own words and
+      # figures, every project page linked in plain HTML, snippets that fit,
+      # sitemap dates that move when a page changes.
+      - name: Crawlable without JavaScript
+        working-directory: web
+        run: npm run test:crawlable
+
       # The printed names are untouched, every Telugu place is an approved one,
       # and no two project pages share a title in either language.
       - name: Test project titles

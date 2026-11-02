@@ -23,7 +23,8 @@
     "indexnow": "node scripts/indexnow.mjs",
     "cards": "node scripts/share_specs.mjs && python scripts/make_cards.py",
     "test:visible": "node scripts/check_visible.mjs",
-    "test:titles": "node scripts/test_titles.mjs"
+    "test:titles": "node scripts/test_titles.mjs",
+    "test:crawlable": "node scripts/test_crawlable.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",

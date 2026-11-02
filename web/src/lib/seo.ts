@@ -16,7 +16,8 @@
 // here, because a copy frozen at build time would be shown as current: those pages carry their words
 // only, and their live parts load in the browser.
 import { districts, MERGED, type Project } from '@/lib/data'
-import { byId, largest, paperOf, placeText, projects, worksIn } from '@/lib/data-projects'
+import { byId, largest, paperOf, placeText, projects, todayDistricts, worksIn } from '@/lib/data-projects'
+import { debtLines, departmentLines, factLines as rbiFactLines, incomeLines, outsideBudgetLines, periodLines, statesLines } from '@/lib/seo-hubs'
 import claimsRaw from '@/data/claims.json'
 import moneyRaw from '@/data/money.json'
 import factsRaw from '@/data/statefacts.json'
@@ -26,7 +27,7 @@ import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
 import { docDescription, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
-import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
+import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectKey, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
 export { TODAY }
@@ -90,6 +91,21 @@ const NAV: Line[] = [
 export const footerLinks = NAV
 export const siteDescription: Bi = PAGE_WORDS.about.description
 
+/** A description that fits a search result (about 160 characters). Whole sentences are kept and the last ones
+ *  dropped, so it never stops inside a word or a name; only a first sentence longer than that is cut, at a
+ *  word, with " …" (a space before it, so it cannot be read as a cut word). */
+export const DESC_MAX = 158
+export function fitDesc(t: string): string {
+  const s = t.replace(/\s+/g, ' ').trim()
+  if (s.length <= DESC_MAX) return s
+  const parts = s.split(/(?<=(?:[a-z0-9)]|\p{Script=Telugu}){3}\.)\s+/u)
+  let out = ''
+  for (const p of parts) { const next = out ? `${out} ${p}` : p; if (next.length > DESC_MAX) break; out = next }
+  // a sentence that ends after an abbreviation ("No.", "Dr.") is not split, and a kept part this short is not a description
+  if (out.length >= 60) return out
+  return s.slice(0, DESC_MAX - 2).replace(/[\s,;:.-]+\S*$/, '').replace(/[\s,;:.-]+$/, '') + ' …'
+}
+
 function staticPage(token: string, lines: Line[] = []): PageOut {
   const w = PAGE_WORDS[token]
   return { path: P(token), title: w.title, description: w.description, lines, lastmod: TODAY }
@@ -115,6 +131,16 @@ function projectPage(p: Project): PageOut {
   if (p.dept) lines.push({ text: { en: `Department: ${p.dept}`, te: `శాఖ: ${p.dept}` } })
   lines.push({ text: { en: `Paper: ${paperOf(p)}`, te: `పత్రం: ${paperOf(p)}` }, href: p.su ?? undefined, external: true })
   if (p.f && p.l) lines.push({ text: { en: `Papers on record from ${dateLong(p.f)} to ${dateLong(p.l)}`, te: `${dateTe(p.f)} నుంచి ${dateTe(p.l)} వరకు పత్రాలు రికార్డులో ఉన్నాయి` } })
+  // Plain links out to the work's district and to a few works of the same kind there. Before 2 Nov 2026 a
+  // project page linked only the site's menu, so 460 of 730 project pages had no plain link from any other
+  // page and a crawler without JavaScript found them only through the sitemap.
+  for (const name of todayDistricts(p)) {
+    const d = districts.find((x) => x.name === name)
+    if (!d) continue
+    lines.push({ text: { en: `More works in ${d.name} district`, te: `${d.te} జిల్లాలో మరిన్ని పనులు` }, href: P('district', d.slug) })
+    const near = worksIn(d.name).filter((q) => q.id !== p.id && !MERGED[q.id] && q.ty === p.ty).slice(0, 4)
+    for (const q of near) { const k = projectKey(q); lines.push({ text: { en: k.en, te: k.te }, href: P('project', String(q.id)) }) }
+  }
   const st2 = st ? `${st.en.toLowerCase()}` : p.st
   const started = p.st === 'tendered' || p.st === 'approved'
   const bw = bigWorks.find((w) => w.id === p.id)
@@ -136,9 +162,12 @@ function projectPage(p: Project): PageOut {
     path: P('project', String(p.id)),
     title: { en: projectQuestion(p), te: projectQuestionTe(p) },
     tabTitle: projectTab(p),
+    // The description leads with the same words as the title (place and kind of work), not the whole printed
+    // name: the printed name is on the page itself, and inside a description it pushed the status and cost past
+    // the 160 characters a search result shows. Cut at a word, never inside one.
     description: {
-      en: `${shownName}: ${st2}, ${placeText(p, 'en')}.${p.c != null ? ` Cost as printed ${crore(p.c)}.` : ''} From ${paperOf(p)}, with the paper linked.`.slice(0, 300),
-      te: `${shownName}: ${st?.te ?? p.st}, ${placeText(p, 'te')}.${p.c != null ? ` ముద్రించిన వ్యయం ${croreTe(p.c)}.` : ''} ఆధారం: ${paperOf(p)}.`.slice(0, 300),
+      en: fitDesc(`${projectKey(p).en}: ${st2}, ${placeText(p, 'en')}.${p.c != null ? ` Cost as printed ${crore(p.c)}.` : ''} From ${paperOf(p)}, with the paper linked.`),
+      te: fitDesc(`${projectKey(p).te}: ${st?.te ?? p.st}, ${placeText(p, 'te')}.${p.c != null ? ` ముద్రించిన వ్యయం ${croreTe(p.c)}.` : ''} ఆధారం: ${paperOf(p)}.`),
     },
     lines,
     trail: [{ name: PAGE_WORDS.projects.title, path: P('projects') }],
@@ -153,7 +182,8 @@ function districtPage(d: (typeof districts)[number]): PageOut {
   if (d.hq) lines.push({ text: { en: `Headquarters: ${d.hq}`, te: `ముఖ్య పట్టణం: ${d.hq}` } })
   if (d.formed) lines.push({ text: { en: `Formed on ${dateLong(d.formed)} from ${d.from} district.`, te: `${dateTe(d.formed)}న ${d.from} జిల్లా నుంచి ఏర్పడింది.` } })
   lines.push({ text: { en: `Project records that name this district: ${works.length}`, te: `ఈ జిల్లా పేరున్న పనుల రికార్డులు: ${works.length}` } })
-  for (const p of works.slice(0, 12)) lines.push({ text: { en: `${p.t} (${STATUS_WORDS[p.st]?.en ?? p.st})`, te: `${p.t} (${STATUS_WORDS[p.st]?.te ?? p.st})` }, href: P('project', String(p.id)) })
+  // Every work, not the first twelve: this list is how a crawler without JavaScript reaches a project page.
+  for (const p of works) lines.push({ text: { en: `${p.cn ?? p.t} (${STATUS_WORDS[p.st]?.en ?? p.st})`, te: `${p.cn ?? p.t} (${STATUS_WORDS[p.st]?.te ?? p.st})` }, href: P('project', String(p.id)) })
   lines.push({ text: { en: `${d.name} district paper`, te: `${d.te} జిల్లా పత్రిక` }, href: P('paper', d.slug) })
   return {
     card: {
@@ -353,14 +383,25 @@ export function allPages(): PageOut[] {
   const clinks = claims.map((c): Line => ({ text: CLAIM_Q[c.slug] ?? same(c.question), href: P('claim', c.slug) }))
   const paperLinks = [...docRecs.filter((d) => d.src === 'paper'), ...docRecs.filter((d) => d.src === 'register').sort((a, b) => (b.year ?? 0) - (a.year ?? 0)).slice(0, 40)]
     .map((d): Line => ({ text: docTab(d), href: P('doc', d.slug) }))
+  // Works that name no district (state-wide lines, multi-district roads) are listed on the projects hub, so
+  // every project page has at least one plain link to it.
+  const noDistrict = worksIn(null).filter((p) => !MERGED[p.id])
+    .map((p): Line => ({ text: { en: `${p.cn ?? p.t} (${STATUS_WORDS[p.st]?.en ?? p.st})`, te: `${p.cn ?? p.t} (${STATUS_WORDS[p.st]?.te ?? p.st})` }, href: P('project', String(p.id)) }))
+  const moneyLinks: Line[] = [
+    { text: { en: 'Spending by department', te: 'శాఖల వారీగా ఖర్చు' }, href: P('money-departments') },
+    { text: { en: 'Andhra Pradesh among the states', te: 'రాష్ట్రాల మధ్య ఆంధ్రప్రదేశ్' }, href: P('money-states') },
+    { text: { en: 'State facts from the Reserve Bank of India', te: 'రిజర్వ్ బ్యాంక్ నుంచి రాష్ట్ర గణాంకాలు' }, href: P('state-facts') },
+  ]
   const out: PageOut[] = [
-    staticPage('home', [...NAV]),
+    staticPage('home', [...NAV, ...largest(6).map((p): Line => ({ text: { en: `${projectKey(p).en}: ${crore(p.c)} as printed`, te: `${projectKey(p).te}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) })), ...debtLines(1), ...dlinks]),
     staticPage('cards'),
-    withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big]), datasetNode()),
+    withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big, { text: { en: 'Works by district:', te: 'జిల్లాల వారీగా పనులు:' } }, ...dlinks, ...(noDistrict.length ? [{ text: { en: 'Works that name no single district:', te: 'ఒకే జిల్లా పేరు లేని పనులు:' } }, ...noDistrict] : [])]), datasetNode()),
     staticPage('districts', dlinks),
-    withLd(staticPage('money'), moneyDatasets.money), withLd(staticPage('money-departments'), moneyDatasets['money-departments']),
-    staticPage('money-states'), withLd(staticPage('state-facts'), moneyDatasets['state-facts']),
-    staticPage('investments', summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))), staticPage('governments'),
+    withLd(staticPage('money', [...debtLines(), ...incomeLines(), ...outsideBudgetLines(), ...moneyLinks]), moneyDatasets.money),
+    withLd(staticPage('money-departments', [...departmentLines(), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]), moneyDatasets['money-departments']),
+    staticPage('money-states', [...statesLines(), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]),
+    withLd(staticPage('state-facts', rbiFactLines()), moneyDatasets['state-facts']),
+    staticPage('investments', summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))), staticPage('governments', [...periodLines(), ...moneyLinks.slice(2), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]),
     staticPage('claims', clinks),
     staticPage('papers', paperLinks), staticPage('tenders'), staticPage('updates'), staticPage('helplines'), staticPage('words'),
     staticPage('community'), staticPage('sources'), staticPage('about'), staticPage('disclaimer'), staticPage('privacy'),
