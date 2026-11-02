@@ -156,19 +156,34 @@ export function docTitle(d: DocRec): Bi {
 }
 /** The tab and search-result title: the name cut in the middle when it is long, never inside a word.
  *  Two papers whose cut names come out the same keep their whole names, so no two tabs read alike. */
-const cutTab = (t: Bi): Bi => {
-  const cut = (s: string) => { const i = s.lastIndexOf(': '); return i > 0 ? shortName(s.slice(0, i), 62) + s.slice(i) : shortName(s, 80) }
-  return { en: cut(t.en), te: cut(t.te) }
-}
+// The tab says "AP" where the heading says "Andhra Pradesh": a search result shows about 60 characters,
+// and the 2 Nov 2026 audit found the median document tab at 94. The name keeps 46 characters, cut in the
+// middle at a word, so the tab with " | AP Fact Check" stays inside 80.
+// Room for the name: 80 characters for the whole tab, less " | AP Fact Check" (16) and the paper's kind
+// after the colon. A name that would collide with another paper's tab gets its record number instead of
+// more room, so a tab never grows past 80 to be unique.
+const TAB_TOTAL = 80 - 16
+const tailOf = (s: string) => { const i = s.lastIndexOf(': '); return i > 0 ? s.slice(i).replace(', Andhra Pradesh', ', AP').replace(', ఆంధ్రప్రదేశ్', ', ఏపీ') : '' }
+const headOf = (s: string) => { const i = s.lastIndexOf(': '); return i > 0 ? s.slice(0, i) : s }
+const cutOne = (s: string, reserve = 0) => { const tail = tailOf(s); return shortName(headOf(s), Math.max(24, TAB_TOTAL - tail.length - reserve)) + tail }
 let tabCount: Map<string, number> | null = null
 export function docTab(d: DocRec): Bi {
   if (!tabCount) {
     tabCount = new Map()
-    for (const x of docRecs) { const c = cutTab(docTitle(x)).en; tabCount.set(c, (tabCount.get(c) ?? 0) + 1) }
+    for (const x of docRecs) {
+      const t = docTitle(x)
+      for (const c of [cutOne(t.en), cutOne(t.te)]) tabCount.set(c, (tabCount.get(c) ?? 0) + 1)
+    }
   }
   const t = docTitle(d)
-  const c = cutTab(t)
-  return (tabCount.get(c.en) ?? 0) > 1 ? t : c
+  const en = cutOne(t.en), te = cutOne(t.te)
+  // unique in both languages: the Telugu kind word is longer, so its name is cut shorter and can collide alone
+  if ((tabCount.get(en) ?? 0) === 1 && (tabCount.get(te) ?? 0) === 1) return { en, te }
+  // Two papers with one name: the number tells them apart, and the kind after the colon is dropped first
+  // so the name itself (often its year) stays whole.
+  const no = /-r(\d+)$/.exec(d.slug)?.[1] ?? d.slug.slice(-6)
+  const numbered = (s: string, tag: string) => { const h = headOf(s); const room = TAB_TOTAL - tag.length; return `${h.length <= room ? h : shortName(h, room)}${tag}` }
+  return { en: numbered(t.en, ` (No. ${no})`), te: numbered(t.te, ` (నం. ${no})`) }
 }
 export function docDescription(d: DocRec): Bi {
   const k = kindOf(d)
@@ -177,8 +192,16 @@ export function docDescription(d: DocRec): Bi {
   const head = `${tidy(d.title)}. ${k.en} from ${d.publisher || 'a government body'}${when}.`
   const tail = ' The official file is linked.'
   // the paper's own description goes in only when the whole sentence fits: a description never stops mid-sentence
-  const what = d.what && (head + ' ' + d.what + tail).length <= 300 ? ` ${d.what}` : ''
-  const fit = (s: string) => (s.length <= 300 ? s : s.slice(0, 299).replace(/\s+\S*$/, '') + '…')
+  // About 160 characters is what a search result shows; beyond that the engine cuts mid-word.
+  const MAX = 158
+  const what = d.what && (head + ' ' + d.what + tail).length <= MAX ? ` ${d.what}` : ''
+  // whole sentences only, as for projects (seo.ts fitDesc): drop the last ones rather than cut inside a name
+  const fit = (s: string) => {
+    if (s.length <= MAX) return s
+    let out = ''
+    for (const p of s.split(/(?<=(?:[a-z0-9)]|\p{Script=Telugu}){3}\.)\s+/u)) { const next = out ? `${out} ${p}` : p; if (next.length > MAX) break; out = next }
+    return out.length >= 60 ? out : s.slice(0, MAX - 2).replace(/[\s,;:.-]+\S*$/, '').replace(/[\s,;:.-]+$/, '') + ' …'
+  }
   return {
     en: fit(head + what + tail),
     te: fit(`${tidy(d.title)}. ${d.publisher || 'ప్రభుత్వ సంస్థ'} నుంచి ${k.te}${whenTe}. అధికారిక ఫైల్ లింక్ ఇక్కడ ఉంది.`),

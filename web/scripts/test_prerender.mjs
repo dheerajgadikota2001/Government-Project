@@ -156,7 +156,10 @@ for (const prefix of ['', '/te']) {
   const sm = readFileSync(join(DIST, 'sitemap-en.xml'), 'utf8')
   const dates = [...sm.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1])
   const asOf = JSON.parse(readFileSync(new URL('../src/data/meta.json', import.meta.url), 'utf8')).asof
-  expect('no sitemap date is after the data as-of date', dates.length > 700 && dates.every((d) => /^\d{4}-\d{2}-\d{2}$/.test(d) && d <= asOf), `${dates.length} dates, as of ${asOf}`)
+  // A changed page is dated the day it changed (scripts/lastmod.mjs), which can be after the data's as-of date
+  // but never after the day of the build. A date in the future would tell engines to come back for nothing.
+  const buildDay = new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10)
+  expect('no sitemap date is in the future', dates.length > 700 && dates.every((d) => /^\d{4}-\d{2}-\d{2}$/.test(d) && d <= (buildDay > asOf ? buildDay : asOf)), `${dates.length} dates, as of ${asOf}, built ${buildDay}`)
   const state = JSON.parse(readFileSync(new URL('../seo-lastmod.json', import.meta.url), 'utf8'))
   const covered = en.every((p) => state[p.path]) && te.every((p) => state[p.path === '/te' ? '/' : p.path.replace(/^\/te/, '')])
   expect('the saved date state covers every page', covered)
