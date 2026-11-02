@@ -192,7 +192,7 @@ class BaseScraper(ABC):
         ...
 
     async def gate(self, rows: list[dict], run_id: str = "",
-                   compare_rows: bool = True) -> list[dict]:
+                   compare_rows: bool = True, part: str = "") -> list[dict]:
         """Run the sanity layers over a parsed batch, and remember its shape.
 
         Called at the top of a scraper's save path, before anything reaches the
@@ -228,7 +228,14 @@ class BaseScraper(ABC):
         from app.database import get_db_context
         from app.models.scrape_stat import ScrapeStat
 
-        name = type(self).__name__
+        # `part` gives each naturally different batch of one scraper its own
+        # memory. The legislature's three Assembly terms are not the same size:
+        # 86 bills so far in the current term against 195 in the last one. With
+        # one shared memory the current term was measured against the largest
+        # term ever read and refused as "truncated" on every run. A part is
+        # recorded as "<ClassName>:<part>", so the first run of a new part has no
+        # baseline and is judged on its own rules only.
+        name = type(self).__name__ + (f":{part}" if part else "")
 
         baseline: list[dict] = []
         refusals: list[dict] = []
