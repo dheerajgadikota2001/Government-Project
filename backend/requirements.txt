@@ -1,62 +1,51 @@
-# Web Framework
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-python-multipart==0.0.9
+# Web framework. Pinned to exact versions; checked against the OSV advisory
+# database on 1 Nov 2026 (zero known advisories at these versions). A weekly
+# GitHub Actions job re-checks the pins; bump here, run the suite, deploy.
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.33
 
 # Database
-sqlalchemy[asyncio]==2.0.30
-asyncpg==0.29.0
-alembic==1.13.1
-psycopg2-binary==2.9.9
+sqlalchemy[asyncio]==2.0.55
+asyncpg==0.32.0
+alembic==1.20.1
+psycopg2-binary==2.9.13
 
-# Cache
-redis==5.0.4
-hiredis==2.3.2
+# Cache (app/services/cache.py falls back to in-process when no Redis URL is set)
+redis==8.1.0
+hiredis==3.5.0
 
-# Task Queue
-celery==5.3.6
-flower==2.0.1  # Celery monitoring dashboard
-
-# HTTP & Scraping
-pdfplumber==0.11.9   # PDF table extraction (AMRUT / MoSPI project registers)
-httpx==0.27.0
-aiohttp==3.9.5
-beautifulsoup4==4.12.3
-lxml==5.2.1
-playwright==1.44.0
-feedparser==6.0.11  # RSS feeds for news
+# HTTP and reading government papers
+pdfplumber==0.11.10   # PDF table extraction (AMRUT / MoSPI project registers)
+httpx==0.28.1
+beautifulsoup4==4.15.0
+lxml==6.1.3
 
 # Data validation
-pydantic==2.7.1
-pydantic-settings==2.2.1
-email-validator==2.1.1
+pydantic==2.14.2
+pydantic-settings==2.16.2
+email-validator==2.3.0
 
-# Translation & AI
-google-cloud-translate==3.15.3
-google-cloud-texttospeech==2.16.3
-google-cloud-speech==2.26.0
-anthropic==0.125.0  # Claude API: news summaries and the voice agent (app/services/voice_agent)
+# Google Cloud (Telugu speech, text, translation, the source archive)
+google-cloud-translate==3.28.0
+google-cloud-texttospeech==2.38.0
+google-cloud-speech==2.41.0
+google-cloud-storage==3.17.1
+anthropic==0.125.0  # Claude API: the voice agent (app/services/voice_agent); off by default
+elasticsearch[async]==8.19.3
+zstandard==0.25.0   # lossless compression for the source archive (app/services/archive.py)
+python-dotenv==1.2.4
 
-# Firebase push notifications
-firebase-admin==6.5.0
+slowapi==0.1.10  # Rate limiting
+tenacity==9.2.1  # Retry logic for scrapers
+loguru==0.7.3    # Logging
 
-# Search
-elasticsearch[async]==8.13.0
+# Tests
+pytest==9.2.0
+pytest-asyncio==1.4.1
 
-# Storage
-google-cloud-storage==2.16.0
-zstandard==0.23.0   # lossless compression for the source archive (app/services/archive.py)
-
-# Utilities
-python-dotenv==1.0.1
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-slowapi==0.1.9  # Rate limiting
-tenacity==8.3.0  # Retry logic for scrapers
-loguru==0.7.2   # Better logging
-arrow==1.3.0    # Date/time handling
-
-# Testing
-pytest==8.2.0
-pytest-asyncio==0.23.6
-httpx==0.27.0
+# Removed 1 Nov 2026 because nothing in app/ or scripts/ imports them and each
+# carried open advisories or a large surface: python-jose, passlib, arrow,
+# firebase-admin, flower, playwright, feedparser, celery, aiohttp. The Celery
+# task files under app/tasks/ and the newspaper readers under
+# app/scrapers/news/ are parked and not run; the news module is on hold.

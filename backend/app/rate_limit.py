@@ -6,19 +6,18 @@ limit on a single endpoint without importing the application module and going
 round in a circle. Now routers import `limiter` from here and main.py attaches
 it to the app.
 
-Keying by client address is only as good as the address. Behind Firebase and
-Cloud Run the real client is somewhere inside X-Forwarded-For, and uvicorn is
-started with --forwarded-allow-ips="*", which trusts the leftmost entry. That is
-the entry a client controls. Until the position of the trustworthy address is
-confirmed against the live deployment (see /meta/whoami), every per-address
-limit here is a speed bump for honest traffic, not a wall.
+Keying by client address is only as good as the address. The key comes from
+app.client_address, which reads X-Forwarded-For from the right (the entries
+proxies appended) and never the leftmost entry a client can write. It used to
+take the leftmost, so a client that changed that header got a fresh limit on
+every request.
 """
 from slowapi import Limiter
-from slowapi.util import get_remote_address
 
+from app.client_address import client_address
 from app.config import settings
 
 limiter = Limiter(
-    key_func=get_remote_address,
+    key_func=client_address,
     default_limits=[f"{settings.rate_limit_per_minute}/minute"],
 )

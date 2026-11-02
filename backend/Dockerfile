@@ -59,5 +59,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
 # worker is the right default there; raise WEB_CONCURRENCY on a bigger machine.
 # --proxy-headers/--forwarded-allow-ips: Cloud Run terminates TLS and forwards
 # plain HTTP with X-Forwarded-Proto; without these, redirects are built as
-# http:// and some clients loop.
+# http:// and some clients loop. They also make request.client the leftmost
+# X-Forwarded-For entry, which a client can write: nothing per-client keys on
+# request.client any more. The address rules read app/client_address.py.
 CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers ${WEB_CONCURRENCY:-1} --loop uvloop --proxy-headers --forwarded-allow-ips="*"

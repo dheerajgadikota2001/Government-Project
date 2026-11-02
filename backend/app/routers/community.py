@@ -18,6 +18,7 @@ import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+from app.client_address import client_address
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -55,8 +56,9 @@ _REPEAT_RE = re.compile(r"(.)\1{9,}")  # any char repeated 10+ times
 
 
 def _ip_hash(request: Request) -> str:
-    ip = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip() \
-        or (request.client.host if request.client else "unknown")
+    # The address no client can write (see app/client_address.py), salted and
+    # hashed so the stored value cannot be turned back into an address.
+    ip = client_address(request)
     salt = get_settings().secret_key
     return hashlib.sha256(f"{salt}:{ip}".encode()).hexdigest()
 

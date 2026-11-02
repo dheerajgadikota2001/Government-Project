@@ -1,0 +1,76 @@
+# Keeps the pinned packages and the edge address list honest.
+#
+# WHY
+# On 1 Nov 2026 the API had run for months on a starlette with 14 published
+# advisories and an aiohttp with 76. Nothing failed, because nothing looked.
+# This job looks: every Monday and on every change to the pin files it asks
+# the OSV database about every pinned Python and npm package, compares the
+# CDN edge ranges the address rule depends on with the published list, and
+# scans the tree for committed secrets.
+#
+# It is advisory for its first week (continue-on-error) so a noisy start does
+# not block a deploy; after one clean week set continue-on-error to false.
+name: Security audit
+
+on:
+  schedule:
+    - cron: "17 2 * * 1"   # Mondays 07:47 IST
+  push:
+    paths:
+      - "backend/requirements*.txt"
+      - "web/package-lock.json"
+      - "backend/app/data/edge_cidrs.json"
+      - ".github/workflows/security-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python pins against OSV
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Ask OSV about every pinned package
+        working-directory: backend
+        run: python scripts/audit_pins.py requirements.txt requirements-data.txt
+
+  npm:
+    name: npm packages against the registry advisories
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: npm audit (production dependencies)
+        working-directory: web
+        run: npm audit --omit=dev --audit-level=high
+
+  edge:
+    name: CDN edge ranges still match
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python backend/scripts/check_edge_cidrs.py
+
+  secrets:
+    name: No committed secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

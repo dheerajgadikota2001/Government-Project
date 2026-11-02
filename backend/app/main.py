@@ -58,6 +58,15 @@ async def lifespan(app: FastAPI):
     """
     # Startup
     logger.info(f"Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
+    # Fail closed on a production deploy that still carries development defaults.
+    # Unlike the database check below, this must stop the service: a running API
+    # with a public salt or developer origins is worse than a failed revision,
+    # and Cloud Run keeps serving the previous revision when a new one fails.
+    problems = settings.production_misconfigurations()
+    if problems:
+        for problem in problems:
+            logger.error(f"Refusing to start in production: {problem}")
+        raise SystemExit(1)
     # The database check must never keep the API from coming up: on Cloud Run
     # a failed startup means the whole service stays down, whereas a running
     # API with /health reporting "degraded" pages the monitor and recovers on
@@ -100,7 +109,9 @@ app.add_middleware(
     allow_origins=settings.allowed_origins_list,
     allow_credentials=False,   # No auth cookies (public platform)
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
+    # Only the headers the site sends. A wildcard here invited any header from
+    # any listed origin, which no page of ours needs.
+    allow_headers=["Content-Type", "Accept", "Accept-Language", "X-Admin-Key"],
 )
 
 # Gzip compression — reduces bandwidth for large JSON responses
