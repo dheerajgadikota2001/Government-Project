@@ -274,6 +274,31 @@ def best_match(new: dict, candidates: Iterable[Candidate], new_type: Optional[st
     return scored[0]
 
 
+TWIN_SUSPECT = 2    # far below THRESHOLD on purpose: enough to stop and ask, never enough to merge
+
+
+def suspects(new_rows: list[dict], candidates: list[Candidate], types: list[Optional[str]],
+             floor: int = TWIN_SUSPECT) -> dict[int, Match]:
+    """
+    Report rows that matched nothing by code, map or title, and yet look like a
+    row the register already holds. Returns {index of report row: nearest row}.
+
+    This is the other half of `assign`. `assign` merges only on strong evidence
+    (THRESHOLD), because a wrong merge rewrites a real project's history. But a
+    row that scores two or three (the same two stations, the same original cost)
+    is exactly what a renumbered project looks like, and creating it as new
+    gives the reader the same work twice. September 2026 did that four times.
+    So such a row is neither merged nor created: it is held for a person.
+    """
+    lex = lexicon_for(new_rows, candidates)
+    out: dict[int, Match] = {}
+    for i, r in enumerate(new_rows):
+        ranked = rank(r, candidates, types[i], lex)
+        if ranked and ranked[0].score >= floor:
+            out[i] = ranked[0]
+    return out
+
+
 def lexicon_for(new_rows: Iterable[dict], candidates: Iterable[Candidate]) -> Lexicon:
     """Word weights for one run: every title on both sides."""
     return Lexicon([tokens(r.get("name", "")) for r in new_rows] + [c.toks for c in candidates])

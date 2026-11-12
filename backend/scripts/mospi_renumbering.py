@@ -46,6 +46,19 @@ from app.scrapers.mospi_projects import (  # noqa: E402
 FIXTURES = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tests", "fixtures")
 OLD_FIXTURE = os.path.join(FIXTURES, "mospi_ap_rows_june2025.json")
 NEW_FIXTURE = os.path.join(FIXTURES, "mospi_ap_rows_july2026.json")
+# Later PAIMANA editions whose rows a pair may name: MoSPI relists dropped projects under new codes.
+LATER_FIXTURES = [os.path.join(FIXTURES, "mospi_ap_rows_sept2026.json")]
+
+
+def new_rows_for_check(first: str = NEW_FIXTURE) -> list[dict]:
+    """The July rows plus any later edition's rows July did not have, one row per code."""
+    rows, seen = [], set()
+    for path in [first, *LATER_FIXTURES]:
+        for r in _load(path):
+            if r["code"] not in seen:
+                seen.add(r["code"])
+                rows.append(r)
+    return rows
 
 
 def _iso(d):
@@ -197,7 +210,7 @@ def main() -> None:
     elif args.cmd == "propose":
         propose(_load(args.old), _load(args.new))
     else:
-        problems = check(_load(args.old), _load(args.new))
+        problems = check(_load(args.old), new_rows_for_check(args.new))
         if problems:
             print("\n".join(problems))
             sys.exit(1)

@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from app.scrapers.mospi_match import (
-    Candidate, Lexicon, assign, best_match, close, different_stretch, lexicon_for, score, tokens, unit,
+    Candidate, Lexicon, assign, best_match, close, different_stretch, lexicon_for, score, suspects, tokens, unit,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -162,8 +162,10 @@ def test_one_register_row_is_claimed_by_the_stronger_report_row_only():
 def test_the_real_rows_reproduce_the_reviewed_map_and_contradict_none_of_it():
     june, july = load("mospi_ap_rows_june2025.json"), load("mospi_ap_rows_july2026.json")
     doc = json.loads((Path("app/scrapers/mospi_renumbering.json")).read_text(encoding="utf-8"))
-    reviewed = {p["new"]: p["old"] for p in doc["pairs"]}
-    matched = {p["new"]: p["old"] for p in doc["pairs"] if p["how"] == "matched"}
+    # Pairs first seen in a later edition carry "edition" and are checked in their own test below.
+    july_pairs = [p for p in doc["pairs"] if not p.get("edition")]
+    reviewed = {p["new"]: p["old"] for p in july_pairs}
+    matched = {p["new"]: p["old"] for p in july_pairs if p["how"] == "matched"}
 
     news, types = report_rows(july)
     out = assign(news, candidates(june), types)
@@ -177,6 +179,34 @@ def test_the_real_rows_reproduce_the_reviewed_map_and_contradict_none_of_it():
     for new, old in reviewed.items():
         assert proposed.get(new, old) == old
         assert old not in {o for n, o in proposed.items() if n != new}
+
+
+def test_september_2026_relisted_four_tracked_projects_and_the_twin_check_holds_exactly_those():
+    """
+    The September 2026 report brought back projects MoSPI had dropped from July and
+    August, under new codes and new wording. The importer created each as a new
+    project, so four works appeared twice in the register. Against the June rows July
+    never claimed, the suspicion floor must pick out those four and no other new row:
+    hold too little and the reader sees a work twice, hold too much and a real new
+    project waits on a person for nothing.
+    """
+    june, july, sept = (load("mospi_ap_rows_june2025.json"), load("mospi_ap_rows_july2026.json"),
+                        load("mospi_ap_rows_sept2026.json"))
+    doc = json.loads((Path("app/scrapers/mospi_renumbering.json")).read_text(encoding="utf-8"))
+    july_old = {p["old"] for p in doc["pairs"] if not p.get("edition")}
+    free_june = [r for r in june if r["code"] not in july_old]
+    july_codes = {r["code"] for r in july}
+    new_rows = [r for r in sept if r["code"] not in july_codes]
+    assert len(new_rows) == 19 and len(free_june) == 40
+
+    news, types = report_rows(new_rows)
+    held = {new_rows[i]["code"]: mt.candidate.key for i, mt in suspects(news, candidates(free_june), types).items()}
+    in_map = {p["new"]: p["old"] for p in doc["pairs"] if p.get("edition") == "September 2026"}
+    assert held == in_map == {"616254": "N16000539", "705436": "220100265", "705633": "N22000368", "705648": "N22000369"}
+
+    # Only one of the four is strong enough to merge unattended; the other three needed a person.
+    strong = {new_rows[i]["code"] for i in assign(news, candidates(free_june), types)}
+    assert strong == {"616254"}
 
 
 def test_the_lexicon_weighs_a_place_name_over_boilerplate():

@@ -19,7 +19,7 @@ from app.scrapers.mospi_editions import Edition
 from app.scrapers.mospi_projects import (
     MospiProjectsScraper, absent_note, new_code_for, old_code_for, renumbering, with_absent_note,
 )
-from scripts.mospi_renumbering import check
+from scripts.mospi_renumbering import check, new_rows_for_check
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -29,7 +29,7 @@ def rows(name):
 
 
 def test_every_pair_is_consistent_with_both_editions():
-    assert check(rows("mospi_ap_rows_june2025.json"), rows("mospi_ap_rows_july2026.json")) == []
+    assert check(rows("mospi_ap_rows_june2025.json"), new_rows_for_check()) == []
 
 
 def test_the_map_reads_both_ways_and_knows_polavaram():

@@ -88,6 +88,9 @@ class BaseScraper(ABC):
         # PDF off the local disk instead of downloading it", for instance. The
         # runner collects these and the alert email prints them.
         self.notes: list[str] = []
+        # Things only a person can decide (mospi_projects.py holds look-alike rows here). Unlike a
+        # note, a review goes under NEEDS YOU and makes the alert email worth sending.
+        self.reviews: list[str] = []
 
     @property
     def client(self) -> httpx.AsyncClient:
@@ -152,6 +155,11 @@ class BaseScraper(ABC):
         """Record something the alert email should mention. Not a failure."""
         logger.info(f"[{self.PORTAL_NAME}] {text}")
         self.notes.append(text)
+
+    def review(self, text: str) -> None:
+        """Record a decision the owner has to make. Goes under NEEDS YOU in the alert email."""
+        logger.warning(f"[{self.PORTAL_NAME}] needs review: {text}")
+        self.reviews.append(text)
 
     def finish(self, saved: int, failure: Optional[BaseException] = None) -> int:
         """End a scrape: the count when it worked, an exception when it did not.

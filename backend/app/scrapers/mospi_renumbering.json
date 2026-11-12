@@ -1,5 +1,5 @@
 {
- "_about": "Which pre-PAIMANA project code (June 2025 flash report and earlier) each PAIMANA code (July 2026 flash report onward) replaced, for the Andhra Pradesh rows. PAIMANA renumbered every project and prints the old code as '-'. 'matched' pairs were found by app/scrapers/mospi_match.py on the evidence quoted; 'reviewed' pairs were checked by hand against both reports. scripts/mospi_renumbering.py check verifies every pair against the fixtures in tests/fixtures. Add a pair only with the evidence that justifies it.",
+ "_about": "Which pre-PAIMANA project code (June 2025 flash report and earlier) each PAIMANA code (July 2026 flash report onward) replaced, for the Andhra Pradesh rows. PAIMANA renumbered every project and prints the old code as '-'. 'matched' pairs were found by app/scrapers/mospi_match.py on the evidence quoted; 'reviewed' pairs were checked by hand against both reports. scripts/mospi_renumbering.py check verifies every pair against the fixtures in tests/fixtures. Add a pair only with the evidence that justifies it. From the September 2026 report on, a pair may name a code that first appears in a later PAIMANA edition: MoSPI relisted projects it had dropped from July and August under new codes. 'distinct' lists new rows a person has confirmed are NOT an older tracked project, so the importer's twin check stops holding them.",
  "old_edition": "MoSPI flash report, June 2025 (FR_JUNE_2025.pdf)",
  "new_edition": "MoSPI flash report, July 2026 (FlashReport_July_2026_.pdf)",
  "pairs": [
@@ -422,6 +422,42 @@
    "how": "matched",
    "evidence": "approved 09/2021; revised cost 220.00 matches; name 100% shared",
    "title": "HP-COAT [Crude to Olefins and Aromatics Technology] demo unit at Visakh Refinery"
+  },
+  {
+   "new": "616254",
+   "old": "N16000539",
+   "how": "matched",
+   "evidence": "approved 09/2024; original cost 2,212.00 matches; name 66% shared",
+   "title": "Visakh Raipur Pipeline Project",
+   "edition": "September 2026"
+  },
+  {
+   "new": "705436",
+   "old": "220100265",
+   "how": "reviewed",
+   "evidence": "same new line between the same two stations (Kotipalli and Narsapur/Narasapur); original cost 2,501.00 against 2,500.98; railways both; progress 18% then 19%. Approval months differ as printed (12/2001, 03/2012)",
+   "title": "Kotipalli-Narsapur 57.21 km",
+   "edition": "September 2026"
+  },
+  {
+   "new": "705633",
+   "old": "N22000368",
+   "how": "reviewed",
+   "evidence": "same doubling between Guntur and Guntakal; original cost 3,733.00 against 3,733.37; railways both. Approval months differ as printed (04/2016, 05/2017)",
+   "title": "Guntakal - Guntur 401.47 km",
+   "edition": "September 2026"
+  },
+  {
+   "new": "705648",
+   "old": "N22000369",
+   "how": "reviewed",
+   "evidence": "same third line between Vijayawada and Gudur; original cost 6,654.00 matches; railways both. Approval months differ as printed (04/2015, 09/2016)",
+   "title": "Vijayawada-Gudur - 3rd line 287.67 km",
+   "edition": "September 2026"
   }
- ]
+ ],
+ "later_editions": [
+  "MoSPI flash report, September 2026 (Final_FlashReport_September_2026_(1).pdf)"
+ ],
+ "distinct": []
 }

@@ -58,6 +58,7 @@ from sqlalchemy import func, select
 
 from app.scrapers.base import BaseScraper
 from app.scrapers.mospi_editions import Edition, fetch_newest
+from app.scrapers.mospi_match import Candidate, suspects
 from app.scrapers.mospi_layout import (
     TABLE_TITLE, check_groups, extract as extract_block, month_end, overview_project_count,
     parse_page_words, report_month,
@@ -137,6 +138,35 @@ def renumbering() -> dict[str, str]:
             raise ValueError(f"mospi_renumbering.json lists a code twice: {p['new']} / {p['old']}")
         out[p["new"]] = p["old"]
     return out
+
+
+@lru_cache(maxsize=1)
+def distinct_codes() -> frozenset[str]:
+    """
+    Codes a person has confirmed are NOT an older tracked project, from the
+    'distinct' list of the same reviewed file. The twin check in _save holds a
+    new row that looks like a tracked one; an entry here is the owner saying
+    "I looked, it is a different work", and the row is then created.
+    """
+    with open(RENUMBERING_FILE, encoding="utf-8") as f:
+        return frozenset(d["new"] for d in json.load(f).get("distinct", []))
+
+
+# The sanity memory table doubles as the place a held row waits. One row per
+# import under "<portal>:held", so the daily "already imported" path can tell
+# whether a question is still open without reading the PDF again.
+HELD_SUFFIX = ":held"
+
+
+def held_text(label: str, held: list[dict]) -> str:
+    """The question put to the owner, with the evidence for each row."""
+    lines = [f"{len(held)} row(s) of the {label} were not added, because each looks like a project "
+             "the site already tracks under another code:"]
+    for h in held:
+        lines.append(f"{h['code']} {h['name'][:80]} looks like #{h['twin_id']} {h['twin_title'][:70]} ({h['why']})")
+    lines.append("For each one, add a pair to app/scrapers/mospi_renumbering.json if it is the same project, "
+                 "or an entry under 'distinct' if it is not. scripts/mospi_renumbering.py propose shows the evidence.")
+    return "\n".join(lines)
 
 
 def old_code_for(code: str) -> Optional[str]:
@@ -281,6 +311,17 @@ class MospiProjectsScraper(BaseScraper):
                 raise RuntimeError("could not determine which flash report to read")
             as_of = month_end(edition.year, edition.month)
             done = 0 if os.environ.get("MOSPI_FORCE") else await self._already_recorded(edition)
+            if done:
+                # Rows this edition left held. If the map now answers any of them, the
+                # edition is imported again by itself; if not, the question is asked again.
+                waiting = await self._held_waiting(edition)
+                answered = [h for h in waiting if old_code_for(h["code"]) or h["code"] in distinct_codes()]
+                if answered:
+                    self.note(f"{len(answered)} held row(s) of the {edition.label} now have a decision in the "
+                              "reviewed map; importing the edition again")
+                    done = 0
+                elif waiting:
+                    self.review(held_text(edition.label, waiting))
             if done:
                 self.note(
                     f"{edition.label} is already imported ({done} project rows carry its URL) and "
@@ -627,6 +668,51 @@ class MospiProjectsScraper(BaseScraper):
             return hits[0], "title"
         return None, "new"
 
+    async def _held_waiting(self, edition: Edition) -> list[dict]:
+        """The rows the newest import of this edition held, or an empty list."""
+        from app.models.scrape_stat import ScrapeStat
+        async with get_db_context() as db:
+            marks = (await db.execute(
+                select(ScrapeStat).where(ScrapeStat.scraper == self.PORTAL_NAME + HELD_SUFFIX).order_by(ScrapeStat.id.desc()).limit(12)
+            )).scalars().all()
+        for m in marks:
+            if (m.stats or {}).get("edition") == edition.url:
+                return list((m.stats or {}).get("held") or [])
+        return []
+
+    def _twins_to_hold(self, ap_rows: list[dict], resolved: list, all_rows: list[Project],
+                       claimed: set[int]) -> dict[int, dict]:
+        """
+        Which unmatched report rows to hold, with the tracked row each resembles.
+
+        Candidates are this portal's rows that no row of this edition claimed:
+        the ones a renumbered project would have left behind. A code listed under
+        'distinct' in the reviewed file is never held.
+        """
+        idx = [i for i, (existing, _) in enumerate(resolved)
+               if existing is None and ap_rows[i]["code"] not in distinct_codes()]
+        free = [p for p in all_rows if p.id not in claimed]
+        if not idx or not free:
+            return {}
+        cands = [
+            Candidate(key=p, title=p.title or "", approval=p.announced_date,
+                      cost=float(p.estimated_cost_crore) if p.estimated_cost_crore is not None else None,
+                      progress=float(p.completion_percentage) if p.completion_percentage is not None else None,
+                      ptype=p.project_type.value if p.project_type else None)
+            for p in free
+        ]
+        news = [{"name": ap_rows[i]["name"], "approval": ap_rows[i].get("approval"),
+                 "cost_original": ap_rows[i].get("cost_original"), "cost": ap_rows[i].get("cost"),
+                 "progress": ap_rows[i].get("progress")} for i in idx]
+        types = [sector_type(re.sub(r"\s+", " ", ap_rows[i]["sector"] or "").strip()).value for i in idx]
+        out: dict[int, dict] = {}
+        for j, m in suspects(news, cands, types).items():
+            r = ap_rows[idx[j]]
+            out[idx[j]] = {"code": r["code"], "name": r["name"], "twin_id": m.candidate.key.id,
+                           "twin_title": m.candidate.title, "twin_code": m.candidate.key.external_id,
+                           "score": m.score, "why": m.why or "similar"}
+        return out
+
     async def _note_absent(self, db, edition: Edition) -> int:
         """
         Mark this portal's rows that this edition did not list: every row
@@ -663,12 +749,29 @@ class MospiProjectsScraper(BaseScraper):
             # fallback match for rows that arrive under a code the site has
             # never seen, which after the PAIMANA renumbering is all of them.
             by_title: dict[str, list[Project]] = {}
-            for p in (await db.execute(
+            all_rows = list((await db.execute(
                 select(Project).where(Project.source_portal == self.PORTAL_NAME)
-            )).scalars().all():
+            )).scalars().all())
+            for p in all_rows:
                 by_title.setdefault(_norm_title(p.title), []).append(p)
 
+            # Every row is matched before anything is written, so the twin check
+            # below knows which tracked rows this edition did not claim.
+            resolved: list[tuple[Optional[Project], str]] = []
             for r in ap_rows:
+                existing, how = await self._find_existing(db, r, by_title)
+                if existing and existing.id in claimed:
+                    # Two report rows with one title (two packages named alike)
+                    # must not both land on the same database row.
+                    existing, how = None, "new"
+                if existing:
+                    claimed.add(existing.id)
+                resolved.append((existing, how))
+            held = self._twins_to_hold(ap_rows, resolved, all_rows, claimed)
+
+            for i, r in enumerate(ap_rows):
+                if i in held:
+                    continue        # neither merged nor created: a person decides (mospi_match.suspects)
                 sector = re.sub(r"\s+", " ", r["sector"] or "").strip()
                 ptype = sector_type(sector)
                 description = (
@@ -680,13 +783,8 @@ class MospiProjectsScraper(BaseScraper):
                     + (f" Shared with other states: {r['state']}." if r["state"].lower().startswith("multi") else "")
                 )
 
-                existing, how = await self._find_existing(db, r, by_title)
-                if existing and existing.id in claimed:
-                    # Two report rows with one title (two packages named alike)
-                    # must not both land on the same database row.
-                    existing, how = None, "new"
+                existing, how = resolved[i]
                 if existing:
-                    claimed.add(existing.id)
                     matched += 1
                     no_cost_kept += bool(r.get("cost_not_given"))
                     if existing.department and sector and existing.department != sector:
@@ -746,7 +844,16 @@ class MospiProjectsScraper(BaseScraper):
                 obs_fixed += outcome == 2
             self._check_sector_drift(matched, moved_sector, edition)
             absent = await self._note_absent(db, edition)
+            # What was held, written with the import so the two cannot disagree. An
+            # empty list is written too: it is what closes an earlier question.
+            import uuid
+            from app.models.scrape_stat import ScrapeStat
+            held_list = [held[i] for i in sorted(held)]
+            db.add(ScrapeStat(run_id=str(uuid.uuid4()), scraper=self.PORTAL_NAME + HELD_SUFFIX, rows=len(held_list),
+                              stats={"edition": edition.url, "label": edition.label, "held": held_list}))
             await db.commit()
+        if held:
+            self.review(held_text(edition.label, [held[i] for i in sorted(held)]))
         logger.info(f"[{self.PORTAL_NAME}] {edition.label}: {saved} new project row(s), {updated} refreshed, "
                     f"{absent} older row(s) marked as not listed in this edition")
         if no_cost_kept or no_cost_new:

@@ -114,6 +114,7 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
     quiet: list[str] = []
     broke: list[dict] = []
     notes: list[dict] = []
+    reviews: list[dict] = []
 
     for _group, name, cls in selected:
         logger.info(f"=== {name} ===")
@@ -126,6 +127,8 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
 
         for text in getattr(scraper, "notes", []):
             notes.append({"source": name, "note": text})
+        for text in getattr(scraper, "reviews", []):
+            reviews.append({"source": name, "text": text})
 
         if slot.get("blocked"):
             # Deliberate refusal, not a crash. Nothing was written and the site
@@ -157,7 +160,7 @@ async def main(groups: list[str], trigger: RunTrigger) -> int:
     # trigger the alert, so a run where every source broke must not look fine.
     ok_sources = [name for name, outcome in summary if not outcome.startswith(("FAILED", "BLOCKED"))]
     not_run = [(group, name) for group, name, _ in SCRAPERS if group not in groups]
-    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes, groups, not_run)
+    await _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes, groups, not_run, reviews)
 
     failed = [item["source"] for item in broke]
     if failed:
@@ -194,7 +197,7 @@ def _advice(error: str) -> str:
 
 
 async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, notes=None,
-                 groups=None, not_run=None) -> None:
+                 groups=None, not_run=None, reviews=None) -> None:
     """Assemble the run into the alert report and hand it to the sender.
 
     Never raises. An email that cannot be sent is a nuisance; a refresh run that
@@ -254,6 +257,16 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, no
         for name in ok_sources:
             if await previous_status(name, run_id) == RunStatus.FAILED:
                 recovered.append(name)
+
+        # A scraper that stopped to ask. It asks again on every run until it is answered:
+        # a question asked once and missed is a question nobody answers.
+        for item in reviews or []:
+            needs_you.append({
+                "kind": "needs your decision",
+                "title": item["source"],
+                "detail": item["text"],
+                "action": "Decide, record it in the file named above, and deploy. The rows stay held until then.",
+            })
 
         # Sources outside this run's groups. Each group that has gone past its
         # allowance without any run becomes one NEEDS YOU line, every run, until
