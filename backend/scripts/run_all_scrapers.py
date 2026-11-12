@@ -301,6 +301,15 @@ async def _alert(run_id, started, blocked, changed, quiet, broke, ok_sources, no
             "groups": sorted(groups or []),
             "not_run": [name for _, name in not_run],
         }
+        # The AI review block (approach A). Its own try: a digest that cannot be read must
+        # never stop the scraper report from going out.
+        try:
+            from app.database import get_db_context
+            from app.services import ai_digest
+            async with get_db_context() as db:
+                report["ai_digest"] = await ai_digest.collect(db)
+        except Exception as exc:                    # noqa: BLE001
+            logger.warning(f"[alerts] AI digest skipped: {type(exc).__name__}: {exc}")
         result = await alerts.send(report)
         logger.info(f"[alerts] {result}")
     except Exception as exc:                        # noqa: BLE001

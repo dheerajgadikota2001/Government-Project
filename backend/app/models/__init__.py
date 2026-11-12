@@ -18,6 +18,7 @@ from app.models.archive import ArchivedFile, ArchivedFileSource
 from app.models.live_reading import LiveReading
 from app.models.district_happening import DistrictHappening
 from app.models.district_edition import DistrictEdition
+from app.models.ai_review import AiSpend, ProposedFact
 
 __all__ = [
     "Base",
@@ -26,6 +27,8 @@ __all__ = [
     "LiveReading",
     "DistrictHappening",
     "DistrictEdition",
+    "AiSpend",
+    "ProposedFact",
     "ForumPost",
     "CorrectionReport",
     "PostStatus",

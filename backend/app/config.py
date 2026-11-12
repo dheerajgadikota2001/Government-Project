@@ -54,6 +54,22 @@ class Settings(BaseSettings):
     story_model: str = "claude-haiku-4-5"
     story_max_items: int = 12          # gathered items offered to the model per district per run
 
+    # AI assist for data updates (decision D-2026-11-10, approach A: the model proposes, a
+    # second pass checks every quote and figure, a person approves). Off by default, like the
+    # drafter above: the master switch is deliberate, never a default. Even when it is on, no
+    # call is made unless app/services/ai_spend.py says the money is there. The ceiling is the
+    # owner's USD 200 a month. The day and run caps stop one bad night from spending the month:
+    # a loop that retries a thousand times is how a ceiling gets hit in an hour.
+    ai_assist_enabled: bool = False
+    ai_monthly_ceiling_usd: float = 200.0
+    ai_daily_cap_usd: float = 15.0
+    ai_run_cap_usd: float = 5.0
+    ai_extract_model: str = "claude-haiku-4-5"
+    ai_extract_max_tokens: int = 3000
+    ai_extract_max_chars: int = 60000   # paper text offered to one call; longer papers go in parts
+    # Optional JSON overriding the built-in price table, {"model": [input_usd_per_mtok, output_usd_per_mtok]}.
+    ai_price_table: str = ""
+
     # Firebase
     firebase_credentials_path: str = ""
 

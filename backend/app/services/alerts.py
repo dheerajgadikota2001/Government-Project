@@ -41,6 +41,7 @@ from typing import Optional
 import httpx
 
 from app.config import settings
+from app.services import ai_digest
 from app.utils.logger import logger
 
 RESEND_ENDPOINT = "https://api.resend.com/emails"
@@ -84,6 +85,7 @@ def build_body(report: dict) -> tuple[str, str]:
         not_run      [source, ...]       sources in other groups, not part of this run
         notes        [{source, note}]    true, worth knowing, not a failure
         dead         [{source_key, publisher, title, url}]
+        ai_digest    dict from app/services/ai_digest.collect, or None when the AI layer is off and unused
         run_id, started_at, duration_s, heartbeat (bool)
     """
     needs = report.get("needs_you") or []
@@ -190,6 +192,9 @@ def build_body(report: dict) -> tuple[str, str]:
             lines.append(f"{item['source']}: {item['note']}")
         lines.append("")
 
+    if report.get("ai_digest"):
+        lines += ai_digest.lines(report["ai_digest"])
+
     lines += [f"DEAD CITATIONS ({len(dead)})"]
     if dead:
         lines.append(RULE)
@@ -242,7 +247,10 @@ def should_send(report: dict) -> bool:
     if report.get("heartbeat"):
         return True
     return bool(report.get("needs_you") or report.get("blocked")
-                or report.get("dead") or report.get("recovered"))
+                or report.get("dead") or report.get("recovered")
+                # Facts waiting for approval, a stop by the spend guard, or spend near the
+                # ceiling are worth an email on a day when every scraper was quiet.
+                or ai_digest.needs_attention(report.get("ai_digest")))
 
 
 def is_heartbeat_day(now: Optional[datetime] = None) -> bool:
