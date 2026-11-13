@@ -2,6 +2,7 @@
 // 1. The printed name (t) is never changed by hand: it matches the last committed copy unless the paper changed too.
 // 2. Every Telugu place (plt) is one the owner approved: in towns_te.json or a district's te, and never a list of spellings.
 // 3. Every project page has its own tab title (no two alike) in English and in Telugu, none longer than 80.
+// 4. The kind of work never names a different sector from the one the paper files the work under.
 // Run after the build:  node scripts/test_titles.mjs   (npm run test:titles)
 import fs from 'node:fs'
 import path from 'node:path'
@@ -37,6 +38,15 @@ for (const p of projects) {
   if (p.plt == null) continue
   if (/ \/ |\?/.test(p.plt)) fail(`${p.id}: Telugu place lists several spellings: ${p.plt}`)
   else if (!approved.has(p.plt)) fail(`${p.id}: Telugu place not in the approved lists: ${p.plt}`)
+}
+
+// 4. kind of work agrees with the paper's sector. Until 13 Nov 2026, 27 railway lines with "km" in their name
+// showed as "road works", because the road rule in scripts/name_fields.py matched first (SECTOR_KIND there).
+const SECTOR_KIND = { roads: 'road works', railways: 'railway works', irrigation: 'irrigation works', airports: 'airport works', ports: 'port works' }
+const SECTOR_WORDS = new Set(Object.values(SECTOR_KIND))
+for (const p of projects) {
+  const own = SECTOR_KIND[p.ty]
+  if (own && SECTOR_WORDS.has(p.wk) && p.wk !== own) fail(`${p.id}: filed under ${p.ty} but shown as "${p.wk}"`)
 }
 
 // 3. unique tab titles

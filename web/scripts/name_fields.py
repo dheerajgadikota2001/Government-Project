@@ -221,9 +221,20 @@ KINDS = [
 ]
 
 
+# Sectors the paper itself names. A word in the name ("km", "bypass", "flyover") can belong to a
+# road, a railway or a canal alike, and the road rule comes first, so until 13 Nov 2026 every railway
+# line with "km" in its name was called "road works" (27 of them, among them Tirupati-Pakala-Katpadi).
+# When the paper files a work under one of these sectors, a name match naming a different one of them
+# gives way to the paper's sector. Matches outside this set (power lines, water supply) still stand.
+SECTOR_KIND = {'roads': 'road works', 'railways': 'railway works', 'irrigation': 'irrigation works',
+               'airports': 'airport works', 'ports': 'port works'}
+
+
 def kind_of(raw, ty):
     for pat, label in KINDS:
         if re.search(pat, raw, re.I):
+            if ty in SECTOR_KIND and label in SECTOR_KIND.values() and label != SECTOR_KIND[ty]:
+                return SECTOR_KIND[ty]
             return label
     return {
         'roads': 'road works', 'railways': 'railway works', 'irrigation': 'irrigation works',
