@@ -16,6 +16,8 @@ dist-single
 # local builds for scripts/make_posters.py and scripts/check_3d_live.py
 /dist-posters
 /dist-check
+# API dumps for scripts/prep_data.py, fetched by scripts/fetch_live.py (data, not code)
+/.live
 *.local
 
 # Editor directories and files

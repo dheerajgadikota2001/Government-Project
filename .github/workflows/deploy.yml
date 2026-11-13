@@ -164,6 +164,13 @@ jobs:
         working-directory: web
         run: npm run test:titles
 
+      # Pages get no-cache; the API keeps its own Cache-Control so the CDN can hold
+      # it; every redirect to a project lands on a page. Until 13 Nov 2026 a rule
+      # for every address overwrote the API's header and each call missed the CDN.
+      - name: Test the hosting rules
+        working-directory: web
+        run: npm run test:hosting
+
       # The API client's promises: a read tried twice, a write once, no old
       # copy kept for the community board, every page of a long list read.
       - name: Test the API client

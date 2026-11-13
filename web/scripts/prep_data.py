@@ -1,13 +1,21 @@
-"""Build the prototype's data files from the live API dumps and the Polavaram draft story.
+"""Build the site's data files (src/data/*.json) from the live API dumps and web/data-inputs.
 
 Only fields the house rules allow reach the page: no tenure, party, span or
 site-computed totals. Every figure keeps its paper and date beside it.
-Run from the site folder: python3 scripts/prep_data.py
-"""
-import json, os, re, datetime
 
-S = '/tmp/claude-0/-home-claude/1bec7e1b-544e-5672-b46e-4cf91965d07f/scratchpad'
-LIVE = f'{S}/live'
+Run after the fetch, from anywhere:
+    python scripts/fetch_live.py
+    python scripts/prep_data.py
+Then read the difference in src/data before committing. See scripts/build_paths.py for the folders.
+"""
+import json, os, re, datetime, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_paths import INPUTS, LIVE, WEB  # noqa: E402
+
+os.chdir(WEB)          # every path below is relative to the site folder, wherever this was started from
+if not (LIVE / 'FETCHED').exists():
+    sys.exit(f'No API dumps in {LIVE}. Run scripts/fetch_live.py first.')
 OUT = 'src/data'
 os.makedirs(OUT, exist_ok=True)
 
@@ -41,7 +49,7 @@ HOLD_BACK = {705}
 register = load(f'{LIVE}/register.json')
 updates = load(f'{LIVE}/updates.json')
 districts_api = load(f'{LIVE}/districts.json')
-old = load(f'{S}/datapages/data.json')
+old = load(INPUTS / 'geo_and_states.json')
 te_places = old['te_places']
 shapes = old['shapes']
 shape_by_name = {x['name']: x['d'] for x in shapes['districts']}
@@ -128,7 +136,7 @@ dump('projects', projects)
 dump('events', events)
 
 # ---------------------------------------------------------------- Polavaram
-story = load(f'{S}/repo/dev/ap-nadu-nedu/src/data/stories/drafts/613-polavaram.json')
+story = load(INPUTS / 'polavaram_story_draft.json')
 reg613 = load(f'{LIVE}/reg613.json')
 ext613 = load(f'{LIVE}/ext613.json')
 
@@ -179,6 +187,7 @@ deadlines_gov = [
     {'said': '2025-02', 'target': '2027', 'prec': 'year', 'paper': 'Socio-Economic Survey 2024-25', 'src': 'ses2425'},
     {'said': '2026-08', 'target': '2026-03', 'prec': 'month', 'paper': 'MoSPI report, July 2026', 'src': 'mospi2607'},
     {'said': '2026-09', 'target': '2027-06', 'prec': 'month', 'paper': 'MoSPI report, August 2026', 'src': 'mospi2608'},
+    {'said': '2026-11', 'target': '2027-06', 'prec': 'month', 'paper': 'MoSPI report, September 2026', 'src': 'mospi2609'},
 ]
 
 # Progress as each paper measured it. Measures differ, so each is its own series.
@@ -430,7 +439,7 @@ grounded = [{k: g.get(k) for k in ('year', 'investment_crore', 'employment', 'ba
 dump('investments', {'mous': mous, 'summits': summits, 'by_year': grounded, 'definition': summ.get('definition_warning')})
 
 # ---------------------------------------------------------------- claims, papers, tenders, updates
-fc = load(f'{S}/repo/dev/ap-nadu-nedu/src/data/factchecks.json')['checks']
+fc = load(INPUTS / 'factchecks.json')['checks']
 claims = []
 # Questions are shown without any party name; the paper and its date identify every claim.
 NEUTRAL_Q = {'ap-debt-june-2014': "Was Andhra Pradesh's debt about \u20b997,000 crore in June 2014?"}
@@ -590,8 +599,8 @@ dump('periods', {'periods': periods, 'unattributed': tp['unattributed_count'], '
                  'series': series, 'events': events, 'rankings': rankings, 'awards': awards})
 
 # ---------------------------------------------------------------- trust pages, from the live site's own words
-REPO = f'{S}/repo/dev/ap-nadu-nedu/src/i18n/locales'
-en_cat, te_cat = load(f'{REPO}/en.json'), load(f'{REPO}/te.json')
+_words = load(INPUTS / 'legal_words.json')
+en_cat, te_cat = _words['en'], _words['te']
 legal = {}
 for top in ('about', 'disclaimer', 'privacy', 'community'):
     e, t = dict(en_cat[top]), dict(te_cat.get(top, {}))

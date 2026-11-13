@@ -1,5 +1,5 @@
 // Guards the reader-facing project names.
-// 1. The printed name (t) is never changed: it matches the last committed copy.
+// 1. The printed name (t) is never changed by hand: it matches the last committed copy unless the paper changed too.
 // 2. Every Telugu place (plt) is one the owner approved: in towns_te.json or a district's te, and never a list of spellings.
 // 3. Every project page has its own tab title (no two alike) in English and in Telugu, none longer than 80.
 // Run after the build:  node scripts/test_titles.mjs   (npm run test:titles)
@@ -20,8 +20,16 @@ const fail = (m) => { failed++; if (failed <= 30) console.error('FAIL', m) }
 // 1. printed name unchanged
 try {
   const old = JSON.parse(execSync('git show HEAD:web/src/data/projects.json', { cwd: root, stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 1 << 28 }).toString())
-  const was = new Map(old.map((p) => [p.id, p.t]))
-  for (const p of projects) if (was.has(p.id) && was.get(p.id) !== p.t) fail(`printed name changed for ${p.id}`)
+  // A name may change only with its paper. MoSPI reworded four projects when it renumbered them (September 2026
+  // report): the record now carries the new paper and that paper's name, which is the rule. A name that changes while
+  // the paper stays the same is an edit by hand, and that is what this test stops.
+  const was = new Map(old.map((p) => [p.id, p]))
+  for (const p of projects) {
+    const o = was.get(p.id)
+    if (!o || o.t === p.t) continue
+    if (o.su !== p.su) console.log(`note: ${p.id} has a new name from a new paper: "${o.t}" is now "${p.t}"`)
+    else fail(`printed name changed for ${p.id} while its paper stayed the same`)
+  }
 } catch { console.log('note: no git copy to compare the printed names with (skipped)') }
 
 // 2. Telugu places are approved

@@ -204,7 +204,10 @@ export function docDescription(d: DocRec): Bi {
   }
   return {
     en: fit(head + what + tail),
-    te: fit(`${tidy(d.title)}. ${d.publisher || 'ప్రభుత్వ సంస్థ'} నుంచి ${k.te}${whenTe}. అధికారిక ఫైల్ లింక్ ఇక్కడ ఉంది.`),
+    // Telugu words first, then the title in the same sentence. With the English title first, a long title filled the
+    // 158 characters on its own, the cut left only the title, and 142 Telugu pages carried the English page's
+    // description word for word (crawl of 12 Nov). The title stays in the first sentence so the cut cannot drop it.
+    te: fit(`${d.publisher || 'ప్రభుత్వ సంస్థ'} నుంచి ${k.te}${whenTe}: ${tidy(d.title)}. అధికారిక ఫైల్ లింక్ ఇక్కడ ఉంది.`),
   }
 }
 

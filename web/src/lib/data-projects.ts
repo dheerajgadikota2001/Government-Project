@@ -27,8 +27,14 @@ export const isAmrut = (p: Project) => p.sp === 'AMRUT_MoHUA'
 
 /** The paper a project's figure comes from, in words. */
 export function paperOf(p: Project): string {
-  if (p.id === 613) return 'MoSPI report, August 2026'
-  if (p.sp === 'MOSPI_IPMD') return p.l ? `MoSPI report, ${new Date(p.l).toLocaleString('en-IN', { month: 'long', year: 'numeric', timeZone: 'UTC' })}` : 'MoSPI report'
+  if (p.sp === 'MOSPI_IPMD') {
+    // The month is read from the report's own file name (FlashReport_September_2026.pdf, FR_JUNE_2025.pdf), so the
+    // name always matches the paper the link opens. Polavaram used to be fixed to "August 2026" by hand, and kept that
+    // name after its figures moved to the September report.
+    const m = (p.su ?? '').match(/(?:FlashReport|FR)_([A-Za-z]+)_(\d{4})/i)
+    if (m) return `MoSPI report, ${m[1][0].toUpperCase()}${m[1].slice(1).toLowerCase()} ${m[2]}`
+    return p.l ? `MoSPI report, ${new Date(p.l).toLocaleString('en-IN', { month: 'long', year: 'numeric', timeZone: 'UTC' })}` : 'MoSPI report'
+  }
   if (p.sp === 'AMRUT_MoHUA') return 'AMRUT list, Union Housing and Urban Affairs Ministry'
   if (p.sp.startsWith('AP Socio-Economic Survey')) {
     const m = (p.cu || p.su || '').match(/Survey[_-]?(\d{4})[_-](\d{2})/i)

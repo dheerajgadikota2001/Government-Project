@@ -33,8 +33,8 @@ export const polavaramRoad: RoadMark[] = [
   { id: 'flood2020', date: '2020', prec: 'year', src: 'cag2025', text: { en: '2020: floods', te: '2020: వరదలు' } },
   { id: '2024-08', date: '2024-08', prec: 'month', src: 'pib2025', text: { en: 'August 2024: revised cost for the first phase', te: '2024 ఆగస్టు: మొదటి దశకు సవరించిన వ్యయం' } },
   { id: '2025-06', date: '2025-06', prec: 'month', src: 'mospi2506', text: { en: 'June 2025: 76% physical progress', te: '2025 జూన్: 76% భౌతిక పురోగతి' } },
-  { id: '2026-08', date: '2026-08', prec: 'month', src: 'mospi2608', text: { en: 'August 2026: 86.2% physical progress', te: '2026 ఆగస్టు: 86.2% భౌతిక పురోగతి' } },
-  { id: '2027-06', date: '2027-06', prec: 'month', src: 'mospi2608', plan: true, text: { en: 'June 2027: the completion date in the August 2026 report, a plan', te: '2027 జూన్: 2026 ఆగస్టు నివేదికలోని పూర్తి తేదీ, ప్రణాళిక మాత్రమే' } },
+  { id: '2026-09', date: '2026-09', prec: 'month', src: 'mospi2609', text: { en: 'September 2026: 86.3% physical progress', te: '2026 సెప్టెంబర్: 86.3% భౌతిక పురోగతి' } },
+  { id: '2027-06', date: '2027-06', prec: 'month', src: 'mospi2609', plan: true, text: { en: 'June 2027: the completion date in the September 2026 report, a plan', te: '2027 జూన్: 2026 సెప్టెంబర్ నివేదికలోని పూర్తి తేదీ, ప్రణాళిక మాత్రమే' } },
 ]
 
 const BUILT_PINS: StoryPin[] = [
@@ -118,11 +118,11 @@ export const polavaramStory: Story = {
     {
       id: 'progress',
       text: {
-        en: "The Union Statistics Ministry's August 2026 report, which is built from what project agencies report to it, gives the physical progress as 86.2%.",
-        te: 'ప్రాజెక్టు సంస్థలు నివేదించిన వివరాలతో తయారయ్యే కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 ఆగస్టు నివేదిక భౌతిక పురోగతిని 86.2%గా చూపింది.',
+        en: "The Union Statistics Ministry's September 2026 report, which is built from what project agencies report to it, gives the physical progress as 86.3%.",
+        te: 'ప్రాజెక్టు సంస్థలు నివేదించిన వివరాలతో తయారయ్యే కేంద్ర గణాంకాల మంత్రిత్వ శాఖ 2026 సెప్టెంబర్ నివేదిక భౌతిక పురోగతిని 86.3%గా చూపింది.',
       },
-      sources: ['mospi2608'],
-      pic: { kind: 'dam', pct: 86.2, pins: BUILT_PINS, big: { value: '86.2%', note: { en: 'Physical progress, August 2026 report', te: '2026 ఆగస్టు నివేదికలో భౌతిక పురోగతి' } } },
+      sources: ['mospi2609'],
+      pic: { kind: 'dam', pct: 86.3, pins: BUILT_PINS, big: { value: '86.3%', note: { en: 'Physical progress, September 2026 report', te: '2026 సెప్టెంబర్ నివేదికలో భౌతిక పురోగతి' } } },
     },
     {
       id: 'measure',
@@ -130,11 +130,11 @@ export const polavaramStory: Story = {
         en: "These figures come from different documents and dates. The documents do not say how the progress of the works was measured. The figures also do not line up: the CAG's 82% for the works in March 2023 is higher than the survey's 77% for December 2024. So they should not be read as a rise or a fall from one to the next.",
         te: 'ఈ అంకెలు వేర్వేరు పత్రాల నుంచి, వేర్వేరు తేదీల నాటివి. పనుల పురోగతిని ఎలా కొలిచారో ఈ పత్రాలు చెప్పలేదు. అంకెలు ఒకదానితో ఒకటి సరిపోలవు కూడా: 2023 మార్చికి కాగ్ చూపిన పనుల శాతం 82%, 2024 డిసెంబర్‌కు సర్వే చూపిన 77% కంటే ఎక్కువ. అందుకే ఒక పత్రం నుంచి మరో పత్రానికి అంకెలు పెరిగినట్లో తగ్గినట్లో చదవకూడదు.',
       },
-      sources: ['ses2425', 'cag2025', 'mospi2608'],
+      sources: ['ses2425', 'cag2025', 'mospi2609'],
       pic: { kind: 'measures', rows: [
         { src: 'cag2025', date: '2023-03', measure: 'Works (CAG, from the department’s records)', label: { en: 'Works, as the CAG counts them', te: 'పనులు, కాగ్ లెక్క ప్రకారం' } },
         { src: 'ses2425', date: '2024-12', measure: 'Works (Socio-Economic Survey 2024-25)', label: { en: 'Works, as the state’s survey counts them', te: 'పనులు, రాష్ట్ర సర్వే లెక్క ప్రకారం' } },
-        { src: 'mospi2608', date: '2026-08', measure: 'Physical progress (MoSPI)', label: { en: 'Physical progress, Statistics Ministry', te: 'భౌతిక పురోగతి, గణాంకాల మంత్రిత్వ శాఖ' } },
+        { src: 'mospi2609', date: '2026-09', measure: 'Physical progress (MoSPI)', label: { en: 'Physical progress, Statistics Ministry', te: 'భౌతిక పురోగతి, గణాంకాల మంత్రిత్వ శాఖ' } },
       ] },
     },
     {
@@ -143,7 +143,7 @@ export const polavaramStory: Story = {
         en: 'The completion date has changed many times. Documents have given dates from December 2018 to 2027.',
         te: 'పూర్తి చేసే తేదీ చాలాసార్లు మారింది. పత్రాలు 2018 డిసెంబర్ నుంచి 2027 వరకు వేర్వేరు తేదీలు ఇచ్చాయి.',
       },
-      sources: ['cag2025', 'ses2425', 'mospi2608'],
+      sources: ['cag2025', 'ses2425', 'mospi2609'],
       pic: { kind: 'deadline' },
     },
     {

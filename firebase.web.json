@@ -44,7 +44,12 @@
           {
             "key": "Content-Security-Policy",
             "value": "default-src 'self'; script-src 'self' 'sha256-oRuLqfx8DNwqzll53xcrKXFRrs7YHleFfmS+sSpH0eI=' https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/v1/meta/csp-report"
-          },
+          }
+        ]
+      },
+      {
+        "regex": "^/(?:[^a./][^.]*|a(?:[^p./][^.]*)?|ap(?:[^i./][^.]*)?|api(?:[^/.][^.]*)?)?$",
+        "headers": [
           {
             "key": "Cache-Control",
             "value": "no-cache"
@@ -101,7 +106,16 @@
         ]
       },
       {
-        "source": "/@(favicon.ico|favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png|share/default.png)",
+        "source": "/@(favicon.ico|favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "/share/default.png",
         "headers": [
           {
             "key": "Cache-Control",
@@ -162,6 +176,16 @@
       {
         "regex": "^/te/projects/1$",
         "destination": "/te/projects/613",
+        "type": 301
+      },
+      {
+        "regex": "^/projects/692$",
+        "destination": "/projects/937",
+        "type": 301
+      },
+      {
+        "regex": "^/te/projects/692$",
+        "destination": "/te/projects/937",
         "type": 301
       },
       {

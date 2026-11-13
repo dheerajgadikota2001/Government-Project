@@ -36,7 +36,16 @@ const seo = await loadSeo(WEB)
 const STATE = join(WEB, 'seo-lastmod.json')
 const lastState = existsSync(STATE) ? JSON.parse(readFileSync(STATE, 'utf8')) : {}
 const dated = applyLastmod(seo.allPages(), lastState, seo.TODAY)
-const pages = dated.pages
+// House style: no long dash in what a reader sees. Department and source names arrive from the papers with one
+// ("Urban Development \u2014 AMRUT 2.0"); the app's clean() turns it into a comma, and the plain HTML does the same
+// here, in descriptions and lines. Titles are left as the app writes them (scripts/test_titles.mjs pins them).
+const tidy = (s) => String(s).replace(/\s*\u2014\s*/g, ', ')
+const tidyBi = (b) => ({ ...b, en: tidy(b.en), te: tidy(b.te) })
+const pages = dated.pages.map((p) => ({
+  ...p,
+  description: tidyBi(p.description),
+  lines: p.lines.map((l) => ({ ...l, text: tidyBi(l.text) })),
+}))
 {
   const text = serialise(dated.next)
   if (!existsSync(STATE) || readFileSync(STATE, 'utf8').replace(/\r\n?/g, '\n') !== text) writeFileSync(STATE, text)
@@ -50,7 +59,15 @@ const at = (path, lang) => (lang === 'te' ? (path === '/' ? '/te' : '/te' + path
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const SITE = { en: 'AP Fact Check', te: 'ఏపీ ఫ్యాక్ట్ చెక్' }
 const SHARE_ALT = { en: 'AP Fact Check: Andhra Pradesh, from its own papers', te: 'ఏపీ ఫ్యాక్ట్ చెక్: ఆంధ్రప్రదేశ్, ప్రభుత్వ పత్రాల్లోనే' }
-const full = (t, lang) => (t[lang].startsWith(SITE[lang]) ? t[lang] : `${t[lang]} | ${SITE[lang]}`)
+// A search result shows about 60 to 70 characters of a title. The site's name is added only when it fits within 70:
+// on a long title it pushed the page's own words past the cut (1,043 titles over 70 in the crawl of 12 Nov), and
+// search engines print the site's name on its own line anyway (WebSite structured data, og:site_name).
+const TITLE_MAX = 70
+const full = (t, lang) => {
+  if (t[lang].startsWith(SITE[lang])) return t[lang]
+  const named = `${t[lang]} | ${SITE[lang]}`
+  return named.length <= TITLE_MAX ? named : t[lang]
+}
 
 // Line endings are made LF here. On Windows git checks index.html out with CRLF, and the browser hashes the
 // inline script exactly as served: a CRLF script has a different hash from the one in the CSP
@@ -187,12 +204,15 @@ function body(p, lang) {
   // Measured on 10 project pages (4G phone, slow CPU): the load time stays at the first paint, 1.2 to 2.3 s, instead of 4.3 s.
   // Other pages are left alone: their app content differs from this text, so matching one heading did not help.
   const kind = /^\/projects\/\d+$/.test(p.path) ? ' data-kind="project"' : ''
+  // The closing note used to say "The full page is loading." It sat on every English page, and a search snippet or an
+  // answer engine could quote it as if it were the page's content. It now says only what is true of every page, and
+  // data-nosnippet keeps it out of snippets anyway.
   return `<main class="pre"${kind} lang="${lang}">
       <p class="pre-site"><a href="${at('/', lang)}">${esc(SITE[lang])}</a> · <a href="${at(p.path, other)}" lang="${other}" hreflang="${other}">${other === 'te' ? 'తెలుగు' : 'English'}</a></p>
       <h1>${esc(p.title[lang])}</h1>
       <p class="pre-lede">${esc(p.description[lang])}</p>
       ${p.lines.length ? `<ul>${p.lines.map((l) => line(l, lang)).join('')}</ul>` : ''}
-      <p class="pre-note">${lang === 'te' ? 'పూర్తి పేజీ లోడ్ అవుతోంది. ప్రతి అంకె ప్రభుత్వ పత్రం నుంచే.' : 'The full page is loading. Every number here is from a government paper.'}</p>
+      <p class="pre-note" data-nosnippet>${lang === 'te' ? 'ఇక్కడ ప్రతి అంకె ప్రభుత్వ పత్రం నుంచే, ఆ పత్రానికి లింకుతో.' : 'Every number here is from a government paper, with the paper linked.'}</p>
       <nav class="pre-nav">${nav}</nav>
     </main>`
 }

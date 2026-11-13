@@ -16,12 +16,15 @@
 // here, because a copy frozen at build time would be shown as current: those pages carry their words
 // only, and their live parts load in the browser.
 import { districts, MERGED, type Project } from '@/lib/data'
-import { byId, largest, paperOf, placeText, projects, todayDistricts, worksIn } from '@/lib/data-projects'
+import { byId, isAmrut, largest, paperOf, placeText, projects, todayDistricts, worksIn } from '@/lib/data-projects'
 import { debtLines, departmentLines, factLines as rbiFactLines, incomeLines, outsideBudgetLines, periodLines, statesLines } from '@/lib/seo-hubs'
 import claimsRaw from '@/data/claims.json'
+import { CHECKS } from '@/lib/claim-checks'
 import moneyRaw from '@/data/money.json'
 import factsRaw from '@/data/statefacts.json'
-import { crore, croreTe, dateLong, dateTe, num, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
+import { clean, crore, croreTe, dateLong, dateTe, MONTHS, MONTHS_TE, num, PORTAL_WORDS, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
+import { events } from '@/lib/data-events'
+import polavaramRaw from '@/data/polavaram.json'
 import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
 import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
@@ -111,6 +114,65 @@ function staticPage(token: string, lines: Line[] = []): PageOut {
   return { path: P(token), title: w.title, description: w.description, lines, lastmod: TODAY }
 }
 
+/* The Polavaram story */
+// Polavaram's page tells its story in steps, chapters and questions, all from papers. None of it is in the plain HTML
+// yet: a crawler sees the record's lines and nothing of why the cost, the progress and the date differ from paper to
+// paper. These lines are the page's own sentences, with the paper each one cites linked. They are written only once
+// the owner has signed the story off (status "reviewed" in web/data-inputs/polavaram_story_draft.json): the owner's
+// rule is that the story goes live after that review, and the plain HTML reaches further than the page does.
+const POLAVARAM_ID = 613
+type PolStory = {
+  story_status: string
+  papers: Record<string, { short: string; url: string }>
+  story: {
+    steps: { date: string; source: string; text: Bi }[]
+    chapters: { title: Bi; line?: Bi }[]
+    questions: { q: Bi; a: Bi }[]
+  }
+}
+const pol = polavaramRaw as unknown as PolStory
+const monthOf = (ym: string): Bi => {
+  const [y, m] = ym.split('-').map(Number)
+  return m ? { en: `${MONTHS[m - 1]} ${y}`, te: `${y} ${MONTHS_TE[m - 1]}` } : same(String(y))
+}
+function polavaramLines(): Line[] {
+  const out: Line[] = []
+  if (pol.story_status !== 'reviewed') return out
+  for (const s of pol.story.steps) {
+    const when = monthOf(s.date), paper = pol.papers[s.source]
+    out.push({ text: { en: `${when.en}: ${s.text.en}`, te: `${when.te}: ${s.text.te}` }, href: paper?.url, external: !!paper?.url })
+  }
+  for (const c of pol.story.chapters) if (c.line) out.push({ text: { en: `${c.title.en}. ${c.line.en}`, te: `${c.title.te}. ${c.line.te}` } })
+  for (const q of pol.story.questions) out.push({ text: { en: `${q.q.en} ${q.a.en}`, te: `${q.q.te} ${q.a.te}` } })
+  return out
+}
+
+// Each work's dated history, oldest first, as the page's "project road" shows it. A progress reading is rebuilt in
+// Telugu from its own figures, as the page does. Any other event keeps the paper's English words on the English page;
+// the Telugu page gets the date and the paper's link, so it does not fill up with English (seo-full-crawl, C1).
+// AMRUT works are skipped: their list gives no date, and the page shows no road for them either.
+const READING = /^([\d.]+)% physical progress/
+const SPENT = /₹([\d,]+(?:\.\d+)?) crore spent/
+const paperName = (doc: string) => (doc in PORTAL_WORDS ? PORTAL_WORDS[doc] : clean(doc))
+function historyLines(p: Project): Line[] {
+  const out: Line[] = []
+  for (const e of events[String(p.id)] ?? []) {
+    const t = clean(e.title), paper = paperName(e.doc), r = t.match(READING)
+    const link = e.url ? { href: e.url, external: true } : {}
+    if (r) {
+      const sp = t.match(SPENT)
+      const spent = sp ? Number(sp[1].replace(/,/g, '')) : null
+      out.push({ text: {
+        en: `${dateLong(e.date)}, ${paper}: ${r[1]}% physical progress${spent != null ? `, ${crore(spent)} spent so far` : ''}.`,
+        te: `${dateTe(e.date)}, ${paper}: భౌతిక పురోగతి ${r[1]}%${spent != null ? `, ఇప్పటివరకు ${croreTe(spent)} ఖర్చు` : ''}.`,
+      }, ...link })
+    } else {
+      out.push({ text: { en: `${dateLong(e.date)}: ${t} (${paper})`, te: `${dateTe(e.date)}: ఈ తేదీ ప్రభుత్వ పత్రం` }, ...link })
+    }
+  }
+  return out
+}
+
 /* ------------------------------------------------------------------ one project */
 function projectPage(p: Project): PageOut {
   const ty = TYPE_WORDS[p.ty], st = STATUS_WORDS[p.st]
@@ -131,6 +193,8 @@ function projectPage(p: Project): PageOut {
   if (p.dept) lines.push({ text: { en: `Department: ${p.dept}`, te: `శాఖ: ${p.dept}` } })
   lines.push({ text: { en: `Paper: ${paperOf(p)}`, te: `పత్రం: ${paperOf(p)}` }, href: p.su ?? undefined, external: true })
   if (p.f && p.l) lines.push({ text: { en: `Papers on record from ${dateLong(p.f)} to ${dateLong(p.l)}`, te: `${dateTe(p.f)} నుంచి ${dateTe(p.l)} వరకు పత్రాలు రికార్డులో ఉన్నాయి` } })
+  if (p.id === POLAVARAM_ID) lines.push(...polavaramLines())
+  else if (!isAmrut(p)) lines.push(...historyLines(p))
   // Plain links out to the work's district and to a few works of the same kind there. Before 2 Nov 2026 a
   // project page linked only the site's menu, so 460 of 730 project pages had no plain link from any other
   // page and a crawler without JavaScript found them only through the sitemap.
@@ -234,9 +298,17 @@ const claims = claimsRaw as unknown as Claim[]
 
 function claimPage(c: Claim): PageOut {
   const q = CLAIM_Q[c.slug] ?? same(c.question)
-  const lines: Line[] = []
+  // The page's own words, from the same module the page reads: the short answer first (what a search result or an
+  // answer engine quotes), then the claim and the record, then why they differ. Before 13 Nov 2026 only the middle
+  // part was here, so a crawler saw two figures and no reason.
+  const check = CHECKS.find((x) => x.slug === c.slug)
+  const lines: Line[] = check ? [{ text: check.answer }] : []
   for (const k of c.claims) lines.push({ text: { en: `Said on ${dateLong(k.date)}, in ${k.document}: “${k.quote}”`, te: `${dateTe(k.date)}న, ${k.document}లో: “${k.quote}”` }, href: k.url, external: true })
   for (const r of c.record) lines.push({ text: { en: `${r.source}, ${r.document}: ${crore(r.figure, 0)}`, te: `${r.source}, ${r.document}: ${croreTe(r.figure, 0)}` }, href: r.document_url, external: true })
+  if (check) {
+    lines.push({ text: { en: `Why they differ: ${check.why.en}`, te: `ఎందుకు వేరుగా ఉన్నాయి: ${check.why.te}` } })
+    lines.push({ text: { en: `${check.paperNote.en} The status describes the numbers, not the people.`, te: `${check.paperNote.te} స్థితి అంకెల గురించే, మనుషుల గురించి కాదు.` } })
+  }
   return {
     path: P('claim', c.slug),
     title: q,
@@ -411,7 +483,31 @@ export function allPages(): PageOut[] {
   for (const c of claims) out.push(claimPage(c))
   for (const d of docRecs) out.push(docPage(d))
   for (const s of summits) out.push(summitPage(s))
-  return out
+  return distinctDescriptions(out)
+}
+
+/** Two pages with one description look like one page to a search engine, and it picks one to show. It happened to
+ *  works in one town with the same kind, status and printed cost, and to papers printed in several volumes under one
+ *  name (86 groups, 176 pages in the crawl of 12 Nov). The record number is what tells them apart, so a shared
+ *  description gets it after its first sentence, where the cut to 160 characters cannot drop it. */
+function distinctDescriptions(pages: PageOut[]): PageOut[] {
+  for (const lang of ['en', 'te'] as const) {
+    const seen = new Map<string, PageOut[]>()
+    for (const p of pages) seen.set(p.description[lang], [...(seen.get(p.description[lang]) ?? []), p])
+    for (const group of seen.values()) {
+      if (group.length < 2) continue
+      for (const p of group) {
+        const rec = p.path.match(/^\/projects\/(\d+)$/)?.[1] ?? p.path.match(/^\/documents\/.*-r(\d+)$/)?.[1]
+        if (!rec) continue
+        const tag = lang === 'en' ? `Record ${rec}.` : `రికార్డు ${rec}.`
+        const d = p.description[lang]
+        const at = d.search(/(?<=(?:[a-z0-9)]|\p{Script=Telugu}){3}\.)\s+/u)
+        const joined = at > 0 ? `${d.slice(0, at)} ${tag}${d.slice(at)}` : `${tag} ${d}`
+        p.description = { ...p.description, [lang]: fitDesc(joined.replace(/ …$/, '')) }
+      }
+    }
+  }
+  return pages
 }
 
 /** Record ids shown under another record's page: the old address moves there for good. */

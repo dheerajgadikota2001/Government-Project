@@ -1,36 +1,47 @@
-"""Pull every live API dump the prototype's data build needs, into scratchpad/live/.
+"""Pull every API dump the site's data build needs, into web/.live/ (not in git).
 
-Run from the site folder before prep_data.py:
-    python3 scripts/fetch_live.py && python3 scripts/prep_data.py
+Run before prep_data.py, from anywhere:
+    python scripts/fetch_live.py
+    python scripts/prep_data.py
 
 Each file is written only after its JSON parses, so a failed or half-finished
 request never replaces a good dump from an earlier run. Paged endpoints are
-followed to the end and checked against the total the API reports.
+followed to the end and checked against the total the API reports. The API read
+is the live site unless AP_API_BASE says otherwise (scripts/build_paths.py).
 """
 import json
 import os
-import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 
-S = '/tmp/claude-0/-home-claude/1bec7e1b-544e-5672-b46e-4cf91965d07f/scratchpad'
-LIVE = f'{S}/live'
-B = 'https://apfactcheck.dheeco.com/api/v1'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_paths import API as B, LIVE as _LIVE  # noqa: E402
+
+LIVE = str(_LIVE)
 os.makedirs(f'{LIVE}/reg', exist_ok=True)
+# The site's own name in the request, so the API log shows what asked. No contact address.
+AGENT = 'APFactCheckDataBuild/1.0 (+https://apfactcheck.dheeco.com)'
 
 
 def get(path, tries=4):
-    """GET a JSON endpoint through the proxy, retrying with backoff."""
+    """GET a JSON endpoint, retrying with backoff. Uses Python's own client so it runs
+    the same on Windows, in CI and behind a proxy (the HTTPS_PROXY variable is honoured)."""
     last = None
     for i in range(tries):
-        r = subprocess.run(['curl', '-sS', '-m', '90', '--fail', f'{B}/{path}'], capture_output=True, text=True)
-        if r.returncode == 0:
-            try:
-                return json.loads(r.stdout)
-            except json.JSONDecodeError as e:
-                last = f'bad JSON: {e}'
-        else:
-            last = r.stderr.strip()[:200]
+        try:
+            req = urllib.request.Request(f'{B}/{path}', headers={'User-Agent': AGENT, 'Accept': 'application/json'})
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                return json.loads(resp.read().decode('utf-8'))
+        except json.JSONDecodeError as e:
+            last = f'bad JSON: {e}'
+        except urllib.error.HTTPError as e:
+            last = f'HTTP {e.code}'
+            if e.code in (400, 401, 403, 404):
+                break                       # asking again will not change the answer
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            last = str(e)[:200]
         time.sleep(1.5 * (i + 1))
     raise RuntimeError(f'{path}: {last}')
 
