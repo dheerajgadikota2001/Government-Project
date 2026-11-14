@@ -145,10 +145,12 @@ export default function Polavaram() {
           <RoadBlock variant={d.road} steps={steps} readings={readings} due="2027-06" dueLabel={tr('Due June 2027', 'గడువు 2027 జూన్')} duePaper="MoSPI report, August 2026" />
         </Section>
 
+        {/* Readers see this note. Until 14 Nov 2026 it was written to the owner ("waiting for your review",
+            "after you sign it off"); it now tells a reader what the draft badge means. It goes when the story is reviewed. */}
         <Alert className="mt-20 border-dashed">
           <AlertCircle />
-          <AlertTitle className="line-clamp-none">{tr('The story below is a draft, waiting for your line-by-line review', 'కింది కథ ముసాయిదా; మీరు వరుసవారీగా చదవాల్సి ఉంది')}</AlertTitle>
-          <AlertDescription>{tr('Every sentence names its paper, and it was fact-checked five times. It goes live only after you sign it off.', 'ప్రతి వాక్యం తన పత్రాన్ని చూపుతుంది; ఐదుసార్లు నిజనిర్ధారణ చేశాం. మీరు ఆమోదించాకే ఇది లైవ్‌కు వెళ్తుంది.')}</AlertDescription>
+          <AlertTitle className="line-clamp-none">{tr('The story below is a draft', 'కింది కథ ముసాయిదా')}</AlertTitle>
+          <AlertDescription>{tr('Every sentence names its paper. It is being checked line by line before it is final.', 'ప్రతి వాక్యం తన పత్రాన్ని చూపుతుంది. తుది రూపం ఇచ్చే ముందు ప్రతి వాక్యాన్ని సరిచూస్తున్నాం.')}</AlertDescription>
         </Alert>
         <Section className="mt-8" eyebrow={tr('The full story', 'పూర్తి కథ')} title={tr('How Polavaram got here', 'పోలవరం ఇక్కడికి ఎలా చేరింది')} te={tr('పోలవరం కథ', undefined)}>
           <Story variant={d.story} chapters={pol.story.chapters} paperOf={paper} />

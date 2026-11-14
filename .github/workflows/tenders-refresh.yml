@@ -23,14 +23,25 @@
 #   red                the scrape or the connection failed; an email with
 #                      advice has gone out, and /updates shows the failure
 #
-# Runs at 09:00 IST. GitHub starts scheduled runs late when it is busy,
-# sometimes by an hour; the run record carries the real time.
+# Runs at 09:00 IST, and again at 16:00 IST so that one bad morning does not
+# cost a day of tenders. GitHub starts scheduled runs late when it is busy,
+# sometimes by an hour; the run record carries the real time. A second run
+# with nothing new writes nothing.
+#
+# WHEN THE NAME DOES NOT RESOLVE
+# The ap.gov.in name servers stop answering for stretches (5, 9, 10, 13 and 14
+# Nov 2026: "Temporary failure in name resolution"), while the site itself is
+# up. scripts/pin_host.py then finds the address through public resolvers or
+# the last known address, and pins it only after a TLS check proves it serves
+# crda.ap.gov.in. If CRDA ever moves, the check fails, the run fails as it
+# did before, and CRDA_LAST_KNOWN_IP below needs the new address.
 
 name: Refresh tenders
 
 on:
   schedule:
     - cron: "30 3 * * *"
+    - cron: "30 10 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -45,6 +56,8 @@ env:
   INSTANCE: ap-nadu-nedu:asia-south1:apnn-db
   PROXY_PORT: "5433"
   PROXY_VERSION: v2.14.1
+  CRDA_HOST: crda.ap.gov.in
+  CRDA_LAST_KNOWN_IP: 103.129.75.59
 
 jobs:
   tenders:
@@ -100,6 +113,15 @@ jobs:
           url="$(python scripts/db_url_via_proxy.py --port "$PROXY_PORT")"
           echo "::add-mask::$url"
           echo "DATABASE_URL=$url" >> "$GITHUB_ENV"
+
+      - name: Make sure crda.ap.gov.in resolves
+        run: |
+          line="$(python scripts/pin_host.py "$CRDA_HOST" --last-known "$CRDA_LAST_KNOWN_IP")" || {
+            echo "::warning title=CRDA unreachable::No route to $CRDA_HOST; the refresh will fail and say so."; exit 0; }
+          if [ -n "$line" ]; then
+            echo "$line" | sudo tee -a /etc/hosts
+            echo "::notice title=CRDA address pinned::$line"
+          fi
 
       - name: Refresh tenders
         env:

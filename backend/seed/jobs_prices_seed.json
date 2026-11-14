@@ -1,6 +1,6 @@
 {
  "_readme": "Jobs and prices for Andhra Pradesh and All India, as MoSPI serves them. Built by scripts/build_jobs_prices_seed.py from MoSPI's data service, after every gate in app/services/jobs_prices.py passed. Never edited by hand: rebuild, read the diff, commit.",
- "read_on": "2026-10-19",
+ "read_on": "2026-11-14",
  "sources": {
   "mospi_plfs_quarterly": {
    "title": "Periodic Labour Force Survey, Quarterly Bulletin",
@@ -532,6 +532,105 @@
    },
    {
     "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 39.2,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 34.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 25.5,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 78.4,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 77.3,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 75.2,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 58.1,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 55.5,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 50.4,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
     "place": "andhra_pradesh",
     "year": 2025,
     "quarter": "Apr-Jun",
@@ -1022,6 +1121,105 @@
     "sex": "person",
     "area": "urban",
     "value": 51.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 45.4,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 40.0,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 30.3,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 79.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 77.0,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 72.0,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 61.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 57.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "lfpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 50.0,
     "unit": "%",
     "source": "mospi_plfs_quarterly"
    },
@@ -1522,6 +1720,105 @@
    },
    {
     "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 4.1,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 5.2,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 8.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 4.4,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 5.0,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 6.1,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 4.3,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 5.1,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 6.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
     "place": "andhra_pradesh",
     "year": 2025,
     "quarter": "Apr-Jun",
@@ -2012,6 +2309,105 @@
     "sex": "person",
     "area": "urban",
     "value": 7.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 9.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 9.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 9.5,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 6.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 6.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 7.3,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 7.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 7.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "ur",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 8.0,
     "unit": "%",
     "source": "mospi_plfs_quarterly"
    },
@@ -2512,6 +2908,105 @@
    },
    {
     "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 37.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 32.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 23.2,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 74.9,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 73.4,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 70.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 55.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 52.7,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "all_india",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 46.9,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
     "place": "andhra_pradesh",
     "year": 2025,
     "quarter": "Apr-Jun",
@@ -3002,6 +3497,105 @@
     "sex": "person",
     "area": "urban",
     "value": 47.6,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "rural",
+    "value": 41.0,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "total",
+    "value": 36.2,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "female",
+    "area": "urban",
+    "value": 27.5,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "rural",
+    "value": 74.5,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "total",
+    "value": 71.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "male",
+    "area": "urban",
+    "value": 66.8,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "rural",
+    "value": 56.9,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "total",
+    "value": 53.1,
+    "unit": "%",
+    "source": "mospi_plfs_quarterly"
+   },
+   {
+    "measure": "wpr",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "quarter": "Jul-Sep",
+    "sex": "person",
+    "area": "urban",
+    "value": 46.0,
     "unit": "%",
     "source": "mospi_plfs_quarterly"
    }
@@ -3740,7 +4334,7 @@
     "inflation": 7.71,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "food",
@@ -3752,7 +4346,7 @@
     "inflation": 7.36,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "food",
@@ -3760,8 +4354,44 @@
     "year": 2026,
     "month": 9,
     "area": "urban",
-    "index": 111.61,
-    "inflation": 6.75,
+    "index": 111.62,
+    "inflation": 6.76,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "final"
+   },
+   {
+    "measure": "food",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "rural",
+    "index": 112.83,
+    "inflation": 8.7,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "food",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "total",
+    "index": 112.78,
+    "inflation": 8.51,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "food",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "urban",
+    "index": 112.7,
+    "inflation": 8.19,
     "base": "2024=100",
     "source": "mospi_cpi",
     "stage": "provisional"
@@ -4496,7 +5126,7 @@
     "inflation": 9.93,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "food",
@@ -4508,7 +5138,7 @@
     "inflation": 9.54,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "food",
@@ -4518,6 +5148,42 @@
     "area": "urban",
     "index": 109.53,
     "inflation": 8.78,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "final"
+   },
+   {
+    "measure": "food",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "rural",
+    "index": 113.95,
+    "inflation": 12.87,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "food",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "total",
+    "index": 113.41,
+    "inflation": 12.42,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "food",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "urban",
+    "index": 112.33,
+    "inflation": 11.52,
     "base": "2024=100",
     "source": "mospi_cpi",
     "stage": "provisional"
@@ -5252,7 +5918,7 @@
     "inflation": 6.08,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "general",
@@ -5264,7 +5930,7 @@
     "inflation": 5.54,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "general",
@@ -5274,6 +5940,42 @@
     "area": "urban",
     "index": 108.71,
     "inflation": 4.88,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "final"
+   },
+   {
+    "measure": "general",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "rural",
+    "index": 110.73,
+    "inflation": 6.63,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "general",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "total",
+    "index": 110.05,
+    "inflation": 6.09,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "general",
+    "place": "all_india",
+    "year": 2026,
+    "month": 10,
+    "area": "urban",
+    "index": 109.22,
+    "inflation": 5.41,
     "base": "2024=100",
     "source": "mospi_cpi",
     "stage": "provisional"
@@ -6008,7 +6710,7 @@
     "inflation": 6.63,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "general",
@@ -6020,7 +6722,7 @@
     "inflation": 6.29,
     "base": "2024=100",
     "source": "mospi_cpi",
-    "stage": "provisional"
+    "stage": "final"
    },
    {
     "measure": "general",
@@ -6032,12 +6734,48 @@
     "inflation": 5.74,
     "base": "2024=100",
     "source": "mospi_cpi",
+    "stage": "final"
+   },
+   {
+    "measure": "general",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "rural",
+    "index": 110.07,
+    "inflation": 7.81,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "general",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "total",
+    "index": 109.85,
+    "inflation": 7.25,
+    "base": "2024=100",
+    "source": "mospi_cpi",
+    "stage": "provisional"
+   },
+   {
+    "measure": "general",
+    "place": "andhra_pradesh",
+    "year": 2026,
+    "month": 10,
+    "area": "urban",
+    "index": 109.52,
+    "inflation": 6.37,
+    "base": "2024=100",
+    "source": "mospi_cpi",
     "stage": "provisional"
    }
   ]
  },
  "counts": {
-  "job_points": 270,
-  "price_points": 252
+  "job_points": 324,
+  "price_points": 264
  }
 }

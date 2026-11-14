@@ -204,7 +204,7 @@ class AmrutProjectsScraper(BaseScraper):
                 # it decoded on the Page that produced it, so without this the
                 # whole document stays in memory long after we have the only
                 # thing we want from it. See the same note in mospi_projects.
-                page.flush_cache()
+                page.close()
         joined, solo = build_vocabulary(
             [c for table in tables for raw in table for c in raw if c]
         )

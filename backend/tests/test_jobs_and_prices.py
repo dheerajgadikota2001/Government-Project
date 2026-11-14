@@ -22,7 +22,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
-from app.services.jobs_prices import GateFailure, build_seed, validate
+from app.services.jobs_prices import QUARTERS, GateFailure, build_seed, validate
 from app.services.mospi_data import MospiClient, MospiError
 
 SEED = json.loads((pathlib.Path(__file__).parents[1] / "seed" / "jobs_prices_seed.json").read_text(encoding="utf-8"))
@@ -115,8 +115,11 @@ def test_a_rate_outside_0_to_100_is_refused():
 
 def test_a_missing_cell_in_the_newest_quarter_is_refused():
     seed = copy.deepcopy(SEED)
+    # The newest quarter is read from the seed, so this test keeps testing the newest one as quarters arrive.
+    newest = max(((p["year"], p["quarter"]) for p in seed["jobs"]["points"] if p["place"] == "andhra_pradesh"),
+                 key=lambda yq: (yq[0], QUARTERS[yq[1]]))
     seed["jobs"]["points"] = [p for p in seed["jobs"]["points"] if not (
-        p["place"] == "andhra_pradesh" and (p["year"], p["quarter"]) == (2026, "Apr-Jun") and p["sex"] == "female" and p["area"] == "urban")]
+        p["place"] == "andhra_pradesh" and (p["year"], p["quarter"]) == newest and p["sex"] == "female" and p["area"] == "urban")]
     with pytest.raises(GateFailure, match="newest quarter"):
         validate(seed)
 

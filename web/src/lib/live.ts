@@ -48,6 +48,9 @@ export type Tender = {
   published_date: string
   nit_number?: string | null
   source_portal?: string | null
+  /** The board that announced it, and where the bid papers are. Optional: an API deployed before 14 Nov 2026 leaves them out. */
+  source_url?: string | null
+  document_urls?: string[] | null
 }
 export type TenderSummary = {
   total: number

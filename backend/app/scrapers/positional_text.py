@@ -114,5 +114,5 @@ def page_texts(pdf_path) -> list[str]:
     with pdfplumber.open(str(pdf_path)) as pdf:
         for page in pdf.pages:
             out.append(page_text(page))
-            page.flush_cache()
+            page.close()
     return out

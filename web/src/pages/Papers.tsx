@@ -218,6 +218,28 @@ export function TendersList({ limit }: { limit?: number }) {
   return <LiveGate state={state} what={TENDERS_WHAT} rows={limit ?? 5}>{(reg) => <TendersRows open={reg.open} limit={limit} />}</LiveGate>
 }
 
+// The two official places a reader goes from a notice. CRDA publishes no link to a single tender: its
+// board's download button opens a note sending bidders to AP eProcurement, to search by the notice number
+// (checked 14 Nov 2026). So each row links both sites and prints that number to search with.
+function TenderLinks({ t }: { t: Tender }) {
+  const { tr } = useLang()
+  const papersAt = t.document_urls?.find((u) => /^https:\/\//.test(u))
+  const board = t.source_url && /^https:\/\//.test(t.source_url) ? t.source_url : null
+  if (!papersAt && !board) return null
+  const link = 'inline-flex items-center gap-0.5 font-medium text-foreground/85 underline-offset-4 hover:underline'
+  return (
+    <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px]">
+      {papersAt ? (
+        <span>
+          <a href={papersAt} target="_blank" rel="noopener noreferrer" className={link}>{tr('Bid papers on AP eProcurement', 'ఏపీ ఈ-ప్రొక్యూర్‌మెంట్‌లో టెండర్ పత్రాలు')}<ArrowUpRight className="size-3.5" /></a>
+          {t.nit_number ? <span className="text-muted-foreground">{tr(' (search ', ' (')}<span lang="en" className="select-all">{t.nit_number}</span>{tr(')', ' నంబరుతో వెతకండి)')}</span> : null}
+        </span>
+      ) : null}
+      {board ? <a href={board} target="_blank" rel="noopener noreferrer" className={link}>{tr('CRDA notice board', 'సీఆర్‌డీఏ నోటీసు బోర్డు')}<ArrowUpRight className="size-3.5" /></a> : null}
+    </div>
+  )
+}
+
 function TendersRows({ open, limit }: { open: Tender[]; limit?: number }) {
   const { lang, tr } = useLang()
   if (!open.length) return <Blank kind="notPublished">{tr('No notice is open for bids right now.', 'ఇప్పుడు బిడ్లకు తెరిచి ఉన్న నోటీసులేమీ లేవు.')}</Blank>
@@ -229,6 +251,7 @@ function TendersRows({ open, limit }: { open: Tender[]; limit?: number }) {
             <div className="line-clamp-2 text-[15px] font-medium leading-snug" lang="en">{tTitle(t.title)}</div>
             {t.title_telugu ? <div lang="te" className="text-[14px] text-muted-foreground">{t.title_telugu}</div> : null}
             <div className="mt-1 text-[12.5px] text-muted-foreground">{(TKIND[t.tender_type ?? 'other'] ?? TKIND.other)[lang]} · <span lang="en">{t.department}</span> · {tr('notice', 'నోటీసు')} <span lang="en">{t.tender_id}</span></div>
+            <TenderLinks t={t} />
           </div>
           <div className="flex items-center gap-2 md:flex-col md:items-end">
             <Badge>{tr('Open', 'తెరిచి ఉంది')}</Badge>

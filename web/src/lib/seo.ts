@@ -29,7 +29,7 @@ import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
 import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
-import { docDescription, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
+import { docDescription, isPressSummit, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
 import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectKey, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
@@ -71,6 +71,8 @@ export type PageOut = {
   about?: object
   /** A few facts or links under the heading, in the order a reader needs them. */
   lines: Line[]
+  /** The closing line, when the page's figures are not all from government papers (a press summit). */
+  note?: Bi
   /** The page's own share picture. Pages without one use the site's default picture. */
   card?: Card
   /** Breadcrumb trail above this page, for the structured data. */
@@ -363,8 +365,11 @@ function summitPage(s: (typeof summits)[number]): PageOut {
     card: {
       kind: 'place', tag: { en: 'Investment summit', te: 'పెట్టుబడుల సదస్సు' }, title: summitName(s),
       line: { en: `${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} announced. A promise, not money spent.`, te: `${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} ప్రకటించారు. హామీ మాత్రమే, ఖర్చు కాదు.` },
-      source: { en: 'The state’s own paper is linked', te: 'రాష్ట్ర పత్రం లింక్ చేశాం' },
+      source: isPressSummit(s)
+        ? { en: `A news report (${s.source_publisher}); the state has not published its total yet`, te: 'వార్తా నివేదిక; రాష్ట్రం తన మొత్తాన్ని ఇంకా ప్రచురించలేదు' }
+        : { en: 'The state’s own paper is linked', te: 'రాష్ట్ర పత్రం లింక్ చేశాం' },
     },
+    ...(isPressSummit(s) ? { note: { en: 'These figures are from a news report, marked as such, until the state publishes its own. The report is linked.', te: 'రాష్ట్రం తన అంకెలు ప్రచురించే వరకు ఈ అంకెలు వార్తా నివేదిక నుంచి, అలాగే గుర్తించాం. నివేదికకు లింక్ ఉంది.' } } : {}),
     path: P('summit', s.key),
     title: t,
     description: summitDescription(s),

@@ -108,6 +108,12 @@ const posterHints = (() => {
 
 // Who the site is, for the search engines and answer engines that read the home page. Only what is true and
 // already public on the site: its name, address, logo and languages. No social profiles are claimed.
+//
+// The name needs telling apart. "AP Fact Check" is also the Associated Press's fact-checking unit, and a search for
+// this site's name returned theirs (checked 14 Nov 2026). An answer engine asked about "AP Fact Check" describes the
+// Associated Press unless the page says, in data it reads, which AP this is. So the nodes name the state, the
+// country and the owner, and say plainly that the site is not the Associated Press's.
+const SITE_ABOUT = 'An Andhra Pradesh (India) public-data site: government projects, state finances, districts and official papers, each figure with its government paper. Not connected with the Associated Press or its AP Fact Check.'
 function siteNodes(lang) {
   return [
     {
@@ -115,9 +121,15 @@ function siteNodes(lang) {
       alternateName: [SITE.te], inLanguage: ['en', 'te'], publisher: { '@id': ORIGIN + '/#org' },
     },
     {
-      '@type': 'Organization', '@id': ORIGIN + '/#org', name: SITE.en, alternateName: SITE.te, url: ORIGIN + '/',
+      '@type': 'Organization', '@id': ORIGIN + '/#org', name: SITE.en,
+      alternateName: [SITE.te, 'Andhra Pradesh Fact Check', 'AP Fact Check (Andhra Pradesh)'], url: ORIGIN + '/',
       logo: { '@type': 'ImageObject', url: ORIGIN + '/icon-512.png', width: 512, height: 512 },
       description: seo.siteDescription[lang],
+      disambiguatingDescription: SITE_ABOUT,
+      areaServed: { '@type': 'State', name: 'Andhra Pradesh', alternateName: 'ఆంధ్రప్రదేశ్', containedInPlace: { '@type': 'Country', name: 'India' } },
+      knowsAbout: ['Andhra Pradesh government projects', 'Polavaram Irrigation Project', 'Andhra Pradesh state debt and finances',
+        'Andhra Pradesh budget', 'Andhra Pradesh districts', 'CAG audit reports on Andhra Pradesh', 'MoSPI project monitoring', 'Andhra Pradesh investment summits'],
+      parentOrganization: { '@type': 'Organization', name: 'Dheeco', url: 'https://dheeco.com/' },
     },
   ]
 }
@@ -212,7 +224,7 @@ function body(p, lang) {
       <h1>${esc(p.title[lang])}</h1>
       <p class="pre-lede">${esc(p.description[lang])}</p>
       ${p.lines.length ? `<ul>${p.lines.map((l) => line(l, lang)).join('')}</ul>` : ''}
-      <p class="pre-note" data-nosnippet>${lang === 'te' ? 'ఇక్కడ ప్రతి అంకె ప్రభుత్వ పత్రం నుంచే, ఆ పత్రానికి లింకుతో.' : 'Every number here is from a government paper, with the paper linked.'}</p>
+      <p class="pre-note" data-nosnippet>${p.note ? esc(p.note[lang]) : lang === 'te' ? 'ఇక్కడ ప్రతి అంకె ప్రభుత్వ పత్రం నుంచే, ఆ పత్రానికి లింకుతో.' : 'Every number here is from a government paper, with the paper linked.'}</p>
       <nav class="pre-nav">${nav}</nav>
     </main>`
 }
@@ -273,6 +285,8 @@ Sitemap: ${ORIGIN}/sitemap.xml
 
 > ${seo.siteDescription.en}
 
+${SITE_ABOUT} Written for anyone who follows Andhra Pradesh: people in the state, Telugu speakers in Telangana and other states, and Telugu families abroad. The full text of every page, with its figures and papers, is in ${ORIGIN}/llms-full.txt.
+
 Every figure on this site is taken from a government paper (state budget books, CAG reports and accounts, RBI, MoSPI, Parliament answers, Press Information Bureau releases, district collectorate sites) and is shown with that paper's name, date and link. Newspapers appear only as a labelled claim, never as the source of a figure. Figures are shown as printed: the site adds no totals, shares or rankings of its own. When two official papers disagree, both are shown. Every page exists in English and in Telugu (the Telugu address adds /te in front).
 
 ## Main pages
@@ -297,6 +311,21 @@ ${[
 
 Sitemap: ${ORIGIN}/sitemap.xml
 `)
+}
+
+// llms-full.txt: the plain text of every English page, in one file, for the answer engines that read it instead of
+// crawling 1,500 pages. It is the same words the pages' plain HTML carries (title, description, lines, with each
+// line's link), written by the same build, so it can never say more or less than the site. Telugu pages are named
+// by address; their text is the same record in Telugu.
+{
+  const out = [`# ${SITE.en}: every page in full`, '', SITE_ABOUT, '',
+    `Each section is one page. The Telugu page is the same address with /te in front. Built ${seo.TODAY}.`, '']
+  for (const p of pages) {
+    out.push(`## ${p.title.en}`, `${ORIGIN}${p.path}`, '', p.description.en)
+    for (const l of p.lines) out.push(`- ${l.text.en}${l.href ? ` (${l.external ? l.href : ORIGIN + l.href})` : ''}`)
+    out.push('')
+  }
+  writeFileSync(join(DIST, 'llms-full.txt'), out.join('\n'))
 }
 
 console.log(`Share pictures: ${cardOf.size} of ${cardsWanted} pages with figures have their own picture${cardOf.size < cardsWanted ? `; the other ${cardsWanted - cardOf.size} show the default. Run: npm run cards` : ''}.`)

@@ -38,7 +38,7 @@ def main(path: str) -> int:
                         print(f"UNREADABLE block on page {i + 1}: Sl {b.sl} name={' '.join(b.name)[:80]!r}")
                     else:
                         rows.append(r)
-            page.flush_cache()
+            page.close()
 
     sls = [r["sl"] for r in rows]
     missing = sorted(set(range(1, (printed or max(sls)) + 1)) - set(sls))

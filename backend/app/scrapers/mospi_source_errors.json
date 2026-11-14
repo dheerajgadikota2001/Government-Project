@@ -1,0 +1,15 @@
+{
+  "_about": "Rows MoSPI's flash report prints under Andhra Pradesh that are not Andhra Pradesh works. Each entry is a reviewed decision with its evidence. The importer skips a row that matches by code or by the phrase from its name, and says so in the daily email. The phrase is there because PAIMANA renumbers projects: a new code must not let a known error back in. Delete an existing row with scripts/mospi_drop_source_errors.py.",
+  "errors": [
+    {
+      "code": "618412",
+      "name_phrase": "Zojila Tunnel",
+      "name": "Construction of i Connecting Road from Z-Morh Tunnel to Zojila Tunnel Road Length 18.475km and ii 14.150 Km long 2-L Bi-directional single tube Zoji-la Tunnel across Zojila Pass on Sonamarg - Kargil section from Km 82 to Km 118 of NH-01 under PMDP",
+      "printed_state": "Andhra Pradesh",
+      "why": "The work is on NH-01 between Sonamarg and Kargil, across the Zojila Pass, in Jammu and Kashmir and Ladakh. The report's own name for it says so. Agency NHIDCL. Printed under Andhra Pradesh in the July, August and September 2026 reports.",
+      "first_seen": "Flash Report, July 2026",
+      "decided_on": "2026-11-14",
+      "decided_by": "Dheeraj"
+    }
+  ]
+}

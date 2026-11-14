@@ -119,6 +119,28 @@
      "note": "Counts companies, not agreements, so it is not strictly comparable."
     }
    ]
+  },
+  {
+    "key": "ps2026",
+    "name": "Partnership Summit 2026",
+    "long_name": "31st CII Partnership Summit",
+    "city": "Visakhapatnam",
+    "start_date": "2026-11-12",
+    "end_date": "2026-11-13",
+    "tenure": "tdp2",
+    "mou_count": 109,
+    "investment_crore": 902000,
+    "jobs": null,
+    "jobs_note": "over two lakh, as reported; no exact figure stated",
+    "figure_type": "press_report",
+    "stated_by": "PTI news agency, reporting the close of the summit (Visakhapatnam, 13 Nov 2026)",
+    "quote": "A total of 109 MoUs worth Rs 9.02 lakh crore",
+    "source_url": "https://theprint.in/economy/andhra-signed-mous-for-investments-worth-rs-9-lakh-cr-at-vizag-summit/3098327/",
+    "source_publisher": "PTI, as published by ThePrint",
+    "source_date": "2026-11-13",
+    "disagreement": "The same PTI report quotes the Chief Minister putting the 2025 summit at Rs 22.5 lakh crore of MoUs. The state's budget speech of February 2026 gave Rs 13.25 lakh crore for that summit. We show both figures and their sources.",
+    "date_note": "The state has not yet published its own total for this summit. These figures come from a news agency report and are marked as such. The state's figure replaces them when it is published.",
+    "alt_figures": []
   }
  ],
  "not_a_summit": [

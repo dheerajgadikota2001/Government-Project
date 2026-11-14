@@ -241,30 +241,43 @@ export function docSiblings(d: DocRec, limit = 8): DocRec[] {
 /* ------------------------------------------------------------------ the investment summits */
 type Summit = {
   key: string; name: string; long_name: string; city: string; start_date: string; end_date: string
-  mou_count: number; investment_crore: number; jobs: number; figure_type: string; quote: string; source_url: string
+  mou_count: number; investment_crore: number; jobs: number | null; figure_type: string; quote: string; source_url: string
+  jobs_note?: string; source_publisher?: string; source_date?: string; date_note?: string; disagreement?: string
 }
+/** A summit whose figures come from a news report, not the state's own statement (the 2026 summit, until the state publishes). */
+export const isPressSummit = (s: { figure_type?: string }) => s.figure_type === 'press_report'
 export const summits = (investRaw as any).summits as Summit[]
 export const summitBySlug = new Map(summits.map((s) => [s.key, s]))
 const SUMMIT_TE: Record<string, string> = {
   ps2016: 'భాగస్వామ్య సదస్సు 2016', ps2017: 'భాగస్వామ్య సదస్సు 2017', ps2018: 'భాగస్వామ్య సదస్సు 2018',
-  gis2023: 'గ్లోబల్ ఇన్వెస్టర్స్ సమ్మిట్ 2023', ps2025: 'భాగస్వామ్య సదస్సు 2025',
+  gis2023: 'గ్లోబల్ ఇన్వెస్టర్స్ సమ్మిట్ 2023', ps2025: 'భాగస్వామ్య సదస్సు 2025', ps2026: 'భాగస్వామ్య సదస్సు 2026',
 }
 export const summitName = (s: Summit): Bi => ({ en: s.name, te: SUMMIT_TE[s.key] ?? s.name })
 export const summitTitle = (s: Summit): Bi => ({ en: `What did the ${s.name} announce?`, te: `${SUMMIT_TE[s.key] ?? s.name}లో ఏం ప్రకటించారు?` })
-export const summitDescription = (s: Summit): Bi => ({
+export const summitDescription = (s: Summit): Bi => isPressSummit(s) ? {
+  en: `${s.name}, ${s.city}: a news agency (${s.source_publisher}) reported ${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} of potential investment. The state has not yet published its own total. A promise, not money spent.`.slice(0, 300),
+  te: `${SUMMIT_TE[s.key] ?? s.name}, ${s.city}: వార్తా సంస్థ (${s.source_publisher}) ప్రకారం ${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} సంభావ్య పెట్టుబడి. రాష్ట్రం తన మొత్తం ఇంకా ప్రచురించలేదు. ఇది హామీ, ఖర్చు చేసిన డబ్బు కాదు.`.slice(0, 300),
+} : ({
   en: `${s.name}, ${s.city}: the state’s own statement says ${num(s.mou_count, 0)} MoUs, ${crore(s.investment_crore, 0)} of potential investment and ${num(s.jobs, 0)} potential jobs. A promise, not money spent. The state’s paper is linked.`.slice(0, 300),
   te: `${SUMMIT_TE[s.key] ?? s.name}, ${s.city}: రాష్ట్ర ప్రకటన ప్రకారం ${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} సంభావ్య పెట్టుబడి, ${num(s.jobs, 0)} సంభావ్య ఉద్యోగాలు. ఇది హామీ, ఖర్చు చేసిన డబ్బు కాదు. రాష్ట్ర పత్రం లింక్ చేశాం.`.slice(0, 300),
 })
 export function summitFacts(s: Summit): Fact[] {
-  return [
+  // Who stated the figures decides every label: the state, or a news agency reporting it before the state has.
+  const press = isPressSummit(s)
+  const by: Bi = press ? { en: 'as a news agency reported it', te: 'వార్తా సంస్థ చెప్పినట్లు' } : { en: 'as the state states it', te: 'రాష్ట్రం చెప్పిన' }
+  const facts: Fact[] = [
     { label: { en: 'Summit', te: 'సదస్సు' }, value: { en: s.long_name, te: SUMMIT_TE[s.key] ?? s.long_name } },
     { label: { en: 'Where and when', te: 'ఎక్కడ, ఎప్పుడు' }, value: { en: `${s.city}, ${dateLong(s.start_date)}${s.end_date !== s.start_date ? ` to ${dateLong(s.end_date)}` : ''}`, te: `${s.city}, ${dateTe(s.start_date)}${s.end_date !== s.start_date ? ` నుంచి ${dateTe(s.end_date)} వరకు` : ''}` } },
-    { label: { en: 'MoUs the state says were signed', te: 'సంతకం చేశారని రాష్ట్రం చెప్పిన ఎంఓయూలు' }, value: same(num(s.mou_count, 0)) },
-    { label: { en: 'Potential investment, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య పెట్టుబడి' }, value: { en: crore(s.investment_crore, 0), te: croreTe(s.investment_crore, 0) } },
-    { label: { en: 'Potential jobs, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య ఉద్యోగాలు' }, value: same(num(s.jobs, 0)) },
-    { label: { en: 'The state’s own words', te: 'రాష్ట్రం మాటల్లోనే' }, value: same(`“${s.quote}”`), lang: 'en' },
-    { label: { en: 'The paper', te: 'పత్రం' }, value: { en: 'Open the paper that says it', te: 'ఇది చెప్పిన పత్రాన్ని తెరవండి' }, href: s.source_url, external: true },
+    { label: press ? { en: 'MoUs, as a news agency reported it', te: 'ఎంఓయూలు, వార్తా సంస్థ చెప్పినట్లు' } : { en: 'MoUs the state says were signed', te: 'సంతకం చేశారని రాష్ట్రం చెప్పిన ఎంఓయూలు' }, value: same(num(s.mou_count, 0)) },
+    { label: press ? { en: `Potential investment, ${by.en}`, te: `సంభావ్య పెట్టుబడి, ${by.te}` } : { en: 'Potential investment, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య పెట్టుబడి' }, value: { en: crore(s.investment_crore, 0), te: croreTe(s.investment_crore, 0) } },
+    { label: press ? { en: `Potential jobs, ${by.en}`, te: `సంభావ్య ఉద్యోగాలు, ${by.te}` } : { en: 'Potential jobs, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య ఉద్యోగాలు' },
+      value: s.jobs != null ? same(num(s.jobs, 0)) : { en: s.jobs_note ?? 'Not stated', te: 'ఖచ్చితమైన సంఖ్య చెప్పలేదు' } },
+    { label: press ? { en: 'The report’s words', te: 'నివేదికలోని మాటలు' } : { en: 'The state’s own words', te: 'రాష్ట్రం మాటల్లోనే' }, value: same(`“${s.quote}”`), lang: 'en' },
+    { label: { en: 'The paper', te: 'పత్రం' }, value: press ? { en: `Open the news report (${s.source_publisher})`, te: `వార్తా నివేదిక తెరవండి (${s.source_publisher})` } : { en: 'Open the paper that says it', te: 'ఇది చెప్పిన పత్రాన్ని తెరవండి' }, href: s.source_url, external: true },
   ]
+  if (press && s.date_note) facts.push({ label: { en: 'Not yet the state’s figure', te: 'ఇంకా రాష్ట్ర అంకె కాదు' }, value: { en: s.date_note, te: 'ఈ సదస్సుకు రాష్ట్రం తన సొంత మొత్తాన్ని ఇంకా ప్రచురించలేదు. ఈ అంకెలు వార్తా సంస్థ నివేదిక నుంచి వచ్చాయి, అందుకే అలా గుర్తించాం. రాష్ట్రం ప్రచురించగానే దాని అంకెలు వస్తాయి.' } })
+  if (press && s.disagreement) facts.push({ label: { en: 'Two figures for the 2025 summit', te: '2025 సదస్సుకు రెండు అంకెలు' }, value: { en: s.disagreement, te: 'ఇదే పీటీఐ నివేదిక 2025 సదస్సులో ₹22.5 లక్షల కోట్ల ఎంఓయూలు జరిగాయని ముఖ్యమంత్రి చెప్పినట్లు పేర్కొంది. 2026 ఫిబ్రవరి రాష్ట్ర బడ్జెట్ ప్రసంగం ఆ సదస్సుకు ₹13.25 లక్షల కోట్లు అని చెప్పింది. రెండు అంకెలనూ, వాటి ఆధారాలనూ చూపుతున్నాం.' } })
+  return facts
 }
 export const SUMMIT_CAVEAT: Bi = {
   en: 'These are promises announced at the summit. They are not money spent and not jobs created. What was actually built is a separate question: see what the state’s papers say, year by year, on the investments page.',

@@ -152,6 +152,49 @@ def distinct_codes() -> frozenset[str]:
         return frozenset(d["new"] for d in json.load(f).get("distinct", []))
 
 
+SOURCE_ERRORS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mospi_source_errors.json")
+
+
+@lru_cache(maxsize=1)
+def source_errors() -> tuple[dict, ...]:
+    """Rows the report prints under Andhra Pradesh that a person has confirmed are not AP works."""
+    with open(SOURCE_ERRORS_FILE, encoding="utf-8") as f:
+        return tuple(json.load(f).get("errors", []))
+
+
+def _squash(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", (text or "").lower())
+
+
+def source_error_for(code: Optional[str], name: Optional[str]) -> Optional[dict]:
+    """
+    The reviewed entry a report row matches, or None. A row matches by its
+    code or by the phrase from its name, compared without spaces, case or
+    punctuation ("Zojila Tunnel" finds "Zojila  tunnel" and "ZOJILA-TUNNEL").
+    The phrase is what keeps a known error out after PAIMANA renumbers it.
+    """
+    flat = _squash(name or "")
+    for e in source_errors():
+        if code and code == e.get("code"):
+            return e
+        phrase = _squash(e.get("name_phrase", ""))
+        if phrase and phrase in flat:
+            return e
+    return None
+
+
+def drop_source_errors(rows: list[dict]) -> tuple[list[dict], list[tuple[dict, dict]]]:
+    """Split report rows into the ones to import and the known source errors."""
+    keep, dropped = [], []
+    for r in rows:
+        e = source_error_for(r.get("code"), r.get("name"))
+        if e:
+            dropped.append((r, e))
+        else:
+            keep.append(r)
+    return keep, dropped
+
+
 # The sanity memory table doubles as the place a held row waits. One row per
 # import under "<portal>:held", so the daily "already imported" path can tell
 # whether a question is still open without reading the PDF again.
@@ -351,6 +394,13 @@ class MospiProjectsScraper(BaseScraper):
                     "refusing to write."
                 )
             ap = [r for r in rows if r["state"] and "andhra pradesh" in r["state"].lower()]
+            # A row the report files under Andhra Pradesh by mistake (the Zojila tunnel in
+            # Ladakh, from July 2026) is skipped here, every run, by the reviewed list in
+            # mospi_source_errors.json. The email says so, so a skip is never silent.
+            ap, dropped = drop_source_errors(ap)
+            for r, e in dropped:
+                self.note(f"skipped {r.get('code')} {(r.get('name') or '')[:60]}: printed under Andhra Pradesh, "
+                          f"listed as a source error ({e.get('why', '')[:90]})")
             multi = sum(1 for r in ap if r["state"].lower().startswith("multi"))
             logger.info(
                 f"[{self.PORTAL_NAME}] {edition.label}: {len(rows)} projects nationally, "
@@ -443,10 +493,14 @@ class MospiProjectsScraper(BaseScraper):
         Every ongoing project in the report, the count the report itself
         prints, and the month on its cover.
 
-        Pages are flushed as they go, for the reason the old parser gave:
+        Pages are closed as they go, for the reason the old parser gave:
         pdfplumber keeps every page it has parsed, and a 150-page report
         walked without flushing was measured at 1.1 GB against Cloud Run's
-        1 GiB.
+        1 GiB. Closing, not just flushing: flush_cache() leaves each page's
+        text-layout cache (get_textmap) behind, about 6 MB a page. On the
+        158-page March 2026 report flushing peaked at 892 MB and closing at
+        63 MB (measured 14 Nov 2026, pdfplumber 0.11.10), and the history
+        import ran out of memory at 1 GiB because of it.
         """
         rows: list[dict] = []
         printed_total = None
@@ -470,7 +524,7 @@ class MospiProjectsScraper(BaseScraper):
                             logger.warning(f"[{self.PORTAL_NAME}] skipped an unreadable block on page {i + 1} (Sl {b.sl})")
                             continue
                         rows.append(r)
-                page.flush_cache()
+                page.close()
         return rows, printed_total, cover_month
 
     # ---- pre-PAIMANA "Table:-7" layout, kept for scripts/import_mospi_archive.py
@@ -490,7 +544,7 @@ class MospiProjectsScraper(BaseScraper):
             t7_pages = []
             for i, pg in enumerate(pdf.pages):
                 heading = (pg.extract_text() or "")[:200]
-                pg.flush_cache()
+                pg.close()
                 if "Table:-7" in heading:
                     t7_pages.append(i)
 
@@ -503,7 +557,7 @@ class MospiProjectsScraper(BaseScraper):
                         continue  # repeated page header
                     lines.setdefault(round(w["top"] / 4), []).append(w)
 
-                page.flush_cache()
+                page.close()
 
                 for key in sorted(lines):
                     cols: dict[str, list[str]] = {}
@@ -916,7 +970,7 @@ def parse_status_details(path: str) -> list[dict]:
     with pdfplumber.open(path) as pdf:
         for pi, pg in enumerate(pdf.pages, 1):
             text = pg.extract_text() or ""
-            pg.flush_cache()
+            pg.close()
             if pi % 100 == 0:
                 logger.info(f"[MOSPI_IPMD] archive parse: page {pi}/{len(pdf.pages)}, {len(out)} projects so far")
             for line in text.split("\n"):

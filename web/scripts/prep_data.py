@@ -434,7 +434,9 @@ dump('statefacts', facts)
 # ---------------------------------------------------------------- investments
 mous = load(f'{LIVE}/mous.json')['items']
 summ = load(f'{LIVE}/summits.json')
-summits = [{k: s.get(k) for k in ('key', 'name', 'long_name', 'city', 'start_date', 'end_date', 'mou_count', 'investment_crore', 'jobs', 'figure_type', 'quote', 'source_url')} for s in summ['summits']]
+# A summit known only from a news report carries who published it, a note on its jobs figure and why it is
+# not the state's figure yet; the page shows those words beside its press label.
+summits = [{k: s.get(k) for k in ('key', 'name', 'long_name', 'city', 'start_date', 'end_date', 'mou_count', 'investment_crore', 'jobs', 'figure_type', 'quote', 'source_url', 'jobs_note', 'source_publisher', 'source_date', 'date_note', 'disagreement') if k in s} for s in summ['summits']]
 grounded = [{k: g.get(k) for k in ('year', 'investment_crore', 'employment', 'basis', 'quote', 'source_url', 'source_publisher', 'missing_reason', 'missing_kind')} for g in summ['grounded_by_year']]
 dump('investments', {'mous': mous, 'summits': summits, 'by_year': grounded, 'definition': summ.get('definition_warning')})
 
@@ -631,6 +633,21 @@ def undash(o):
     return o
 legal = undash(legal)
 dump('legal', legal)
+
+# Jobs and prices: the site's cut of backend/seed/jobs_prices_seed.json. Every Andhra Pradesh jobs value, All
+# India for persons only (the comparison line), and every price value that has an inflation figure (base 2024 has
+# none for 2025). Until 14 Nov 2026 this file was cut by hand, so a new MoSPI release reached the API and not the
+# site. Read from the repo, not the API, so it never waits for an API deploy.
+JP_SEED = WEB.parent / 'backend' / 'seed' / 'jobs_prices_seed.json'
+if JP_SEED.exists():
+    jp = load(JP_SEED)
+    dump('jobs_prices', {
+        'read_on': jp['read_on'], 'sources': jp['sources'],
+        'jobs': [p for p in jp['jobs']['points'] if p['place'] == 'andhra_pradesh' or p['sex'] == 'person'],
+        'prices': [p for p in jp['prices']['points'] if p['inflation'] is not None],
+    })
+else:
+    print(f'jobs_prices: {JP_SEED} not found; src/data/jobs_prices.json left as it was')
 
 # Reader names go on top of the printed names: the clean name, the place and its approved Telugu.
 # They live in projects.json beside the paper's own words, so they are made again after every dump,

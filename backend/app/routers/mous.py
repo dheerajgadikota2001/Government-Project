@@ -399,10 +399,15 @@ async def get_summits(db: AsyncSession = Depends(get_db)):
             ),
         }
 
+    # Only the state's own statements are added up. A summit known so far only from a news report
+    # (figure_type "press_report", the 2026 summit until the state publishes its total) is listed
+    # with its label but never joins a total of government figures.
     summit_totals = {}
     for t in TENURES:
-        ss = [x for x in data["summits"] if x["tenure"] == t["key"]]
+        mine = [x for x in data["summits"] if x["tenure"] == t["key"]]
+        ss = [x for x in mine if x.get("figure_type", "government_statement") == "government_statement"]
         summit_totals[t["key"]] = {
+            "left_out_not_yet_stated_by_the_state": len(mine) - len(ss),
             "summits": len(ss),
             "mou_count": sum(x["mou_count"] for x in ss if x["mou_count"]),
             "investment_crore": sum(x["investment_crore"] for x in ss if x["investment_crore"]),

@@ -363,7 +363,7 @@ def page_texts(pdf_path, pdf=None):
     texts = []
     for page in pdf.pages:
         texts.append(page.extract_text() or "")
-        page.flush_cache()
+        page.close()
     return texts
 
 
@@ -419,7 +419,7 @@ def read_volume(pdf, book, part, texts):
         hint_pages = [(q, pdf.pages[q - 1]) for q in range(max(1, cand[0] - 2), cand[0] + 1)]
         totals, probs = read_totals([(q, pdf.pages[q - 1]) for q in cand], s["demand"], book, hint_pages)
         for q in set([q for q, _ in hint_pages] + cand):
-            pdf.pages[q - 1].flush_cache()
+            pdf.pages[q - 1].close()
         for pr in probs:
             pr.update({"book": book, "part": part, "demand": s["demand"], "section": s["section"]})
         problems += probs

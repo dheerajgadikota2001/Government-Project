@@ -126,18 +126,21 @@ export default function Investments() {
       </Section>
 
       <Section className="mt-20" eyebrow={tr('Summits', 'సదస్సులు')} title={tr('What did each investment summit announce?', 'ప్రతి పెట్టుబడి సదస్సు ఏం ప్రకటించింది?')} te={tr('సదస్సుల్లో ప్రకటించినవి', undefined)}
-        lede={<><b className="text-foreground">{tr('How to read: ', 'ఎలా చదవాలి: ')}</b>{tr('each card is one summit’s own figures, quoted from the state’s statement, in a dashed box because they are announcements. They are never added together. ', 'ప్రతి కార్డు ఒక సదస్సు సొంత అంకెలు, రాష్ట్ర ప్రకటన నుంచి; అవి ప్రకటనలు కాబట్టి గీతల పెట్టెలో. వాటిని ఎప్పుడూ కలపం. ')}<b className="text-foreground">{tr('What this does not tell you: ', 'ఇది చెప్పనిది: ')}</b>{tr('how many of these MoUs became investment on the ground.', 'వీటిలో ఎన్ని ఎంఓయూలు నిజంగా పెట్టుబడిగా మారాయో.')}</>}>
+        lede={<><b className="text-foreground">{tr('How to read: ', 'ఎలా చదవాలి: ')}</b>{tr('each card is one summit’s own figures, quoted from the state’s statement, in a dashed box because they are announcements. They are never added together. A card marked “Newspaper says” comes from a news report, because the state has not yet published that summit’s total. ', 'ప్రతి కార్డు ఒక సదస్సు సొంత అంకెలు, రాష్ట్ర ప్రకటన నుంచి; అవి ప్రకటనలు కాబట్టి గీతల పెట్టెలో. వాటిని ఎప్పుడూ కలపం. “పత్రిక చెబుతోంది” అని గుర్తించిన కార్డు వార్తా నివేదిక నుంచి వచ్చింది, ఎందుకంటే ఆ సదస్సు మొత్తాన్ని రాష్ట్రం ఇంకా ప్రచురించలేదు. ')}<b className="text-foreground">{tr('What this does not tell you: ', 'ఇది చెప్పనిది: ')}</b>{tr('how many of these MoUs became investment on the ground.', 'వీటిలో ఎన్ని ఎంఓయూలు నిజంగా పెట్టుబడిగా మారాయో.')}</>}>
         <div className="grid gap-4 md:grid-cols-2">
           {invest.summits.map((s: any) => (
             <article key={s.key} className="rounded-xl border border-border bg-card p-5">
               <div className="text-[13px] text-muted-foreground">{lang === 'te' ? `${districtByName.get(s.city)?.te ?? s.city} · ${dateTe(s.start_date)}` : `${s.city} · ${dateLong(s.start_date)}`}</div>
               <h3 className="mt-1 text-[19px] font-semibold" lang="en">{s.name}</h3>
+              {/* A summit known so far only from a news report carries the same press label as a press MoU. */}
+              {s.figure_type === 'press_report' ? <KindBadge kind="press" className="mt-2" /> : null}
               <div className="mt-3 grid grid-cols-3 gap-3 rounded-lg border border-dashed border-foreground/30 p-3">
-                <div><div className="font-heading text-[20px] font-semibold tnum">{s.mou_count != null ? num(s.mou_count, 0) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{tr('MoUs, as stated', 'ఎంఓయూలు, చెప్పినట్లు')}</div></div>
-                <div className="col-span-2"><div className="font-heading text-[20px] font-semibold tnum">{s.investment_crore != null ? (lang === 'te' ? croreTe(s.investment_crore, 0) : crore(s.investment_crore, 0)) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{tr('Investment, as stated', 'పెట్టుబడి, చెప్పినట్లు')}</div></div>
+                <div><div className="font-heading text-[20px] font-semibold tnum">{s.mou_count != null ? num(s.mou_count, 0) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{s.figure_type === 'press_report' ? tr('MoUs, as reported', 'ఎంఓయూలు, వార్తల ప్రకారం') : tr('MoUs, as stated', 'ఎంఓయూలు, చెప్పినట్లు')}</div></div>
+                <div className="col-span-2"><div className="font-heading text-[20px] font-semibold tnum">{s.investment_crore != null ? (lang === 'te' ? croreTe(s.investment_crore, 0) : crore(s.investment_crore, 0)) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{(s.figure_type === 'press_report' ? tr('Investment, as reported', 'పెట్టుబడి, వార్తల ప్రకారం') : tr('Investment, as stated', 'పెట్టుబడి, చెప్పినట్లు'))}</div></div>
               </div>
               {s.quote ? <blockquote className="mt-4 border-l-2 border-foreground/30 pl-3 text-[14.5px] leading-relaxed text-foreground/85" lang="en"><Quote className="mb-1 size-4 text-muted-foreground" />{clean(s.quote)}</blockquote> : null}
-              <div className="mt-3"><PaperChip label={tr('The paper with these words', 'ఈ మాటలున్న పత్రం')} url={s.source_url} /></div>
+              {s.figure_type === 'press_report' && s.date_note ? <p className="mt-3 text-[13.5px] text-muted-foreground">{tr(s.date_note, 'ఈ సదస్సుకు రాష్ట్రం తన సొంత మొత్తాన్ని ఇంకా ప్రచురించలేదు. ఈ అంకెలు వార్తా సంస్థ నివేదిక నుంచి వచ్చాయి.')}</p> : null}
+              <div className="mt-3"><PaperChip label={s.figure_type === 'press_report' ? tr(`The news report (${s.source_publisher})`, `వార్తా నివేదిక (${s.source_publisher})`) : tr('The paper with these words', 'ఈ మాటలున్న పత్రం')} url={s.source_url} /></div>
             </article>
           ))}
         </div>

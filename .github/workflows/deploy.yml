@@ -171,6 +171,13 @@ jobs:
         working-directory: web
         run: npm run test:hosting
 
+      # What answer engines read: the site names Andhra Pradesh, India, and says it
+      # is not the Associated Press's AP Fact Check; llms-full.txt carries every page
+      # with the page's own words.
+      - name: Readable by answer engines
+        working-directory: web
+        run: npm run test:ai
+
       # The API client's promises: a read tried twice, a write once, no old
       # copy kept for the community board, every page of a long list read.
       - name: Test the API client

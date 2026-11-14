@@ -46,5 +46,10 @@ class TenderListOut(BaseModel):
     published_date: Optional[datetime] = None
     nit_number: Optional[str] = None
     source_portal: Optional[str] = None
+    # Where a reader goes next: the board that announced it and the site that holds the bid papers.
+    # The list carries them so the page can link each row (added 14 Nov 2026; before that only the
+    # detail endpoint did, and the page showed a notice with no way to reach it).
+    source_url: Optional[str] = None
+    document_urls: Optional[List[str]] = None
 
     model_config = {"from_attributes": True}
