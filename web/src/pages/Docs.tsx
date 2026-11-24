@@ -6,8 +6,9 @@ import { useTitle } from '@/lib/titles'
 import { Page, PageHead } from '@/components/shell'
 import {
   docBySlug, docDescription, docFacts, docSiblings, docTab, docTitle, kindOf, SUMMIT_CAVEAT, summitBySlug, summitDescription, summitFacts,
-  summitName, summitTitle, type Fact,
+  summitName, summitReport, summitTitle, type Fact,
 } from '@/lib/docs'
+import { SummitExplainer } from '@/components/SummitExplainer'
 
 // One page for one government paper (/documents/<name>) and one for one investment summit (/investments/<key>).
 // The words come from lib/docs.ts, the same file the pre-renderer reads, so a crawler and a reader see the same page.
@@ -91,6 +92,9 @@ export function SummitPage({ slug }: { slug: string }) {
         <ChevronLeft className="size-4" />{tr('Investments', 'పెట్టుబడులు')}
       </a>
       <PageHead eyebrow={summitName(s)[lang]} q={summitTitle(s)} lede={summitDescription(s)[lang]} />
+      {/* A summit with reports gathered before the state's paper gets the full explainer; every summit keeps its record below. */}
+      {summitReport(s.key) ? <SummitExplainer summitKey={s.key} /> : null}
+      {summitReport(s.key) ? <h2 className="mt-16 text-[22px] font-semibold tracking-tight">{tr('The record we hold for this summit', 'ఈ సదస్సుకు మా దగ్గర ఉన్న రికార్డు')}</h2> : null}
       <Facts facts={summitFacts(s)} />
       <p className="mt-8 max-w-3xl rounded-xl border border-border bg-card px-4 py-3 text-[15px] leading-relaxed">{SUMMIT_CAVEAT[lang]}</p>
     </Page>

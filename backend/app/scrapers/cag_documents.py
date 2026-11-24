@@ -31,7 +31,31 @@ from app.utils.logger import logger
 
 CAG_BASE = "https://cag.gov.in"
 CAG_LISTING_URL = f"{CAG_BASE}/ag/andhra-pradesh/en/audit-report"
+# The same reports, from CAG's national list with its state filter (Andhra Pradesh is state 64). The audit
+# office's own page answered 500 Internal Server Error every morning from 30 Sep 2026 while this list kept
+# working, so it is the second route, not a replacement: the office's own page is still tried first.
+CAG_NATIONAL_URL = f"{CAG_BASE}/en/audit-report?gt=49&state%5B0%5D=64"
+LISTINGS = (
+    ("the Andhra Pradesh audit office's own list", CAG_LISTING_URL, "?page={n}"),
+    ("CAG's national list, filtered to Andhra Pradesh", CAG_NATIONAL_URL, "&page={n}"),
+)
 PORTAL_NAME = "CAG — Andhra Pradesh"
+
+# The national filter is not exact: on 24 Nov 2026 it listed an Odisha report (Report No. 7 of 2026) under
+# Andhra Pradesh. A report that names another state and not Andhra Pradesh is left out, whichever list it came from.
+OTHER_STATES = (
+    "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh",
+    "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+    "Nagaland", "Odisha", "Orissa", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+    "Uttar Pradesh", "Uttarakhand", "West Bengal", "Jammu and Kashmir", "Delhi", "Puducherry",
+)
+
+
+def another_states_report(title: str, description: Optional[str] = None) -> bool:
+    text = f"{title} {description or ''}"
+    if re.search(r"Andhra\s+Pradesh", text, re.I):
+        return False
+    return any(re.search(rf"\b{re.escape(s)}\b", text, re.I) for s in OTHER_STATES)
 
 
 class CAGDocumentsScraper(BaseScraper):
@@ -62,6 +86,7 @@ class CAGDocumentsScraper(BaseScraper):
         self.log_start()
         total_saved = 0
         page = 1
+        self._listing = await self._choose_listing()
         max_pages = 50  # hard safety cap — real total is currently ~8
 
         failure: BaseException | None = None
@@ -87,8 +112,25 @@ class CAGDocumentsScraper(BaseScraper):
 
         return self.finish(total_saved, failure)
 
+    async def _choose_listing(self) -> tuple[str, str, str]:
+        """The first list whose first page answers with report cards. Says so when it is not the office's own."""
+        for listing in LISTINGS:
+            name, url, _ = listing
+            try:
+                response = await self.fetch(url)
+            except Exception as e:                       # noqa: BLE001  (counted by fetch; the next list is tried)
+                logger.warning(f"[{self.PORTAL_NAME}] {name} did not answer: {e}")
+                continue
+            if "AuditReportlisting" in response.text:
+                if listing is not LISTINGS[0]:
+                    self.note(f"Read from {name}: the audit office's own page did not answer.")
+                return listing
+            logger.warning(f"[{self.PORTAL_NAME}] {name} answered without report cards")
+        return LISTINGS[0]
+
     async def _fetch_page(self, page: int) -> list[dict]:
-        url = CAG_LISTING_URL if page == 1 else f"{CAG_LISTING_URL}?page={page}"
+        _, base, more = getattr(self, "_listing", LISTINGS[0])
+        url = base if page == 1 else base + more.format(n=page)
         try:
             response = await self.fetch(url)
             soup = BeautifulSoup(response.text, "lxml")
@@ -96,7 +138,9 @@ class CAGDocumentsScraper(BaseScraper):
             entries = []
             for card in soup.find_all("div", class_="AuditReportlisting"):
                 parsed = self._parse_entry(card)
-                if parsed:
+                if parsed and another_states_report(parsed["title"], parsed.get("description")):
+                    self.note(f"Left out a report the list files under Andhra Pradesh but which names another state: {parsed['title'][:90]}")
+                elif parsed:
                     entries.append(parsed)
             return entries
 

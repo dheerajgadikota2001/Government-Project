@@ -25,8 +25,10 @@
 import papersRaw from '@/data/papers.json'
 import registerRaw from '@/data/register_papers.json'
 import investRaw from '@/data/investments.json'
-import { crore, croreTe, dateLong, dateTe, num } from '@/lib/format'
+import summitReportsRaw from '@/data/summit_reports.json'
+import { crore, croreTe, dateLong, dateTe, lakhCrore, lakhCroreTe, num } from '@/lib/format'
 import { shortName, type Bi } from '@/lib/titles'
+export type { Bi }
 
 const same = (s: string): Bi => ({ en: s, te: s })
 
@@ -254,7 +256,20 @@ const SUMMIT_TE: Record<string, string> = {
 }
 export const summitName = (s: Summit): Bi => ({ en: s.name, te: SUMMIT_TE[s.key] ?? s.name })
 export const summitTitle = (s: Summit): Bi => ({ en: `What did the ${s.name} announce?`, te: `${SUMMIT_TE[s.key] ?? s.name}లో ఏం ప్రకటించారు?` })
-export const summitDescription = (s: Summit): Bi => isPressSummit(s) ? {
+/* What was reported about a summit, report by report, before the state publishes its own paper
+   (src/data/summit_reports.json, checked by scripts/test_summit_reports.mjs). */
+export type SummitReport = {
+  checked: string; headline: Bi; description: Bi; official_check: Bi
+  reports: { id: string; outlet: string; byline: string; date: string; kind: 'press' | 'government'; url: string; speaker: Bi; quote: string }[]
+  figures: { group: string; report: string; crore: number; amount: Bi; mous: number | null; jobs: number | null; words: Bi }[]
+  groups: { id: string; label: Bi; note: Bi }[]
+  companies: { name: string; crore: number; jobs: number | null; place: string | null; what: Bi; day: number; report: string; also?: Bi }[]
+  pipeline: { id: string; label: Bi; projects: number | null; readings: { crore: number; amount: Bi; report: string; words: Bi }[] }[]
+  pipeline_notes: Bi[]; watch: Bi[]
+}
+const REPORTS = summitReportsRaw as unknown as Record<string, SummitReport | string>
+export const summitReport = (key: string): SummitReport | null => (typeof REPORTS[key] === 'object' ? (REPORTS[key] as SummitReport) : null)
+export const summitDescription = (s: Summit): Bi => summitReport(s.key) ? summitReport(s.key)!.description : isPressSummit(s) ? {
   en: `${s.name}, ${s.city}: a news agency (${s.source_publisher}) reported ${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} of potential investment. The state has not yet published its own total. A promise, not money spent.`.slice(0, 300),
   te: `${SUMMIT_TE[s.key] ?? s.name}, ${s.city}: వార్తా సంస్థ (${s.source_publisher}) ప్రకారం ${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} సంభావ్య పెట్టుబడి. రాష్ట్రం తన మొత్తం ఇంకా ప్రచురించలేదు. ఇది హామీ, ఖర్చు చేసిన డబ్బు కాదు.`.slice(0, 300),
 } : ({
@@ -269,7 +284,8 @@ export function summitFacts(s: Summit): Fact[] {
     { label: { en: 'Summit', te: 'సదస్సు' }, value: { en: s.long_name, te: SUMMIT_TE[s.key] ?? s.long_name } },
     { label: { en: 'Where and when', te: 'ఎక్కడ, ఎప్పుడు' }, value: { en: `${s.city}, ${dateLong(s.start_date)}${s.end_date !== s.start_date ? ` to ${dateLong(s.end_date)}` : ''}`, te: `${s.city}, ${dateTe(s.start_date)}${s.end_date !== s.start_date ? ` నుంచి ${dateTe(s.end_date)} వరకు` : ''}` } },
     { label: press ? { en: 'MoUs, as a news agency reported it', te: 'ఎంఓయూలు, వార్తా సంస్థ చెప్పినట్లు' } : { en: 'MoUs the state says were signed', te: 'సంతకం చేశారని రాష్ట్రం చెప్పిన ఎంఓయూలు' }, value: same(num(s.mou_count, 0)) },
-    { label: press ? { en: `Potential investment, ${by.en}`, te: `సంభావ్య పెట్టుబడి, ${by.te}` } : { en: 'Potential investment, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య పెట్టుబడి' }, value: { en: crore(s.investment_crore, 0), te: croreTe(s.investment_crore, 0) } },
+    { label: press ? { en: `Potential investment, ${by.en}`, te: `సంభావ్య పెట్టుబడి, ${by.te}` } : { en: 'Potential investment, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య పెట్టుబడి' }, // A news report prints a rounded figure (₹9.02 lakh crore); writing it out in crore would invent digits it never printed.
+      value: press ? { en: lakhCrore(s.investment_crore), te: lakhCroreTe(s.investment_crore) } : { en: crore(s.investment_crore, 0), te: croreTe(s.investment_crore, 0) } },
     { label: press ? { en: `Potential jobs, ${by.en}`, te: `సంభావ్య ఉద్యోగాలు, ${by.te}` } : { en: 'Potential jobs, as the state states it', te: 'రాష్ట్రం చెప్పిన సంభావ్య ఉద్యోగాలు' },
       value: s.jobs != null ? same(num(s.jobs, 0)) : { en: s.jobs_note ?? 'Not stated', te: 'ఖచ్చితమైన సంఖ్య చెప్పలేదు' } },
     { label: press ? { en: 'The report’s words', te: 'నివేదికలోని మాటలు' } : { en: 'The state’s own words', te: 'రాష్ట్రం మాటల్లోనే' }, value: same(`“${s.quote}”`), lang: 'en' },

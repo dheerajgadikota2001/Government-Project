@@ -31,7 +31,9 @@ expect('no address is over 80 characters', slugs.every((s) => s.length <= 80))
 const gone = saved.docs.filter((s) => !D.docBySlug.has(s))
 expect('no published document address has gone', gone.length === 0, gone.slice(0, 5).join(' '))
 expect('no published summit address has gone', saved.summits.every((k) => D.summitBySlug.has(k)))
-expect('five summits', D.summits.length === 5)
+// The 2026 summit made six; a count pinned to five failed the day it was added. Every published summit stays (above),
+// and the record never shrinks below the frozen list.
+expect('every frozen summit is still listed, and none is lost', D.summits.length >= saved.summits.length)
 expect('no voter-roll or name-list titles', D.docRecs.every((d) => !/electoral roll|voter list|voters? list|final roll|polling station list/i.test(d.title)))
 expect('every page has an https official link', D.docRecs.every((d) => /^https?:\/\//.test(d.url)))
 expect('no two pages share a title and a link', new Set(D.docRecs.map((d) => d.title + d.url)).size === D.docRecs.length)

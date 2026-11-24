@@ -93,6 +93,9 @@ def squash(text: str) -> str:
 class APLegislatureBillsScraper(BaseScraper):
     PORTAL_NAME = "AP_Legislature_Bills"
     BASE_URL = BASE
+    # From 17 Nov 2026 the portal serves its certificate without the RapidSSL intermediate. The file supplies it;
+    # the chain must still reach DigiCert Global Root G2 (base._tls_context).
+    EXTRA_INTERMEDIATES = ("RapidSSLTLSRSACAG1.pem",)
     # No key_field on purpose. A bill title repeats legitimately across
     # assemblies ("The Andhra Pradesh Appropriation Bill"), so a uniqueness
     # check on it would abort a correct run. Repetition within one term is

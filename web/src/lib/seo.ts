@@ -22,14 +22,14 @@ import claimsRaw from '@/data/claims.json'
 import { CHECKS } from '@/lib/claim-checks'
 import moneyRaw from '@/data/money.json'
 import factsRaw from '@/data/statefacts.json'
-import { clean, crore, croreTe, dateLong, dateTe, MONTHS, MONTHS_TE, num, PORTAL_WORDS, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
+import { clean, crore, croreTe, dateLong, lakhCrore, lakhCroreTe, dateTe, MONTHS, MONTHS_TE, num, PORTAL_WORDS, STATUS_WORDS, TYPE_WORDS, TODAY } from '@/lib/format'
 import { events } from '@/lib/data-events'
 import polavaramRaw from '@/data/polavaram.json'
 import { ARG_PATHS, STATIC_PATHS } from '@/lib/route'
 import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
-import { docDescription, isPressSummit, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summits, summitTitle, type DocRec } from '@/lib/docs'
+import { docDescription, isPressSummit, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summitReport, summits, summitTitle, type DocRec } from '@/lib/docs'
 import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectKey, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
@@ -359,12 +359,33 @@ function docPage(d: DocRec): PageOut {
   }
 }
 
+/** The reported figures of a summit, in the same words the page prints, for crawlers and answer engines. */
+function summitReportLines(key: string): Line[] {
+  const x = summitReport(key)
+  if (!x) return []
+  const R = new Map(x.reports.map((r) => [r.id, r]))
+  const lines: Line[] = [{ text: x.headline }, { text: x.official_check }]
+  for (const g of x.groups) {
+    const fs = x.figures.filter((f) => f.group === g.id)
+    if (!fs.length) continue
+    lines.push({ text: { en: `${g.label.en}: ${fs.map((f) => `${R.get(f.report)!.outlet}, ${f.words.en}`).join('; ')}. ${g.note.en}`, te: `${g.label.te}: ${fs.map((f) => `${R.get(f.report)!.outlet}, ${f.words.te}`).join('; ')}. ${g.note.te}` } })
+  }
+  for (const st of x.pipeline) if (st.readings.length)
+    lines.push({ text: { en: `${st.label.en}: ${st.readings.map((r) => `${r.words.en} (${R.get(r.report)!.outlet})`).join('; ')}`, te: `${st.label.te}: ${st.readings.map((r) => `${r.words.te} (${R.get(r.report)!.outlet})`).join('; ')}` } })
+  for (const c of x.companies) lines.push({ text: { en: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} lakh crore` : crore(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} jobs` : ''}, Day ${c.day}, as ${R.get(c.report)!.outlet} reported`, te: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} లక్షల కోట్లు` : croreTe(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} ఉద్యోగాలు` : ''}, ${c.day}వ రోజు, ${R.get(c.report)!.outlet} నివేదిక ప్రకారం` } })
+  for (const w of x.watch) lines.push({ text: w })
+  for (const r of x.reports) lines.push({ text: same(`${r.outlet}, ${r.date}: “${r.quote}”`), href: r.url, external: true })
+  return lines
+}
+
 function summitPage(s: (typeof summits)[number]): PageOut {
   const t = summitTitle(s)
   return {
     card: {
       kind: 'place', tag: { en: 'Investment summit', te: 'పెట్టుబడుల సదస్సు' }, title: summitName(s),
-      line: { en: `${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} announced. A promise, not money spent.`, te: `${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} ప్రకటించారు. హామీ మాత్రమే, ఖర్చు కాదు.` },
+      line: isPressSummit(s)
+        ? { en: `${num(s.mou_count, 0)} MoUs and ${lakhCrore(s.investment_crore)} reported. A promise, not money spent.`, te: `${num(s.mou_count, 0)} ఎంఓయూలు, ${lakhCroreTe(s.investment_crore)} అని నివేదిక. హామీ మాత్రమే, ఖర్చు కాదు.` }
+        : { en: `${num(s.mou_count, 0)} MoUs and ${crore(s.investment_crore, 0)} announced. A promise, not money spent.`, te: `${num(s.mou_count, 0)} ఎంఓయూలు, ${croreTe(s.investment_crore, 0)} ప్రకటించారు. హామీ మాత్రమే, ఖర్చు కాదు.` },
       source: isPressSummit(s)
         ? { en: `A news report (${s.source_publisher}); the state has not published its total yet`, te: 'వార్తా నివేదిక; రాష్ట్రం తన మొత్తాన్ని ఇంకా ప్రచురించలేదు' }
         : { en: 'The state’s own paper is linked', te: 'రాష్ట్ర పత్రం లింక్ చేశాం' },
@@ -373,9 +394,10 @@ function summitPage(s: (typeof summits)[number]): PageOut {
     path: P('summit', s.key),
     title: t,
     description: summitDescription(s),
-    lines: factLines(summitFacts(s)),
+    lines: [...summitReportLines(s.key), ...factLines(summitFacts(s))],
     trail: [{ name: PAGE_WORDS.investments.title, path: P('investments') }],
-    lastmod: s.end_date <= TODAY ? s.end_date.slice(0, 10) : TODAY,
+    // A summit page changes when its reports are rechecked, not only when the summit ends.
+    lastmod: [s.end_date.slice(0, 10), summitReport(s.key)?.checked ?? ''].filter((d) => d && d <= TODAY).sort().pop() ?? TODAY,
   }
 }
 

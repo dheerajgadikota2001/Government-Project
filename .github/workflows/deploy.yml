@@ -178,6 +178,13 @@ jobs:
         working-directory: web
         run: npm run test:ai
 
+      # A summit page explains why reported totals differ, so it must be exact itself:
+      # every figure as printed, with its report, the same numbers in both languages,
+      # and nothing added up by the site.
+      - name: Summit reports are exact
+        working-directory: web
+        run: npm run test:summits
+
       # The API client's promises: a read tried twice, a write once, no old
       # copy kept for the community board, every page of a long list read.
       - name: Test the API client

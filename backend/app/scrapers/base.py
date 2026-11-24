@@ -23,10 +23,13 @@ already in the database and reporting zero would be its own lie.
 
 import asyncio
 import dataclasses
+import os
+import ssl
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Optional
 
+import certifi
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
@@ -49,6 +52,27 @@ class ScrapeIncomplete(Exception):
         super().__init__(detail)
         self.detail = detail
         self.records_new = records_new
+
+
+CERTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "certs")
+
+
+def _tls_context(extra: tuple[str, ...]) -> ssl.SSLContext:
+    """
+    Certificate checking with a few named public intermediates added, for a portal that stops sending its
+    own (aplegislature.org from 17 Nov 2026). Browsers fetch a missing intermediate by themselves; Python does
+    not, so the portal looks broken to us and fine to every reader.
+
+    Nothing is loosened. Every certificate is still checked, the host name still has to match, and the chain
+    still has to end at a root in certifi's store: partial chains are turned off, so an added intermediate can
+    complete a chain but never end one. Each file in certs/ says where it came from and why it is there.
+    """
+    ctx = ssl.create_default_context(cafile=certifi.where())
+    for name in extra:
+        ctx.load_verify_locations(cafile=os.path.join(CERTS_DIR, name))
+    if hasattr(ssl, "VERIFY_X509_PARTIAL_CHAIN"):
+        ctx.verify_flags &= ~ssl.VERIFY_X509_PARTIAL_CHAIN
+    return ctx
 
 
 class BaseScraper(ABC):
@@ -74,6 +98,10 @@ class BaseScraper(ABC):
     # nothing is not gated — which is a deliberate escape hatch, not a default
     # anyone should be comfortable with. See app/scrapers/sanity.py.
     SANITY: Optional[SanitySpec] = None
+
+    # Public intermediates (files in certs/) a portal forgets to send. Empty for every portal that sends its
+    # own chain, which is nearly all of them; see _tls_context.
+    EXTRA_INTERMEDIATES: tuple[str, ...] = ()
 
     def __init__(self):
         self._client: Optional[httpx.AsyncClient] = None
@@ -103,6 +131,7 @@ class BaseScraper(ABC):
                 },
                 timeout=httpx.Timeout(settings.scraper_timeout),
                 follow_redirects=True,
+                **({"verify": _tls_context(self.EXTRA_INTERMEDIATES)} if self.EXTRA_INTERMEDIATES else {}),
             )
         return self._client
 

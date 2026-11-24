@@ -5,11 +5,12 @@ import { useLang } from '@/lib/i18n'
 import { districtByName, meta } from '@/lib/data'
 import { invest } from '@/lib/data-invest'
 import { periods } from '@/lib/data-periods'
-import { clean, crore, croreTe, dateLong, dateShort, dateTe, num, MOU_STATUS, KIND_WORDS } from '@/lib/format'
+import { clean, crore, croreTe, lakhCrore, lakhCroreTe, dateLong, dateShort, dateTe, num, MOU_STATUS, KIND_WORDS } from '@/lib/format'
 import { Page, PageHead } from '@/components/shell'
 import { CountBars } from '@/graphics/Counts'
 import { cmName, periodName } from './Periods'
 import { href } from '@/lib/route'
+import summitReports from '@/data/summit_reports.json'
 import { PromiseBoard } from '@/components/PromiseBoard'
 import { Blank, ChartFrame, ExampleBox, KindBadge, ListenButton, PaperChip, Section } from '@/components/kit'
 import { Input } from '@/components/ui/input'
@@ -136,11 +137,15 @@ export default function Investments() {
               {s.figure_type === 'press_report' ? <KindBadge kind="press" className="mt-2" /> : null}
               <div className="mt-3 grid grid-cols-3 gap-3 rounded-lg border border-dashed border-foreground/30 p-3">
                 <div><div className="font-heading text-[20px] font-semibold tnum">{s.mou_count != null ? num(s.mou_count, 0) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{s.figure_type === 'press_report' ? tr('MoUs, as reported', 'ఎంఓయూలు, వార్తల ప్రకారం') : tr('MoUs, as stated', 'ఎంఓయూలు, చెప్పినట్లు')}</div></div>
-                <div className="col-span-2"><div className="font-heading text-[20px] font-semibold tnum">{s.investment_crore != null ? (lang === 'te' ? croreTe(s.investment_crore, 0) : crore(s.investment_crore, 0)) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{(s.figure_type === 'press_report' ? tr('Investment, as reported', 'పెట్టుబడి, వార్తల ప్రకారం') : tr('Investment, as stated', 'పెట్టుబడి, చెప్పినట్లు'))}</div></div>
+                <div className="col-span-2"><div className="font-heading text-[20px] font-semibold tnum">{s.investment_crore != null ? (s.figure_type === 'press_report' ? (lang === 'te' ? lakhCroreTe(s.investment_crore) : lakhCrore(s.investment_crore)) : (lang === 'te' ? croreTe(s.investment_crore, 0) : crore(s.investment_crore, 0))) : tr('Not stated', 'చెప్పలేదు')}</div><div className="text-[12px] text-muted-foreground">{(s.figure_type === 'press_report' ? tr('Investment, as reported', 'పెట్టుబడి, వార్తల ప్రకారం') : tr('Investment, as stated', 'పెట్టుబడి, చెప్పినట్లు'))}</div></div>
               </div>
               {s.quote ? <blockquote className="mt-4 border-l-2 border-foreground/30 pl-3 text-[14.5px] leading-relaxed text-foreground/85" lang="en"><Quote className="mb-1 size-4 text-muted-foreground" />{clean(s.quote)}</blockquote> : null}
               {s.figure_type === 'press_report' && s.date_note ? <p className="mt-3 text-[13.5px] text-muted-foreground">{tr(s.date_note, 'ఈ సదస్సుకు రాష్ట్రం తన సొంత మొత్తాన్ని ఇంకా ప్రచురించలేదు. ఈ అంకెలు వార్తా సంస్థ నివేదిక నుంచి వచ్చాయి.')}</p> : null}
               <div className="mt-3"><PaperChip label={s.figure_type === 'press_report' ? tr(`The news report (${s.source_publisher})`, `వార్తా నివేదిక (${s.source_publisher})`) : tr('The paper with these words', 'ఈ మాటలున్న పత్రం')} url={s.source_url} /></div>
+              {/* Every summit has its own page; one with reports gathered before the state's paper explains why the totals differ. */}
+              <a href={href(`summit-${s.key}`)} className="mt-3 inline-flex items-center gap-1 text-[14px] font-semibold underline underline-offset-4">
+                {typeof (summitReports as Record<string, unknown>)[s.key] === 'object' ? tr('Why the reported totals differ, and the biggest promises', 'నివేదికల మొత్తాలు ఎందుకు వేరు, పెద్ద హామీలు') : tr('This summit’s page', 'ఈ సదస్సు పేజీ')}
+              </a>
             </article>
           ))}
         </div>
