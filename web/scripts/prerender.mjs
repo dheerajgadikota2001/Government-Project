@@ -287,7 +287,7 @@ Sitemap: ${ORIGIN}/sitemap.xml
 
 ${SITE_ABOUT} Written for anyone who follows Andhra Pradesh: people in the state, Telugu speakers in Telangana and other states, and Telugu families abroad. The full text of every page, with its figures and papers, is in ${ORIGIN}/llms-full.txt.
 
-Every figure on this site is taken from a government paper (state budget books, CAG reports and accounts, RBI, MoSPI, Parliament answers, Press Information Bureau releases, district collectorate sites) and is shown with that paper's name, date and link. Newspapers appear only as a labelled claim, never as the source of a figure. Figures are shown as printed: the site adds no totals, shares or rankings of its own. When two official papers disagree, both are shown. Every page exists in English and in Telugu (the Telugu address adds /te in front).
+Every figure on this site is taken from a government paper (state budget books, CAG reports and accounts, RBI, MoSPI, Parliament answers, Press Information Bureau releases, district collectorate sites) and is shown with that paper's name, date and link. Newspapers appear only as labelled reports, never mixed with government figures; where the state has not published a figure (the 2026 Partnership Summit), the Reports section shows each newspaper's figure with the paper named and marked as a news report. Figures are shown as printed: the site adds no totals, shares or rankings of its own. When two official papers disagree, both are shown. Every page exists in English and in Telugu (the Telugu address adds /te in front).
 
 ## Main pages
 
@@ -298,6 +298,7 @@ ${[
   link('/finances/departments', 'Department spending', 'budget estimate, revised estimate and actual figure for every demand for grants'),
   link('/state-facts', 'State facts', 'Reserve Bank of India indicators for Andhra Pradesh'),
   link('/investments', 'Investment promises', 'investment summit MoUs and what the state reported as grounded'),
+  link('/reports', 'Reports', 'one subject in full, such as the 2026 Partnership Summit: every reported figure, the paper behind it, and where papers disagree'),
   link('/documents', 'Government papers', `${count('/documents/')} official papers, each with its own page and its official link`),
   link('/factcheck', 'Claims', 'statements checked against the papers'),
 ].join('\n')}

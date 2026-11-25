@@ -183,6 +183,7 @@ for (const key of keys) {
   // 6. lengths
   for (const l of ['en', 'te']) if (x.description[l].length > 300) fail(`${key}: ${l} description is ${x.description[l].length} characters`)
   if (!/promise/i.test(x.headline.en + x.description.en)) fail(`${key}: never says these are promises`)
+  if (x.meta_description) { bi(`${key} meta description`, x.meta_description); for (const l of ['en', 'te']) if (x.meta_description[l].length > 158) fail(`${key}: ${l} meta description is ${x.meta_description[l].length} characters, over 158`) }
   pass(`${key}: descriptions fit and say these are promises`)
 }
 

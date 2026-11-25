@@ -62,6 +62,11 @@ for (const slug of readdirSync(join(dist, 'documents'))) {
   if (titleOf(h).length > 80) longDoc.push(`${slug}:${titleOf(h).length}`)
 }
 expect('project and document descriptions fit a search result (160 characters)', long.length === 0, long.slice(0, 5).join(' '))
+// Every other page too: the summit pages ran to 250 characters until 25 Nov 2026 because only projects and papers were checked.
+const longAny = []
+const walkDesc = (dir, at) => { for (const n of readdirSync(dir, { withFileTypes: true })) { if (n.isDirectory()) walkDesc(join(dir, n.name), at + '/' + n.name); else if (n.name === 'index.html') { const d = descOf(readFileSync(join(dir, n.name), 'utf8')).replace(/&amp;/g, '&'); if (d.length > 160) longAny.push(`${at || '/'}:${d.length}`) } } }
+walkDesc(dist, '')
+expect('every page description fits a search result (160 characters)', longAny.length === 0, longAny.slice(0, 6).join(' '))
 expect('document tab titles stay within 80 characters', longDoc.length === 0, `${longDoc.length}: ${longDoc.slice(0, 4).join(' ')}`)
 
 // ---- sitemap dates move with the pages

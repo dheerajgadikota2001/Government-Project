@@ -261,6 +261,8 @@ export const summitTitle = (s: Summit): Bi => ({ en: `What did the ${s.name} ann
 type FindingSide = { report: string; group: string; label: Bi; big: Bi; sub: Bi }
 export type SummitReport = {
   checked: string; headline: Bi; description: Bi; official_check: Bi
+  /** The search-result description, 158 characters or fewer; the page itself shows the longer description. */
+  meta_description?: Bi
   /** date is null only when the page prints none; date_note then says so. */
   reports: { id: string; outlet: string; byline: string; date: string | null; date_note?: Bi; kind: 'press' | 'government'; url: string; speaker: Bi; quote: string }[]
   figures: { group: string; report: string; crore: number; amount: Bi; mous: number | null; jobs: number | null; words: Bi }[]

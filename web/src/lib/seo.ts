@@ -403,7 +403,7 @@ function reportPage(r: ReportEntry): PageOut {
     note: r.missing,
     path: P('report', r.slug),
     title: r.title,
-    description: r.description,
+    description: r.meta,
     ld: [{ '@type': 'Report', name: r.title.en, url: ORIGIN + P('report', r.slug), about: 'Andhra Pradesh, India', datePublished: r.published, dateModified: r.checked, inLanguage: ['en', 'te'] }],
     lines: [
       ...r.card.map((f): Line => ({ text: { en: `${f.amount.en}: ${f.what.en}`, te: `${f.amount.te}: ${f.what.te}` } })),
@@ -430,7 +430,7 @@ function summitPage(s: (typeof summits)[number]): PageOut {
     ...(isPressSummit(s) ? { note: { en: 'These figures are from a news report, marked as such, until the state publishes its own. The report is linked.', te: 'రాష్ట్రం తన అంకెలు ప్రచురించే వరకు ఈ అంకెలు వార్తా నివేదిక నుంచి, అలాగే గుర్తించాం. నివేదికకు లింక్ ఉంది.' } } : {}),
     path: P('summit', s.key),
     title: t,
-    description: summitDescription(s),
+    description: summitReport(s.key)?.meta_description ?? summitDescription(s),
     lines: [...(reportForSummit(s.key) ? [{ text: reportForSummit(s.key)!.title, href: P('report', reportForSummit(s.key)!.slug) }] : []), ...summitReportLines(s.key), ...factLines(summitFacts(s))],
     trail: [{ name: PAGE_WORDS.investments.title, path: P('investments') }],
     // A summit page changes when its reports are rechecked, not only when the summit ends.
@@ -549,6 +549,9 @@ export function allPages(): PageOut[] {
   for (const d of docRecs) out.push(docPage(d))
   for (const s of summits) out.push(summitPage(s))
   for (const r of REPORTS) out.push(reportPage(r))
+  // Search engines show about 160 characters. A description written longer (the summit pages' own ledes run to
+  // 250) is kept whole on the page itself; the meta tag gets whole sentences that fit, never a cut word.
+  for (const p of out) p.description = { en: fitDesc(p.description.en), te: fitDesc(p.description.te) }
   return distinctDescriptions(out)
 }
 

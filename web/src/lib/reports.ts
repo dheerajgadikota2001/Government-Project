@@ -17,6 +17,8 @@ export type ReportEntry = {
   /** The heading and the tab title: a name a reader would search with, not a question. */
   title: Bi
   description: Bi
+  /** The search-result description: 158 characters or fewer, so search engines show it whole. */
+  meta: Bi
   /** The day the report first went up, and the day its figures were last checked. */
   published: string
   checked: string
@@ -34,6 +36,10 @@ export const REPORTS: ReportEntry[] = [
     description: {
       en: 'The 12 and 13 November summit in full: what was expected before, the totals and why they differ, each day, every sector, the districts named, every company named, where newspapers disagree, and what earlier summits led to. Promises, not money spent.',
       te: 'నవంబర్ 12, 13 సదస్సు పూర్తిగా: ముందు ఆశించినది, మొత్తాలు, అవి ఎందుకు వేరు, ప్రతి రోజు, ప్రతి రంగం, పేర్కొన్న జిల్లాలు, పేర్కొన్న ప్రతి కంపెనీ, పత్రికలు ఎక్కడ విభేదించాయి, గత సదస్సులు ఏమయ్యాయి. హామీలు, ఖర్చు చేసిన డబ్బు కాదు.',
+    },
+    meta: {
+      en: 'Partnership Summit 2026 as a dashboard: 303 MoUs and ₹9,88,957 crore as the Chief Minister said, by sector and district, and where newspapers disagree.',
+      te: 'భాగస్వామ్య సదస్సు 2026 డాష్‌బోర్డ్: ముఖ్యమంత్రి చెప్పిన 303 ఎంఓయూలు, ₹9,88,957 కోట్లు, రంగాలు, జిల్లాల వారీగా, పత్రికలు ఎక్కడ విభేదించాయి.',
     },
     published: '2026-11-24',
     checked: '2026-11-24',
