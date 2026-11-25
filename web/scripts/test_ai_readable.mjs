@@ -31,11 +31,16 @@ const nodes = [...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)
   const j = JSON.parse(m[1]); return j['@graph'] ?? [j]
 })
 const org = nodes.find((n) => n['@type'] === 'Organization')
+// A plain link to the parent site, in the HTML served before any script runs, on the home page.
+if (!/<a href="https:\/\/dheeco\.com\/">/.test(home)) fail('the home page has no plain link to dheeco.com')
 if (!org) fail('no Organization node on the home page')
 else {
   if (!/Andhra Pradesh \(India\)/.test(org.disambiguatingDescription ?? '')) fail('Organization does not name Andhra Pradesh, India')
   if (!/Not connected with the Associated Press/.test(org.disambiguatingDescription ?? '')) fail('Organization does not say it is not the Associated Press')
   if (org.areaServed?.name !== 'Andhra Pradesh') fail('Organization areaServed is not Andhra Pradesh')
+  // dheeco.com names this site as its subOrganization with this @id; the parent must answer with the @id dheeco.com uses.
+  if (org['@id'] !== `${ORIGIN}/#org`) fail('Organization @id changed: dheeco.com points at /#org')
+  if (org.parentOrganization?.['@id'] !== 'https://dheeco.com/#organization') fail('parentOrganization does not carry dheeco.com\'s @id')
 }
 pass('the home page says which AP this is')
 

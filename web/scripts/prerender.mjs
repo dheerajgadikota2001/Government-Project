@@ -122,14 +122,16 @@ function siteNodes(lang) {
     },
     {
       '@type': 'Organization', '@id': ORIGIN + '/#org', name: SITE.en,
-      alternateName: [SITE.te, 'Andhra Pradesh Fact Check', 'AP Fact Check (Andhra Pradesh)'], url: ORIGIN + '/',
+      alternateName: [SITE.te, 'Andhra Pradesh Fact Check', 'AP Fact Check (Andhra Pradesh)', 'AP Fact Check Andhra Pradesh by Dheeco'], url: ORIGIN + '/',
       logo: { '@type': 'ImageObject', url: ORIGIN + '/icon-512.png', width: 512, height: 512 },
       description: seo.siteDescription[lang],
       disambiguatingDescription: SITE_ABOUT,
       areaServed: { '@type': 'State', name: 'Andhra Pradesh', alternateName: 'ఆంధ్రప్రదేశ్', containedInPlace: { '@type': 'Country', name: 'India' } },
       knowsAbout: ['Andhra Pradesh government projects', 'Polavaram Irrigation Project', 'Andhra Pradesh state debt and finances',
         'Andhra Pradesh budget', 'Andhra Pradesh districts', 'CAG audit reports on Andhra Pradesh', 'MoSPI project monitoring', 'Andhra Pradesh investment summits'],
-      parentOrganization: { '@type': 'Organization', name: 'Dheeco', url: 'https://dheeco.com/' },
+      // The same @id dheeco.com gives this site in its own Organization node (subOrganization), so the two sites state
+      // the same owner from both ends. Google treats this subdomain as a separate, new site; the trusted parent says so.
+      parentOrganization: { '@type': 'Organization', '@id': 'https://dheeco.com/#organization', name: 'Dheeco', url: 'https://dheeco.com/' },
     },
   ]
 }
@@ -225,7 +227,7 @@ function body(p, lang) {
       <p class="pre-lede">${esc(p.description[lang])}</p>
       ${p.lines.length ? `<ul>${p.lines.map((l) => line(l, lang)).join('')}</ul>` : ''}
       <p class="pre-note" data-nosnippet>${p.note ? esc(p.note[lang]) : lang === 'te' ? 'ఇక్కడ ప్రతి అంకె ప్రభుత్వ పత్రం నుంచే, ఆ పత్రానికి లింకుతో.' : 'Every number here is from a government paper, with the paper linked.'}</p>
-      <nav class="pre-nav">${nav}</nav>
+      <nav class="pre-nav">${nav} · <a href="https://dheeco.com/">${lang === 'te' ? 'AP Fact Check, Dheeco రూపొందించింది' : 'AP Fact Check by Dheeco'}</a></nav>
     </main>`
 }
 
