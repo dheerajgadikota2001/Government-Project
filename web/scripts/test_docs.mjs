@@ -4,6 +4,7 @@
 //  - nothing that looks like a voter roll or a list of private people gets a page
 //  - every page has a title, a description of 300 characters or fewer, and an official link that starts with https://
 //  - the summit pages make no claim beyond the state's own statement
+//  - a published report address (/reports/<slug>) never goes
 import { build } from 'esbuild'
 import { readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
@@ -20,7 +21,9 @@ const expect = (name, cond, extra = '') => { console.log((cond ? 'PASS ' : 'FAIL
 
 const slugs = D.docRecs.map((d) => d.slug)
 const FILE = join(web, 'seo-slugs.json')
-const frozen = { docs: slugs.slice().sort(), summits: D.summits.map((s) => s.key).sort() }
+// Report addresses (/reports/<slug>) are read from src/lib/reports.ts by their shape; that file imports nothing.
+const reportSlugs = [...readFileSync(join(web, 'src/lib/reports.ts'), 'utf8').matchAll(/^    slug: '([a-z0-9-]+)',$/gm)].map((m) => m[1])
+const frozen = { docs: slugs.slice().sort(), summits: D.summits.map((s) => s.key).sort(), reports: reportSlugs.slice().sort() }
 if (process.argv.includes('--freeze') || !existsSync(FILE)) { writeFileSync(FILE, JSON.stringify(frozen, null, 1) + '\n'); console.log('wrote seo-slugs.json') }
 const saved = JSON.parse(readFileSync(FILE, 'utf8'))
 
@@ -31,6 +34,8 @@ expect('no address is over 80 characters', slugs.every((s) => s.length <= 80))
 const gone = saved.docs.filter((s) => !D.docBySlug.has(s))
 expect('no published document address has gone', gone.length === 0, gone.slice(0, 5).join(' '))
 expect('no published summit address has gone', saved.summits.every((k) => D.summitBySlug.has(k)))
+expect('reports.ts lists at least one report', reportSlugs.length > 0)
+expect('no published report address has gone', (saved.reports ?? []).every((k) => reportSlugs.includes(k)), (saved.reports ?? []).filter((k) => !reportSlugs.includes(k)).join(' '))
 // The 2026 summit made six; a count pinned to five failed the day it was added. Every published summit stays (above),
 // and the record never shrinks below the frozen list.
 expect('every frozen summit is still listed, and none is lost', D.summits.length >= saved.summits.length)

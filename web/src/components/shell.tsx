@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { PREVIEW } from '@/lib/preview'
 import {
-  Building2, ChevronDown, FileText, HandCoins, Home, Landmark, Languages, Layers, MapPin, Menu, Phone, Scale, Search, CalendarRange,
+  Building2, ChevronDown, FileText, HandCoins, Home, Landmark, Languages, Layers, MapPin, Menu, Phone, Scale, Search, CalendarRange, BookOpenText,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useLang, type StringKey } from '@/lib/i18n'
@@ -31,6 +31,7 @@ export const NAV: NavItem[] = [
   { token: 'districts', key: 'navDistrict', icon: MapPin, match: ['districts', 'district'] },
   { token: 'money', key: 'navMoney', icon: Landmark, match: ['money', 'money-departments', 'money-states'] },
   { token: 'investments', key: 'navInvest', icon: HandCoins, match: ['investments'] },
+  { token: 'reports', key: 'navReports', icon: BookOpenText, match: ['reports', 'report'] },
   { token: 'governments', key: 'navPeriods', icon: CalendarRange, match: ['governments'] },
   { token: 'claims', key: 'navClaims', icon: Scale, match: ['claims', 'claim'] },
   { token: 'papers', key: 'navPapers', icon: FileText, match: ['papers'] },
@@ -293,7 +294,7 @@ function Footer() {
   const { t, lang, tr } = useLang()
   const { openDesign } = React.useContext(ShellContext)
   const groups: { title: string; items: { token: string; key: StringKey }[] }[] = [
-    { title: tr('Look up', 'చూడండి'), items: [{ token: 'projects', key: 'navProjects' }, { token: 'districts', key: 'navDistrict' }, { token: 'money', key: 'navMoney' }, { token: 'investments', key: 'navInvest' }, { token: 'governments', key: 'navPeriods' }, { token: 'claims', key: 'navClaims' }] },
+    { title: tr('Look up', 'చూడండి'), items: [{ token: 'projects', key: 'navProjects' }, { token: 'districts', key: 'navDistrict' }, { token: 'money', key: 'navMoney' }, { token: 'investments', key: 'navInvest' }, { token: 'reports', key: 'navReports' }, { token: 'governments', key: 'navPeriods' }, { token: 'claims', key: 'navClaims' }] },
     { title: tr('The record', 'రికార్డు'), items: [{ token: 'papers', key: 'navPapers' }, { token: 'tenders', key: 'navTenders' }, { token: 'state-facts', key: 'navFacts' }, { token: 'money-states', key: 'navStates' }, { token: 'updates', key: 'navUpdates' }, { token: 'words', key: 'navWords' }] },
     { title: tr('Help and us', 'సహాయం, మేము'), items: [{ token: 'helplines', key: 'navHelp' }, { token: 'community', key: 'navCommunity' }, { token: 'sources', key: 'navSources' }, { token: 'about', key: 'navAbout' }, { token: 'disclaimer', key: 'navDisclaimer' }, { token: 'privacy', key: 'navPrivacy' }] },
   ]

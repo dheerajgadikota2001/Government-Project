@@ -21,6 +21,8 @@ const Departments = lazy(() => import('@/pages/Money'), (m) => m.Departments)
 const AllStates = lazy(() => import('@/pages/Money'), (m) => m.AllStates)
 const StateFacts = lazy(() => import('@/pages/StateFacts'), (m) => m.default)
 const Investments = lazy(() => import('@/pages/Investments'), (m) => m.default)
+const ReportsHub = lazy(() => import('@/pages/Reports'), (m) => m.default)
+const ReportPage = lazy(() => import('@/pages/Reports'), (m) => m.ReportPage)
 const Claims = lazy(() => import('@/pages/Claims'), (m) => m.default)
 const Papers = lazy(() => import('@/pages/Papers'), (m) => m.default)
 const Updates = lazy(() => import('@/pages/Papers'), (m) => m.Updates)
@@ -68,6 +70,8 @@ function Router() {
     case 'money-states': body = <AllStates />; break
     case 'state-facts': body = <StateFacts />; break
     case 'investments': body = <Investments />; break
+    case 'reports': body = <ReportsHub />; break
+    case 'report': body = <ReportPage slug={r.arg!} />; break
     case 'governments': body = <Periods />; break
     case 'claims': body = <Claims />; break
     case 'claim': body = <Claims focus={r.arg} />; break

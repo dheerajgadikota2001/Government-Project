@@ -47,17 +47,17 @@ export function setLinkLang(lang: UrlLang) {
 const PATHS: Record<string, string> = {
   home: '/', cards: '/cards', projects: '/projects', districts: '/districts', money: '/finances',
   'money-departments': '/finances/departments', 'money-states': '/states', 'state-facts': '/state-facts',
-  investments: '/investments', governments: '/governments', claims: '/factcheck', papers: '/documents',
+  investments: '/investments', reports: '/reports', governments: '/governments', claims: '/factcheck', papers: '/documents',
   updates: '/updates', tenders: '/tenders', helplines: '/contacts', words: '/words', community: '/community',
   sources: '/sources', about: '/about', disclaimer: '/disclaimer', privacy: '/privacy',
 }
 const PAGES: Record<string, string> = Object.fromEntries(Object.entries(PATHS).map(([k, v]) => [v, k]))
 // pages with an argument: token prefix -> path prefix
-const ARG: Record<string, string> = { project: '/projects/', district: '/districts/', claim: '/factcheck/', paper: '/paper/', doc: '/documents/', summit: '/investments/' }
+const ARG: Record<string, string> = { project: '/projects/', district: '/districts/', claim: '/factcheck/', paper: '/paper/', doc: '/documents/', summit: '/investments/', report: '/reports/' }
 
 export function parseToken(s: string): Route {
   if (!s) return { page: 'home' }
-  const m = s.match(/^(project|district|claim|paper|doc|summit)-(.+)$/)
+  const m = s.match(/^(project|district|claim|paper|doc|summit|report)-(.+)$/)
   if (m) return { page: m[1], arg: m[2] }
   return { page: s }
 }

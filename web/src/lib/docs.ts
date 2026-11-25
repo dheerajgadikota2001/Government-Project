@@ -258,12 +258,32 @@ export const summitName = (s: Summit): Bi => ({ en: s.name, te: SUMMIT_TE[s.key]
 export const summitTitle = (s: Summit): Bi => ({ en: `What did the ${s.name} announce?`, te: `${SUMMIT_TE[s.key] ?? s.name}లో ఏం ప్రకటించారు?` })
 /* What was reported about a summit, report by report, before the state publishes its own paper
    (src/data/summit_reports.json, checked by scripts/test_summit_reports.mjs). */
+type FindingSide = { report: string; group: string; label: Bi; big: Bi; sub: Bi }
 export type SummitReport = {
   checked: string; headline: Bi; description: Bi; official_check: Bi
-  reports: { id: string; outlet: string; byline: string; date: string; kind: 'press' | 'government'; url: string; speaker: Bi; quote: string }[]
+  /** date is null only when the page prints none; date_note then says so. */
+  reports: { id: string; outlet: string; byline: string; date: string | null; date_note?: Bi; kind: 'press' | 'government'; url: string; speaker: Bi; quote: string }[]
   figures: { group: string; report: string; crore: number; amount: Bi; mous: number | null; jobs: number | null; words: Bi }[]
   groups: { id: string; label: Bi; note: Bi }[]
-  companies: { name: string; crore: number; jobs: number | null; place: string | null; what: Bi; day: number; report: string; also?: Bi }[]
+  /** day is null when no report says which day. district is the place as printed, matched to one of the 28 (null when
+   *  none is printed). others are the same company as other reports print it, word for word. */
+  companies: { name: string; crore: number; jobs: number | null; place: string | null; district?: string | null; what: Bi; day: 1 | 2 | null; report: string; also?: Bi; others?: { report: string; words: Bi }[]
+    /** one: no other report prints it. agree: other reports print the same amount. differ: they print a different amount or place. */
+    check: 'one' | 'agree' | 'differ'
+    /** One of eight groups for colour and filtering on the dashboard; 'other' when the report names none that fits. */
+    sector: string }[]
+  companies_notes?: Bi[]
+  /** Sources we tried and could not read, said on the page so a reader knows what is missing. */
+  not_read?: Bi[]
+  /** The report's headline finding: two printed figures side by side, never a gap worked out by us. */
+  finding?: { title: Bi; note: Bi; before: FindingSide; after: FindingSide }
+  /** The dashboard's summary tiles: each shows one printed figure (its amount, or its jobs) and the figure to read it against. */
+  kpis?: { id: string; report: string; group: string; field: 'crore' | 'jobs'; label: Bi; compare?: { report: string; group: string; field: 'crore' | 'jobs'; label: Bi } }[]
+  /** A sector split as one report prints it. Two splits are never compared row by row: each groups sectors its own way. */
+  sectors?: { id: string; label: Bi; note: Bi; reports: string[]; total: { report: string; group: string } | null
+    rows: { name: Bi; crore: number; amount: Bi; words: Bi; report: string; mous: number | null; gos: number | null; jobs: number | null; sector: string }[] }[]
+  /** One subject on which reports print different figures, each reading as printed. */
+  differences?: { id: string; subject: Bi; note: Bi; readings: { report: string; words: Bi }[] }[]
   pipeline: { id: string; label: Bi; projects: number | null; readings: { crore: number; amount: Bi; report: string; words: Bi }[] }[]
   pipeline_notes: Bi[]; watch: Bi[]
 }

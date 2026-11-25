@@ -30,6 +30,7 @@ import { projectTab } from '@/lib/project-title'
 import { bigWorks } from '@/lib/bigworks'
 import { workPoster } from '@/three/posters'
 import { docDescription, isPressSummit, docFacts, docRecs, docSiblings, docTab, docTitle, kindOf, summitDescription, summitFacts, summitName, summitReport, summits, summitTitle, type DocRec } from '@/lib/docs'
+import { REPORTS, reportForSummit, type ReportEntry } from '@/lib/reports'
 import { CARD_NAME_MAX, CLAIM_Q, PAGE_WORDS, districtTitle, paperTitle, projectKey, projectQuestion, projectCardBase, projectQuestionTe, shortName, type Bi } from '@/lib/titles'
 
 export const ORIGIN = 'https://apfactcheck.dheeco.com'
@@ -89,6 +90,7 @@ const NAV: Line[] = [
   { text: { en: 'Projects', te: 'పనులు' }, href: P('projects') },
   { text: { en: 'My district', te: 'మా జిల్లా' }, href: P('districts') },
   { text: { en: 'Money', te: 'డబ్బు' }, href: P('money') },
+  { text: { en: 'Reports', te: 'నివేదికలు' }, href: P('reports') },
   { text: { en: 'Check a claim', te: 'నిజమేనా?' }, href: P('claims') },
   { text: { en: 'Government papers', te: 'ప్రభుత్వ పత్రాలు' }, href: P('papers') },
   { text: { en: 'Tenders', te: 'టెండర్లు' }, href: P('tenders') },
@@ -372,10 +374,45 @@ function summitReportLines(key: string): Line[] {
   }
   for (const st of x.pipeline) if (st.readings.length)
     lines.push({ text: { en: `${st.label.en}: ${st.readings.map((r) => `${r.words.en} (${R.get(r.report)!.outlet})`).join('; ')}`, te: `${st.label.te}: ${st.readings.map((r) => `${r.words.te} (${R.get(r.report)!.outlet})`).join('; ')}` } })
-  for (const c of x.companies) lines.push({ text: { en: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} lakh crore` : crore(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} jobs` : ''}, Day ${c.day}, as ${R.get(c.report)!.outlet} reported`, te: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} లక్షల కోట్లు` : croreTe(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} ఉద్యోగాలు` : ''}, ${c.day}వ రోజు, ${R.get(c.report)!.outlet} నివేదిక ప్రకారం` } })
+  for (const c of x.companies) lines.push({ text: { en: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} lakh crore` : crore(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} jobs` : ''}${c.place ? `, ${c.place}` : ''}, ${c.day ? `Day ${c.day}` : 'day not stated'}, as ${R.get(c.report)!.outlet} reported`, te: `${c.name}: ${c.crore >= 1e5 ? `₹${num(c.crore / 1e5)} లక్షల కోట్లు` : croreTe(c.crore, 0)}${c.jobs ? `, ${num(c.jobs, 0)} ఉద్యోగాలు` : ''}${c.place ? `, ${c.place}` : ''}, ${c.day ? `${c.day}వ రోజు` : 'రోజు చెప్పలేదు'}, ${R.get(c.report)!.outlet} నివేదిక ప్రకారం` } })
   for (const w of x.watch) lines.push({ text: w })
-  for (const r of x.reports) lines.push({ text: same(`${r.outlet}, ${r.date}: “${r.quote}”`), href: r.url, external: true })
+  for (const r of x.reports) lines.push({ text: same(`${r.outlet}, ${r.date ?? 'date not printed'}: “${r.quote}”`), href: r.url, external: true })
   return lines
+}
+
+/** The full report's own lines, beyond the summit page's: the sector splits, the places named and the differences. */
+function reportExtraLines(key: string): Line[] {
+  const x = summitReport(key)
+  if (!x) return []
+  const R = new Map(x.reports.map((r) => [r.id, r]))
+  const lines: Line[] = []
+  for (const sc of x.sectors ?? [])
+    lines.push({ text: { en: `${sc.label.en}: ${sc.rows.map((r) => `${r.name.en}, ${r.words.en}`).join('; ')}. ${sc.note.en}`, te: `${sc.label.te}: ${sc.rows.map((r) => `${r.name.te}, ${r.words.te}`).join('; ')}. ${sc.note.te}` } })
+  for (const d of x.differences ?? [])
+    lines.push({ text: { en: `${d.subject.en}: ${d.readings.map((r) => `${r.words.en} (${R.get(r.report)!.outlet})`).join('; ')}. ${d.note.en}`, te: `${d.subject.te}: ${d.readings.map((r) => `${r.words.te} (${R.get(r.report)!.outlet})`).join('; ')}. ${d.note.te}` } })
+  for (const n of [...(x.companies_notes ?? []), ...(x.not_read ?? [])]) lines.push({ text: n })
+  return lines
+}
+
+function reportPage(r: ReportEntry): PageOut {
+  const s = summits.find((x) => x.key === r.summit)
+  return {
+    card: { kind: 'place', tag: { en: 'Report', te: 'నివేదిక' }, title: r.title,
+      line: { en: `${r.card[0].amount.en}: ${r.card[0].what.en}. A promise, not money spent.`, te: `${r.card[0].amount.te}: ${r.card[0].what.te}. హామీ మాత్రమే, ఖర్చు కాదు.` },
+      source: { en: 'Newspaper reports, each named; the state has not published its list yet', te: 'వార్తా నివేదికలు, పేరుతో; రాష్ట్రం తన జాబితా ఇంకా ప్రచురించలేదు' } },
+    note: r.missing,
+    path: P('report', r.slug),
+    title: r.title,
+    description: r.description,
+    ld: [{ '@type': 'Report', name: r.title.en, url: ORIGIN + P('report', r.slug), about: 'Andhra Pradesh, India', datePublished: r.published, dateModified: r.checked, inLanguage: ['en', 'te'] }],
+    lines: [
+      ...r.card.map((f): Line => ({ text: { en: `${f.amount.en}: ${f.what.en}`, te: `${f.amount.te}: ${f.what.te}` } })),
+      ...summitReportLines(r.summit), ...reportExtraLines(r.summit),
+      ...(s ? [{ text: summitTitle(s), href: P('summit', s.key) }] : []),
+    ],
+    trail: [{ name: PAGE_WORDS.reports.title, path: P('reports') }],
+    lastmod: [r.published, r.checked].filter((d) => d <= TODAY).sort().pop() ?? TODAY,
+  }
 }
 
 function summitPage(s: (typeof summits)[number]): PageOut {
@@ -394,7 +431,7 @@ function summitPage(s: (typeof summits)[number]): PageOut {
     path: P('summit', s.key),
     title: t,
     description: summitDescription(s),
-    lines: [...summitReportLines(s.key), ...factLines(summitFacts(s))],
+    lines: [...(reportForSummit(s.key) ? [{ text: reportForSummit(s.key)!.title, href: P('report', reportForSummit(s.key)!.slug) }] : []), ...summitReportLines(s.key), ...factLines(summitFacts(s))],
     trail: [{ name: PAGE_WORDS.investments.title, path: P('investments') }],
     // A summit page changes when its reports are rechecked, not only when the summit ends.
     lastmod: [s.end_date.slice(0, 10), summitReport(s.key)?.checked ?? ''].filter((d) => d && d <= TODAY).sort().pop() ?? TODAY,
@@ -492,7 +529,7 @@ export function allPages(): PageOut[] {
     { text: { en: 'State facts from the Reserve Bank of India', te: 'రిజర్వ్ బ్యాంక్ నుంచి రాష్ట్ర గణాంకాలు' }, href: P('state-facts') },
   ]
   const out: PageOut[] = [
-    staticPage('home', [...NAV, ...largest(6).map((p): Line => ({ text: { en: `${projectKey(p).en}: ${crore(p.c)} as printed`, te: `${projectKey(p).te}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) })), ...debtLines(1), ...dlinks]),
+    staticPage('home', [...NAV, ...REPORTS.map((r): Line => ({ text: r.title, href: P('report', r.slug) })), ...largest(6).map((p): Line => ({ text: { en: `${projectKey(p).en}: ${crore(p.c)} as printed`, te: `${projectKey(p).te}: ముద్రించిన ${croreTe(p.c)}` }, href: P('project', String(p.id)) })), ...debtLines(1), ...dlinks]),
     staticPage('cards'),
     withLd(staticPage('projects', [{ text: { en: `${projects.filter((p) => !MERGED[p.id]).length} project records. The largest by printed cost:`, te: `${projects.filter((p) => !MERGED[p.id]).length} పనుల రికార్డులు. ముద్రించిన వ్యయం ప్రకారం పెద్దవి:` } }, ...big, { text: { en: 'Works by district:', te: 'జిల్లాల వారీగా పనులు:' } }, ...dlinks, ...(noDistrict.length ? [{ text: { en: 'Works that name no single district:', te: 'ఒకే జిల్లా పేరు లేని పనులు:' } }, ...noDistrict] : [])]), datasetNode()),
     staticPage('districts', dlinks),
@@ -500,7 +537,8 @@ export function allPages(): PageOut[] {
     withLd(staticPage('money-departments', [...departmentLines(), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]), moneyDatasets['money-departments']),
     staticPage('money-states', [...statesLines(), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]),
     withLd(staticPage('state-facts', rbiFactLines()), moneyDatasets['state-facts']),
-    staticPage('investments', summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))), staticPage('governments', [...periodLines(), ...moneyLinks.slice(2), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]),
+    staticPage('investments', [...REPORTS.map((r): Line => ({ text: r.title, href: P('report', r.slug) })), ...summits.map((s): Line => ({ text: summitTitle(s), href: P('summit', s.key) }))]),
+    staticPage('reports', REPORTS.flatMap((r): Line[] => [{ text: r.title, href: P('report', r.slug) }, { text: r.description }, ...r.card.map((f): Line => ({ text: { en: `${f.amount.en}: ${f.what.en}`, te: `${f.amount.te}: ${f.what.te}` } })), { text: r.missing }])), staticPage('governments', [...periodLines(), ...moneyLinks.slice(2), { text: { en: 'Debt, income and interest', te: 'అప్పు, ఆదాయం, వడ్డీ' }, href: P('money') }]),
     staticPage('claims', clinks),
     staticPage('papers', paperLinks), staticPage('tenders'), staticPage('updates'), staticPage('helplines'), staticPage('words'),
     staticPage('community'), staticPage('sources'), staticPage('about'), staticPage('disclaimer'), staticPage('privacy'),
@@ -510,6 +548,7 @@ export function allPages(): PageOut[] {
   for (const c of claims) out.push(claimPage(c))
   for (const d of docRecs) out.push(docPage(d))
   for (const s of summits) out.push(summitPage(s))
+  for (const r of REPORTS) out.push(reportPage(r))
   return distinctDescriptions(out)
 }
 

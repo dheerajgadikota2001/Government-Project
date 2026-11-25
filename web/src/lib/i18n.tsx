@@ -14,6 +14,7 @@ const STRINGS = {
   navDistrict: { en: 'My district', te: 'మా జిల్లా' },
   navMoney: { en: 'Money', te: 'డబ్బు' },
   navInvest: { en: 'Investment promises', te: 'పెట్టుబడి హామీలు' },
+  navReports: { en: 'Reports', te: 'నివేదికలు' },
   navClaims: { en: 'Check a claim', te: 'నిజమేనా?' },
   navPapers: { en: 'Government papers', te: 'ప్రభుత్వ పత్రాలు' },
   navPeriods: { en: 'Governments by period', te: 'ప్రభుత్వాల వారీగా' },

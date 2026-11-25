@@ -581,3 +581,24 @@ body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; }
    scripts/test_prerender.mjs fails if the two drift apart. */
 .pre[data-kind="project"] h1 { font-size: 32px; line-height: 1.08; letter-spacing: -0.025em; margin-top: 1rem; }
 @media (min-width: 768px) { .pre[data-kind="project"] h1 { font-size: 46px; } }
+
+/* ------------------------------------------------------------------
+   Data colours for dashboards (summit report). The eight-slot categorical palette from the
+   dataviz method, validated light and dark (scripts/validate_palette.js: every check passes;
+   three light slots sit under 3:1, so every coloured mark carries a printed label or value).
+   Colour marks identity only; text never takes these colours.
+   ------------------------------------------------------------------ */
+:root {
+  --viz-1: #2a78d6; --viz-2: #eb6834; --viz-3: #1baf7a; --viz-4: #eda100;
+  --viz-5: #e87ba4; --viz-6: #008300; --viz-7: #6250d6; --viz-8: #e34948; --viz-0: #a3a29c;
+}
+.dark {
+  --viz-1: #3987e5; --viz-2: #d95926; --viz-3: #199e70; --viz-4: #c98500;
+  --viz-5: #d55181; --viz-6: #0ca30c; --viz-7: #9085e9; --viz-8: #e66767; --viz-0: #6f6e69;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) {
+    --viz-1: #3987e5; --viz-2: #d95926; --viz-3: #199e70; --viz-4: #c98500;
+    --viz-5: #d55181; --viz-6: #0ca30c; --viz-7: #9085e9; --viz-8: #e66767; --viz-0: #6f6e69;
+  }
+}

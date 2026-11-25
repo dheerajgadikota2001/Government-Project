@@ -15,6 +15,8 @@ import { LiveGate } from '@/components/live-state'
 import { clean, crore, croreTe, dateLong, dateShort, dateTe, istDay, num } from '@/lib/format'
 import { ChartFrame, KindBadge, Section, StatusWord, Te } from '@/components/kit'
 import { CardWall } from '@/components/cards'
+import { ReportCard } from '@/components/report-card'
+import { REPORTS } from '@/lib/reports'
 import { Badge } from '@/components/ui/badge'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { DistrictPickerMap } from '@/components/DistrictPickerMap'
@@ -30,6 +32,7 @@ import polavaramCover from '@/assets/story-polavaram.webp'
 export default function HomeBelow() {
   return (
     <>
+      <LatestReport />
       <OnRecord />
       <CardWall />
       <Stories />
@@ -38,6 +41,23 @@ export default function HomeBelow() {
       <LatestClaim />
       <WhatsNew />
     </>
+  )
+}
+
+/* ---------------------------------------------------- the newest report */
+// The newest report leads the page below the hero: it is the one subject readers are asking about this week.
+function LatestReport() {
+  const { tr } = useLang()
+  const r = REPORTS[0]
+  if (!r) return null
+  return (
+    <section aria-labelledby="latest-report">
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="latest-report" className="text-[13px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{tr('New report', 'కొత్త నివేదిక')}</h2>
+        <a href={href('reports')} className="inline-flex items-center gap-1 text-[13.5px] font-medium text-muted-foreground hover:text-foreground">{tr('All reports', 'అన్ని నివేదికలు')}<ArrowRight className="size-3.5" /></a>
+      </div>
+      <ReportCard r={r} headingLevel={3} />
+    </section>
   )
 }
 

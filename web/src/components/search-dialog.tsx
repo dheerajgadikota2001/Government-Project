@@ -22,6 +22,8 @@ const PAGES = [
   { token: 'governments', en: 'Governments by period', te: 'ప్రభుత్వాల వారీగా', icon: CalendarRange, words: 'period chief minister government' },
   { token: 'state-facts', en: 'State facts: 83 indicators', te: 'రాష్ట్ర గణాంకాలు', icon: LayoutGrid, words: 'income economy population' },
   { token: 'investments', en: 'Investment promises (MoUs)', te: 'పెట్టుబడి హామీలు', icon: HandCoins, words: 'mou company jobs summit' },
+  { token: 'report-summit-2026', en: 'Partnership Summit 2026: the full report', te: 'భాగస్వామ్య సదస్సు 2026: పూర్తి నివేదిక', icon: BookOpen, words: 'summit cii partnership vizag visakhapatnam 2026 report mou reliance kia sector' },
+  { token: 'reports', en: 'Reports: one subject in full', te: 'నివేదికలు', icon: BookOpen, words: 'report summit in depth' },
   { token: 'claims', en: 'Check a claim', te: 'నిజమేనా?', icon: Scale, words: 'claim true false white paper' },
   { token: 'papers', en: 'Government papers', te: 'ప్రభుత్వ పత్రాలు', icon: FileText, words: 'documents gazette order' },
   { token: 'tenders', en: 'Tenders: what is being bought now', te: 'టెండర్లు', icon: FileText, words: 'tender bid contract' },

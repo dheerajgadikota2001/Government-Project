@@ -53,6 +53,10 @@ export const PAGE_WORDS: Record<string, PageWords> = {
     title: { en: 'Which company promises turned into investment?', te: 'ఏ పెట్టుబడి హామీలు నిజమయ్యాయి?' },
     description: { en: 'Investment promises (MoUs) announced for Andhra Pradesh, with what the record shows happened next. A promise is not money spent.', te: 'ఆంధ్రప్రదేశ్‌కు ప్రకటించిన పెట్టుబడి హామీలు (ఎంఓయూలు), తర్వాత ఏం జరిగిందో రికార్డు. హామీ అంటే ఖర్చు చేసిన డబ్బు కాదు.' },
   },
+  reports: {
+    title: { en: 'Reports: one subject at a time, checked figure by figure', te: 'నివేదికలు: ఒక్కో అంశం, ప్రతి అంకెనూ సరిచూసి' },
+    description: { en: 'Long reads on one subject in Andhra Pradesh, with every figure from the paper or report that printed it, and where they differ.', te: 'ఆంధ్రప్రదేశ్‌లో ఒక్కో అంశంపై పూర్తి నివేదిక. ప్రతి అంకె దాన్ని ముద్రించిన పత్రం లేదా నివేదిక నుంచే; అవి ఎక్కడ వేరో కూడా.' },
+  },
   governments: {
     title: { en: 'Governments of Andhra Pradesh, period by period', te: 'ఆంధ్రప్రదేశ్ ప్రభుత్వాలు, కాలాల వారీగా' },
     description: { en: 'What the record shows for each period, named by its dates and its Chief Minister, from official papers.', te: 'ప్రతి కాలానికి రికార్డు ఏం చూపుతోంది: తేదీలు, ముఖ్యమంత్రి పేరుతో, అధికారిక పత్రాల నుంచే.' },

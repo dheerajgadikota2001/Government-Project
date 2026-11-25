@@ -87,6 +87,18 @@ function HeroText({ center }: { center?: boolean }) {
 
 const POPULAR = [[613, 'Polavaram', 'పోలవరం'], [4, 'Amaravati', 'అమరావతి'], [3, 'Visakhapatnam Metro', 'విశాఖ మెట్రో'], [2, 'Bhogapuram airport', 'భోగాపురం విమానాశ్రయం']] as const
 
+// One line in the hero for the newest report, so a reader who came for the summit sees it before scrolling.
+// Its words are here, not read from the report's data, so the first screen downloads nothing more.
+function NewReport({ center }: { center?: boolean }) {
+  const { lang } = useLang()
+  return (
+    <a href={href('report-summit-2026')} className={cn('mt-4 flex w-fit max-w-full items-center gap-2 rounded-full border border-foreground/25 bg-card px-3 py-1.5 text-[13.5px] hover:border-foreground/50', center && 'mx-auto')}>
+      <span className="shrink-0 rounded-full bg-foreground px-2 py-0.5 text-[11.5px] font-semibold text-background">{lang === 'te' ? 'కొత్తది' : 'New'}</span>
+      <span className="min-w-0" lang={lang === 'te' ? 'te' : undefined}>{lang === 'te' ? 'భాగస్వామ్య సదస్సు 2026: పూర్తి నివేదిక' : 'Partnership Summit 2026: the full report'}</span>
+    </a>
+  )
+}
+
 function Popular({ center }: { center?: boolean }) {
   const { lang, tr } = useLang()
   return (
@@ -109,6 +121,7 @@ function HeroRecord() {
           <HeroText />
           <div className="mt-8"><SearchTrigger big onOpen={openSearch} /></div>
           <Popular />
+          <NewReport />
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <ListenButton />
             <span className="text-[13px] text-muted-foreground">{tr('Ask aloud in Telugu or English. Coming with the voice assistant.', 'తెలుగులో లేదా ఇంగ్లీషులో అడగండి. వాయిస్ సహాయకుడితో వస్తుంది.')}</span>
@@ -133,6 +146,7 @@ function HeroSearch() {
           <div className="mx-auto mt-9 max-w-2xl">
             <SearchTrigger big onOpen={openSearch} />
             <Popular center />
+            <NewReport center />
           </div>
         </BlurFade>
       </Page>

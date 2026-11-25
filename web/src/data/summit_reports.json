@@ -140,9 +140,320 @@
      "te": "కేంద్ర వాణిజ్య మంత్రి, ప్రారంభ సమావేశంలో"
     },
     "quote": "significant investment commitments lined up"
+   },
+   {
+    "id": "sf",
+    "outlet": "The South First",
+    "byline": "Sarath Chandra B",
+    "date": "2026-11-12",
+    "kind": "press",
+    "url": "https://thesouthfirst.com/andhrapradesh/kia-signs-mou-for-rs-18811-crore-manufacturing-plant-in-andhra-pradesh-production-set-for-2030/",
+    "speaker": {
+     "en": "The reporter, on the Kia agreement",
+     "te": "కియా ఒప్పందంపై విలేకరి"
+    },
+    "quote": "to invest ₹18,811 crore ($2 billion), along with its supply partners"
+   },
+   {
+    "id": "bt",
+    "outlet": "Business Today (with Reuters)",
+    "byline": "Business Today Desk",
+    "date": "2026-11-12",
+    "kind": "press",
+    "url": "https://www.businesstoday.in/latest/corporate/story/reliance-to-invest-rs-43000-crore-in-andhra-pradesh-for-coal-to-gas-plant-567099-2026-11-12",
+    "speaker": {
+     "en": "A draft MoU seen by Reuters",
+     "te": "రాయిటర్స్ చూసిన ముసాయిదా ఎంఓయూ"
+    },
+    "quote": "attract investments of up to ₹2.7 lakh crore over 30 years"
+   },
+   {
+    "id": "hans",
+    "outlet": "The Hans India",
+    "byline": "K Varaprasada Rao",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.thehansindia.com/news/cities/visakhapatnam/cii-partnership-summit-day-1-ap-clinches-rs-584l-cr-investment-pledges-1141599",
+    "speaker": {
+     "en": "The reporter, on the first day's signings",
+     "te": "మొదటి రోజు సంతకాలపై విలేకరి"
+    },
+    "quote": "investment commitments involving Rs 5,84,355 crore on the opening day"
+   },
+   {
+    "id": "etv_d1",
+    "outlet": "ETV Bharat",
+    "byline": "ETV Bharat English Team",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.etvbharat.com/en/state/visakhapatnam-investment-summit-andhra-govt-secures-over-rs-five-lakh-crore-investments-73-mous-signed-enn26111302267",
+    "speaker": {
+     "en": "The reporter, on the first day's signings",
+     "te": "మొదటి రోజు సంతకాలపై విలేకరి"
+    },
+    "quote": "taking the total investments to Rs 5,84,335 crore"
+   },
+   {
+    "id": "yv",
+    "outlet": "Yo! Vizag",
+    "byline": "Team Yo! Vizag",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.yovizag.com/kia-signs-mou-with-ap-govt-for-expansion/",
+    "speaker": {
+     "en": "The reporter, on the Kia agreement",
+     "te": "కియా ఒప్పందంపై విలేకరి"
+    },
+    "quote": "will invest Rs. 19,000 crore to expand its Penukonda manufacturing plant"
+   },
+   {
+    "id": "m9",
+    "outlet": "M9 News",
+    "byline": "Sreekar Chandra",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.m9.news/politics/nara-lokesh-105634-crore-investments-cii-summit/",
+    "speaker": {
+     "en": "The Telugu Desam Party's announcement, as the report says",
+     "te": "తెలుగుదేశం పార్టీ ప్రకటన, నివేదిక చెప్పినట్లు"
+    },
+    "quote": "According to the TDP's announcement, 24 companies signed Memorandums of Understanding (MoUs)"
+   },
+   {
+    "id": "uni2",
+    "outlet": "UNI",
+    "byline": "UNI",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.uniindia.com/business-economy/business-ap-cii-summit-mous-13dc3/243899",
+    "speaker": {
+     "en": "The reporter, on the second day's signings",
+     "te": "రెండో రోజు సంతకాలపై విలేకరి"
+    },
+    "quote": "involving proposed investments of Rs 1,40,705 crore"
+   },
+   {
+    "id": "nm",
+    "outlet": "Newsmeter",
+    "byline": "Newsmeter Network",
+    "date": "2026-11-14",
+    "kind": "press",
+    "url": "https://newsmeter.in/regional/andhra-pradesh/cii-summit-310-ap-receives-989l-cr-investment-commitment-vizag-to-be-it-hub-779280",
+    "speaker": {
+     "en": "The Chief Minister, at his media briefing after the summit",
+     "te": "సదస్సు తర్వాత విలేకరుల సమావేశంలో ముఖ్యమంత్రి"
+    },
+    "quote": "Andhra Pradesh has secured investment commitments worth Rs 9,88,957 crore"
+   },
+   {
+    "id": "bl",
+    "outlet": "BusinessLine, as carried by TradingView",
+    "byline": "Not printed",
+    "date": null,
+    "date_note": {
+     "en": "The page prints no date. It reports both summit days, so it is from 13 November or later.",
+     "te": "పేజీలో తేదీ లేదు. సదస్సు రెండు రోజులనూ నివేదిస్తుంది, కాబట్టి నవంబర్ 13 లేదా తర్వాతిది."
+    },
+    "kind": "press",
+    "url": "https://www.tradingview.com/news/moodys:4bcda335795a0:0-manufacturing-including-msmes-get-major-share-of-ap-s-new-investment-deals/",
+    "speaker": {
+     "en": "No speaker named",
+     "te": "మాట్లాడినవారి పేరు లేదు"
+    },
+    "quote": "envisaged investments of ₹9,88,544 crore and employment opportunities for 3,46,194 people"
+   },
+   {
+    "id": "sakshi",
+    "outlet": "Sakshi",
+    "byline": "Sakshi, Visakhapatnam",
+    "date": "2026-11-12",
+    "kind": "press",
+    "url": "https://www.sakshi.com/telugu-news/andhra-pradesh/cii-partnership-summit-2026-vizag-2958323",
+    "speaker": {
+     "en": "Government sources, as the paper reports them, on the morning of the first day",
+     "te": "మొదటి రోజు ఉదయం, పత్రిక పేర్కొన్న ప్రభుత్వ వర్గాలు"
+    },
+    "quote": "ఒక్క సదస్సు ద్వారానే రూ.10 లక్షల కోట్ల పెట్టుబడులు సాధించడమే లక్ష్యమని"
+   },
+   {
+    "id": "prabha",
+    "outlet": "Andhra Prabha",
+    "byline": "Nagamani Malligari",
+    "date": "2026-11-11",
+    "kind": "press",
+    "url": "https://prabhanews.com/visakhapatnam-cii-partnership-summit-2026-rs-11-lakh-crore-investments/",
+    "speaker": {
+     "en": "The district's minister in charge, the day before the summit",
+     "te": "సదస్సుకు ముందు రోజు జిల్లా ఇన్‌చార్జి మంత్రి"
+    },
+    "quote": "ఈ రెండు రోజుల సదస్సులో మరో రూ.11 లక్షల కోట్ల పెట్టుబడులకు"
+   },
+   {
+    "id": "aj_pre",
+    "outlet": "Andhra Jyothy",
+    "byline": "ABN",
+    "date": "2026-11-11",
+    "kind": "press",
+    "url": "https://www.andhrajyothy.com/2026/andhra-pradesh/ap-attracts-172-lakh-crore-investments-in-two-and-a-half-years-1575104.html",
+    "speaker": {
+     "en": "The state government's release, two days before the summit",
+     "te": "సదస్సుకు రెండు రోజుల ముందు రాష్ట్ర ప్రభుత్వ ప్రకటన"
+    },
+    "quote": "వీటి విలువ సుమారు రూ.17.2లక్షల కోట్లు ఉంటుందని"
+   },
+   {
+    "id": "ians_pre",
+    "outlet": "IANS, as published by ap7am",
+    "byline": "IANS",
+    "date": "2026-11-11",
+    "kind": "press",
+    "url": "https://www.ap7am.com/en/139191/mous-worth-rs-12-lakh-crore-to-be-signed-at-vizag-partnership-summit",
+    "speaker": {
+     "en": "An official release, the evening before the summit",
+     "te": "సదస్సుకు ముందు రోజు సాయంత్రం అధికారిక ప్రకటన"
+    },
+    "quote": "worth Rs 12,13,853.23 crore, with the potential to create 2,46,373 jobs"
+   },
+   {
+    "id": "aj_early",
+    "outlet": "Andhra Jyothy",
+    "byline": "ABN",
+    "date": "2026-11-12",
+    "kind": "press",
+    "url": "https://www.andhrajyothy.com/2026/andhra-pradesh/andhra-pradesh-investments-157607-crore-erk-1575623.html",
+    "speaker": {
+     "en": "The reporter, at 6 pm on the first day",
+     "te": "మొదటి రోజు సాయంత్రం 6 గంటలకు విలేకరి"
+    },
+    "quote": "మొత్తం రూ.1,57,607 కోట్ల విలువైన 35 ఒప్పందాలు జరగ్గా"
+   },
+   {
+    "id": "aj_d1",
+    "outlet": "Andhra Jyothy",
+    "byline": "ABN",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.andhrajyothy.com/2026/andhra-pradesh/andhra-pradesh-secures-584355-crore-investments-through-73-mous-1575789.html",
+    "speaker": {
+     "en": "The reporter, on the first day's signings",
+     "te": "మొదటి రోజు సంతకాలపై విలేకరి"
+    },
+    "quote": "73 ఎంఓయూలు.. 5,84,355 కోట్ల పెట్టుబడులు"
+   },
+   {
+    "id": "aj_start",
+    "outlet": "Andhra Jyothy",
+    "byline": "ABN",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.andhrajyothy.com/2026/andhra-pradesh/visakhapatnam/the-start-was-fantastic-1575732.html",
+    "speaker": {
+     "en": "The reporter, with companies speaking for their own MoUs",
+     "te": "విలేకరి; కంపెనీలు తమ ఎంఓయూల గురించి చెప్పాయి"
+    },
+    "quote": "తొలిరోజు రూ.5,84,345 కోట్ల పెట్టుబడులకు పారిశ్రామిక వేత్తలు 73 ఒప్పందాలు"
+   },
+   {
+    "id": "etv_te",
+    "outlet": "ETV Bharat Telugu",
+    "byline": "ETV Bharat Andhra Pradesh Team",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.etvbharat.com/te/state/over-1-lakh-crore-investment-pacts-signed-at-visakha-cii-summit-aps26111305572",
+    "speaker": {
+     "en": "The reporter, on the second day's signings",
+     "te": "రెండో రోజు సంతకాలపై విలేకరి"
+    },
+    "quote": "రూ.1,05,634 కోట్ల విలువైన పెట్టుబడుల ఒప్పందాలు జరిగాయి"
+   },
+   {
+    "id": "uni3",
+    "outlet": "UNI",
+    "byline": "UNI",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.uniindia.com/business-economy/business-ap-cii-summit-lead-cm/244763",
+    "speaker": {
+     "en": "The Chief Minister, at his press conference after the summit",
+     "te": "సదస్సు తర్వాత విలేకరుల సమావేశంలో ముఖ్యమంత్రి"
+    },
+    "quote": "secured investment commitments worth Rs 9,88,957 crore through 303 Memoranda of Understanding"
+   },
+   {
+    "id": "dc_tour",
+    "outlet": "Deccan Chronicle",
+    "byline": "DC Correspondent",
+    "date": "2026-11-13",
+    "kind": "press",
+    "url": "https://www.deccanchronicle.com/southern-states/andhra-pradesh/ap-signs-tourism-investment-deals-worth-1196-crore-at-cii-summit-2004188",
+    "speaker": {
+     "en": "The tourism minister, on the second day",
+     "te": "రెండో రోజు పర్యాటక మంత్రి"
+    },
+    "quote": "secured tourism investment commitments worth ₹1,196 crore through 10 memoranda"
    }
   ],
   "figures": [
+   {
+    "group": "expected",
+    "report": "ians_pre",
+    "crore": 1213853.23,
+    "amount": {
+     "en": "₹12,13,853.23 crore",
+     "te": "₹12,13,853.23 కోట్లు"
+    },
+    "mous": 141,
+    "jobs": 246373,
+    "words": {
+     "en": "141 MoUs and 30 government orders \"lined up\", ₹12,13,853.23 crore, 2,46,373 jobs",
+     "te": "సిద్ధంగా ఉన్నాయని చెప్పిన 141 ఎంఓయూలు, 30 ప్రభుత్వ ఉత్తర్వులు, ₹12,13,853.23 కోట్లు, 2,46,373 ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "expected",
+    "report": "aj_pre",
+    "crore": 1100000,
+    "amount": {
+     "en": "over ₹11 lakh crore",
+     "te": "₹11 లక్షల కోట్లకు పైగా"
+    },
+    "mous": 160,
+    "jobs": 250000,
+    "words": {
+     "en": "About 160 MoUs, ₹11 lakh crore and more, 2.5 lakh jobs, in the government release",
+     "te": "ప్రభుత్వ ప్రకటనలో సుమారు 160 ఎంఓయూలు, ₹11 లక్షల కోట్లకు పైగా, 2.5 లక్షల ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "expected",
+    "report": "prabha",
+    "crore": 1100000,
+    "amount": {
+     "en": "₹11 lakh crore",
+     "te": "₹11 లక్షల కోట్లు"
+    },
+    "mous": null,
+    "jobs": null,
+    "words": {
+     "en": "₹11 lakh crore in the two days, the minister in charge said",
+     "te": "రెండు రోజుల్లో ₹11 లక్షల కోట్లు అని ఇన్‌చార్జి మంత్రి చెప్పారు"
+    }
+   },
+   {
+    "group": "expected",
+    "report": "sakshi",
+    "crore": 1000000,
+    "amount": {
+     "en": "₹10 lakh crore",
+     "te": "₹10 లక్షల కోట్లు"
+    },
+    "mous": null,
+    "jobs": null,
+    "words": {
+     "en": "₹10 lakh crore from this summit alone, given as the government's goal",
+     "te": "ఈ ఒక్క సదస్సు నుంచే ₹10 లక్షల కోట్లు, ప్రభుత్వ లక్ష్యంగా"
+    }
+   },
    {
     "group": "both",
     "report": "tt",
@@ -201,6 +512,36 @@
     "words": {
      "en": "303 MoUs and ₹9.89 lakh crore, announced on 12 November, the first day, as MoUs the state \"will be signing\"",
      "te": "303 ఎంఓయూలు, ₹9.89 లక్షల కోట్లు; మొదటి రోజైన నవంబర్ 12న, రాష్ట్రం \"సంతకం చేయబోయే\" ఎంఓయూలుగా ప్రకటించారు"
+    }
+   },
+   {
+    "group": "both",
+    "report": "bl",
+    "crore": 988544,
+    "amount": {
+     "en": "₹9,88,544 crore",
+     "te": "₹9,88,544 కోట్లు"
+    },
+    "mous": 303,
+    "jobs": 346194,
+    "words": {
+     "en": "303 MoUs (109 at the summit, 194 at regional meetings), ₹9,88,544 crore, 3,46,194 jobs",
+     "te": "303 ఎంఓయూలు (సదస్సులో 109, ప్రాంతీయ సమావేశాల్లో 194), ₹9,88,544 కోట్లు, 3,46,194 ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "both",
+    "report": "uni3",
+    "crore": 988957,
+    "amount": {
+     "en": "₹9,88,957 crore",
+     "te": "₹9,88,957 కోట్లు"
+    },
+    "mous": 303,
+    "jobs": 348309,
+    "words": {
+     "en": "303 MoUs, ₹9,88,957 crore, 3,48,309 jobs, at the press conference after the summit",
+     "te": "సదస్సు తర్వాత విలేకరుల సమావేశంలో 303 ఎంఓయూలు, ₹9,88,957 కోట్లు, 3,48,309 ఉద్యోగాలు"
     }
    },
    {
@@ -279,6 +620,66 @@
     }
    },
    {
+    "group": "day1",
+    "report": "hans",
+    "crore": 584355,
+    "amount": {
+     "en": "₹5,84,355 crore",
+     "te": "₹5,84,355 కోట్లు"
+    },
+    "mous": 73,
+    "jobs": 107693,
+    "words": {
+     "en": "88 agreements (73 MoUs and 15 government orders), ₹5,84,355 crore, 1,07,693 jobs",
+     "te": "88 ఒప్పందాలు (73 ఎంఓయూలు, 15 ప్రభుత్వ ఉత్తర్వులు), ₹5,84,355 కోట్లు, 1,07,693 ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "day1",
+    "report": "etv_d1",
+    "crore": 584335,
+    "amount": {
+     "en": "₹5,84,335 crore",
+     "te": "₹5,84,335 కోట్లు"
+    },
+    "mous": 73,
+    "jobs": null,
+    "words": {
+     "en": "73 MoUs worth ₹5,35,113 crore and 15 government orders worth ₹49,242 crore; the total printed as ₹5,84,335 crore",
+     "te": "₹5,35,113 కోట్ల 73 ఎంఓయూలు, ₹49,242 కోట్ల 15 ప్రభుత్వ ఉత్తర్వులు; మొత్తం ₹5,84,335 కోట్లుగా ముద్రించింది"
+    }
+   },
+   {
+    "group": "day1",
+    "report": "aj_d1",
+    "crore": 584355,
+    "amount": {
+     "en": "₹5,84,355 crore",
+     "te": "₹5,84,355 కోట్లు"
+    },
+    "mous": 73,
+    "jobs": 107693,
+    "words": {
+     "en": "73 MoUs, ₹5,84,355 crore, 1,07,693 jobs; another part of the article prints ₹5,84,345 crore",
+     "te": "73 ఎంఓయూలు, ₹5,84,355 కోట్లు, 1,07,693 ఉద్యోగాలు; కథనంలో మరో చోట ₹5,84,345 కోట్లు"
+    }
+   },
+   {
+    "group": "day1",
+    "report": "aj_early",
+    "crore": 157607,
+    "amount": {
+     "en": "₹1,57,607 crore",
+     "te": "₹1,57,607 కోట్లు"
+    },
+    "mous": 30,
+    "jobs": 52956,
+    "words": {
+     "en": "35 agreements (30 MoUs and 5 government orders), ₹1,57,607 crore, 52,956 jobs, counted by 6 pm on the first day",
+     "te": "మొదటి రోజు సాయంత్రం 6 గంటల వరకు 35 ఒప్పందాలు (30 ఎంఓయూలు, 5 ప్రభుత్వ ఉత్తర్వులు), ₹1,57,607 కోట్లు, 52,956 ఉద్యోగాలు"
+    }
+   },
+   {
     "group": "day2",
     "report": "outlook",
     "crore": 140705,
@@ -309,6 +710,51 @@
     }
    },
    {
+    "group": "day2",
+    "report": "uni2",
+    "crore": 140705,
+    "amount": {
+     "en": "₹1,40,705 crore",
+     "te": "₹1,40,705 కోట్లు"
+    },
+    "mous": 11,
+    "jobs": 10472,
+    "words": {
+     "en": "11 MoUs, ₹1,40,705 crore, 10,472 jobs",
+     "te": "11 ఎంఓయూలు, ₹1,40,705 కోట్లు, 10,472 ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "day2",
+    "report": "m9",
+    "crore": 105634,
+    "amount": {
+     "en": "₹1,05,634 crore",
+     "te": "₹1,05,634 కోట్లు"
+    },
+    "mous": 24,
+    "jobs": 75055,
+    "words": {
+     "en": "24 companies, ₹1,05,634 crore, 75,055 jobs, from the Telugu Desam Party's announcement",
+     "te": "24 కంపెనీలు, ₹1,05,634 కోట్లు, 75,055 ఉద్యోగాలు; తెలుగుదేశం పార్టీ ప్రకటన నుంచి"
+    }
+   },
+   {
+    "group": "day2",
+    "report": "etv_te",
+    "crore": 105634,
+    "amount": {
+     "en": "₹1,05,634 crore",
+     "te": "₹1,05,634 కోట్లు"
+    },
+    "mous": 24,
+    "jobs": 75055,
+    "words": {
+     "en": "24 companies, ₹1,05,634 crore, 75,055 jobs",
+     "te": "24 కంపెనీలు, ₹1,05,634 కోట్లు, 75,055 ఉద్యోగాలు"
+    }
+   },
+   {
     "group": "regional",
     "report": "tt",
     "crore": 86522,
@@ -322,9 +768,50 @@
      "en": "194 MoUs, ₹86,522 crore, 1,47,951 jobs, at meetings from 7 to 26 October",
      "te": "అక్టోబర్ 7 నుంచి 26 వరకు సమావేశాల్లో 194 ఎంఓయూలు, ₹86,522 కోట్లు, 1,47,951 ఉద్యోగాలు"
     }
+   },
+   {
+    "group": "regional",
+    "report": "ians_pre",
+    "crore": 86522.07,
+    "amount": {
+     "en": "₹86,522.07 crore",
+     "te": "₹86,522.07 కోట్లు"
+    },
+    "mous": 194,
+    "jobs": 147951,
+    "words": {
+     "en": "194 MoUs, ₹86,522.07 crore, 1,47,951 jobs, in the release before the summit",
+     "te": "సదస్సుకు ముందు ప్రకటనలో 194 ఎంఓయూలు, ₹86,522.07 కోట్లు, 1,47,951 ఉద్యోగాలు"
+    }
+   },
+   {
+    "group": "regional",
+    "report": "aj_pre",
+    "crore": 85561,
+    "amount": {
+     "en": "₹85,561 crore",
+     "te": "₹85,561 కోట్లు"
+    },
+    "mous": 195,
+    "jobs": 156241,
+    "words": {
+     "en": "195 MoUs, ₹85,561 crore, 1,56,241 jobs, in the government release two days before the summit",
+     "te": "సదస్సుకు రెండు రోజుల ముందు ప్రభుత్వ ప్రకటనలో 195 ఎంఓయూలు, ₹85,561 కోట్లు, 1,56,241 ఉద్యోగాలు"
+    }
    }
   ],
   "groups": [
+   {
+    "id": "expected",
+    "label": {
+     "en": "Expected before the summit began, 10 to 12 November",
+     "te": "సదస్సు మొదలవక ముందు ఆశించినది, నవంబర్ 10 నుంచి 12"
+    },
+    "note": {
+     "en": "These are figures the government and its ministers gave before any signing. The official release counted MoUs and government orders together; the ministers gave round figures. Compare them with what was announced after the summit, below.",
+     "te": "ఏ సంతకమూ జరగక ముందు ప్రభుత్వం, మంత్రులు ఇచ్చిన అంకెలు ఇవి. అధికారిక ప్రకటన ఎంఓయూలు, ప్రభుత్వ ఉత్తర్వులు కలిపి లెక్కించింది; మంత్రులు రౌండ్ అంకెలు చెప్పారు. సదస్సు తర్వాత ప్రకటించినవాటితో కింద పోల్చి చూడండి."
+    }
+   },
    {
     "id": "both",
     "label": {
@@ -332,8 +819,8 @@
      "te": "సదస్సు, అక్టోబర్ ప్రాంతీయ సమావేశాలు కలిపి"
     },
     "note": {
-     "en": "Four reports of the same total. The Chief Minister's words are ₹9,88,957 crore; ETV Bharat prints ₹9,89,006 crore without naming a speaker. The News Minute's headline says 9.98, but its own article gives the Chief Minister's 9.89. The same 303 and ₹9.89 lakh crore were announced on the first afternoon, as MoUs the state \"will be signing\", before the second day's signings.",
-     "te": "ఒకే మొత్తానికి నాలుగు నివేదికలు. ముఖ్యమంత్రి మాటల్లో ₹9,88,957 కోట్లు; ఈటీవీ భారత్ ఎవరి పేరూ చెప్పకుండా ₹9,89,006 కోట్లు అని ముద్రించింది. ద న్యూస్ మినిట్ శీర్షిక 9.98 అంటుంది, కానీ దాని కథనమే ముఖ్యమంత్రి చెప్పిన 9.89 ఇస్తుంది. అదే 303, ₹9.89 లక్షల కోట్లను మొదటి రోజు మధ్యాహ్నమే, రాష్ట్రం \"సంతకం చేయబోయే\" ఎంఓయూలుగా, రెండో రోజు సంతకాలకు ముందే ప్రకటించారు."
+     "en": "Six reports of the same total. The Chief Minister's words are ₹9,88,957 crore; UNI and Newsmeter printed the same figures from his press conference after the summit. ETV Bharat prints ₹9,89,006 crore and BusinessLine ₹9,88,544 crore, neither naming a speaker. The News Minute's headline says 9.98, but its own article gives 9.89. The same 303 and ₹9.89 lakh crore were announced on the first afternoon, as MoUs the state \"will be signing\".",
+     "te": "ఒకే మొత్తానికి ఆరు నివేదికలు. ముఖ్యమంత్రి మాటల్లో ₹9,88,957 కోట్లు; సదస్సు తర్వాత ఆయన విలేకరుల సమావేశం నుంచి యూఎన్ఐ, న్యూస్‌మీటర్ అవే అంకెలు ముద్రించాయి. ఈటీవీ భారత్ ₹9,89,006 కోట్లు, బిజినెస్‌లైన్ ₹9,88,544 కోట్లు అని ముద్రించాయి; రెండూ మాట్లాడినవారి పేరు చెప్పలేదు. ద న్యూస్ మినిట్ శీర్షిక 9.98 అంటుంది, కానీ దాని కథనమే 9.89 ఇస్తుంది. అదే 303, ₹9.89 లక్షల కోట్లను మొదటి రోజు మధ్యాహ్నమే, రాష్ట్రం \"సంతకం చేయబోయే\" ఎంఓయూలుగా ప్రకటించారు."
     }
    },
    {
@@ -365,8 +852,8 @@
      "te": "మొదటి రోజు మాత్రమే, నవంబర్ 12"
     },
     "note": {
-     "en": "This count mixes MoUs with government orders: 73 MoUs worth ₹5.35 lakh crore and 15 orders worth ₹49,242 crore, as printed.",
-     "te": "ఈ లెక్కలో ఎంఓయూలు, ప్రభుత్వ ఉత్తర్వులు కలిసి ఉన్నాయి: ముద్రించినట్లు ₹5.35 లక్షల కోట్ల 73 ఎంఓయూలు, ₹49,242 కోట్ల 15 ఉత్తర్వులు."
+     "en": "All the full-day reports count 73 MoUs and 15 government orders together; the orders are worth ₹49,242 crore. The Hans India and Andhra Jyothy print the day as ₹5,84,355 crore; ETV Bharat prints ₹5,84,335 crore, and Andhra Jyothy also prints ₹5,84,345 crore in another part of its report. Andhra Jyothy's ₹1,57,607 crore was counted at 6 pm, before the day's signings ended.",
+     "te": "పూర్తి రోజు నివేదికలన్నీ 73 ఎంఓయూలు, 15 ప్రభుత్వ ఉత్తర్వులు కలిపి లెక్కిస్తాయి; ఉత్తర్వుల విలువ ₹49,242 కోట్లు. ద హన్స్ ఇండియా, ఆంధ్రజ్యోతి ఆ రోజును ₹5,84,355 కోట్లుగా ముద్రించాయి; ఈటీవీ భారత్ ₹5,84,335 కోట్లు అని ముద్రించింది; ఆంధ్రజ్యోతి తన కథనంలో మరో చోట ₹5,84,345 కోట్లు అని కూడా ముద్రించింది. ఆంధ్రజ్యోతి ₹1,57,607 కోట్లను సాయంత్రం 6 గంటలకు, ఆ రోజు సంతకాలు ముగియక ముందే లెక్కించింది."
     }
    },
    {
@@ -376,8 +863,8 @@
      "te": "రెండో రోజు మాత్రమే, నవంబర్ 13"
     },
     "note": {
-     "en": "Two reports of the same day disagree. One counts 11 MoUs; the other counts deals with 24 companies. Neither lists them all.",
-     "te": "ఒకే రోజుపై రెండు నివేదికలు ఏకీభవించవు. ఒకటి 11 ఎంఓయూలు అంటుంది; మరొకటి 24 కంపెనీలతో ఒప్పందాలు అంటుంది. ఏదీ అన్నింటినీ జాబితా చేయలేదు."
+     "en": "The reports describe two different sets. Outlook and UNI: 11 MoUs signed before the Chief Minister, plus one government order. M9 News, ETV Bharat Telugu and Business Standard: 24 companies that signed before minister Nara Lokesh; M9 lists all 24, from the Telugu Desam Party's announcement. No report says whether the two sets overlap. Separately, the tourism minister announced 10 MoUs and 2 orders worth ₹1,196 crore (Deccan Chronicle).",
+     "te": "నివేదికలు రెండు వేర్వేరు జాబితాలను చెబుతున్నాయి. అవుట్‌లుక్, యూఎన్ఐ: ముఖ్యమంత్రి సమక్షంలో 11 ఎంఓయూలు, ఒక ప్రభుత్వ ఉత్తర్వు. ఎం9 న్యూస్, ఈటీవీ భారత్ తెలుగు, బిజినెస్ స్టాండర్డ్: మంత్రి నారా లోకేష్ సమక్షంలో 24 కంపెనీలు; ఎం9 తెలుగుదేశం పార్టీ ప్రకటన నుంచి 24 పేర్లనూ ఇచ్చింది. రెండు జాబితాల్లో ఒకటే ఒప్పందాలు ఉన్నాయో లేదో ఏ నివేదికా చెప్పలేదు. విడిగా, పర్యాటక మంత్రి ₹1,196 కోట్ల 10 ఎంఓయూలు, 2 ఉత్తర్వులు ప్రకటించారు (డెక్కన్ క్రానికల్)."
     }
    },
    {
@@ -387,8 +874,8 @@
      "te": "ప్రాంతీయ సమావేశాలు మాత్రమే, అక్టోబర్ 7 నుంచి 26"
     },
     "note": {
-     "en": "Signed at meetings in other cities before the summit, and counted into the Chief Minister's total.",
-     "te": "సదస్సుకు ముందు ఇతర నగరాల్లోని సమావేశాల్లో సంతకమైనవి; ముఖ్యమంత్రి మొత్తంలో లెక్కించారు."
+     "en": "Signed at five meetings in other cities from 7 to 26 October, and counted into the Chief Minister's total. Two releases before the summit gave two different counts: 194 MoUs worth ₹86,522.07 crore, and 195 MoUs worth ₹85,561 crore.",
+     "te": "అక్టోబర్ 7 నుంచి 26 వరకు ఇతర నగరాల్లో ఐదు సమావేశాల్లో సంతకమైనవి; ముఖ్యమంత్రి మొత్తంలో లెక్కించారు. సదస్సుకు ముందు రెండు ప్రకటనలు రెండు వేర్వేరు లెక్కలు ఇచ్చాయి: ₹86,522.07 కోట్ల 194 ఎంఓయూలు, ₹85,561 కోట్ల 195 ఎంఓయూలు."
     }
    }
   ],
@@ -403,7 +890,26 @@
      "te": "సాధారణ తయారీ"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "east-godavari",
+    "others": [
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹2,73,000 crore, 5,000 jobs, East Godavari",
+       "te": "₹2,73,000 కోట్లు, 5,000 ఉద్యోగాలు, తూర్పు గోదావరి"
+      }
+     },
+     {
+      "report": "bt",
+      "words": {
+       "en": "A separate draft MoU for coal gasification: about ₹43,000 crore, up to ₹2.7 lakh crore over 30 years, coal blocks in Eluru district. The report does not call it a summit MoU.",
+       "te": "బొగ్గు వాయువీకరణకు వేరే ముసాయిదా ఎంఓయూ: సుమారు ₹43,000 కోట్లు, 30 ఏళ్లలో ₹2.7 లక్షల కోట్ల వరకు, ఏలూరు జిల్లాలో బొగ్గు బ్లాకులు. దీన్ని సదస్సు ఎంఓయూ అని నివేదిక చెప్పలేదు."
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "manufacturing"
    },
    {
     "name": "Greenko Energies",
@@ -411,11 +917,15 @@
     "jobs": null,
     "place": "Several districts",
     "what": {
-     "en": "Sector not stated",
-     "te": "రంగం చెప్పలేదు"
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "energy"
    },
    {
     "name": "Clean Max Enviro Energy Solutions",
@@ -423,11 +933,27 @@
     "jobs": null,
     "place": null,
     "what": {
-     "en": "Sector not stated",
-     "te": "రంగం చెప్పలేదు"
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": null,
+    "others": [
+     {
+      "report": "aj_start",
+      "words": {
+       "en": "₹42,000 crore, Sri Sathya Sai and Anantapur districts, in the company’s own words",
+       "te": "కంపెనీ మాటల్లో ₹42,000 కోట్లు, శ్రీ సత్యసాయి, అనంతపురం జిల్లాలు"
+      }
+     }
+    ],
+    "also": {
+     "en": "M9 News also lists CleanMax on Day 2, at ₹8,000 crore and 50 jobs.",
+     "te": "ఎం9 న్యూస్ రెండో రోజు కూడా క్లీన్‌మ్యాక్స్‌ను ₹8,000 కోట్లు, 50 ఉద్యోగాలతో చూపింది."
+    },
+    "check": "differ",
+    "sector": "energy"
    },
    {
     "name": "Megha Engineering and Infrastructure",
@@ -435,11 +961,23 @@
     "jobs": null,
     "place": "Krishna",
     "what": {
-     "en": "Sector not stated",
-     "te": "రంగం చెప్పలేదు"
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "krishna",
+    "others": [
+     {
+      "report": "aj_early",
+      "words": {
+       "en": "3 MoUs, ₹39,400 crore, 12,940 jobs, by 6 pm on the first day",
+       "te": "మొదటి రోజు సాయంత్రం 6 గంటల వరకు 3 ఎంఓయూలు, ₹39,400 కోట్లు, 12,940 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "energy"
    },
    {
     "name": "Kia India",
@@ -451,7 +989,33 @@
      "te": "వాహన ప్లాంట్ విస్తరణ"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "sri-sathya-sai",
+    "others": [
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹18,878 crore, 12,000 jobs, Penukonda, Sri Sathya Sai district",
+       "te": "₹18,878 కోట్లు, 12,000 ఉద్యోగాలు, పెనుకొండ, శ్రీ సత్యసాయి జిల్లా"
+      }
+     },
+     {
+      "report": "sf",
+      "words": {
+       "en": "₹18,811 crore with its supply partners, 12,000 jobs, Erramanchi, Sri Sathya Sai district",
+       "te": "సరఫరా భాగస్వాములతో ₹18,811 కోట్లు, 12,000 ఉద్యోగాలు, ఎర్రమంచి, శ్రీ సత్యసాయి జిల్లా"
+      }
+     },
+     {
+      "report": "yv",
+      "words": {
+       "en": "₹19,000 crore, 12,000 jobs, Penukonda, which it places in Anantapur district",
+       "te": "₹19,000 కోట్లు, 12,000 ఉద్యోగాలు, పెనుకొండ; అనంతపురం జిల్లాలో అని పేర్కొంది"
+      }
+     }
+    ],
+    "check": "differ",
+    "sector": "vehicles"
    },
    {
     "name": "Rashmi Metallurgical Industry",
@@ -459,11 +1023,15 @@
     "jobs": null,
     "place": "Srikakulam",
     "what": {
-     "en": "Sector not stated",
-     "te": "రంగం చెప్పలేదు"
+     "en": "Manufacturing",
+     "te": "తయారీ"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "srikakulam",
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
    },
    {
     "name": "JSW Group",
@@ -471,15 +1039,27 @@
     "jobs": null,
     "place": "Kadapa",
     "what": {
-     "en": "Sector not stated",
-     "te": "రంగం చెప్పలేదు"
+     "en": "Manufacturing",
+     "te": "తయారీ"
     },
     "day": 1,
     "report": "week",
     "also": {
      "en": "Outlook lists JSW Steels at ₹15,000 crore on Day 2.",
      "te": "అవుట్‌లుక్ జేఎస్‌డబ్ల్యూ స్టీల్స్‌ను రెండో రోజు ₹15,000 కోట్లతో చూపింది."
-    }
+    },
+    "district": "ysr-kadapa",
+    "others": [
+     {
+      "report": "bl",
+      "words": {
+       "en": "₹15,000 crore, Prakasam",
+       "te": "₹15,000 కోట్లు, ప్రకాశం"
+      }
+     }
+    ],
+    "check": "differ",
+    "sector": "manufacturing"
    },
    {
     "name": "GAIL India",
@@ -491,7 +1071,33 @@
      "te": "రసాయనాలు, పెట్రో రసాయనాలు"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "srikakulam",
+    "others": [
+     {
+      "report": "etv_d1",
+      "words": {
+       "en": "₹13,500 crore, Srikakulam",
+       "te": "₹13,500 కోట్లు, శ్రీకాకుళం"
+      }
+     },
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹13,500 crore, Srikakulam",
+       "te": "₹13,500 కోట్లు, శ్రీకాకుళం"
+      }
+     },
+     {
+      "report": "aj_d1",
+      "words": {
+       "en": "₹13,500 crore, Srikakulam",
+       "te": "₹13,500 కోట్లు, శ్రీకాకుళం"
+      }
+     }
+    ],
+    "check": "differ",
+    "sector": "chemicals"
    },
    {
     "name": "fabrIQ (Analog and MEIL)",
@@ -503,7 +1109,11 @@
      "te": "ఎలక్ట్రానిక్స్, సెమీకండక్టర్లు"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "digital"
    },
    {
     "name": "Hero MotoCorp",
@@ -515,7 +1125,11 @@
      "te": "వాహనాలు"
     },
     "day": 1,
-    "report": "week"
+    "report": "week",
+    "district": "tirupati",
+    "others": [],
+    "check": "one",
+    "sector": "vehicles"
    },
    {
     "name": "Panchshil Realty",
@@ -527,7 +1141,19 @@
      "te": "భారీ డేటా సెంటర్"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹37,000 crore, 32,000 jobs",
+       "te": "₹37,000 కోట్లు, 32,000 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "digital"
    },
    {
     "name": "AM AI Factory",
@@ -539,7 +1165,19 @@
      "te": "ఏఐ డేటా సెంటర్"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹31,387 crore, 1,000 jobs",
+       "te": "₹31,387 కోట్లు, 1,000 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "digital"
    },
    {
     "name": "JSW Steels",
@@ -555,7 +1193,11 @@
     "also": {
      "en": "The Week lists JSW Group at ₹15,000 crore in Kadapa on Day 1.",
      "te": "ద వీక్ జేఎస్‌డబ్ల్యూ గ్రూప్‌ను మొదటి రోజు కడపలో ₹15,000 కోట్లతో చూపింది."
-    }
+    },
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
    },
    {
     "name": "Waaree Energies",
@@ -567,7 +1209,19 @@
      "te": "రంగం చెప్పలేదు"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹10,000 crore, 1,000 jobs",
+       "te": "₹10,000 కోట్లు, 1,000 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "other"
    },
    {
     "name": "Greenzone Renewable Energy",
@@ -579,7 +1233,11 @@
      "te": "పునరుత్పాదక శక్తి"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "energy"
    },
    {
     "name": "Indian Oil Corporation",
@@ -591,7 +1249,11 @@
      "te": "పునరుత్పాదక శక్తి"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "energy"
    },
    {
     "name": "Kakinada Seaports",
@@ -603,7 +1265,11 @@
      "te": "ఓడరేవులు, నౌకా నిర్మాణం"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "other"
    },
    {
     "name": "Smax Digitech India (AP Sports Village)",
@@ -615,7 +1281,26 @@
      "te": "క్రీడా గ్రామం"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹4,270 crore, 8,000 jobs",
+       "te": "₹4,270 కోట్లు, 8,000 ఉద్యోగాలు"
+      }
+     },
+     {
+      "report": "etv_te",
+      "words": {
+       "en": "₹4,270 crore and 8,000 jobs in its list; ₹5,770 crore in its text",
+       "te": "జాబితాలో ₹4,270 కోట్లు, 8,000 ఉద్యోగాలు; కథనంలో ₹5,770 కోట్లు"
+      }
+     }
+    ],
+    "check": "differ",
+    "sector": "other"
    },
    {
     "name": "Archean Group",
@@ -627,7 +1312,19 @@
      "te": "రంగం చెప్పలేదు"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹2,000 crore, 1,200 jobs, spelt Archian",
+       "te": "₹2,000 కోట్లు, 1,200 ఉద్యోగాలు, ఆర్కియన్ అని రాసింది"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "other"
    },
    {
     "name": "Hindalco Industries (a government order, not an MoU)",
@@ -639,7 +1336,11 @@
      "te": "విస్తరణ"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "chemicals"
    },
    {
     "name": "Agnikul Cosmos",
@@ -651,7 +1352,11 @@
      "te": "ఏరోస్పేస్, రక్షణ"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "defence"
    },
    {
     "name": "AIL Dixon Technologies",
@@ -663,7 +1368,19 @@
      "te": "రంగం చెప్పలేదు"
     },
     "day": 2,
-    "report": "bs"
+    "report": "bs",
+    "district": null,
+    "others": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹450 crore, 7,000 jobs",
+       "te": "₹450 కోట్లు, 7,000 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "agree",
+    "sector": "other"
    },
    {
     "name": "Hathor Rockets",
@@ -675,7 +1392,11 @@
      "te": "ఏరోస్పేస్, రక్షణ"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "defence"
    },
    {
     "name": "EIH Limited",
@@ -687,7 +1408,567 @@
      "te": "రాజధాని ప్రాంత అథారిటీ (ఏపీసీఆర్‌డీఏ) పరిధిలో"
     },
     "day": 2,
-    "report": "outlook"
+    "report": "outlook",
+    "district": null,
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "NAN Magnetech",
+    "crore": 3000,
+    "jobs": null,
+    "place": "Nellore",
+    "district": "sri-potti-sriramulu-nellore",
+    "what": {
+     "en": "Manufacturing",
+     "te": "తయారీ"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
+   },
+   {
+    "name": "SLN Coffee",
+    "crore": 2500,
+    "jobs": null,
+    "place": "Nellore",
+    "district": "sri-potti-sriramulu-nellore",
+    "what": {
+     "en": "Food processing",
+     "te": "ఆహార శుద్ధి"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "food"
+   },
+   {
+    "name": "NAN Siliox Greenmet",
+    "crore": 1800,
+    "jobs": null,
+    "place": "Tirupati",
+    "district": "tirupati",
+    "what": {
+     "en": "Manufacturing",
+     "te": "తయారీ"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
+   },
+   {
+    "name": "Hindustan Coca-Cola Beverages (a government order, not an MoU)",
+    "crore": 1127,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Food processing",
+     "te": "ఆహార శుద్ధి"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "food"
+   },
+   {
+    "name": "Astrobase Space Technologies",
+    "crore": 800,
+    "jobs": null,
+    "place": "Sri Sathya Sai",
+    "district": "sri-sathya-sai",
+    "what": {
+     "en": "Aerospace and defence",
+     "te": "ఏరోస్పేస్, రక్షణ"
+    },
+    "day": 1,
+    "report": "week",
+    "others": [],
+    "also": {
+     "en": "ETV Bharat spells it Astrowaves Space Technologies, at the same ₹800 crore.",
+     "te": "ఈటీవీ భారత్ అదే ₹800 కోట్లతో ఆస్ట్రోవేవ్స్ స్పేస్ టెక్నాలజీస్ అని రాసింది."
+    },
+    "check": "one",
+    "sector": "defence"
+   },
+   {
+    "name": "MNL Solutions",
+    "crore": 750,
+    "jobs": null,
+    "place": "Prakasam",
+    "district": "prakasam",
+    "what": {
+     "en": "Vehicles",
+     "te": "వాహనాలు"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "vehicles"
+   },
+   {
+    "name": "Vajrashakti Ventures",
+    "crore": 500,
+    "jobs": null,
+    "place": "Nellore",
+    "district": "sri-potti-sriramulu-nellore",
+    "what": {
+     "en": "Aerospace and defence",
+     "te": "ఏరోస్పేస్, రక్షణ"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "defence"
+   },
+   {
+    "name": "Aditya Precitech (a government order, not an MoU)",
+    "crore": 500,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Defence: missiles, loitering munitions and drones",
+     "te": "రక్షణ: క్షిపణులు, లాయిటరింగ్ మ్యూనిషన్లు, డ్రోన్లు"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "defence"
+   },
+   {
+    "name": "Sri Vasudha Foods",
+    "crore": 400,
+    "jobs": null,
+    "place": "Anantapur",
+    "district": "ananthapuramu",
+    "what": {
+     "en": "Food processing",
+     "te": "ఆహార శుద్ధి"
+    },
+    "day": 1,
+    "report": "etv_d1",
+    "others": [],
+    "check": "one",
+    "sector": "food"
+   },
+   {
+    "name": "Kaynes Technology India",
+    "crore": 3145,
+    "jobs": 2000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Electronics",
+     "te": "ఎలక్ట్రానిక్స్"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "digital"
+   },
+   {
+    "name": "KIMS Hospitals",
+    "crore": 1500,
+    "jobs": 2000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Health care",
+     "te": "వైద్యం"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Smax Digitech India (district sports clubs and arenas)",
+    "crore": 1500,
+    "jobs": 3000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sports",
+     "te": "క్రీడలు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Yodha Healthcare and Hospitals",
+    "crore": 1359,
+    "jobs": 4925,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Health care",
+     "te": "వైద్యం"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Cyient DLM with Hindustan Shipyard",
+    "crore": 1000,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Sub State Manufacturing India",
+    "crore": 931,
+    "jobs": 4000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Manufacturing",
+     "te": "తయారీ"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
+   },
+   {
+    "name": "SALVO Industries",
+    "crore": 800,
+    "jobs": 2000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "EPACK Data Centre Solutions",
+    "crore": 570,
+    "jobs": 2565,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Data centre",
+     "te": "డేటా సెంటర్"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "digital"
+   },
+   {
+    "name": "Bellatrix Aerospace",
+    "crore": 550,
+    "jobs": 565,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Aerospace and defence",
+     "te": "ఏరోస్పేస్, రక్షణ"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "defence"
+   },
+   {
+    "name": "IG Defence",
+    "crore": 500,
+    "jobs": 1000,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Aerospace and defence",
+     "te": "ఏరోస్పేస్, రక్షణ"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "defence"
+   },
+   {
+    "name": "PVS Rammohan Healthcare",
+    "crore": 312,
+    "jobs": 1500,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Health care",
+     "te": "వైద్యం"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Infinity",
+    "crore": 250,
+    "jobs": 1100,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Samudra Surya",
+    "crore": 100,
+    "jobs": 50,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Office Space Solutions",
+    "crore": 10,
+    "jobs": 100,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 2,
+    "report": "m9",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "AirTrunk and JCK Infra",
+    "crore": 103018,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Data centre",
+     "te": "డేటా సెంటర్"
+    },
+    "day": null,
+    "report": "bl",
+    "others": [],
+    "check": "one",
+    "sector": "digital"
+   },
+   {
+    "name": "Innovation Platform Capital",
+    "crore": 52000,
+    "jobs": null,
+    "place": "Krishna",
+    "district": "krishna",
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": null,
+    "report": "bl",
+    "others": [],
+    "check": "one",
+    "sector": "other"
+   },
+   {
+    "name": "Adani Group",
+    "crore": 50000,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Chemicals",
+     "te": "రసాయనాలు"
+    },
+    "day": null,
+    "report": "bl",
+    "others": [],
+    "check": "one",
+    "sector": "chemicals"
+   },
+   {
+    "name": "Welspun",
+    "crore": 34000,
+    "jobs": null,
+    "place": "Chittoor",
+    "district": "chittoor",
+    "what": {
+     "en": "Textiles",
+     "te": "వస్త్రాలు"
+    },
+    "day": null,
+    "report": "bl",
+    "others": [
+     {
+      "report": "aj_early",
+      "words": {
+       "en": "₹2,500 crore, 3,500 jobs, in the first day’s list",
+       "te": "మొదటి రోజు జాబితాలో ₹2,500 కోట్లు, 3,500 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "check": "differ",
+    "sector": "manufacturing"
+   },
+   {
+    "name": "Race Power",
+    "crore": 9660,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
+    },
+    "day": 1,
+    "report": "aj_early",
+    "others": [],
+    "check": "one",
+    "sector": "energy"
+   },
+   {
+    "name": "United Telecom",
+    "crore": 9053,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Telecom",
+     "te": "టెలికాం"
+    },
+    "day": 1,
+    "report": "aj_early",
+    "others": [],
+    "check": "one",
+    "sector": "digital"
+   },
+   {
+    "name": "ReNew Photovoltaics",
+    "crore": 8500,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
+    },
+    "day": 1,
+    "report": "aj_early",
+    "others": [],
+    "check": "one",
+    "sector": "energy"
+   },
+   {
+    "name": "Evervolt Solar",
+    "crore": 2350,
+    "jobs": null,
+    "place": null,
+    "district": null,
+    "what": {
+     "en": "Renewable energy",
+     "te": "పునరుత్పాదక ఇంధనం"
+    },
+    "day": 1,
+    "report": "aj_early",
+    "others": [],
+    "check": "one",
+    "sector": "energy"
+   },
+   {
+    "name": "Tripos Power",
+    "crore": 500,
+    "jobs": 200,
+    "place": "Vizianagaram",
+    "district": "vizianagaram",
+    "what": {
+     "en": "Battery storage",
+     "te": "బ్యాటరీ నిల్వ"
+    },
+    "day": 1,
+    "report": "aj_start",
+    "others": [],
+    "check": "one",
+    "sector": "energy"
+   },
+   {
+    "name": "Devendra Leather",
+    "crore": 50,
+    "jobs": null,
+    "place": "Sabbavaram",
+    "district": null,
+    "what": {
+     "en": "Leather",
+     "te": "తోలు"
+    },
+    "day": 1,
+    "report": "aj_start",
+    "others": [],
+    "check": "one",
+    "sector": "manufacturing"
+   },
+   {
+    "name": "Rehab Technologies",
+    "crore": 45,
+    "jobs": 300,
+    "place": "Nakkapalli",
+    "district": null,
+    "what": {
+     "en": "Sector not stated",
+     "te": "రంగం చెప్పలేదు"
+    },
+    "day": 1,
+    "report": "aj_start",
+    "others": [],
+    "check": "one",
+    "sector": "other"
    }
   ],
   "pipeline": [
@@ -828,8 +2109,852 @@
    }
   ],
   "official_check": {
-   "en": "Checked on 24 November 2026: the two Press Information Bureau releases from the summit (12 and 13 November) give no summit total, no state paper with the total or a list of the MoUs has been found, and the state economic development board's website did not open on 16 November. Every summit figure on this page is therefore a news report, and is marked so.",
-   "te": "2026 నవంబర్ 24న సరిచూశాం: సదస్సు నుంచి వచ్చిన రెండు ప్రెస్ ఇన్ఫర్మేషన్ బ్యూరో ప్రకటనలు (నవంబర్ 12, 13) సదస్సు మొత్తం ఇవ్వలేదు; మొత్తం గానీ ఎంఓయూల జాబితా గానీ ఉన్న రాష్ట్ర పత్రం దొరకలేదు; రాష్ట్ర ఆర్థికాభివృద్ధి బోర్డు వెబ్‌సైట్ నవంబర్ 16న తెరుచుకోలేదు. అందుకే ఈ పేజీలోని సదస్సు అంకెలన్నీ వార్తా నివేదికలవి, అలాగే గుర్తించాం."
-  }
+   "en": "Checked on 24 November 2026: the two Press Information Bureau releases from the summit (12 and 13 November) give no summit total, no state paper with the total or a list of the MoUs has been found, and the state economic development board's website, which opened on 24 November, lists nothing newer than 2017. Every summit figure on this page is therefore a news report, and is marked so.",
+   "te": "2026 నవంబర్ 24న సరిచూశాం: సదస్సు నుంచి వచ్చిన రెండు ప్రెస్ ఇన్ఫర్మేషన్ బ్యూరో ప్రకటనలు (నవంబర్ 12, 13) సదస్సు మొత్తం ఇవ్వలేదు; మొత్తం గానీ ఎంఓయూల జాబితా గానీ ఉన్న రాష్ట్ర పత్రం దొరకలేదు; రాష్ట్ర ఆర్థికాభివృద్ధి బోర్డు వెబ్‌సైట్ నవంబర్ 24న తెరుచుకుంది, కానీ 2017 తర్వాతి ఏదీ అందులో లేదు. అందుకే ఈ పేజీలోని సదస్సు అంకెలన్నీ వార్తా నివేదికలవి, అలాగే గుర్తించాం."
+  },
+  "sectors": [
+   {
+    "id": "day1",
+    "reports": [
+     "etv_d1",
+     "hans",
+     "week",
+     "aj_d1"
+    ],
+    "total": {
+     "report": "hans",
+     "group": "day1"
+    },
+    "label": {
+     "en": "Day 1, 12 November: the 88 agreements by sector",
+     "te": "మొదటి రోజు, నవంబర్ 12: 88 ఒప్పందాలు రంగాల వారీగా"
+    },
+    "note": {
+     "en": "As ETV Bharat prints the split; The Hans India and Andhra Jyothy print the same figures for the sectors they name, and The Week for most of them. The Other row's jobs are not printed.",
+     "te": "ఈటీవీ భారత్ ముద్రించిన విభజన; ద హన్స్ ఇండియా, ఆంధ్రజ్యోతి తాము పేర్కొన్న రంగాలకు ఇవే అంకెలు ముద్రించాయి, ద వీక్ చాలా రంగాలకు. ఇతర వరుస ఉద్యోగాలు ముద్రించలేదు."
+    },
+    "rows": [
+     {
+      "name": {
+       "en": "General manufacturing",
+       "te": "సాధారణ తయారీ"
+      },
+      "crore": 357386,
+      "amount": {
+       "en": "₹3,57,386 crore",
+       "te": "₹3,57,386 కోట్లు"
+      },
+      "words": {
+       "en": "23 MoUs and 5 government orders, ₹3,57,386 crore, 44,838 jobs",
+       "te": "23 ఎంఓయూలు, 5 ప్రభుత్వ ఉత్తర్వులు, ₹3,57,386 కోట్లు, 44,838 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 23,
+      "gos": 5,
+      "jobs": 44838,
+      "sector": "manufacturing"
+     },
+     {
+      "name": {
+       "en": "Renewable energy",
+       "te": "పునరుత్పాదక ఇంధనం"
+      },
+      "crore": 165020,
+      "amount": {
+       "en": "₹1,65,020 crore",
+       "te": "₹1,65,020 కోట్లు"
+      },
+      "words": {
+       "en": "7 MoUs and 5 government orders, ₹1,65,020 crore, 16,600 jobs",
+       "te": "7 ఎంఓయూలు, 5 ప్రభుత్వ ఉత్తర్వులు, ₹1,65,020 కోట్లు, 16,600 ఉద్యోగాలు"
+      },
+      "report": "hans",
+      "mous": 7,
+      "gos": 5,
+      "jobs": 16600,
+      "sector": "energy"
+     },
+     {
+      "name": {
+       "en": "Vehicles and electric vehicles",
+       "te": "వాహనాలు, విద్యుత్ వాహనాలు"
+      },
+      "crore": 21285,
+      "amount": {
+       "en": "₹21,285 crore",
+       "te": "₹21,285 కోట్లు"
+      },
+      "words": {
+       "en": "4 MoUs, ₹21,285 crore, 13,600 jobs",
+       "te": "4 ఎంఓయూలు, ₹21,285 కోట్లు, 13,600 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 4,
+      "gos": 0,
+      "jobs": 13600,
+      "sector": "vehicles"
+     },
+     {
+      "name": {
+       "en": "Chemicals and petrochemicals",
+       "te": "రసాయనాలు, పెట్రో రసాయనాలు"
+      },
+      "crore": 19995,
+      "amount": {
+       "en": "₹19,995 crore",
+       "te": "₹19,995 కోట్లు"
+      },
+      "words": {
+       "en": "6 MoUs, ₹19,995 crore, 3,127 jobs",
+       "te": "6 ఎంఓయూలు, ₹19,995 కోట్లు, 3,127 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 6,
+      "gos": 0,
+      "jobs": 3127,
+      "sector": "chemicals"
+     },
+     {
+      "name": {
+       "en": "Food processing",
+       "te": "ఆహార శుద్ధి"
+      },
+      "crore": 4770,
+      "amount": {
+       "en": "₹4,770 crore",
+       "te": "₹4,770 కోట్లు"
+      },
+      "words": {
+       "en": "5 MoUs and 2 government orders, ₹4,770 crore, 2,847 jobs",
+       "te": "5 ఎంఓయూలు, 2 ప్రభుత్వ ఉత్తర్వులు, ₹4,770 కోట్లు, 2,847 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 5,
+      "gos": 2,
+      "jobs": 2847,
+      "sector": "food"
+     },
+     {
+      "name": {
+       "en": "Electronics and semiconductors",
+       "te": "ఎలక్ట్రానిక్స్, సెమీకండక్టర్లు"
+      },
+      "crore": 4300,
+      "amount": {
+       "en": "₹4,300 crore",
+       "te": "₹4,300 కోట్లు"
+      },
+      "words": {
+       "en": "1 MoU (fabrIQ), ₹4,300 crore, 10,000 jobs",
+       "te": "1 ఎంఓయూ (ఫ్యాబ్రిక్యూ), ₹4,300 కోట్లు, 10,000 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 1,
+      "gos": 0,
+      "jobs": 10000,
+      "sector": "digital"
+     },
+     {
+      "name": {
+       "en": "Aerospace and defence",
+       "te": "ఏరోస్పేస్, రక్షణ"
+      },
+      "crore": 3406,
+      "amount": {
+       "en": "₹3,406 crore",
+       "te": "₹3,406 కోట్లు"
+      },
+      "words": {
+       "en": "8 MoUs and 2 government orders, ₹3,406 crore, 3,180 jobs",
+       "te": "8 ఎంఓయూలు, 2 ప్రభుత్వ ఉత్తర్వులు, ₹3,406 కోట్లు, 3,180 ఉద్యోగాలు"
+      },
+      "report": "etv_d1",
+      "mous": 8,
+      "gos": 2,
+      "jobs": 3180,
+      "sector": "defence"
+     },
+     {
+      "name": {
+       "en": "Other: textiles, pharma, industrial parks, logistics, ports, tourism",
+       "te": "ఇతర: వస్త్రాలు, ఫార్మా, పారిశ్రామిక పార్కులు, లాజిస్టిక్స్, ఓడరేవులు, పర్యాటకం"
+      },
+      "crore": 8193,
+      "amount": {
+       "en": "₹8,193 crore",
+       "te": "₹8,193 కోట్లు"
+      },
+      "words": {
+       "en": "19 MoUs and 1 government order, ₹8,193 crore",
+       "te": "19 ఎంఓయూలు, 1 ప్రభుత్వ ఉత్తర్వు, ₹8,193 కోట్లు"
+      },
+      "report": "etv_d1",
+      "mous": 19,
+      "gos": 1,
+      "jobs": null,
+      "sector": "other"
+     }
+    ]
+   },
+   {
+    "id": "all",
+    "reports": [
+     "bl"
+    ],
+    "total": null,
+    "label": {
+     "en": "All 303 MoUs, summit and regional meetings, by sector",
+     "te": "మొత్తం 303 ఎంఓయూలు, సదస్సు, ప్రాంతీయ సమావేశాలు, రంగాల వారీగా"
+    },
+    "note": {
+     "en": "As BusinessLine prints it. It groups sectors differently from the Day 1 reports, so the two charts cannot be compared row by row. It also reports 28 government orders from four investment board meetings, worth ₹2,31,519 crore, without saying whether they are inside the 303.",
+     "te": "బిజినెస్‌లైన్ ముద్రించినట్లు. ఇది రంగాలను మొదటి రోజు నివేదికల కంటే వేరుగా విభజించింది, కాబట్టి రెండు చార్టులను వరుస వరుసగా పోల్చలేం. నాలుగు పెట్టుబడుల బోర్డు సమావేశాల నుంచి ₹2,31,519 కోట్ల 28 ప్రభుత్వ ఉత్తర్వులను కూడా పేర్కొంది, అవి 303లో ఉన్నాయో లేదో చెప్పలేదు."
+    },
+    "rows": [
+     {
+      "name": {
+       "en": "Manufacturing, with small and medium industries",
+       "te": "తయారీ, చిన్న మధ్య తరహా పరిశ్రమలతో"
+      },
+      "crore": 506000,
+      "amount": {
+       "en": "₹5.06 lakh crore",
+       "te": "₹5.06 లక్షల కోట్లు"
+      },
+      "words": {
+       "en": "₹5.06 lakh crore, which the report calls more than 51% of the total",
+       "te": "₹5.06 లక్షల కోట్లు; మొత్తంలో 51% కంటే ఎక్కువ అని నివేదిక చెప్పింది"
+      },
+      "report": "bl",
+      "mous": null,
+      "gos": null,
+      "jobs": null,
+      "sector": "manufacturing"
+     },
+     {
+      "name": {
+       "en": "Energy, mostly renewable",
+       "te": "ఇంధనం, ఎక్కువగా పునరుత్పాదక"
+      },
+      "crore": 258355,
+      "amount": {
+       "en": "₹2,58,355 crore",
+       "te": "₹2,58,355 కోట్లు"
+      },
+      "words": {
+       "en": "29 MoUs, ₹2,58,355 crore",
+       "te": "29 ఎంఓయూలు, ₹2,58,355 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 29,
+      "gos": null,
+      "jobs": null,
+      "sector": "energy"
+     },
+     {
+      "name": {
+       "en": "IT and electronics, with data centres",
+       "te": "ఐటీ, ఎలక్ట్రానిక్స్, డేటా సెంటర్లతో"
+      },
+      "crore": 185646,
+      "amount": {
+       "en": "₹1,85,646 crore",
+       "te": "₹1,85,646 కోట్లు"
+      },
+      "words": {
+       "en": "23 MoUs, ₹1,85,646 crore",
+       "te": "23 ఎంఓయూలు, ₹1,85,646 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 23,
+      "gos": null,
+      "jobs": null,
+      "sector": "digital"
+     },
+     {
+      "name": {
+       "en": "Ports and maritime (Maritime Board)",
+       "te": "ఓడరేవులు, సముద్ర రంగం (మారిటైమ్ బోర్డు)"
+      },
+      "crore": 9285,
+      "amount": {
+       "en": "₹9,285 crore",
+       "te": "₹9,285 కోట్లు"
+      },
+      "words": {
+       "en": "12 MoUs, ₹9,285 crore",
+       "te": "12 ఎంఓయూలు, ₹9,285 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 12,
+      "gos": null,
+      "jobs": null,
+      "sector": "other"
+     },
+     {
+      "name": {
+       "en": "Capital region (APCRDA)",
+       "te": "రాజధాని ప్రాంతం (ఏపీసీఆర్‌డీఏ)"
+      },
+      "crore": 7690,
+      "amount": {
+       "en": "₹7,690 crore",
+       "te": "₹7,690 కోట్లు"
+      },
+      "words": {
+       "en": "18 MoUs, ₹7,690 crore",
+       "te": "18 ఎంఓయూలు, ₹7,690 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 18,
+      "gos": null,
+      "jobs": null,
+      "sector": "other"
+     },
+     {
+      "name": {
+       "en": "Tourism",
+       "te": "పర్యాటకం"
+      },
+      "crore": 6828,
+      "amount": {
+       "en": "₹6,828 crore",
+       "te": "₹6,828 కోట్లు"
+      },
+      "words": {
+       "en": "61 MoUs, ₹6,828 crore, 26,948 jobs",
+       "te": "61 ఎంఓయూలు, ₹6,828 కోట్లు, 26,948 ఉద్యోగాలు"
+      },
+      "report": "bl",
+      "mous": 61,
+      "gos": null,
+      "jobs": 26948,
+      "sector": "other"
+     },
+     {
+      "name": {
+       "en": "Food processing",
+       "te": "ఆహార శుద్ధి"
+      },
+      "crore": 6344,
+      "amount": {
+       "en": "₹6,344 crore",
+       "te": "₹6,344 కోట్లు"
+      },
+      "words": {
+       "en": "23 MoUs, ₹6,344 crore, 9,170 jobs",
+       "te": "23 ఎంఓయూలు, ₹6,344 కోట్లు, 9,170 ఉద్యోగాలు"
+      },
+      "report": "bl",
+      "mous": 23,
+      "gos": null,
+      "jobs": 9170,
+      "sector": "food"
+     },
+     {
+      "name": {
+       "en": "Higher education",
+       "te": "ఉన్నత విద్య"
+      },
+      "crore": 4000,
+      "amount": {
+       "en": "₹4,000 crore",
+       "te": "₹4,000 కోట్లు"
+      },
+      "words": {
+       "en": "4 MoUs, ₹4,000 crore",
+       "te": "4 ఎంఓయూలు, ₹4,000 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 4,
+      "gos": null,
+      "jobs": null,
+      "sector": "other"
+     },
+     {
+      "name": {
+       "en": "Health care",
+       "te": "వైద్యం"
+      },
+      "crore": 3421,
+      "amount": {
+       "en": "₹3,421 crore",
+       "te": "₹3,421 కోట్లు"
+      },
+      "words": {
+       "en": "4 MoUs, ₹3,421 crore",
+       "te": "4 ఎంఓయూలు, ₹3,421 కోట్లు"
+      },
+      "report": "bl",
+      "mous": 4,
+      "gos": null,
+      "jobs": null,
+      "sector": "other"
+     }
+    ]
+   }
+  ],
+  "companies_notes": [
+   {
+    "en": "M9 News also lists three Day 2 agreements with no amount: HORIBA India (workforce training), the UN Environment Programme (urban planning in Amaravati) and Pawan Hans (heliports).",
+    "te": "ఎం9 న్యూస్ మొత్తం లేని మూడు రెండో రోజు ఒప్పందాలను కూడా చూపింది: హోరిబా ఇండియా (శిక్షణ), ఐక్యరాజ్యసమితి పర్యావరణ కార్యక్రమం (అమరావతిలో పట్టణ ప్రణాళిక), పవన్ హన్స్ (హెలిపోర్టులు)."
+   },
+   {
+    "en": "Outlook names 7 of its 11 Day 2 MoUs. The other 4 are not named in any report we found.",
+    "te": "అవుట్‌లుక్ తన 11 రెండో రోజు ఎంఓయూల్లో 7 పేర్లు ఇచ్చింది. మిగతా 4 పేర్లు మేము చూసిన ఏ నివేదికలోనూ లేవు."
+   }
+  ],
+  "differences": [
+   {
+    "id": "kia",
+    "subject": {
+     "en": "Kia India's second plant at Penukonda",
+     "te": "పెనుకొండలో కియా ఇండియా రెండో ప్లాంట్"
+    },
+    "readings": [
+     {
+      "report": "sf",
+      "words": {
+       "en": "₹18,811 crore, with its supply partners",
+       "te": "సరఫరా భాగస్వాములతో ₹18,811 కోట్లు"
+      }
+     },
+     {
+      "report": "week",
+      "words": {
+       "en": "₹18,878 crore",
+       "te": "₹18,878 కోట్లు"
+      }
+     },
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹18,878 crore",
+       "te": "₹18,878 కోట్లు"
+      }
+     },
+     {
+      "report": "yv",
+      "words": {
+       "en": "₹19,000 crore",
+       "te": "₹19,000 కోట్లు"
+      }
+     }
+    ],
+    "note": {
+     "en": "Every report gives 12,000 jobs and 2 lakh more vehicles a year. Yo! Vizag names Anantapur district; Penukonda has been in Sri Sathya Sai district since April 2022, when that district was formed from Anantapur.",
+     "te": "ప్రతి నివేదికా 12,000 ఉద్యోగాలు, ఏడాదికి 2 లక్షల వాహనాలు అదనం అని చెప్పింది. యో! వైజాగ్ అనంతపురం జిల్లా అంది; 2022 ఏప్రిల్‌లో అనంతపురం నుంచి శ్రీ సత్యసాయి జిల్లా ఏర్పడినప్పటి నుంచి పెనుకొండ ఆ జిల్లాలో ఉంది."
+    }
+   },
+   {
+    "id": "gail",
+    "subject": {
+     "en": "GAIL India in Srikakulam",
+     "te": "శ్రీకాకుళంలో గెయిల్ ఇండియా"
+    },
+    "readings": [
+     {
+      "report": "week",
+      "words": {
+       "en": "₹13,000 crore",
+       "te": "₹13,000 కోట్లు"
+      }
+     },
+     {
+      "report": "etv_d1",
+      "words": {
+       "en": "₹13,500 crore",
+       "te": "₹13,500 కోట్లు"
+      }
+     },
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹13,500 crore",
+       "te": "₹13,500 కోట్లు"
+      }
+     },
+     {
+      "report": "aj_d1",
+      "words": {
+       "en": "₹13,500 crore",
+       "te": "₹13,500 కోట్లు"
+      }
+     }
+    ],
+    "note": {
+     "en": "Three reports print ₹13,500 crore and one prints ₹13,000 crore. We show all of them until the state publishes its list.",
+     "te": "మూడు నివేదికలు ₹13,500 కోట్లు, ఒకటి ₹13,000 కోట్లు ముద్రించాయి. రాష్ట్రం జాబితా ప్రచురించే వరకు అన్నింటినీ చూపుతాం."
+    }
+   },
+   {
+    "id": "day1",
+    "subject": {
+     "en": "The first day in total",
+     "te": "మొదటి రోజు మొత్తం"
+    },
+    "readings": [
+     {
+      "report": "hans",
+      "words": {
+       "en": "₹5,84,355 crore",
+       "te": "₹5,84,355 కోట్లు"
+      }
+     },
+     {
+      "report": "etv_d1",
+      "words": {
+       "en": "₹5,84,335 crore",
+       "te": "₹5,84,335 కోట్లు"
+      }
+     },
+     {
+      "report": "week",
+      "words": {
+       "en": "₹5.84 lakh crore",
+       "te": "₹5.84 లక్షల కోట్లు"
+      }
+     },
+     {
+      "report": "aj_d1",
+      "words": {
+       "en": "₹5,84,355 crore, and ₹5,84,345 crore in another part of the same report",
+       "te": "₹5,84,355 కోట్లు; అదే కథనంలో మరో చోట ₹5,84,345 కోట్లు"
+      }
+     },
+     {
+      "report": "aj_early",
+      "words": {
+       "en": "₹1,57,607 crore for 35 agreements, at 6 pm",
+       "te": "సాయంత్రం 6 గంటలకు 35 ఒప్పందాలకు ₹1,57,607 కోట్లు"
+      }
+     }
+    ],
+    "note": {
+     "en": "The full-day figures come with the same two parts: 73 MoUs worth ₹5,35,113 crore and 15 government orders worth ₹49,242 crore. They differ in one digit. The 6 pm figure was counted before the day ended.",
+     "te": "పూర్తి రోజు అంకెలు అవే రెండు భాగాలతో వచ్చాయి: ₹5,35,113 కోట్ల 73 ఎంఓయూలు, ₹49,242 కోట్ల 15 ప్రభుత్వ ఉత్తర్వులు. అవి ఒక అంకెలో తేడా. సాయంత్రం 6 గంటల అంకె ఆ రోజు ముగియక ముందే లెక్కించింది."
+    }
+   },
+   {
+    "id": "jsw",
+    "subject": {
+     "en": "JSW: one promise or two, and where",
+     "te": "జేఎస్‌డబ్ల్యూ: ఒక హామీయా, రెండా, ఎక్కడ"
+    },
+    "readings": [
+     {
+      "report": "week",
+      "words": {
+       "en": "JSW Group, ₹15,000 crore, Kadapa, on the first day",
+       "te": "జేఎస్‌డబ్ల్యూ గ్రూప్, ₹15,000 కోట్లు, కడప, మొదటి రోజు"
+      }
+     },
+     {
+      "report": "bl",
+      "words": {
+       "en": "JSW, ₹15,000 crore, Prakasam",
+       "te": "జేఎస్‌డబ్ల్యూ, ₹15,000 కోట్లు, ప్రకాశం"
+      }
+     },
+     {
+      "report": "outlook",
+      "words": {
+       "en": "JSW Steels, ₹15,000 crore, 2,500 jobs, on the second day",
+       "te": "జేఎస్‌డబ్ల్యూ స్టీల్స్, ₹15,000 కోట్లు, 2,500 ఉద్యోగాలు, రెండో రోజు"
+      }
+     }
+    ],
+    "note": {
+     "en": "No report says whether these are the same promise, and two name different districts.",
+     "te": "ఇవి ఒకే హామీయా అని ఏ నివేదికా చెప్పలేదు; రెండు నివేదికలు వేర్వేరు జిల్లాలు చెప్పాయి."
+    }
+   },
+   {
+    "id": "reliance",
+    "subject": {
+     "en": "Reliance's ₹2.73 lakh crore",
+     "te": "రిలయన్స్ ₹2.73 లక్షల కోట్లు"
+    },
+    "readings": [
+     {
+      "report": "week",
+      "words": {
+       "en": "₹2.73 lakh crore, East Godavari, 5,000 jobs, general manufacturing",
+       "te": "₹2.73 లక్షల కోట్లు, తూర్పు గోదావరి, 5,000 ఉద్యోగాలు, సాధారణ తయారీ"
+      }
+     },
+     {
+      "report": "bt",
+      "words": {
+       "en": "A draft MoU for coal gasification: about ₹43,000 crore now, up to ₹2.7 lakh crore over 30 years, coal blocks in Eluru district",
+       "te": "బొగ్గు వాయువీకరణకు ముసాయిదా ఎంఓయూ: ఇప్పుడు సుమారు ₹43,000 కోట్లు, 30 ఏళ్లలో ₹2.7 లక్షల కోట్ల వరకు, ఏలూరు జిల్లాలో బొగ్గు బ్లాకులు"
+      }
+     }
+    ],
+    "note": {
+     "en": "The two figures are close, but no report says they are the same promise, and they name different districts. We keep them apart until the state or the company says.",
+     "te": "రెండు అంకెలు దగ్గరగా ఉన్నాయి, కానీ అవి ఒకే హామీ అని ఏ నివేదికా చెప్పలేదు; వేర్వేరు జిల్లాలు చెప్పాయి. రాష్ట్రం గానీ కంపెనీ గానీ చెప్పే వరకు వేరుగానే ఉంచుతాం."
+    }
+   },
+   {
+    "id": "cleanmax",
+    "subject": {
+     "en": "CleanMax on both days",
+     "te": "రెండు రోజులూ క్లీన్‌మ్యాక్స్"
+    },
+    "readings": [
+     {
+      "report": "week",
+      "words": {
+       "en": "₹41,000 crore, renewable energy, on the first day",
+       "te": "₹41,000 కోట్లు, పునరుత్పాదక ఇంధనం, మొదటి రోజు"
+      }
+     },
+     {
+      "report": "aj_start",
+      "words": {
+       "en": "₹42,000 crore, in the company’s own words, on the first day",
+       "te": "మొదటి రోజు, కంపెనీ మాటల్లో ₹42,000 కోట్లు"
+      }
+     },
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹8,000 crore, 50 jobs, on the second day",
+       "te": "₹8,000 కోట్లు, 50 ఉద్యోగాలు, రెండో రోజు"
+      }
+     }
+    ],
+    "note": {
+     "en": "No report says whether the second is part of the first.",
+     "te": "రెండోది మొదటిదానిలో భాగమా అని ఏ నివేదికా చెప్పలేదు."
+    }
+   },
+   {
+    "id": "expected",
+    "subject": {
+     "en": "Expected before, announced after",
+     "te": "ముందు ఆశించినది, తర్వాత ప్రకటించినది"
+    },
+    "readings": [
+     {
+      "report": "ians_pre",
+      "words": {
+       "en": "Before: 141 MoUs and 30 government orders, ₹12,13,853.23 crore",
+       "te": "ముందు: 141 ఎంఓయూలు, 30 ప్రభుత్వ ఉత్తర్వులు, ₹12,13,853.23 కోట్లు"
+      }
+     },
+     {
+      "report": "aj_pre",
+      "words": {
+       "en": "Before: about 160 MoUs, over ₹11 lakh crore",
+       "te": "ముందు: సుమారు 160 ఎంఓయూలు, ₹11 లక్షల కోట్లకు పైగా"
+      }
+     },
+     {
+      "report": "tt",
+      "words": {
+       "en": "After: 109 MoUs at the summit, ₹9,02,434 crore",
+       "te": "తర్వాత: సదస్సులో 109 ఎంఓయూలు, ₹9,02,434 కోట్లు"
+      }
+     }
+    ],
+    "note": {
+     "en": "No report explains the gap between what was lined up and what was announced. The release before counted government orders too; the figure after counts MoUs only.",
+     "te": "సిద్ధంగా ఉన్నాయని చెప్పినదానికి, ప్రకటించినదానికి మధ్య తేడాను ఏ నివేదికా వివరించలేదు. ముందటి ప్రకటన ప్రభుత్వ ఉత్తర్వులనూ లెక్కించింది; తర్వాతి అంకె ఎంఓయూలనే లెక్కిస్తుంది."
+    }
+   },
+   {
+    "id": "regional",
+    "subject": {
+     "en": "October's regional meetings",
+     "te": "అక్టోబర్ ప్రాంతీయ సమావేశాలు"
+    },
+    "readings": [
+     {
+      "report": "tt",
+      "words": {
+       "en": "194 MoUs, ₹86,522 crore, 1,47,951 jobs, after the summit",
+       "te": "సదస్సు తర్వాత 194 ఎంఓయూలు, ₹86,522 కోట్లు, 1,47,951 ఉద్యోగాలు"
+      }
+     },
+     {
+      "report": "ians_pre",
+      "words": {
+       "en": "194 MoUs, ₹86,522.07 crore, 1,47,951 jobs, before",
+       "te": "ముందు 194 ఎంఓయూలు, ₹86,522.07 కోట్లు, 1,47,951 ఉద్యోగాలు"
+      }
+     },
+     {
+      "report": "aj_pre",
+      "words": {
+       "en": "195 MoUs, ₹85,561 crore, 1,56,241 jobs, before",
+       "te": "ముందు 195 ఎంఓయూలు, ₹85,561 కోట్లు, 1,56,241 ఉద్యోగాలు"
+      }
+     }
+    ],
+    "note": {
+     "en": "Two government releases before the summit gave two counts for the same five meetings. The figure used in the final total matches the first.",
+     "te": "సదస్సుకు ముందు రెండు ప్రభుత్వ ప్రకటనలు అవే ఐదు సమావేశాలకు రెండు లెక్కలు ఇచ్చాయి. తుది మొత్తంలో వాడిన అంకె మొదటిదానితో సరిపోతుంది."
+    }
+   },
+   {
+    "id": "smax",
+    "subject": {
+     "en": "Smax Digitech, AP Sports Village",
+     "te": "స్మాక్స్ డిజిటెక్, ఏపీ స్పోర్ట్స్ విలేజ్"
+    },
+    "readings": [
+     {
+      "report": "m9",
+      "words": {
+       "en": "₹4,270 crore, 8,000 jobs",
+       "te": "₹4,270 కోట్లు, 8,000 ఉద్యోగాలు"
+      }
+     },
+     {
+      "report": "etv_te",
+      "words": {
+       "en": "₹4,270 crore in its list, ₹5,770 crore in its text",
+       "te": "జాబితాలో ₹4,270 కోట్లు, కథనంలో ₹5,770 కోట్లు"
+      }
+     }
+    ],
+    "note": {
+     "en": "One report prints two amounts for the same MoU and does not say why. We show both.",
+     "te": "ఒకే నివేదిక ఒకే ఎంఓయూకు రెండు మొత్తాలు ముద్రించింది, ఎందుకో చెప్పలేదు. రెండూ చూపుతున్నాం."
+    }
+   }
+  ],
+  "not_read": [
+   {
+    "en": "Eenadu: its website does not allow automated reading, so its reports could not be checked. Its headlines found in search print ₹9.89 lakh crore for the summit and, in the ruling alliance leaders' words, ₹11 lakh crore expected before it, the same as other papers.",
+    "te": "ఈనాడు: దాని వెబ్‌సైట్ ఆటోమేటిక్ పఠనాన్ని అనుమతించదు, కాబట్టి దాని నివేదికలను సరిచూడలేకపోయాం. శోధనలో కనిపించిన దాని శీర్షికలు సదస్సుకు ₹9.89 లక్షల కోట్లు, ముందు కూటమి నేతల మాటల్లో ₹11 లక్షల కోట్లు ఆశించినట్లు ముద్రించాయి; ఇతర పత్రికల లాగానే."
+   },
+   {
+    "en": "Paywalls: UNI shows only its first lines, and Outlook names 7 of its 11 Day 2 MoUs. We used what is visible.",
+    "te": "చందా గోడలు: యూఎన్ఐ మొదటి కొన్ని వాక్యాలే చూపుతుంది; అవుట్‌లుక్ తన 11 రెండో రోజు ఎంఓయూల్లో 7 పేర్లే ఇచ్చింది. కనిపించినదాన్నే వాడాం."
+   }
+  ],
+  "finding": {
+   "title": {
+    "en": "Before the summit, ₹12,13,853.23 crore was lined up. After it, the Chief Minister announced ₹9,02,434 crore.",
+    "te": "సదస్సుకు ముందు ₹12,13,853.23 కోట్లు సిద్ధంగా ఉన్నాయని చెప్పారు. తర్వాత ముఖ్యమంత్రి ₹9,02,434 కోట్లు ప్రకటించారు."
+   },
+   "before": {
+    "report": "ians_pre",
+    "group": "expected",
+    "label": {
+     "en": "Lined up, the evening before",
+     "te": "ముందు రోజు సాయంత్రం, సిద్ధంగా ఉన్నవి"
+    },
+    "big": {
+     "en": "₹12,13,853.23 crore",
+     "te": "₹12,13,853.23 కోట్లు"
+    },
+    "sub": {
+     "en": "141 MoUs and 30 government orders",
+     "te": "141 ఎంఓయూలు, 30 ప్రభుత్వ ఉత్తర్వులు"
+    }
+   },
+   "after": {
+    "report": "tt",
+    "group": "summit",
+    "label": {
+     "en": "Announced, after the summit",
+     "te": "సదస్సు తర్వాత ప్రకటించినది"
+    },
+    "big": {
+     "en": "₹9,02,434 crore",
+     "te": "₹9,02,434 కోట్లు"
+    },
+    "sub": {
+     "en": "109 MoUs at the summit itself",
+     "te": "సదస్సులోనే 109 ఎంఓయూలు"
+    }
+   },
+   "note": {
+    "en": "The two do not count the same things: the figure before includes government orders, the figure after counts MoUs only. No report explains the change, so we do not work out a gap.",
+    "te": "రెండూ ఒకే వాటిని లెక్కించవు: ముందటి అంకెలో ప్రభుత్వ ఉత్తర్వులూ ఉన్నాయి, తర్వాతి అంకె ఎంఓయూలనే లెక్కిస్తుంది. మార్పును ఏ నివేదికా వివరించలేదు, అందుకే తేడాను లెక్కించలేదు."
+   }
+  },
+  "kpis": [
+   {
+    "id": "total",
+    "report": "tt",
+    "group": "both",
+    "field": "crore",
+    "label": {
+     "en": "Promised in all 303 MoUs",
+     "te": "మొత్తం 303 ఎంఓయూల్లో హామీ"
+    },
+    "compare": {
+     "report": "ians_pre",
+     "group": "expected",
+     "field": "crore",
+     "label": {
+      "en": "Lined up before the summit:",
+      "te": "సదస్సుకు ముందు సిద్ధంగా ఉన్నవి:"
+     }
+    }
+   },
+   {
+    "id": "summit",
+    "report": "tt",
+    "group": "summit",
+    "field": "crore",
+    "label": {
+     "en": "At the summit itself, 109 MoUs",
+     "te": "సదస్సులోనే, 109 ఎంఓయూలు"
+    },
+    "compare": {
+     "report": "hans",
+     "group": "day1",
+     "field": "crore",
+     "label": {
+      "en": "Day 1 alone:",
+      "te": "మొదటి రోజే:"
+     }
+    }
+   },
+   {
+    "id": "regional",
+    "report": "tt",
+    "group": "regional",
+    "field": "crore",
+    "label": {
+     "en": "At October's regional meetings, 194 MoUs",
+     "te": "అక్టోబర్ ప్రాంతీయ సమావేశాల్లో, 194 ఎంఓయూలు"
+    },
+    "compare": {
+     "report": "aj_pre",
+     "group": "regional",
+     "field": "crore",
+     "label": {
+      "en": "Another release before:",
+      "te": "ముందటి మరో ప్రకటన:"
+     }
+    }
+   },
+   {
+    "id": "jobs",
+    "report": "tt",
+    "group": "both",
+    "field": "jobs",
+    "label": {
+     "en": "Jobs promised, all 303 MoUs",
+     "te": "హామీ ఇచ్చిన ఉద్యోగాలు, మొత్తం 303 ఎంఓయూలు"
+    },
+    "compare": {
+     "report": "ians_pre",
+     "group": "expected",
+     "field": "jobs",
+     "label": {
+      "en": "Expected before:",
+      "te": "ముందు ఆశించినవి:"
+     }
+    }
+   }
+  ]
  }
 }
